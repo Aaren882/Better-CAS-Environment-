@@ -13,3 +13,7 @@ removeMissionEventHandler ["Draw3D", _current_EH];
 
 player setVariable ["TGP_View_EHs",-1];
 player setVariable ["TGP_View_Camera", []];
+
+if (player getVariable ["TGP_View_Turret_Control",false]) then {
+  player setVariable ["TGP_View_Turret_Control",false];
+};

@@ -75,6 +75,7 @@ _Laser_ctrl = _display displayCtrl 1023;
 _camDir_ctrl = _display displayCtrl 1024;
 _Fuel_ctrl = _display displayCtrl 1026;
 _Weapon_ctrl = _display displayCtrl 1027;
+_Ammo_ctrl = _display displayCtrl 1031;
 
 //- ENG
 _ENG_W_ctrl = _display displayCtrl 1025;
@@ -95,7 +96,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
   _cam = _thisArgs # 0;
   _vehicle = _thisArgs # 1;
   _Optic_LODs = _thisArgs # 2;
-  (_thisArgs # 3) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_ENG_W_ctrl","_ENG_Y_ctrl","_ENG_R_ctrl"];
+  (_thisArgs # 3) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_Ammo_ctrl","_ENG_W_ctrl","_ENG_Y_ctrl","_ENG_R_ctrl"];
 
   _Selected_Optic = (player getVariable "TGP_View_Selected_Optic") # 0;
   _TGP = _Selected_Optic # 0;
@@ -140,7 +141,14 @@ _idEH = addMissionEventHandler ["Draw3D", {
   };
 
   //currentWeapon
-  _Weapon_ctrl ctrlSetText (format ["%1", getText (configFile >> "CfgWeapons" >> _vehicle currentWeaponTurret _current_turret >> "DisplayName")]);
+  _weapon_info = weaponState [_vehicle,_current_turret];
+  _Weapon_ctrl ctrlSetText (format ["%1", getText (configFile >> "CfgWeapons" >> _weapon_info # 0 >> "DisplayName")]);
+  if (getText (configFile >> "CfgWeapons" >> _weapon_info # 0 >> "DisplayName") == "") then {
+    _Ammo_ctrl ctrlSetText "";
+  } else {
+    _Ammo_ctrl ctrlSetText (format ["Ammo: %1  %2", getText (configFile >> "CfgMagazines" >> _weapon_info # 3 >> "displayNameShort"), _weapon_info # 4]);
+  };
+
 
   _laser_Vars = player getVariable "TGP_View_laser_update";
   //Laser
@@ -177,7 +185,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
   call BCE_fnc_Cam_Layout;
 },[
   _cam,_vehicle,_Optic_LODs,
-  [_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_ENG_W_ctrl,_ENG_Y_ctrl,_ENG_R_ctrl]
+  [_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_Ammo_ctrl,_ENG_W_ctrl,_ENG_Y_ctrl,_ENG_R_ctrl]
 ]];
 
 player setVariable ["TGP_View_EHs", _idEH];

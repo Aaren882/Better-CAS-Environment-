@@ -49,7 +49,7 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 	params ["_unit","_mode"];
 	if (!(_mode isEqualTo "") && !((player getVariable ["TGP_View_Camera", []]) isEqualTo [])) then {
     camUseNVG false;
-		
+
 		ppEffectDestroy (player getVariable "TGP_View_Camera") # 1;
 
 		556 cutRsc ["default","PLAIN"];
@@ -62,6 +62,10 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 
 		player setVariable ["TGP_View_EHs",-1];
 		player setVariable ["TGP_View_Camera", []];
+
+		if (player getVariable ["TGP_View_Turret_Control",false]) then {
+		  player setVariable ["TGP_View_Turret_Control",false];
+		};
 
     [2] call BCE_fnc_OpticMode;
 	};
@@ -79,7 +83,6 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 	  (_unit getVariable "IR_LaserLight_Souce_Air") apply {deleteVehicle _x};
 		_unit setVariable ["IR_LaserLight_Souce_Air",[]];
 	};
-
 
 	//TGP View
 	if ((player getvariable ["TGP_View_Selected_Vehicle",objNull]) isEqualTo _unit) then {
