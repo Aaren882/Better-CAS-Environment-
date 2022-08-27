@@ -279,6 +279,12 @@ class RscTitles
 				colorText[] = {1,1,1,1};
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.3)";
 			};
+			class Ammo: Weapon
+			{
+				idc = 1031;
+				text = "AMMO TYPE: HEAT";
+				y = 0.764815 * safezoneH + safezoneY - 0.05;
+			};
 			
 			//Crew
 			class Pilot: RscText

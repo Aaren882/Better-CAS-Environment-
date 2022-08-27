@@ -63,7 +63,7 @@ class RscDisplayAVTerminal
 		class TGP_Info_Back: AVT_Info_Back
 		{
 			y = "0.558 * safezoneH + safezoneY";
-			h = "0.3 * safezoneH";
+			h = "0.325 * safezoneH";
 		};
 		class AVT_Text_SelectAV;
 		class TGP_Select_Text: AVT_Text_SelectAV
@@ -111,15 +111,36 @@ class RscDisplayAVTerminal
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 			text = "Connect To Vehicle";
 			x = "0.3 * (safezoneW / 64) + (safezoneX)";
-			y = "0.695 * safezoneH + safezoneY";
+			y = "0.71 * safezoneH + safezoneY";
+			//y = "0.695 * safezoneH + safezoneY";
 			w = "13.2 * (safezoneW / 64)";
-			h = "1 * (safezoneH / 40)";
+			h = "0.8 * (safezoneH / 40)";
 			class Attributes
 			{
 				font = "RobotoCondensed";
 				color = "#E5E5E5";
 				align = "center";
 				shadow = "true";
+			};
+		};
+		class Connect_Gunner_Button: Connect_Button
+		{
+			idc = 1601;
+			text = "Control Turret";
+			y = "0.685 * safezoneH + safezoneY";
+		};
+		class Next_Turret_Button: Connect_Button
+		{
+			idc = 1602;
+			text = ">";
+			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			X = "0.195372 * safezoneW + safezoneX";
+			y = "0.66 * safezoneH + safezoneY";
+			W = "0.015 * safezoneW";
+			h = "0.9 * (safezoneH / 40)";
+			class Attributes: Attributes
+			{
+				font = "TahomaB";
 			};
 		};
 		
@@ -150,15 +171,27 @@ class RscDisplayAVTerminal
 			text = "-";
 		};
 		
-		
-		class TGP_Text_FUEL: AVT_Text_FUEL
+		class AVT_Text_WPN;
+		class WeaponPrimary;
+		class TGP_Text_WPN: AVT_Text_WPN
 		{
 			y = "0.73 * safezoneH + safezoneY";
 		};
-		class TGP_Value_Fuel: AVT_Value_Fuel
+		class TGP_Text_WeaponValue: WeaponPrimary
 		{
 			idc = 1503;
+			text = "-";
 			y = "0.73 * safezoneH + safezoneY";
+		};
+		
+		class TGP_Text_FUEL: AVT_Text_FUEL
+		{
+			y = "0.755 * safezoneH + safezoneY";
+		};
+		class TGP_Value_Fuel: AVT_Value_Fuel
+		{
+			idc = 1504;
+			y = "0.755 * safezoneH + safezoneY";
 			text = "-";
 		};
 		
@@ -166,12 +199,12 @@ class RscDisplayAVTerminal
 		class AVT_Value_Position;
 		class TGP_Text_POS: AVT_Text_POS
 		{
-			y = "0.755 * safezoneH + safezoneY";
+			y = "0.78 * safezoneH + safezoneY";
 		};
 		class TGP_Value_Position: AVT_Value_Position
 		{
-			idc = 1504;
-			y = "0.755 * safezoneH + safezoneY";
+			idc = 1505;
+			y = "0.78 * safezoneH + safezoneY";
 			text = "-";
 		};
 		
@@ -179,12 +212,12 @@ class RscDisplayAVTerminal
 		class CA_Heading;
 		class TGP_Text_AZT: AVT_Text_AZT
 		{
-			y = "0.78 * safezoneH + safezoneY";
+			y = "0.805 * safezoneH + safezoneY";
 		};
 		class TGP_Heading: CA_Heading
 		{
-			idc = 1505;
-			y = "0.78 * safezoneH + safezoneY";
+			idc = 1506;
+			y = "0.805 * safezoneH + safezoneY";
 			text = "-";
 		};
 		
@@ -192,12 +225,12 @@ class RscDisplayAVTerminal
 		class CA_Speed;
 		class TGP_Text_SPD: AVT_Text_SPD
 		{
-			y = "0.805 * safezoneH + safezoneY";
+			y = "0.83 * safezoneH + safezoneY";
 		};
 		class TGP_Speed: CA_Speed
 		{
-			idc = 1506;
-			y = "0.805 * safezoneH + safezoneY";
+			idc = 1507;
+			y = "0.83 * safezoneH + safezoneY";
 			text = "-";
 		};
 		
@@ -205,12 +238,12 @@ class RscDisplayAVTerminal
 		class CA_Alt;
 		class TGP_Text_ALT: AVT_Text_ALT
 		{
-			y = "0.83 * safezoneH + safezoneY";
+			y = "0.852 * safezoneH + safezoneY";
 		};
 		class TGP_Alt: CA_Alt
 		{
-			idc = 1507;
-			y = "0.83 * safezoneH + safezoneY";
+			idc = 1508;
+			y = "0.852 * safezoneH + safezoneY";
 			text = "-";
 		};
 	};
