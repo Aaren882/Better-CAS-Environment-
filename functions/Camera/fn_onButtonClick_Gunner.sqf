@@ -17,7 +17,7 @@ _turret_Unit switchcamera "gunner";
     _weapon_info = weaponState [_vehicle,_current_turret];
     _turret_Unit_Now forceWeaponFire [_weapon_info # 1, _weapon_info # 2];
   }; */
-  
+
   /* _distance = (getpos _vehicle) distance (screenToWorld [0.5,0.5]);
   _zeroing = floor (_distance / 50);
   _weapon_info = weaponState [_vehicle,_current_turret];
@@ -36,12 +36,10 @@ _turret_Unit switchcamera "gunner";
       _turret_Unit_Now switchcamera "gunner";
       [_vehicle,_cameraview] call BCE_fnc_onButtonClick_Gunner;
     } else {
-      /* if (isnull curatorcamera) then {
+      if (isnull curatorcamera) then {
         objnull remotecontrol _turret_Unit_Now;
         player switchcamera _cameraview;
-      }; */
-      objnull remotecontrol _turret_Unit_Now;
-      player switchcamera _cameraview;
+      };
     };
   }, [_vehicle,_turret_Unit,_vehicleRole,_cameraview]
 ] call CBA_fnc_waitUntilAndExecute;
