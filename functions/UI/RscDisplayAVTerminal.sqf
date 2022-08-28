@@ -101,93 +101,6 @@ _fnc_onButtonClick_Connect = {
 	};
 };
 
-_fnc_onButtonClick_Gunner = {
-	private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
-	if !(_vehicle isEqualTo objNull) then {
-		_vehicle call BCE_fnc_TGP_Select_Confirm;
-
-		_current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
-
-		//-Remote Unit
-		_turret_Unit = _vehicle turretUnit _current_turret;
-		_cameraview = cameraview;
-
-		player remotecontrol _turret_Unit;
-		_vehicle switchcamera "gunner";
-
-		[{
-			params ["_vehicle","_turret_Unit","_vehicleRole","_cameraview"];
-
-			_current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
-			_turret_Unit_Now = _vehicle turretUnit _current_turret;
-
-			if (((vehicle _turret_Unit_Now != _vehicle) or (_turret_Unit_Now != _turret_Unit)) && (alive _turret_Unit_Now)) then {
-				player remotecontrol _turret_Unit_Now;
-			};
-
-			//Fire
-			if (inputAction "defaultAction" > 0) then {
-				_weapon_info = weaponState [_vehicle,_current_turret];
-				_turret_Unit_Now forceWeaponFire [_weapon_info # 1, _weapon_info # 2];
-			};
-
-			//Zeroing
-			if (inputAction "gunElevAuto" > 0) then {
-				_distance = (getpos _vehicle) distance (screenToWorld [0.5,0.5]);
-				_zeroing = floor (_distance / 50);
-				_weapon_info = weaponState [_vehicle,_current_turret];
-
-				_vehicle setWeaponZeroing [_weapon_info # 0, _weapon_info # 1, _zeroing];
-			};
-
-			//Switch Weapon Setup
-			if (inputAction "nextWeapon" > 0) then {
-				_weapon_info = weaponState [_vehicle,_current_turret];
-
-				_weapons = _vehicle weaponsTurret _current_turret;
-				_Weapon_Index = _weapons find (_weapon_info # 0);
-
-				_Muzzles = getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "muzzles");
-				_Muzzle_Index = _Muzzles find (_weapon_info # 1);
-
-				_modes = (getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "modes")) select {
-					(getNumber (configFile >> "CfgWeapons" >> _selectWeapon >> _x >> "showToPlayer")) == 1
-				};
-				_mode_Index = _modes find (_weapon_info # 2);
-
-				_selectWeapon = if ((count _weapons - 1) > _Weapon_Index) then {
-					_weapons # (_Weapon_Index + 1)
-				} else {
-					_weapons # 0
-				};
-
-				_selectMuzzle = if ((count _Muzzles - 1) > _Muzzle_Index) then {
-      		_Muzzles # (_Muzzle_Index + 1)
-				} else {
-     			_Muzzles # 0
-				};
-
-				_selectMode = if ((count _modes - 1) > _mode_Index) then {
-      		_modes # (_mode_Index + 1)
-				} else {
-     			_modes # 0
-				};
-
-				_vehicle selectWeaponTurret [_selectWeapon,_current_turret,_selectMuzzle,_selectMode];
-			};
-
-			(!(isnull curatorcamera) or !(alive _turret_Unit_Now) or !(alive player) or (player getVariable ["TGP_View_EHs",-1] == -1))
-		}, {
-			objnull remotecontrol (_this # 1);
-			player switchcamera (_this # 3);
-			}, [_vehicle,_turret_Unit,_vehicleRole,_cameraview]
-		] call CBA_fnc_waitUntilAndExecute;
-
-		//-Key Cap
-		player setVariable ["TGP_View_Turret_Control",true];
-	};
-};
-
 _fnc_onButtonClick_Switch = {
 	private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
 	if !(_vehicle isEqualTo objNull) then {
@@ -289,7 +202,14 @@ switch _mode do
 		_control = _display displayctrl 1600;
 		_control ctrladdeventhandler ["ButtonClick",_fnc_onButtonClick_Connect];
 		_control = _display displayctrl 1601;
-		_control ctrladdeventhandler ["ButtonClick",_fnc_onButtonClick_Gunner];
+		_control ctrladdeventhandler ["ButtonClick",{
+			private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
+			if !(_vehicle isEqualTo objNull) then {
+				_vehicle call BCE_fnc_TGP_Select_Confirm;
+				_cameraview = cameraview;
+			  [_vehicle,_cameraview] call BCE_fnc_onButtonClick_Gunner;
+			};
+		}];
 		_control = _display displayctrl 1602;
 		_control ctrladdeventhandler ["ButtonClick",_fnc_onButtonClick_Switch];
 

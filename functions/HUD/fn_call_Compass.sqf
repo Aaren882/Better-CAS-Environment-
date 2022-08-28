@@ -1,7 +1,7 @@
 params ["_unit", "_cameraView"];
 _Unit_veh = vehicle _unit;
 
-if ((_Unit_veh iskindof "Air") and ((_Unit_veh getVariable ["AHUD_Actived",-1]) == -1) and (_cameraView == "GUNNER")) then {
+if ((_Unit_veh iskindof "Air") and ((_Unit_veh getVariable ["AHUD_Actived",-1]) == -1) and (_cameraView == "GUNNER") and ((player getVariable ["TGP_View_EHs",-1]) == -1)) then {
   _AHUD_PFH = addMissionEventHandler ["Draw3D", {
     _vehicle = _thisArgs # 0;
 

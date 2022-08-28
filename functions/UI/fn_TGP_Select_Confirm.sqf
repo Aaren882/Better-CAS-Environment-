@@ -1,5 +1,7 @@
 params ["_vehicle"];
 
+if ((player getVariable ["TGP_View_EHs", -1]) != -1) exitWith {};
+
 #define Equal isEqualTo
 
 _cam = "camera" camCreate [0,0,0];
