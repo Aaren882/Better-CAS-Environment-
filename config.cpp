@@ -476,6 +476,7 @@ class CfgFunctions
 			class Cam_Layout;
 			class getTurret;
 			class Cam_Delete;
+			class onButtonClick_Gunner;
 		};
 		class Lists
 		{

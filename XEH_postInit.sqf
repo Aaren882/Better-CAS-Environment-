@@ -230,3 +230,75 @@ IR_LaserLight_UnitList_LastUpdate = 0;
   "",
   [0x26, [false, false, false]]
 ] call cba_fnc_addKeybind;
+
+[
+  "TGP Cam Settings","NextWeapon",
+  "Next Weapon Setup",
+  {
+    if (player getVariable ["TGP_View_Turret_Control",false]) then {
+      //Switch Weapon Setup
+			if (inputAction "nextWeapon" > 0) then {
+        _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;
+        _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
+
+				_weapon_info = weaponState [_vehicle,_current_turret];
+
+				_weapons = _vehicle weaponsTurret _current_turret;
+				_Weapon_Index = _weapons find (_weapon_info # 0);
+
+				_selectWeapon = if ((count _weapons - 1) > _Weapon_Index) then {
+					_weapons # (_Weapon_Index + 1)
+				} else {
+					_weapons # 0
+				};
+
+        _Muzzles = getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "muzzles");
+				_Muzzle_Index = _Muzzles find (_weapon_info # 1);
+
+        _selectMuzzle = if ((count _Muzzles - 1) > _Muzzle_Index) then {
+      		_Muzzles # (_Muzzle_Index + 1)
+				} else {
+     			_Muzzles # 0
+				};
+        if (_selectMuzzle== "this") then {
+          _selectMuzzle = _selectWeapon;
+        };
+
+				_modes = (getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "modes")) select {
+					(getNumber (configFile >> "CfgWeapons" >> _selectWeapon >> _x >> "showToPlayer")) == 1
+				};
+				_mode_Index = _modes find (_weapon_info # 2);
+
+				_selectMode = if ((count _modes - 1) > _mode_Index) then {
+      		_modes # (_mode_Index + 1)
+				} else {
+     			_modes # 0
+				};
+
+				_vehicle selectWeaponTurret [_selectWeapon,_current_turret,_selectMuzzle,_selectMode];
+			};
+    };
+  },
+  "",
+  [0x21, [false, false, false]]
+] call cba_fnc_addKeybind;
+
+[
+  "TGP Cam Settings","FireWeapon",
+  "Fire Weapon",
+  {
+    hintSilent str [time];
+    if (player getVariable ["TGP_View_Turret_Control",false]) then {
+      _vehicle = player getVariable "TGP_View_Selected_Vehicle";
+      _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
+      _turret_Unit_Now = _vehicle turretUnit _current_turret;
+
+      //Fire
+      _weapon_info = weaponState [_vehicle,_current_turret];
+        hintSilent str [_weapon_info # 1, _weapon_info # 2,time];
+      _turret_Unit_Now forceWeaponFire [_weapon_info # 1, _weapon_info # 2];
+    };
+  },
+  "",
+  [0xF0, [false, false, false]]
+] call cba_fnc_addKeybind;
