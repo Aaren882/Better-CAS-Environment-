@@ -300,5 +300,5 @@ IR_LaserLight_UnitList_LastUpdate = 0;
     };
   },
   "",
-  [0xF0, [false, false, false]]
+  [0xF0, [false, false, false]],true
 ] call cba_fnc_addKeybind;
