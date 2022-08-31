@@ -20,7 +20,7 @@
         0.5,
         0.5,
         0,
-        format["%1", name _unit],
+        name _unit,
         1.5,
         0.03,
         "PuristaMedium",

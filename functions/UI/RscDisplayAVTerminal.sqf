@@ -15,8 +15,11 @@ _fnc_onLBSelChanged = {
 			(_display displayCtrl _x) ctrlSetText "-";
 		};
 		player setVariable ["TGP_View_Selected_Vehicle",objNull];
+		(_display displayctrl 1600) ctrlEnable false;
 		(_display displayctrl 1602) ctrlEnable false;
+
 	};
+	(_display displayctrl 1600) ctrlEnable true;
 	(_display displayctrl 1602) ctrlEnable true;
 
 	_vehicle = (vehicles Select {!(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (isEngineOn _x)}) apply {
@@ -26,11 +29,11 @@ _fnc_onLBSelChanged = {
 	_Optic_LODs = _vehicle getVariable ["TGP_View_Available_Optics",[]];
 
 	if (player getVariable ["TGP_View_Selected_Optic",[]] isEqualTo []) then {
-	  player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle]];
+	  player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 	};
 
 	if !(_vehicle isEqualTo ((player getVariable "TGP_View_Selected_Optic") # 1)) then {
-	  player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle]];
+	  player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 	};
 
 	[{
@@ -55,7 +58,7 @@ _fnc_onLBSelChanged = {
 				name _turret_Unit
 			};
 
-			if (_gunner == "-") then {
+			if ((_gunner == "-") or (_turret_Unit in TGP_View_Turret_List) or ((vehicle _turret_Unit) in TGP_View_Turret_List)) then {
 			  (_display displayctrl 1601) ctrlEnable false;
 			} else {
 				(_display displayctrl 1601) ctrlEnable true;
@@ -115,7 +118,7 @@ _fnc_onButtonClick_Switch = {
 
 		_turret_select = _Optic_LODs # _current_turret;
 
-		player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle]];
+		player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
 
 		//UI
 		_turret_Unit = _vehicle turretUnit _turret_select # 1;
@@ -158,6 +161,7 @@ switch _mode do
 			_ctrlHintGroup = _display displayctrl IDC_RSCADVANCEDHINT_HINTGROUP;
 			_ctrlHintGroup ctrlshow false;
 			_ctrlHintGroup ctrlenable false;
+			(_display displayctrl 1600) ctrlEnable false;
 			(_display displayctrl 1601) ctrlEnable false;
 			(_display displayctrl 1602) ctrlEnable false;
 			("RscAdvancedHint" call bis_fnc_rsclayer) cuttext ["","plain"];
@@ -199,15 +203,37 @@ switch _mode do
 			};
 		};
 
+		//-Turret Control UI
+		if (missionNamespace getVariable ["TGP_View_Terminal_canUseTurre",false]) then {
+			(_display displayctrl 1601) ctrlShow true;
+			(_display displayctrl 1600) ctrlSetPosition [
+				0.3 * (safezoneW / 64) + (safezoneX),
+				0.71 * safezoneH + safezoneY,
+				13.2 * (safezoneW / 64),
+				0.8 * (safezoneH / 40)
+			];
+		} else {
+			(_display displayctrl 1601) ctrlShow false;
+			(_display displayctrl 1600) ctrlSetPosition [
+				0.3 * (safezoneW / 64) + (safezoneX),
+				0.695 * safezoneH + safezoneY,
+				13.2 * (safezoneW / 64),
+				1 * (safezoneH / 40)
+			];
+		};
+		(_display displayctrl 1600) ctrlCommit 0;
+		(_display displayctrl 1601) ctrlCommit 0;
+
+		//-EHs
 		_control = _display displayctrl 1600;
 		_control ctrladdeventhandler ["ButtonClick",_fnc_onButtonClick_Connect];
 		_control = _display displayctrl 1601;
 		_control ctrladdeventhandler ["ButtonClick",{
 			private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
 			if !(_vehicle isEqualTo objNull) then {
-				_vehicle call BCE_fnc_TGP_Select_Confirm;
 				_cameraview = cameraview;
 			  [_vehicle,_cameraview] call BCE_fnc_onButtonClick_Gunner;
+				_vehicle call BCE_fnc_TGP_Select_Confirm;
 			};
 		}];
 		_control = _display displayctrl 1602;

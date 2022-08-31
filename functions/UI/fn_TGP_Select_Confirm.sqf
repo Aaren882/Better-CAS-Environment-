@@ -1,6 +1,7 @@
 params ["_vehicle"];
 
-if ((player getVariable ["TGP_View_EHs", -1]) != -1) exitWith {};
+_player = player;
+if ((_player getVariable ["TGP_View_EHs", -1]) != -1) exitWith {};
 
 #define Equal isEqualTo
 
@@ -18,15 +19,15 @@ _config_path = configFile >> "CfgVehicles" >> typeOf _vehicle;
 
 _Optic_LODs = _vehicle getVariable ["TGP_View_Available_Optics",[]];
 
-if (player getVariable ["TGP_View_Selected_Optic",[]] isEqualTo []) then {
-  player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle]];
+if (_player getVariable ["TGP_View_Selected_Optic",[]] isEqualTo []) then {
+  _player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 };
 
-if !(_vehicle Equal ((player getVariable "TGP_View_Selected_Optic") # 1)) then {
-  player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle]];
+if !(_vehicle Equal ((_player getVariable "TGP_View_Selected_Optic") # 1)) then {
+  _player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 };
 
-_Selected_Optic = player getVariable "TGP_View_Selected_Optic";
+_Selected_Optic = _player getVariable "TGP_View_Selected_Optic";
 _current_turret = (_Selected_Optic # 0) # 1;
 _is_Detached = (_Selected_Optic # 0) # 2;
 
@@ -38,7 +39,7 @@ if (_is_Detached) then {
 
 _cam camSetFov 0.75;
 
-player setVariable ["TGP_View_Camera", [_cam,_pphandle]];
+TGP_View_Camera = [_cam,_pphandle];
 
 //UI setup
 556 cutRsc ["BCE_TGP_View_GUI","PLAIN",0.3,false];
@@ -48,11 +49,10 @@ cameraEffectEnableHUD true;
 showCinemaBorder false;
 0 fadeSound 0.1;
 
+[_player getVariable ["TGP_View_Optic_Mode",2]] call BCE_fnc_OpticMode;
 
-[player getVariable ["TGP_View_Optic_Mode",2]] call BCE_fnc_OpticMode;
-
-player setVariable ["TGP_View_laser_update", [time,""]];
-player setVariable ["TGP_View_Unit_List_update",time];
+_player setVariable ["TGP_View_laser_update", [time,""]];
+_player setVariable ["TGP_View_Unit_List_update",time];
 
 //Crews
 _pilot = if ((driver _vehicle) Equal objNull) then {
@@ -78,6 +78,7 @@ _camDir_ctrl = _display displayCtrl 1024;
 _Fuel_ctrl = _display displayCtrl 1026;
 _Weapon_ctrl = _display displayCtrl 1027;
 _Ammo_ctrl = _display displayCtrl 1031;
+_Mode_ctrl = _display displayCtrl 1032;
 
 //- ENG
 _ENG_W_ctrl = _display displayCtrl 1025;
@@ -98,9 +99,10 @@ _idEH = addMissionEventHandler ["Draw3D", {
   _cam = _thisArgs # 0;
   _vehicle = _thisArgs # 1;
   _Optic_LODs = _thisArgs # 2;
-  (_thisArgs # 3) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_Ammo_ctrl","_ENG_W_ctrl","_ENG_Y_ctrl","_ENG_R_ctrl"];
+  _player = _thisArgs # 3;
+  (_thisArgs # 4) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_Ammo_ctrl","_Mode_ctrl","_ENG_W_ctrl","_ENG_Y_ctrl","_ENG_R_ctrl"];
 
-  _Selected_Optic = (player getVariable "TGP_View_Selected_Optic") # 0;
+  _Selected_Optic = (_player getVariable "TGP_View_Selected_Optic") # 0;
   _TGP = _Selected_Optic # 0;
   _current_turret = _Selected_Optic # 1;
   _is_Detached = _Selected_Optic # 2;
@@ -145,21 +147,23 @@ _idEH = addMissionEventHandler ["Draw3D", {
   //currentWeapon
   _weapon_info = weaponState [_vehicle,_current_turret];
   _Weapon_ctrl ctrlSetText (format ["%1", getText (configFile >> "CfgWeapons" >> _weapon_info # 0 >> "DisplayName")]);
-  if (getText (configFile >> "CfgWeapons" >> _weapon_info # 0 >> "DisplayName") == "") then {
+
+  if ((getText (configFile >> "CfgWeapons" >> (_weapon_info # 0) >> "DisplayName") == "") or ("laserdesignator" in (tolower (_weapon_info # 0)))) then {
+    _Mode_ctrl ctrlSetText "";
     _Ammo_ctrl ctrlSetText "";
   } else {
+    _Mode_ctrl ctrlSetText (format ["Mode: %1", getText (configFile >> "CfgWeapons" >> (_weapon_info # 0) >> (_weapon_info # 2) >> "DisplayName")]);
     _Ammo_ctrl ctrlSetText (format ["Ammo: %1  %2", getText (configFile >> "CfgMagazines" >> _weapon_info # 3 >> "displayNameShort"), _weapon_info # 4]);
   };
 
-
-  _laser_Vars = player getVariable "TGP_View_laser_update";
+  _laser_Vars = _player getVariable "TGP_View_laser_update";
   //Laser
   if (isLaserOn _vehicle) then {
     if ((_laser_Vars # 0) <= time) then {
       if ((_laser_Vars # 1) Equal "") then {
-        player setVariable ["TGP_View_laser_update", [time+0.2,"L T D / R"]];
+        _player setVariable ["TGP_View_laser_update", [time+0.2,"L T D / R"]];
       } else {
-        player setVariable ["TGP_View_laser_update", [time+0.2,""]];
+        _player setVariable ["TGP_View_laser_update", [time+0.2,""]];
       };
       _Laser_ctrl ctrlSetText (_laser_Vars # 1);
     };
@@ -168,27 +172,56 @@ _idEH = addMissionEventHandler ["Draw3D", {
   };
 
   //Update UnitList
-  if (player getVariable "TGP_View_Unit_List_update" <= time) then {
+  if (_player getVariable "TGP_View_Unit_List_update" <= time) then {
     call BCE_fnc_TGP_UnitList;
-    player setVariable ["TGP_View_Unit_List_update", time+1];
+    _player setVariable ["TGP_View_Unit_List_update", time+1];
   };
 
-  if (player getVariable ["TGP_view_3D_Compass",true]) then {
+  if (_player getVariable ["TGP_view_3D_Compass",true]) then {
     call BCE_fnc_3DCompass;
   };
 
   if (count TGP_View_Unit_List > 0) then {
     call BCE_fnc_Unit_Icon;
   };
-  if (player getVariable ["TGP_view_Map_Icon",true]) then {
+  if (_player getVariable ["TGP_view_Map_Icon",true]) then {
     call BCE_fnc_map_Icon;
   };
 
+  if (BCE_touchMark_fn) then {
+    call BCE_fnc_touchMark;
+  };
+
   call BCE_fnc_Cam_Layout;
+
+  //-Exit
+  if !(isnull curatorcamera) then {
+
+    if !(TGP_View_Camera isEqualTo []) then {
+      camUseNVG false;
+
+  		ppEffectDestroy (TGP_View_Camera # 1);
+
+  		556 cutRsc ["default","PLAIN"];
+  		cutText ["", "BLACK IN",0.5];
+
+  		1.5 fadeSound 1;
+
+      TGP_View_Camera = [];
+
+      [2] call BCE_fnc_OpticMode;
+    };
+
+		_current_EH = _player getVariable ["TGP_View_EHs",-1];
+    if (_current_EH != -1) then {
+      removeMissionEventHandler ["Draw3D", _current_EH];
+  		_player setVariable ["TGP_View_EHs",-1,true];
+    };
+  };
 },[
-  _cam,_vehicle,_Optic_LODs,
-  [_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_Ammo_ctrl,_ENG_W_ctrl,_ENG_Y_ctrl,_ENG_R_ctrl]
+  _cam,_vehicle,_Optic_LODs,_player,
+  [_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_Ammo_ctrl,_Mode_ctrl,_ENG_W_ctrl,_ENG_Y_ctrl,_ENG_R_ctrl]
 ]];
 
-player setVariable ["TGP_View_EHs", _idEH];
-player setVariable ["TGP_View_Camera_FOV", 0.75];
+_player setVariable ["TGP_View_EHs", _idEH, true];
+_player setVariable ["TGP_View_Camera_FOV", 0.75];

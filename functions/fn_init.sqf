@@ -47,10 +47,10 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 
 ["featureCamera", {
 	params ["_unit","_mode"];
-	if (!(_mode isEqualTo "") && !((player getVariable ["TGP_View_Camera", []]) isEqualTo [])) then {
+	if (!(_mode isEqualTo "") && !(TGP_View_Camera isEqualTo [])) then {
     camUseNVG false;
 
-		ppEffectDestroy (player getVariable "TGP_View_Camera") # 1;
+		ppEffectDestroy (TGP_View_Camera # 1);
 
 		556 cutRsc ["default","PLAIN"];
 		cutText ["", "BLACK IN",0.5];
@@ -60,12 +60,8 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 		_current_EH = player getVariable "TGP_View_EHs";
 		removeMissionEventHandler ["Draw3D", _current_EH];
 
-		player setVariable ["TGP_View_EHs",-1];
-		player setVariable ["TGP_View_Camera", []];
-
-		if (player getVariable ["TGP_View_Turret_Control",false]) then {
-		  player setVariable ["TGP_View_Turret_Control",false];
-		};
+		player setVariable ["TGP_View_EHs",-1,true];
+		TGP_View_Camera = [];
 
     [2] call BCE_fnc_OpticMode;
 	};
@@ -89,7 +85,7 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 		player setvariable ["TGP_View_Selected_Vehicle",objNull];
 		player setVariable ["TGP_View_Selected_Optic",[]];
 
-		if !((player getVariable ["TGP_View_Camera", []]) isEqualTo []) then {
+		if !(TGP_View_Camera isEqualTo []) then {
 			camUseNVG false;
 			call BCE_fnc_Cam_Delete;
 			[2] call BCE_fnc_OpticMode;
