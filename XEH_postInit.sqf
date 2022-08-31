@@ -1,13 +1,17 @@
 if (!hasInterface) exitWith {};
 IR_LaserLight_UnitList = [];
 TGP_View_Unit_List = [];
+TGP_View_Turret_List = [];
+TGP_View_TouchMark_List = [];
+TGP_View_Camera = [];
 IR_LaserLight_UnitList_LastUpdate = 0;
 
 ["BCE_Init",BCE_fnc_init] call CBA_fnc_addEventHandler;
+["BCE_TouchMark", BCE_fnc_touchMark] call CBA_fnc_addEventHandler;
 
 ["BCE_Init",[]] call CBA_fnc_localEvent;
 
-#define IsTGP_CAM_ON !((player getVariable ["TGP_View_Camera", []]) isEqualTo [])
+#define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
 #define getTurret (call BCE_fnc_getTurret)
 
 //- Optic Mode
@@ -43,7 +47,8 @@ IR_LaserLight_UnitList_LastUpdate = 0;
     };
   },
   "",
-  [0x39, [false, false, false]]
+  [0x39, [false, false, false]],
+  true
 ] call cba_fnc_addKeybind;
 
 //- Zoom
@@ -52,7 +57,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
   "Zoom In",
   {
     if (IsTGP_CAM_ON) then {
-      _cam = (player getVariable "TGP_View_Camera") # 0;
+      _cam = TGP_View_Camera # 0;
       _FOV = player getVariable "TGP_View_Camera_FOV";
       if (_FOV > 0.1) then {
         _FOV = _FOV - 0.05;
@@ -71,7 +76,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
   "Zoom Out",
   {
     if (IsTGP_CAM_ON) then {
-      _cam = (player getVariable "TGP_View_Camera") # 0;
+      _cam = TGP_View_Camera # 0;
       _FOV = player getVariable "TGP_View_Camera_FOV";
       if (_FOV < 0.75) then {
     		_FOV = _FOV + 0.05;
@@ -108,7 +113,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
         _cam attachTo [_vehicle, [0,0,0],_turret_select # 0,true];
       };
 
-      player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle]];
+      player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
 
       //UI
       _turret_Unit = _vehicle turretUnit _turret_select # 1;
@@ -148,7 +153,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
         _cam attachTo [_vehicle, [0,0,0],_turret_select # 0,true];
       };
 
-      player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle]];
+      player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
 
       //UI
       _turret_Unit = _vehicle turretUnit _turret_select # 1;
@@ -235,45 +240,70 @@ IR_LaserLight_UnitList_LastUpdate = 0;
   "TGP Cam Settings","NextWeapon",
   "Next Weapon Setup",
   {
-    if (player getVariable ["TGP_View_Turret_Control",false]) then {
+    if !(IsTGP_CAM_ON) exitWith {};
+    _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;
+    _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
+    _turret_Unit = _vehicle turretUnit _current_turret;
+    if ((_turret_Unit getVariable ["TGP_View_Turret_Control",-1]) != -1) then {
       //Switch Weapon Setup
 			if (inputAction "nextWeapon" > 0) then {
-        _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;
-        _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
-
 				_weapon_info = weaponState [_vehicle,_current_turret];
+        _selectWeapon = _weapon_info # 0;
+        _selectMuzzle = _weapon_info # 1;
+        _selectmode = _weapon_info # 2;
 
-				_weapons = _vehicle weaponsTurret _current_turret;
-				_Weapon_Index = _weapons find (_weapon_info # 0);
-
-				_selectWeapon = if ((count _weapons - 1) > _Weapon_Index) then {
-					_weapons # (_Weapon_Index + 1)
-				} else {
-					_weapons # 0
-				};
+        //-Modes
+        _modes = (getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "modes")) select {
+          (getNumber (configFile >> "CfgWeapons" >> _selectWeapon >> _x >> "showToPlayer")) == 1
+        };
+        _mode_Index = _modes find (_weapon_info # 2);
 
         _Muzzles = getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "muzzles");
-				_Muzzle_Index = _Muzzles find (_weapon_info # 1);
+        _Muzzle_Index = _Muzzles find (_weapon_info # 1);
 
-        _selectMuzzle = if ((count _Muzzles - 1) > _Muzzle_Index) then {
-      		_Muzzles # (_Muzzle_Index + 1)
-				} else {
-     			_Muzzles # 0
-				};
-        if (_selectMuzzle== "this") then {
-          _selectMuzzle = _selectWeapon;
+        if (_mode_Index >= ((count _modes) - 1)) then {
+
+          //Get Weapons
+          _weapons = _vehicle weaponsTurret _current_turret;
+  				_Weapon_Index = _weapons find _selectWeapon;
+
+          //Dont Have other muzzle
+          if ((_selectMuzzle == "this") or (_selectMuzzle == _selectWeapon)) then {
+
+            //-Select Weapon
+            if (_Weapon_Index >= ((count _weapons) - 1)) then {
+              _selectWeapon = _weapons # 0;
+            } else {
+              _selectWeapon = _weapons # (_Weapon_Index + 1);
+            };
+
+            //Set Muzzle
+            _selectMuzzle = _selectWeapon;
+
+          } else {
+
+            if (_Muzzle_Index >= ((count _Muzzles) - 1)) then {
+
+              //-Select Weapon
+              if (_Weapon_Index >= ((count _weapons) - 1)) then {
+                _selectWeapon = _weapons # 0;
+      				} else {
+      					_selectWeapon = _weapons # (_Weapon_Index + 1);
+      				};
+              _selectMuzzle = _Muzzles # 0;
+
+            } else {
+              _selectMuzzle = _Muzzles # (_Muzzle_Index + 1);
+            };
+          };
+          _modes = (getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "modes")) select {
+            (getNumber (configFile >> "CfgWeapons" >> _selectWeapon >> _x >> "showToPlayer")) == 1
+          };
+
+          _selectMode = _modes # 0;
+        } else {
+          _selectMode = _modes # (_mode_Index + 1);
         };
-
-				_modes = (getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "modes")) select {
-					(getNumber (configFile >> "CfgWeapons" >> _selectWeapon >> _x >> "showToPlayer")) == 1
-				};
-				_mode_Index = _modes find (_weapon_info # 2);
-
-				_selectMode = if ((count _modes - 1) > _mode_Index) then {
-      		_modes # (_mode_Index + 1)
-				} else {
-     			_modes # 0
-				};
 
 				_vehicle selectWeaponTurret [_selectWeapon,_current_turret,_selectMuzzle,_selectMode];
 			};
@@ -284,21 +314,53 @@ IR_LaserLight_UnitList_LastUpdate = 0;
 ] call cba_fnc_addKeybind;
 
 [
-  "TGP Cam Settings","FireWeapon",
-  "Fire Weapon",
+  "TGP Cam Settings","TouchMark",
+  "Set Touch Marker",
   {
-    hintSilent str [time];
-    if (player getVariable ["TGP_View_Turret_Control",false]) then {
-      _vehicle = player getVariable "TGP_View_Selected_Vehicle";
-      _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
-      _turret_Unit_Now = _vehicle turretUnit _current_turret;
-
-      //Fire
-      _weapon_info = weaponState [_vehicle,_current_turret];
-        hintSilent str [_weapon_info # 1, _weapon_info # 2,time];
-      _turret_Unit_Now forceWeaponFire [_weapon_info # 1, _weapon_info # 2];
+    if !(IsTGP_CAM_ON) exitWith {};
+    _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;
+    _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
+    if (_current_turret isEqualTo []) then {_current_turret = [-1]};
+    _turret_Unit = _vehicle turretUnit _current_turret;
+    if (((_turret_Unit getVariable ["TGP_View_Turret_Control",-1]) == -1) && !(isNull findDisplay 1022553)) then {
+      player setVariable ["TGP_View_Mark",AGLtoASL (screenToWorld getMousePosition),true];
+      _pos_old = player getVariable "TGP_View_Mark";
+      _end = time + 10;
+      [{
+        params ["_end","_pos_old","_unit"];
+        _last_time = _end - time;
+        _unit setVariable ["TGP_View_Marker_last",_last_time,true];
+        ((time >= _end) or !(_pos_old isEqualTo (_unit getVariable "TGP_View_Mark")))
+        }, {
+          params ["_end","_pos_old","_unit"];
+          if (time >= _end) then {
+            _unit setVariable ["TGP_View_Mark",[],true];
+            _unit setVariable ["TGP_View_Marker_last",-1,true];
+          };
+        }, [_end,_pos_old,player]
+      ] call CBA_fnc_waitUntilAndExecute;
     };
   },
   "",
-  [0xF0, [false, false, false]],true
+  [0xF0, [false, false, false]]
+] call cba_fnc_addKeybind;
+
+[
+  "TGP Cam Settings","ToggleCursor",
+  "Toggle Mouse Cursor",
+  {
+    if !(IsTGP_CAM_ON) exitWith {};
+    _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;
+    _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
+    _turret_Unit = _vehicle turretUnit _current_turret;
+    if (((_turret_Unit getVariable ["TGP_View_Turret_Control",-1]) == -1) && (isNull findDisplay 1022553)) then {
+      createdialog "RscDisplayEmpty_BCE";
+    } else {
+      if !(isNull findDisplay 1022553) then {
+        closedialog 1022553;
+      };
+    };
+  },
+  "",
+  [0x32, [false, false, false]]
 ] call cba_fnc_addKeybind;
