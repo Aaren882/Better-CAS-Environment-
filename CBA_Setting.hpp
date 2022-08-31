@@ -1,13 +1,13 @@
 ///////////////////HUD//////////////////////
 [
-	"Acompass_fn","CHECKBOX",
+	"BCE_compass_fn","CHECKBOX",
 	["Show 3D Compass"],
 	["Better CAS Environment", "HUD Settings"],
 	true
 ] call CBA_fnc_addSetting;
 
 [
-	"AHUD_fn","CHECKBOX",
+	"BCE_HUD_fn","CHECKBOX",
 	["Show HUD"],
 	["Better CAS Environment", "HUD Settings"],
 	true,
@@ -16,9 +16,29 @@
 		call BCE_Fnc_SetMFDValue;
 	}
 ] call CBA_fnc_addSetting;
+
+[
+	"BCE_touchMark_fn","CHECKBOX",
+	["Touch Mark"],
+	["Better CAS Environment", "TGP Cam Settings"],
+	true
+] call CBA_fnc_addSetting;
+
+//- List
+[
+	"BCE_Access_list", "LIST",
+	["Select Turret Control Trait"],
+ 	["Better CAS Environment", "TGP Cam Settings"],
+ 	[[0,1,2,3,4], ["Disabled","All","Leader or JTAC","JTAC","Leader"], 2],
+	0,
+	{
+		TGP_View_Terminal_canUseTurre = call BCE_fnc_canUseTurret;
+	}
+] call CBA_fnc_addSetting;
+
 //Sliders
 [
-	"A_Red_sdr", "SLIDER",
+	"BCE_Red_sdr", "SLIDER",
 	["Red Slider"],
 	["Better CAS Environment", "HUD Settings"],
 	[0, 1, 0.15, 3],
@@ -29,7 +49,7 @@
 ] call CBA_fnc_addSetting;
 
 [
-	"A_Green_sdr", "SLIDER",
+	"BCE_Green_sdr", "SLIDER",
 	["Green Slider"],
 	["Better CAS Environment", "HUD Settings"],
 	[0, 1, 0.15, 3],
@@ -40,7 +60,7 @@
 ] call CBA_fnc_addSetting;
 
 [
-	"A_Blue_sdr", "SLIDER",
+	"BCE_Blue_sdr", "SLIDER",
 	["Bule Slider"],
 	["Better CAS Environment", "HUD Settings"],
 	[0, 1, 0.7, 3],
@@ -51,7 +71,7 @@
 ] call CBA_fnc_addSetting;
 
 [
-	"A_Alpha_sdr", "SLIDER",
+	"BCE_Alpha_sdr", "SLIDER",
 	["Alpha Slider"],
 	["Better CAS Environment", "HUD Settings"],
 	[0, 1, 1, 2],

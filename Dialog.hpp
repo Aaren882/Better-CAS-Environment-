@@ -1,3 +1,8 @@
+class RscDisplayEmpty_BCE
+{
+	movingEnable = 0;
+	idd = 1022553;
+};
 class RscTitles
 {
 	titles[] += {"BCE_TGP_View_GUI","default"};
@@ -284,6 +289,12 @@ class RscTitles
 				idc = 1031;
 				text = "AMMO TYPE: HEAT";
 				y = 0.764815 * safezoneH + safezoneY - 0.05;
+			};
+			class FiringMode: Weapon
+			{
+				idc = 1032;
+				text = "Mode";
+				y = 0.764815 * safezoneH + safezoneY - 0.1;
 			};
 			
 			//Crew

@@ -1,3 +1,4 @@
+#include "BIS_AddonInfo.hpp"
 class CfgPatches
 {
 	class AVFEVFX
@@ -33,6 +34,35 @@ class Extended_PostInit_EventHandlers
 
 class CfgVehicles
 {
+	//-ACE action
+	class Man;
+	class CAManBase: Man
+	{
+		class ACE_Actions
+		{
+			class ACE_MainActions
+			{
+				class ACE_TeamManagement
+				{
+					class ACE_BCE_Assign_JTAC
+					{
+						displayName="Assign as JTAC";
+						condition="!(_target getVariable ['BCE_is_JTAC',false]) && (isFormationLeader _player)";
+						icon="a3\ui_f\data\GUI\Cfg\CommunicationMenu\transport_ca.paa";
+						exceptions[]={};
+						statement="_target setVariable ['BCE_is_JTAC',true]";	
+					};
+					class ACE_BCE_Unassign_JTAC
+					{
+						displayName="Unssign as JTAC";
+						exceptions[]={};
+						condition="(_target getVariable ['BCE_is_JTAC',false]) && (isFormationLeader _player)";
+						statement="_target setVariable ['BCE_is_JTAC',false]";	
+					};
+				};
+			};
+		};
+	};
 	class Helicopter_Base_F;
 	class Helicopter_Base_H: Helicopter_Base_F
 	{
@@ -477,6 +507,9 @@ class CfgFunctions
 			class getTurret;
 			class Cam_Delete;
 			class onButtonClick_Gunner;
+			class addKeyInEH;
+			class touchMark;
+			class canUseTurret;
 		};
 		class Lists
 		{
