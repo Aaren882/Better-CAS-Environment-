@@ -41,7 +41,7 @@ _action = ["BCE_Use_Heli_SpotLight","Toggle Spot Light","",{
 
 	},{
     params ["_unit"];
-    (getNumber (configFile >> "CfgVehicles" >> typeOf (vehicle _unit) >> "BCE_DoorGunners") == 1) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
+    ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"]) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
 
@@ -61,7 +61,7 @@ _action = ["BCE_Use_Heli_SpotLight_IR","Toggle Light (IR)","",{
 
 	},{
     params ["_unit"];
-    (getNumber (configFile >> "CfgVehicles" >> typeOf (vehicle _unit) >> "BCE_DoorGunners") == 1) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
+    ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"]) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
 
@@ -83,7 +83,7 @@ _action = ["BCE_Use_Heli_LaserR","Toggle Laser (Red)","",{
 
 },{
     params ["_unit"];
-	  (getNumber (configFile >> "CfgVehicles" >> typeOf (vehicle _unit) >> "BCE_DoorGunners") == 1) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
+	  ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"]) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
 
@@ -103,7 +103,7 @@ _action = ["BCE_Use_Heli_LaserG","Toggle Laser (Green)","",{
 
 },{
     params ["_unit"];
-	  (getNumber (configFile >> "CfgVehicles" >> typeOf (vehicle _unit) >> "BCE_DoorGunners") == 1) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
+	  ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"]) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
 
@@ -123,6 +123,6 @@ _action = ["BCE_Use_Heli_LaserIR","Toggle Laser (IR)","",{
 
 },{
     params ["_unit"];
-	  (getNumber (configFile >> "CfgVehicles" >> typeOf (vehicle _unit) >> "BCE_DoorGunners") == 1) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
+	  ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"]) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;

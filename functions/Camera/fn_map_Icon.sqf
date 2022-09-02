@@ -35,7 +35,7 @@
 
   drawIcon3D [
     _markerIcon,
-    [_markerColor # 0,_markerColor # 1,_markerColor # 2,0.6],
+    [_markerColor # 0,_markerColor # 1,_markerColor # 2,_alpha],
     _markerPOS,
     1,
     1,

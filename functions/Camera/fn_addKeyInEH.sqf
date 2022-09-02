@@ -1,4 +1,4 @@
-_keyEH = addUserActionEventHandler ["defaultAction", "Activate", {
+_keyEH_1 = addUserActionEventHandler ["defaultAction", "Activate", {
 
   _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
   _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
@@ -20,7 +20,7 @@ _keyEH = addUserActionEventHandler ["defaultAction", "Activate", {
 
       (
         (_Weapon != (_vehicle currentWeaponTurret _current_turret)) or
-        ((_turret_Unit getVariable ["TGP_View_Turret_Control",-1]) == -1) or
+        ((_turret_Unit getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) or
         ((player getVariable ["TGP_View_EHs",-1]) == -1)
       )
     }, {
@@ -32,4 +32,16 @@ _keyEH = addUserActionEventHandler ["defaultAction", "Activate", {
   };
 }];
 
-_keyEH
+_keyEH_2 = addUserActionEventHandler ["gunElevAuto", "Activate", {
+  [] spawn {
+    //- Weapon
+    _display = uiNameSpace getVariable "BCE_TGP";
+    _WeaponDelay_ctrl = _display displayCtrl 1033;
+
+    _WeaponDelay_ctrl ctrlShow true;
+    uisleep 0.5;
+    _WeaponDelay_ctrl ctrlShow false;
+  };
+}];
+
+[_keyEH_1,_keyEH_2]

@@ -58,7 +58,13 @@ _fnc_onLBSelChanged = {
 				name _turret_Unit
 			};
 
-			if ((_gunner == "-") or (_turret_Unit in TGP_View_Turret_List) or ((vehicle _turret_Unit) in TGP_View_Turret_List)) then {
+			// - Disable Unavailable Turret
+			if (
+					(_gunner == "-") or
+					(_turret_Unit in TGP_View_Turret_List) or
+					((vehicle _turret_Unit) in TGP_View_Turret_List) or
+			    ((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"])
+				) then {
 			  (_display displayctrl 1601) ctrlEnable false;
 			} else {
 				(_display displayctrl 1601) ctrlEnable true;

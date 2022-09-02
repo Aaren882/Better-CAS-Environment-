@@ -80,6 +80,10 @@ _Weapon_ctrl = _display displayCtrl 1027;
 _Ammo_ctrl = _display displayCtrl 1031;
 _Mode_ctrl = _display displayCtrl 1032;
 
+//- Weapon
+_WeaponDelay_ctrl = _display displayCtrl 1033;
+_WeaponDelay_ctrl ctrlShow false;
+
 //- ENG
 _ENG_W_ctrl = _display displayCtrl 1025;
 _ENG_Y_ctrl = _display displayCtrl 1052;
@@ -146,14 +150,21 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
   //currentWeapon
   _weapon_info = weaponState [_vehicle,_current_turret];
-  _Weapon_ctrl ctrlSetText (format ["%1", getText (configFile >> "CfgWeapons" >> _weapon_info # 0 >> "DisplayName")]);
+  _weapon_info params ["_infoWeapon", "_infoMuzzle", "_infomode", "_infomagazine", "_ammoCount", "_roundReloadPhase", "_magazineReloadPhase"];
 
-  if ((getText (configFile >> "CfgWeapons" >> (_weapon_info # 0) >> "DisplayName") == "") or ("laserdesignator" in (tolower (_weapon_info # 0)))) then {
+  _Weapon_ctrl ctrlSetText (format ["%1", getText (configFile >> "CfgWeapons" >> _infoWeapon >> "DisplayName")]);
+  if ((getText (configFile >> "CfgWeapons" >> _infoWeapon >> "DisplayName") == "") or ("laserdesignator" in (tolower _infoWeapon))) then {
     _Mode_ctrl ctrlSetText "";
     _Ammo_ctrl ctrlSetText "";
   } else {
-    _Mode_ctrl ctrlSetText (format ["Mode: %1", getText (configFile >> "CfgWeapons" >> (_weapon_info # 0) >> (_weapon_info # 2) >> "DisplayName")]);
-    _Ammo_ctrl ctrlSetText (format ["Ammo: %1  %2", getText (configFile >> "CfgMagazines" >> _weapon_info # 3 >> "displayNameShort"), _weapon_info # 4]);
+    _Mode_ctrl ctrlSetText (format ["Mode: %1", getText (configFile >> "CfgWeapons" >> _infoWeapon >> _infomode >> "DisplayName")]);
+    _Ammo_ctrl ctrlSetText (format ["Ammo: %1  %2", getText (configFile >> "CfgMagazines" >> _infomagazine >> "displayNameShort"), _ammoCount]);
+  };
+
+  if ((_roundReloadPhase > 0) or (_magazineReloadPhase > 0)) then {
+    _Weapon_ctrl ctrlSetTextColor [0.76,0.71,0.215,1];
+  } else {
+    _Weapon_ctrl ctrlSetTextColor [1,1,1,1];
   };
 
   _laser_Vars = _player getVariable "TGP_View_laser_update";
@@ -185,6 +196,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
     call BCE_fnc_Unit_Icon;
   };
   if (_player getVariable ["TGP_view_Map_Icon",true]) then {
+    _alpha = 0.4;
     call BCE_fnc_map_Icon;
   };
 

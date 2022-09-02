@@ -29,7 +29,27 @@
       ];
     } else {
       _visionmode = player getVariable ["TGP_View_Optic_Mode", 2];
-      if ((player getVariable ["TGP_view_Unit_Tracker_Box",true]) && ((_visionmode != 2) && (_visionmode != 5))) then {
+      _condition = if (isclass(configFile >> "CfgPatches" >> "A3TI")) then {
+        (
+          (player getVariable ["TGP_view_Unit_Tracker_Box",true]) &&
+          (
+            (
+              (
+                (_visionmode != 2) && (_visionmode != 3)
+              ) or
+              ((call A3TI_fnc_getA3TIVision) != "")
+            )
+          )
+        )
+      } else {
+        (
+          (player getVariable ["TGP_view_Unit_Tracker_Box",true]) &&
+          (
+            ((_visionmode != 2) or (_visionmode != 3))
+          )
+        )
+      };
+      if _condition then {
         _UnitBbox = boundingbox _unit;
         _UnitBboxZ = (abs((_UnitBbox # 0) # 2) + abs((_UnitBbox # 1) # 2)) / 2;
 

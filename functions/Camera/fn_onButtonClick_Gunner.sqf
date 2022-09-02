@@ -1,7 +1,5 @@
 params["_vehicle","_cameraview"];
 
-//-[player, AGLtoASL(screenToWorld getMousePosition)] call ace_finger_fnc_incomingFinger;
-
 _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
 _turret_Unit = _vehicle turretUnit _current_turret;
 
@@ -10,8 +8,8 @@ player remotecontrol _turret_Unit;
 _turret_Unit switchcamera "gunner";
 
 //-Key Cap
-_keyEH = call BCE_fnc_addKeyInEH;
-_turret_Unit setVariable ["TGP_View_Turret_Control",_keyEH,true];
+_keyEHs = call BCE_fnc_addKeyInEH;
+_turret_Unit setVariable ["TGP_View_Turret_Control",_keyEHs,true];
 
 [{
   params ["_vehicle","_turret_Unit","_vehicleRole","_cameraview"];
@@ -35,17 +33,18 @@ _turret_Unit setVariable ["TGP_View_Turret_Control",_keyEH,true];
       objnull remotecontrol _turret_Unit;
       player remotecontrol _turret_Unit_Now;
       _turret_Unit_Now switchcamera "gunner";
-      removeUserActionEventHandler ["defaultAction", "Activate", (_turret_Unit getVariable "TGP_View_Turret_Control")];
-      _turret_Unit setVariable ["TGP_View_Turret_Control",-1,true];
+      removeUserActionEventHandler ["defaultAction", "Activate", ((_turret_Unit getVariable "TGP_View_Turret_Control") # 0)];
+      removeUserActionEventHandler ["gunElevAuto", "Activate", ((_turret_Unit getVariable "TGP_View_Turret_Control") # 1)];
+      _turret_Unit setVariable ["TGP_View_Turret_Control",[],true];
 
       [_vehicle,_cameraview] call BCE_fnc_onButtonClick_Gunner;
 
     } else {
       objnull remotecontrol _turret_Unit_Now;
       player switchcamera _cameraview;
-      
-      removeUserActionEventHandler ["defaultAction", "Activate", (_turret_Unit getVariable "TGP_View_Turret_Control")];
-      _turret_Unit setVariable ["TGP_View_Turret_Control",-1,true];
+      removeUserActionEventHandler ["defaultAction", "Activate", ((_turret_Unit getVariable "TGP_View_Turret_Control") # 0)];
+      removeUserActionEventHandler ["gunElevAuto", "Activate", ((_turret_Unit getVariable "TGP_View_Turret_Control") # 1)];
+      _turret_Unit setVariable ["TGP_View_Turret_Control",[],true];
     };
 
   }, [_vehicle,_turret_Unit,_vehicleRole,_cameraview]

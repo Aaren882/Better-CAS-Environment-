@@ -23,21 +23,21 @@ switch (_type) do
 {
   case 3:
   {
+    false setCamUseTi _ViewMode;
+    camUseNVG true;
+    _text = "CMODE NVG";
+  };
+  case 4:
+  {
     _ViewMode = 0;
     true setCamUseTi _ViewMode;
     _text = "CMODE W-FLIR";
   };
-  case 4:
+  case 5:
   {
     _ViewMode = 1;
     true setCamUseTi _ViewMode;
     _text = "CMODE T-FLIR";
-  };
-  case 5:
-  {
-    false setCamUseTi _ViewMode;
-    camUseNVG true;
-    _text = "CMODE NVG";
   };
   default
   {

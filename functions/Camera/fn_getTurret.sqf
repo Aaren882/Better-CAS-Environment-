@@ -7,7 +7,7 @@ _vehicle = _optic_Vars # 1;
 _current_turret = _OpticArray # 1;
 _turret_Unit = _vehicle turretUnit _current_turret;
 
-_Optic_LODs = if ((_turret_Unit getVariable ["TGP_View_Turret_Control",-1]) != -1) then {
+_Optic_LODs = if !((_turret_Unit getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) then {
   (_vehicle getVariable "TGP_View_Available_Optics") select {!((_x # 1) isEqualTo [])};
 } else {
   _vehicle getVariable "TGP_View_Available_Optics";

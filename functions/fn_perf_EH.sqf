@@ -18,7 +18,7 @@ _idEH = addMissionEventHandler ["EachFrame", {
   if (time > IR_LaserLight_UnitList_LastUpdate + 0.1) then {
     IR_LaserLight_UnitList_LastUpdate = time;
     call BCE_fnc_IR_UnitList;
-    TGP_View_Turret_List = (allunits + vehicles) select {(_x getVariable ["TGP_View_Turret_Control",-1] != -1) or (isUAVConnected _x)};
+    TGP_View_Turret_List = (allunits + vehicles) select {!((_x getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) or (isUAVConnected _x) or ((_x getVariable ["AHUD_Actived",-1]) != -1)};
   };
 }];
 
