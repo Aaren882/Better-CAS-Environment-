@@ -1,4 +1,3 @@
-#include "BIS_AddonInfo.hpp"
 class CfgPatches
 {
 	class AVFEVFX
@@ -8,6 +7,9 @@ class CfgPatches
 		requiredVersion="2.00";
 		requiredAddons[]=
 		{
+			#if __has_include("\A3TI\config.bin")
+				"A3TI",
+			#endif
 			"A3_Weapons_F",
 			"A3_Air_F_Heli_Light_01",
 			"A3_Armor_F_Tank_AFV_Wheeled_01",
@@ -125,7 +127,7 @@ class CfgVehicles
 	
 	class Heli_Transport_01_base_F: Helicopter_Base_H
 	{
-		BCE_DoorGunners = 1;
+		//BCE_DoorGunners = 1;
 		/*class Turrets: Turrets
 		{
 			class MainTurret: MainTurret
@@ -136,7 +138,7 @@ class CfgVehicles
 	};
 	class Heli_Transport_03_base_F: Helicopter_Base_H
 	{
-		BCE_DoorGunners = 1;
+		//BCE_DoorGunners = 1;
 	};
 	
 	//RHS
@@ -144,12 +146,12 @@ class CfgVehicles
 		class Heli_Transport_02_base_F;
 		class RHS_CH_47F_base: Heli_Transport_02_base_F
 		{
-			BCE_DoorGunners = 1;
+			//BCE_DoorGunners = 1;
 		};
 		class Heli_light_03_base_F;
 		class RHS_UH1_Base: Heli_light_03_base_F
 		{
-			BCE_DoorGunners = 1;
+			//BCE_DoorGunners = 1;
 		};
 		class RHS_UH1Y_US_base;
 		class RHS_UH1Y: RHS_UH1Y_US_base
@@ -168,6 +170,16 @@ class CfgVehicles
 				{
 					Laser_Offset[] = {0,0,-0.1}; 
 				};
+			};
+		};
+		
+		class RHS_UH60M2;
+		class RHS_UH60M_ESSS: RHS_UH60M2
+		{
+			defaultUserMFDvalues[]={0.15,1,0.15,0.7};
+			class MFD
+			{
+				#include "MFD\HUD.hpp"
 			};
 		};
 	#endif
@@ -523,6 +535,25 @@ class CfgFunctions
 			class TGP_Select_Confirm;
 		};
 	};
+	#if __has_include("\A3TI\config.bin")
+		class A3TI
+		{
+			class core
+			{
+				class specialCase
+				{
+					file="MG8\AVFEVFX\functions\A3TI\fn_specialCase.sqf";
+				};
+			};
+			class forAddonMakers
+			{
+				class getA3TIVision
+				{
+					file="MG8\AVFEVFX\functions\A3TI\fn_getA3TIVision.sqf";
+				};
+			};
+		};
+	#endif
 };
 
 class CfgScriptPaths
@@ -533,6 +564,7 @@ class CfgScriptPaths
 class RscLine;
 class RscInfoBack;
 class RscText;
+class RscPictureKeepAspect;
 
 //Dialog
 #include "Dialog.hpp"

@@ -296,6 +296,15 @@ class RscTitles
 				text = "Mode";
 				y = 0.764815 * safezoneH + safezoneY - 0.1;
 			};
+			class GunDelayX: RscPictureKeepAspect
+			{
+				idc = 1033;
+				x = 0.436905 * safezoneW + safezoneX;
+				y = 0.387963 * safezoneH + safezoneY;
+				w = 0.126601 * safezoneW;
+				h = 0.225 * safezoneH;
+				text = "A3\Ui_f\data\IGUI\RscIngameUI\RscOptics\laser_icon_X.paa";
+			};
 			
 			//Crew
 			class Pilot: RscText

@@ -1,7 +1,7 @@
 ///////////////////HUD//////////////////////
 [
 	"BCE_compass_fn","CHECKBOX",
-	["Show 3D Compass"],
+	["Show 3D Compass and Map Icon"],
 	["Better CAS Environment", "HUD Settings"],
 	true
 ] call CBA_fnc_addSetting;
@@ -38,32 +38,10 @@
 
 //Sliders
 [
-	"BCE_Red_sdr", "SLIDER",
-	["Red Slider"],
+	"BCE_HUD_Color", "COLOR",
+	["Custom HUD Color"],
 	["Better CAS Environment", "HUD Settings"],
-	[0, 1, 0.15, 3],
-	0,
-	{
-		call BCE_Fnc_SetMFDValue;
-	}
-] call CBA_fnc_addSetting;
-
-[
-	"BCE_Green_sdr", "SLIDER",
-	["Green Slider"],
-	["Better CAS Environment", "HUD Settings"],
-	[0, 1, 0.15, 3],
-	0,
-	{
-		call BCE_Fnc_SetMFDValue;
-	}
-] call CBA_fnc_addSetting;
-
-[
-	"BCE_Blue_sdr", "SLIDER",
-	["Bule Slider"],
-	["Better CAS Environment", "HUD Settings"],
-	[0, 1, 0.7, 3],
+	[0.15, 0.15, 0.7],
 	0,
 	{
 		call BCE_Fnc_SetMFDValue;
