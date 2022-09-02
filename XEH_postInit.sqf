@@ -208,7 +208,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
   "TGP Cam Settings","Compass",
   "Toggle 3D Compass",
   {
-    if (IsTGP_CAM_ON) then {
+    if ((IsTGP_CAM_ON) or ((cameraOn getVariable ["AHUD_Actived",-1]) != -1)) then {
       if (player getVariable ["TGP_view_3D_Compass",true]) then {
         player setVariable ["TGP_view_3D_Compass",false];
       } else {
@@ -237,6 +237,31 @@ IR_LaserLight_UnitList_LastUpdate = 0;
 ] call cba_fnc_addKeybind;
 
 [
+  "TGP Cam Settings","Unit_MapIcon",
+  "Toggle Map Icons (Aircraft)",
+  {
+    if (((cameraOn getVariable ["AHUD_Actived",-1]) != -1) && ((player getVariable ["TGP_View_MapIcons_last",-1]) == -1)) then {
+      _end = time + 2;
+      [{
+        params ["_end","_unit"];
+        _last_time = _end - time;
+        _unit setVariable ["TGP_View_MapIcons_last",_last_time];
+        (time >= _end)
+        }, {
+          params ["_end","_unit"];
+          if (time >= _end) then {
+            _unit setVariable ["TGP_View_MapIcons",[]];
+            _unit setVariable ["TGP_View_MapIcons_last",-1];
+          };
+        }, [_end,player]
+      ] call CBA_fnc_waitUntilAndExecute;
+    };
+  },
+  "",
+  [0x26, [false, false, false]]
+] call cba_fnc_addKeybind;
+
+[
   "TGP Cam Settings","NextWeapon",
   "Next Weapon Setup",
   {
@@ -244,7 +269,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
     _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;
     _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
     _turret_Unit = _vehicle turretUnit _current_turret;
-    if ((_turret_Unit getVariable ["TGP_View_Turret_Control",-1]) != -1) then {
+    if !((_turret_Unit getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) then {
       //Switch Weapon Setup
 			if (inputAction "nextWeapon" > 0) then {
 				_weapon_info = weaponState [_vehicle,_current_turret];
@@ -322,10 +347,10 @@ IR_LaserLight_UnitList_LastUpdate = 0;
     _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
     if (_current_turret isEqualTo []) then {_current_turret = [-1]};
     _turret_Unit = _vehicle turretUnit _current_turret;
-    if (((_turret_Unit getVariable ["TGP_View_Turret_Control",-1]) == -1) && !(isNull findDisplay 1022553)) then {
-      player setVariable ["TGP_View_Mark",AGLtoASL (screenToWorld getMousePosition),true];
+    if (((_turret_Unit getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) && !(isNull findDisplay 1022553)) then {
+      player setVariable ["TGP_View_Mark", (screenToWorld getMousePosition),true];
       _pos_old = player getVariable "TGP_View_Mark";
-      _end = time + 10;
+      _end = time + 3;
       [{
         params ["_end","_pos_old","_unit"];
         _last_time = _end - time;
@@ -353,7 +378,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
     _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;
     _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
     _turret_Unit = _vehicle turretUnit _current_turret;
-    if (((_turret_Unit getVariable ["TGP_View_Turret_Control",-1]) == -1) && (isNull findDisplay 1022553)) then {
+    if (((_turret_Unit getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) && (isNull findDisplay 1022553)) then {
       createdialog "RscDisplayEmpty_BCE";
     } else {
       if !(isNull findDisplay 1022553) then {
