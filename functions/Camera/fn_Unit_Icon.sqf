@@ -37,7 +37,7 @@
               (
                 (_visionmode != 2) && (_visionmode != 3)
               ) or
-              ((call A3TI_fnc_getA3TIVision) != "")
+                ((call A3TI_fnc_getA3TIVision) != "") && (_visionmode != 3)
             )
           )
         )
@@ -45,10 +45,11 @@
         (
           (player getVariable ["TGP_view_Unit_Tracker_Box",true]) &&
           (
-            ((_visionmode != 2) or (_visionmode != 3))
+            ((_visionmode != 2) && (_visionmode != 3))
           )
         )
       };
+
       if _condition then {
         _UnitBbox = boundingbox _unit;
         _UnitBboxZ = (abs((_UnitBbox # 0) # 2) + abs((_UnitBbox # 1) # 2)) / 2;

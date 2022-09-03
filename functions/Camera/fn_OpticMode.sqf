@@ -1,11 +1,4 @@
 params ["_type"];
-_ViewMode = -1;
-
-// PP effects
-if (_type == 1) then
-{
-  ppEffectDestroy TGP_view_ppGrain;
-};
 
 if (_type == 2) then
 {
@@ -15,6 +8,7 @@ if (_type == 2) then
   TGP_view_ppGrain ppEffectCommit 0;
   camUseNVG false;
 };
+
 // FLIR text
 _text = "";
 
@@ -23,28 +17,26 @@ switch (_type) do
 {
   case 3:
   {
-    false setCamUseTi _ViewMode;
+    false setCamUseTi -1;
     camUseNVG true;
-    _text = "CMODE NVG";
+    _text = "NVG";
   };
   case 4:
   {
-    _ViewMode = 0;
-    true setCamUseTi _ViewMode;
-    _text = "CMODE W-FLIR";
+    true setCamUseTi 0;
+    _text = "W-FLIR";
   };
   case 5:
   {
-    _ViewMode = 1;
-    true setCamUseTi _ViewMode;
-    _text = "CMODE T-FLIR";
+    true setCamUseTi 1;
+    _text = "T-FLIR";
   };
   default
   {
     false setCamUseTi 0;
     false setCamUseTi 1;
-    _text = "CMODE NORMAL";
+    _text = "NORMAL";
   };
 };
 
-((uiNameSpace getVariable "BCE_TGP") displayCtrl 1005) ctrlSetText _text;
+((uiNameSpace getVariable "BCE_TGP") displayCtrl 1005) ctrlSetText (format ["CMODE %1",_text]);

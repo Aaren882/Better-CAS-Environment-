@@ -16,6 +16,7 @@ _pphandle ppEffectAdjust [0.5, 1, 0, [1.0, 0.1, 1.0, 0.75], [0.0, 1.0, 1.0, 1.0]
 _pphandle ppEffectCommit 0;
 
 _config_path = configFile >> "CfgVehicles" >> typeOf _vehicle;
+_A3TI = isclass(configFile >> "CfgPatches" >> "A3TI");
 
 _Optic_LODs = _vehicle getVariable ["TGP_View_Available_Optics",[]];
 
@@ -73,6 +74,7 @@ _display = uiNameSpace getVariable "BCE_TGP";
 _time_ctrl = _display displayCtrl 1001;
 _Altitude_ctrl = _display displayCtrl 1002;
 _Grid_ctrl = _display displayCtrl 1003;
+_vision_ctrl = _display displayCtrl 1005;
 _Laser_ctrl = _display displayCtrl 1023;
 _camDir_ctrl = _display displayCtrl 1024;
 _Fuel_ctrl = _display displayCtrl 1026;
@@ -104,7 +106,8 @@ _idEH = addMissionEventHandler ["Draw3D", {
   _vehicle = _thisArgs # 1;
   _Optic_LODs = _thisArgs # 2;
   _player = _thisArgs # 3;
-  (_thisArgs # 4) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_Ammo_ctrl","_Mode_ctrl","_ENG_W_ctrl","_ENG_Y_ctrl","_ENG_R_ctrl"];
+  _A3TI = _thisArgs # 4;
+  (_thisArgs # 5) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_vision_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_Ammo_ctrl","_Mode_ctrl","_ENG_W_ctrl","_ENG_Y_ctrl","_ENG_R_ctrl"];
 
   _Selected_Optic = (_player getVariable "TGP_View_Selected_Optic") # 0;
   _TGP = _Selected_Optic # 0;
@@ -118,6 +121,17 @@ _idEH = addMissionEventHandler ["Draw3D", {
       (_vehicle selectionVectorDirAndUp [_TGP, "Memory"]) # 0;
     };
     [_cam, _wRot, false] call BCE_fnc_VecRot;
+  };
+
+  _visionType = _player getVariable ["TGP_View_Optic_Mode", 2];
+  if (_A3TI) then {
+    if (((call A3TI_fnc_getA3TIVision) != "") && (_visionType == 2)) then {
+      _vision_ctrl ctrlSetText (format ["CMODE %1",call A3TI_fnc_getA3TIVision]);
+    } else {
+      if (((call A3TI_fnc_getA3TIVision) == "")  && (_visionType == 2)) then {
+        _vision_ctrl ctrlSetText "CMODE NORMAL";
+      };
+    };
   };
 
   /* _camDir = (_vehicle selectionVectorDirAndUp [_TGP, "Memory"]) # 0;
@@ -231,8 +245,8 @@ _idEH = addMissionEventHandler ["Draw3D", {
     };
   };
 },[
-  _cam,_vehicle,_Optic_LODs,_player,
-  [_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_Ammo_ctrl,_Mode_ctrl,_ENG_W_ctrl,_ENG_Y_ctrl,_ENG_R_ctrl]
+  _cam,_vehicle,_Optic_LODs,_player,_A3TI,
+  [_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_vision_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_Ammo_ctrl,_Mode_ctrl,_ENG_W_ctrl,_ENG_Y_ctrl,_ENG_R_ctrl]
 ]];
 
 _player setVariable ["TGP_View_EHs", _idEH, true];
