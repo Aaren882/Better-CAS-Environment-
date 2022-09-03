@@ -28,7 +28,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
         _n_counts = _n_counts + 1;
         player setVariable ["TGP_View_Optic_Mode", _n_counts];
       };
-      [_n_counts] call BCE_fnc_OpticMode;
+      _n_counts call BCE_fnc_OpticMode;
     };
   },
   "",
