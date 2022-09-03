@@ -34,7 +34,7 @@ if ((_unit in vehicles) && !(_unit isKindOf "LandVehicle")) then {
       _lightL attachTo _Attach;
       _light_object attachTo _Attach;
 
-      _unit setVariable ["IR_LaserLight_Souce_Air",[_lightL,_light_object]];
+      _unit setVariable ["IR_LaserLight_Souce_Air",[_lightL,_light_object],true];
       _unit setVariable ["IR_LaserLight_Souce_Air_hide",true];
 
       //Unhide

@@ -77,7 +77,7 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 	};
 	if !(_unit getVariable ["IR_LaserLight_Souce_Air",[]] isEqualTo []) then {
 	  (_unit getVariable "IR_LaserLight_Souce_Air") apply {deleteVehicle _x};
-		_unit setVariable ["IR_LaserLight_Souce_Air",[]];
+		_unit setVariable ["IR_LaserLight_Souce_Air",[],true];
 	};
 
 	//TGP View
