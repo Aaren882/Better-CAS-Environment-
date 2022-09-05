@@ -545,13 +545,13 @@ class CfgFunctions
 					file="MG8\AVFEVFX\functions\A3TI\fn_specialCase.sqf";
 				};
 			};
-			class forAddonMakers
+			/*class forAddonMakers
 			{
 				class getA3TIVision
 				{
 					file="MG8\AVFEVFX\functions\A3TI\fn_getA3TIVision.sqf";
 				};
-			};
+			};*/
 		};
 	#endif
 };
