@@ -207,6 +207,8 @@ _idEH = addMissionEventHandler ["Draw3D", {
   };
 
   if (count TGP_View_Unit_List > 0) then {
+    _friendlyActive = true;
+    _boxActive = true;
     call BCE_fnc_Unit_Icon;
   };
   if (_player getVariable ["TGP_view_Map_Icon",true]) then {

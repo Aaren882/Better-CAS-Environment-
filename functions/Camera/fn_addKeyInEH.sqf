@@ -9,9 +9,9 @@ _keyEH_1 = addUserActionEventHandler ["defaultAction", "Activate", {
   _mode = _weapon_info # 2;
 
 
-  if ((getNumber (configFile >> "CfgWeapons" >> _Weapon >> _mode >> "autoFire")) == 1) then {
+  if (((getNumber (configFile >> "CfgWeapons" >> _Weapon >> _mode >> "autoFire")) == 1) && !("laserdesignator" in (tolower _Weapon))) then {
     [{
-      params ["_vehicle","_turret","_turret_Unit"];
+      params ["_vehicle","_turret","_turret_Unit","_Weapon_old"];
       _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
 
       _weapon_info = weaponState [_vehicle,_current_turret];
@@ -25,13 +25,14 @@ _keyEH_1 = addUserActionEventHandler ["defaultAction", "Activate", {
       };
 
       (
+        (_Weapon_old != _Weapon) or
         !(_turret isEqualTo _current_turret) or
         ((_turret_Unit getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) or
         ((player getVariable ["TGP_View_EHs",-1]) == -1)
       )
     }, {
       //- Stop
-      }, [_vehicle,_current_turret,_turret_Unit]
+      }, [_vehicle,_current_turret,_turret_Unit,_Weapon]
     ] call CBA_fnc_waitUntilAndExecute;
   } else {
     _turret_Unit forceWeaponFire [_Muzzle, _mode];

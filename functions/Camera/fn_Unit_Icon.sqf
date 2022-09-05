@@ -2,11 +2,11 @@
   _unit = _x;
   _unitPos = getPos _unit;
 
-  _unit_side_own = side (group player);
+  _unit_side_own = side (group _player);
   _unit_side = side (group _unit);
 
   if ([objNull, "VIEW"] checkVisibility [getPosASL _cam, AGLToASL _unitPos] > 0.5) then {
-    if ((_unit_side_own == _unit_side) && (player getVariable ["TGP_view_Unit_Tracker",true])) then {
+    if ((_unit_side_own == _unit_side) && (_player getVariable ["TGP_view_Unit_Tracker",true]) && _friendlyActive) then {
       _unit_texture = if (isFormationLeader _unit) then {
         "\a3\ui_f\data\Map\Markers\NATO\b_unknown.paa"
       } else {
@@ -28,29 +28,60 @@
         false
       ];
     } else {
-      _visionmode = player getVariable ["TGP_View_Optic_Mode", 2];
-      _condition = if (isclass(configFile >> "CfgPatches" >> "A3TI")) then {
-        (
-          (player getVariable ["TGP_view_Unit_Tracker_Box",true]) &&
-          (
-            (
-              (
-                (_visionmode != 2) && (_visionmode != 3)
-              ) or
-                ((call A3TI_fnc_getA3TIVision) != "") && (_visionmode != 3)
-            )
-          )
-        )
+      _visionmode = if ((_player getVariable ["TGP_View_EHs", -1]) != -1) then {
+        _player getVariable ["TGP_View_Optic_Mode", 2];
       } else {
-        (
-          (player getVariable ["TGP_view_Unit_Tracker_Box",true]) &&
-          (
-            ((_visionmode != 2) && (_visionmode != 3))
-          )
-        )
+        if (count (allTurrets _vehicle) > 0) then {
+          _vehicle currentVisionMode (_vehicle unitTurret _player);
+        } else {
+          currentVisionMode _vehicle;
+        };
       };
 
-      if _condition then {
+      _condition = if (isclass(configFile >> "CfgPatches" >> "A3TI")) then {
+        if ((_player getVariable ["TGP_View_EHs", -1]) != -1) then {
+          (
+            (_player getVariable ["TGP_view_Unit_Tracker_Box",true]) &&
+            (
+              (
+                (
+                  (_visionmode != 2) && (_visionmode != 3)
+                ) or
+                  !(isnil{call A3TI_fnc_getA3TIVision})// && (_visionmode != 3)
+              )
+            )
+          )
+        } else {
+          (
+            (_player getVariable ["TGP_view_Unit_Tracker_Box",true]) &&
+            (
+              (
+                (
+                  ((_visionmode != 0) && (_visionmode != 1))
+                ) or
+                  !(isnil{call A3TI_fnc_getA3TIVision})// && (_visionmode != 1)
+              )
+            )
+          )
+        };
+      } else {
+        if ((_player getVariable ["TGP_View_EHs", -1]) != -1) then {
+          (
+            (_player getVariable ["TGP_view_Unit_Tracker_Box",true]) &&
+            (
+              ((_visionmode != 2) && (_visionmode != 3))
+            )
+          )
+        } else {
+          (
+            (_player getVariable ["TGP_view_Unit_Tracker_Box",true]) &&
+            (
+              ((_visionmode != 0) && (_visionmode != 1))
+            )
+          )
+        };
+      };
+      if (_condition && _boxActive) then {
         _UnitBbox = boundingbox _unit;
         _UnitBboxZ = (abs((_UnitBbox # 0) # 2) + abs((_UnitBbox # 1) # 2)) / 2;
 
