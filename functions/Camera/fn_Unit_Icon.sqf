@@ -32,7 +32,7 @@
         _player getVariable ["TGP_View_Optic_Mode", 2];
       } else {
         if (count (allTurrets _vehicle) > 0) then {
-          _vehicle currentVisionMode (_vehicle unitTurret _player);
+          (_vehicle currentVisionMode (_vehicle unitTurret _player)) # 0;
         } else {
           currentVisionMode _vehicle;
         };
@@ -92,9 +92,10 @@
           max
           abs((_UnitBbox # 0) # 2) + abs((_UnitBbox # 1) # 2);
 
-        _UnitDis = _cam distance _unit;
+        _UnitDis = (_cam distance _unit) / 100;
 
-        private _Size = (_UnitSize / _UnitDis) max 1;
+        //_Size = (_UnitSize / _UnitDis) max 1;
+        private _Size = 0.3 max ((_UnitSize / _UnitDis * (call BCE_fnc_trueZoom) * 1.5) min (_UnitSize * _UnitDis * (call BCE_fnc_trueZoom) * 1.5));
 
         drawIcon3D
         [
