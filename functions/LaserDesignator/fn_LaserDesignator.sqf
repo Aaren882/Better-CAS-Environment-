@@ -34,14 +34,14 @@ if ((_unit in vehicles) && !(_unit isKindOf "LandVehicle")) then {
       _lightL attachTo _Attach;
       _light_object attachTo _Attach;
 
-      _unit setVariable ["IR_LaserLight_Souce_Air",[_lightL,_light_object]];
-      _unit setVariable ["IR_LaserLight_Souce_Air_hide",true];
+      _unit setVariable ["IR_LaserLight_Souce_Air",[_lightL,_light_object],true];
+      _unit setVariable ["IR_LaserLight_Souce_Air_hide",true,true];
 
       //Unhide
       [[_lightL,_light_object],_unit] spawn {
         uiSleep 0.15;
         (_this # 0) apply {_x hideObject false};
-        (_this # 1) setVariable ["IR_LaserLight_Souce_Air_hide",false];
+        (_this # 1) setVariable ["IR_LaserLight_Souce_Air_hide",false,true];
       };
     };
   } else {
@@ -61,7 +61,8 @@ if ((_unit in vehicles) && !(_unit isKindOf "LandVehicle")) then {
 } else {
   //Ground Unit
   if !(BCE_inf_IR_fn) exitWith {};
-  _condition = if ((vehicle _unit == _unit) or (player in vehicle _unit)) then {(speed _unit == 0) && !(cameraView == "GUNNER")} else {true};
+  _binocular = if ((_unit isEqualTo cameraon) && ((currentWeapon cameraon) isKindOf ["Binocular", configFile >> "CfgWeapons"])) then {!(cameraView == "GUNNER")} else {true};
+  _condition = if ((vehicle _unit isEqualTo _unit) or (player in vehicle _unit)) then {(speed _unit == 0) && _binocular} else {true};
 
   if (_condition) then {
     _weaponPOS = if (_unit in vehicles) then {
@@ -106,7 +107,7 @@ if ((_unit in vehicles) && !(_unit isKindOf "LandVehicle")) then {
           _light attachTo [_unit, _Offset, _LOD, true];
         };
 
-        _unit setVariable ["IR_LaserLight_Souce_Inf",_light];
+        _unit setVariable ["IR_LaserLight_Souce_Inf",_light,true];
       } else {
         _Light_Soure setVectorDir _dir;
       };
@@ -123,7 +124,6 @@ if ((_unit in vehicles) && !(_unit isKindOf "LandVehicle")) then {
         true
       ];
     };
-
     (_unit getVariable ["IR_LaserLight_Souce_Inf",objNull]) hideObject false;
   } else {
     (_unit getVariable ["IR_LaserLight_Souce_Inf",objNull]) hideObject true;

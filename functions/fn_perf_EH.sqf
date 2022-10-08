@@ -9,7 +9,7 @@ _idEH = addMissionEventHandler ["EachFrame", {
       } else {
         call BCE_fnc_delete;
       };
-      if (currentVisionMode player != 1) then {
+      if ((((player currentVisionMode (currentWeapon player)) # 0) != 1) && (currentVisionMode player != 1)) then {
         call BCE_fnc_delete;
       };
     };
