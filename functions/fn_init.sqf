@@ -25,7 +25,7 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 },true] call CBA_fnc_addPlayerEventHandler;
 
 //LaserDesignator
-["visionMode", {
+/* ["visionMode", {
 	params ["_unit", "_visionMode", "_visionModePrev"];
 
 	if (_visionMode == 2) then {
@@ -43,7 +43,7 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 			_unit call BCE_fnc_perf_EH;
 		};
 	};
-},true] call CBA_fnc_addPlayerEventHandler;
+},true] call CBA_fnc_addPlayerEventHandler; */
 
 ["featureCamera", {
 	params ["_unit","_mode"];
