@@ -12,6 +12,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
 ["BCE_Init",[]] call CBA_fnc_localEvent;
 
 #define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
+#define IsPilot_CAM_ON ((cameraOn getVariable ["AHUD_Actived",-1]) != -1)
 #define getTurret (call BCE_fnc_getTurret)
 
 //- Optic Mode
@@ -176,7 +177,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
   "TGP Cam Settings","Unit_Tracker_Box",
   "Toggle Unit Tracker Box",
   {
-    if (IsTGP_CAM_ON) then {
+    if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
       if (player getVariable ["TGP_view_Unit_Tracker_Box",true]) then {
         player setVariable ["TGP_view_Unit_Tracker_Box",false];
       } else {
@@ -208,7 +209,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
   "TGP Cam Settings","Compass",
   "Toggle 3D Compass",
   {
-    if ((IsTGP_CAM_ON) or ((cameraOn getVariable ["AHUD_Actived",-1]) != -1)) then {
+    if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
       if (player getVariable ["TGP_view_3D_Compass",true]) then {
         player setVariable ["TGP_view_3D_Compass",false];
       } else {
@@ -237,10 +238,10 @@ IR_LaserLight_UnitList_LastUpdate = 0;
 ] call cba_fnc_addKeybind;
 
 [
-  "TGP Cam Settings","Unit_MapIcon",
+  "TGP Cam Settings","Unit_MapIcon_Aircraft",
   "Toggle Map Icons (Aircraft)",
   {
-    if (((cameraOn getVariable ["AHUD_Actived",-1]) != -1) && ((player getVariable ["TGP_View_MapIcons_last",-1]) == -1)) then {
+    if (IsPilot_CAM_ON && ((player getVariable ["TGP_View_MapIcons_last",-1]) == -1)) then {
       _end = time + 2;
       [{
         params ["_end","_unit"];
@@ -271,29 +272,45 @@ IR_LaserLight_UnitList_LastUpdate = 0;
     _turret_Unit = _vehicle turretUnit _current_turret;
     if !((_turret_Unit getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) then {
       //Switch Weapon Setup
-			if (inputAction "nextWeapon" > 0) then {
-				_weapon_info = weaponState [_vehicle,_current_turret];
-        _selectWeapon = _weapon_info # 0;
-        _selectMuzzle = _weapon_info # 1;
-        _selectmode = _weapon_info # 2;
+      _weapon_info = weaponState [_vehicle,_current_turret];
+      _selectWeapon = _weapon_info # 0;
+      _selectMuzzle = _weapon_info # 1;
+      _selectmode = _weapon_info # 2;
 
-        //-Modes
-        _modes = (getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "modes")) select {
-          (getNumber (configFile >> "CfgWeapons" >> _selectWeapon >> _x >> "showToPlayer")) == 1
-        };
-        _mode_Index = _modes find (_weapon_info # 2);
+      //-Modes
+      _modes = (getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "modes")) select {
+        (getNumber (configFile >> "CfgWeapons" >> _selectWeapon >> _x >> "showToPlayer")) == 1
+      };
+      _mode_Index = _modes find (_weapon_info # 2);
 
-        _Muzzles = getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "muzzles");
-        _Muzzle_Index = _Muzzles find (_weapon_info # 1);
+      _Muzzles = getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "muzzles");
+      _Muzzle_Index = _Muzzles find _selectMuzzle;
 
-        if (_mode_Index >= ((count _modes) - 1)) then {
+      if (_mode_Index >= ((count _modes) - 1)) then {
 
-          //Get Weapons
-          _weapons = _vehicle weaponsTurret _current_turret;
-  				_Weapon_Index = _weapons find _selectWeapon;
+        //Get Weapons
+        _weapons = _vehicle weaponsTurret _current_turret;
+        _Weapon_Index = _weapons find _selectWeapon;
 
-          //Dont Have other muzzle
-          if ((_selectMuzzle == "this") or (_selectMuzzle == _selectWeapon)) then {
+        //Dont Have other muzzle
+        if ((_selectMuzzle == "this") or (_selectMuzzle == _selectWeapon)) then {
+
+          //-Select Weapon
+          if (_Weapon_Index >= ((count _weapons) - 1)) then {
+            _selectWeapon = _weapons # 0;
+          } else {
+            _selectWeapon = _weapons # (_Weapon_Index + 1);
+          };
+
+          //-Set Muzzle
+          _Muzzles = getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "muzzles");
+          if ((count _Muzzles) == 1) then {
+            _selectMuzzle = _selectWeapon;
+          } else {
+            _selectMuzzle = _Muzzles # 0;
+          };
+        } else {
+          if (_Muzzle_Index >= ((count _Muzzles) - 1)) then {
 
             //-Select Weapon
             if (_Weapon_Index >= ((count _weapons) - 1)) then {
@@ -301,37 +318,33 @@ IR_LaserLight_UnitList_LastUpdate = 0;
             } else {
               _selectWeapon = _weapons # (_Weapon_Index + 1);
             };
-
-            //Set Muzzle
-            _selectMuzzle = _selectWeapon;
+            _Muzzles = getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "muzzles");
+            _selectMuzzle = _Muzzles # 0;
 
           } else {
-
-            if (_Muzzle_Index >= ((count _Muzzles) - 1)) then {
-
-              //-Select Weapon
-              if (_Weapon_Index >= ((count _weapons) - 1)) then {
-                _selectWeapon = _weapons # 0;
-      				} else {
-      					_selectWeapon = _weapons # (_Weapon_Index + 1);
-      				};
-              _selectMuzzle = _Muzzles # 0;
-
-            } else {
-              _selectMuzzle = _Muzzles # (_Muzzle_Index + 1);
-            };
+            _selectMuzzle = _Muzzles # (_Muzzle_Index + 1);
           };
-          _modes = (getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "modes")) select {
-            (getNumber (configFile >> "CfgWeapons" >> _selectWeapon >> _x >> "showToPlayer")) == 1
-          };
-
-          _selectMode = _modes # 0;
-        } else {
-          _selectMode = _modes # (_mode_Index + 1);
+        };
+        _modes = (getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "modes")) select {
+          (getNumber (configFile >> "CfgWeapons" >> _selectWeapon >> _x >> "showToPlayer")) == 1
         };
 
-				_vehicle selectWeaponTurret [_selectWeapon,_current_turret,_selectMuzzle,_selectMode];
-			};
+        _selectMode = _modes # 0;
+      } else {
+        _selectMode = _modes # (_mode_Index + 1);
+      };
+
+      // - Debug
+      _Muzzles = getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "muzzles");
+      if ((_selectMuzzle == "this") or (_selectMuzzle == _selectWeapon)) then {
+        _selectMuzzle = _selectWeapon;
+      };
+      if (isnil{_selectMode}) then {
+        _selectMode = _selectWeapon;
+      };
+
+      _vehicle selectWeaponTurret [_selectWeapon,_current_turret,_selectMuzzle,_selectMode];
+
     };
   },
   "",
