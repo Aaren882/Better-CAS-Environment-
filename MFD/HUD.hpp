@@ -37,14 +37,14 @@ class AirplaneHUD
 	};
 	class Draw
 	{
-		alpha="user3";
+		alpha="user10";
 		color[]=
 		{
-			"user0",
-			"user1",
-			"user2"
+			"user7",
+			"user8",
+			"user9"
 		};
-		condition="on*user5";
+		condition="on*user11";
 		class Rockets
 		{
 			condition="rocket";

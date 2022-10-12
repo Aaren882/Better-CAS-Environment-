@@ -1,12 +1,5 @@
 ///////////////////HUD//////////////////////
 [
-	"BCE_compass_fn","CHECKBOX",
-	["Show 3D Compass and Map Icon"],
-	["Better CAS Environment", "HUD Settings"],
-	true
-] call CBA_fnc_addSetting;
-
-[
 	"BCE_HUD_fn","CHECKBOX",
 	["Show HUD"],
 	["Better CAS Environment", "HUD Settings"],
@@ -14,25 +7,6 @@
 	0,
 	{
 		call BCE_Fnc_SetMFDValue;
-	}
-] call CBA_fnc_addSetting;
-
-[
-	"BCE_touchMark_fn","CHECKBOX",
-	["Touch Mark"],
-	["Better CAS Environment", "TGP Cam Settings"],
-	true
-] call CBA_fnc_addSetting;
-
-//- List
-[
-	"BCE_Access_list", "LIST",
-	["Select Turret Control Trait"],
- 	["Better CAS Environment", "TGP Cam Settings"],
- 	[[0,1,2,3,4], ["Disabled","All","Leader or JTAC","JTAC","Leader"], 2],
-	0,
-	{
-		TGP_View_Terminal_canUseTurre = call BCE_fnc_canUseTurret;
 	}
 ] call CBA_fnc_addSetting;
 
@@ -56,6 +30,56 @@
 	0,
 	{
 		call BCE_Fnc_SetMFDValue;
+	}
+] call CBA_fnc_addSetting;
+
+//-Aircraft
+[
+	"BCE_compass_fn","CHECKBOX",
+	["Show 3D Compass"],
+	["Better CAS Environment", "Aircraft Camera"],
+	true
+] call CBA_fnc_addSetting;
+
+[
+	"BCE_Mapicon_fn","CHECKBOX",
+	["Show Map Icon"],
+	["Better CAS Environment", "Aircraft Camera"],
+	true
+] call CBA_fnc_addSetting;
+
+[
+	"BCE_touchMark_fn","CHECKBOX",
+	["Touch Mark"],
+	["Better CAS Environment", "Aircraft Camera"],
+	true
+] call CBA_fnc_addSetting;
+
+[
+	"BCE_FriendlyTrack_fn","CHECKBOX",
+	["Friendly Tracker"],
+	["Better CAS Environment", "Aircraft Camera"],
+	false,
+	1
+] call CBA_fnc_addSetting;
+
+[
+	"BCE_UnitTrack_fn","CHECKBOX",
+	["Unit Tracker Box"],
+	["Better CAS Environment", "Aircraft Camera"],
+	false,
+	1
+] call CBA_fnc_addSetting;
+
+//- List
+[
+	"BCE_Access_list", "LIST",
+	["Select Turret Control Trait"],
+ 	["Better CAS Environment", "TGP Cam Settings"],
+ 	[[0,1,2,3,4], ["Disabled","All","Leader or JTAC","JTAC","Leader"], 2],
+	1,
+	{
+		TGP_View_Terminal_canUseTurre = call BCE_fnc_canUseTurret;
 	}
 ] call CBA_fnc_addSetting;
 

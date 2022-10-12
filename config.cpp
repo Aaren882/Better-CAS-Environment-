@@ -84,38 +84,21 @@ class CfgVehicles
 			#include "MFD\HUD.hpp"
 		};
 	};
-	//RHS
-	class RHS_MELB_base: Helicopter_Base_H
-	{
-		class EventHandlers: EventHandlers{};
-	};
-	class RHS_MELB_AH6M: RHS_MELB_base
-	{
-		defaultUserMFDvalues[]={0.15,1,0.15,0.7};
-		class MFD
-		{
-			#include "MFD\HUD.hpp"
-		};
-		class EventHandlers: EventHandlers
-		{
-			class HUD
-			{
-				engine="if (((_this select 0) animationPhase 'Addcrosshair') != 0) then{(_this select 0) animate ['Addcrosshair', 0];};";
-			};
-		};
-	};
 	//MELB
 	class MELB_base: Helicopter_Base_H
 	{
 		class EventHandlers: EventHandlers{};
 	};
 	class MELB_AH6M: MELB_base
-	{
-		defaultUserMFDvalues[]={0.15,1,0.15,0.7};
-		class MFD
-		{
-			#include "MFD\HUD.hpp"
-		};
+	{	
+		#if __has_include("\Kimi_HMDs_MELB\config.bin")
+		#else
+			defaultUserMFDvalues[]={0.15,1,0.15,0.7};
+			class MFD
+			{
+				#include "MFD\HUD.hpp"
+			};
+		#endif
 		class EventHandlers: EventHandlers
 		{
 			class HUD
@@ -143,43 +126,75 @@ class CfgVehicles
 	
 	//RHS
 	#if __has_include("\rhsusf\addons\rhsusf_main\config.bin")
+		class RHS_MELB_base: Helicopter_Base_H
+		{
+			class EventHandlers: EventHandlers{};
+		};
+		class RHS_MELB_AH6M: RHS_MELB_base
+		{
+			
+			#if __has_include("\Kimi_HMDs_RHS\config.bin")
+			#else
+				defaultUserMFDvalues[]={0.15,1,0.15,0.7};
+				class MFD
+				{
+					#include "MFD\HUD.hpp"
+				};
+			#endif
+			class EventHandlers: EventHandlers
+			{
+				class HUD
+				{
+					engine="if (((_this select 0) animationPhase 'Addcrosshair') != 0) then{(_this select 0) animate ['Addcrosshair', 0];};";
+				};
+			};
+		};
+		class RHS_UH60M2;
+		class RHS_UH60M_ESSS: RHS_UH60M2
+		{
+			#if __has_include("\Kimi_HMDs_RHS\config.bin")
+			#else
+				defaultUserMFDvalues[]={0.15,1,0.15,0.7};
+				class MFD
+				{
+					#include "MFD\HUD.hpp"
+				};
+			#endif
+		};
+		
 		class Heli_Transport_02_base_F;
 		class RHS_CH_47F_base: Heli_Transport_02_base_F
 		{
 			//BCE_DoorGunners = 1;
 		};
-		class Heli_light_03_base_F;
-		class RHS_UH1_Base: Heli_light_03_base_F
+		class RHS_UH1_Base;
+		class RHS_UH1Y_base: RHS_UH1_Base
 		{
-			//BCE_DoorGunners = 1;
+			class Turrets;
 		};
-		class RHS_UH1Y_US_base;
+		class RHS_UH1Y_US_base: RHS_UH1Y_base
+		{
+			class Turrets: Turrets
+			{
+				class MainTurret;
+			};
+		};
 		class RHS_UH1Y: RHS_UH1Y_US_base
 		{
-			class Turrets
+			class Turrets: Turrets
 			{
-				class CopilotTurret
+				class MainTurret: MainTurret
+				{
+					Laser_Offset[] = {0,0,-0.1}; 
+				};
+				class CopilotTurret: MainTurret
 				{
 					LightFromLOD=1;
 				};
-				class MainTurret
+				class RightDoorGun: MainTurret
 				{
 					Laser_Offset[] = {0,0,-0.1}; 
 				};
-				class RightDoorGun
-				{
-					Laser_Offset[] = {0,0,-0.1}; 
-				};
-			};
-		};
-		
-		class RHS_UH60M2;
-		class RHS_UH60M_ESSS: RHS_UH60M2
-		{
-			defaultUserMFDvalues[]={0.15,1,0.15,0.7};
-			class MFD
-			{
-				#include "MFD\HUD.hpp"
 			};
 		};
 	#endif
@@ -543,13 +558,6 @@ class CfgFunctions
 				class specialCase
 				{
 					file="MG8\AVFEVFX\functions\A3TI\fn_specialCase.sqf";
-				};
-			};
-			class forAddonMakers
-			{
-				class getA3TIVision
-				{
-					file="MG8\AVFEVFX\functions\A3TI\fn_getA3TIVision.sqf";
 				};
 			};
 		};
