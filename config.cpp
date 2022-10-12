@@ -19,14 +19,22 @@ class CfgPatches
 	};
 };
 
-class Extended_PreInit_EventHandlers 
+//-RHS HMD
+#if __has_include("\Kimi_HMDs_RHS\config.bin")
+	#define RHS_HMD_Macro 1
+#endif
+#if __has_include("\CTG_HMD_RHSUSAF\config.cpp")
+	#define RHS_HMD_Macro 1
+#endif
+
+class Extended_PreInit_EventHandlers
 {
 	class AVFEVFX_EH
 	{
 		init = "call compile preprocessFileLineNumbers 'MG8\AVFEVFX\XEH_preInit.sqf'";
 	};
 };
-class Extended_PostInit_EventHandlers 
+class Extended_PostInit_EventHandlers
 {
 	class AVFEVFX_EH
 	{
@@ -52,14 +60,14 @@ class CfgVehicles
 						condition="!(_target getVariable ['BCE_is_JTAC',false]) && (isFormationLeader _player)";
 						icon="a3\ui_f\data\GUI\Cfg\CommunicationMenu\transport_ca.paa";
 						exceptions[]={};
-						statement="_target setVariable ['BCE_is_JTAC',true]";	
+						statement="_target setVariable ['BCE_is_JTAC',true]";
 					};
 					class ACE_BCE_Unassign_JTAC
 					{
 						displayName="Unssign as JTAC";
 						exceptions[]={};
 						condition="(_target getVariable ['BCE_is_JTAC',false]) && (isFormationLeader _player)";
-						statement="_target setVariable ['BCE_is_JTAC',false]";	
+						statement="_target setVariable ['BCE_is_JTAC',false]";
 					};
 				};
 			};
@@ -90,7 +98,7 @@ class CfgVehicles
 		class EventHandlers: EventHandlers{};
 	};
 	class MELB_AH6M: MELB_base
-	{	
+	{
 		#if __has_include("\Kimi_HMDs_MELB\config.bin")
 		#else
 			defaultUserMFDvalues[]={0.15,1,0.15,0.7};
@@ -107,7 +115,7 @@ class CfgVehicles
 			};
 		};
 	};
-	
+
 	class Heli_Transport_01_base_F: Helicopter_Base_H
 	{
 		//BCE_DoorGunners = 1;
@@ -115,7 +123,7 @@ class CfgVehicles
 		{
 			class MainTurret: MainTurret
 			{
-				Laser_Offset[] = {0,0,0}; 
+				Laser_Offset[] = {0,0,0};
 			};
 		};*/
 	};
@@ -123,7 +131,7 @@ class CfgVehicles
 	{
 		//BCE_DoorGunners = 1;
 	};
-	
+
 	//RHS
 	#if __has_include("\rhsusf\addons\rhsusf_main\config.bin")
 		class RHS_MELB_base: Helicopter_Base_H
@@ -132,9 +140,8 @@ class CfgVehicles
 		};
 		class RHS_MELB_AH6M: RHS_MELB_base
 		{
-			
-			#if __has_include("\Kimi_HMDs_RHS\config.bin")
-			#else
+
+			#ifndef RHS_HMD_Macro
 				defaultUserMFDvalues[]={0.15,1,0.15,0.7};
 				class MFD
 				{
@@ -152,8 +159,7 @@ class CfgVehicles
 		class RHS_UH60M2;
 		class RHS_UH60M_ESSS: RHS_UH60M2
 		{
-			#if __has_include("\Kimi_HMDs_RHS\config.bin")
-			#else
+			#ifndef RHS_HMD_Macro
 				defaultUserMFDvalues[]={0.15,1,0.15,0.7};
 				class MFD
 				{
@@ -161,7 +167,7 @@ class CfgVehicles
 				};
 			#endif
 		};
-		
+
 		class Heli_Transport_02_base_F;
 		class RHS_CH_47F_base: Heli_Transport_02_base_F
 		{
@@ -185,7 +191,7 @@ class CfgVehicles
 			{
 				class MainTurret: MainTurret
 				{
-					Laser_Offset[] = {0,0,-0.1}; 
+					Laser_Offset[] = {0,0,-0.1};
 				};
 				class CopilotTurret: MainTurret
 				{
@@ -193,12 +199,12 @@ class CfgVehicles
 				};
 				class RightDoorGun: MainTurret
 				{
-					Laser_Offset[] = {0,0,-0.1}; 
+					Laser_Offset[] = {0,0,-0.1};
 				};
 			};
 		};
 	#endif
-	
+
 	//Lights
 	class Reflector_Cone_01_base_F;
 	class Reflector_Cone_01_long_base_F: Reflector_Cone_01_base_F
@@ -294,7 +300,7 @@ class CfgVehicles
 			};
 		};
 	};
-	
+
 	//Heli
 	class Reflector_Cone_01_spotlight_F: Reflector_Cone_01_long_base_F
 	{
@@ -354,7 +360,7 @@ class CfgVehicles
 			};
 		};
 	};
-	
+
 	class Car;
 	class Car_F: Car
 	{
@@ -424,7 +430,7 @@ class CfgVehicles
 			};
 		};
 	};
-	
+
 	class Tank;
 	class Tank_F: Tank
 	{
@@ -448,7 +454,7 @@ class CfgVehicles
 			};
 		};
 	};
-	
+
 	class Plane;
 	class Plane_Base_F: Plane
 	{
