@@ -97,7 +97,6 @@ class CfgVehicles
 						icon="\a3\Ui_f\data\GUI\Cfg\CommunicationMenu\call_ca.paa";
 						exceptions[]={};
 						statement="_target setVariable ['BCE_is_JTAC',true,true]";
->>>>>>> 3827f44c6c5a957601bf77090999f413e1c4a31d
 					};
 					class ACE_BCE_Unassign_JTAC
 					{
@@ -105,7 +104,6 @@ class CfgVehicles
 						exceptions[]={};
 						condition="(_target getVariable ['BCE_is_JTAC',false]) && (isFormationLeader _player)";
 						statement="_target setVariable ['BCE_is_JTAC',false,true]";
->>>>>>> 3827f44c6c5a957601bf77090999f413e1c4a31d
 					};
 				};
 			};
