@@ -20,6 +20,8 @@ class CfgPatches
 	};
 };
 
+
+
 //-RHS HMD
 #if __has_include("\Kimi_HMDs_RHS\config.bin")
 	#define RHS_HMD_Macro 1
@@ -57,7 +59,6 @@ class RscTeam: RscSubmenu
 		shortcutsAction = "CommandingMenu6";
 		command = -5;
 		show = "IsLeader";
-		cursor = "\a3\Ui_f\data\IGUI\Cfg\Cursors\call_ca.paa";
 		class Params
 		{
 			expression = "_target setVariable ['BCE_is_JTAC',true,true]";
@@ -167,23 +168,20 @@ class CfgVehicles
 	{
 		//BCE_DoorGunners = 1;
 	};
-
-	//RHS
-	#if __has_include("\rhsusf\addons\rhsusf_main\config.bin")
+	
+	//-RHS HMD
+	#ifndef RHS_HMD_Macro
 		class RHS_MELB_base: Helicopter_Base_H
 		{
 			class EventHandlers: EventHandlers{};
 		};
 		class RHS_MELB_AH6M: RHS_MELB_base
 		{
-
-			#ifndef RHS_HMD_Macro
-				defaultUserMFDvalues[]={0.15,1,0.15,0.7};
-				class MFD
-				{
-					#include "MFD\HUD.hpp"
-				};
-			#endif
+			defaultUserMFDvalues[]={0.15,1,0.15,0.7};
+			class MFD
+			{
+				#include "MFD\HUD.hpp"
+			};
 			class EventHandlers: EventHandlers
 			{
 				class HUD
@@ -192,18 +190,38 @@ class CfgVehicles
 				};
 			};
 		};
-		class RHS_UH60M2;
+		class RHS_UH60_Base: Heli_Transport_01_base_F{};
+		class RHS_UH60M_base: RHS_UH60_Base{};
+		class RHS_UH60M_US_base: RHS_UH60M_base{};
+		class RHS_UH60M: RHS_UH60M_US_base{};
+		class RHS_UH60M2: RHS_UH60M{};
 		class RHS_UH60M_ESSS: RHS_UH60M2
 		{
-			#ifndef RHS_HMD_Macro
-				defaultUserMFDvalues[]={0.15,1,0.15,0.7};
-				class MFD
-				{
-					#include "MFD\HUD.hpp"
-				};
-			#endif
+			defaultUserMFDvalues[]={0.15,1,0.15,0.7};
+			class MFD
+			{
+				#include "MFD\HUD.hpp"
+			};
 		};
-
+	#else
+		class RHS_MELB_base: Helicopter_Base_H
+		{
+			class EventHandlers: EventHandlers{};
+		};
+		class RHS_MELB_AH6M: RHS_MELB_base
+		{
+			class EventHandlers: EventHandlers
+			{
+				class HUD
+				{
+					engine="if (((_this select 0) animationPhase 'Addcrosshair') != 0) then{(_this select 0) animate ['Addcrosshair', 0];};";
+				};
+			};
+		};
+	#endif
+	
+	//RHS
+	#if __has_include("\rhsusf\addons\rhsusf_main\config.bin")
 		class Heli_Transport_02_base_F;
 		class RHS_CH_47F_base: Heli_Transport_02_base_F
 		{
