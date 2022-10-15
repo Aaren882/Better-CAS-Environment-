@@ -193,7 +193,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
   "TGP Cam Settings","Unit_Tracker",
   "Toggle Unit Tracker",
   {
-    if (IsTGP_CAM_ON) then {
+    if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
       if (player getVariable ["TGP_view_Unit_Tracker",true]) then {
         player setVariable ["TGP_view_Unit_Tracker",false];
       } else {
