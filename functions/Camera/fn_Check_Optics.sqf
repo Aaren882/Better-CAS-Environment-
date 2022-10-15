@@ -1,4 +1,4 @@
-params ["_vehicle", "_engineState"];
+params ["_vehicle"];
 
 //Available Optics
 if ((_vehicle getVariable ["TGP_View_Available_Optics",[]]) isEqualTo []) then {

@@ -1,5 +1,4 @@
-_vehicle = _this # 0;
-if((unitIsUAV _vehicle) && (cameraView == "GUNNER") && (UAVControl _vehicle select 1 == "GUNNER")) exitwith{true};
-if((!(unitIsUAV _vehicle)) &&(cameraView == "GUNNER") && (_vehicle getCargoIndex player == -1))  exitwith {true};
+if((unitIsUAV _this) && (cameraView == "GUNNER") && (UAVControl _this select 1 == "GUNNER")) exitwith{true};
+if((!(unitIsUAV _this)) &&(cameraView == "GUNNER") && (_this getCargoIndex player == -1))  exitwith {true};
 
 false

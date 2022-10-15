@@ -1,7 +1,7 @@
 #define getOpticVars _unit getVariable ["TGP_View_Available_Optics",[]]
 
 //HUD Compass
-["cameraView", {_this spawn BCE_fnc_call_Compass}, true] call CBA_fnc_addPlayerEventHandler;
+["cameraView", BCE_fnc_call_Compass, true] call CBA_fnc_addPlayerEventHandler;
 ["vehicle", BCE_fnc_SetMFDValue, true] call CBA_fnc_addPlayerEventHandler;
 ["Air","GetIn",BCE_fnc_Check_Optics] call CBA_fnc_addClassEventHandler;
 

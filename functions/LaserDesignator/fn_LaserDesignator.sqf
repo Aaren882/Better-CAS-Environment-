@@ -11,7 +11,7 @@ if ((_unit in vehicles) && !(_unit isKindOf "LandVehicle")) then {
   _wRot = getPilotCameraDirection _unit;
 
   if (_var_has_gunner # 0) then {
-    _wRot = (_unit selectionVectorDirAndUp [(_vars_turret # 1), "Memory"]) # 0;
+    _wRot = (_unit selectionVectorDirAndUp [(_vars_turret # 0), "Memory"]) # 0;
   };
 
   if (_unit getVariable ["IR_LaserLight_Souce_Air",[]] isEqualTo []) then {
@@ -49,7 +49,7 @@ if ((_unit in vehicles) && !(_unit isKindOf "LandVehicle")) then {
     (_unit getVariable "IR_LaserLight_Souce_Air") params ["_lightL","_light_object"];
 
     if !(_unit getVariable "IR_LaserLight_Souce_Air_hide") then {
-      if ((cameraView in ["INTERNAL","GUNNER"]) && (player in _unit)) then {
+      if ((cameraView in ["INTERNAL","GUNNER"]) && ((player in _unit) or (cameraon isEqualTo _unit))) then {
         _light_object hideObject true;
       } else {
         _light_object hideObject false;

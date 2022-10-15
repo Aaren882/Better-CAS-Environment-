@@ -1,11 +1,14 @@
 params ["_player", "_cameraView"];
-_Unit_veh = vehicle _player;
+_Unit_veh = cameraon;
 
-_condition = if (count (allTurrets _Unit_veh) > 0) then {
+//if !(_Unit_veh in vehicles) exitWith {};
+
+_condition = if ((count (allTurrets _Unit_veh) > 0) && !((_Unit_veh isKindOf "UAV") or (_Unit_veh isKindOf "UAV_01_base_F"))) then {
   !((getText ([_Unit_veh, (_Unit_veh unitTurret _player)] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"])
 } else {
   true
 };
+
 if (
     (_condition) &&
     (_Unit_veh iskindof "Air") &&
@@ -20,7 +23,7 @@ if (
 
     //Draw Compass
     if (cameraOn == _vehicle) then {
-      if (([_vehicle] call BCE_fnc_filtered_compass) && (_player getVariable ["TGP_view_3D_Compass",true]) && (BCE_compass_fn)) then {
+      if ((_vehicle call BCE_fnc_filtered_compass) && (_player getVariable ["TGP_view_3D_Compass",true]) && (BCE_compass_fn)) then {
         call BCE_fnc_3DCompass;
       };
 
@@ -34,6 +37,7 @@ if (
       _friendlyActive = BCE_FriendlyTrack_fn;
 
       _cam = _vehicle;
+
       //Update UnitList
       if (_player getVariable ["TGP_View_Unit_List_update",time] <= time) then {
         call BCE_fnc_TGP_UnitList;
@@ -49,9 +53,12 @@ if (
       call BCE_fnc_touchMark;
     };
 
+    //-Exit
+    if ((cameraView != "GUNNER") or (cameraon isEqualTo _player)) then {
+      removeMissionEventHandler ["Draw3D", (_vehicle getVariable ["AHUD_Actived",-1])];
+      _vehicle setVariable ["AHUD_Actived",-1,true];
+    };
+
   }, [_Unit_veh,_player]];
-  _Unit_veh setVariable ["AHUD_Actived",_AHUD_PFH];
-} else {
-  removeMissionEventHandler ["Draw3D", (_Unit_veh getVariable ["AHUD_Actived",-1])];
-  _Unit_veh setVariable ["AHUD_Actived",-1];
+  _Unit_veh setVariable ["AHUD_Actived",_AHUD_PFH,true];
 };
