@@ -1,4 +1,5 @@
 #define getOpticVars _unit getVariable ["TGP_View_Available_Optics",[]]
+#define have_ACE (isClass(configFile >> "CfgPatches" >> "ace_hearing"))
 
 //HUD Compass
 ["cameraView", BCE_fnc_call_Compass, true] call CBA_fnc_addPlayerEventHandler;
@@ -49,19 +50,26 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 	params ["_unit","_mode"];
 	if (!(_mode isEqualTo "") && !(TGP_View_Camera isEqualTo [])) then {
     camUseNVG false;
-
 		ppEffectDestroy (TGP_View_Camera # 1);
 
 		556 cutRsc ["default","PLAIN"];
 		cutText ["", "BLACK IN",0.5];
 
-		1.5 fadeSound 1;
+		if (have_ACE) then {
+		  if !(BCE_have_ACE_earPlugs) then {
+		    player setVariable ["ACE_hasEarPlugsIn", false, true];
+		    [[true]] call ace_hearing_fnc_updateVolume;
+		    [] call ace_hearing_fnc_updateHearingProtection;
+		  };
+		} else {
+		  1.5 fadeSound 1;
+		};
 
 		_current_EH = player getVariable "TGP_View_EHs";
 		removeMissionEventHandler ["Draw3D", _current_EH];
 
 		player setVariable ["TGP_View_EHs",-1,true];
-		TGP_View_Camera = [];
+		//TGP_View_Camera = [];
 
     [2] call BCE_fnc_OpticMode;
 	};

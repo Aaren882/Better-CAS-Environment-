@@ -12,8 +12,8 @@ _action = ["BCE_Select_TGP","Select Vehicle TGP","",{
 ["CAManBase", 1, ["ACE_SelfActions", "ACE_Equipment"], _action, true] call aceActionClass;
 
 _action = ["BCE_Use_Selected_TGP","TGP View","",{
-  params ["_unit"];
-	[(_unit getVariable "TGP_View_Selected_Optic") # 1] call BCE_fnc_TGP_Select_Confirm;
+  	params ["_unit"];
+		[(_unit getVariable "TGP_View_Selected_Optic") # 1] call BCE_fnc_TGP_Select_Confirm;
 	},{
   params ["_unit"];
 	!((_unit getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) && (_unit getVariable ["TGP_View_EHs",-1] == -1)

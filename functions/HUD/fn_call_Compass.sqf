@@ -12,7 +12,7 @@ _condition = if ((count (allTurrets _Unit_veh) > 0) && !((_Unit_veh isKindOf "UA
 if (
     (_condition) &&
     (_Unit_veh iskindof "Air") &&
-    ((_Unit_veh getVariable ["AHUD_Actived",-1]) == -1) &&
+    ((_player getVariable ["AHUD_Actived",-1]) == -1) &&
     (_cameraView == "GUNNER") &&
     ((_player getVariable ["TGP_View_EHs",-1]) == -1)
   ) then {
@@ -39,9 +39,9 @@ if (
       _cam = _vehicle;
 
       //Update UnitList
-      if (_player getVariable ["TGP_View_Unit_List_update",time] <= time) then {
+      if (missionNamespace getVariable ["TGP_View_Unit_List_update", -1] <= time) then {
         call BCE_fnc_TGP_UnitList;
-        _player setVariable ["TGP_View_Unit_List_update", time+1];
+        missionNamespace setVariable ["TGP_View_Unit_List_update", time+1];
       };
 
       if (count TGP_View_Unit_List > 0) then {
@@ -55,10 +55,10 @@ if (
 
     //-Exit
     if ((cameraView != "GUNNER") or (cameraon isEqualTo _player)) then {
-      removeMissionEventHandler ["Draw3D", (_vehicle getVariable ["AHUD_Actived",-1])];
-      _vehicle setVariable ["AHUD_Actived",-1,true];
+      removeMissionEventHandler ["Draw3D", (_player getVariable ["AHUD_Actived",-1])];
+      _player setVariable ["AHUD_Actived",-1,true];
     };
 
   }, [_Unit_veh,_player]];
-  _Unit_veh setVariable ["AHUD_Actived",_AHUD_PFH,true];
+  _player setVariable ["AHUD_Actived",_AHUD_PFH,true];
 };

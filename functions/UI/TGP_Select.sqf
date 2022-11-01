@@ -3,9 +3,26 @@
 
 params ["_mode", "_params"];
 
+//-Fix for using UI part (or local variable cant be defined)
+_fnc_onConfirm = {
+	params ["_ctrl"];
+
+	_display = ctrlParent _ctrl;
+  _ctrlValue = _display displayctrl IDC_RSCATTRIBUTECAS_VALUE;
+  _vehicle = objNull;
+
+  _vehicle_str = _ctrlValue lnbdata [lnbcurselrow _ctrlValue,0];
+  {
+    if (_vehicle_str == str _x) exitWith {_vehicle = _x};
+  } count (vehicles select {!(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (isEngineOn _x)});
+
+  player setVariable ["TGP_View_Selected_Vehicle",_vehicle];
+	[_vehicle] call BCE_fnc_TGP_Select_Confirm;
+};
+
+//-Init
 _display = _params # 0;
 _ctrlValue = _display displayctrl IDC_RSCATTRIBUTECAS_VALUE;
-_vehicle = objNull;
 
 _UnitList = vehicles select {
   !(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (isEngineOn _x)
@@ -15,6 +32,9 @@ switch _mode do {
 	case "onLoad": {
 		_ctrlValue ctrlsetfontheight GUI_GRID_H;
 		_selected = player getvariable ["TGP_View_Selected_Vehicle",objNull];
+
+    _ctrlButtonOK = _display displayCtrl 1;
+    _ctrlButtonOK ctrlAddEventHandler ["ButtonClick", _fnc_onConfirm];
 
     _BluFriendly = [playerSide, West] call BIS_fnc_sideIsFriendly;
     _RedFriendly = [playerSide, east] call BIS_fnc_sideIsFriendly;
@@ -50,15 +70,6 @@ switch _mode do {
 		if (lnbcurselrow _ctrlValue < 0) then {
 			_ctrlValue lnbsetcurselrow 0;
 		};
-	};
-	case "confirmed": {
-    _vehicle_str = _ctrlValue lnbdata [lnbcurselrow _ctrlValue,0];
-
-    {
-      if (_vehicle_str == str _x) exitWith {_vehicle = _x};
-    } count _UnitList;
-    player setVariable ["TGP_View_Selected_Vehicle",_vehicle];
-    _vehicle call BCE_fnc_TGP_Select_Confirm;
 	};
 	case "onUnload": {
 		if (!isnil "RscAttributePostProcess_default") then {

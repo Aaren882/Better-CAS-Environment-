@@ -1,6 +1,6 @@
 TGP_View_Marker_List apply {
   _pos = _x getVariable ["TGP_View_Mark",[]];
-  _time = _x getVariable ["TGP_View_Marker_last",-1];
+  _time = _x getVariable "TGP_View_Marker_last";
   _alpha = abs (1 min _time);
   if (!(_pos isEqualTo []) && (_time != -1)) then {
     drawIcon3D [
@@ -15,7 +15,7 @@ TGP_View_Marker_List apply {
       0.03,
       "PuristaMedium",
       "",
-      false
+      true
     ];
   };
 };

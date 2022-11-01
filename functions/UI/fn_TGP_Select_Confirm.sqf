@@ -4,9 +4,20 @@ _player = player;
 if ((_player getVariable ["TGP_View_EHs", -1]) != -1) exitWith {};
 
 #define Equal isEqualTo
+#define have_ACE (isClass(configFile >> "CfgPatches" >> "ace_hearing"))
 
 _cam = "camera" camCreate [0,0,0];
 _cam cameraEffect ["Internal", "Back"];
+
+if (have_ACE) then {
+  BCE_have_ACE_earPlugs = _player getVariable ["ACE_hasEarPlugsin", false];
+  _player setVariable ["ACE_hasEarPlugsIn", true, true];
+
+  [[true]] call ace_hearing_fnc_updateVolume;
+  [] call ace_hearing_fnc_updateHearingProtection;
+} else {
+  0 fadeSound 0.1;
+};
 TGP_View_Unit_List = [];
 
 //PP Effect
@@ -20,7 +31,7 @@ _A3TI = isclass(configFile >> "CfgPatches" >> "A3TI");
 
 _Optic_LODs = _vehicle getVariable ["TGP_View_Available_Optics",[]];
 
-if (_player getVariable ["TGP_View_Selected_Optic",[]] isEqualTo []) then {
+if ((_player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) then {
   _player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 };
 
@@ -48,12 +59,11 @@ cutText ["", "BLACK IN",0.5];
 
 cameraEffectEnableHUD true;
 showCinemaBorder false;
-0 fadeSound 0.1;
+
 
 [_player getVariable ["TGP_View_Optic_Mode",2]] call BCE_fnc_OpticMode;
 
 _player setVariable ["TGP_View_laser_update", [time,""]];
-_player setVariable ["TGP_View_Unit_List_update",time];
 
 //Crews
 _pilot = if ((driver _vehicle) Equal objNull) then {
@@ -123,6 +133,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
     [_cam, _wRot, false] call BCE_fnc_VecRot;
   };
 
+  //-A3TI
   _visionType = _player getVariable ["TGP_View_Optic_Mode", 2];
   if (_A3TI) then {
     if (((call A3TI_fnc_getA3TIVision) != "") && (_visionType == 2)) then {
@@ -197,9 +208,9 @@ _idEH = addMissionEventHandler ["Draw3D", {
   };
 
   //Update UnitList
-  if (_player getVariable "TGP_View_Unit_List_update" <= time) then {
+  if (missionNamespace getVariable ["TGP_View_Unit_List_update",-1] <= time) then {
     call BCE_fnc_TGP_UnitList;
-    _player setVariable ["TGP_View_Unit_List_update", time+1];
+    missionNamespace setVariable ["TGP_View_Unit_List_update", time+1];
   };
 
   if (_player getVariable ["TGP_view_3D_Compass",true]) then {
@@ -233,7 +244,15 @@ _idEH = addMissionEventHandler ["Draw3D", {
   		556 cutRsc ["default","PLAIN"];
   		cutText ["", "BLACK IN",0.5];
 
-  		1.5 fadeSound 1;
+      if (have_ACE) then {
+        if !(BCE_have_ACE_earPlugs) then {
+          _player setVariable ["ACE_hasEarPlugsIn", false, true];
+          [[true]] call ace_hearing_fnc_updateVolume;
+          [] call ace_hearing_fnc_updateHearingProtection;
+        };
+      } else {
+        1.5 fadeSound 1;
+      };
 
       TGP_View_Camera = [];
 
@@ -251,5 +270,5 @@ _idEH = addMissionEventHandler ["Draw3D", {
   [_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_vision_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_Ammo_ctrl,_Mode_ctrl,_ENG_W_ctrl,_ENG_Y_ctrl,_ENG_R_ctrl]
 ]];
 
-_player setVariable ["TGP_View_EHs", _idEH, true];
+_player setVariable ["TGP_View_EHs",_idEH,true];
 _player setVariable ["TGP_View_Camera_FOV", 0.75];
