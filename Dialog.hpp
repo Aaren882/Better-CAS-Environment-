@@ -37,7 +37,7 @@ class RscTitles
 				idc = 1001;
 				x = safezoneXAbs + 0.08 * safezoneW;
 				y = safezoneY + safezoneH - (0.12 * safezoneW);
-				w = 0.2;
+				w = 0.3;
 				h = 0.1;
 				text = "16:56:34";
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";

@@ -99,12 +99,12 @@ class AirplaneHUD
 		class MGun
 		{
 			condition="mgun";
-			alpha="user3";
+			alpha="user10";
 			color[]=
 			{
-				"user0",
-				"user1",
-				"user2"
+				"user7",
+				"user8",
+				"user9"
 			};
 			class Dot
 			{
