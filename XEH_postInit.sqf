@@ -1,18 +1,19 @@
 if (!hasInterface) exitWith {};
 IR_LaserLight_UnitList = [];
 TGP_View_Unit_List = [];
+TGP_View_Marker_List = [];
 TGP_View_Turret_List = [];
 TGP_View_TouchMark_List = [];
 TGP_View_Camera = [];
 IR_LaserLight_UnitList_LastUpdate = 0;
+BCE_have_ACE_earPlugs = false;
 
 ["BCE_Init",BCE_fnc_init] call CBA_fnc_addEventHandler;
-["BCE_TouchMark", BCE_fnc_touchMark] call CBA_fnc_addEventHandler;
 
 ["BCE_Init",[]] call CBA_fnc_localEvent;
 
 #define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
-#define IsPilot_CAM_ON ((cameraOn getVariable ["AHUD_Actived",-1]) != -1)
+#define IsPilot_CAM_ON ((player getVariable ["AHUD_Actived",-1]) != -1)
 #define getTurret (call BCE_fnc_getTurret)
 
 //- Optic Mode
@@ -242,7 +243,7 @@ IR_LaserLight_UnitList_LastUpdate = 0;
   "Toggle Map Icons (Aircraft)",
   {
     if (IsPilot_CAM_ON && ((player getVariable ["TGP_View_MapIcons_last",-1]) == -1)) then {
-      _end = time + 2;
+      _end = time + 3;
       [{
         params ["_end","_unit"];
         _last_time = _end - time;
@@ -355,14 +356,20 @@ IR_LaserLight_UnitList_LastUpdate = 0;
   "TGP Cam Settings","TouchMark",
   "Set Touch Marker",
   {
-    if !(IsTGP_CAM_ON) exitWith {};
+    if (!(IsTGP_CAM_ON) or (isNull findDisplay 1022553)) exitWith {};
+    _list = allUnits select {
+      ((_x getVariable ["AHUD_Actived",-1]) != -1) or ((_x getVariable ["TGP_View_EHs",-1]) != -1)
+    };
+    [selectRandom ["TacticalPing2","TacticalPing3","TacticalPing4"]] remoteExec ["playSound",_list,true];
+
     _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;
     _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
     if (_current_turret isEqualTo []) then {_current_turret = [-1]};
     _turret_Unit = _vehicle turretUnit _current_turret;
-    if (((_turret_Unit getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) && !(isNull findDisplay 1022553)) then {
+
+    if ((_turret_Unit getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) then {
       player setVariable ["TGP_View_Mark", (screenToWorld getMousePosition),true];
-      _pos_old = player getVariable "TGP_View_Mark";
+      _pos_old = player getVariable ["TGP_View_Mark",[]];
       _end = time + 3;
       [{
         params ["_end","_pos_old","_unit"];
@@ -371,10 +378,10 @@ IR_LaserLight_UnitList_LastUpdate = 0;
         ((time >= _end) or !(_pos_old isEqualTo (_unit getVariable "TGP_View_Mark")))
         }, {
           params ["_end","_pos_old","_unit"];
-          if (time >= _end) then {
+          /* if (time >= _end) then {
             _unit setVariable ["TGP_View_Mark",[],true];
             _unit setVariable ["TGP_View_Marker_last",-1,true];
-          };
+          }; */
         }, [_end,_pos_old,player]
       ] call CBA_fnc_waitUntilAndExecute;
     };
