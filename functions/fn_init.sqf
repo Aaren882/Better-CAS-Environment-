@@ -82,6 +82,7 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 	//IR stuffs
 	if !(_unit getVariable ["IR_LaserLight_Souce_Inf",objNull] isEqualTo objNull) then {
 		deleteVehicle (_unit getVariable "IR_LaserLight_Souce_Inf");
+		_unit setVariable ["IR_LaserLight_Souce_Inf",[],true];
 	};
 	if !(_unit getVariable ["IR_LaserLight_Souce_Air",[]] isEqualTo []) then {
 	  (_unit getVariable "IR_LaserLight_Souce_Air") apply {deleteVehicle _x};
