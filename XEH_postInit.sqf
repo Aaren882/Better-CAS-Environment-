@@ -1,15 +1,20 @@
 if (!hasInterface) exitWith {};
-IR_LaserLight_UnitList = [];
+
 TGP_View_Unit_List = [];
 TGP_View_Marker_List = [];
-TGP_View_Turret_List = [];
 TGP_View_TouchMark_List = [];
 TGP_View_Camera = [];
+TGP_View_Turret_List = [];
+
+IR_LaserLight_UnitList = [];
 IR_LaserLight_UnitList_LastUpdate = 0;
+
+BCE_TimerRandomizer = random 0.1;
 BCE_have_ACE_earPlugs = false;
 
 ["BCE_Init",BCE_fnc_init] call CBA_fnc_addEventHandler;
 
+//PostInit
 ["BCE_Init",[]] call CBA_fnc_localEvent;
 
 #define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
@@ -46,6 +51,12 @@ BCE_have_ACE_earPlugs = false;
       camUseNVG false;
       call BCE_fnc_Cam_Delete;
       [2] call BCE_fnc_OpticMode;
+      if (isclass(configFile >> "CfgPatches" >> "A3TI")) then {
+        if ((call A3TI_fnc_getA3TIVision) != "") then {
+          uiNamespace setVariable ["A3TI_FLIR_VisionMode",-1];
+          call A3TI_fnc_ppEffects
+        };
+      };
     };
   },
   "",
