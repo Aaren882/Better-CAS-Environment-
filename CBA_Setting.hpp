@@ -86,7 +86,7 @@
 ///////////////////IR Stuffs//////////////////////
 [
 	"BCE_veh_IR_fn","CHECKBOX",
-	["Laser for Vehicle Laserdesignator"],
+	["Laser for Air Vehicles Laserdesignator"],
 	["Better CAS Environment", "IR Settings"],
 	true
 ] call CBA_fnc_addSetting;
@@ -99,13 +99,38 @@
 ] call CBA_fnc_addSetting;
 
 [
-	"BCE_gun_IR_fn","CHECKBOX",
-	["Light Source from Laser Pointer"],
+	"BCE_inf_IR_Lig_fn","CHECKBOX",
+	["Laser Light Source for Laserdesignator"],
 	["Better CAS Environment", "IR Settings"],
 	true
 ] call CBA_fnc_addSetting;
 
-//TGP
+///////////////////IR Stuffs (Server)//////////////////////
+[
+	"BCE_AIAir_IR_fn","CHECKBOX",
+	["Exclude AI Aircrafts have the Laser Effect"],
+	["Better CAS Environment (Server)", "Laser Settings"],
+	true,
+	1
+] call CBA_fnc_addSetting;
+
+[
+	"BCE_veh_IR_S_fn","CHECKBOX",
+	["Laser for Air Vehicles Laserdesignator"],
+	["Better CAS Environment (Server)", "Laser Settings"],
+	true,
+	1
+] call CBA_fnc_addSetting;
+
+[
+	"BCE_inf_IR_Lig_S_fn","CHECKBOX",
+	["Laser Light Source for Laserdesignator"],
+	["Better CAS Environment (Server)", "Laser Settings"],
+	true,
+	1
+] call CBA_fnc_addSetting;
+
+///////////////////TGP//////////////////////
 [
 	"BCE_Tracker_Render_sdr", "SLIDER",
 	["Unit Render Range"],

@@ -580,6 +580,7 @@ class CfgFunctions
 			class LaserDesignator;
 			class delete;
 			class VecRot;
+			class ClientSideLaser;
 		};
 		class Camera
 		{
