@@ -126,7 +126,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
   if (_is_Detached) then {
     _wRot = if (_current_turret isEqualTo []) then {
-      getPilotCameraDirection _vehicle;
+      (_vehicle getVariable ["BCE_Camera_DIR_Air",getPilotCameraDirection _vehicle])
     } else {
       (_vehicle selectionVectorDirAndUp [_TGP, "Memory"]) # 0;
     };

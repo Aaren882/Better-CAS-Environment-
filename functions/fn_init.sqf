@@ -11,8 +11,11 @@ call BCE_fnc_ACE_actions;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //PostInit Perf_EH
-if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
-	player call BCE_fnc_perf_EH;
+player setVariable ["Have_BCE_Loaded",true,true];
+if (({(_x getVariable ["IR_LaserLight_EachFrame_EH",-1]) != -1} count allPlayers) == 0) then {
+	call BCE_fnc_perf_EH;
+} else {
+	call BCE_fnc_ClientSideLaser;
 };
 
 ["turret", {
@@ -24,27 +27,6 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 		 _unit call BCE_fnc_deleteGunnerLaserSources;
 	};
 },true] call CBA_fnc_addPlayerEventHandler;
-
-//LaserDesignator
-/* ["visionMode", {
-	params ["_unit", "_visionMode", "_visionModePrev"];
-
-	if (_visionMode == 2) then {
-		if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) != -1) then {
-			removeMissionEventHandler ["EachFrame",(player getVariable ["IR_LaserLight_EachFrame_EH",-1])];
-			player setVariable ["IR_LaserLight_EachFrame_EH",-1];
-			IR_LaserLight_UnitList = [];
-			(allUnits + vehicles) apply {
-				call BCE_fnc_delete;
-			};
-		};
-	} else {
-		//Sustainable EH
-		if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
-			_unit call BCE_fnc_perf_EH;
-		};
-	};
-},true] call CBA_fnc_addPlayerEventHandler; */
 
 ["featureCamera", {
 	params ["_unit","_mode"];
@@ -79,19 +61,19 @@ if ((player getVariable ["IR_LaserLight_EachFrame_EH",-1]) == -1) then {
 ["All", "Deleted", {
 	params["_unit"];
 
-	//IR stuffs
-	if !(_unit getVariable ["IR_LaserLight_Souce_Inf",objNull] isEqualTo objNull) then {
-		deleteVehicle (_unit getVariable "IR_LaserLight_Souce_Inf");
-		_unit setVariable ["IR_LaserLight_Souce_Inf",objNull,true];
+	//IR Lasers
+	if !((_unit getVariable ["IR_LaserLight_Source_Inf",objNull]) isEqualTo objNull) then {
+		deleteVehicle (_unit getVariable "IR_LaserLight_Source_Inf");
+		//_unit setVariable ["IR_LaserLight_Source_Inf",objNull,true];
 	};
-	if !(_unit getVariable ["IR_LaserLight_Souce_Air",[]] isEqualTo []) then {
-	  (_unit getVariable "IR_LaserLight_Souce_Air") apply {deleteVehicle _x};
-		_unit setVariable ["IR_LaserLight_Souce_Air",[],true];
+	if !((_unit getVariable ["IR_LaserLight_Source_Air",[]]) isEqualTo []) then {
+	  (_unit getVariable "IR_LaserLight_Source_Air") apply {deleteVehicle _x};
+		//_unit setVariable ["IR_LaserLight_Source_Air",[],true];
 	};
 
 	//TGP View
 	if ((player getvariable ["TGP_View_Selected_Vehicle",objNull]) isEqualTo _unit) then {
-		player setvariable ["TGP_View_Selected_Vehicle",objNull];
+		player setVariable ["TGP_View_Selected_Vehicle",objNull];
 		player setVariable ["TGP_View_Selected_Optic",[]];
 
 		if !(TGP_View_Camera isEqualTo []) then {
