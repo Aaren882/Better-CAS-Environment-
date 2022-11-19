@@ -152,22 +152,15 @@ class CfgVehicles
 			};
 		};
 	};
-
-	class Heli_Transport_01_base_F: Helicopter_Base_H
+	
+	class Heli_Light_03_base_F: Helicopter_Base_F
 	{
-		//BCE_DoorGunners = 1;
-		/*class Turrets: Turrets
+		class Turrets
 		{
-			class MainTurret: MainTurret
-			{
-				Laser_Offset[] = {0,0,0};
-			};
-		};*/
+			class MainTurret;
+		};
 	};
-	class Heli_Transport_03_base_F: Helicopter_Base_H
-	{
-		//BCE_DoorGunners = 1;
-	};
+	class Heli_Transport_01_base_F: Helicopter_Base_H{};
 	
 	//-RHS HMD
 	#ifndef RHS_HMD_Macro
@@ -227,18 +220,9 @@ class CfgVehicles
 		{
 			//BCE_DoorGunners = 1;
 		};
-		class RHS_UH1_Base;
-		class RHS_UH1Y_base: RHS_UH1_Base
-		{
-			class Turrets;
-		};
-		class RHS_UH1Y_US_base: RHS_UH1Y_base
-		{
-			class Turrets: Turrets
-			{
-				class MainTurret;
-			};
-		};
+		class RHS_UH1_Base: Heli_Light_03_base_F{};
+		class RHS_UH1Y_base: RHS_UH1_Base{};
+		class RHS_UH1Y_US_base: RHS_UH1Y_base{};
 		class RHS_UH1Y: RHS_UH1Y_US_base
 		{
 			class Turrets: Turrets
@@ -258,7 +242,7 @@ class CfgVehicles
 			};
 		};
 	#endif
-
+	
 	//Lights
 	class Reflector_Cone_01_base_F;
 	class Reflector_Cone_01_long_base_F: Reflector_Cone_01_base_F
