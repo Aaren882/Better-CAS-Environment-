@@ -11,9 +11,12 @@ _idEH = addMissionEventHandler ["EachFrame", {
   };
 
   //-Output TGP Dir (For current controling vehicle only)
-  if (hasPilotCamera cameraOn) then {
-    cameraOn setVariable ["BCE_Camera_DIR_Air",getPilotCameraDirection cameraOn,true];
-  };
+  {
+    if (hasPilotCamera cameraOn) then {
+      cameraOn setVariable ["BCE_Camera_DIR_Air",getPilotCameraDirection cameraOn,true];
+    };
+  } remoteExec ["call", [0, -2] select isDedicated, true];
+
   if (time > (IR_LaserLight_UnitList_LastUpdate + 0.1)) then {
     IR_LaserLight_UnitList_LastUpdate = time;
     missionNamespace setVariable ["IR_LaserLight_UnitList", call BCE_fnc_IR_UnitList,true];

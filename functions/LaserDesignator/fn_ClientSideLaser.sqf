@@ -8,11 +8,6 @@ _idEH = addMissionEventHandler ["EachFrame", {
     };
   };
 
-  //-Output TGP Dir (For current controling vehicle only)
-  if (hasPilotCamera cameraOn) then {
-    cameraOn setVariable ["BCE_Camera_DIR_Air",getPilotCameraDirection cameraOn,true];
-  };
-
   //-Take Client Side Handler
   private _EH = player getVariable ["IR_LaserLight_EachFrame_EH_Client",-1];
   private _BCE_list = (allPlayers select {_x getVariable ["Have_BCE_Loaded",false]}) apply {str _x};
