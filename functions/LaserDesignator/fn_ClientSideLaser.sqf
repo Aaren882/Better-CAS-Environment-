@@ -8,6 +8,11 @@ _idEH = addMissionEventHandler ["EachFrame", {
     };
   };
 
+  //-DoorGunner Laser Sync
+  (allunits select {!(_x getVariable ["BCE_turret_Gunner_Laser",[]] isEqualTo [])}) apply {
+    _x call BCE_fnc_gunnerLoop;
+  };
+
   //-Take Client Side Handler
   private _EH = player getVariable ["IR_LaserLight_EachFrame_EH_Client",-1];
   private _BCE_list = (allPlayers select {_x getVariable ["Have_BCE_Loaded",false]}) apply {str _x};

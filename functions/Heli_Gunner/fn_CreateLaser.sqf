@@ -5,9 +5,9 @@ params["_veh","_mode","_unit"];
 [_veh,_mode,_unit] call BCE_fnc_CreateLightSources;
 
 _lights = _unit getVariable "BCE_turret_Gunner_Laser";
-_unit setVariable ["turret_Direction",vectorDir ((_Lights # 0) # 0)];
+_unit setVariable ["turret_Direction",vectorDir ((_Lights # 0) # 0),true];
 
-_EHID = addMissionEventHandler ["EachFrame", {
+/* _EHID = addMissionEventHandler ["EachFrame", {
   _veh = _thisArgs # 0;
   _unit = _thisArgs # 1;
   _Lights = _thisArgs # 2;
@@ -49,8 +49,4 @@ _EHID = addMissionEventHandler ["EachFrame", {
   (_lights # 2)
 ]];
 
-_unit setVariable ["BCE_GunnerLaser_PerF_EH",_EHID];
-/* waitUntil {!(_unit getVariable ["BCE_GunnerLaser_Status",false]) or (_veh isEqualTo objNull)};
-
-_unit call BCE_fnc_deleteGunnerLightSources;
-removeMissionEventHandler ["EachFrame", _EHID] */
+_unit setVariable ["BCE_GunnerLaser_PerF_EH",_EHID]; */

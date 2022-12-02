@@ -4,7 +4,8 @@
 params["_mode","_params","_class"];
 
 _fnc_onLBSelChanged = {
-	params ["_ctrlValue", "_selectedIndex"];
+	params ["_ctrlValue", "_selectedIndex", "_lbSelection"];
+
 	_display = ctrlParent _ctrlValue;
 	_Selected = player getvariable ["TGP_View_Selected_Vehicle",objNull];
 
@@ -15,9 +16,9 @@ _fnc_onLBSelChanged = {
 			(_display displayCtrl _x) ctrlSetText "-";
 		};
 		player setVariable ["TGP_View_Selected_Vehicle",objNull];
+		player setVariable ["TGP_View_Selected_Optic",[],true];
 		(_display displayctrl 1600) ctrlEnable false;
 		(_display displayctrl 1602) ctrlEnable false;
-
 	};
 	(_display displayctrl 1600) ctrlEnable true;
 	(_display displayctrl 1602) ctrlEnable true;
@@ -35,6 +36,9 @@ _fnc_onLBSelChanged = {
 	if !(_vehicle isEqualTo ((player getVariable "TGP_View_Selected_Optic") # 1)) then {
 	  player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 	};
+
+	//-Create Directional object
+	call BCE_fnc_createTurret_DirObject;
 
 	[{
 		params ["_display","_ctrlValue","_Selected","_vehicle_New"];
@@ -81,10 +85,18 @@ _fnc_onLBSelChanged = {
 				(_display displayCtrl 1507) ctrlSetText "-";
 				(_display displayCtrl 1508) ctrlSetText "-";
 			} else {
-				_weapon = if (getText (configFile >> "CfgWeapons" >> _vehicle currentWeaponTurret _current_turret >> "DisplayName") != "") then {
-				  format ["%1", getText (configFile >> "CfgWeapons" >> _vehicle currentWeaponTurret _current_turret >> "DisplayName")]
+				_weapon = if (_current_turret isEqualTo []) then {
+					if (getText (configFile >> "CfgWeapons" >> currentWeapon _vehicle >> "DisplayName") != "") then {
+					  format ["%1", getText (configFile >> "CfgWeapons" >> currentWeapon _vehicle >> "DisplayName")]
+					} else {
+						"-"
+					};
 				} else {
-					"-"
+					if (getText (configFile >> "CfgWeapons" >> _vehicle currentWeaponTurret _current_turret >> "DisplayName") != "") then {
+					  format ["%1", getText (configFile >> "CfgWeapons" >> _vehicle currentWeaponTurret _current_turret >> "DisplayName")]
+					} else {
+						"-"
+					};
 				};
 				(_display displayCtrl 1503) ctrlSetText format ["%1",_weapon];
 				(_display displayCtrl 1504) ctrlSetText format ["%1%2",round ((fuel _vehicle) * 100) , "%"];
@@ -125,6 +137,12 @@ _fnc_onButtonClick_Switch = {
 		_turret_select = _Optic_LODs # _current_turret;
 
 		player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
+
+		//-Reset Directional Object
+		private _dir_object = missionNamespace getVariable ["BCE_Directional_object_AV",objNull];
+		if !(_dir_object isEqualTo objNull) then {
+			_dir_object attachTo [_vehicle, [0,100,0],_turret_select # 0,true];
+		};
 
 		//UI
 		_turret_Unit = _vehicle turretUnit _turret_select # 1;
@@ -250,6 +268,14 @@ switch _mode do
 		_control ctrladdeventhandler ["MouseButtonUp","with uinamespace do {['pipClicked',_this,''] call RscDisplayAVTerminal_script};"];
 		_control = _display displayctrl IDC_IGUI_AVT_PIP2;
 		_control ctrladdeventhandler ["MouseButtonUp","with uinamespace do {['pipClicked',_this,''] call RscDisplayAVTerminal_script};"];
+
+		//-Create Directional object
+		call BCE_fnc_createTurret_DirObject;
+
+		//-Draw vehicle Icons
+		(_display displayCtrl 51) ctrlAddEventHandler ["Draw", {
+			call BCE_fnc_TAC_Map;
+		}];
 	};
 
 	case "pipClicked":

@@ -13,10 +13,16 @@ _action = ["BCE_Select_TGP","Select Vehicle TGP","",{
 
 _action = ["BCE_Use_Selected_TGP","TGP View","",{
   	params ["_unit"];
-		[(_unit getVariable "TGP_View_Selected_Optic") # 1] call BCE_fnc_TGP_Select_Confirm;
+		((_unit getVariable "TGP_View_Selected_Optic") # 1) call BCE_fnc_TGP_Select_Confirm;
 	},{
   params ["_unit"];
-	!((_unit getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) && (_unit getVariable ["TGP_View_EHs",-1] == -1)
+	private _selected = _unit getVariable ["TGP_View_Selected_Optic",[]];
+	private _condition = if (_selected isEqualTo []) then {
+	  false
+	} else {
+		(alive (_selected # 1)) && (isEngineOn (_selected # 1))
+	};
+	(_condition) && (_unit getVariable ["TGP_View_EHs",-1] == -1)
 }] call aceAction;
 
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;

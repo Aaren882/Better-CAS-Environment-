@@ -5,6 +5,18 @@
 ["cameraView", BCE_fnc_call_Compass, true] call CBA_fnc_addPlayerEventHandler;
 ["vehicle", BCE_fnc_SetMFDValue, true] call CBA_fnc_addPlayerEventHandler;
 ["Air","GetIn",BCE_fnc_Check_Optics] call CBA_fnc_addClassEventHandler;
+["Helicopter","GetOut",{
+	params ["_vehicle", "_role", "_unit", "_turret"];
+	private _laser = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
+	private _light = _unit getVariable ["BCE_turret_Gunner_Lights",[]];
+
+	if !(_laser isEqualTo []) then {
+		_unit call BCE_fnc_deleteGunnerLaserSources;
+	};
+	if !(_light isEqualTo []) then {
+		_unit call BCE_fnc_deleteGunnerLightSources;
+	};
+}] call CBA_fnc_addClassEventHandler;
 
 //ACE Actions
 call BCE_fnc_ACE_actions;

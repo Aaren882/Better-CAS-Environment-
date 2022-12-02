@@ -15,9 +15,10 @@ _fnc_onConfirm = {
   {
     if (_vehicle_str == str _x) exitWith {_vehicle = _x};
   } count (vehicles select {!(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (isEngineOn _x)});
-
-  player setVariable ["TGP_View_Selected_Vehicle",_vehicle];
-	[_vehicle] call BCE_fnc_TGP_Select_Confirm;
+	if !(_vehicle isEqualTo objNull) then {
+		player setVariable ["TGP_View_Selected_Vehicle",_vehicle];
+		_vehicle call BCE_fnc_TGP_Select_Confirm;
+	};
 };
 
 //-Init

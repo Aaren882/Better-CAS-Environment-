@@ -9,7 +9,7 @@ if ((_player getVariable ["TGP_View_EHs", -1]) != -1) exitWith {};
 _cam = "camera" camCreate [0,0,0];
 _cam cameraEffect ["Internal", "Back"];
 
-if (have_ACE) then {
+if (have_ACE && ace_hearing_enableCombatDeafness) then {
   BCE_have_ACE_earPlugs = _player getVariable ["ACE_hasEarPlugsin", false];
   _player setVariable ["ACE_hasEarPlugsIn", true, true];
 
@@ -126,7 +126,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
   if (_is_Detached) then {
     _wRot = if (_current_turret isEqualTo []) then {
-      (_vehicle getVariable ["BCE_Camera_DIR_Air",getPilotCameraDirection _vehicle])
+      (_vehicle getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1
     } else {
       (_vehicle selectionVectorDirAndUp [_TGP, "Memory"]) # 0;
     };
