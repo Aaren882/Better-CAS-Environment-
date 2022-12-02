@@ -105,7 +105,15 @@
 	true
 ] call CBA_fnc_addSetting;
 
-///////////////////IR Stuffs (Server)//////////////////////
+///////////////////TGP//////////////////////
+[
+	"BCE_Tracker_Render_sdr", "SLIDER",
+	["Unit Render Range"],
+	["Better CAS Environment", "TGP Cam Settings"],
+	[500, 20000, 10000, 0]
+] call CBA_fnc_addSetting;
+
+///////////////////(Server)//////////////////////
 [
 	"BCE_AIAir_IR_fn","CHECKBOX",
 	["Exclude AI Aircrafts have the Laser Effect"],
@@ -130,10 +138,17 @@
 	1
 ] call CBA_fnc_addSetting;
 
-///////////////////TGP//////////////////////
 [
-	"BCE_Tracker_Render_sdr", "SLIDER",
-	["Unit Render Range"],
-	["Better CAS Environment", "TGP Cam Settings"],
-	[500, 20000, 10000, 0]
+	"BCE_TAC_Map_AIxcd_POS","CHECKBOX",
+	["Dont Return Turret and TGP Pointing POS from AI","or They will keep going Up"],
+	["Better CAS Environment (Server)", "AV Terminal"],
+	true,
+	1,
+	{
+		private _dir_simp = missionNamespace getVariable ["BCE_Directional_object_AV",objNull];
+		if (_dir_simp isEqualTo objNull) then {
+			deleteVehicle _dir_simp;
+			missionNamespace setVariable ["BCE_Directional_object_AV",objNull];
+		};
+	}
 ] call CBA_fnc_addSetting;

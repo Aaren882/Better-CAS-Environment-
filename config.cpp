@@ -552,6 +552,7 @@ class CfgFunctions
 		class Heli_Gunner
 		{
 			file="MG8\AVFEVFX\Functions\Heli_Gunner";
+			class gunnerLoop;
 			class CreateLaser;
 			class CreateSpotLight;
 			class CreateLightSources;
@@ -593,6 +594,8 @@ class CfgFunctions
 		{
 			file="MG8\AVFEVFX\functions\UI";
 			class TGP_Select_Confirm;
+			class TAC_Map;
+			class createTurret_DirObject;
 		};
 	};
 	#if __has_include("\A3TI\config.bin")
