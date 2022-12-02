@@ -9,8 +9,11 @@ TGP_View_Turret_List = [];
 IR_LaserLight_UnitList = [];
 IR_LaserLight_UnitList_LastUpdate = 0;
 
-BCE_TimerRandomizer = random 0.1;
 BCE_have_ACE_earPlugs = false;
+if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
+  ace_hearing_enableCombatDeafness = false;
+};
+
 
 ["BCE_Init",BCE_fnc_init] call CBA_fnc_addEventHandler;
 
