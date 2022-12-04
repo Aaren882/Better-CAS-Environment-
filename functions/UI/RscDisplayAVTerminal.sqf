@@ -273,9 +273,20 @@ switch _mode do
 		call BCE_fnc_createTurret_DirObject;
 
 		//-Draw vehicle Icons
-		(_display displayCtrl 51) ctrlAddEventHandler ["Draw", {
+		private _map = _display displayCtrl 51;
+		private _Map_color = getArray (configfile >> 'RscMapControl' >> 'colorBackground');
+		_map ctrlAddEventHandler ["Draw", {
 			call BCE_fnc_TAC_Map;
 		}];
+
+		//-Apply Map Background
+		if (uinamespace getVariable ['BCE_Map_BGColor',true]) then {
+			(_display displayCtrl 1610) ctrlSetTextColor [0.969,0.957,0.949,0.8];
+			_map ctrlSetBackgroundColor _Map_color;
+		} else {
+			(_display displayCtrl 1610) ctrlSetTextColor [0,1,0,0.8];
+			_map ctrlSetBackgroundColor [0.075,0.075,0.075,0.5];
+		};
 	};
 
 	case "pipClicked":
