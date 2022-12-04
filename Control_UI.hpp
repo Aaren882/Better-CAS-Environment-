@@ -52,11 +52,21 @@ class RscDisplay_TGP_Control_UI: RscDisplayAttributesModuleCAS
 		class ButtonCancel: ButtonCancel{};
 	};
 };
+
+class RscMapControl;
 class RscDisplayAVTerminal
 {
 	scriptPath = "BCE_Function";
 	onLoad = "[""onLoad"",_this,""RscDisplayAVTerminal"",'BCE_Function'] call (uinamespace getvariable 'BIS_fnc_initDisplay')";
 	onUnload = "[""onUnload"",_this,""RscDisplayAVTerminal"",'BCE_Function'] call (uinamespace getvariable 'BIS_fnc_initDisplay')";
+	class controlsBackground
+	{
+		class CA_Map: RscMapControl
+		{
+			idcMarkerColor = 1090;
+			idcMarkerIcon = 1091;
+		};
+	};
 	class controls
 	{
 		class AVT_Info_Back;
@@ -154,7 +164,7 @@ class RscDisplayAVTerminal
 			text = "X";
 			X = "0.2036 * safezoneW + safezoneX";
 			y = "0.558 * safezoneH + safezoneY";
-			onButtonClick = "_display = ctrlParent (_this#0); (_display displayCtrl 1605) ctrlShow true; {(_display displayCtrl _x) ctrlShow false;} forEach [1500,1501,1502,1503,1504,1505,1506,1507,1508,1509,1510,1511,1512,1513,1514,1515,1516,1517,1600,1601,1602,1603,1604,1606,1607,1608,1609,1700];";
+			onButtonClick = "_display = ctrlParent (_this#0); (_display displayCtrl 1605) ctrlShow true; {(_display displayCtrl _x) ctrlShow false;} forEach [1500,1501,1502,1503,1504,1505,1506,1507,1508,1509,1510,1511,1512,1513,1514,1515,1516,1517,1600,1601,1602,1603,1604,1606,1607,1608,1609,1610,1700];";
 			colorBackground[] = {1,0,0,0.5};
 			colorBackgroundFocused[] = {1,0,0,0.8};
 			animTextureFocused = "#(argb,8,8,3)color(1,0,0,0.8)";
@@ -167,7 +177,7 @@ class RscDisplayAVTerminal
 			text = ">";
 			show = 0;
 			x = "safezoneX";
-			onButtonClick = "_display = ctrlParent (_this#0); (_this#0) ctrlShow false; {(_display displayCtrl _x) ctrlShow true;} forEach [1500,1501,1502,1503,1504,1505,1506,1507,1508,1509,1510,1511,1512,1513,1514,1515,1516,1517,1600,1601,1602,1603,1604,1606,1607,1608,1609,1700];";
+			onButtonClick = "_display = ctrlParent (_this#0); (_this#0) ctrlShow false; {(_display displayCtrl _x) ctrlShow true;} forEach [1500,1501,1502,1503,1504,1505,1506,1507,1508,1509,1510,1511,1512,1513,1514,1515,1516,1517,1600,1601,1602,1603,1604,1606,1607,1608,1609,1610,1700];";
 			colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.13])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.54])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.21])",0.8};
 			animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
 			colorBackgroundFocused[] = {1,1,1,1};
@@ -216,8 +226,20 @@ class RscDisplayAVTerminal
 			text = "COR";
 			color[] = {1, 1, 0.3, 0.8};
 			tooltip = "Color of Selected Vehicle";
-			size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.7)";
+			size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.65)";
 			onButtonClick = "if (uinamespace getVariable ['BCE_Terminal_SelColor',true]) then {(_this # 0) ctrlSetTextColor [0,1,0.3,0.8]; uinamespace setVariable ['BCE_Terminal_SelColor',false];} else {uinamespace setVariable ['BCE_Terminal_SelColor',true]; (_this # 0) ctrlSetTextColor [1,1,0.3,0.8];};";
+		};
+		class BCE_MapColor_AV: BCE_Vehicles_AV
+		{
+			idc = 1610;
+			X = "0.17 * safezoneW + safezoneX";
+			y = "0.805 * safezoneH + safezoneY";
+			text = "BG";
+			color[] = {0.969,0.957,0.949,0.8};
+			colorFocused[] = {1,1,1,0.8};
+			tooltip = "Map Brightness";
+			size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.7)";
+			onButtonClick = "_map = ((ctrlparent (_this # 0)) displayctrl 51); _color = getArray (configfile >> 'RscMapControl' >> 'colorBackground'); if (uinamespace getVariable ['BCE_Map_BGColor',true]) then {(_this # 0) ctrlSetTextColor [0,1,0,0.8]; uinamespace setVariable ['BCE_Map_BGColor',false]; _map ctrlSetBackgroundColor [0.075,0.075,0.075,0.5];} else {(_this # 0) ctrlSetTextColor [0.969,0.957,0.949,0.8]; uinamespace setVariable ['BCE_Map_BGColor',true]; _map ctrlSetBackgroundColor _color;};";
 		};
 		
 		//Details (interval 0.025)
@@ -329,6 +351,33 @@ class RscDisplayAVTerminal
 			idc = 1508;
 			y = "0.852 * safezoneH + safezoneY";
 			text = "-";
+		};
+	};
+};
+class RscActiveText;
+class RscPicture;
+class RscDisplayMainMap
+{
+	class controls
+	{
+		class TopRight: RscControlsGroup
+		{
+			class controls
+			{
+				class ButtonTextures: RscActiveText
+				{
+					onButtonClick = "_display = ctrlparent (_this # 0); ctrlactivate (_display displayctrl 107);";
+					tooltip = "$STR_A3_RSCDIARY_BUTTONTEXTURES_TOOLTIP";
+				};
+			};
+		};
+		class ButtonTexturesReal: RscText
+		{
+			idc = 107;
+			x = -1;
+			y = -1;
+			w = "0.5 *(((safezoneW / safezoneH) min 1.2) / 40)";
+			h = "1 *((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 		};
 	};
 };
