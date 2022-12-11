@@ -354,30 +354,3 @@ class RscDisplayAVTerminal
 		};
 	};
 };
-class RscActiveText;
-class RscPicture;
-class RscDisplayMainMap
-{
-	class controls
-	{
-		class TopRight: RscControlsGroup
-		{
-			class controls
-			{
-				class ButtonTextures: RscActiveText
-				{
-					onButtonClick = "_display = ctrlparent (_this # 0); ctrlactivate (_display displayctrl 107);";
-					tooltip = "$STR_A3_RSCDIARY_BUTTONTEXTURES_TOOLTIP";
-				};
-			};
-		};
-		class ButtonTexturesReal: RscText
-		{
-			idc = 107;
-			x = -1;
-			y = -1;
-			w = "0.5 *(((safezoneW / safezoneH) min 1.2) / 40)";
-			h = "1 *((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
-		};
-	};
-};
