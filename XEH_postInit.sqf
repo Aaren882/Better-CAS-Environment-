@@ -23,6 +23,7 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
 #define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
 #define IsPilot_CAM_ON ((player getVariable ["AHUD_Actived",-1]) != -1)
 #define getTurret (call BCE_fnc_getTurret)
+#define SwitchSound playSound (format ["switch_mod_0%1",(selectRandom [1,2,3,4,5])])
 
 //- Optic Mode
 [
@@ -30,6 +31,7 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
   "Optic Mode",
   {
     if (IsTGP_CAM_ON) then {
+      SwitchSound;
       _n_counts = player getVariable ["TGP_View_Optic_Mode", 2];
       if (_n_counts == 5) then {
         _n_counts = 2;
@@ -112,8 +114,9 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
   "Swich View Left",
   {
     if (IsTGP_CAM_ON) then {
+      if !(count (getTurret # 2) > 1) exitWith {};
       getTurret params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
-
+      SwitchSound;
       if (count _Optic_LODs == 1) exitWith {};
       _current_turret = if (_current_turret < 1) then {
         (count _Optic_LODs) - 1
@@ -153,7 +156,8 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
   {
     if (IsTGP_CAM_ON) then {
       getTurret params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
-
+      if !(count (getTurret # 2) > 1) exitWith {};
+      SwitchSound;
       if (count _Optic_LODs == 1) exitWith {};
       _current_turret = if (_current_turret >= ((count _Optic_LODs) - 1)) then {
         0
@@ -193,6 +197,7 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
   "Toggle Unit Tracker Box",
   {
     if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
+      SwitchSound;
       if (player getVariable ["TGP_view_Unit_Tracker_Box",true]) then {
         player setVariable ["TGP_view_Unit_Tracker_Box",false];
       } else {
@@ -209,6 +214,7 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
   "Toggle Unit Tracker",
   {
     if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
+      SwitchSound;
       if (player getVariable ["TGP_view_Unit_Tracker",true]) then {
         player setVariable ["TGP_view_Unit_Tracker",false];
       } else {
@@ -225,6 +231,7 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
   "Toggle 3D Compass",
   {
     if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
+      SwitchSound;
       if (player getVariable ["TGP_view_3D_Compass",true]) then {
         player setVariable ["TGP_view_3D_Compass",false];
       } else {
@@ -241,6 +248,7 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
   "Toggle Map Icons",
   {
     if (IsTGP_CAM_ON) then {
+      SwitchSound;
       if (player getVariable ["TGP_view_Map_Icon",true]) then {
         player setVariable ["TGP_view_Map_Icon",false];
       } else {
@@ -286,6 +294,8 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
     _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
     _turret_Unit = _vehicle turretUnit _current_turret;
     if !((_turret_Unit getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) then {
+      SwitchSound;
+      
       //Switch Weapon Setup
       _weapon_info = weaponState [_vehicle,_current_turret];
       _selectWeapon = _weapon_info # 0;
@@ -409,14 +419,18 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
   "Toggle Mouse Cursor",
   {
     if !(IsTGP_CAM_ON) exitWith {};
+    SwitchSound;
     _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;
     _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
     _turret_Unit = _vehicle turretUnit _current_turret;
     if (((_turret_Unit getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) && (isNull findDisplay 1022553)) then {
       createdialog "RscDisplayEmpty_BCE";
+      setMousePosition [0.5, 0.5];
+      player setVariable ["TGP_view_Mouse_Cursor",true];
     } else {
       if !(isNull findDisplay 1022553) then {
         closedialog 1022553;
+        player setVariable ["TGP_view_Mouse_Cursor",false];
       };
     };
   },
