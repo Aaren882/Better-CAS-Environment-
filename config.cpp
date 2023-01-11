@@ -590,11 +590,27 @@ class CfgFunctions
 			class IR_UnitList;
 			class TGP_UnitList;
 		};
+		class CAS_Menu
+		{
+			file="MG8\AVFEVFX\functions\CAS_Menu";
+			class checkList;
+			class DataReceiveButton;
+			class ListSwitch;
+			class TaskListDblCLick;
+			class IPToolBoxChanged;
+			class IPMarkers;
+			class GetMapClickPOS;
+			class clearTaskInfo;
+			class TAC_Map;
+			class POS2Grid;
+			class Grid2POS;
+			class getAzimuth;
+			class CAS_SelWPN;
+		};
 		class UI
 		{
 			file="MG8\AVFEVFX\functions\UI";
 			class TGP_Select_Confirm;
-			class TAC_Map;
 			class createTurret_DirObject;
 		};
 	};
@@ -611,7 +627,34 @@ class CfgFunctions
 		};
 	#endif
 };
-
+class CfgSounds
+{
+	class switch_mod_01
+	{
+		sound[] = {"\a3\sounds_f_epb\Weapons\noise\switch_mod_01",1,1};
+		titles[] = {};
+	};
+	class switch_mod_02
+	{
+		sound[] = {"\a3\sounds_f_epb\Weapons\noise\switch_mod_02",1,1};
+		titles[] = {};
+	};
+	class switch_mod_03
+	{
+		sound[] = {"\a3\sounds_f_epb\Weapons\noise\switch_mod_03",1,1};
+		titles[] = {};
+	};
+	class switch_mod_04
+	{
+		sound[] = {"\a3\sounds_f_epb\Weapons\noise\switch_mod_04",1,1};
+		titles[] = {};
+	};
+	class switch_mod_05
+	{
+		sound[] = {"\a3\sounds_f_epb\Weapons\noise\switch_mod_05",1,1};
+		titles[] = {};
+	};
+};
 class CfgScriptPaths
 {
 	BCE_Function = "MG8\AVFEVFX\Functions\UI\";
@@ -620,8 +663,19 @@ class CfgScriptPaths
 class RscLine;
 class RscInfoBack;
 class RscText;
+class RscToolbox;
+class RscListBox;
 class RscPictureKeepAspect;
+class RscControlsGroup;
+class RscControlsGroupNoScrollbars;
+class RscAttributeCAS;
+class RscButtonMenu;
+class ctrlButton;
+class RscEdit;
+class RscCombo;
+class RscEditMulti;
+class RscStructuredText;
 
-//Dialog
-#include "Dialog.hpp"
+//UI
 #include "Control_UI.hpp"
+#include "Dialog.hpp"
