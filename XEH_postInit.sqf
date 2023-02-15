@@ -295,7 +295,7 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
     _turret_Unit = _vehicle turretUnit _current_turret;
     if !((_turret_Unit getVariable ["TGP_View_Turret_Control",[]]) isEqualTo []) then {
       SwitchSound;
-      
+
       //Switch Weapon Setup
       _weapon_info = weaponState [_vehicle,_current_turret];
       _selectWeapon = _weapon_info # 0;
@@ -419,7 +419,6 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
   "Toggle Mouse Cursor",
   {
     if !(IsTGP_CAM_ON) exitWith {};
-    SwitchSound;
     _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;
     _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
     _turret_Unit = _vehicle turretUnit _current_turret;
@@ -427,10 +426,12 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
       createdialog "RscDisplayEmpty_BCE";
       setMousePosition [0.5, 0.5];
       player setVariable ["TGP_view_Mouse_Cursor",true];
+      SwitchSound;
     } else {
       if !(isNull findDisplay 1022553) then {
         closedialog 1022553;
         player setVariable ["TGP_view_Mouse_Cursor",false];
+        SwitchSound;
       };
     };
   },
