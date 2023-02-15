@@ -13,7 +13,6 @@ if !(_dir isEqualTo []) then {
   _Source = _veh modelToWorldVisualWorld (_veh selectionPosition [_lod,"Memory"]);
   _dir_goal = vectorDir (_Lights # 0);
 
-
   //Delay
   _turret_delay_time = _unit getVariable ["turret_delay_time",time];
   if (_turret_delay_time <= time) then {

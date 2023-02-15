@@ -10,12 +10,12 @@ _idEH = addMissionEventHandler ["EachFrame", {
     };
   };
 
-  //-Output TGP Dir (For current controlling vehicle only)
+  /* //-Output TGP Dir (For current controlling vehicle only)
   {
     if (hasPilotCamera cameraOn) then {
       cameraOn setVariable ["BCE_Camera_Info_Air",[getPilotCameraTarget cameraOn, getPilotCameraDirection cameraOn],true];
     };
-  } remoteExec ["call", [0, -2] select isDedicated, true];
+  } remoteExec ["call", [0, -2] select isDedicated, true]; */
 
   //-DoorGunner Laser Sync
   (allunits select {!(_x getVariable ["BCE_turret_Gunner_Laser",[]] isEqualTo [])}) apply {

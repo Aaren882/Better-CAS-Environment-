@@ -1,6 +1,71 @@
 #define aceAction ace_interact_menu_fnc_createAction
 #define aceActionClass ace_interact_menu_fnc_addActionToClass
 #define getOpticVars (vehicle _unit) getVariable ["TGP_View_Available_Optics",[]]
+private ["_action"];
+
+//-Clear
+_action = ["BCE_Task_Clear","Clear","\a3\ui_f\data\Map\Diary\Icons\diaryUnassignTask_ca.paa",{
+	params ["_unit"];
+	557 cutRsc ["default","PLAIN"];
+	(vehicle _unit) setVariable ["BCE_Task_Receiver",[],true];
+	},{
+	params ["_unit"];
+	!(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) or (((vehicle _unit) getVariable ['BCE_Task_Receiver',[]]) isNotEqualto [])
+}] call aceAction;
+
+["CAManBase", 1, ["ACE_SelfActions","BCE_Task_Receiver"], _action, true] call aceActionClass;
+
+//-Slew to TG
+_action = ["BCE_Task_Slew","Slew TG","",{
+	params ["_unit"];
+	private _vehicle = vehicle _unit;
+	private _turret = _unit call CBA_fnc_turretPath;
+	private _var = _vehicle getVariable ['BCE_Task_Receiver',[]];
+	private _type = _var # 2;
+	private _task = _var # 3;
+	private _POS = switch _type do {
+	  case 5: {
+	    _task # 2 # 2
+	  };
+		default {
+		  _task # 6 # 2
+		};
+	};
+
+	_vehicle setPilotCameraTarget (AGLToASL _POS);
+	_vehicle lockCameraTo [AGLToASL _POS, _turret, true];
+
+	},{
+	params ["_unit"];
+	(((vehicle _unit) getVariable ['BCE_Task_Receiver',[]]) isNotEqualto [])
+}] call aceAction;
+
+["CAManBase", 1, ["ACE_SelfActions","BCE_Task_Receiver"], _action, true] call aceActionClass;
+
+//-Show
+_action = ["BCE_Task_Show","Show","\a3\ui_f\data\Map\Diary\Icons\diaryLocateTask_ca.paa",{
+	params ["_unit"];
+	557 cutRsc ["BCE_Task_Receiver","PLAIN",0.3,false];
+	call BCE_fnc_UpdateTaskInfo;
+	},{
+	params ["_unit"];
+	(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) && (((vehicle _unit) getVariable ['BCE_Task_Receiver',[]]) isNotEqualto [])
+}] call aceAction;
+
+["CAManBase", 1, ["ACE_SelfActions","BCE_Task_Receiver"], _action, true] call aceActionClass;
+
+//-Hide
+_action = ["BCE_Task_Hide","Hide","",{
+	params ["_unit"];
+	557 cutRsc ["default","PLAIN"];
+
+	},{
+	params ["_unit"];
+	!(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) && (((vehicle _unit) getVariable ['BCE_Task_Receiver',[]]) isNotEqualto [])
+}] call aceAction;
+
+["CAManBase", 1, ["ACE_SelfActions","BCE_Task_Receiver"], _action, true] call aceActionClass;
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 _action = ["BCE_Select_TGP","Select Vehicle TGP","",{
 	createDialog "RscDisplay_TGP_Control_UI";

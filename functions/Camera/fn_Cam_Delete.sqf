@@ -26,4 +26,5 @@ TGP_View_Camera = [];
 
 if !(isNull findDisplay 1022553) then {
   closedialog 1022553;
+  player setVariable ["TGP_view_Mouse_Cursor",false];
 };

@@ -7,11 +7,17 @@ _fnc_onLBSelChanged = {
 	params ["_ctrlValue", "_selectedIndex", "_lbSelection"];
 
 	_display = ctrlParent _ctrlValue;
+	_checklist = _display displayCtrl 2100;
 	_Selected = player getvariable ["TGP_View_Selected_Vehicle",objNull];
 
 	_vehicle_str = _ctrlValue lbdata _selectedIndex;
 
+	//-CAS Layout
+	_createTask = _display displayCtrl 2103;
+
 	if (_vehicle_str == "") exitwith {
+		lbClear _checklist;
+
 		[1501,1502,1503,1504,1505,1506,1507] apply {
 			(_display displayCtrl _x) ctrlSetText "-";
 		};
@@ -19,13 +25,33 @@ _fnc_onLBSelChanged = {
 		player setVariable ["TGP_View_Selected_Optic",[],true];
 		(_display displayctrl 1600) ctrlEnable false;
 		(_display displayctrl 1602) ctrlEnable false;
-	};
-	(_display displayctrl 1600) ctrlEnable true;
-	(_display displayctrl 1602) ctrlEnable true;
 
-	_vehicle = (vehicles Select {!(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (isEngineOn _x)}) apply {
+		//-CAS Menu
+		uiNameSpace setVariable ["BCE_CAS_ListSwtich", false];
+		[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
+		[_display,1,true] call BCE_fnc_ListSwitch;
+		_createTask ctrlEnable false;
+	};
+	_vehicle = (vehicles Select {(_x isKindOf "Air") && (isEngineOn _x)}) apply {
 		if (_vehicle_str  == str _x) exitwith {_x};
 	};
+
+	if !(_vehicle isEqualTo (player getVariable "TGP_View_Selected_Vehicle")) then {
+	  uiNameSpace setVariable ["BCE_CAS_ListSwtich", false];
+		[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
+	};
+
+	[_display,1,true,_vehicle] call BCE_fnc_ListSwitch;
+	_createTask ctrlEnable true;
+
+	//-Button Enable
+	if (_vehicle getVariable "TGP_View_Available_Optics" isEqualTo []) then {
+	 	(_display displayctrl 1600) ctrlEnable false;
+	} else {
+		(_display displayctrl 1600) ctrlEnable true;
+	};
+
+	(_display displayctrl 1602) ctrlEnable true;
 
 	_Optic_LODs = _vehicle getVariable ["TGP_View_Available_Optics",[]];
 
@@ -52,6 +78,9 @@ _fnc_onLBSelChanged = {
 				name (driver _vehicle)
 			};
 
+			//-Output TGP Dir (For current controlling vehicle only)
+		  call BCE_fnc_UpdateCameraInfo;
+
 			_Selected_Optic = player getVariable "TGP_View_Selected_Optic";
 			_current_turret = (_Selected_Optic # 0) # 1;
 
@@ -62,8 +91,11 @@ _fnc_onLBSelChanged = {
 				name _turret_Unit
 			};
 
+			_Cant_CtrlVeh = ({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle)) > 0;
+
 			// - Disable Unavailable Turret
 			if (
+				 	_Cant_CtrlVeh or
 					(_gunner == "-") or
 					(_turret_Unit in (missionNamespace getVariable ["TGP_View_Turret_List",[]])) or
 					((vehicle _turret_Unit) in (missionNamespace getVariable ["TGP_View_Turret_List",[]])) or
@@ -85,19 +117,24 @@ _fnc_onLBSelChanged = {
 				(_display displayCtrl 1507) ctrlSetText "-";
 				(_display displayCtrl 1508) ctrlSetText "-";
 			} else {
-				_weapon = if (_current_turret isEqualTo []) then {
-					if (getText (configFile >> "CfgWeapons" >> currentWeapon _vehicle >> "DisplayName") != "") then {
-					  format ["%1", getText (configFile >> "CfgWeapons" >> currentWeapon _vehicle >> "DisplayName")]
-					} else {
-						"-"
-					};
+				_weapon = if (isNil {_current_turret}) then {
+				  getText (configFile >> "CfgWeapons" >> currentWeapon _vehicle >> "DisplayName")
 				} else {
-					if (getText (configFile >> "CfgWeapons" >> _vehicle currentWeaponTurret _current_turret >> "DisplayName") != "") then {
-					  format ["%1", getText (configFile >> "CfgWeapons" >> _vehicle currentWeaponTurret _current_turret >> "DisplayName")]
+					if (_current_turret isEqualTo []) then {
+						if (getText (configFile >> "CfgWeapons" >> currentWeapon _vehicle >> "DisplayName") != "") then {
+						  getText (configFile >> "CfgWeapons" >> currentWeapon _vehicle >> "DisplayName")
+						} else {
+							"-"
+						};
 					} else {
-						"-"
+						if (getText (configFile >> "CfgWeapons" >> _vehicle currentWeaponTurret _current_turret >> "DisplayName") != "") then {
+						  getText (configFile >> "CfgWeapons" >> _vehicle currentWeaponTurret _current_turret >> "DisplayName")
+						} else {
+							"-"
+						};
 					};
 				};
+
 				(_display displayCtrl 1503) ctrlSetText format ["%1",_weapon];
 				(_display displayCtrl 1504) ctrlSetText format ["%1%2",round ((fuel _vehicle) * 100) , "%"];
 				(_display displayCtrl 1505) ctrlSetText format ["%1 %2",localize "$str_a3_rscdisplayartillery_artillerygridtext",mapGridPosition _vehicle];
@@ -183,11 +220,18 @@ switch _mode do
 			};
 
 			_ctrlHintGroup = _display displayctrl IDC_RSCADVANCEDHINT_HINTGROUP;
-			_ctrlHintGroup ctrlshow false;
-			_ctrlHintGroup ctrlenable false;
+			_ctrlHintGroup ctrlShow false;
+			_ctrlHintGroup ctrlEnable false;
 			(_display displayctrl 1600) ctrlEnable false;
 			(_display displayctrl 1601) ctrlEnable false;
 			(_display displayctrl 1602) ctrlEnable false;
+			(_display displayctrl 2103) ctrlEnable false;
+
+			(_display displayctrl 2107) lbSetCurSel (uiNameSpace getVariable ["BCE_Current_TaskType",0]);
+
+			//-CAS Layout
+			[_display,0,true] call BCE_fnc_ListSwitch;
+
 			("RscAdvancedHint" call bis_fnc_rsclayer) cuttext ["","plain"];
 
 			_control = _display displayctrl 1700;
@@ -195,40 +239,61 @@ switch _mode do
 
 			_selected = player getvariable ["TGP_View_Selected_Vehicle",objNull];
 
-			_BluFriendly = [playerSide, West] call BIS_fnc_sideIsFriendly;
-			_RedFriendly = [playerSide, east] call BIS_fnc_sideIsFriendly;
-			_GreFriendly = [playerSide, resistance] call BIS_fnc_sideIsFriendly;
-
 			_UnitList = vehicles Select {
-			  !(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (isEngineOn _x)
+				//!(_x getVariable "TGP_View_Available_Optics" isEqualTo [])
+			  (_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
 			};
 
 			{
 			  _vehicle = _x;
 			  _class = typeOf _vehicle;
 			  _cfg = configfile >> "cfgvehicles" >> _class;
-			  _vehicleSide = side _vehicle;
 
-			  _west = if (_BluFriendly) then {_vehicleSide == West} else {false};
-			  _east = if (_RedFriendly) then {_vehicleSide == east} else {false};
-			  _green = if (_GreFriendly) then {_vehicleSide == resistance} else {false};
-
-			  if (_west or _east or _green) then {
-			    _lbAdd = _control lbAdd format ["%1   %2",Name _vehicle,gettext (_cfg >> "displayName")];
-			    _control lbSetData [_lbAdd, str _vehicle];
-			  };
+				_lbAdd = _control lbAdd format ["%1   %2",Name _vehicle,gettext (_cfg >> "displayName")];
+				_control lbSetData [_lbAdd, str _vehicle];
 			} foreach _UnitList;
 
+			//(_display displayctrl 2013) call BCE_fnc_IPMarkers;
 			//- Memory
 			for "_i" from 0 to ((lbsize _control) - 1) do {
 				if ((_control lbdata _i) == str _selected) exitwith {
 					_control lbSetCurSel _i;
 				};
 			};
+
+			//-Widgets
+			if (uinamespace getVariable ['BCE_Terminal_WP',true]) then {
+				(_display displayctrl 1606) ctrlSetTextColor [1, 1, 1, 1];
+			} else {
+				(_display displayctrl 1606) ctrlSetTextColor [1, 0, 0, 0.5];
+			};
+			if (uinamespace getVariable ['BCE_Terminal_Veh',true]) then {
+				(_display displayctrl 1607) ctrlSetTextColor [1, 1, 1, 1];
+			} else {
+				(_display displayctrl 1607) ctrlSetTextColor [1, 0, 0, 0.5];
+			};
+			if (uinamespace getVariable ['BCE_Terminal_Targeting',true]) then {
+				(_display displayctrl 1608) ctrlSetTextColor [1, 1, 1, 1];
+			} else {
+				(_display displayctrl 1608) ctrlSetTextColor [1, 0, 0, 0.5];
+			};
+			if (uinamespace getVariable ['BCE_Terminal_SelColor',true]) then {
+				(_display displayctrl 1609) ctrlSetTextColor [1,1,0.3,0.8];
+			} else {
+				(_display displayctrl 1609) ctrlSetTextColor [0,1,0.3,0.8];
+			};
+			private _map = _display displayctrl 51;
+			if (uinamespace getVariable ['BCE_Map_BGColor',true]) then {
+				(_display displayctrl 1610) ctrlSetTextColor [0.969,0.957,0.949,0.8];
+				_map ctrlSetBackgroundColor (getArray (configfile >> 'RscMapControl' >> 'colorBackground'));
+			} else {
+				(_display displayctrl 1610) ctrlSetTextColor [0,1,0,0.8];
+				_map ctrlSetBackgroundColor [0.075,0.075,0.075,0.5];
+			};
 		};
 
 		//-Turret Control UI
-		if (missionNamespace getVariable ["TGP_View_Terminal_canUseTurre",false]) then {
+		if (missionNamespace getVariable ["TGP_View_Terminal_canUseTurret",false]) then {
 			(_display displayctrl 1601) ctrlShow true;
 			(_display displayctrl 1600) ctrlSetPosition [
 				0.3 * (safezoneW / 64) + (safezoneX),
@@ -252,11 +317,10 @@ switch _mode do
 		_control = _display displayctrl 1600;
 		_control ctrladdeventhandler ["ButtonClick",_fnc_onButtonClick_Connect];
 		_control = _display displayctrl 1601;
-		_control ctrladdeventhandler ["ButtonClick",{
+		_control ctrlAddEventHandler ["ButtonClick",{
 			private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
 			if !(_vehicle isEqualTo objNull) then {
-				_cameraview = cameraview;
-			  [_vehicle,_cameraview] call BCE_fnc_onButtonClick_Gunner;
+			  [_vehicle,cameraview] call BCE_fnc_onButtonClick_Gunner;
 				_vehicle call BCE_fnc_TGP_Select_Confirm;
 			};
 		}];
@@ -273,11 +337,11 @@ switch _mode do
 		call BCE_fnc_createTurret_DirObject;
 
 		//-Draw vehicle Icons
-		private _map = _display displayCtrl 51;
+		/* private _map = _display displayCtrl 51;
 		private _Map_color = getArray (configfile >> 'RscMapControl' >> 'colorBackground');
-		_map ctrlAddEventHandler ["Draw", {
+		_EHid = _map ctrlAddEventHandler ["Draw", {
 			call BCE_fnc_TAC_Map;
-		}];
+		}]; */
 
 		//-Apply Map Background
 		if (uinamespace getVariable ['BCE_Map_BGColor',true]) then {
@@ -288,7 +352,6 @@ switch _mode do
 			_map ctrlSetBackgroundColor [0.075,0.075,0.075,0.5];
 		};
 	};
-
 	case "pipClicked":
 	{
 		_control = _params # 0;

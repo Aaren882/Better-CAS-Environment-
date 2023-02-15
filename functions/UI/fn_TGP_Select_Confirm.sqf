@@ -92,14 +92,16 @@ _Weapon_ctrl = _display displayCtrl 1027;
 _Ammo_ctrl = _display displayCtrl 1031;
 _Mode_ctrl = _display displayCtrl 1032;
 
+//- Widgets
+_widgets_ctrl = _display displayCtrl 2000;
+_widget_01_ctrl = _Widgets_ctrl controlsGroupCtrl 100;
+
 //- Weapon
 _WeaponDelay_ctrl = _display displayCtrl 1033;
 _WeaponDelay_ctrl ctrlShow false;
 
 //- ENG
 _ENG_W_ctrl = _display displayCtrl 1025;
-_ENG_Y_ctrl = _display displayCtrl 1052;
-_ENG_R_ctrl = _display displayCtrl 1053;
 
 _pilot_ctrl = _display displayCtrl 1028;
 _Gunner_ctrl = _display displayCtrl 1029;
@@ -110,6 +112,33 @@ _pilot_ctrl ctrlSetText (format ["Pilot: %1", _pilot]);
 _Gunner_ctrl ctrlSetText (format ["Gunner: %1", _gunner]);
 _Vehicle_ctrl ctrlSetText (getText (_config_path >> "DisplayName"));
 
+//-widgets
+_widgets_01 = [
+  ["Unit_Tracker_Box","TGP_view_Unit_Tracker_Box","Tracker Box"],
+  ["Unit_Tracker","TGP_view_Unit_Tracker","Unit Tracker"],
+  ["Compass","TGP_view_3D_Compass","3D Compass"],
+  ["Unit_MapIcon","TGP_view_Map_Icon","Map Icon"],
+  ["ToggleCursor","TGP_view_Mouse_Cursor","Mouse Cursor",false]
+];
+
+{
+  _x params ["_action","_var","_text",["_default",true]];
+
+  private _key = (["TGP Cam Settings", _action] call CBA_fnc_getKeybind) # 8 # 0 # 0;
+
+  private _index = _widget_01_ctrl lbAdd (format ['%1 "%2"', _text, (keyName _key) select [1, 1]]);
+
+  _widget_01_ctrl lbSetPicture [_index,"\a3\ui_f\data\Map\Markers\Military\dot_CA.paa"];
+
+  if (player getVariable [_var,_default]) then {
+    _widget_01_ctrl lbSetPictureColor [_forEachIndex, [1, 1, 1, 1]];
+    _widget_01_ctrl lbSetColor [_forEachIndex, [1, 1, 1, 1]];
+  } else {
+    _widget_01_ctrl lbSetPictureColor [_forEachIndex, [1, 0, 0, 1]];
+    _widget_01_ctrl lbSetColor [_forEachIndex, [1, 0, 0, 1]];
+  };
+} foreach _widgets_01;
+
 //Draw Icons And Set DirUp
 _idEH = addMissionEventHandler ["Draw3D", {
   _cam = _thisArgs # 0;
@@ -117,13 +146,16 @@ _idEH = addMissionEventHandler ["Draw3D", {
   _Optic_LODs = _thisArgs # 2;
   _player = _thisArgs # 3;
   _A3TI = _thisArgs # 4;
-  (_thisArgs # 5) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_vision_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_Ammo_ctrl","_Mode_ctrl","_ENG_W_ctrl","_ENG_Y_ctrl","_ENG_R_ctrl"];
+  (_thisArgs # 5) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_vision_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_Ammo_ctrl","_Mode_ctrl","_ENG_W_ctrl","_widget_01_ctrl","_widgets_01"];
 
   _Selected_Optic = (_player getVariable "TGP_View_Selected_Optic") # 0;
   _TGP = _Selected_Optic # 0;
   _current_turret = _Selected_Optic # 1;
   _is_Detached = _Selected_Optic # 2;
 
+  //-Output TGP Dir (For current controlling vehicle only)
+  call BCE_fnc_UpdateCameraInfo;
+  
   if (_is_Detached) then {
     _wRot = if (_current_turret isEqualTo []) then {
       (_vehicle getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1
@@ -156,22 +188,36 @@ _idEH = addMissionEventHandler ["Draw3D", {
   _Grid_ctrl ctrlSetText (format ["Grid: %1",mapGridPosition (screenToWorld [0.5,0.5])]);
   _camDir_ctrl ctrlSetText (format ["%1°", round (getDir _cam)]);
   _Fuel_ctrl ctrlSetText (format ["Fuel: %1%2", round ((fuel _vehicle) * 100),"%"]);
+  _Engine_damage = _vehicle getHitPointDamage "hitEngine";
 
   //Engine
-  if ((_vehicle getHitPointDamage "hitEngine") > 0) then {
-    _ENG_W_ctrl ctrlSetText "";
-    if ((_vehicle getHitPointDamage "hitEngine") >= 0.5) then {
-      _ENG_Y_ctrl ctrlSetText format ["%1", ""];
-      _ENG_R_ctrl ctrlSetText format ["%1", "ENG"];
+  if (_Engine_damage > 0) then {
+    if (_Engine_damage >= 0.5) then {
+      //-Red
+      _ENG_W_ctrl ctrlSetTextColor [1,0,0,1];
     } else {
-      _ENG_Y_ctrl ctrlSetText (format ["%1", "ENG"]);
-      _ENG_R_ctrl ctrlSetText "";
+      //-Yallow
+      _ENG_W_ctrl ctrlSetTextColor [0.94,0.7,0,1];
     };
   } else {
-    _ENG_W_ctrl ctrlSetText (format ["%1", "ENG"]);
-    _ENG_Y_ctrl ctrlSetText "";
-    _ENG_R_ctrl ctrlSetText "";
+    _ENG_W_ctrl ctrlSetTextColor [1,1,1,1];
   };
+
+  if (isNull findDisplay 1022553) then {
+    player setVariable ["TGP_view_Mouse_Cursor",false];
+  };
+
+  //-Widgets
+  {
+    _x params ["_action","_var","_text",["_default",true]];
+    if (player getVariable [_var,_default]) then {
+      _widget_01_ctrl lbSetPictureColor [_forEachIndex, [1, 1, 1, 1]];
+      _widget_01_ctrl lbSetColor [_forEachIndex, [1, 1, 1, 1]];
+    } else {
+      _widget_01_ctrl lbSetPictureColor [_forEachIndex, [1, 0, 0, 1]];
+      _widget_01_ctrl lbSetColor [_forEachIndex, [1, 0, 0, 1]];
+    };
+  } foreach _widgets_01;
 
   //currentWeapon
   _weapon_info = weaponState [_vehicle,_current_turret];
@@ -193,6 +239,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
   };
 
   _laser_Vars = _player getVariable "TGP_View_laser_update";
+
   //Laser
   if (isLaserOn _vehicle) then {
     if ((_laser_Vars # 0) <= time) then {
@@ -267,7 +314,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
   };
 },[
   _cam,_vehicle,_Optic_LODs,_player,_A3TI,
-  [_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_vision_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_Ammo_ctrl,_Mode_ctrl,_ENG_W_ctrl,_ENG_Y_ctrl,_ENG_R_ctrl]
+  [_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_vision_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_Ammo_ctrl,_Mode_ctrl,_ENG_W_ctrl,_widget_01_ctrl,_widgets_01]
 ]];
 
 _player setVariable ["TGP_View_EHs",_idEH,true];

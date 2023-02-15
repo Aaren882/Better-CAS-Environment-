@@ -79,7 +79,7 @@
  	[[0,1,2,3,4], ["Disabled","All","Leader or JTAC","JTAC","Leader"], 2],
 	1,
 	{
-		TGP_View_Terminal_canUseTurre = call BCE_fnc_canUseTurret;
+		TGP_View_Terminal_canUseTurret = call BCE_fnc_canUseTurret;
 	}
 ] call CBA_fnc_addSetting;
 
@@ -151,4 +151,12 @@
 			missionNamespace setVariable ["BCE_Directional_object_AV",objNull];
 		};
 	}
+] call CBA_fnc_addSetting;
+
+[
+	"BCE_AI_CAS_Support_fn","CHECKBOX",
+	["Available AI CAS via CAS Receiver"],
+	["Better CAS Environment (Server)", "CAS Receiver"],
+	false,
+	1
 ] call CBA_fnc_addSetting;

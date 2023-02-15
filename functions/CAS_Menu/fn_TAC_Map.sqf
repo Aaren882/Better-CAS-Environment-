@@ -1,4 +1,6 @@
-private _ctrl = _this # 0;
+params ["_ctrl"];
+
+_display = ctrlparent _ctrl;
 
 //-Controller
 _ctrl drawIcon [
@@ -145,4 +147,148 @@ _ctrl drawIcon [
       };
     };
   };
-} forEach (vehicles select {!(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (isEngineOn _x) && !(unitIsUAV _x) && (playerSide == side _x)});
+} forEach (vehicles select {(_x isKindOf "Air") && (isEngineOn _x) && !(unitIsUAV _x) && (playerSide == side _x)});
+
+//- CAS
+_Task_Type = _display displayCtrl 2107;
+_sel_TaskType = _Task_Type lbValue (lbCurSel _Task_Type);
+_taskVars = switch _sel_TaskType do {
+  //-5 line
+  case 1: {
+    _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",[]]]];
+    _FRD = _taskVar # 1;
+    _Target = _taskVar # 2;
+
+    [["NA",[]],_Target,_FRD,["NA",[]]]
+  };
+  //-9 line
+  default {
+    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",[]]]];
+    _IPBP = _taskVar # 1;
+    _Target = _taskVar # 6;
+    _FRD = _taskVar # 8;
+    _EGRS = _taskVar # 9;
+    [_IPBP,_Target,_FRD,_EGRS]
+  };
+};
+_taskVars params ["_IPBP","_Target","_FRD","_EGRS"];
+
+//-Draw IP/BP
+if (((_IPBP # 0) != "NA") && !("Marker" in (_IPBP # 0))) then {
+  _ctrl drawIcon [
+    "\a3\ui_f\data\GUI\Cfg\Cursors\hc_overfriendly_gs.paa",
+    [1,1,0,1],
+    _IPBP # 2,
+    40,
+    40,
+    0,
+    _IPBP # 0,
+    1,
+    0.05,
+    "TahomaB",
+    "right"
+  ];
+};
+
+//-Draw Target
+if ((_Target # 0) != "NA") then {
+
+  //-IP to TG line
+  if ((_IPBP # 0) != "NA") then {
+    private _posDiff = ((_Target # 2) vectorDiff (_IPBP # 2)) vectorMultiply 0.95;
+    _ctrl drawArrow [
+  		_IPBP # 2,
+      (_IPBP # 2) vectorAdd _posDiff,
+      [1,1,0,1]
+  	];
+  };
+
+  //-Icon
+  private _Icon = if ((_Target # 1) == "GRID") then {
+    "\a3\ui_f\data\GUI\Cfg\Cursors\hc_overenemy_gs.paa"
+  } else {
+    "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa"
+  };
+
+  _ctrl drawIcon [
+    _Icon,
+    [1,0,0,1],
+    _Target # 2,
+    30,
+    30,
+    0,
+    _Target # 0,
+    1,
+    0.05,
+    "TahomaB",
+    "right"
+  ];
+};
+
+//-Friendly
+if ((_FRD # 0) != "NA") then {
+
+  //-Draw Arrow
+  if ((_Target # 0) != "NA") then {
+    private _posDiff = ((_FRD # 2) vectorDiff (_Target # 2)) vectorMultiply 0.9;
+    _ctrl drawArrow [
+      (_Target # 2),
+      (_Target # 2) vectorAdd _posDiff,
+      [0,0.5,1,1]
+    ];
+  };
+
+  //-Icon
+  private _Icon = if ((_FRD # 1) == "GRID") then {
+    "\a3\ui_f\data\Map\Markers\NATO\b_inf.paa"
+  } else {
+    "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa"
+  };
+
+  _ctrl drawIcon [
+    _Icon,
+    [0,0.5,1,1],
+    _FRD # 2,
+    30,
+    30,
+    0,
+    _FRD # 0,
+    1,
+    0.05,
+    "TahomaB",
+    "right"
+  ];
+};
+
+//-EGRS
+if (
+  ((_EGRS # 0) != "NA") && ((_Target # 0) != "NA")
+) then {
+
+  private _HDG = _EGRS # 1;
+  private _relPOS = if (isnil{_EGRS # 3}) then {
+    (_Target # 2) getPos [500, _HDG];
+  } else {
+    //_EGRS # 3
+    (_Target # 2) vectorAdd (((_EGRS # 3) vectorDiff (_Target # 2)) vectorMultiply 0.95)
+  };
+  _ctrl drawArrow [
+    (_Target # 2),
+    _relPOS,
+    [1,1,1,1]
+  ];
+
+  _ctrl drawIcon [
+    "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
+    [1,1,1,1],
+    _relPOS,
+    30,
+    30,
+    0,
+    _EGRS # 0,
+    1,
+    0.065,
+    "TahomaB",
+    "left"
+  ];
+};
