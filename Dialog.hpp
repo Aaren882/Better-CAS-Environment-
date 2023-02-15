@@ -5,7 +5,7 @@ class RscDisplayEmpty_BCE
 };
 class RscTitles
 {
-	titles[] += {"BCE_TGP_View_GUI","default"};
+	titles[] += {"BCE_Task_Receiver","BCE_TGP_View_GUI","default"};
 	class default
 	{
 		idd = -1;
@@ -13,13 +13,15 @@ class RscTitles
 		fadeout = 0;
 		duration = 0;
 	};
+	#include "Task_Receiver.hpp"
 	class BCE_TGP_View_GUI
 	{
 		idd = -1;
 		fadein = 0;
 		fadeout = 0;
-		duration = 99999;
+		duration = 1e+007;
 		enableSimulation = 1;
+		movingEnable = 1;
 		name = "BCE_TGP_View_GUI";
 		onLoad = "uiNamespace setVariable ['BCE_TGP', _this # 0]";
 		class controls
@@ -115,14 +117,14 @@ class RscTitles
 				text = "Grid";
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2)";
 			};
-			class cz: RscText
+			class Zoom: RscText
 			{
 				idc = 1004;
 				x = safezoneXAbs + safezoneWAbs - ((0.06 * safezoneW) + 0.2);
 				y = safezoneY + 0.11 * safezoneW;
 				w = 0.2;
 				h = 0.05;
-				text = "FOV";
+				text = "Zoom";
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
 			};
 			//view type
@@ -251,7 +253,7 @@ class RscTitles
 				colorText[] = {1,1,1,1};
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
 			};
-			class Engine_State_Y: Engine_State_W
+			/*class Engine_State_Y: Engine_State_W
 			{
 				idc = 1052;
 				colorText[] = {0.94,0.7,0,1};
@@ -260,7 +262,7 @@ class RscTitles
 			{
 				idc = 1053;
 				colorText[] = {1,0,0,1};
-			};
+			};*/
 			
 			class Fuel_State: RscText
 			{
@@ -338,6 +340,32 @@ class RscTitles
 				w = 0.6;
 				h = 0.1;
 				sizeEx = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.6);
+			};
+			
+			//-Widgets
+			class widget: RscControlsGroupNoScrollbars
+			{
+				idc = 2000;
+				text = "";
+				x = 0.857553 * safezoneW + safezoneX;
+				y = (0.801853 * safezoneH + safezoneY) - (10 * (0.0275 * safezoneH));
+				w = 0.123788 * safezoneW;
+				h = 7 * (0.0275 * safezoneH);
+				class controls
+				{
+					class NameList: RscListBox
+					{
+						IDC = 100;
+						text = "";
+						x = 0;
+						y = 0.025;
+						w = 0.123788 * safezoneW;
+						h = 10 * (0.0275 * safezoneH);
+						colorBackground[] = {0,0,0,0};
+						sizeEx = 0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18);
+						shadow = 1;
+					};
+				};
 			};
 		};
 	};

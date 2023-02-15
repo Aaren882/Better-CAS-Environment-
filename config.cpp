@@ -10,6 +10,9 @@ class CfgPatches
 			#if __has_include("\A3TI\config.bin")
 				"A3TI",
 			#endif
+			#if __has_include("\z\ace\addons\map\config.bin")
+				"ace_map",
+			#endif
 			"A3_Ui_F",
 			"A3_Weapons_F",
 			"A3_Air_F_Heli_Light_01",
@@ -42,6 +45,80 @@ class Extended_PostInit_EventHandlers
 	class AVFEVFX_EH
 	{
 		init = "call compile preprocessFileLineNumbers 'MG8\AVFEVFX\XEH_postInit.sqf'";
+	};
+};
+class CfgUIGrids
+{
+    class IGUI
+	{
+        class Presets
+		{
+            class Arma3
+			{
+                class Variables
+				{
+                    grid_BCE_TaskList[] = 
+					{
+						{
+							"safezoneX",
+							"((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)",
+							"(10 * (((safezoneW / safezoneH) min 1.2) / 40))",
+							"(10 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))"
+						},
+						"(((safezoneW / safezoneH) min 1.2) / 40)",
+						"((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)"
+					};
+                };
+				/*grid_CustomInfoLeft[] = 
+				{
+					{
+						"(safezoneX + 0.5 * (((safezoneW / safezoneH) min 1.2) / 40))",
+						"(safezoneY + safezoneH - 21 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))",
+						"(10 * (((safezoneW / safezoneH) min 1.2) / 40))",
+						"(10 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))"
+					},
+					"(((safezoneW / safezoneH) min 1.2) / 40)",
+					"((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)"
+				};*/
+            };
+        };
+		class Variables
+		{
+            class grid_BCE_TaskList
+			{
+				displayName = "BCE Task Receiver";
+				description = "TaskList from BCE";
+				preview = "#(argb,8,8,3)color(0.2,0.2,0.2,0.8)";
+				saveToProfile[] = {0,1,2,3};
+				canResize = 1;
+			};
+        };
+	};
+};
+class CfgHints
+{
+	class BCE
+	{
+		displayName = "BCE";
+		logicalOrder = 22;
+		class Task_Received
+		{
+			displayName = "Task Received";
+			description = "You have received a New Task";
+			tip = "";
+			arguments[] = {};
+			image = "";
+			logicalOrder = 1;
+			class ActionMenu_sub
+			{
+				displayName = "Task Received";
+				description = "You have received a New Task";
+				tip = "";
+				image = "";
+				arguments[] = {{{""}}};
+				dlc = -1;
+			};
+		};
 	};
 };
 
@@ -81,7 +158,7 @@ class RscTeam: RscSubmenu
 
 class CfgVehicles
 {
-	//-ACE action
+	//-ACE Actions
 	class Man;
 	class CAManBase: Man
 	{
@@ -109,7 +186,19 @@ class CfgVehicles
 				};
 			};
 		};
+		class ACE_SelfActions
+		{
+			class BCE_Task_Receiver
+			{
+				displayName = "Task Receiver";
+				condition = "(((vehicle _player) getVariable ['BCE_Task_Receiver',[]]) isNotEqualto []) or !(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull]))";
+				exceptions[] = {"isNotInside","isNotSitting"};
+				icon = "\a3\modules_f\data\iconTaskCreate_ca.paa";
+			};
+		};
 	};
+	
+	//-Helis
 	class Helicopter_Base_F;
 	class Helicopter_Base_H: Helicopter_Base_F
 	{
@@ -583,12 +672,21 @@ class CfgFunctions
 			class addKeyInEH;
 			class touchMark;
 			class canUseTurret;
+			class UpdateCameraInfo;
 		};
 		class Lists
 		{
 			file="MG8\AVFEVFX\Functions\Unit_Lists";
 			class IR_UnitList;
 			class TGP_UnitList;
+		};
+		class CAS_Event
+		{
+			file="MG8\AVFEVFX\functions\CAS_Event";
+			class CAS_Action;
+			class drawGPS;
+			class GunShip_Loiter;
+			class Plane_CASEvent;
 		};
 		class CAS_Menu
 		{
@@ -604,14 +702,31 @@ class CfgFunctions
 			class TAC_Map;
 			class POS2Grid;
 			class Grid2POS;
+			class SendTaskData;
 			class getAzimuth;
 			class CAS_SelWPN;
+		};
+		class Task_Receiver
+		{
+			file="MG8\AVFEVFX\functions\Task_Receiver";
+			class UpdateTaskInfo;
 		};
 		class UI
 		{
 			file="MG8\AVFEVFX\functions\UI";
 			class TGP_Select_Confirm;
 			class createTurret_DirObject;
+		};
+		class Task_Type
+		{
+			file="MG8\AVFEVFX\functions\Task_Type";
+			class clearTask5line;
+			class clearTask9line;
+			class DataReceive5line;
+			class DataReceive9line;
+			class DblClick5line;
+			class DblClick9line;
+			class TaskTypeChanged;
 		};
 	};
 	#if __has_include("\A3TI\config.bin")
@@ -665,6 +780,8 @@ class RscInfoBack;
 class RscText;
 class RscToolbox;
 class RscListBox;
+class RscPicture;
+class RscIGUIText;
 class RscPictureKeepAspect;
 class RscControlsGroup;
 class RscControlsGroupNoScrollbars;
@@ -675,6 +792,7 @@ class RscEdit;
 class RscCombo;
 class RscEditMulti;
 class RscStructuredText;
+class RscMapControl;
 
 //UI
 #include "Control_UI.hpp"
