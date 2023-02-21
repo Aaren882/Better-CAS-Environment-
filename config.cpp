@@ -57,7 +57,7 @@ class CfgUIGrids
 			{
                 class Variables
 				{
-                    grid_BCE_TaskList[] = 
+                    grid_BCE_TaskList[] =
 					{
 						{
 							"safezoneX",
@@ -69,7 +69,7 @@ class CfgUIGrids
 						"((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)"
 					};
                 };
-				/*grid_CustomInfoLeft[] = 
+				/*grid_CustomInfoLeft[] =
 				{
 					{
 						"(safezoneX + 0.5 * (((safezoneW / safezoneH) min 1.2) / 40))",
@@ -197,7 +197,7 @@ class CfgVehicles
 			};
 		};
 	};
-	
+
 	//-Helis
 	class Helicopter_Base_F;
 	class Helicopter_Base_H: Helicopter_Base_F
@@ -241,7 +241,7 @@ class CfgVehicles
 			};
 		};
 	};
-	
+
 	class Heli_Light_03_base_F: Helicopter_Base_F
 	{
 		class Turrets
@@ -250,7 +250,7 @@ class CfgVehicles
 		};
 	};
 	class Heli_Transport_01_base_F: Helicopter_Base_H{};
-	
+
 	//-RHS HMD
 	#ifndef RHS_HMD_Macro
 		class RHS_MELB_base: Helicopter_Base_H
@@ -301,7 +301,7 @@ class CfgVehicles
 			};
 		};
 	#endif
-	
+
 	//RHS
 	#if __has_include("\rhsusf\addons\rhsusf_main\config.bin")
 		class Heli_Transport_02_base_F;
@@ -331,7 +331,7 @@ class CfgVehicles
 			};
 		};
 	#endif
-	
+
 	//Lights
 	class Reflector_Cone_01_base_F;
 	class Reflector_Cone_01_long_base_F: Reflector_Cone_01_base_F
@@ -638,9 +638,9 @@ class CfgFunctions
 			class call_Compass;
 			class trueZoom;
 		};
-		class Heli_Gunner
+		class Gunner_Action
 		{
-			file="MG8\AVFEVFX\Functions\Heli_Gunner";
+			file="MG8\AVFEVFX\Functions\Gunner_Action";
 			class gunnerLoop;
 			class CreateLaser;
 			class CreateSpotLight;
