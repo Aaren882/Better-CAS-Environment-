@@ -2,20 +2,36 @@ params ["_veh","_mode","_unit"];
 _Optics = _veh getVariable "TGP_View_Available_Optics";
 
 (_Optics select {(_veh unitTurret _unit) isEqualTo (_x # 1)}) apply {
-  private _lod = _x # 0;
   private _turret = _x # 1;
 
   //Beg ,End for resetting direction
-  _config = [typeOf _veh, _turret] call BIS_fnc_turretConfig;
+  private _config = [typeOf _veh, _turret] call BIS_fnc_turretConfig;
 
   private _Light_Offset = if (isArray(_config >> "SpotLight_Offset")) then {getArray(_config >> "SpotLight_Offset") vectorAdd [0,0.5,-0.35]} else {[0,0,0]};
+  private _lod = if (isText (_config >> "Light_Memory")) then {
+    getText (_config >> "Light_Memory")
+  } else {
+    _x # 0
+  };
 
-  private _offset = if (getNumber(_config >> "LightFromLOD")==1) then {_Light_Offset} else {[0,0.5,-0.35] vectorAdd _Light_Offset};
+  private _offset = if (getNumber(_config >> "LightFromLOD") == 1) then {_Light_Offset} else {[0,0.5,-0.35] vectorAdd _Light_Offset};
+  private _Laser_lod = if (isText (_config >> "Laser_Memory")) then {
+    getText (_config >> "Laser_Memory")
+  } else {
+    getText (_config >> "gunEnd")
+  };
 
-  private _Laser_lod = getText (_config >> "gunEnd");
-  private _Laser_Offset = if (isArray (_config >> "Laser_Offset")) then {getArray(_config >> "Laser_Offset")} else {[0,0,0]};
+  private _Laser_Offset = if (isArray (_config >> "Laser_Offset")) then {
+    getArray(_config >> "Laser_Offset")
+  } else {
+    if (_veh isKindOf "Air") then {
+      [0,0,0]
+    } else {
+      [-0.2,0,-0.1]
+    };
+  };
 
-  switch (_mode) do
+  switch _mode do
   {
     //Lights
     case "Light": {

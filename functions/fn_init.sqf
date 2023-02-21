@@ -4,7 +4,7 @@
 //HUD Compass
 ["cameraView", BCE_fnc_call_Compass, true] call CBA_fnc_addPlayerEventHandler;
 ["vehicle", BCE_fnc_SetMFDValue, true] call CBA_fnc_addPlayerEventHandler;
-["Air","GetIn",BCE_fnc_Check_Optics] call CBA_fnc_addClassEventHandler;
+["AllVehicles","GetIn",BCE_fnc_Check_Optics] call CBA_fnc_addClassEventHandler;
 ["Helicopter","GetOut",{
 	params ["_vehicle", "_role", "_unit", "_turret"];
 	private _laser = _unit getVariable ["BCE_turret_Gunner_Laser",[]];

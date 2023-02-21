@@ -1,6 +1,10 @@
 #define aceAction ace_interact_menu_fnc_createAction
 #define aceActionClass ace_interact_menu_fnc_addActionToClass
-#define getOpticVars (vehicle _unit) getVariable ["TGP_View_Available_Optics",[]]
+#define getOpticVars ((vehicle _unit) getVariable ["TGP_View_Available_Optics",[]])
+#define Available_Optics ["","RscWeaponZeroing","RscOptics_Offroad_01","RscOptics_crows","RHS_RscWeaponZeroing_TurretAdjust"]
+#define SpotLight_Condition (_condition && ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in Available_Optics) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x select 1})))
+#define Laser_Condition (_condition && ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in Available_Optics) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x select 1})))
+
 private ["_action"];
 
 //-Clear
@@ -87,6 +91,7 @@ _action = ["BCE_Use_Selected_TGP","TGP View","",{
 	} else {
 		(alive (_selected # 1)) && (isEngineOn (_selected # 1))
 	};
+
 	(_condition) && (_unit getVariable ["TGP_View_EHs",-1] == -1)
 }] call aceAction;
 
@@ -111,8 +116,9 @@ _action = ["BCE_Use_Heli_SpotLight","Toggle Spot Light","",{
   };
 
 	},{
-    params ["_unit"];
-    ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"]) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
+		params ["_unit"];
+		_condition = [true,BCE_LandVeh_Light_fn] select ((vehicle _unit) isKindOf "LandVehicle");
+    SpotLight_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
 
@@ -132,7 +138,8 @@ _action = ["BCE_Use_Heli_SpotLight_IR","Toggle Light (IR)","",{
 
 	},{
     params ["_unit"];
-    ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"]) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
+		_condition = [true,BCE_LandVeh_Light_fn] select ((vehicle _unit) isKindOf "LandVehicle");
+    SpotLight_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
 
@@ -154,7 +161,8 @@ _action = ["BCE_Use_Heli_LaserR","Toggle Laser (Red)","",{
 
 },{
     params ["_unit"];
-	  ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"]) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
+		_condition = [true,BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
+	  Laser_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
 
@@ -174,7 +182,8 @@ _action = ["BCE_Use_Heli_LaserG","Toggle Laser (Green)","",{
 
 },{
     params ["_unit"];
-	  ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"]) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
+		_condition = [true,BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
+	  Laser_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
 
@@ -194,6 +203,7 @@ _action = ["BCE_Use_Heli_LaserIR","Toggle Laser (IR)","",{
 
 },{
     params ["_unit"];
-	  ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"]) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x # 1}))
+		_condition = [true,BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
+	  Laser_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
