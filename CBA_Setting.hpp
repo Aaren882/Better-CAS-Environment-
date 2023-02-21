@@ -160,3 +160,20 @@
 	false,
 	1
 ] call CBA_fnc_addSetting;
+
+//-Turret Gunner
+[
+	"BCE_LandVeh_Light_fn","CHECKBOX",
+	["Spotlight on Ground Vehicle Turret"],
+	["Better CAS Environment (Server)", "Turret Gunner"],
+	false,
+	1
+] call CBA_fnc_addSetting;
+
+[
+	"BCE_LandVeh_Laser_fn","CHECKBOX",
+	["Laser on Ground Vehicle Turret"],
+	["Better CAS Environment (Server)", "Turret Gunner"],
+	false,
+	1
+] call CBA_fnc_addSetting;
