@@ -1,13 +1,15 @@
-
-//-input _vehicle
-if (hasPilotCamera _vehicle) then {
-  if (isMultiplayer) then {
-    if (isplayer _vehicle) then {
-      {
-        cameraOn setVariable ["BCE_Camera_Info_Air",[getPilotCameraTarget cameraOn, getPilotCameraDirection cameraOn],true];
-      } remoteExec ["call", _vehicle, true];
-    };
-  } else {
-    _vehicle setVariable ["BCE_Camera_Info_Air",[getPilotCameraTarget _vehicle, getPilotCameraDirection _vehicle]];
-  };
+if (
+    (time > (BCE_TGP_LastUpdate + 0.035)) &&
+    (hasPilotCamera cameraOn) &&
+    (
+      (isLaserOn cameraOn) or
+      ({
+        ((_x getVariable ["TGP_View_EHs",-1]) != -1) &&
+        (((_x getVariable ["TGP_View_Selected_Optic",[[],objNull]]) # 1) isEqualTo cameraOn)
+      } count allUnits) > 0
+    )
+  ) then {
+  BCE_TGP_LastUpdate = time;
+  private _info = getPilotCameraTarget cameraOn;
+  cameraOn setVariable ["BCE_Camera_Info_Air",[[_info # 0, _info # 1], getPilotCameraDirection cameraOn],true];
 };

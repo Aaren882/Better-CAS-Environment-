@@ -4,7 +4,7 @@
 params["_mode","_params","_class"];
 
 _fnc_onLBSelChanged = {
-	params ["_ctrlValue", "_selectedIndex", "_lbSelection"];
+	params ["_ctrlValue","_selectedIndex"];
 
 	_display = ctrlParent _ctrlValue;
 	_checklist = _display displayCtrl 2100;
@@ -22,8 +22,9 @@ _fnc_onLBSelChanged = {
 			(_display displayCtrl _x) ctrlSetText "-";
 		};
 		player setVariable ["TGP_View_Selected_Vehicle",objNull];
-		player setVariable ["TGP_View_Selected_Optic",[],true];
+		player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
 		(_display displayctrl 1600) ctrlEnable false;
+		(_display displayctrl 1601) ctrlEnable false;
 		(_display displayctrl 1602) ctrlEnable false;
 
 		//-CAS Menu
@@ -41,19 +42,14 @@ _fnc_onLBSelChanged = {
 		[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
 	};
 
+	_Optic_LODs = _vehicle getVariable ["TGP_View_Available_Optics",[]];
+
 	[_display,1,true,_vehicle] call BCE_fnc_ListSwitch;
 	_createTask ctrlEnable true;
 
 	//-Button Enable
-	if (_vehicle getVariable "TGP_View_Available_Optics" isEqualTo []) then {
-	 	(_display displayctrl 1600) ctrlEnable false;
-	} else {
-		(_display displayctrl 1600) ctrlEnable true;
-	};
-
-	(_display displayctrl 1602) ctrlEnable true;
-
-	_Optic_LODs = _vehicle getVariable ["TGP_View_Available_Optics",[]];
+	(_display displayctrl 1600) ctrlEnable !(_Optic_LODs isEqualTo []);
+	(_display displayctrl 1602) ctrlEnable (count _Optic_LODs > 1);
 
 	if (player getVariable ["TGP_View_Selected_Optic",[]] isEqualTo []) then {
 	  player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
@@ -63,44 +59,31 @@ _fnc_onLBSelChanged = {
 	  player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 	};
 
-	//-Create Directional object
-	call BCE_fnc_createTurret_DirObject;
-
 	[{
 		params ["_display","_ctrlValue","_Selected","_vehicle_New"];
 
 		_vehicle = player getvariable ["TGP_View_Selected_Vehicle",objNull];
 
 		if (!(_vehicle isEqualTo objNull) or (ctrlShown (_display displayCtrl 1700))) then {
-			_pilot = if ((driver _vehicle) isEqualTo objNull) then {
-				"-"
-			} else {
-				name (driver _vehicle)
-			};
-
-			//-Output TGP Dir (For current controlling vehicle only)
-		  call BCE_fnc_UpdateCameraInfo;
 
 			_Selected_Optic = player getVariable "TGP_View_Selected_Optic";
-			_current_turret = (_Selected_Optic # 0) # 1;
+			_current_turret = (_Selected_Optic # 0) param [1,[0]];
 
 			_turret_Unit = _vehicle turretUnit _current_turret;
-			_gunner = if (_turret_Unit isEqualTo objNull) then {
-				"-"
-			} else {
-				name _turret_Unit
-			};
+
+			_gunner = [name _turret_Unit,"-"] select ((_turret_Unit isEqualTo objNull) or (_turret_Unit isEqualTo (driver _vehicle)));
+			_pilot = [name (driver _vehicle),"-"] select ((driver _vehicle) isEqualTo objNull);
 
 			_Cant_CtrlVeh = ({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle)) > 0;
 
 			// - Disable Unavailable Turret
 			if (
-				 	_Cant_CtrlVeh or
-					(_gunner == "-") or
-					(_turret_Unit in (missionNamespace getVariable ["TGP_View_Turret_List",[]])) or
-					((vehicle _turret_Unit) in (missionNamespace getVariable ["TGP_View_Turret_List",[]])) or
-			    ((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"])
-				) then {
+				 _Cant_CtrlVeh or
+				(_gunner == "-") or
+				(_turret_Unit in (missionNamespace getVariable ["TGP_View_Turret_List",[]])) or
+				((vehicle _turret_Unit) in (missionNamespace getVariable ["TGP_View_Turret_List",[]])) or
+			  ((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"])
+			) then {
 			  (_display displayctrl 1601) ctrlEnable false;
 			} else {
 				(_display displayctrl 1601) ctrlEnable true;
@@ -160,6 +143,8 @@ _fnc_onButtonClick_Connect = {
 };
 
 _fnc_onButtonClick_Switch = {
+	params ["_control"];
+
 	private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
 	if !(_vehicle isEqualTo objNull) then {
 		(call BCE_fnc_getTurret) params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
@@ -172,24 +157,12 @@ _fnc_onButtonClick_Switch = {
 		};
 
 		_turret_select = _Optic_LODs # _current_turret;
-
 		player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
+		_squad_list = (ctrlParent _control) displayctrl 20116;
 
-		//-Reset Directional Object
-		private _dir_object = missionNamespace getVariable ["BCE_Directional_object_AV",objNull];
-		if !(_dir_object isEqualTo objNull) then {
-			_dir_object attachTo [_vehicle, [0,100,0],_turret_select # 0,true];
+		if (ctrlshown _squad_list) then {
+		 	_squad_list lbSetCurSel ([(_current_turret + 1) min (count _Optic_LODs),_current_turret] select (-1 in (flatten _Optic_LODs)));
 		};
-
-		//UI
-		_turret_Unit = _vehicle turretUnit _turret_select # 1;
-
-		_gunner = if (_turret_Unit isEqualTo objNull) then {
-			"None"
-		} else {
-			name _turret_Unit
-		};
-		((uiNameSpace getVariable "BCE_TGP") displayCtrl 1029) ctrlSetText (format ["Gunner: %1", _gunner]);
 	};
 };
 
@@ -240,14 +213,18 @@ switch _mode do
 			_selected = player getvariable ["TGP_View_Selected_Vehicle",objNull];
 
 			_UnitList = vehicles Select {
-				//!(_x getVariable "TGP_View_Available_Optics" isEqualTo [])
-			  (_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
+			  !(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
+			};
+
+			//-Exit Task Builder if Nil {_vehicle}
+			if (_selected isEqualTo objNull) then {
+				uiNameSpace setVariable ["BCE_CAS_ListSwtich", false];
+				[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
 			};
 
 			{
 			  _vehicle = _x;
-			  _class = typeOf _vehicle;
-			  _cfg = configfile >> "cfgvehicles" >> _class;
+			  _cfg = configfile >> "cfgvehicles" >> typeOf _vehicle;
 
 				_lbAdd = _control lbAdd format ["%1   %2",Name _vehicle,gettext (_cfg >> "displayName")];
 				_control lbSetData [_lbAdd, str _vehicle];
@@ -332,9 +309,6 @@ switch _mode do
 		_control ctrladdeventhandler ["MouseButtonUp","with uinamespace do {['pipClicked',_this,''] call RscDisplayAVTerminal_script};"];
 		_control = _display displayctrl IDC_IGUI_AVT_PIP2;
 		_control ctrladdeventhandler ["MouseButtonUp","with uinamespace do {['pipClicked',_this,''] call RscDisplayAVTerminal_script};"];
-
-		//-Create Directional object
-		call BCE_fnc_createTurret_DirObject;
 
 		//-Draw vehicle Icons
 		/* private _map = _display displayCtrl 51;

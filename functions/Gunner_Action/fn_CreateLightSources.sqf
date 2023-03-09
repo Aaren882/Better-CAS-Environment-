@@ -1,6 +1,8 @@
 params ["_veh","_mode","_unit"];
 _Optics = _veh getVariable "TGP_View_Available_Optics";
 
+#define hideLight ([_lightL, true] remoteExec ["hideObjectGlobal", 2])
+
 (_Optics select {(_veh unitTurret _unit) isEqualTo (_x # 1)}) apply {
   private _turret = _x # 1;
 
@@ -53,23 +55,23 @@ _Optics = _veh getVariable "TGP_View_Available_Optics";
     case "LaserR": {
       _lightL = createSimpleObject ["A3\data_f\VolumeLightFlashlight.p3d",[0,0,0]];
       _lightL attachTo [_veh, [0,0,0], _lod, true];
-      hideObject _lightL;
+      hideLight;
 
-      _unit setVariable ["BCE_turret_Gunner_Laser",[[_lightL],[_Laser_lod,_Laser_Offset],[1000,0,0],_veh],true];
+      _unit setVariable ["BCE_turret_Gunner_Laser",[_lightL,[_Laser_lod,_Laser_Offset],[1000,0,0],_veh],true];
     };
     case "LaserG": {
       _lightL = createSimpleObject ["A3\data_f\VolumeLightFlashlight.p3d",[0,0,0]];
       _lightL attachTo [_veh, [0,0,0], _lod, true];
-      hideObject _lightL;
+      hideLight;
 
-      _unit setVariable ["BCE_turret_Gunner_Laser",[[_lightL],[_Laser_lod,_Laser_Offset],[0,1000,0],_veh],true];
+      _unit setVariable ["BCE_turret_Gunner_Laser",[_lightL,[_Laser_lod,_Laser_Offset],[0,1000,0],_veh],true];
     };
     case "LaserIR": {
       _lightL = createSimpleObject ["A3\data_f\VolumeLightFlashlight.p3d",[0,0,0]];
       _lightL attachTo [_veh, [0,0,0], _lod, true];
-      hideObject _lightL;
+      hideLight;
 
-      _unit setVariable ["BCE_turret_Gunner_Laser",[[_lightL],[_Laser_lod,_Laser_Offset],[1000,1000,1000],_veh],true];
+      _unit setVariable ["BCE_turret_Gunner_Laser",[_lightL,[_Laser_lod,_Laser_Offset],[1000,1000,1000],_veh],true];
     };
   };
 };

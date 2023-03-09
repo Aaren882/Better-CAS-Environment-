@@ -2,7 +2,7 @@ _idEH = addMissionEventHandler ["EachFrame", {
   _LaserLight_UnitList = missionNamespace getVariable ["IR_LaserLight_UnitList", []];
   if (count _LaserLight_UnitList != 0) then {
     _LaserLight_UnitList apply {
-      if (isLaserOn _x) then {
+      if (_x call BCE_fnc_isLaserOn) then {
         _x call BCE_fnc_LaserDesignator;
       };
     };
@@ -12,6 +12,9 @@ _idEH = addMissionEventHandler ["EachFrame", {
   (allunits select {!(_x getVariable ["BCE_turret_Gunner_Laser",[]] isEqualTo [])}) apply {
     _x call BCE_fnc_gunnerLoop;
   };
+
+  //-TGP Update
+  call BCE_fnc_UpdateCameraInfo;
 
   //-Take Client Side Handler
   private _EH = player getVariable ["IR_LaserLight_EachFrame_EH_Client",-1];

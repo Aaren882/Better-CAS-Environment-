@@ -4,13 +4,13 @@ params ["_vehicle"];
 if ((_vehicle getVariable ["TGP_View_Available_Optics",[]]) isEqualTo []) then {
 
   _Optics_Array = [];
-  _config_path = configFile >> "CfgVehicles" >> typeOf _vehicle;
+  _config_path = configOf _vehicle;
 
   _pilot_cam_LOD = if (
     (isClass (_config_path >> "pilotCamera")) &&
     (getNumber (_config_path >> "pilotCamera" >> "controllable") == 1)
   ) then {
-    [getText (_config_path >> "memoryPointDriverOptics"),[],true]
+    [getText (_config_path >> "memoryPointDriverOptics"),[-1],true]
   } else {
     ["",[]]
   };

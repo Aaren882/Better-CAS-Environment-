@@ -1,6 +1,6 @@
 _vehicle = vehicle player;
 
-if !(_vehicle iskindof "Plane_Base_F") then {
+if (_vehicle iskindof "Helicopter") then {
   if (BCE_HUD_fn) then {
     _vehicle setUserMFDValue [11, 1];
   } else {

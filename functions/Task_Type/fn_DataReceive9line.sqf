@@ -30,11 +30,27 @@ switch _curLine do {
         _taskVar set [1,["NA",[]]];
       };
     } else {
-      _TGPOS = uinamespace getVariable ["BCE_MAP_ClickPOS",[]];
+      if (lbCurSel _ctrl1 == 1) then {
+        _TGPOS = uinamespace getVariable ["BCE_MAP_ClickPOS",[]];
 
-      //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:Elevation]
-      if !(_TGPOS isEqualTo []) then {
-        _TGPOS resize [3, 0];
+        //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:Elevation]
+        if !(_TGPOS isEqualTo []) then {
+          _TGPOS resize [3, 0];
+          _markerInfo = format ["GRID: [%1]",mapGridPosition _TGPOS];
+          _taskVar set [1,
+            [
+              _markerInfo,
+              "GRID",
+              _TGPOS,
+              [lbCurSel _ctrl1,lbCurSel _ctrl2]
+            ]
+          ];
+        } else {
+          _taskVar set [1,["NA",[]]];
+        };
+      } else {
+        _TGPOS = getpos cameraOn;
+        _TGPOS set [2,0];
         _markerInfo = format ["GRID: [%1]",mapGridPosition _TGPOS];
         _taskVar set [1,
           [
@@ -44,8 +60,6 @@ switch _curLine do {
             [lbCurSel _ctrl1,lbCurSel _ctrl2]
           ]
         ];
-      } else {
-        _taskVar set [1,["NA",[]]];
       };
     };
     _ctrl3 ctrlSetText (_taskVar # 1 # 0);
@@ -167,12 +181,29 @@ switch _curLine do {
         _taskVar set [8,["NA","",[],[0,0],""]];
       };
     } else {
-      _TGPOS = uinamespace getVariable ["BCE_MAP_ClickPOS",[]];
+      if (lbCurSel _ctrl1 == 1) then {
+        _TGPOS = uinamespace getVariable ["BCE_MAP_ClickPOS",[]];
 
-      //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:CurSel, 5: Mark Info]
-      if !(_TGPOS isEqualTo []) then {
-        _markerInfo = format ["FRND: %1", _info];
-        _TGPOS resize [3, 0];
+        //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:CurSel, 5: Mark Info]
+        if !(_TGPOS isEqualTo []) then {
+          _markerInfo = format ["FRND: %1", _info];
+          _TGPOS resize [3, 0];
+          _taskVar set [8,
+            [
+              _markerInfo,
+              "GRID",
+              _TGPOS,
+              [lbCurSel _ctrl1,lbCurSel _ctrl2],
+              _text
+            ]
+          ];
+        } else {
+          _taskVar set [8,["NA","",[],[0,0],""]];
+        };
+      } else {
+        _TGPOS = getpos cameraOn;
+        _TGPOS set [2,0];
+        _markerInfo = format ["GRID: [%1]",mapGridPosition _TGPOS];
         _taskVar set [8,
           [
             _markerInfo,
@@ -182,8 +213,6 @@ switch _curLine do {
             _text
           ]
         ];
-      } else {
-        _taskVar set [8,["NA","",[],[0,0],""]];
       };
     };
     _ctrl3 ctrlSetText (_taskVar # 8 # 0);
@@ -198,29 +227,38 @@ switch _curLine do {
     _marker = nil;
     if (lbCurSel _ctrl1 == 1) then {
       _TextInfo = ctrlText _ctrl2;
-      if ((_TextInfo == "") or (_TextInfo == "Bearing...")) exitWith {
+
+      //-Debug
+      if ((_TextInfo == "") or (_TextInfo == "Bearing...") or isnil{(call compile _TextInfo)}) exitWith {
+        hint "Wrong Input!!";
         _ctrl2 ctrlSetText "Bearing...";
       };
+
       _HDG = round (call compile _TextInfo);
       if (_HDG > 360) exitWith {
         _ctrl2 ctrlSetText "Bearing...";
         _HDG = nil;
       };
+    } else {
+      if (lbCurSel _ctrl1 == 2) then {
+        _TGPOS = call compile (_ctrl5 lbData (lbCurSel _ctrl5));
+        _TGPOS resize [3, 0];
+        _marker = _ctrl5 lbText (lbCurSel _ctrl5);
+      };
+      if (lbCurSel _ctrl1 == 3) then {
+        _TGPOS = getpos cameraOn;
+        _TGPOS set [2,0];
+        _marker = "OverHead";
+      };
     };
 
     _cardinaldir = _HDG call BCE_fnc_getAzimuth;
 
-    if (lbCurSel _ctrl1 == 2) then {
-      _TGPOS = call compile (_ctrl5 lbData (lbCurSel _ctrl5));
-      _TGPOS resize [3, 0];
-      _marker = _ctrl5 lbText (lbCurSel _ctrl5);
-    };
+    _text = [
+      format ["EGRS: %1",_marker],
+      format ["EGRS: %1 %2°",_cardinaldir,_HDG]
+    ] select (isnil "_marker");
 
-    _text = if (isnil "_marker") then {
-      format ["EGRS: %1 %2°",_cardinaldir,_HDG];
-    } else {
-      format ["EGRS: %1",_marker];
-    };
     if !(isnil"_cardinaldir") then {
       _taskVar set [9,[_text,_HDG,[lbCurSel _ctrl1,lbCurSel _ctrl4,lbCurSel _ctrl5],_TGPOS,_marker]];
       _ctrl3 ctrlSetText (_taskVar # 9 # 0);
@@ -288,7 +326,7 @@ if ((_taskVar # 6 # 0) != "NA") then {
     private ["_taskVar_9","_HDG","_text"];
     _taskVar_9 = _taskVar # 9;
     _HDG = round ((_taskVar_6 # 2) getDir (_taskVar_9 # 3));
-    _text = format ["EGRS: [%1] %2°",_taskVar_9 # 4,_HDG];
+    _text = format ["EGRS: [%1] %2 %3°",_taskVar_9 # 4, _HDG call BCE_fnc_getAzimuth, _HDG];
     _taskVar set [9,[_text,_HDG,_taskVar_9 # 2,_taskVar_9 # 3,_taskVar_9 # 4]];
   };
 };
@@ -316,12 +354,10 @@ if (((_taskVar # 8 # 0) != "NA") && ((_taskVar # 6 # 0) != "NA")  && !("with:" i
   _InfoText = _taskVar_8 # 4;
   _isEmptyInfo = ((_InfoText == "Mark with...") or (_InfoText == ""));
 
-  _info = if _isEmptyInfo then {
-    format ["“%1” %2m", _cardinaldir, _dist];
-  } else {
-    format ["“%1” %2m with: [%3]", _cardinaldir, _dist, toUpper _InfoText];
-  };
-
+  _info = [
+    format ["“%1” %2m with: [%3]", _cardinaldir, _dist, toUpper _InfoText],
+    format ["“%1” %2m", _cardinaldir, _dist]
+  ] select _isEmptyInfo;
   _taskVar set [8, [_info,_taskVar_8 # 1,_taskVar_8 # 2,_taskVar_8 # 3,_taskVar_8 # 4]];
 };
 

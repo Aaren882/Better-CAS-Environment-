@@ -48,10 +48,15 @@ switch _curLine do {
         _ctrl2 ctrlShow false;
         _ctrl4 ctrlShow false;
       } else {
-        _ctrl2 ctrlShow true;
-
-        _ctrl4 ctrlShow false;
-        _ctrl5 ctrlShow false;
+        if (_selectedIndex == 3) then {
+          _ctrl2 ctrlShow false;
+          _ctrl4 ctrlShow false;
+          _ctrl5 ctrlShow false;
+        } else {
+          _ctrl2 ctrlShow true;
+          _ctrl4 ctrlShow false;
+          _ctrl5 ctrlShow false;
+        };
       };
     };
   };

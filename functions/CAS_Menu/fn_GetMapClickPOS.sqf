@@ -1,9 +1,22 @@
 params ["_control", "_button", "_xPos", "_yPos", "_shift", "_ctrl", "_alt"];
 _display = ctrlparent _control;
 _ctrlCombo = _display displayctrl 2013;
-_type = _display displayctrl 2012;
 
-if ((_shift) && !(ctrlshown _ctrlCombo) && (ctrlshown _type)) then {
+_type = _display displayctrl 2012;
+_type1 = _display displayctrl 20121;
+
+if (
+    (_shift) &&
+    !(ctrlshown _ctrlCombo) &&
+    (
+      (ctrlshown _type) or
+      (ctrlshown _type1)
+    ) &&
+    (
+      !(ctrlshown _type) or
+      !(_type lbText (lbCurSel _type) == "OverHead")
+    )
+  ) then {
   private _POS = _control ctrlMapScreenToWorld [_xPos, _yPos];
   private _marker = createMarkerLocal ["BCE_ClickPOS_Marker", _POS];
 

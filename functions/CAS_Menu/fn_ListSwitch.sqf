@@ -25,13 +25,23 @@ _list_result = switch (_Task_Type lbValue (lbCurSel _Task_Type)) do {
 };
 _list_result params ["_TaskList","_taskVar"];
 
+_Expression_class = "true" configClasses (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _TaskList >>"items");
 _Task_title = _display displayctrl 2003;
-_Task_Description = _display displayctrl 2004;
+_desc_show = _display displayctrl 20042;
+_squad_title = _display displayctrl 20114;
+_squad_pic = _display displayctrl 20115;
+_squad_list = _display displayctrl 20116;
+
+//-Description
+_extend_desc = (_Expression_class apply {getNumber(_x >> "multi_options") == 1}) # (lbCurSel _TaskList);
+_Task_Description = [
+  _display displayctrl 2004,
+  _display displayctrl 20041
+] select _extend_desc;
+
 _clearbut = _display displayCtrl 2106;
 
 //-Get Expression
-_Expression_class = "true" configClasses (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _TaskList >>"items");
-
 _Expression_TextR = _Expression_class apply {
   getText (_x >> "textRight")
 };
@@ -39,13 +49,9 @@ _Expression_TextR = _Expression_class apply {
 _Expression_Ctrls = (_Expression_class apply {
     getArray (_x >> "Expression_idc")
   }) apply {
-  if !(_x isEqualTo []) then {
-    _x apply {
-      _display displayctrl _x
-    };
-  } else {
-    []
-  };
+  [
+    _x apply {_display displayctrl _x},[]
+  ] select (_x isEqualTo []);
 };
 
 //-Task Status
@@ -65,12 +71,12 @@ _Expression_Ctrls = (_Expression_class apply {
 
 //-from the Last page (Break)
 if (ctrlShown _Task_title) exitWith {
-  {_x ctrlShow false} forEach ([_Task_title,_Task_Description] + (flatten _Expression_Ctrls));
+  {_x ctrlShow false} forEach ([_Task_title,_Task_Description,_desc_show,_squad_title,_squad_pic,_squad_list] + (flatten _Expression_Ctrls));
   (_display displayCtrl 2105) ctrlSetText "Send Data";
   _TaskList ctrlShow true;
 
   //-Back to check list
-  [_display,1,true] call BCE_fnc_ListSwitch;
+  [_display,1,true,_vehicle] call BCE_fnc_ListSwitch;
 };
 
 //-Switch Pages

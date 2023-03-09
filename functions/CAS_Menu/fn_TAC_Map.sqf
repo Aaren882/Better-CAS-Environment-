@@ -105,20 +105,18 @@ _ctrl drawIcon [
       private _current_turret = _connected_Optic # 0 # 1;
       //-is Pilot Camera
       private _FocusPos = if (_current_turret isEqualTo []) then {
-        ((_x getVariable ["BCE_Camera_Info_Air",[]]) # 0) params [["_pilotCamTracking",false], ["_FocusPos",[0,0,0]], ["_pilotCamTarget",objNull]];
+        ((_x getVariable ["BCE_Camera_Info_Air",[]]) # 0) params [["_pilotCamTracking",false], ["_FocusPos",[0,0,0]]];
         if (_pilotCamTracking) then {
           _FocusPos
         } else {
           nil
         };
       } else {
-        private _dir_simp = missionNamespace getVariable ["BCE_Directional_object_AV",objNull];
-        if !(_dir_simp isEqualTo objNull) then {
+        if (uinamespace getVariable ['BCE_Terminal_Targeting',true]) then {
           private _lod = getText([_x, _current_turret] call BIS_fnc_turretConfig >> "memoryPointGunnerOptics");
           private _startLODPos = _x modelToWorldVisual (_x selectionPosition _lod);
 
-          private _dir = vectorDir _dir_simp;
-          private _dirNorm = vectorNormalized _dir;
+          private _dirNorm = [_x,_current_turret] call BCE_fnc_getTurretDir;
           private _dirDist = _dirNorm vectorMultiply ((getObjectViewDistance # 0)*2);
           private _startPos = (_dirNorm vectorMultiply 1.5) vectorAdd _startLODPos;
           private _dirPoint = _startPos vectorAdd _dirDist;
@@ -147,7 +145,7 @@ _ctrl drawIcon [
       };
     };
   };
-} forEach (vehicles select {(_x isKindOf "Air") && (isEngineOn _x) && !(unitIsUAV _x) && (playerSide == side _x)});
+} forEach (vehicles select {!(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)});
 
 //- CAS
 _Task_Type = _display displayCtrl 2107;

@@ -35,16 +35,6 @@ _combo lbSetData [_index, "[]"];
       };
     };
 
-    /* allmapmarkers apply {
-      (getArray (configFile >> "CfgMarkerColors" >> (markerColor _x) >> "Color")) apply {
-        if (_x isEqualType "") then {
-          call compile _x
-        } else {
-          _x
-        };
-      };
-    }; */
-
     //-Set Control Contents
     _text = if (_text == "") then {"N/A"} else {_text};
     private _index = _combo lbAdd _text;

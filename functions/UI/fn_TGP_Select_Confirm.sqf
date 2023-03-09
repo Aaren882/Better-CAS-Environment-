@@ -60,9 +60,7 @@ cutText ["", "BLACK IN",0.5];
 cameraEffectEnableHUD true;
 showCinemaBorder false;
 
-
 [_player getVariable ["TGP_View_Optic_Mode",2]] call BCE_fnc_OpticMode;
-
 _player setVariable ["TGP_View_laser_update", [time,""]];
 
 //Crews
@@ -154,10 +152,10 @@ _idEH = addMissionEventHandler ["Draw3D", {
   _is_Detached = _Selected_Optic # 2;
 
   //-Output TGP Dir (For current controlling vehicle only)
-  call BCE_fnc_UpdateCameraInfo;
-  
+  //call BCE_fnc_UpdateCameraInfo;
+
   if (_is_Detached) then {
-    _wRot = if (_current_turret isEqualTo []) then {
+     _wRot = if (_current_turret isEqualTo []) then {
       (_vehicle getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1
     } else {
       (_vehicle selectionVectorDirAndUp [_TGP, "Memory"]) # 0;
@@ -241,7 +239,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
   _laser_Vars = _player getVariable "TGP_View_laser_update";
 
   //Laser
-  if (isLaserOn _vehicle) then {
+  if (_vehicle isLaserOn _current_turret) then {
     if ((_laser_Vars # 0) <= time) then {
       if ((_laser_Vars # 1) Equal "") then {
         _player setVariable ["TGP_View_laser_update", [time+0.2,"L T D / R"]];

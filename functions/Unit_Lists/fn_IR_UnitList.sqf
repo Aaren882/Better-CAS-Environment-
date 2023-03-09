@@ -1,7 +1,7 @@
 (allUnits + vehicles) select {
   //Conditions
   (
-    (isLaserOn _x) &&
+    (_x call BCE_fnc_isLaserOn) &&
     (alive _x)
   )
 };

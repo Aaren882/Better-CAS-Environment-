@@ -1,50 +1,46 @@
 {
-  _ColorWEST = [0,0.3,0.6,1];
-  _ColorEAST = [0.5,0,0,1];
-  _ColorGUER = [0,0.5,0,1];
-  _ColorCIV = [0.4,0,0.5,1];
-  _ColorUNKNOWN = [0.7,0.6,0,1];
+  private _Channel = markerChannel _x;
+  private _class = getMarkerType _x;
+  private _path = configFile >> "CfgMarkers" >> _class;
 
-  _Marker = _x;
-  _markerPOS = getMarkerPos _Marker;
-  _markerColorRaw = MarkerColor _Marker;
-  _markerType = getMarkerType _Marker;
-  _markerText = markerText _Marker;
-  _markerIcon = getText (configFile >> "CfgMarkers" >> _markerType >> "icon");
-  _markerColor = getArray (configFile >> "CfgMarkerColors" >> _markerColorRaw >> "Color");
+  private _MP_Compat = if (isMultiplayer) then {
+    _Channel >= 0
+    //currentChannel == _Channel
+  } else {
+    _Channel == -1
+  };
+  //-Exclude Polylines
+  if (
+      (getNumber(_path >> "Size") != 0) &&
+      ((markerPolyline _x) isEqualTo []) &&
+      (
+        _MP_Compat
+      )
+    ) then {
+    private _text = markerText _x;
 
-  if (_markerColor isEqualTo []) then {
-    _markerColor = [1,1,1,1];
-  };
+    //-Color
+    private _color = (getArray (configFile >> "CfgMarkerColors" >> (markerColor _x) >> "Color")) apply {
+      if (_x isEqualType "") then {
+        call compile _x
+      } else {
+        _x
+      };
+    };
 
-  if ((_markerColorRaw == "ColorWEST") or (_markerColorRaw == "colorBLUFOR")) then {
-      _markerColor = _ColorWEST;
+    drawIcon3D [
+      getText (_path >> "icon"),
+      _color,
+      getMarkerPos _x,
+      1,
+      1,
+      0,
+      _text,
+      1,
+      0.04,
+      "PuristaMedium",
+      "",
+      false
+    ];
   };
-  if ((_markerColorRaw == "ColorEAST") or (_markerColorRaw == "colorOPFOR")) then {
-    _markerColor = _ColorEAST;
-  };
-  if ((_markerColorRaw == "ColorGUER") or (_markerColorRaw == "colorIndependent")) then {
-    _markerColor = _ColorGUER;
-  };
-  if ((_markerColorRaw == "ColorCIV") or (_markerColorRaw == "ColorCivilian")) then {
-    _markerColor = _ColorCIV;
-  };
-  if (_markerColorRaw == "ColorUNKNOWN") then {
-    _markerColor = _ColorUNKNOWN;
-  };
-
-  drawIcon3D [
-    _markerIcon,
-    [_markerColor # 0,_markerColor # 1,_markerColor # 2,_alpha],
-    _markerPOS,
-    1,
-    1,
-    0,
-    _markerText,
-    1,
-    0.04,
-    "PuristaMedium",
-    "",
-    false
-  ];
 } foreach allMapMarkers;

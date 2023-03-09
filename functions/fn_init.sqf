@@ -86,7 +86,7 @@ if (({(_x getVariable ["IR_LaserLight_EachFrame_EH",-1]) != -1} count allPlayers
 	//TGP View
 	if ((player getvariable ["TGP_View_Selected_Vehicle",objNull]) isEqualTo _unit) then {
 		player setVariable ["TGP_View_Selected_Vehicle",objNull];
-		player setVariable ["TGP_View_Selected_Optic",[]];
+		player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
 
 		if !(TGP_View_Camera isEqualTo []) then {
 			camUseNVG false;

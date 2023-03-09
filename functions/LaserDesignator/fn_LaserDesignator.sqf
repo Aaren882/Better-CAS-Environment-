@@ -50,9 +50,10 @@ if (_unit isKindOf "Air") then {
     (_unit getVariable "IR_LaserLight_Source_Air") params ["_lightL","_light_object"];
 
     _wRot = if (_var_has_gunner # 0) then {
-      ((_unit selectionVectorDirAndUp [(_vars_turret # 0), "Memory"]) # 0)
+      ((_unit selectionVectorDirAndUp [(_vars_turret # 0), "Memory"]) # 0);
     } else {
       (_unit getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1
+      //((_unit selectionVectorDirAndUp [getText (configOf _unit >> "memoryPointDriverOptics"), "Memory"]) # 0)
     };
 
     if (BCE_veh_IR_fn) then {
@@ -88,19 +89,14 @@ if (_unit isKindOf "Air") then {
 } else {
   //Ground Unit
   _binocular = if ((_unit isEqualTo cameraon) && ((currentWeapon cameraon) isKindOf ["Binocular", configFile >> "CfgWeapons"])) then {!(cameraView == "GUNNER")} else {true};
-  _condition = if ((vehicle _unit isEqualTo _unit) or (player in vehicle _unit)) then {(speed _unit == 0) && _binocular} else {true};
+  _condition = if (((vehicle _unit isEqualTo _unit) or (player in vehicle _unit))) then {(speed _unit < 1) && _binocular} else {true};
   _Light_Soure = _unit getVariable ["IR_LaserLight_Source_Inf",objNull];
 
   _weaponPOS = if (_unit in vehicles) then {
     (
-      (allTurrets _unit) apply {
-        private _turret = _x;
-        [(_unit weaponsTurret _turret) select {_x isKindOf ["Laserdesignator_mounted", configFile >> "CfgWeapons"]},_turret]
-      } select {
-        !((_x # 0) isEqualTo [])
-      }
+      (allTurrets _unit) select {_unit isLaserOn _x}
     ) apply {
-      private _turret = _x # 1;
+      private _turret = _x;
       Private _LOD = getText ([_unit, _turret] call BIS_fnc_turretConfig >> "memoryPointGunnerOptics");
       Private _offset = if (isArray ([_unit, _turret] call BIS_fnc_turretConfig >> "LaserDesignator_Offset")) then {
         getArray ([_unit, _turret] call BIS_fnc_turretConfig >> "LaserDesignator_Offset")
@@ -115,17 +111,19 @@ if (_unit isKindOf "Air") then {
 
   _weaponPOS apply {
     _x params ["_weaponLocal", "_turretLocal", "_LOD", ["_Offset",[0,0,0],[]]];
-    _weaponWorld = _unit modelToWorldWorld (_weaponLocal vectorAdd _Offset);
+    _Toffset = _weaponLocal vectorAdd _Offset;
+    _weaponWorld = _unit modelToWorldWorld _Toffset;
 
-    _dir = _unit weaponDirection (currentWeapon _unit);
-    if !(_turretLocal isEqualTo []) then {
-      _dir = _unit weaponDirection (_unit currentWeaponTurret _turretLocal);
+    _dir = if (_turretLocal isEqualTo []) then {
+      _unit weaponDirection (currentWeapon _unit)
+    } else {
+      [_unit,_turretLocal] call BCE_fnc_getTurretDir;
+      //_unit weaponDirection (_unit currentWeaponTurret _turretLocal)
     };
 
     //Light Source
     if ((_Light_Soure isEqualTo objNull) && (_is_Server) && (BCE_inf_IR_Lig_S_fn)) then {
       _light = "Reflector_Cone_IR_LaserDesignator_Light_F" createVehicle [0,0,0];
-      //_light = "B_Quadbike_01_F" createVehicle [0,0,0];
 
       if (_turretLocal isEqualTo []) then {
         _light attachTo [_unit, [0.06,0.08,0] vectorAdd _Offset, _LOD];
