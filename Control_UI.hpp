@@ -149,7 +149,6 @@ class RscDisplayAVTerminal
 			text = "Connect To Vehicle";
 			x = "0.3 * (safezoneW / 64) + (safezoneX)";
 			y = "0.71 * safezoneH + safezoneY";
-			//y = "0.695 * safezoneH + safezoneY";
 			w = "13.2 * (safezoneW / 64)";
 			h = "0.8 * (safezoneH / 40)";
 			class TextPos
@@ -416,7 +415,73 @@ class RscDisplayAVTerminal
 			h = "safezoneH / 40";
 			colorBackground[] = {0,0,0,0.5};
 		};
+		
 		#define TextH (safezoneH / 30)
+		//-Text
+		class New_Task_Title: RscText
+		{
+			idc = 2003;
+			text = "Task Title:";
+			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
+			x = "50 * (safezoneW / 64) + (safezoneX)";
+			y = "2 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (safezoneH / 40)";
+			w = "14 * (safezoneW / 64)";
+			h = "0.035 * safezoneH";
+			show = 0;
+			colorBackground[] = {0,0,0,0};
+		};
+		class New_Task_Desc: RscStructuredText
+		{
+			idc = 2004;
+			text = "Description :";
+			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
+			x = "50 * (safezoneW / 64) + (safezoneX)";
+			y = "3 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01)";
+			w = "14 * (safezoneW / 64)";
+			h = 11 * TextH;
+			show = 0;
+			colorBackground[] = {0,0,0,0};
+		};
+		class New_Task_Desc_Extended: New_Task_Desc
+		{
+			idc = 20041;
+			colorBackground[] = {0,0,0,0.5};
+			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			y = "((safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + ((11/2)*(safezoneH / 30)))";
+			h = 9*TextH;
+			fade = 1;
+			Enabled = 0;
+		};
+		class New_Task_Desc_Extended_show: ctrlButton
+		{
+			idc = 20042;
+			x = "50 * (safezoneW / 64) + (safezoneX) - (0.0135 * safezoneW)";
+			y = "((safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + ((11/2)*(safezoneH / 30))) - (1.8 * (safezoneH / 40))";
+			w = "0.0135 * safezoneW";
+			h = "1.8 * (safezoneH / 40)";
+			text = "<";
+			font = "RobotoCondensedLight";
+			sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 15)";
+			show = 0;
+			tooltip = "Show Description";
+			colorBackground[] = {0,0,0,0.8};
+			onButtonClick = "[_this # 0,false] call BCE_fnc_Extended_Desc;";
+			class TextPos
+			{
+				left = 0;
+				top = "safezoneH / 2";
+				right = 0.005;
+				bottom = 0;
+			};
+			class Attributes
+			{
+				font = "RobotoCondensedLight";
+				color = "#E5E5E5";
+				align = "center";
+				shadow = "false";
+			};
+		};
+		
 		class CAS_TaskList_9: RscListBox
 		{
 			idc = 2002;
@@ -437,23 +502,25 @@ class RscDisplayAVTerminal
 			onLBDblClick = "call BCE_fnc_TaskListDblCLick;";
 			class Items
 			{
-				class Type_Control
+				class Game_plan
 				{
-					text = "#: Control Type :";
-					data = "Type 1 : <br/>This is most often used when friendly forces are “Danger Close”.<br/><br/>Type 2 : <br/>There is no friendly near by the target and JTAC can visually see the target.<br/><br/>Type 3 : <br/>JTAC can't visually see the target.<br/>Tell the pilot where the target is and let him handle it.";
+					text = "#: Game Plan :";
+					data = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but must have real time data from Scout or FO.";
 					textRight = "click x2";
-					Expression_idc[] = {2011};
+					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023};
+					multi_options = 1;
 					default = 1;
 					tooltip = "Task Type";
 				};
-				class Line1: Type_Control
+				class Line1: Game_plan
 				{
 					text = "1: IP/BP :";
 					data = "“Shift + LMB” on the map to set marker<br/><br/>“Initial Point” or “Battle Position”.<br/><br/>For FW aircraft (Planes), the IP is the starting point for the run-in to the target. <br/><br/>For RW aircraft (Helis), the BP is where attacks on the target are commenced.";
 					Expression_idc[] = {2012,2013,2014};
+					multi_options = 0;
 					tooltip = "Initial Point\Battle Position";
 				};
-				class Line2: Type_Control
+				class Line2: Line1
 				{
 					text = "2: HDG :";
 					data = "Heading and Offset.<br/><br/>The heading is given in degrees magnetic from the “IP to target” or from the center of the BP to the target. <br/><br/>The offset is the side of the “IP to target” line on which aircrews can maneuver for the attack.";
@@ -461,7 +528,7 @@ class RscDisplayAVTerminal
 					Expression_idc[] = {};
 					tooltip = "Heading between IP/BP and Target";
 				};
-				class Line3: Type_Control
+				class Line3: Line1
 				{
 					text = "3: DIST :";
 					data = "Distance.<br/><br/>The distance “IP/BP to target”.";
@@ -469,7 +536,7 @@ class RscDisplayAVTerminal
 					Expression_idc[] = {};
 					tooltip = "Distance between IP/BP and Target";
 				};
-				class Line4: Type_Control
+				class Line4: Line1
 				{
 					text = "4: ELEV :";
 					data = "Target Elevation.<br/><br/>The target elevation is given in <t underline='true'>Feet</t> Mean Sea Level (MSL) unless otherwise specified.";
@@ -477,47 +544,47 @@ class RscDisplayAVTerminal
 					Expression_idc[] = {};
 					tooltip = "Target elevation (in Feet)";
 				};
-				class Line5: Type_Control
+				class Line5: Line1
 				{
 					text = "5: DESC :";
 					data = "Target Description.<br/><br/>The description should be specific enough for the aircrew to recognize the target.";
 					tooltip = "Target description";
 					Expression_idc[] = {2015};
 				};
-				class Line6: Type_Control
+				class Line6: Line1
 				{
 					text = "6: GRID :";
 					data = "The target location.";
 					tooltip = "Target Position (GRID)";
-					Expression_idc[] = {2012,2013,2014};
+					Expression_idc[] = {20121,2013,2014};
 				};
-				class Line7: Type_Control
+				class Line7: Line1
 				{
 					text = "7: MARK :";
 					data = "Mark Type/Terminal Guidance.<br/><br/>The type of mark the JTAC/FAC(A) will use (for example, smoke(WP), laser, or IR). <br/><br/>If using a laser, the JTAC/FAC(A) will also pass the call sign of the platform/ individual that will provide terminal guidance for the weapon and laser code.";
 					tooltip = "Mark method";
 					Expression_idc[] = {2016};
 				};
-				class Line8: Type_Control
+				class Line8: Line1
 				{
 					text = "8: FRND :";
-					data = "Friendlies bearing from the target.<br/><br/>Cardinal/sub-cardinal bearing from the target (N, NE, E, SE, S, SW, W, or NW) and distance of closest friendlies from the target in meters (e.g., “South 300”). ";
+					data = "Friendlies bearing from the target.<br/><br/>Cardinal/sub-cardinal bearing from the target (N, NE, E, SE, S, SW, W, or NW) and distance of <t underline='true'>closest friendlies</t> from the target in meters (e.g., “South 300”). ";
 					tooltip = "Friendlies";
 					Expression_idc[] = {2012,2013,2014,2016};
 				};
-				class Line9: Type_Control
+				class Line9: Line1
 				{
 					text = "9: EGRS :";
 					data = "Egress.<br/><br/>These are the instructions the aircrews use to exit the target area.";
 					tooltip = "Egress";
 					Expression_idc[] = {2019,2018,2014,2017,2013};
 				};
-				class Remark: Type_Control
+				class Remark: Line1
 				{
 					text = "Remarks :";
 					data = "Supplies additional important information.<br/><br/>1.<t underline='true'>Troops in Contact</t> or <t underline='true'>Danger Close</t><br/>2.Airspace coordination: final attack heading (FAH) or altitude restrictions <br/>3.Threat <br/>4.SEAD support in effect <br/>5.Active gun target lines <br/>6.Ordnance requested <br/>etc";
 					tooltip = "Remarks/Restrictions";
-					Expression_idc[] = {2020,2021,2022,2023};
+					Expression_idc[] = {};
 				};
 			};
 		};
@@ -526,16 +593,17 @@ class RscDisplayAVTerminal
 			idc = 2005;
 			class Items
 			{
-				class Line1
+				class Game_plan
 				{
 					text = "1:  :";
 					data = "State the “Aircraft call sign” / “Yours”.<br/><br/>Control Type (Type 1, 2 or 3).<br/>Method Of Attack (MOA) - Bombs On Coordinate or On Target (BOC or BOT).<br/>Ordnance requested by the user.";
 					textRight = "--";
-					Expression_idc[] = {2011};
+					Expression_idc[] = {2011,20111,20112};
+					multi_options = 1;
 					default = 1;
 					tooltip = "“Aircraft call sign” / “Yours”";
 				};
-				class Line2: Line1
+				class Line2: Game_plan
 				{
 					text = "2: FRND/Mark :";
 					data = "Friendly position (The closest one to the Target).<br/>GRID/TRP/bearing and range etc<br/><br/>Marked by (smoke/VS-17 panel/beacon/GLINT/IR strobe etc.)";
@@ -548,7 +616,7 @@ class RscDisplayAVTerminal
 					text = "3: TGT :";
 					data = "Target location. (GRID/TRP/bearing and range etc)";
 					tooltip = "The target location";
-					Expression_idc[] = {2012,2013,2014};
+					Expression_idc[] = {20121,2013,2014};
 				};
 				class Line4: Line2
 				{
@@ -580,10 +648,36 @@ class RscDisplayAVTerminal
 			show = 0;
 			colorBackground[] = {0,0,0,0};
 		};
+		
+		//-Game Plan
+		class New_Task_Ctrl_Title: RscButtonMenu
+		{
+			idc = 20110;
+			style = 2;
+			text = "Control Type: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
+			size = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
+			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
+			colorBackground[] = {0,0,0,0.4};
+			show = 0;
+			shadow = 1;
+			periodFocus = 0;
+			periodOver = 0;
+			tooltip = "more details";
+			onButtonClick = "call BCE_fnc_Extended_Desc;";
+			BCE_Desc = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but <t font='RobotoCondensedBold'>must have real time data</t> from FO/Scout.";
+			class Attributes
+			{
+				font = "RobotoCondensed";
+				color = "#E5E5E5";
+				align = "left";
+				shadow = "true";
+			};
+			ExpPOS(1,0.5,1);
+		};
 		class New_Task_CtrlType: RscToolbox
 		{
 			idc = 2011;
-			ExpPOS(1,1,1);
+			ExpPOS(2.15,1,1);
 			rows = 1;
 			columns = 3;
 			strings[] =
@@ -595,19 +689,110 @@ class RscDisplayAVTerminal
 			show = 0;
 			colorBackground[] = {0,0,0,0.3};
 		};
+		class New_Task_AttackType_Title: New_Task_Ctrl_Title
+		{
+			idc = 20111;
+			text = "Attack Type: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
+			BCE_Desc = "“Bomb on Target” / “Bomb on Coordinate” <br/><br/>BOC : <br/>GPS guided ammunitions. <br/>Ex. GBU-31 GBU-32 GBU-35 <br/><br/>BOT : <br/>Guns ,rockets and Laser guided ammunitions. <br/>Ex. Hydra70 GBU-12";
+			ExpPOS(3.25,0.5,1);
+		};
+		class New_Task_AttackType: New_Task_CtrlType
+		{
+			idc = 20112;
+			ExpPOS(4.4,1,1);
+			columns = 2;
+			strings[] =
+			{
+				"BoT",
+				"BoC"
+			};
+		};
+		class New_Task_Ordnance_Title: New_Task_Ctrl_Title
+		{
+			idc = 20113;
+			text = "Request Ordnance: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
+			BCE_Desc = "What ammunition will be droped. <br/>How many. <br/>How far. <br/>etc";
+			ExpPOS(5.5,0.5,1);
+		};
+		
+		//-UNIT info
+		class New_Task_Unit_Title: RscStructuredText
+		{
+			idc = 20114;
+			shadow = 1;
+			show = 0;
+			colorBackground[] = {0,0,0,0};
+			size = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1";
+			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1";
+			class Attributes
+			{
+				font = "PuristaMedium";
+				color = "#E5E5E5";
+				align = "center";
+				valign="middle";
+				shadow = 1;
+				size = 1;
+			};
+			class TextPos
+			{
+				left = "0.25 * (((safezoneW / safezoneH) min 1.2) / 40)";
+				top = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) - (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)) / 2";
+				right = 0.005;
+				bottom = 0.0;
+			};
+			text = "<t size='1' align='left'>%1 - %2</t>";
+			ExpPOS(8.75,0.5,1);
+		};
+		class New_Task_Unit_Pic: RscPicture
+		{
+			idc = 20115;
+			text = "\A3\Ui_f\data\IGUI\RscIngameUI\RscOptics\square.paa";
+			x = "58 * (safezoneW / 64) + (safezoneX)";
+			y = "(8.75 + 2) * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (0.035 * safezoneH)";
+			w = "5 * (safezoneW / 64)";
+			h = "(safezonew/safezoneH) * (5 * (safezoneW / 64))";
+			show = 0;
+		};
+		class New_Task_Unit_List: RscListBox
+		{
+			idc = 20116;
+			text = "";
+			colorBackground[] = {0,0,0,0};
+			colorSelect[] = {0,1,0,1};
+			colorSelect2[] = {0,1,0,1};
+			colorSelectRight[] = {0,1,0,1};
+			colorSelect2Right[] = {0,1,0,1};
+			colorSelectBackground[] = {0,0,0,0};
+			colorSelectBackground2[] = {0,0,0,0};
+			
+			onLBSelChanged = "call BCE_fnc_unitList_info";
+			ExpPOS(9.75,0.5,5);
+		};
+		
 		//-IP
 		class New_Task_IPtype: New_Task_CtrlType
 		{
 			idc = 2012;
 			ExpPOS(1,1,1);
 			rows = 1;
+			columns = 3;
+			strings[] =
+			{
+				"Map Marker",
+				"Click Map “Shift + LMB”",
+				"OverHead"
+			};
+			onToolBoxSelChanged = "call BCE_fnc_IPToolBoxChanged;";
+		};
+		class New_Task_TGT: New_Task_IPtype
+		{
+			idc = 20121;
 			columns = 2;
 			strings[] =
 			{
 				"Map Marker",
 				"Click Map “Shift + LMB”"
 			};
-			onToolBoxSelChanged = "call BCE_fnc_IPToolBoxChanged;";
 		};
 		class New_Task_MarkerCombo: RscCombo
 		{
@@ -698,20 +883,21 @@ class RscDisplayAVTerminal
 		class New_Task_EGRS: New_Task_IPtype
 		{
 			idc = 2019;
-			columns = 3;
+			columns = 4;
 			strings[] =
 			{
 				"Azimuth",
 				"Bearing",
-				"Map Marker"
+				"Map Marker",
+				"OverHead"
 			};
 		};
-
-		//-AI CAS Remarks
+		
+		//-Ordnance
 		class AI_Remark_WeaponCombo: New_Task_MarkerCombo
 		{
 			idc = 2020;
-			ExpPOS(1,0.5,1);
+			ExpPOS(6.65,0.5,1);
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 			onMouseButtonClick = "";
 			onLBSelChanged = "call BCE_fnc_CAS_SelWPN;";
@@ -725,7 +911,7 @@ class RscDisplayAVTerminal
 		class Attack_Range_Combo: AI_Remark_ModeCombo
 		{
 			idc = 2022;
-			ExpPOS(2,0.5,1);
+			ExpPOS(7.65,0.5,1);
 			class Items
 			{
 				class 2000m
@@ -752,36 +938,6 @@ class RscDisplayAVTerminal
 			show = 0;
 			text = "1";
 			tooltip = "Round Count";
-		};
-
-		//-Text
-		class New_Task_Title: RscText
-		{
-			idc = 2003;
-			text = "Task Title:";
-			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
-			x = "50 * (safezoneW / 64) + (safezoneX)";
-			y = "2 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (safezoneH / 40)";
-			w = "14 * (safezoneW / 64)";
-			h = "0.035 * safezoneH";
-			show = 0;
-			colorBackground[] = {0,0,0,0};
-		};
-		class New_Task_Desc: RscStructuredText
-		{
-			idc = 2004;
-			text = "Description :";
-			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
-			/*x = "50 * (safezoneW / 64) + (safezoneX)";
-			y = "0.638 * safezoneH + safezoneY";
-			w = "14 * (safezoneW / 64)";
-			h = "((1-0.638)*safezoneH) - (safezoneH / 30)";*/
-			x = "50 * (safezoneW / 64) + (safezoneX)";
-			y = "3 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01)";
-			w = "14 * (safezoneW / 64)";
-			h = 11 * TextH;
-			show = 0;
-			colorBackground[] = {0,0,0,0};
 		};
 
 		//-List Controls
@@ -879,7 +1035,7 @@ class RscDisplayAVTerminal
 			colorBackground[] = {0,0,0,0.3};
 			colorSelectBackground[] = {0.5,0.5,0.5,0.6};
 			wholeHeight = 0.8;
-			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2)";
+			sizeEx = "0.028*SafezoneH";
 			onLBSelChanged = "call BCE_fnc_TaskTypeChanged;";
 			class Items
 			{

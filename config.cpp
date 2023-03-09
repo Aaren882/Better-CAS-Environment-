@@ -16,14 +16,13 @@ class CfgPatches
 			"A3_Ui_F",
 			"A3_Weapons_F",
 			"A3_Air_F_Heli_Light_01",
+			"A3_Air_F_Jets_Plane_Fighter_01",
 			"A3_Armor_F_Tank_AFV_Wheeled_01",
 			"A3_Armor_F_Tank_LT_01",
 			"A3_Soft_F_Beta_MRAP_03"
 		};
 	};
 };
-
-
 
 //-RHS HMD
 #if __has_include("\Kimi_HMDs_RHS\config.bin")
@@ -69,17 +68,6 @@ class CfgUIGrids
 						"((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)"
 					};
                 };
-				/*grid_CustomInfoLeft[] =
-				{
-					{
-						"(safezoneX + 0.5 * (((safezoneW / safezoneH) min 1.2) / 40))",
-						"(safezoneY + safezoneH - 21 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))",
-						"(10 * (((safezoneW / safezoneH) min 1.2) / 40))",
-						"(10 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))"
-					},
-					"(((safezoneW / safezoneH) min 1.2) / 40)",
-					"((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)"
-				};*/
             };
         };
 		class Variables
@@ -488,7 +476,7 @@ class CfgVehicles
 		};
 	};
 
-	class Car;
+	/*class Car;
 	class Car_F: Car
 	{
 		class NewTurret;
@@ -556,7 +544,7 @@ class CfgVehicles
 				primaryGunner = 0;
 			};
 		};
-	};
+	};*/
 
 	class Tank;
 	class Tank_F: Tank
@@ -576,7 +564,6 @@ class CfgVehicles
 		{
 			class MainTurret: MainTurret
 			{
-				primaryGunner = 1;
 				LaserDesignator_Offset[] = {0,0.03,0}; //{X,Y,Z}
 			};
 		};
@@ -586,9 +573,11 @@ class CfgVehicles
 	class Plane_Base_F: Plane
 	{
 		class Eventhandlers;
-		class Turrets;
+		//class Turrets;
 	};
-	class VTOL_Base_F: Plane_Base_F
+
+	#include "Compat.hpp"
+	/*class VTOL_Base_F: Plane_Base_F
 	{
 		class NewTurret;
 		class Turrets: Turrets
@@ -596,7 +585,6 @@ class CfgVehicles
 			class CopilotTurret;
 		};
 	};
-	#include "Compat.hpp"
 	//Black Fish
 	class VTOL_01_base_F: VTOL_Base_F
 	{
@@ -617,7 +605,7 @@ class CfgVehicles
 				primaryGunner = 0;
 			};
 		};
-	};
+	};*/
 };
 class CfgFunctions
 {
@@ -654,6 +642,7 @@ class CfgFunctions
 			class LaserDesignator;
 			class delete;
 			class VecRot;
+			class isLaserOn;
 			class ClientSideLaser;
 		};
 		class Camera
@@ -673,6 +662,7 @@ class CfgFunctions
 			class touchMark;
 			class canUseTurret;
 			class UpdateCameraInfo;
+			class getTurretDir;
 		};
 		class Lists
 		{
@@ -705,6 +695,8 @@ class CfgFunctions
 			class SendTaskData;
 			class getAzimuth;
 			class CAS_SelWPN;
+			class Extended_Desc;
+			class unitList_info;
 		};
 		class Task_Receiver
 		{
@@ -715,7 +707,6 @@ class CfgFunctions
 		{
 			file="MG8\AVFEVFX\functions\UI";
 			class TGP_Select_Confirm;
-			class createTurret_DirObject;
 		};
 		class Task_Type
 		{
@@ -727,6 +718,12 @@ class CfgFunctions
 			class DblClick5line;
 			class DblClick9line;
 			class TaskTypeChanged;
+		};
+		class Radio_Compat
+		{
+			file="MG8\AVFEVFX\functions\Radio_Compat";
+			class getFreq_ACRE;
+			class getFreq_TFAR;
 		};
 	};
 	#if __has_include("\A3TI\config.bin")

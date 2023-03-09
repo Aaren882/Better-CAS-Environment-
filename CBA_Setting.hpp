@@ -139,21 +139,6 @@
 ] call CBA_fnc_addSetting;
 
 [
-	"BCE_TAC_Map_AIxcd_POS","CHECKBOX",
-	["Dont Return Turret and TGP Pointing POS from AI","or They will keep going Up"],
-	["Better CAS Environment (Server)", "AV Terminal"],
-	true,
-	1,
-	{
-		private _dir_simp = missionNamespace getVariable ["BCE_Directional_object_AV",objNull];
-		if (_dir_simp isEqualTo objNull) then {
-			deleteVehicle _dir_simp;
-			missionNamespace setVariable ["BCE_Directional_object_AV",objNull];
-		};
-	}
-] call CBA_fnc_addSetting;
-
-[
 	"BCE_AI_CAS_Support_fn","CHECKBOX",
 	["Available AI CAS via CAS Receiver"],
 	["Better CAS Environment (Server)", "CAS Receiver"],

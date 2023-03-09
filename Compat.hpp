@@ -9,7 +9,7 @@ class Plane_Fighter_03_base_F: Plane_Base_F
 };
 class Plane_Fighter_01_Base_F: Plane_Base_F
 {
-	Detached_Optic = 1;
+	memoryPointDriverOptics = "pos_pilotcamera_dir";
 };
 class Plane_Fighter_02_Base_F: Plane_Base_F
 {

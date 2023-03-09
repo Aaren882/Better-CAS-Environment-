@@ -26,118 +26,182 @@ class RscTitles
 		onLoad = "uiNamespace setVariable ['BCE_TGP', _this # 0]";
 		class controls
 		{
-			//time
-			class cbt: RscInfoBack
-			{
-				x = safezoneXAbs + 0.077 * safezoneW;
-				y = safezoneY + safezoneH - (0.112 * safezoneW);
-				w = 0.075 * safezoneW;
-				h = 0.062 * safezoneH;
-			};
-			class time_data: RscText
-			{
-				idc = 1001;
-				x = safezoneXAbs + 0.08 * safezoneW;
-				y = safezoneY + safezoneH - (0.12 * safezoneW);
-				w = 0.3;
-				h = 0.1;
-				text = "16:56:34";
-				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
-			};
+			#define ABSXL(MUTI) MUTI*(safezoneXAbs + 0.08 * safezoneW)
+			#define ABSYD(MUTI,CON)(safezoneY + safezoneH - (0.09 * safezoneW))-(MUTI*(CON))
+			
 			//info text
-			class cbi: RscInfoBack
-			{
-				ColorBackground[] = {0,1,0,0.4};
-				x = safezoneXAbs + 0.077 * safezoneW;
-				y = safezoneY + 0.067 * safezoneW;
-				w = 0.067 * safezoneW;
-				h = 0.062 * safezoneH;
-			};
-			class navflr: RscText
-			{
-				x = safezoneXAbs + 0.08 * safezoneW;
-				y = safezoneY + 0.088 * safezoneW;
-				w = 0.3;
-				h = 0.1;
-				text = "FLIR ENABLED";
-				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
-			};
-			class cbr: RscInfoBack
-			{
-				ColorBackground[] = {1,0,0,0.4};
-				x = safezoneXAbs + safezoneWAbs - ((0.06 * safezoneW) + 0.21);
-				y = safezoneY + safezoneH - (0.09 * safezoneW);
-				w = 0.075 * safezoneW;
-				h = 0.032 * safezoneH;
-			};
 			class trckg: RscText
 			{
 				idc = 1006;
 				x = safezoneXAbs + safezoneWAbs - ((0.06 * safezoneW) + 0.2);
-				y = safezoneY + safezoneH - (0.09 * safezoneW);
+				y = ABSYD(0,0);
 				w = 0.3;
 				h = 0.05;
 				text = "TRACKING ON";
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
 			};
+			//Crew
+			class Pilot: RscText
+			{
+				idc = 1028;
+				text = "Pilot:";
+				x = safezoneXAbs + safezoneWAbs - ((0.06 * safezoneW) + 0.2);
+				y = ABSYD(1.8,0.0275 * safezoneH);
+				w = 0.123788 * safezoneW;
+				h = 0.0275 * safezoneH;
+				colorText[] = {1,1,1,1};
+				sizeEx = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2);
+			};
+			class Gunner: RscText
+			{
+				idc = 1029;
+				text = "Gunner:";
+				x = safezoneXAbs + safezoneWAbs - ((0.06 * safezoneW) + 0.2);
+				y = ABSYD(2.8,0.0275 * safezoneH);
+				w = 0.123788 * safezoneW;
+				h = 0.0275 * safezoneH;
+				colorText[] = {1,1,1,1};
+				sizeEx = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2);
+			};
+			
+			#define ABSYU(MUTI,CON)(safezoneY + 0.07 * safezoneW)+(MUTI*(CON))
 			class uhf: RscText
 			{
-				x = safezoneXAbs + 0.08 * safezoneW;
-				y = safezoneY + 0.07 * safezoneW;
+				x = ABSXL(1);
+				y = ABSYU(0,0);
 				w = 0.2;
 				h = 0.05;
 				text = "UHF ACTIVE";
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
 			};
-			//coordinates
-			class cbk: RscInfoBack
+			class navflr: RscText
 			{
-				x = safezoneXAbs + safezoneWAbs - ((0.06 * safezoneW) + 0.21);
-				y = safezoneY + 0.067 * safezoneW;
-				w = 0.07 * safezoneW;
-				h = 0.09 * safezoneH;
+				x = ABSXL(1);
+				y = ABSYU(1,0.05);
+				w = 0.3;
+				h = 0.1;
+				text = "FLIR ENABLED";
+				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
 			};
+			//Engine
+			class Engine_State: RscText
+			{
+				idc = 1025;
+				text = "ENG";
+				x = ABSXL(1);
+				y = ABSYU(3,0.05);
+				w = 0.0618939 * safezoneW;
+				h = 0.044 * safezoneH;
+				colorText[] = {1,1,1,1};
+				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
+			};
+			//Fuel
+			class Fuel_State: RscText
+			{
+				idc = 1026;
+				text = "Fuel:100%";
+				x = ABSXL(1);
+				y = ABSYU(4,0.05);
+				w = 0.0618939 * safezoneW;
+				h = 0.044 * safezoneH;
+				colorText[] = {1,1,1,1};
+				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.3)";
+			};
+			
+			#define ABSYR(MUTI,CON) (MUTI*(CON)+(safezoneY + 0.07 * safezoneW))
+			
+			//coordinates
 			class cx: RscText
 			{
 				idc = 1002;
 				x = safezoneXAbs + safezoneWAbs - ((0.06 * safezoneW) + 0.2);
-				y = safezoneY + 0.07 * safezoneW;
+				y = ABSYR(0,0);
 				w = 0.2;
 				h = 0.05;
 				text = "Altitude";
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2)";
 			};
-			class cy: RscText
+			class cy: cx
 			{
 				idc = 1003;
-				x = safezoneXAbs + safezoneWAbs - ((0.06 * safezoneW) + 0.2);
-				y = safezoneY + 0.085 * safezoneW;
-				w = 0.2;
-				h = 0.05;
+				y = ABSYR(1,0.05);
 				text = "Grid";
-				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2)";
 			};
-			class Zoom: RscText
+			class Zoom: cx
 			{
 				idc = 1004;
-				x = safezoneXAbs + safezoneWAbs - ((0.06 * safezoneW) + 0.2);
-				y = safezoneY + 0.11 * safezoneW;
-				w = 0.2;
-				h = 0.05;
+				y = ABSYR(2,0.05);
 				text = "Zoom";
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
 			};
+			
 			//view type
 			class nv: RscText
 			{
 				idc = 1005;
-				x = safezoneXAbs + 0.08 * safezoneW;
-				y = safezoneY + safezoneH - (0.09 * safezoneW);
+				x = ABSXL(1);
+				y = ABSYD(0,0);
 				w = 0.3;
 				h = 0.05;
 				text = "CMODE NORMAL";
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
 			};
+			//time
+			class time_data: RscText
+			{
+				idc = 1001;
+				x = ABSXL(1);
+				y = ABSYD(0.8,0.1);
+				w = 0.3;
+				h = 0.1;
+				text = "16:56:34";
+				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
+			};
+			class Vehicle_Type: RscText
+			{
+				idc = 1030;
+				text = "Type of Vehicle";
+				x = ABSXL(1);
+				y = ABSYD(1.6,0.1);
+				w = 0.6;
+				h = 0.1;
+				sizeEx = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.6);
+			};
+			//-Weapon Info
+			class Weapon: RscText
+			{
+				idc = 1027;
+				text = "Gatling Gun";
+				x = ABSXL(1);
+				y = ABSYD(2.4,0.1);
+				w = 0.6;
+				h = 0.0393706 * safezoneH;
+				colorText[] = {1,1,1,1};
+				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.3)";
+			};
+			#define ABSYW(MUTI) (ABSYD(2.4,0.1))-(MUTI*(0.0393706 * safezoneH))
+			class Ammo: Weapon
+			{
+				idc = 1031;
+				text = "AMMO TYPE: HEAT";
+				y = ABSYW(0.8);
+			};
+			class FiringMode: Weapon
+			{
+				idc = 1032;
+				text = "Mode";
+				y = ABSYW(1.6);
+			};
+			class GunDelayX: RscPictureKeepAspect
+			{
+				idc = 1033;
+				x = 0.436905 * safezoneW + safezoneX;
+				y = 0.387963 * safezoneH + safezoneY;
+				w = 0.126601 * safezoneW;
+				h = 0.225 * safezoneH;
+				text = "A3\Ui_f\data\IGUI\RscIngameUI\RscOptics\laser_icon_X.paa";
+			};
+			
 			//Laser
 			class Laseron: RscText
 			{
@@ -226,6 +290,7 @@ class RscTitles
 				w = 0.002;
 				h = 0.08 * safezoneW;
 			};
+			
 			//Status
 			class Bearing: RscText
 			{
@@ -239,107 +304,6 @@ class RscTitles
 				colorText[] = {1,1,1,1};
 				colorBackground[] = {0,0,0,0.4};
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
-			};
-			
-			//Engine
-			class Engine_State_W: RscText
-			{
-				idc = 1025;
-				text = "ENG";
-				x = safezoneXAbs + 0.08 * safezoneW;
-				y = 0.210148 * safezoneH + safezoneY;
-				w = 0.0618939 * safezoneW;
-				h = 0.044 * safezoneH;
-				colorText[] = {1,1,1,1};
-				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
-			};
-			/*class Engine_State_Y: Engine_State_W
-			{
-				idc = 1052;
-				colorText[] = {0.94,0.7,0,1};
-			};
-			class Engine_State_R: Engine_State_W
-			{
-				idc = 1053;
-				colorText[] = {1,0,0,1};
-			};*/
-			
-			class Fuel_State: RscText
-			{
-				idc = 1026;
-				text = "Fuel:100%";
-				x = safezoneXAbs + 0.08 * safezoneW;
-				y = 0.255555 * safezoneH + safezoneY;
-				w = 0.0618939 * safezoneW;
-				h = 0.044 * safezoneH;
-				colorText[] = {1,1,1,1};
-				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.3)";
-			};
-			class Weapon: RscText
-			{
-				idc = 1027;
-				text = "Gatling Gun";
-				x = safezoneXAbs + 0.08 * safezoneW;
-				y = 0.764815 * safezoneH + safezoneY;
-				w = 0.6;
-				h = 0.0393706 * safezoneH;
-				colorText[] = {1,1,1,1};
-				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.3)";
-			};
-			class Ammo: Weapon
-			{
-				idc = 1031;
-				text = "AMMO TYPE: HEAT";
-				y = 0.764815 * safezoneH + safezoneY - 0.05;
-			};
-			class FiringMode: Weapon
-			{
-				idc = 1032;
-				text = "Mode";
-				y = 0.764815 * safezoneH + safezoneY - 0.1;
-			};
-			class GunDelayX: RscPictureKeepAspect
-			{
-				idc = 1033;
-				x = 0.436905 * safezoneW + safezoneX;
-				y = 0.387963 * safezoneH + safezoneY;
-				w = 0.126601 * safezoneW;
-				h = 0.225 * safezoneH;
-				text = "A3\Ui_f\data\IGUI\RscIngameUI\RscOptics\laser_icon_X.paa";
-			};
-			
-			//Crew
-			class Pilot: RscText
-			{
-				idc = 1028;
-				text = "Pilot:";
-				x = 0.857553 * safezoneW + safezoneX;
-				y = 0.801853 * safezoneH + safezoneY;
-				w = 0.123788 * safezoneW;
-				h = 0.0275 * safezoneH;
-				colorText[] = {1,1,1,1};
-				sizeEx = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2);
-			};
-			class Gunner: RscText
-			{
-				idc = 1029;
-				text = "Gunner:";
-				x = 0.857554 * safezoneW + safezoneX;
-				y = 0.831482 * safezoneH + safezoneY;
-				w = 0.123788 * safezoneW;
-				h = 0.0275 * safezoneH;
-				colorText[] = {1,1,1,1};
-				sizeEx = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2);
-			};
-			class Vehicle_Type: RscText
-			{
-				idc = 1030;
-				text = "Type of Vehicle";
-				x = safezoneXAbs + 0.08 * safezoneW;
-				y = 0.8 * safezoneH + safezoneY;
-				w = 0.6;
-				h = 0.1;
-				sizeEx = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.6);
 			};
 			
 			//-Widgets
