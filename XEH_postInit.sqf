@@ -8,6 +8,7 @@ TGP_View_Turret_List = [];
 
 IR_LaserLight_UnitList = [];
 IR_LaserLight_UnitList_LastUpdate = 0;
+BCE_TGP_LastUpdate = 0;
 
 BCE_have_ACE_earPlugs = false;
 if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
@@ -77,7 +78,7 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
     if (IsTGP_CAM_ON) then {
       _cam = TGP_View_Camera # 0;
       _FOV = player getVariable "TGP_View_Camera_FOV";
-      if (_FOV > 0.1) then {
+      if (_FOV > 0.05) then {
         _FOV = _FOV - 0.05;
         _cam camSetFov _FOV;
         player setVariable ["TGP_View_Camera_FOV", _FOV];
