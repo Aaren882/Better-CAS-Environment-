@@ -1,5 +1,9 @@
-params ["_grp","_vehicle","_IP_POS","_posTarget","_EGRS","_weaponInfo"];
+params ["_ActWP","_grp","_vehicle","_IP_POS","_FAD_POS","_posTarget","_EGRS","_weaponInfo"];
 _weaponInfo params ["_WPNclass","_WPN_Mode","_WPN_turret","_WPN_count","_muzzle","_ATK_range"];
+
+if (_IP_POS isEqualTo []) then {
+  _IP_POS = _FAD_POS;
+};
 
 _Set_PitchBank = {
   //-Ripple Bombing
@@ -13,7 +17,7 @@ _Set_PitchBank = {
 };
 
 //Basic Definition
-_dis = _IP_POS distance _posTarget;
+_dis = _FAD_POS distance _posTarget;
 _dir = _vehicle getDir _posTarget;
 _alt = 2000;
 _fly_speed = 400;
@@ -53,7 +57,7 @@ _offset = if (_casType == 2) then {35} else {0};
 _posATL = _posTarget getPos [_target_offset,_dir];
 _pos =+ _posATL;
 _pos set [2,(_pos # 2) + getTerrainHeightASL _pos];
-_CAS_Dir = _IP_POS getDir _posTarget;
+_CAS_Dir = _FAD_POS getDir _posTarget;
 
 //Vehicle Setups
 _planePos = getPos _vehicle;
@@ -206,20 +210,6 @@ _vehicle setvectordir _vectorDir;
         };
 
         //-Back IP
-        //-Get around TG POS
-        /* case 2:{
-          private _TG_dir = _vehicle getDir _posTarget;
-          private _EGRS_pos = _vehicle getPos [5000, _EGRS];
-          private _pos = [90,-90] apply {_vehicle getPos [3000,(getDirVisual _vehicle) +  _x]};
-          private _pos = if ((_EGRS_pos distance (_pos # 0)) < (_EGRS_pos distance (_pos # 1))) then {
-            (_pos # 0)
-          } else {
-            (_pos # 1)
-          };
-          if ((_EGRS_pos distance _IP_POS) < (_pos distance _IP_POS)) exitWith {};
-          _pos set [2, _alt];
-          private _wp = _grp addWaypoint [_pos, 0, _i];
-        }; */
         //-Get Back
         case 2:{
           private _IP_dir = _posTarget getDir _IP_POS;

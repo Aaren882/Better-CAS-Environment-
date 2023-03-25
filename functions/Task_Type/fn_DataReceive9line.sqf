@@ -4,8 +4,39 @@
 switch _curLine do {
   //-Control Type
   case 0:{
-    _shownCtrls params ["_ctrl"];
-    _taskVar set [0, [["Type 1","Type 2","Type 3"] # (lbCurSel _ctrl), lbCurSel _ctrl]];
+    _shownCtrls params [
+      "_title_ctrl","_ctrl",
+      "_title_type","_type",
+      "_ord_title",
+      "_CTweap","_CTmode","_CTrange","_CTcount"
+    ];
+    private ["_typeCAS","_typeATK","_ordnanceInfo","_setCount","_rangeIndex","_ATK_range","_text"];
+    _typeCAS = ["T1","T2","T3"] # (lbCurSel _ctrl);
+    _typeATK = ["BoT","BoC"] # (lbCurSel _ctrl);
+
+    _ordnanceInfo = call compile (_CTmode lbdata (lbcursel _CTmode));
+    _ordnanceInfo params ["_WeapName","_ModeName","_class","_Mode","_turret",["_Count",1,[0]]];
+
+    //-Ammo Count
+    _setCount = call compile (ctrlText _CTcount);
+
+    if (isnil{_setCount}) exitWith {};
+
+    if (_setCount > _Count) then {
+      _setCount = _Count;
+      _CTcount ctrlSetText (str _Count);
+    };
+
+    //-Attack Range
+    _rangeIndex = lbCurSel _CTrange;
+    _ATK_range = _CTrange lbValue _rangeIndex;
+
+    _ordnanceInfo set [5,_setCount];
+    _text = format ["%1 %2 %3",_typeCAS,_typeATK,_WeapName];
+
+    if (isnil _WeapName) then {
+      _taskVar set [0,[_text,_typeCAS,_typeATK,_ordnanceInfo + [_ATK_range],[lbCurSel _ctrl,lbCurSel _type,lbCurSel _CTweap,lbCurSel _CTmode,_rangeIndex,str _setCount]]];
+    };
   };
   //-IP/BP
   case 1:{
@@ -153,7 +184,7 @@ switch _curLine do {
     private _text = ctrlText _ctrl4;
     private _isEmptyInfo = ((_text == "Mark with...") or (_text == ""));
     private _info = if _isEmptyInfo then {
-      ""
+      "with :[NA]"
     } else {
       format ["with :[%1]",toUpper _text]
     };
@@ -267,30 +298,42 @@ switch _curLine do {
 
   //-Remarks
   case 10:{
-    _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
+    //-FAD/H [Toolbox, EditBox, output, Toolbox(Azimuth), DanClose(Text), DanClose(Box)]
+    _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4","_ctrl5","_ctrl6"];
 
-    private _ordnanceInfo = call compile (_ctrl2 lbdata (lbcursel _ctrl2));
-    _ordnanceInfo params ["_WeapName","_ModeName","_class","_Mode","_turret",["_Count",1,[0]]];
+    private _HDG = _ctrl4 lbValue (lbCurSel _ctrl4);
+    private _ctrl1Sel = lbCurSel _ctrl1;
 
-    //-Ammo Count
-    private _str_Count = ctrlText _ctrl4;
-    private _setCount = call compile (_str_Count);
+    //-Set Default
+    if (_ctrl1Sel == 2) then {
+      _text = "FAD: “Default”";
+      _ctrl3 ctrlSetText _text;
+      _taskVar set [10,[_text,-1,[_ctrl1Sel,lbCurSel _ctrl4,cbChecked _ctrl6]]];
+    } else {
+      if (_ctrl1Sel == 1) then {
+        _TextInfo = ctrlText _ctrl2;
 
-    if (isnil{_setCount}) exitWith {};
+        //-Debug
+        if ((_TextInfo == "") or (_TextInfo == "Bearing...") or isnil{(call compile _TextInfo)}) exitWith {
+          hint "Wrong Input!!";
+          _ctrl2 ctrlSetText "Bearing...";
+        };
 
-    if (_setCount > _Count) then {
-      _setCount = _Count;
-      _ctrl4 ctrlSetText (str _Count);
-    };
+        _HDG = (round (call compile _TextInfo)) % 360;
+      };
 
-    //-Attack Range
-    private _rangeIndex = lbCurSel _ctrl3;
-    private _ATK_range = _ctrl3 lbValue _rangeIndex;
+      _HDG = [_HDG, 360 * ((_HDG / 360)-1)] select (_HDG < 0);
+      _cardinaldir = _HDG call BCE_fnc_getAzimuth;
 
-    _ordnanceInfo set [5,_setCount];
-    private _text = format["%1 [%2]",_WeapName,_ModeName];
-    if (isnil _WeapName) then {
-      _taskVar set [10,[_text,_ordnanceInfo + [_ATK_range],[lbCurSel _ctrl1,lbCurSel _ctrl2,_rangeIndex,str _setCount]]];
+      _To_Dir = [_HDG - 180,360 + (_HDG - 180)] select ((_HDG - 180) < 0);
+      
+      _DanClose = [""," [Danger Close]"] select (cbChecked _ctrl6);
+      _text = format ["“%1” to “%2”",_cardinaldir,_To_Dir call BCE_fnc_getAzimuth];
+
+      if !(isnil"_cardinaldir") then {
+        _taskVar set [10,[_text + _DanClose,_HDG,[_ctrl1Sel,lbCurSel _ctrl4,cbChecked _ctrl6]]];
+        _ctrl3 ctrlSetText _text;
+      };
     };
   };
 };
@@ -302,7 +345,7 @@ if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 6 # 0) != "NA")) then {
   _taskVar_6 = _taskVar # 6;
 
   //-2 HDG [Text ,Heading]
-  _HDG = round (((_taskVar_1 # 2) getDir (_taskVar_6 # 2)) / 10) * 10;
+  _HDG = round (((_taskVar_1 # 2) getDirVisual (_taskVar_6 # 2)) / 10) * 10;
 
   _cardinaldir = _HDG call BCE_fnc_getAzimuth;
 
@@ -325,7 +368,7 @@ if ((_taskVar # 6 # 0) != "NA") then {
   if (((_taskVar # 9 # 0) != "NA") && !(isnil {_taskVar # 9 # 3})) then {
     private ["_taskVar_9","_HDG","_text"];
     _taskVar_9 = _taskVar # 9;
-    _HDG = round ((_taskVar_6 # 2) getDir (_taskVar_9 # 3));
+    _HDG = round ((_taskVar_6 # 2) getDirVisual (_taskVar_9 # 3));
     _text = format ["EGRS: [%1] %2 %3°",_taskVar_9 # 4, _HDG call BCE_fnc_getAzimuth, _HDG];
     _taskVar set [9,[_text,_HDG,_taskVar_9 # 2,_taskVar_9 # 3,_taskVar_9 # 4]];
   };
@@ -348,7 +391,7 @@ if (((_taskVar # 8 # 0) != "NA") && ((_taskVar # 6 # 0) != "NA")  && !("with:" i
 
   //-[Text ,Dist]
   _TGPOS = _taskVar_8 # 2;
-  _HDG = round (((_taskVar_6 # 2) getDir _TGPOS) / 10) * 10;
+  _HDG = round (((_taskVar_6 # 2) getDirVisual _TGPOS) / 10) * 10;
   _dist = round (((_taskVar_6 # 2) distance2D _TGPOS) / 10) * 10;
   _cardinaldir = _HDG call BCE_fnc_getAzimuth;
   _InfoText = _taskVar_8 # 4;
@@ -358,7 +401,7 @@ if (((_taskVar # 8 # 0) != "NA") && ((_taskVar # 6 # 0) != "NA")  && !("with:" i
     format ["“%1” %2m with: [%3]", _cardinaldir, _dist, toUpper _InfoText],
     format ["“%1” %2m", _cardinaldir, _dist]
   ] select _isEmptyInfo;
-  _taskVar set [8, [_info,_taskVar_8 # 1,_taskVar_8 # 2,_taskVar_8 # 3,_taskVar_8 # 4]];
+  _taskVar set [8,[_info,_taskVar_8 # 1,_taskVar_8 # 2,_taskVar_8 # 3,_taskVar_8 # 4]];
 };
 
 uiNamespace setVariable ["BCE_CAS_9Line_Var",_taskVar];

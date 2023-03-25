@@ -14,7 +14,7 @@ _fnc_onConfirm = {
   _vehicle_str = _ctrlValue lnbdata [lnbcurselrow _ctrlValue,0];
   {
     if (_vehicle_str == str _x) exitWith {_vehicle = _x};
-  } count (vehicles select {!(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (isEngineOn _x)});
+  } count (vehicles select {(_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)});
 	if !(_vehicle isEqualTo objNull) then {
 		player setVariable ["TGP_View_Selected_Vehicle",_vehicle];
 		_vehicle call BCE_fnc_TGP_Select_Confirm;
@@ -26,7 +26,7 @@ _display = _params # 0;
 _ctrlValue = _display displayctrl IDC_RSCATTRIBUTECAS_VALUE;
 
 _UnitList = vehicles select {
-  !(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
+  (_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
 };
 
 switch _mode do {

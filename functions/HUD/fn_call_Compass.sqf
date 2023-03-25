@@ -1,10 +1,11 @@
+#define A_OPTICS ["","RscWeaponZeroing","RscOptics_Offroad_01","RscOptics_crows","RHS_RscWeaponZeroing_TurretAdjust"]
 params ["_player", "_cameraView"];
 _Unit_veh = cameraon;
 
 //if !(_Unit_veh in vehicles) exitWith {};
 
 _condition = if ((count (allTurrets _Unit_veh) > 0) && !((_Unit_veh isKindOf "UAV") or (_Unit_veh isKindOf "UAV_01_base_F"))) then {
-  !((getText ([_Unit_veh, (_Unit_veh unitTurret _player)] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"])
+  !((getText ([_Unit_veh, (_Unit_veh unitTurret _player)] call BIS_fnc_turretConfig >> "turretInfoType")) in A_OPTICS)
 } else {
   true
 };

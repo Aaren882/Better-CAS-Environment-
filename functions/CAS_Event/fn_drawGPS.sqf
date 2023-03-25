@@ -16,7 +16,7 @@ if (_taskVar isNotEqualto []) then {
     _dir,
     "",
     1,
-    0.05
+    0.075
   ];
 
   _taskVar params ["_caller","_callerGrp","_type","_taskVar"];
@@ -38,11 +38,10 @@ if (_taskVar isNotEqualto []) then {
         ];
 
         //-Icon
-        private _Icon = if ((_Target # 1) == "GRID") then {
+        private _Icon = [
+          "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
           "\a3\ui_f\data\GUI\Cfg\Cursors\hc_overenemy_gs.paa"
-        } else {
-          "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa"
-        };
+        ] select ((_Target # 1) == "GRID");
 
         _ctrl drawIcon [
           _Icon,
@@ -53,8 +52,8 @@ if (_taskVar isNotEqualto []) then {
           0,
           format ["%1 - %2 with: [%3]", _Target # 0, trim(_desc # 1), trim(_desc # 2)],
           1,
-          0.05,
-          "TahomaB",
+          0.075,
+          "EtelkaNarrowMediumPro",
           "right"
         ];
       };
@@ -73,11 +72,10 @@ if (_taskVar isNotEqualto []) then {
         };
 
         //-Icon
-        private _Icon = if ((_FRD # 1) == "GRID") then {
+        private _Icon = [
+          "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
           "\a3\ui_f\data\Map\Markers\NATO\b_inf.paa"
-        } else {
-          "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa"
-        };
+        ] select ((_FRD # 1) == "GRID");
 
         _ctrl drawIcon [
           _Icon,
@@ -88,8 +86,8 @@ if (_taskVar isNotEqualto []) then {
           0,
           _FRD # 0,
           1,
-          0.05,
-          "TahomaB",
+          0.075,
+          "EtelkaNarrowMediumPro",
           "right"
         ];
       };
@@ -99,6 +97,7 @@ if (_taskVar isNotEqualto []) then {
       private _Target = _taskVar # 6;
       private _FRD = _taskVar # 8;
       private _EGRS = _taskVar # 9;
+      private _remarks = _taskVar # 10;
 
       //-Draw IP/BP
       if (((_IPBP # 0) != "NA") && !("Marker" in (_IPBP # 0))) then {
@@ -111,8 +110,8 @@ if (_taskVar isNotEqualto []) then {
           0,
           _IPBP # 0,
           1,
-          0.05,
-          "TahomaB",
+          0.075,
+          "EtelkaNarrowMediumPro",
           "right"
         ];
       };
@@ -147,8 +146,8 @@ if (_taskVar isNotEqualto []) then {
             0,
             _taskVar # 3 # 0,
             1,
-            0.065,
-            "TahomaB",
+            0.075,
+            "EtelkaNarrowMediumPro",
             "right"
           ];
 
@@ -161,12 +160,38 @@ if (_taskVar isNotEqualto []) then {
           ];
         };
 
-        //-Icon
-        private _Icon = if ((_Target # 1) == "GRID") then {
-          "\a3\ui_f\data\GUI\Cfg\Cursors\hc_overenemy_gs.paa"
-        } else {
-          "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa"
+        //-FAD/H to TG line
+        if ((_remarks # 0) != "NA") then {
+          private _HDG = _remarks # 1;
+          private _relPOS = (_Target # 2) getPos [1000, _HDG];
+          private _posDiff = ((_Target # 2) vectorDiff _relPOS) vectorMultiply 0.9;
+
+          _ctrl drawArrow [
+            _relPOS,
+            _relPOS vectorAdd _posDiff,
+            [0.6,1,0.37,1]
+          ];
+
+          _ctrl drawIcon [
+            "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
+            [0.6,1,0.37,1],
+            _relPOS,
+            30,
+            30,
+            0,
+            _remarks # 0,
+            1,
+            0.075,
+            "EtelkaNarrowMediumPro",
+            ["right","left"] select (_HDG > 180)
+          ];
         };
+
+        //-Target Icon
+        private _Icon = [
+          "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
+          "\a3\ui_f\data\GUI\Cfg\Cursors\hc_overenemy_gs.paa"
+        ] select ((_Target # 1) == "GRID");
 
         _ctrl drawIcon [
           _Icon,
@@ -177,8 +202,8 @@ if (_taskVar isNotEqualto []) then {
           0,
           _Target # 0,
           1,
-          0.05,
-          "TahomaB",
+          0.075,
+          "EtelkaNarrowMediumPro",
           "right"
         ];
       };
@@ -197,11 +222,10 @@ if (_taskVar isNotEqualto []) then {
         };
 
         //-Icon
-        private _Icon = if ((_FRD # 1) == "GRID") then {
+        private _Icon = [
+          "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
           "\a3\ui_f\data\Map\Markers\NATO\b_inf.paa"
-        } else {
-          "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa"
-        };
+        ] select ((_FRD # 1) == "GRID");
 
         _ctrl drawIcon [
           _Icon,
@@ -212,8 +236,8 @@ if (_taskVar isNotEqualto []) then {
           0,
           _FRD # 0,
           1,
-          0.05,
-          "TahomaB",
+          0.075,
+          "EtelkaNarrowMediumPro",
           "right"
         ];
       };
@@ -245,8 +269,8 @@ if (_taskVar isNotEqualto []) then {
           0,
           _EGRS # 0,
           1,
-          0.065,
-          "TahomaB",
+          0.075,
+          "EtelkaNarrowMediumPro",
           "left"
         ];
       };

@@ -117,7 +117,7 @@ _action = ["BCE_Use_Heli_SpotLight","Toggle Spot Light","",{
 
 	},{
 		params ["_unit"];
-		_condition = [true,BCE_LandVeh_Light_fn] select ((vehicle _unit) isKindOf "LandVehicle");
+		_condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Light_fn] select ((vehicle _unit) isKindOf "LandVehicle");
     SpotLight_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
@@ -138,7 +138,7 @@ _action = ["BCE_Use_Heli_SpotLight_IR","Toggle Light (IR)","",{
 
 	},{
     params ["_unit"];
-		_condition = [true,BCE_LandVeh_Light_fn] select ((vehicle _unit) isKindOf "LandVehicle");
+		_condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Light_fn] select ((vehicle _unit) isKindOf "LandVehicle");
     SpotLight_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
@@ -161,7 +161,7 @@ _action = ["BCE_Use_Heli_LaserR","Toggle Laser (Red)","",{
 
 },{
     params ["_unit"];
-		_condition = [true,BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
+		_condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
 	  Laser_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
@@ -182,7 +182,7 @@ _action = ["BCE_Use_Heli_LaserG","Toggle Laser (Green)","",{
 
 },{
     params ["_unit"];
-		_condition = [true,BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
+		_condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
 	  Laser_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
@@ -203,7 +203,7 @@ _action = ["BCE_Use_Heli_LaserIR","Toggle Laser (IR)","",{
 
 },{
     params ["_unit"];
-		_condition = [true,BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
+		_condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
 	  Laser_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;

@@ -14,7 +14,7 @@ _list_result = switch _sel_TaskType do {
   //-9 line
   default {
     _TaskList = _display displayCtrl 2002;
-    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",[]]]];
+    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
     [_TaskList,_taskVar]
   };
 };
@@ -34,15 +34,17 @@ _description = [
 
 //-Extended Description
 if (_extend_desc) then {
-  private ["_vehicle","_squad_param","_unit_info","_squad_title","_text","_turret_optics","_current_optic","_turret_count","_turrets"];
+  private ["_vehicle","_squad_param","_unit_info","_squad_title","_squad_pic","_squad_list","_Button_Racks","_text","_turret_optics","_current_optic","_turret_count","_turrets"];
   _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
 
   //-Display info
   _squad_title = _display displayctrl 20114;
   _squad_pic = _display displayctrl 20115;
   _squad_list = _display displayctrl 20116;
+  _squad_list ctrlSetPositionH call compile (getText(configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _squad_list >> "H"));
+  _squad_list ctrlCommit 0;
+
   lbClear _squad_list;
-  {_x ctrlshow true} forEach [_squad_title,_squad_pic,_squad_list];
 
   //-Check turrets
   _turret_optics = _vehicle getVariable "TGP_View_Available_Optics";
@@ -50,6 +52,14 @@ if (_extend_desc) then {
   _turrets = _turret_optics apply {((_x # 1) # 0) + 1};
   _turret_count = [_turrets # 0,0] select (-1 in _turrets);
 
+  #if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
+    _Button_Racks = _display displayctrl 201141;
+    _List_Racks = _display displayctrl 201142;
+  #else
+    _Button_Racks = controlNull;
+    _List_Racks = controlNull;
+  #endif
+  {_x ctrlshow true} forEach [_squad_title,_squad_pic,_squad_list,_Button_Racks,_List_Racks];
   //-get crew Info
   {
     private ["_unit_x","_seat","_turret_c","_name","_freq","_radioInfo","_add","_squad_param","_squad_param0","_unit_info","_title"];
@@ -68,19 +78,6 @@ if (_extend_desc) then {
       nil
     };
 
-    //-Select Radio MOD
-    #if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
-      _radioInfo = [_unit_x,_vehicle] call BCE_fnc_getFreq_ACRE;
-      _radioInfo params ["_freq",["_channel",""]];
-      if (_channel != "") then {
-        _squad_list lbSetTooltip [_add, format ["CH-%1",_channel]];
-      };
-    #endif
-
-    #if __has_include("\z\tfar\addons\core\script_component.hpp")
-      _freq = _unit_x call BCE_fnc_getFreq_TFAR;
-    #endif
-
     _squad_param = squadParams _unit_x;
 
     //-UNIT info
@@ -98,7 +95,12 @@ if (_extend_desc) then {
       [_picture,_unit,_unit,_turret_info]
     };
 
-    _squad_list lbSetTextRight [_add, "LR-" + ([_freq,"“NA”"] select (isnil {_freq}))];
+    #if __has_include("\z\tfar\addons\core\script_component.hpp")
+      _freq = _unit_x call BCE_fnc_getFreq_TFAR;
+      _squad_list lbSetTextRight [_add, "LR-" + ([_freq,"“NA”"] select (isnil {_freq}))];
+    #else
+      _squad_list lbSetTextRight [_add, _unit_info # 1];
+    #endif
     _squad_list lbSetData [_add, str _unit_info];
 
   } forEach flatten ((crew _vehicle) select {(_vehicle unitTurret _x) in ([[-1]] + allTurrets _vehicle)});

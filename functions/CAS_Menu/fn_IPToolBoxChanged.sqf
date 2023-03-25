@@ -60,6 +60,24 @@ switch _curLine do {
       };
     };
   };
+  //-FAD/H [Toolbox, EditBox, output, Toolbox(Azimuth)]
+  case 10:{
+    _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
+
+    if (_selectedIndex == 2) then {
+      _ctrl4 ctrlShow false;
+      _ctrl2 ctrlShow false;
+    } else {
+      //-FA D/H
+      if (_selectedIndex == 0) then {
+        _ctrl2 ctrlShow false;
+        _ctrl4 ctrlShow true;
+      } else {
+        _ctrl2 ctrlShow true;
+        _ctrl4 ctrlShow false;
+      };
+    };
+  };
   default {
     if (_selectedIndex == 0) then {
       _shownCtrls params ["_toolBox","_combo"];

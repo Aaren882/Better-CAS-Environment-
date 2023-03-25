@@ -19,7 +19,7 @@ _list_result = switch (_Task_Type lbValue (lbCurSel _Task_Type)) do {
   //-9 line
   default {
     _TaskList = _display displayCtrl 2002;
-    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",[]]]];
+    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
     [_TaskList,_taskVar]
   };
 };
@@ -31,6 +31,14 @@ _desc_show = _display displayctrl 20042;
 _squad_title = _display displayctrl 20114;
 _squad_pic = _display displayctrl 20115;
 _squad_list = _display displayctrl 20116;
+
+#if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
+  _Button_Racks = _display displayctrl 201141;
+  _List_Racks = _display displayctrl 201142;
+#else
+  _Button_Racks = controlNull;
+  _List_Racks = controlNull;
+#endif
 
 //-Description
 _extend_desc = (_Expression_class apply {getNumber(_x >> "multi_options") == 1}) # (lbCurSel _TaskList);
@@ -71,7 +79,7 @@ _Expression_Ctrls = (_Expression_class apply {
 
 //-from the Last page (Break)
 if (ctrlShown _Task_title) exitWith {
-  {_x ctrlShow false} forEach ([_Task_title,_Task_Description,_desc_show,_squad_title,_squad_pic,_squad_list] + (flatten _Expression_Ctrls));
+  {_x ctrlShow false} forEach ([_Task_title,_Task_Description,_desc_show,_squad_title,_squad_pic,_squad_list,_Button_Racks,_List_Racks] + (flatten _Expression_Ctrls));
   (_display displayCtrl 2105) ctrlSetText "Send Data";
   _TaskList ctrlShow true;
 
@@ -138,6 +146,11 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
     _sendData_POS # 2,
     _sendData_POS # 3
   ];
+
+  //- Squad List
+  _squad_list = _display displayctrl 20116;
+  _squad_list ctrlSetPositionH 0;
+  _squad_list ctrlCommit 0;
 
   //-hide MainList
   _MainList ctrlSetFade 1;

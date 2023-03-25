@@ -199,6 +199,7 @@ switch _mode do
 			(_display displayctrl 1601) ctrlEnable false;
 			(_display displayctrl 1602) ctrlEnable false;
 			(_display displayctrl 2103) ctrlEnable false;
+			(_display displayctrl 201142) ctrlEnable false;
 
 			(_display displayctrl 2107) lbSetCurSel (uiNameSpace getVariable ["BCE_Current_TaskType",0]);
 
@@ -213,13 +214,15 @@ switch _mode do
 			_selected = player getvariable ["TGP_View_Selected_Vehicle",objNull];
 
 			_UnitList = vehicles Select {
-			  !(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
+			  (_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
 			};
 
 			//-Exit Task Builder if Nil {_vehicle}
 			if (_selected isEqualTo objNull) then {
 				uiNameSpace setVariable ["BCE_CAS_ListSwtich", false];
 				[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
+				[_display,1,true] call BCE_fnc_ListSwitch;
+				(_display displayCtrl 2103) ctrlEnable false;
 			};
 
 			{

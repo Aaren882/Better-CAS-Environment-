@@ -1,4 +1,4 @@
-params ["_vehicle",["_IP_POS",[]],"_posTarget","_EGRS","_weaponInfo","_taskVar","_type"];
+params ["_vehicle",["_IP_POS",[]],"_FAD_POS","_posTarget","_EGRS","_weaponInfo","_taskVar","_type"];
 _weaponInfo params ["_WPNclass","_WPN_Mode","_WPN_turret","_WPN_count","_muzzle","_ATK_range"];
 
 if (
@@ -22,7 +22,19 @@ if (typeof _vehicle in ["B_T_VTOL_01_armed_F"]) exitWith {
   [_vehicle,_posTarget,_ATK_range] call BCE_fnc_GunShip_Loiter;
 };
 
+//-have IP/BP
+_has_IP = !(_IP_POS isEqualTo []);
+
 if (isplayer _vehicle) exitWith {
+  //-Fix FAD/H if there's nothing
+  if (((_taskVar # 10 # 0) == "NA") && !(_has_IP)) then {
+    _HDG = round(_posTarget getDirVisual _FAD_POS);
+    _To_Dir = [_HDG - 180,360 + (_HDG - 180)] select ((_HDG - 180) < 0);
+    _text = format ["“%1” to “%2”",_HDG call BCE_fnc_getAzimuth,_To_Dir call BCE_fnc_getAzimuth];
+
+    (_taskVar # 10) set [0,_text];
+    (_taskVar # 10) set [1,_HDG];
+  };
   private _task_info = [player,group player,_type,_taskVar];
   _vehicle setVariable ["BCE_Task_Receiver", _task_info, true];
 };
@@ -32,157 +44,145 @@ if ((_vehicle isKindOf "Helicopter") or !(BCE_AI_CAS_Support_fn)) exitWith {};
 _vehicle disableAI "TARGET";
 _vehicle disableAI "AUTOTARGET";
 
-//-have IP/BP
-if (_IP_POS isEqualTo []) then {
+private _grp = group _vehicle;
 
-} else {
-  private _grp = group _vehicle;
+//-Clear Waypoints
+for "_i" from count waypoints _grp - 1 to 1 step -1 do {
+  deleteWaypoint [_grp, _i];
+};
 
-  //-Clear Waypoints
-  for "_i" from count waypoints _grp - 1 to 1 step -1 do {
-  	deleteWaypoint [_grp, _i];
-  };
+if (_has_IP && (_IP_POS isNotEqualTo _FAD_POS)) then {
+  private _wp = _grp addWaypoint [_IP_POS, 0];
+};
+_IP = [_FAD_POS,_IP_POS] select _has_IP;
 
-  //-Set Waypoints
-  if ((_vehicle distance2D _posTarget) <= (_vehicle distance2D _IP_POS)) then {
-    for "_i" from 1 to 5 do {
-      switch _i do {
-        //-Get around TG POS
-        case 1:{
-          private _TG_dir = _IP_POS getDir _posTarget;
-          private _pos = [90,-90] apply {_posTarget getPos [4000, _TG_dir + _x]};
-          private _pos = if ((_vehicle distance (_pos # 0)) < (_vehicle distance (_pos # 1))) then {
-            (_pos # 0)
-          } else {
-            (_pos # 1)
-          };
-          _pos set [2, (getpos _vehicle) # 2];
-          private _wp = _grp addWaypoint [_pos, 0, _i];
-          _wp setWaypointStatements ["true", "vehicle this flyInHeight 2000;"];
+//-Set Waypoints
+if ((_vehicle distance2D _posTarget) <= (_vehicle distance2D _IP)) then {
+  _ActWP = [4,5] select _has_IP;
+  for "_i" from 1 to 5 do {
+    switch _i do {
+      //-Get around TG POS
+      case 1:{
+        private _TG_dir = _FAD_POS getDirVisual _posTarget;
+        private _pos = [90,-90] apply {_posTarget getPos [4000, _TG_dir + _x]};
+        private _pos = [_pos # 1,_pos # 0] select ((_IP distance (_pos # 0)) < (_IP distance (_pos # 1)));
+        if ((_vehicle distance2D _IP_POS) <= (_vehicle distance2D _pos)) then {
+          _ActWP = _ActWP - 1;
+          _vehicle flyInHeight 2000;
+          continue;
         };
-        //-Get a line
-        case 2:{
-          //-Last WP
-          private _TG_dir = _IP_POS getDir _posTarget;
-          private _LastWP = [90,-90] apply {_posTarget getPos [2000, _TG_dir + _x]};
-          private _LastWP = if ((_vehicle distance (_LastWP # 0)) < (_vehicle distance (_LastWP # 1))) then
-          {-10} else {10};
+        _pos set [2, (getpos _vehicle) # 2];
+        private _wp = _grp addWaypoint [_pos, 0];
+        _wp setWaypointStatements ["true", "vehicle this flyInHeight 2000;"];
+      };
+      //-Get a line
+      case 2:{
+        //-Last WP
+        private _TG_dir = _FAD_POS getDirVisual _posTarget;
+        private _LastWP = [90,-90] apply {_posTarget getPos [5000, _TG_dir + _x]};
+        private _LastWP = [10,-10] select ((_IP distance (_LastWP # 0)) < (_IP distance (_LastWP # 1)));
 
-          private _IP_dir = _posTarget getDir _IP_POS;
-          private _pos = _posTarget getPos [((_posTarget distance2D _IP_POS) + 2000) max 4000, _IP_dir+_LastWP];
+        private _IP_dir = _posTarget getDirVisual _FAD_POS;
+        private _pos = _posTarget getPos [((_posTarget distance2D _FAD_POS) + 2000) max 4000, _IP_dir+_LastWP];
 
-          _pos set [2, (getpos _vehicle) # 2];
-          private _wp = _grp addWaypoint [_pos, 0, _i];
-        };
-        case 3:{
-          private _IP_dir = _posTarget getDir _IP_POS;
-          private _pos = _posTarget getPos [((_posTarget distance2D _IP_POS) + 1000) max 3000, _IP_dir];
+        _pos set [2, (getpos _vehicle) # 2];
+        private _wp = _grp addWaypoint [_pos, 0];
+      };
+      case 3:{
+        private _IP_dir = _posTarget getDirVisual _FAD_POS;
+        private _pos = _posTarget getPos [((_posTarget distance2D _FAD_POS) + 1000) max 3000, _IP_dir];
 
-          _pos set [2, (getpos _vehicle) # 2];
-          private _wp = _grp addWaypoint [_pos, 0, _i];
-        };
-        //-IP
-        case 4:{
-          private _IP_dir = _posTarget getDir _IP_POS;
-          private _pos = _posTarget getPos [2500, _IP_dir];
-          _pos set [2, (getpos _vehicle) # 2];
+        _pos set [2, (getpos _vehicle) # 2];
+        private _wp = _grp addWaypoint [_pos, 0];
+      };
+      //-IP
+      case 4:{
+        private _IP_dir = _posTarget getDirVisual _FAD_POS;
+        private _pos = _posTarget getPos [2500, _IP_dir];
+        _pos set [2, (getpos _vehicle) # 2];
 
-          private _wp = _grp addWaypoint [_pos, 0, _i];
+        private _wp = _grp addWaypoint [_pos, 0];
 
-          if !(_vehicle getVariable ["Module_CAS_Sound",false]) then {
-            //Sound Handler
-            _vehicle setVariable ["Module_CAS_Sound",true,true];
+        if !(_vehicle getVariable ["Module_CAS_Sound",false]) then {
+          //Sound Handler
+          _vehicle setVariable ["Module_CAS_Sound",true,true];
 
-            [{
-                params ["_grp","_vehicle"];
+          [{
+              params ["_ActWP","_grp","_vehicle"];
 
-                ((currentWaypoint _grp) > 4) or !(alive _vehicle) or (isplayer _vehicle)
-              }, {
-                params ["_grp","_vehicle"];
+              ((currentWaypoint _grp) > _ActWP) or !(alive _vehicle) or (isplayer _vehicle)
+            }, {
+              params ["_ActWP","_grp","_vehicle"];
 
-                //Call Event
-                if ((alive _vehicle) && !(isplayer _vehicle)) then {
-                  _this call BCE_fnc_CAS_Action;
-                };
-              }, [_grp]+_this
-            ] call CBA_fnc_waitUntilAndExecute;
-          };
-        };
-        //-TG
-        case 5:{
-          private _wp = _grp addWaypoint [_posTarget, 0, _i];
+              //Call Event
+              if ((alive _vehicle) && !(isplayer _vehicle)) then {
+                _this call BCE_fnc_CAS_Action;
+              };
+            }, [_ActWP,_grp]+_this
+          ] call CBA_fnc_waitUntilAndExecute;
         };
       };
+      //-TG
+      case 5:{
+        private _wp = _grp addWaypoint [_posTarget, 0];
+      };
     };
-  } else {
-    for "_i" from 1 to 5 do {
-      switch (_i) do {
-        //-Get a line
-        case 1:{
-          //-Last WP
-          private _TG_dir = _IP_POS getDir _posTarget;
-          private _LastWP = [90,-90] apply {_posTarget getPos [2000, _TG_dir + _x]};
-          private _LastWP = if ((_vehicle distance (_LastWP # 0)) < (_vehicle distance (_LastWP # 1))) then
-          {-10} else {10};
+  };
+} else {
+  _ActWP = [3,4] select _has_IP;
+  for "_i" from 1 to 4 do {
+    switch _i do {
+      //-Get a line
+      case 1:{
+        //-Last WP
+        private _TG_dir = _FAD_POS getDirVisual _posTarget;
+        private _LastWP = [90,-90] apply {_posTarget getPos [5000, _TG_dir + _x]};
+        private _LastWP = [10,-10] select ((_IP distance (_LastWP # 0)) < (_IP distance (_LastWP # 1)));
 
-          private _IP_dir = _posTarget getDir _IP_POS;
-          private _pos = _posTarget getPos [((_posTarget distance2D _IP_POS) + 3000) max 5000, _IP_dir+_LastWP];
+        private _IP_dir = _posTarget getDirVisual _FAD_POS;
+        private _pos = _posTarget getPos [((_posTarget distance2D _FAD_POS) + 2000) max 4000, _IP_dir+_LastWP];
 
-          _pos set [2, (getpos _vehicle) # 2];
-          private _wp = _grp addWaypoint [_pos, 0, _i];
-          _wp setWaypointStatements ["true", "vehicle this flyInHeight 2000;"];
+        _pos set [2, (getpos _vehicle) # 2];
+        private _wp = _grp addWaypoint [_pos, 0];
+        _wp setWaypointStatements ["true", "vehicle this flyInHeight 2000;"];
+      };
+      case 2:{
+        private _IP_dir = _posTarget getDirVisual _FAD_POS;
+        private _pos = _posTarget getPos [((_posTarget distance2D _FAD_POS) + 1000) max 3000, _IP_dir];
+
+        _pos set [2, (getpos _vehicle) # 2];
+        private _wp = _grp addWaypoint [_pos, 0];
+      };
+      //-IP
+      case 3:{
+        private _IP_dir = _posTarget getDirVisual _FAD_POS;
+        private _pos = _posTarget getPos [2500, _IP_dir];
+        _pos set [2, (getpos _vehicle) # 2];
+
+        private _wp = _grp addWaypoint [_pos, 0];
+
+        if !(_vehicle getVariable ["Module_CAS_Sound",false]) then {
+          //Sound Handler
+          _vehicle setVariable ["Module_CAS_Sound",true,true];
+
+          [{
+              params ["_ActWP","_grp","_vehicle"];
+
+              ((currentWaypoint _grp) > _ActWP) or !(alive _vehicle) or (isplayer _vehicle)
+            }, {
+              params ["_ActWP","_grp","_vehicle"];
+
+              //Call Event
+              if ((alive _vehicle) && !(isplayer _vehicle)) then {
+                _this call BCE_fnc_CAS_Action;
+              };
+            }, [_ActWP,_grp]+_this
+          ] call CBA_fnc_waitUntilAndExecute;
         };
-        case 2:{
-          //-Last WP
-          private _TG_dir = _IP_POS getDir _posTarget;
-          private _LastWP = [90,-90] apply {_posTarget getPos [2000, _TG_dir + _x]};
-          private _LastWP = if ((_vehicle distance (_LastWP # 0)) < (_vehicle distance (_LastWP # 1))) then
-          {-10} else {10};
-
-          private _IP_dir = _posTarget getDir _IP_POS;
-          private _pos = _posTarget getPos [((_posTarget distance2D _IP_POS) + 2000) max 4000, _IP_dir+_LastWP];
-
-          _pos set [2, (getpos _vehicle) # 2];
-          private _wp = _grp addWaypoint [_pos, 0, _i];
-        };
-        case 3:{
-          private _IP_dir = _posTarget getDir _IP_POS;
-          private _pos = _posTarget getPos [((_posTarget distance2D _IP_POS) + 1000) max 3000, _IP_dir];
-
-          _pos set [2, (getpos _vehicle) # 2];
-          private _wp = _grp addWaypoint [_pos, 0, _i];
-        };
-        //-IP
-        case 4:{
-          private _IP_dir = _posTarget getDir _IP_POS;
-          private _pos = _posTarget getPos [2500, _IP_dir];
-          _pos set [2, (getpos _vehicle) # 2];
-
-          private _wp = _grp addWaypoint [_pos, 0, _i];
-
-          if !(_vehicle getVariable ["Module_CAS_Sound",false]) then {
-            //Sound Handler
-            _vehicle setVariable ["Module_CAS_Sound",true,true];
-
-            [{
-                params ["_grp","_vehicle"];
-
-                ((currentWaypoint _grp) > 4) or !(alive _vehicle) or (isplayer _vehicle)
-              }, {
-                params ["_grp","_vehicle"];
-
-                //Call Event
-                if ((alive _vehicle) && !(isplayer _vehicle)) then {
-                  _this call BCE_fnc_CAS_Action;
-                };
-              }, [_grp]+_this
-            ] call CBA_fnc_waitUntilAndExecute;
-          };
-        };
-        //-TG
-        case 5:{
-          private _wp = _grp addWaypoint [_posTarget, 0, _i];
-        };
+      };
+      //-TG
+      case 4:{
+        private _wp = _grp addWaypoint [_posTarget, 0];
       };
     };
   };

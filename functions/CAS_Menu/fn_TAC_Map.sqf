@@ -12,7 +12,7 @@ _ctrl drawIcon [
   getDirVisual cameraOn,
   "",
   1,
-  0.05
+  0.075
 ];
 
 {
@@ -50,7 +50,7 @@ _ctrl drawIcon [
     "",
     1,
     0.03,
-    "TahomaB",
+    "EtelkaNarrowMediumPro",
     "right"
   ];
 
@@ -66,7 +66,7 @@ _ctrl drawIcon [
       format ["%1 || ASL: %2m Speed: %3km/h",name (driver _x),round((getPosASL _x) # 2), round(Speed _x)],
       1,
       0.06,
-      "TahomaB",
+      "EtelkaNarrowMediumPro",
       "right"
     ];
 
@@ -138,8 +138,8 @@ _ctrl drawIcon [
           0,
           format ["GRID: %1",mapGridPosition _FocusPos],
           1,
-          0.05,
-          "TahomaB",
+          0.075,
+          "EtelkaNarrowMediumPro",
           "right"
         ];
       };
@@ -161,15 +161,16 @@ _taskVars = switch _sel_TaskType do {
   };
   //-9 line
   default {
-    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",[]]]];
+    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
     _IPBP = _taskVar # 1;
     _Target = _taskVar # 6;
     _FRD = _taskVar # 8;
     _EGRS = _taskVar # 9;
-    [_IPBP,_Target,_FRD,_EGRS]
+    _remarks = _taskVar # 10;
+    [_IPBP,_Target,_FRD,_EGRS,_remarks]
   };
 };
-_taskVars params ["_IPBP","_Target","_FRD","_EGRS"];
+_taskVars params ["_IPBP","_Target","_FRD","_EGRS","_remarks"];
 
 //-Draw IP/BP
 if (((_IPBP # 0) != "NA") && !("Marker" in (_IPBP # 0))) then {
@@ -182,8 +183,8 @@ if (((_IPBP # 0) != "NA") && !("Marker" in (_IPBP # 0))) then {
     0,
     _IPBP # 0,
     1,
-    0.05,
-    "TahomaB",
+    0.075,
+    "EtelkaNarrowMediumPro",
     "right"
   ];
 };
@@ -199,6 +200,32 @@ if ((_Target # 0) != "NA") then {
       (_IPBP # 2) vectorAdd _posDiff,
       [1,1,0,1]
   	];
+  };
+
+  //-FAD/H to TG line
+  if ((_remarks # 1) != -1) then {
+    private _HDG = _remarks # 1;
+    private _relPOS = (_Target # 2) getPos [1000, _HDG];
+    private _posDiff = ((_Target # 2) vectorDiff _relPOS) vectorMultiply 0.9;
+    _ctrl drawArrow [
+      _relPOS,
+      _relPOS vectorAdd _posDiff,
+      [0.6,1,0.37,1]
+    ];
+
+    _ctrl drawIcon [
+      "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
+      [0.6,1,0.37,1],
+      _relPOS,
+      30,
+      30,
+      0,
+      _remarks # 0,
+      1,
+      0.075,
+      "EtelkaNarrowMediumPro",
+      ["right","left"] select (_HDG > 180)
+    ];
   };
 
   //-Icon
@@ -217,8 +244,8 @@ if ((_Target # 0) != "NA") then {
     0,
     _Target # 0,
     1,
-    0.05,
-    "TahomaB",
+    0.075,
+    "EtelkaNarrowMediumPro",
     "right"
   ];
 };
@@ -252,8 +279,8 @@ if ((_FRD # 0) != "NA") then {
     0,
     _FRD # 0,
     1,
-    0.05,
-    "TahomaB",
+    0.075,
+    "EtelkaNarrowMediumPro",
     "right"
   ];
 };
@@ -285,8 +312,8 @@ if (
     0,
     _EGRS # 0,
     1,
-    0.065,
-    "TahomaB",
+    0.075,
+    "EtelkaNarrowMediumPro",
     "left"
   ];
 };

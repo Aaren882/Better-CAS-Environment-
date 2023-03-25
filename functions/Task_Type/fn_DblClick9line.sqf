@@ -11,27 +11,25 @@ switch _curLine do {
     ];
     _taskVar_0 = _taskVar # 0;
 
-    if ((_taskVar_0 # 0) != "NA") then {
-      _ctrl lbSetCurSel ((_taskVar # 0) # 1);
-    } else {
-      _ctrl lbSetCurSel 0;
-    };
-
-    private _ctrlPOS = ctrlPosition _ctrl;
-
     //-Weapon List
     [ctrlParent _weap,_weap,player getVariable ['TGP_View_Selected_Vehicle',objNull],false,false,false] call BCE_fnc_checkList;
 
     //-Default
     if ((_taskVar_0 # 0) != "NA") then {
-      _weap lbSetCurSel (_taskVar_0 # 2 # 0);
-      _mode lbSetCurSel (_taskVar_0 # 2 # 1);
-      _range lbSetCurSel (_taskVar_0 # 2 # 2);
-      _count ctrlSetText (_taskVar_0 # 2 # 3);
+      _taskVarSel = _taskVar_0 # 4;
+      _ctrl lbSetCurSel (_taskVarSel # 0);
+      _type lbSetCurSel (_taskVarSel # 1);
+      _weap lbSetCurSel (_taskVarSel # 2);
+      _mode lbSetCurSel (_taskVarSel # 3);
+      _range lbSetCurSel (_taskVarSel # 4);
+      _count ctrlSetText (_taskVarSel # 5);
     } else {
+      _ctrl lbSetCurSel 0;
+      _type lbSetCurSel 0;
       _weap lbSetCurSel (lbCurSel _checklist);
     };
 
+    _ctrlPOS = ctrlPosition _ctrl;
     _weapPOS = ctrlPosition _weap;
     _modePOS = ctrlPosition _mode;
     _rangePOS = ctrlPosition _range;
@@ -309,7 +307,7 @@ switch _curLine do {
     if ((_taskVar_9 # 0) != "NA") then {
       _ctrl1 lbSetCurSel (_taskVar_9 # 2 # 0);
       _ctrl4 lbSetCurSel (_taskVar_9 # 2 # 1);
-      _ctrl4 lbSetCurSel (_taskVar_9 # 2 # 2);
+      _ctrl5 lbSetCurSel (_taskVar_9 # 2 # 2);
 
       _ctrl2 ctrlSetText (str (_taskVar_9 # 1));
     } else {
@@ -370,6 +368,68 @@ switch _curLine do {
 
   //-Remarks
   case 10:{
+    //-FAD/H [Toolbox, EditBox, output, Toolbox(Azimuth), DanClose(Text), DanClose(Box)]
+    _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4","_ctrl5","_ctrl6"];
 
+    _taskVar_10 = _taskVar # 10;
+
+    //-Back to previous status
+    if ((_taskVar_10 # 0) != "NA") then {
+      (_taskVar_10 # 2) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",false]];
+      _ctrl1 lbSetCurSel _cndtion1;
+      _ctrl4 lbSetCurSel _cndtion2;
+      _ctrl6 cbSetChecked _cndtion3;
+
+      if ((_taskVar_10 # 1) != -1) then {
+        _ctrl2 ctrlSetText (str (_taskVar_10 # 1));
+      };
+    } else {
+      _ctrl2 ctrlSetText "Bearing...";
+    };
+
+    _ctrl1sel = lbCurSel _ctrl1;
+    _ctrl3 ctrlSetText (_taskVar_10 # 0);
+
+    if (_ctrl1sel == 2) then {
+      _ctrl4 ctrlShow false;
+      _ctrl2 ctrlShow false;
+    } else {
+      //-FA D/H
+      if (_ctrl1sel == 0) then {
+        _ctrl2 ctrlShow false;
+        _ctrl4 ctrlShow true;
+      } else {
+        _ctrl2 ctrlShow true;
+        _ctrl4 ctrlShow false;
+      };
+    };
+
+    //-Description POS
+    _c = 0;
+    {
+      _c = _c + ((ctrlPosition _x) # 3);
+    } forEach [_ctrl1,_ctrl2,_ctrl3,_ctrl5];
+
+    private _c = (_titlePOS # 3) + _c;
+    _description ctrlSetPosition
+    [
+      _TaskListPOS # 0,
+      (_TaskListPOS # 1) + _c,
+      _TaskListPOS # 2,
+      (_TaskListPOS # 3) - _c
+    ];
+
+    _ctrl2POS = ctrlPosition _ctrl2;
+    _ctrl3POS = ctrlPosition _ctrl3;
+
+    //-Expression
+    _ctrl3 ctrlSetPosition
+    [
+      (_ctrl2POS # 0) + (_ctrl2POS # 2),
+      _ctrl2POS # 1,
+      _ctrl2POS # 2,
+      _ctrl2POS # 3
+    ];
+    _ctrl3 ctrlCommit 0;
   };
 };

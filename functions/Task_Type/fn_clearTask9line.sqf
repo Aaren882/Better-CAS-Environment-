@@ -45,7 +45,13 @@ if ((ctrlShown _description) or (_Veh_Changed)) then {
       _ctrl3 ctrlSetText "NA";
     };
     default {
-      _taskVar set [_curLine, ["NA",[]]];
+      _shownCtrls apply {
+        if (ctrlIDC _x == 2014) then {
+          _x ctrlSetText "NA";
+          break;
+        };
+      };
+      _taskVar set [_curLine, _default # _curLine];
     };
   };
   uiNamespace setVariable ["BCE_CAS_9Line_Var", _taskVar];
