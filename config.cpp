@@ -722,7 +722,10 @@ class CfgFunctions
 		class Radio_Compat
 		{
 			file="MG8\AVFEVFX\functions\Radio_Compat";
-			class getFreq_ACRE;
+			#if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
+				class getFreq_ACRE;
+				class ButtonRacks;
+			#endif
 			class getFreq_TFAR;
 		};
 	};
@@ -790,6 +793,7 @@ class RscCombo;
 class RscEditMulti;
 class RscStructuredText;
 class RscMapControl;
+class RscCheckBox;
 
 //UI
 #include "Control_UI.hpp"

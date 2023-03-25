@@ -29,7 +29,7 @@ class RscCustomInfoMiniMap
 			{
 				class CA_MiniMap: RscMapControl
 				{
-					onDraw="call BCE_fnc_drawGPS;";
+					onDraw="call BCE_fnc_drawGPS";
 				};
 			};
 		};
@@ -44,7 +44,7 @@ class RscDisplayMainMap
 			#if __has_include("\z\ace\addons\map\config.bin")
 				onDraw="call BCE_fnc_drawGPS; [ctrlParent (_this # 0)] call ace_map_fnc_onDrawMap;";
 			#else
-				onDraw="call BCE_fnc_drawGPS;";
+				onDraw="call BCE_fnc_drawGPS";
 			#endif
 		};
 	};
@@ -90,8 +90,8 @@ class RscDisplayAVTerminal
 		{
 			idcMarkerColor = 1090;
 			idcMarkerIcon = 1091;
-			onMouseButtonUp = "call BCE_fnc_GetMapClickPOS;";
-			onDraw = "call BCE_fnc_TAC_Map;";
+			onMouseButtonUp = "call BCE_fnc_GetMapClickPOS";
+			onDraw = "call BCE_fnc_TAC_Map";
 		};
 	};
 	class controls
@@ -451,6 +451,8 @@ class RscDisplayAVTerminal
 			h = 9*TextH;
 			fade = 1;
 			Enabled = 0;
+			
+			lineSpacing = 0.5;
 		};
 		class New_Task_Desc_Extended_show: ctrlButton
 		{
@@ -499,7 +501,7 @@ class RscDisplayAVTerminal
 			colorPictureRightSelected[] = {0,1,0,1};
 			colorSelectBackground[] = {0.95,0.95,0.95,0.2};
 			colorSelectBackground2[] = {1,1,1,0.4};
-			onLBDblClick = "call BCE_fnc_TaskListDblCLick;";
+			onLBDblClick = "call BCE_fnc_TaskListDblCLick";
 			class Items
 			{
 				class Game_plan
@@ -510,12 +512,12 @@ class RscDisplayAVTerminal
 					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023};
 					multi_options = 1;
 					default = 1;
-					tooltip = "Task Type";
+					tooltip = "Game Plan";
 				};
 				class Line1: Game_plan
 				{
 					text = "1: IP/BP :";
-					data = "“Shift + LMB” on the map to set marker<br/><br/>“Initial Point” or “Battle Position”.<br/><br/>For FW aircraft (Planes), the IP is the starting point for the run-in to the target. <br/><br/>For RW aircraft (Helis), the BP is where attacks on the target are commenced.";
+					data = "“Shift + LMB” on the map to set marker<br/><br/>“Initial Point” or “Battle Position”.<br/><br/>IP for FW aircraft (Planes), the IP is the starting point for the run-in to the target. <br/><br/>BP for RW aircraft (Helis), the BP is where attacks on the target are commenced.";
 					Expression_idc[] = {2012,2013,2014};
 					multi_options = 0;
 					tooltip = "Initial Point\Battle Position";
@@ -582,9 +584,9 @@ class RscDisplayAVTerminal
 				class Remark: Line1
 				{
 					text = "Remarks :";
-					data = "Supplies additional important information.<br/><br/>1.<t underline='true'>Troops in Contact</t> or <t underline='true'>Danger Close</t><br/>2.Airspace coordination: final attack heading (FAH) or altitude restrictions <br/>3.Threat <br/>4.SEAD support in effect <br/>5.Active gun target lines <br/>6.Ordnance requested <br/>etc";
+					data = "Supplies additional important information.<br/><br/>1.<t underline='true'>Troops in Contact</t> or <t underline='true'>Danger Close</t><br/>2.Final Attack Heading (FAH) or altitude restrictions <br/>3.Threat <br/>5.Active gun target lines <br/>etc";
 					tooltip = "Remarks/Restrictions";
-					Expression_idc[] = {};
+					Expression_idc[] = {2200,2018,2014,2017,2201,2202};
 				};
 			};
 		};
@@ -640,6 +642,12 @@ class RscDisplayAVTerminal
 			y = (MULTIY + 2) * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (0.035 * safezoneH);\
 			w = (MULTIW * 14) * (safezoneW / 64);\
 			h = MULTIH * (safezoneH / 40)
+		
+		#define ExpBOX(MULTIY,MULTIH,MULTIW,OFFSETX) \
+			x = 50 * (safezoneW / 64) + (safezoneX) + (OFFSETX * (safezoneH/safezonew) * (safezoneW / 55));\
+			y = (MULTIY + 2) * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (0.035 * safezoneH);\
+			w = MULTIW * (safezoneH/safezonew) * (safezoneW / 55);\
+			h = MULTIH * (safezoneW / 55)
 		class New_Task_Expression: RscEdit
 		{
 			idc = 2010;
@@ -663,7 +671,7 @@ class RscDisplayAVTerminal
 			periodFocus = 0;
 			periodOver = 0;
 			tooltip = "more details";
-			onButtonClick = "call BCE_fnc_Extended_Desc;";
+			onButtonClick = "call BCE_fnc_Extended_Desc";
 			BCE_Desc = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but <t font='RobotoCondensedBold'>must have real time data</t> from FO/Scout.";
 			class Attributes
 			{
@@ -769,6 +777,52 @@ class RscDisplayAVTerminal
 			ExpPOS(9.75,0.5,5);
 		};
 		
+		#if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
+			class ButtonACRE_Racks: RscButtonMenu
+			{
+				idc = 201141;
+				text = "<img image='\idi\acre\addons\ace_interact\data\icons\rack3.paa' align='center' size='0.7' />";
+				tooltip = "$STR_ACRE_sys_rack_Racks";
+				style = 2;
+				onButtonClick = "call BCE_fnc_ButtonRacks";
+				class TextPos
+				{
+					left = 0;
+					top = 0;
+					right = 0;
+					bottom = 0;
+				};
+				show = 0;
+				colorBackground[] = {0,0,0,0.2};
+				//colorBackground2[] = {0,0,0,0.2};
+				//colorFocused[] = {0,0,0,0.2};
+				periodFocus = 0;
+				x = "58 * (safezoneW / 64) + (safezoneX) - (((safezoneW / safezoneH) min 1.2) / 40)";
+				y = "(8.75 + 2) * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (0.035 * safezoneH)";
+				w = "(((safezoneW / safezoneH) min 1.2) / 40)";
+				h = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			};
+			class ListACRE_Racks: New_Task_Unit_List
+			{
+				idc = 201142;
+				x = "58 * (safezoneW / 64) + (safezoneX)";
+				y = "(8.75 + 2) * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (0.035 * safezoneH)";
+				w = "5 * (safezoneW / 64)";
+				h = "0";
+				/*x = "57 * (safezoneW / 64) + (safezoneX) + (((safezoneW / safezoneH) min 1.2) / 40)";
+				y = "(9.75 + 2) * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (0.035 * safezoneH)";
+				w = "7 * (safezoneW / 64) - (((safezoneW / safezoneH) min 1.2) / 40)";
+				h = "5 * (safezoneH / 40)";*/
+				onLBSelChanged = "";
+				show = 0;
+				colorBorder[] = {1,1,1,1};
+				colorSelect[] = {1,1,1,1};
+				colorSelect2[] = {1,1,1,1};
+				colorSelectRight[] = {1,1,1,1};
+				colorSelect2Right[] = {1,1,1,1};
+			};
+		#endif
+		
 		//-IP
 		class New_Task_IPtype: New_Task_CtrlType
 		{
@@ -782,7 +836,7 @@ class RscDisplayAVTerminal
 				"Click Map “Shift + LMB”",
 				"OverHead"
 			};
-			onToolBoxSelChanged = "call BCE_fnc_IPToolBoxChanged;";
+			onToolBoxSelChanged = "call BCE_fnc_IPToolBoxChanged";
 		};
 		class New_Task_TGT: New_Task_IPtype
 		{
@@ -893,6 +947,32 @@ class RscDisplayAVTerminal
 			};
 		};
 		
+		//-Remarks
+		class New_Task_FADH: New_Task_IPtype
+		{
+			idc = 2200;
+			columns = 3;
+			strings[] =
+			{
+				"FAD",
+				"FAH",
+				"Default"
+			};
+		};
+		class New_Task_DangerClose_Text: RscText
+		{
+			idc = 2201;
+			ExpBOX(4,1,17,1);
+			text = ": Danger Close";
+			show = 0;
+		};
+		class New_Task_DangerClose_Box: RscCheckBox
+		{
+			idc = 2202;
+			ExpBOX(4,1,1,0);
+			show = 0;
+		};
+		
 		//-Ordnance
 		class AI_Remark_WeaponCombo: New_Task_MarkerCombo
 		{
@@ -900,7 +980,7 @@ class RscDisplayAVTerminal
 			ExpPOS(6.65,0.5,1);
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 			onMouseButtonClick = "";
-			onLBSelChanged = "call BCE_fnc_CAS_SelWPN;";
+			onLBSelChanged = "call BCE_fnc_CAS_SelWPN";
 			class Items{};
 		};
 		class AI_Remark_ModeCombo: AI_Remark_WeaponCombo
@@ -1008,7 +1088,7 @@ class RscDisplayAVTerminal
 			text = "Send Data";
 			fade = 1;
 			enable = 0;
-			onButtonClick = "call BCE_fnc_DataReceiveButton;";
+			onButtonClick = "call BCE_fnc_DataReceiveButton";
 		};
 		class Clear_TaskInfo: ctrlButton
 		{
@@ -1020,7 +1100,7 @@ class RscDisplayAVTerminal
 			text = "Clear All";
 			font = "RobotoCondensedLight";
 			show = 0;
-			onButtonClick = "call BCE_fnc_clearTaskInfo;";
+			onButtonClick = "call BCE_fnc_clearTaskInfo";
 		};
 
 		//-Switch 5 or 9 line
@@ -1036,7 +1116,7 @@ class RscDisplayAVTerminal
 			colorSelectBackground[] = {0.5,0.5,0.5,0.6};
 			wholeHeight = 0.8;
 			sizeEx = "0.028*SafezoneH";
-			onLBSelChanged = "call BCE_fnc_TaskTypeChanged;";
+			onLBSelChanged = "call BCE_fnc_TaskTypeChanged";
 			class Items
 			{
 				class 9line

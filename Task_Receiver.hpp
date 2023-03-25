@@ -60,10 +60,12 @@ class BCE_Task_Receiver
 			IDC = 102;
 			x = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_X"", safezoneX])";
 			y = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_Y"", ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)])";
-			w = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_W"", (10 * (((safezoneW / safezoneH) min 1.2) / 40))]) - 0.25 * (((safezoneW / safezoneH) min 1.2) / 40)";
-			h = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_H"", (10 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))]) - 1.25 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			w = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_W"", (10 * (((safezoneW / safezoneH) min 1.2) / 40))])";
+			h = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_H"", (10 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))]) - (1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))";
 			text = "";
 			colorBackground[] = {0,0,0,0};
+			shadow = 2;
+			font = "RobotoCondensedBold";
 			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 			class CfgItems
 			{
@@ -71,7 +73,7 @@ class BCE_Task_Receiver
 				{
 					class Type_Control
 					{
-						text = "#: Control Type :";
+						text = "#: Game Plan :";
 					};
 					class Line1: Type_Control
 					{
