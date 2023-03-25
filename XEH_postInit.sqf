@@ -385,7 +385,7 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
     _list = allUnits select {
       ((_x getVariable ["AHUD_Actived",-1]) != -1) or ((_x getVariable ["TGP_View_EHs",-1]) != -1)
     };
-    [selectRandom ["TacticalPing2","TacticalPing3","TacticalPing4"]] remoteExec ["playSound",_list,true];
+    [selectRandom ["TacticalPing2","TacticalPing3","TacticalPing4"]] remoteExecCall ["playSound",_list,true];
 
     _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;
     _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
