@@ -26,14 +26,18 @@ if (typeof _vehicle in ["B_T_VTOL_01_armed_F"]) exitWith {
 _has_IP = !(_IP_POS isEqualTo []);
 
 if (isplayer _vehicle) exitWith {
+  _remarks = switch _type do {
+    case 5: {_taskVar # 4};
+    case 9:{_taskVar # 10};
+  };
   //-Fix FAD/H if there's nothing
-  if (((_taskVar # 10 # 0) == "NA") && !(_has_IP)) then {
+  if (((_remarks # 0) == "NA") && !(_has_IP)) then {
     _HDG = round(_posTarget getDirVisual _FAD_POS);
     _To_Dir = [_HDG - 180,360 + (_HDG - 180)] select ((_HDG - 180) < 0);
     _text = format ["“%1” to “%2”",_HDG call BCE_fnc_getAzimuth,_To_Dir call BCE_fnc_getAzimuth];
 
-    (_taskVar # 10) set [0,_text];
-    (_taskVar # 10) set [1,_HDG];
+    _remarks set [0,_text];
+    _remarks set [1,_HDG];
   };
   private _task_info = [player,group player,_type,_taskVar];
   _vehicle setVariable ["BCE_Task_Receiver", _task_info, true];
@@ -54,6 +58,7 @@ for "_i" from count waypoints _grp - 1 to 1 step -1 do {
 if (_has_IP && (_IP_POS isNotEqualTo _FAD_POS)) then {
   private _wp = _grp addWaypoint [_IP_POS, 0];
 };
+
 _IP = [_FAD_POS,_IP_POS] select _has_IP;
 
 //-Set Waypoints

@@ -14,12 +14,18 @@ if ((ctrlShown _description) or (_Veh_Changed)) then {
       _taskVar set [3,["NA","--",""]];
     };
     default {
-      _taskVar set [_curLine, ["NA",[]]];
+      _shownCtrls apply {
+        if (ctrlIDC _x == 2014) then {
+          _x ctrlSetText "NA";
+          break;
+        };
+      };
+      _taskVar set [_curLine, _default # _curLine];
     };
   };
   uiNamespace setVariable ["BCE_CAS_5Line_Var", _taskVar];
 } else {
-  uiNamespace setVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",[]]]];
+  uiNamespace setVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
 };
 
 //-Task Status

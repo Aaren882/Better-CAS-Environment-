@@ -1,5 +1,7 @@
 params["_display",["_skip",1],["_preload",false],["_vehicle",objNull]];
 
+if ((lbcursel (_display displayCtrl 2102)) != 0) exitWith {};
+
 _BG_grp = _display displayCtrl 2000;
 
 _MainList = _display displayCtrl 2100;
@@ -10,10 +12,9 @@ _list_result = switch (_Task_Type lbValue (lbCurSel _Task_Type)) do {
   //-5 line
   case 1: {
     _TaskList = _display displayCtrl 2005;
-    _vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
     _TaskList lbSetText [0, format ["1: “%1”/“%2” :", groupId group _vehicle, groupId group player]];
 
-    _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",[]]]];
+    _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
     [_TaskList,_taskVar]
   };
   //-9 line
@@ -25,7 +26,8 @@ _list_result = switch (_Task_Type lbValue (lbCurSel _Task_Type)) do {
 };
 _list_result params ["_TaskList","_taskVar"];
 
-_Expression_class = "true" configClasses (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _TaskList >>"items");
+_config = configFile >> "RscDisplayAVTerminal" >> "controls";
+_Expression_class = "true" configClasses (_config >> ctrlClassName _TaskList >>"items");
 _Task_title = _display displayctrl 2003;
 _desc_show = _display displayctrl 20042;
 _squad_title = _display displayctrl 20114;
@@ -103,7 +105,6 @@ _sendData = _display displayCtrl 2105;
 _Task_Type_POS = ctrlPosition _Task_Type;
 _BG_grp_POS = ctrlPosition _BG_grp;
 _MainList_POS = ctrlPosition _MainList;
-_list_Title_POS = ctrlPosition _list_Title;
 _createTask_POS = ctrlPosition _createTask;
 _sendData_POS = ctrlPosition _sendData;
 
@@ -111,13 +112,8 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
   _list_Title ctrlSetText "Create Task: (DoubleClick)";
   _To_BottomH = 1 - (((_MainList_POS # 1) - safezoneY) / safezoneH);
 
-  _BG_grp ctrlSetPosition
-  [
-    _BG_grp_POS # 0,
-    _BG_grp_POS # 1,
-    _BG_grp_POS # 2,
-    _To_BottomH * SafeZoneH
-  ];
+  _BG_grp ctrlSetPositionH (_To_BottomH * SafeZoneH);
+
   _createTask ctrlSetPosition
   [
     _BG_grp_POS # 0,
@@ -148,7 +144,6 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
   ];
 
   //- Squad List
-  _squad_list = _display displayctrl 20116;
   _squad_list ctrlSetPositionH 0;
   _squad_list ctrlCommit 0;
 
@@ -176,13 +171,8 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
 
 } else {
   _list_Title ctrlSetText "Check List:";
-  _BG_grp ctrlSetPosition
-  [
-    _BG_grp_POS # 0,
-    _BG_grp_POS # 1,
-    _BG_grp_POS # 2,
-    _MainList_POS # 3
-  ];
+  _BG_grp ctrlSetPositionH (call compile getText (_config >> ctrlClassName _BG_grp >> "H"));
+
   _createTask ctrlSetPosition
   [
     _BG_grp_POS # 0,

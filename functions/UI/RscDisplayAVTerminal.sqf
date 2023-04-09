@@ -150,10 +150,10 @@ _fnc_onButtonClick_Switch = {
 		(call BCE_fnc_getTurret) params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
 
 		if (count _Optic_LODs == 1) exitWith {};
-		_current_turret = if (_current_turret < 1) then {
-			(count _Optic_LODs) - 1
+		_current_turret = if (_current_turret >= ((count _Optic_LODs) - 1)) then {
+			0
 		} else {
-			_current_turret - 1
+			_current_turret + 1
 		};
 
 		_turret_select = _Optic_LODs # _current_turret;
@@ -200,6 +200,8 @@ switch _mode do
 			(_display displayctrl 1602) ctrlEnable false;
 			(_display displayctrl 2103) ctrlEnable false;
 			(_display displayctrl 201142) ctrlEnable false;
+			(_display displayctrl 20116) ctrlSetPositionH 0;
+		  (_display displayctrl 20116) ctrlCommit 0;
 
 			(_display displayctrl 2107) lbSetCurSel (uiNameSpace getVariable ["BCE_Current_TaskType",0]);
 
@@ -312,13 +314,6 @@ switch _mode do
 		_control ctrladdeventhandler ["MouseButtonUp","with uinamespace do {['pipClicked',_this,''] call RscDisplayAVTerminal_script};"];
 		_control = _display displayctrl IDC_IGUI_AVT_PIP2;
 		_control ctrladdeventhandler ["MouseButtonUp","with uinamespace do {['pipClicked',_this,''] call RscDisplayAVTerminal_script};"];
-
-		//-Draw vehicle Icons
-		/* private _map = _display displayCtrl 51;
-		private _Map_color = getArray (configfile >> 'RscMapControl' >> 'colorBackground');
-		_EHid = _map ctrlAddEventHandler ["Draw", {
-			call BCE_fnc_TAC_Map;
-		}]; */
 
 		//-Apply Map Background
 		if (uinamespace getVariable ['BCE_Map_BGColor',true]) then {

@@ -15,14 +15,31 @@ _drawT = {
 switch _sel_TaskType do {
   //-5 line
   case 1: {
-    _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",[]]]];
+    _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
     _taskVar params ["_taskVar_0","_taskVar_1","_taskVar_2","_taskVar_3","_taskVar_4"];
 
-    if (CHECK_TASK(_taskVar_1) && CHECK_TASK(_taskVar_2) && CHECK_TASK(_taskVar_3)) then {
-      (_taskVar_4 # 1) params ["_WeapName","_ModeName","_class","_Mode","_turret","_Count","_muzzle","_ATK_range"];
-      [_vehicle, [], _taskVar_2 # 2, 0, [_class,_Mode,_turret,_Count,_muzzle,_ATK_range],_taskVar,5] call BCE_fnc_Plane_CASEvent;
+    if (CHECK_TASK(_taskVar_0) && CHECK_TASK(_taskVar_1) && CHECK_TASK(_taskVar_2)) then {
+      (_taskVar_0 # 3) params ["_WeapName","_ModeName","_class","_Mode","_turret","_Count","_muzzle","_ATK_range"];
+
+      _FAD_NA = (_taskVar_4 # 1) == -1;
+
+      //-FAD/H
+      _FRPOS = _taskVar_1 # 2;
+      _TGPOS = _taskVar_2 # 2;
+
+      _POS = if (_FAD_NA) then {
+        _from = _vehicle;
+        call _drawT
+      } else {
+        (_TGPOS getPos [
+          3000,
+          _taskVar_4 # 1
+        ])
+      };
+      _EGRS = round ((_taskVar_2 # 2) getDirVisual _POS);
+      [_vehicle, [], _POS, _TGPOS, _EGRS, [_class,_Mode,_turret,_Count,_muzzle,_ATK_range],_taskVar,5] call BCE_fnc_Plane_CASEvent;
     } else {
-      hint "Fail...\nCheck 2, 3, 4,and selected Aircraft.";
+      hint "Fail...\nCheck 1, 2, 3,and selected Aircraft.";
     };
   };
   //-9 line

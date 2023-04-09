@@ -8,7 +8,7 @@ _list_result = switch _sel_TaskType do {
   //-5 line
   case 1: {
     _TaskList = _display displayCtrl 2005;
-    _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",[]]]];
+    _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
     [_TaskList,_taskVar]
   };
   //-9 line
@@ -20,7 +20,7 @@ _list_result = switch _sel_TaskType do {
 };
 _list_result params ["_TaskList","_taskVar"];
 
-_Expression_class = "true" configClasses (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _TaskList >>"items");
+_Expression_class = "true" configClasses (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _TaskList >> "items");
 
 //-Description
 _desc_show = _display displayctrl 20042;
@@ -55,11 +55,12 @@ if (_extend_desc) then {
   #if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
     _Button_Racks = _display displayctrl 201141;
     _List_Racks = _display displayctrl 201142;
+    _Button_Racks ctrlshow ({isplayer _x} count (crew _vehicle) > 0);
   #else
     _Button_Racks = controlNull;
     _List_Racks = controlNull;
   #endif
-  {_x ctrlshow true} forEach [_squad_title,_squad_pic,_squad_list,_Button_Racks,_List_Racks];
+  {_x ctrlshow true} forEach [_squad_title,_squad_pic,_squad_list,_List_Racks];
   //-get crew Info
   {
     private ["_unit_x","_seat","_turret_c","_name","_freq","_radioInfo","_add","_squad_param","_squad_param0","_unit_info","_title"];
@@ -83,7 +84,7 @@ if (_extend_desc) then {
     //-UNIT info
     _unit_info = if (_squad_param isNotEqualTo []) then {
       (_squad_param # 0) params ["", "_title", "", "", ["_picture",""], ["_unit",""]];
-      //(_squad_param # 1) params ["", "", "", "", "", ""];
+
       [_picture,_unit,_title,_turret_info]
     } else {
       private["_faction","_config","_picture"];

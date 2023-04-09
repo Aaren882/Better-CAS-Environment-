@@ -153,11 +153,11 @@ _sel_TaskType = _Task_Type lbValue (lbCurSel _Task_Type);
 _taskVars = switch _sel_TaskType do {
   //-5 line
   case 1: {
-    _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",[]]]];
+    _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
     _FRD = _taskVar # 1;
     _Target = _taskVar # 2;
-
-    [["NA",[]],_Target,_FRD,["NA",[]]]
+    _remarks = _taskVar # 4;
+    [["NA",[]],_Target,_FRD,["NA",[]],_remarks]
   };
   //-9 line
   default {

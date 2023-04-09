@@ -16,6 +16,7 @@ switch _type do {
   //-5 Line
   case 5: {
     private _classes = ("true" configClasses (_Cfg >> "5Line")) apply {getText(_x >> "Text")};
+    private _Danclose = (_taskVar # 4 # 2) param [2,false];
     {
       if (_forEachIndex == 0) then {
         private _index = _ctrlList lbAdd (_x # 2);
@@ -26,6 +27,13 @@ switch _type do {
           _ctrlList lbSetTextRight [_index, format ["%1 with: [%2]", trim(_x # 1), trim(_x # 2)]];
         } else {
           _ctrlList lbSetTextRight [_index, _x # 0];
+        };
+
+        //-Read Back
+        if (_index in [4]) then {
+          private _color = [[0.27,1,0.16,1],[1,0.22,0.17,1]] select _Danclose;
+          _ctrlList lbSetColor [_index, _color];
+          _ctrlList lbSetColorRight [_index, _color];
         };
       };
     } foreach _taskVar;

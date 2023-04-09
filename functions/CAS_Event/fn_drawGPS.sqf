@@ -3,6 +3,20 @@ params ["_ctrl"];
 //- CAS
 private _vehicle = vehicle cameraOn;
 private _taskVar = _vehicle getVariable ["BCE_Task_Receiver",[]];
+
+//- Angle of View https://www.sr-research.com/eye-tracking-blog/background/visual-angle/
+/*if ((_vehicle isKindOf "Air") && (cameraView == "GUNNER")) then {
+  _ctrl drawEllipse
+  [
+    _vehicle,
+    25,
+    25,
+    atan(getObjectFOV cameraon)*2,
+    [1,1,1,1],
+    ""
+  ];
+};*/
+
 if (_taskVar isNotEqualto []) then {
   private _pos = getPosASLVisual _vehicle;
   private _dir = getDirVisual _vehicle;
@@ -26,6 +40,7 @@ if (_taskVar isNotEqualto []) then {
       private _FRD = _taskVar # 1;
       private _Target = _taskVar # 2;
       private _desc = _taskVar # 3;
+      private _remarks = _taskVar # 4;
 
       //-Draw Target
       if ((_Target # 0) != "NA") then {
@@ -56,6 +71,33 @@ if (_taskVar isNotEqualto []) then {
           "EtelkaNarrowMediumPro",
           "right"
         ];
+
+        //-FAD/H to TG line
+        if ((_remarks # 0) != "NA") then {
+          private _HDG = _remarks # 1;
+          private _relPOS = (_Target # 2) getPos [1000, _HDG];
+          private _posDiff = ((_Target # 2) vectorDiff _relPOS) vectorMultiply 0.9;
+
+          _ctrl drawArrow [
+            _relPOS,
+            _relPOS vectorAdd _posDiff,
+            [0.6,1,0.37,1]
+          ];
+
+          _ctrl drawIcon [
+            "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
+            [0.6,1,0.37,1],
+            _relPOS,
+            30,
+            30,
+            0,
+            _remarks # 0,
+            1,
+            0.075,
+            "EtelkaNarrowMediumPro",
+            ["right","left"] select (_HDG > 180)
+          ];
+        };
       };
 
       //-Friendly

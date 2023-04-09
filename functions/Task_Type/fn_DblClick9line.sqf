@@ -1,7 +1,7 @@
 if (_curLine in [2,3,4]) then {_clearbut ctrlShow false};
 
 switch _curLine do {
-  //-Control type
+  //-Game Plan
   case 0:{
     _shownCtrls params [
       "_title_ctrl","_ctrl",
@@ -80,13 +80,8 @@ switch _curLine do {
       _c = _c + ((ctrlPosition _x) # 3);
     } forEach [_ctrl1,_ctrl2];
     private _c = (_titlePOS # 3) + _c;
-    _description ctrlSetPosition
-    [
-      _TaskListPOS # 0,
-      (_TaskListPOS # 1) + _c,
-      _TaskListPOS # 2,
-      (_TaskListPOS # 3) - _c
-    ];
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
+    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
     _ctrl2POS = ctrlPosition _ctrl2;
     _ctrl3POS = ctrlPosition _ctrl3;
@@ -104,33 +99,18 @@ switch _curLine do {
   //-Heading
   case 2:{
     private _c = _titlePOS # 3;
-    _description ctrlSetPosition
-    [
-      _TaskListPOS # 0,
-      (_TaskListPOS # 1) + _c,
-      _TaskListPOS # 2,
-      (_TaskListPOS # 3) - _c
-    ];
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
+    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
   };
   case 3:{
     private _c = _titlePOS # 3;
-    _description ctrlSetPosition
-    [
-      _TaskListPOS # 0,
-      (_TaskListPOS # 1) + _c,
-      _TaskListPOS # 2,
-      (_TaskListPOS # 3) - _c
-    ];
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
+    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
   };
   case 4:{
     private _c = _titlePOS # 3;
-    _description ctrlSetPosition
-    [
-      _TaskListPOS # 0,
-      (_TaskListPOS # 1) + _c,
-      _TaskListPOS # 2,
-      (_TaskListPOS # 3) - _c
-    ];
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
+    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
   };
 
   //-DESC
@@ -138,13 +118,8 @@ switch _curLine do {
     _shownCtrls params ["_ctrl"];
     private _ctrlPOS = ctrlPosition _ctrl;
     private _c = (_titlePOS # 3) + (_ctrlPOS # 3);
-    _description ctrlSetPosition
-    [
-      _TaskListPOS # 0,
-      (_TaskListPOS # 1) + _c,
-      _TaskListPOS # 2,
-      (_TaskListPOS # 3) - _c
-    ];
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
+    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
   };
 
   //-GRID
@@ -174,13 +149,8 @@ switch _curLine do {
       _c = _c + ((ctrlPosition _x) # 3);
     } forEach [_ctrl1,_ctrl2];
     private _c = (_titlePOS # 3) + _c;
-    _description ctrlSetPosition
-    [
-      _TaskListPOS # 0,
-      (_TaskListPOS # 1) + _c,
-      _TaskListPOS # 2,
-      (_TaskListPOS # 3) - _c
-    ];
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
+    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
     _ctrl2POS = ctrlPosition _ctrl2;
     _ctrl3POS = ctrlPosition _ctrl3;
@@ -209,13 +179,8 @@ switch _curLine do {
       _ctrl ctrlSetText "Mark with...";
     };
 
-    _description ctrlSetPosition
-    [
-      _TaskListPOS # 0,
-      (_TaskListPOS # 1) + _c,
-      _TaskListPOS # 2,
-      (_TaskListPOS # 3) - _c
-    ];
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
+    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
     _ctrl ctrlSetPosition
     [
@@ -267,13 +232,8 @@ switch _curLine do {
       _c = _c + ((ctrlPosition _x) # 3);
     } forEach [_ctrl1,_ctrl2,_ctrl4];
     private _c = (_titlePOS # 3) + _c;
-    _description ctrlSetPosition
-    [
-      _TaskListPOS # 0,
-      (_TaskListPOS # 1) + _c,
-      _TaskListPOS # 2,
-      (_TaskListPOS # 3) - _c
-    ];
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
+    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
     _ctrl2POS = ctrlPosition _ctrl2;
     _ctrl3POS = ctrlPosition _ctrl3;
@@ -344,13 +304,8 @@ switch _curLine do {
       _c = _c + ((ctrlPosition _x) # 3);
     } forEach [_ctrl1,_ctrl2,_ctrl3];
     private _c = (_titlePOS # 3) + _c;
-    _description ctrlSetPosition
-    [
-      _TaskListPOS # 0,
-      (_TaskListPOS # 1) + _c,
-      _TaskListPOS # 2,
-      (_TaskListPOS # 3) - _c
-    ];
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
+    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
     _ctrl2POS = ctrlPosition _ctrl2;
     _ctrl3POS = ctrlPosition _ctrl3;

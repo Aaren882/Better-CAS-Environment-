@@ -8,7 +8,7 @@ _list_result = switch _sel_TaskType do {
   //-5 line
   case 1: {
     _TaskList = _display displayCtrl 2005;
-    _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",[]]]];
+    _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
     [_TaskList,_taskVar]
   };
   //-9 line

@@ -3,8 +3,39 @@
 switch _curLine do {
   //-Control Type
   case 0:{
-    _shownCtrls params ["_ctrl"];
-    _taskVar set [0, [["Type 1","Type 2","Type 3"] # (lbCurSel _ctrl), lbCurSel _ctrl]];
+    _shownCtrls params [
+      "_title_ctrl","_ctrl",
+      "_title_type","_type",
+      "_ord_title",
+      "_CTweap","_CTmode","_CTrange","_CTcount"
+    ];
+    private ["_typeCAS","_typeATK","_ordnanceInfo","_setCount","_rangeIndex","_ATK_range","_text"];
+    _typeCAS = ["T1","T2","T3"] # (lbCurSel _ctrl);
+    _typeATK = ["BoT","BoC"] # (lbCurSel _ctrl);
+
+    _ordnanceInfo = call compile (_CTmode lbdata (lbcursel _CTmode));
+    _ordnanceInfo params ["_WeapName","_ModeName","_class","_Mode","_turret",["_Count",1,[0]]];
+
+    //-Ammo Count
+    _setCount = call compile (ctrlText _CTcount);
+
+    if (isnil{_setCount}) exitWith {};
+
+    if (_setCount > _Count) then {
+      _setCount = _Count;
+      _CTcount ctrlSetText (str _Count);
+    };
+
+    //-Attack Range
+    _rangeIndex = lbCurSel _CTrange;
+    _ATK_range = _CTrange lbValue _rangeIndex;
+
+    _ordnanceInfo set [5,_setCount];
+    _text = format ["%1 %2 %3",_typeCAS,_typeATK,_WeapName];
+
+    if (isnil _WeapName) then {
+      _taskVar set [0,[_text,_typeCAS,_typeATK,_ordnanceInfo + [_ATK_range],[lbCurSel _ctrl,lbCurSel _type,lbCurSel _CTweap,lbCurSel _CTmode,_rangeIndex,str _setCount]]];
+    };
   };
 
   //-Friendly
@@ -14,7 +45,7 @@ switch _curLine do {
     private _text = ctrlText _ctrl4;
     private _isEmptyInfo = ((_text == "Mark with...") or (_text == ""));
     private _info = if _isEmptyInfo then {
-      ""
+      "with :[NA]"
     } else {
       format ["with :[%1]",toUpper _text]
     };
@@ -27,7 +58,7 @@ switch _curLine do {
 
       //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5: Mark Info]
       if !(_TGPOS isEqualTo []) then {
-        _markerInfo = format ["Marker: %1 %2", _ctrl2 lbText (lbCurSel _ctrl2), _info];
+        _markerInfo = format ["Marker: %1 [%2] %3", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8), _info];
         _TGPOS resize [3, 0];
         _taskVar set [1,
           [
@@ -42,12 +73,29 @@ switch _curLine do {
         _taskVar set [1,["NA","",[],[0,0],""]];
       };
     } else {
-      _TGPOS = uinamespace getVariable ["BCE_MAP_ClickPOS",[]];
+      if (lbCurSel _ctrl1 == 1) then {
+        _TGPOS = uinamespace getVariable ["BCE_MAP_ClickPOS",[]];
 
-      //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:CurSel, 5: Mark Info]
-      if !(_TGPOS isEqualTo []) then {
-        _markerInfo = format ["FRND: [%1] %2", GetGRID(_TGPOS,8), _info];
-        _TGPOS resize [3, 0];
+        //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:CurSel, 5: Mark Info]
+        if !(_TGPOS isEqualTo []) then {
+          _markerInfo = format ["FRND: %1", _info];
+          _TGPOS resize [3, 0];
+          _taskVar set [1,
+            [
+              _markerInfo,
+              "GRID",
+              _TGPOS,
+              [lbCurSel _ctrl1,lbCurSel _ctrl2],
+              _text
+            ]
+          ];
+        } else {
+          _taskVar set [1,["NA","",[],[0,0],""]];
+        };
+      } else {
+        _TGPOS = getpos cameraOn;
+        _TGPOS set [2,0];
+        _markerInfo = format ["GRID: [%1]",mapGridPosition _TGPOS];
         _taskVar set [1,
           [
             _markerInfo,
@@ -57,8 +105,6 @@ switch _curLine do {
             _text
           ]
         ];
-      } else {
-        _taskVar set [1,["NA","",[],[0,0],""]];
       };
     };
     _ctrl3 ctrlSetText (_taskVar # 1 # 0);
@@ -133,37 +179,49 @@ switch _curLine do {
 
   //-Remarks
   case 4:{
-    _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
+    //-FAD/H [Toolbox, EditBox, output, Toolbox(Azimuth), DanClose(Text), DanClose(Box)]
+    _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4","_ctrl5","_ctrl6"];
 
-    private _ordnanceInfo = call compile (_ctrl2 lbdata (lbcursel _ctrl2));
-    _ordnanceInfo params ["_WeapName","_ModeName","_class","_Mode","_turret",["_Count",1,[0]]];
+    private _HDG = _ctrl4 lbValue (lbCurSel _ctrl4);
+    private _ctrl1Sel = lbCurSel _ctrl1;
 
-    //-Ammo Count
-    private _str_Count = ctrlText _ctrl4;
-    private _setCount = call compile (_str_Count);
+    //-Set Default
+    if (_ctrl1Sel == 2) then {
+      _text = "FAD: “Default”";
+      _ctrl3 ctrlSetText _text;
+      _taskVar set [4,[_text,-1,[_ctrl1Sel,lbCurSel _ctrl4,cbChecked _ctrl6]]];
+    } else {
+      if (_ctrl1Sel == 1) then {
+        _TextInfo = ctrlText _ctrl2;
 
-    if (isnil{_setCount}) exitWith {};
+        //-Debug
+        if ((_TextInfo == "") or (_TextInfo == "Bearing...") or isnil{(call compile _TextInfo)}) exitWith {
+          hint "Wrong Input!!";
+          _ctrl2 ctrlSetText "Bearing...";
+        };
 
-    if (_setCount > _Count) then {
-      _setCount = _Count;
-      _ctrl4 ctrlSetText (str _Count);
-    };
+        _HDG = (round (call compile _TextInfo)) % 360;
+      };
 
-    //-Attack Range
-    private _rangeIndex = lbCurSel _ctrl3;
-    private _ATK_range = _ctrl3 lbValue _rangeIndex;
+      _HDG = [_HDG, 360 * ((_HDG / 360)-1)] select (_HDG < 0);
+      _cardinaldir = _HDG call BCE_fnc_getAzimuth;
 
-    _ordnanceInfo set [5,_setCount];
-    private _text = format["%1 [%2]",_WeapName,_ModeName];
-    if (isnil _WeapName) then {
-      _taskVar set [4,[_text,_ordnanceInfo + [_ATK_range],[lbCurSel _ctrl1,lbCurSel _ctrl2,_rangeIndex,str _setCount]]];
+      _To_Dir = [_HDG - 180,360 + (_HDG - 180)] select ((_HDG - 180) < 0);
+
+      _DanClose = [""," [Danger Close]"] select (cbChecked _ctrl6);
+      _text = format ["“%1” to “%2”",_cardinaldir,_To_Dir call BCE_fnc_getAzimuth];
+
+      if !(isnil"_cardinaldir") then {
+        _taskVar set [4,[_text + _DanClose,_HDG,[_ctrl1Sel,lbCurSel _ctrl4,cbChecked _ctrl6]]];
+        _ctrl3 ctrlSetText _text;
+      };
     };
   };
 };
 
 //-Automatically Generate
 //-Line 1
-_taskVar set [0, [(_taskVar # 0) # 0, (_taskVar # 0) # 1,(_display displayCtrl 2005) lbText 0]];
+_taskVar set [0, (_taskVar # 0) + [(_display displayCtrl 2005) lbText 0]];
 
 //-2 Friendly
 if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && !("with:" in (_taskVar # 1 # 0))) then {

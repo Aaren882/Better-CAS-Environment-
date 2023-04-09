@@ -46,13 +46,8 @@ if !(ctrlEnabled _list_Racks) then {
 ///////////////////////////////////////////////////////////////////////////////////////
 //-get Racks radio
 _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
-_radio_Racks = _vehicle call acre_api_fnc_getVehicleRacks;
+_radio_Racks = _vehicle getVariable ["acre_sys_rack_vehicleRacks", []];
 lbClear _list_Racks;
-
-//-get Racks radio
-_acre_getUnitRadios = _radio_Racks apply ({_x call acre_api_fnc_getMountedRackRadio}) select {
-  (([_x,"getOnOffState"] call acre_sys_data_fnc_dataEvent) == 1)
-};
 
 //-racks info
 {
@@ -65,6 +60,11 @@ _acre_getUnitRadios = _radio_Racks apply ({_x call acre_api_fnc_getMountedRackRa
   _radioInfo params ["_freq",["_channel",""]];
 
   _add = _list_Racks lbAdd format["%1: %2",_forEachIndex+1,getText (_class >> "displayName")];
+  _color = [[1,0,0,0],[1,1,1,1]] select (([_radio,"getOnOffState"] call acre_sys_data_fnc_dataEvent) == 1);
+
+  _list_Racks lbSetColor [_add, _color];
+  _list_Racks lbSetSelectColorRight [_add, _color];
+
   if (_channel != "") then {
     _list_Racks lbSetTooltip [_add, _channel];
   };
