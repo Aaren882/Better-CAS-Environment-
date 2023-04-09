@@ -10,6 +10,21 @@
 	}
 ] call CBA_fnc_addSetting;
 
+[
+	"BCE_HUD_RK_fn","LIST",
+	["Rocket HUD"],
+	["Better CAS Environment", "HUD Settings"],
+	[
+		[0,1],
+		["CCIP","Static"],
+		0
+	],
+	0,
+	{
+		call BCE_Fnc_SetMFDValue;
+	}
+] call CBA_fnc_addSetting;
+
 //Sliders
 [
 	"BCE_HUD_Color", "COLOR",
