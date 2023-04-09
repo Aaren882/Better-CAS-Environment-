@@ -434,13 +434,44 @@ class RscDisplayAVTerminal
 		{
 			idc = 2004;
 			text = "Description :";
-			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
+			Brevity_Code[] = 
+			{
+				"Weapon :",
+				{"Guns x3","Firing cannon."},
+				{"Rifle","Launch of A/G missile."},
+				{"Pickle","Release of (Cluster/General-Purpose)bomb."},
+				{"Paveway","Release of Laser-Guided bomb."},
+				{"Ripple","Release multiple munitions in close succession."},
+				{"Winchester","No ordnance remaining, can be used to against the specific target."},
+				{"Splash(ed)","Ammunition impact/target destroyed."},
+				{"Shack","Oradance impact on ground, (Unofficial)."},
+				"Task :",
+				{"Playtime","How long the aircraft can be on station."},
+				{"Visual","Sighting of the friendly.opposite of “Blind”."},
+				"-", //Next Page
+				{"Tally","Sighting of the target.opposite of “No Joy”."},
+				{"Clear(ed) Hot","Give the plane clearance to attack."},
+				{"What luck","Request for task result. “BDA”"},
+				{"Bingo","Aircraft has no fuel but return to base."},
+				{"Continue","Continue present maneuver; does NOT imply clearance to engage."},
+				"Laser :",
+				{"Laser On","Call to begin Lasing at the target."},
+				{"Sparkle","Marked target by Laser."},
+				{"Lasing","You have begun Lasing the target."},
+				{"Snake","Directive to oscillate Laser about a target."},
+				{"Spot","When you spot the Laser designation."},
+				"",
+				"<a href='https://wiki.hoggitworld.com/view/Brevity_List'>Hoggitworld</a>",
+				"<a href='https://en.wikipedia.org/wiki/Multiservice_tactical_brevity_code'>Wikipedia</a>"
+			};
+			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2) min 0.048";
 			x = "50 * (safezoneW / 64) + (safezoneX)";
 			y = "3 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01)";
 			w = "14 * (safezoneW / 64)";
 			h = 11 * TextH;
 			show = 0;
 			colorBackground[] = {0,0,0,0};
+			lineSpacing = 0.5;
 		};
 		class New_Task_Desc_Extended: New_Task_Desc
 		{
@@ -451,7 +482,6 @@ class RscDisplayAVTerminal
 			h = 9*TextH;
 			fade = 1;
 			Enabled = 0;
-			
 			lineSpacing = 0.5;
 		};
 		class New_Task_Desc_Extended_show: ctrlButton
@@ -491,7 +521,7 @@ class RscDisplayAVTerminal
 			x = "50 * (safezoneW / 64) + (safezoneX)";
 			y = "3 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01)";
 			w = "14 * (safezoneW / 64)";
-			h = 11 * TextH;
+			h = 11.1 * TextH;
 			colorBackground[] = {0,0,0,0};
 			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
 			rowHeight = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5";
@@ -593,24 +623,23 @@ class RscDisplayAVTerminal
 		class CAS_TaskList_5: CAS_TaskList_9
 		{
 			idc = 2005;
-			class Items
+			class Items: Items
 			{
-				class Game_plan
+				class Line1: Game_plan
 				{
 					text = "1:  :";
-					data = "State the “Aircraft call sign” / “Yours”.<br/><br/>Control Type (Type 1, 2 or 3).<br/>Method Of Attack (MOA) - Bombs On Coordinate or On Target (BOC or BOT).<br/>Ordnance requested by the user.";
-					textRight = "--";
-					Expression_idc[] = {2011,20111,20112};
+					textRight = "click x2";
+					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023};
 					multi_options = 1;
 					default = 1;
 					tooltip = "“Aircraft call sign” / “Yours”";
 				};
-				class Line2: Game_plan
+				class Line2: Line1
 				{
 					text = "2: FRND/Mark :";
 					data = "Friendly position (The closest one to the Target).<br/>GRID/TRP/bearing and range etc<br/><br/>Marked by (smoke/VS-17 panel/beacon/GLINT/IR strobe etc.)";
-					textRight = "click x2";
 					tooltip = "Friendly";
+					multi_options = 0;
 					Expression_idc[] = {2012,2013,2014,2016};
 				};
 				class Line3: Line2
@@ -630,9 +659,9 @@ class RscDisplayAVTerminal
 				class Remark: Line2
 				{
 					text = "Remarks :";
-					data = "Supplies additional important information.<br/><br/>1.<t underline='true'>Troops in Contact</t> or <t underline='true'>Danger Close</t><br/>2.Airspace coordination: final attack heading (FAH) or altitude restrictions <br/>3.Threat <br/>4.SEAD support in effect <br/>5.Active gun target lines <br/>6.Ordnance requested <br/>etc";
+					data = "Supplies additional important information.<br/><br/>1.<t underline='true'>Troops in Contact</t> or <t underline='true'>Danger Close</t><br/>2.Final Attack Heading (FAH) or altitude restrictions <br/>3.Threat <br/>5.Active gun target lines <br/>etc";
 					tooltip = "Remarks/Restrictions";
-					Expression_idc[] = {2020,2021,2022,2023};
+					Expression_idc[] = {2200,2018,2014,2017,2201,2202};
 				};
 			};
 		};
@@ -809,10 +838,6 @@ class RscDisplayAVTerminal
 				y = "(8.75 + 2) * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (0.035 * safezoneH)";
 				w = "5 * (safezoneW / 64)";
 				h = "0";
-				/*x = "57 * (safezoneW / 64) + (safezoneX) + (((safezoneW / safezoneH) min 1.2) / 40)";
-				y = "(9.75 + 2) * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (0.035 * safezoneH)";
-				w = "7 * (safezoneW / 64) - (((safezoneW / safezoneH) min 1.2) / 40)";
-				h = "5 * (safezoneH / 40)";*/
 				onLBSelChanged = "";
 				show = 0;
 				colorBorder[] = {1,1,1,1};
@@ -836,7 +861,7 @@ class RscDisplayAVTerminal
 				"Click Map “Shift + LMB”",
 				"OverHead"
 			};
-			onToolBoxSelChanged = "call BCE_fnc_IPToolBoxChanged";
+			onToolBoxSelChanged = "call BCE_fnc_ToolBoxChanged";
 		};
 		class New_Task_TGT: New_Task_IPtype
 		{
@@ -1054,8 +1079,9 @@ class RscDisplayAVTerminal
 			tooltips[] =
 			{
 				"Add Task",
-				"Task History (Not Working yet)"
+				"Brevity Codes"
 			};
+			onToolBoxSelChanged = "[_this # 0,_this # 1,true] call BCE_fnc_ToolBoxChanged";
 		};
 
 		//-Buttons

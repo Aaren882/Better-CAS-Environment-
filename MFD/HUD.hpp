@@ -47,7 +47,7 @@ class AirplaneHUD
 		condition="on*user11";
 		class Rockets
 		{
-			condition="rocket";
+			condition="rocket*user12";
 			class Rocket
 			{
 				type="line";
@@ -89,6 +89,57 @@ class AirplaneHUD
 					
 					{
 						"ImpactPoint",
+						{0,0.035},
+						1
+					},
+					{}
+				};
+			};
+		};
+		class Rockets_Static
+		{
+			condition="rocket*user13";
+			class Rocket
+			{
+				type="line";
+				width=4.5;
+				points[]=
+				{
+					
+					{
+						"WeaponAimRelative",
+						{0.0099999998,-0.035},
+						1
+					},
+					
+					{
+						"WeaponAimRelative",
+						{-0.0099999998,-0.035},
+						1
+					},
+					{},
+					
+					{
+						"WeaponAimRelative",
+						{0.0099999998,0.035},
+						1
+					},
+					
+					{
+						"WeaponAimRelative",
+						{-0.0099999998,0.035},
+						1
+					},
+					{},
+					
+					{
+						"WeaponAimRelative",
+						{0,-0.035},
+						1
+					},
+					
+					{
+						"WeaponAimRelative",
 						{0,0.035},
 						1
 					},

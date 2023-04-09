@@ -685,7 +685,7 @@ class CfgFunctions
 			class DataReceiveButton;
 			class ListSwitch;
 			class TaskListDblCLick;
-			class IPToolBoxChanged;
+			class ToolBoxChanged;
 			class IPMarkers;
 			class GetMapClickPOS;
 			class clearTaskInfo;
@@ -779,7 +779,10 @@ class RscLine;
 class RscInfoBack;
 class RscText;
 class RscToolbox;
-class RscListBox;
+class RscListBox
+{
+	class ListScrollBar;
+};
 class RscPicture;
 class RscIGUIText;
 class RscPictureKeepAspect;
