@@ -81,3 +81,30 @@ switch _sel_TaskType do {
     };
   };
 };
+//-H-60
+/*[
+  "TESTMESSAGE",//TITLE
+  "IMAGINARYJTAC",//SENDER
+  "ALL",//RECIPIENTS
+  1,//MSGTYPE
+  [
+    "TYPE2,USEROCKETS",
+    "500MNORTHOFAGIAMARINA",
+    "AGIAMARINA-123123/12m",
+    "2xBTR-80APARKEDONROAD",//description
+    "",
+    "ATTACKWESTTOEAST",//restrictions
+    "",
+    "",
+    "",
+    ""
+  ],//MSGTEXT
+  [],//MSGDATA
+  [
+    [
+      "12:00",
+      "System",
+      "SENT"
+    ]
+  ]//REPLIES
+] */

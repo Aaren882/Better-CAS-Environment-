@@ -33,6 +33,9 @@ if (
       if ((_time != -1) && (BCE_Mapicon_fn)) then {
         call BCE_fnc_map_Icon;
       };
+      if ((_player getVariable ["TGP_view_LandMark_Icon",true]) && (BCE_Landmarks_fn)) then {
+        call BCE_fnc_LandMarks_icon;
+      };
 
       _boxActive = BCE_UnitTrack_fn;
       _friendlyActive = BCE_FriendlyTrack_fn;

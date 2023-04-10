@@ -64,18 +64,10 @@ showCinemaBorder false;
 _player setVariable ["TGP_View_laser_update", [time,""]];
 
 //Crews
-_pilot = if ((driver _vehicle) Equal objNull) then {
-  "None"
-} else {
-  name (driver _vehicle)
-};
-
 _turret_Unit = _vehicle turretUnit _current_turret;
-_gunner = if (_turret_Unit Equal objNull) then {
-  "None"
-} else {
-  name _turret_Unit
-};
+
+_gunner = [name _turret_Unit,"--"] select (((_turret_Unit isEqualTo objNull) or (_turret_Unit isEqualTo (driver _vehicle))));
+_pilot = [name (driver _vehicle),"--"] select ((driver _vehicle) isEqualTo objNull);
 
 //-Controls
 _display = uiNameSpace getVariable "BCE_TGP";
@@ -116,6 +108,7 @@ _widgets_01 = [
   ["Unit_Tracker","TGP_view_Unit_Tracker","Unit Tracker"],
   ["Compass","TGP_view_3D_Compass","3D Compass"],
   ["Unit_MapIcon","TGP_view_Map_Icon","Map Icon"],
+  ["LandMark_Icon","TGP_view_LandMark_Icon","LandMark Icon"],
   ["ToggleCursor","TGP_view_Mouse_Cursor","Mouse Cursor",false]
 ];
 
@@ -270,6 +263,9 @@ _idEH = addMissionEventHandler ["Draw3D", {
   if (_player getVariable ["TGP_view_Map_Icon",true]) then {
     _alpha = 0.4;
     call BCE_fnc_map_Icon;
+  };
+  if (_player getVariable ["TGP_view_LandMark_Icon",true]) then {
+    call BCE_fnc_LandMarks_icon;
   };
 
   if (BCE_touchMark_fn) then {

@@ -71,10 +71,13 @@ _fnc_onLBSelChanged = {
 
 			_turret_Unit = _vehicle turretUnit _current_turret;
 
-			_gunner = [name _turret_Unit,"-"] select ((_turret_Unit isEqualTo objNull) or (_turret_Unit isEqualTo (driver _vehicle)));
+			_gunner = [name _turret_Unit,"-"] select (((_turret_Unit isEqualTo objNull) or (_turret_Unit isEqualTo (driver _vehicle))));
 			_pilot = [name (driver _vehicle),"-"] select ((driver _vehicle) isEqualTo objNull);
 
 			_Cant_CtrlVeh = ({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle)) > 0;
+
+			(_display displayCtrl 1501) ctrlSetText _pilot;
+			(_display displayCtrl 1502) ctrlSetText _gunner;
 
 			// - Disable Unavailable Turret
 			if (
@@ -88,9 +91,6 @@ _fnc_onLBSelChanged = {
 			} else {
 				(_display displayctrl 1601) ctrlEnable true;
 			};
-
-			(_display displayCtrl 1501) ctrlSetText _pilot;
-			(_display displayCtrl 1502) ctrlSetText _gunner;
 
 			if (_vehicle isEqualTo objNull) then {
 				(_display displayCtrl 1503) ctrlSetText "-";
