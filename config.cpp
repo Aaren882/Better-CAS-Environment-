@@ -663,6 +663,7 @@ class CfgFunctions
 			class canUseTurret;
 			class UpdateCameraInfo;
 			class getTurretDir;
+			class LandMarks_icon;
 		};
 		class Lists
 		{

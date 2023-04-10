@@ -225,6 +225,7 @@ class RscDisplayAVTerminal
 			W = "0.0165 * safezoneW";
 			onButtonClick = "if (uinamespace getVariable ['BCE_Terminal_WP',true]) then {(_this # 0) ctrlSetTextColor [1, 0, 0, 0.5]; uinamespace setVariable ['BCE_Terminal_WP',false];} else {uinamespace setVariable ['BCE_Terminal_WP',true]; (_this # 0) ctrlSetTextColor [1, 1, 1, 1];};";
 			size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.75)";
+			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1) min 0.04";
 			colorFocused[] = {1,1,1,0.5};
 			animTexturePressed = "";
 			periodFocus = 0;
@@ -447,19 +448,24 @@ class RscDisplayAVTerminal
 				{"Shack","Oradance impact on ground, (Unofficial)."},
 				"Task :",
 				{"Playtime","How long the aircraft can be on station."},
-				{"Visual","Sighting of the friendly.opposite of “Blind”."},
-				"-", //Next Page
-				{"Tally","Sighting of the target.opposite of “No Joy”."},
+				{"Contact","Sighting of a specified reference point."},
+				{"Visual","Sighting of the friendly.opposite “Blind”."},
+				{"Tally","Sighting of the target.opposite “No Joy”."},
 				{"Clear(ed) Hot","Give the plane clearance to attack."},
-				{"What luck","Request for task result. “BDA”"},
+				"-", //Next Page
+				{"Abort","Terminate the weapon release or mission."},
+				{"What Luck","Request for task result. “BDA”"},
+				{"IP Inbound","Aircraft has reached IP begin to attack."},
 				{"Bingo","Aircraft has no fuel but return to base."},
 				{"Continue","Continue present maneuver; does NOT imply clearance to engage."},
 				"Laser :",
 				{"Laser On","Call to begin Lasing at the target."},
-				{"Sparkle","Marked target by Laser."},
+				{"Sparkle","Marks target by Laser."},
 				{"Lasing","You have begun Lasing the target."},
-				{"Snake","Directive to oscillate Laser about a target."},
+				{"Snake/Pulse","Jiggle/Pulse Laser on the target."},
+				{"Steady","Steady the beam (Snake/Pulse)."},
 				{"Spot","When you spot the Laser designation."},
+				{"Rope","Circling Laser around an aircraft."},
 				"",
 				"<a href='https://wiki.hoggitworld.com/view/Brevity_List'>Hoggitworld</a>",
 				"<a href='https://en.wikipedia.org/wiki/Multiservice_tactical_brevity_code'>Wikipedia</a>"
