@@ -86,6 +86,14 @@
 	1
 ] call CBA_fnc_addSetting;
 
+[
+	"BCE_Landmarks_fn","CHECKBOX",
+	["LandMark Icon"],
+	["Better CAS Environment", "Aircraft Camera"],
+	false,
+	1
+] call CBA_fnc_addSetting;
+
 //- List
 [
 	"BCE_Access_list", "LIST",

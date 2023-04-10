@@ -10,6 +10,32 @@ IR_LaserLight_UnitList = [];
 IR_LaserLight_UnitList_LastUpdate = 0;
 BCE_TGP_LastUpdate = 0;
 
+private _mapCenter = worldSize / 2;
+private _landmarks = ["NameVillage", "NameCity", "NameCityCapital", "NameLocal", "NameMarine", "Hill"];
+BCE_LandMarks = (nearestLocations [
+	[_mapCenter, _mapCenter],
+	_landmarks,
+	worldSize
+]) apply {
+  private _config = configFile >> "CfgLocationTypes" >> type _x;
+  private _tex = getText (_config >> "texture");
+  private _pos = getPos _x;
+  private _color = (getArray (_config >> "color")) apply {
+    [_x,1] select (_x == 0);
+  };
+
+  _color set [3,0.85];
+  _pos set [2,0];
+
+  [
+    [_tex,"\a3\ui_f\data\Map\Markers\Military\dot_CA.paa"] select (_tex == ""),
+    _color,
+    _pos,
+    text _x,
+    (getNumber (_config >> "textSize")) min 0.04
+  ]
+};
+
 BCE_have_ACE_earPlugs = false;
 if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
   ace_hearing_enableCombatDeafness = false;
@@ -284,6 +310,23 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
   },
   "",
   [0x26, [false, false, false]]
+] call cba_fnc_addKeybind;
+
+[
+  "TGP Cam Settings","LandMark_Icon",
+  "Toggle LandMark Icons",
+  {
+    if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
+      SwitchSound;
+      if (player getVariable ["TGP_view_LandMark_Icon",true]) then {
+        player setVariable ["TGP_view_LandMark_Icon",false];
+      } else {
+        player setVariable ["TGP_view_LandMark_Icon",true];
+      };
+    };
+  },
+  "",
+  [0x27, [false, false, false]]
 ] call cba_fnc_addKeybind;
 
 [
