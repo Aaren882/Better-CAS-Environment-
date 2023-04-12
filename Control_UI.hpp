@@ -553,7 +553,7 @@ class RscDisplayAVTerminal
 				class Line1: Game_plan
 				{
 					text = "1: IP/BP :";
-					data = "“Shift + LMB” on the map to set marker<br/><br/>“Initial Point” or “Battle Position”.<br/><br/>IP for FW aircraft (Planes), the IP is the starting point for the run-in to the target. <br/><br/>BP for RW aircraft (Helis), the BP is where attacks on the target are commenced.";
+					data = "“Alt + LMB” on the map to set marker<br/><br/>“Initial Point” or “Battle Position”.<br/><br/>IP for FW aircraft (Planes), the IP is the starting point for the run-in to the target. <br/><br/>BP for RW aircraft (Helis), the BP is where attacks on the target are commenced.";
 					Expression_idc[] = {2012,2013,2014};
 					multi_options = 0;
 					tooltip = "Initial Point\Battle Position";
@@ -864,7 +864,7 @@ class RscDisplayAVTerminal
 			strings[] =
 			{
 				"Map Marker",
-				"Click Map “Shift + LMB”",
+				"Click Map “Alt + LMB”",
 				"OverHead"
 			};
 			onToolBoxSelChanged = "call BCE_fnc_ToolBoxChanged";
@@ -876,7 +876,7 @@ class RscDisplayAVTerminal
 			strings[] =
 			{
 				"Map Marker",
-				"Click Map “Shift + LMB”"
+				"Click Map “Alt + LMB”"
 			};
 		};
 		class New_Task_MarkerCombo: RscCombo
