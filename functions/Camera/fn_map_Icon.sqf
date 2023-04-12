@@ -1,4 +1,4 @@
-{
+allMapMarkers apply {
   private _Channel = markerChannel _x;
   private _class = getMarkerType _x;
   private _path = configFile >> "CfgMarkers" >> _class;
@@ -43,4 +43,4 @@
       false
     ];
   };
-} foreach allMapMarkers;
+};

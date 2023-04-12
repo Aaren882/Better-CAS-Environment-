@@ -1,4 +1,4 @@
-{
+TGP_View_Unit_List apply {
   _unit = _x;
   _unitPos = getPos _unit;
 
@@ -112,4 +112,4 @@
       };
     };
   };
-} forEach TGP_View_Unit_List;
+};

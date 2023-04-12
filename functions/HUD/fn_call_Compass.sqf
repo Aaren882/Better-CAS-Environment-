@@ -37,9 +37,6 @@ if (
         call BCE_fnc_LandMarks_icon;
       };
 
-      _boxActive = BCE_UnitTrack_fn;
-      _friendlyActive = BCE_FriendlyTrack_fn;
-
       _cam = _vehicle;
 
       //Update UnitList
@@ -49,6 +46,8 @@ if (
       };
 
       if (count TGP_View_Unit_List > 0) then {
+        _boxActive = BCE_UnitTrack_fn;
+        _friendlyActive = BCE_FriendlyTrack_fn;
         call BCE_fnc_Unit_Icon;
       };
     };

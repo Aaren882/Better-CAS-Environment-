@@ -18,7 +18,7 @@ if ((isMultiplayer) && (isplayer _vehicle)) then {
 };
 
 //-GunShip
-if (typeof _vehicle in ["B_T_VTOL_01_armed_F"]) exitWith {
+if (typeof _vehicle in ["B_T_VTOL_01_armed_F","USAF_AC130U"]) exitWith {
   [_vehicle,_posTarget,_ATK_range] call BCE_fnc_GunShip_Loiter;
 };
 

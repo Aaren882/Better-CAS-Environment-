@@ -6,7 +6,7 @@ _type = _display displayctrl 2012;
 _type1 = _display displayctrl 20121;
 
 if (
-    (_shift) &&
+    (_alt) &&
     !(ctrlshown _ctrlCombo) &&
     (
       (ctrlshown _type) or
