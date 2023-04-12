@@ -1154,14 +1154,14 @@ class RscDisplayAVTerminal
 				class 9line
 				{
 					text = "9 Line";
-					textRight = "(Compat with jets)";
+					textRight = "(Doesnt Compat with Heli)";
 					value = 0;
 					default = 1;
 				};
 				class 5line
 				{
 					text = "5 Line";
-					textRight = "(Compat with V-44X)";
+					textRight = "(Doesnt Compat with Heli)";
 					value = 1;
 				};
 			};
