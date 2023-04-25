@@ -416,7 +416,7 @@ class RscDisplayAVTerminal
 			h = "safezoneH / 40";
 			colorBackground[] = {0,0,0,0.5};
 		};
-		
+
 		#define TextH (safezoneH / 30)
 		//-Text
 		class New_Task_Title: RscText
@@ -435,7 +435,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 2004;
 			text = "Description :";
-			Brevity_Code[] = 
+			Brevity_Code[] =
 			{
 				"Weapon :",
 				{"Guns x3","Firing cannon."},
@@ -519,7 +519,7 @@ class RscDisplayAVTerminal
 				shadow = "false";
 			};
 		};
-		
+
 		class CAS_TaskList_9: RscListBox
 		{
 			idc = 2002;
@@ -677,7 +677,7 @@ class RscDisplayAVTerminal
 			y = (MULTIY + 2) * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (0.035 * safezoneH);\
 			w = (MULTIW * 14) * (safezoneW / 64);\
 			h = MULTIH * (safezoneH / 40)
-		
+
 		#define ExpBOX(MULTIY,MULTIH,MULTIW,OFFSETX) \
 			x = 50 * (safezoneW / 64) + (safezoneX) + (OFFSETX * (safezoneH/safezonew) * (safezoneW / 55));\
 			y = (MULTIY + 2) * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (0.035 * safezoneH);\
@@ -691,7 +691,7 @@ class RscDisplayAVTerminal
 			show = 0;
 			colorBackground[] = {0,0,0,0};
 		};
-		
+
 		//-Game Plan
 		class New_Task_Ctrl_Title: RscButtonMenu
 		{
@@ -757,7 +757,7 @@ class RscDisplayAVTerminal
 			BCE_Desc = "What ammunition will be droped. <br/>How many. <br/>How far. <br/>etc";
 			ExpPOS(5.5,0.5,1);
 		};
-		
+
 		//-UNIT info
 		class New_Task_Unit_Title: RscStructuredText
 		{
@@ -807,11 +807,11 @@ class RscDisplayAVTerminal
 			colorSelect2Right[] = {0,1,0,1};
 			colorSelectBackground[] = {0,0,0,0};
 			colorSelectBackground2[] = {0,0,0,0};
-			
+
 			onLBSelChanged = "call BCE_fnc_unitList_info";
 			ExpPOS(9.75,0.5,5);
 		};
-		
+
 		#if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
 			class ButtonACRE_Racks: RscButtonMenu
 			{
@@ -829,8 +829,6 @@ class RscDisplayAVTerminal
 				};
 				show = 0;
 				colorBackground[] = {0,0,0,0.2};
-				//colorBackground2[] = {0,0,0,0.2};
-				//colorFocused[] = {0,0,0,0.2};
 				periodFocus = 0;
 				x = "58 * (safezoneW / 64) + (safezoneX) - (((safezoneW / safezoneH) min 1.2) / 40)";
 				y = "(8.75 + 2) * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (0.035 * safezoneH)";
@@ -853,7 +851,7 @@ class RscDisplayAVTerminal
 				colorSelect2Right[] = {1,1,1,1};
 			};
 		#endif
-		
+
 		//-IP
 		class New_Task_IPtype: New_Task_CtrlType
 		{
@@ -977,7 +975,7 @@ class RscDisplayAVTerminal
 				"OverHead"
 			};
 		};
-		
+
 		//-Remarks
 		class New_Task_FADH: New_Task_IPtype
 		{
@@ -1003,7 +1001,7 @@ class RscDisplayAVTerminal
 			ExpBOX(4,1,1,0);
 			show = 0;
 		};
-		
+
 		//-Ordnance
 		class AI_Remark_WeaponCombo: New_Task_MarkerCombo
 		{
@@ -1154,14 +1152,14 @@ class RscDisplayAVTerminal
 				class 9line
 				{
 					text = "9 Line";
-					textRight = "(Doesnt Compat with Heli)";
+					textRight = "";
 					value = 0;
 					default = 1;
 				};
 				class 5line
 				{
 					text = "5 Line";
-					textRight = "(Doesnt Compat with Heli)";
+					textRight = "";
 					value = 1;
 				};
 			};
