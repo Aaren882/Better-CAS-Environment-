@@ -485,7 +485,7 @@ class RscDisplayAVTerminal
 			colorBackground[] = {0,0,0,0.5};
 			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 			y = "((safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + ((11/2)*(safezoneH / 30)))";
-			h = 9*TextH;
+			h = 9 * TextH;
 			fade = 1;
 			Enabled = 0;
 			lineSpacing = 0.5;

@@ -13,6 +13,9 @@ class CfgPatches
 			#if __has_include("\z\ace\addons\map\config.bin")
 				"ace_map",
 			#endif
+			#if __has_include("\cTab\config.bin")
+				"cTab",
+			#endif
 			"A3_Ui_F",
 			"A3_Weapons_F",
 			"A3_Air_F_Heli_Light_01",
@@ -664,6 +667,7 @@ class CfgFunctions
 			class UpdateCameraInfo;
 			class getTurretDir;
 			class LandMarks_icon;
+			class Turret_interSurface;
 		};
 		class Lists
 		{
@@ -726,10 +730,47 @@ class CfgFunctions
 			#if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
 				class getFreq_ACRE;
 				class ButtonRacks;
+			#else
+				class getFreq_TFAR;
 			#endif
-			class getFreq_TFAR;
 		};
+		#if __has_include("\cTab\config.bin")
+			class cTab
+			{
+				file="MG8\AVFEVFX\functions\cTab";
+				class cTabMap;
+				class setVariables_cTab;
+			};
+		#endif
 	};
+	#if __has_include("\cTab\config.bin")
+		class cTab
+		{
+			class Functions
+			{
+				class drawBftMarkers
+				{
+					file="MG8\AVFEVFX\functions\cTab\fn_drawBftMarkers.sqf";
+				};
+				class updateInterface
+				{
+					file="MG8\AVFEVFX\functions\cTab\fn_updateInterface.sqf";
+				};
+				class updateLists
+				{
+					file="MG8\AVFEVFX\functions\cTab\fn_updateLists.sqf";
+				};
+				class createUavCam
+				{
+					file="MG8\AVFEVFX\functions\cTab\fn_createUavCam.sqf";
+				};
+				class deleteUAVcam
+				{
+					file="MG8\AVFEVFX\functions\cTab\fn_deleteUAVcam.sqf";
+				};
+			};
+		};
+	#endif
 	#if __has_include("\A3TI\config.bin")
 		class A3TI
 		{
@@ -802,3 +843,7 @@ class RscCheckBox;
 //UI
 #include "Control_UI.hpp"
 #include "Dialog.hpp"
+
+#if __has_include("\cTab\config.bin")
+	#include "cTab_UI.hpp"
+#endif
