@@ -17,15 +17,16 @@ BCE_LandMarks = (nearestLocations [
 	_landmarks,
 	worldSize
 ]) apply {
-  private _config = configFile >> "CfgLocationTypes" >> type _x;
-  private _tex = getText (_config >> "texture");
-  private _pos = getPos _x;
-  private _color = (getArray (_config >> "color")) apply {
+	private ["_config","_tex","_pos","_color"];
+  _config = configFile >> "CfgLocationTypes" >> type _x;
+  _tex = getText (_config >> "texture");
+  _pos = getPos _x;
+  _color = (getArray (_config >> "color")) apply {
     [_x,1] select (_x == 0);
   };
 
   _color set [3,0.85];
-  _pos set [2,0];
+  _pos set [2,0.5];
 
   [
     [_tex,"\a3\ui_f\data\Map\Markers\Military\dot_CA.paa"] select (_tex == ""),
@@ -41,16 +42,22 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
   ace_hearing_enableCombatDeafness = false;
 };
 
-
 ["BCE_Init",BCE_fnc_init] call CBA_fnc_addEventHandler;
 
 //PostInit
 ["BCE_Init",[]] call CBA_fnc_localEvent;
 
-#define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
 #define IsPilot_CAM_ON ((player getVariable ["AHUD_Actived",-1]) != -1)
 #define getTurret (call BCE_fnc_getTurret)
 #define SwitchSound playSound (format ["switch_mod_0%1",(selectRandom [1,2,3,4,5])])
+#define isCtrlTurret ({count (_x getVariable ["TGP_View_Turret_Control",[]]) > 0} count (crew _vehicle)) > 0
+
+#if __has_include("\cTab\config.bin")
+	[BCE_fnc_SetVariables_cTab, [], 1] call CBA_fnc_WaitAndExecute;
+	#define IsTGP_CAM_ON (((player getVariable ["TGP_View_EHs", -1]) != -1) or ((player getVariable ["cTab_TGP_View_EH",-1]) != -1))
+#else
+	#define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
+#endif
 
 //- Optic Mode
 [
@@ -145,30 +152,18 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
       getTurret params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
       SwitchSound;
       if (count _Optic_LODs == 1) exitWith {};
-      _current_turret = if (_current_turret < 1) then {
-        (count _Optic_LODs) - 1
-      } else {
-        _current_turret - 1
-      };
 
+      _current_turret = [_current_turret - 1,(count _Optic_LODs) - 1] select (_current_turret < 1);
       _turret_select = _Optic_LODs # _current_turret;
+			_turret_Unit = _vehicle turretUnit _turret_select # 1;
 
-      if (_turret_select # 2) then {
-        _cam attachTo [_vehicle, [0,0,0],_turret_select # 0];
-      } else {
-        _cam attachTo [_vehicle, [0,0,0],_turret_select # 0,true];
-      };
+			if ((isCtrlTurret) && ((_turret_select # 1 # 0) < 0)) exitWith {};
 
+      _cam attachTo [_vehicle, [0,0,0],_turret_select # 0,!(_turret_select # 2)];
       player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
 
       //UI
-      _turret_Unit = _vehicle turretUnit _turret_select # 1;
-
-      _gunner = if (_turret_Unit isEqualTo objNull) then {
-        "None"
-      } else {
-        name _turret_Unit
-      };
+      _gunner = [name _turret_Unit,"--"] select ((_turret_Unit isEqualTo objNull) or (name (driver _vehicle) == name _turret_Unit));
       ((uiNameSpace getVariable "BCE_TGP") displayCtrl 1029) ctrlSetText (format ["Gunner: %1", _gunner]);
     };
   },
@@ -186,30 +181,17 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
       if !(count (getTurret # 2) > 1) exitWith {};
       SwitchSound;
       if (count _Optic_LODs == 1) exitWith {};
-      _current_turret = if (_current_turret >= ((count _Optic_LODs) - 1)) then {
-        0
-      } else {
-        _current_turret + 1
-      };
-
+      _current_turret = [_current_turret + 1,0] select (_current_turret >= ((count _Optic_LODs) - 1));
       _turret_select = _Optic_LODs # _current_turret;
+			_turret_Unit = _vehicle turretUnit _turret_select # 1;
 
-      if (_turret_select # 2) then {
-        _cam attachTo [_vehicle, [0,0,0],_turret_select # 0];
-      } else {
-        _cam attachTo [_vehicle, [0,0,0],_turret_select # 0,true];
-      };
+			if ((isCtrlTurret) && ((_turret_select # 1 # 0) < 0)) exitWith {};
 
+      _cam attachTo [_vehicle, [0,0,0],_turret_select # 0,!(_turret_select # 2)];
       player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
 
       //UI
-      _turret_Unit = _vehicle turretUnit _turret_select # 1;
-
-      _gunner = if (_turret_Unit isEqualTo objNull) then {
-        "None"
-      } else {
-        name _turret_Unit
-      };
+      _gunner = [name _turret_Unit,"--"] select ((_turret_Unit isEqualTo objNull) or (name (driver _vehicle) == name _turret_Unit));
       ((uiNameSpace getVariable "BCE_TGP") displayCtrl 1029) ctrlSetText (format ["Gunner: %1", _gunner]);
     };
   },
