@@ -5,7 +5,7 @@ if (
   !canMove _vehicle or
   !alive driver _vehicle or
   fuel _vehicle == 0 or
-  getNumber (configFile >> "CfgVehicles" >> typeOf _vehicle >> "isUav") > 0
+  unitIsUAV _vehicle
 ) exitWith {};
 
 if ((_vehicle getVariable ["BCE_Task_Receiver", []]) isNotEqualTo []) exitWith {
@@ -14,7 +14,7 @@ if ((_vehicle getVariable ["BCE_Task_Receiver", []]) isNotEqualTo []) exitWith {
 hint "Data Sent.";
 
 if ((isMultiplayer) && (isplayer _vehicle)) then {
-  [["BCE", "Task_Received"]] remoteExec ["BIS_fnc_advHint",_vehicle,true];
+  [["BCE", "Task_Received"],15,"",35,"",false,false,true] remoteExec ["BIS_fnc_advHint",_vehicle,true];
 };
 
 //-GunShip
@@ -70,7 +70,7 @@ if ((_vehicle distance2D _posTarget) <= (_vehicle distance2D _IP)) then {
       case 1:{
         private _TG_dir = _FAD_POS getDirVisual _posTarget;
         private _pos = [90,-90] apply {_posTarget getPos [4000, _TG_dir + _x]};
-        private _pos = [_pos # 1,_pos # 0] select ((_IP distance (_pos # 0)) < (_IP distance (_pos # 1)));
+        private _pos = _pos select ((_vehicle distance2D (_pos # 0)) > (_vehicle distance2D (_pos # 1)));
         if ((_vehicle distance2D _IP_POS) <= (_vehicle distance2D _pos)) then {
           _ActWP = _ActWP - 1;
           _vehicle flyInHeight 2000;
@@ -85,7 +85,7 @@ if ((_vehicle distance2D _posTarget) <= (_vehicle distance2D _IP)) then {
         //-Last WP
         private _TG_dir = _FAD_POS getDirVisual _posTarget;
         private _LastWP = [90,-90] apply {_posTarget getPos [5000, _TG_dir + _x]};
-        private _LastWP = [10,-10] select ((_IP distance (_LastWP # 0)) < (_IP distance (_LastWP # 1)));
+        private _LastWP = [-10,10] select ((_vehicle distance (_LastWP # 0)) > (_vehicle distance (_LastWP # 1)));
 
         private _IP_dir = _posTarget getDirVisual _FAD_POS;
         private _pos = _posTarget getPos [((_posTarget distance2D _FAD_POS) + 2000) max 4000, _IP_dir+_LastWP];
@@ -142,7 +142,7 @@ if ((_vehicle distance2D _posTarget) <= (_vehicle distance2D _IP)) then {
         //-Last WP
         private _TG_dir = _FAD_POS getDirVisual _posTarget;
         private _LastWP = [90,-90] apply {_posTarget getPos [5000, _TG_dir + _x]};
-        private _LastWP = [10,-10] select ((_IP distance (_LastWP # 0)) < (_IP distance (_LastWP # 1)));
+        private _LastWP = [-10,10] select ((_vehicle distance (_LastWP # 0)) < (_vehicle distance (_LastWP # 1)));
 
         private _IP_dir = _posTarget getDirVisual _FAD_POS;
         private _pos = _posTarget getPos [((_posTarget distance2D _FAD_POS) + 2000) max 4000, _IP_dir+_LastWP];

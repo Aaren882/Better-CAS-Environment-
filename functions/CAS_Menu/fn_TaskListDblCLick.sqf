@@ -63,14 +63,12 @@ if (_extend_desc) then {
   {_x ctrlshow true} forEach [_squad_title,_squad_pic,_squad_list,_List_Racks];
   //-get crew Info
   {
-    private ["_unit_x","_seat","_turret_c","_name","_freq","_radioInfo","_add","_squad_param","_squad_param0","_unit_info","_title"];
+    private ["_unit_x","_seat","_turret_c","_name","_freq","_radioInfo","_add","_turret_info","_squad_param","_squad_param0","_unit_info","_title"];
     _unit_x = _x;
     _turret_c = _vehicle unitTurret _unit_x;
     _seat = getText ([_vehicle, _turret_c] call BIS_fnc_turretConfig >> "gunnerName");
     _name = ((name _unit_x) splitString " ") # 0;
     _add = _squad_list lbAdd format ["%1 - %2",[_seat,localize "STR_DRIVER"] select (_seat == ""),_name];
-
-    private ["_LOD","_turret","_is_Detached","_turret_info"];
 
     _turret_info = if (_turret_count == _forEachIndex) then {
       _turret_count = _turret_count + 1;

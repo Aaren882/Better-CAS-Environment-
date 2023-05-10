@@ -91,11 +91,8 @@ if (ctrlShown _Task_title) exitWith {
 
 //-Switch Pages
 if !(_preload) then {
-  if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
-    uiNameSpace setVariable ['BCE_CAS_ListSwtich', false];
-  } else {
-    uiNameSpace setVariable ['BCE_CAS_ListSwtich', true];
-  };
+  private _status = uiNameSpace getVariable ["BCE_CAS_ListSwtich", false];
+  uiNameSpace setVariable ['BCE_CAS_ListSwtich', !_status];
 };
 
 _createTask = _display displayCtrl 2103;

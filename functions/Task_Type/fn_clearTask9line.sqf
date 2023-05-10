@@ -4,6 +4,11 @@ if ((ctrlShown _description) or (_Veh_Changed)) then {
     case 1:{
       _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
       _taskVar set [1,["NA","",[],[0,0]]];
+      //-Erase 2~4 line
+      _taskVar set [2,["NA",180]];
+      _taskVar set [3,["NA",200]];
+      _taskVar set [4,["NA",15]];
+
       _ctrl3 ctrlSetText "NA";
     };
 
@@ -17,6 +22,12 @@ if ((ctrlShown _description) or (_Veh_Changed)) then {
     //-GRID
     case 6:{
       _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
+
+      //-Erase 2~4 line
+      _taskVar set [2,["NA",180]];
+      _taskVar set [3,["NA",200]];
+      _taskVar set [4,["NA",15]];
+
       _taskVar set [6,["NA","",[],[0,0],[]]];
       _ctrl3 ctrlSetText "NA";
       _ctrl4 ctrlSetText "Mark with...";

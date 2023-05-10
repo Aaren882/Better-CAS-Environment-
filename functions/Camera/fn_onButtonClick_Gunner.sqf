@@ -18,6 +18,7 @@ _turret_Unit setVariable ["TGP_View_Turret_Control",_keyEHs,true];
   _turret_Unit_Now = _vehicle turretUnit _current_turret;
 
   (
+    !(isNull findDisplay 1775154) or
     !(isnull curatorCamera) or
     (_turret_Unit_Now != _turret_Unit) or
     !(alive _turret_Unit) or
@@ -30,7 +31,13 @@ _turret_Unit setVariable ["TGP_View_Turret_Control",_keyEHs,true];
     _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
     _turret_Unit_Now = _vehicle turretUnit _current_turret;
 
-    if ((isnull curatorcamera) && (player getVariable ["TGP_View_EHs",-1] != -1)) then {
+    #if __has_include("\cTab\config.bin")
+    	#define exitCdt ((isnull curatorcamera) && (player getVariable ["TGP_View_EHs",-1] != -1) && (isnil{cTabIfOpen}))
+    #else
+    	#define exitCdt ((isnull curatorcamera) && (player getVariable ["TGP_View_EHs",-1] != -1))
+    #endif
+
+    if (exitCdt) then {
       objnull remotecontrol _turret_Unit;
       player remotecontrol _turret_Unit_Now;
       _turret_Unit_Now switchcamera "gunner";

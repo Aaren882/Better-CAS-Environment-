@@ -51,7 +51,6 @@
   private _POS1_FZ = _AGL_POS1 + _POS1_ANS;
   private _POS2_FZ = _AGL_POS2 + _POS2_ANS;
 
-
   drawIcon3D [
     "",
     _color,

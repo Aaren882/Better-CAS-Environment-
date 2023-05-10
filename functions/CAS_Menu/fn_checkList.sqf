@@ -93,11 +93,7 @@ private _uniquePylons = _Matched apply {
   }) select {
     _x in _All_modes
   };
-  private _modes = if (count _modes == 0) then {
-    _All_modes
-  } else {
-    _modes
-  };
+  private _modes = [_modes,_All_modes] select (count _modes == 0);
 
   private _count = ({
     _x params ["_m","_c"];
@@ -109,11 +105,10 @@ private _uniquePylons = _Matched apply {
   private _formatName = trim format ["%1 %2",_name ,_type];
 
   //-Correct muzzle
-  private _ammo = if (_muzzle == "this") then {
+  private _ammo = [
+    (weaponState [_vehicle,_turret,_wpn,_muzzle]) # 4,
     (weaponState [_vehicle,_turret,_wpn]) # 4
-  } else {
-    (weaponState [_vehicle,_turret,_wpn,_muzzle]) # 4
-  };
+  ] select (_muzzle == "this");
 
   [_formatName, _ammo*_count, _wpn, _mag, _modes, _turret, _muzzle]
 };
@@ -123,7 +118,7 @@ if !(_include0) then {
 };
 
 //-Check List
-{
+_uniquePylons apply {
   _x params ["_WeapName","_Count","_class","_mag","_modes","_turret","_muzzle"];
 
   private _index = _checklist lbAdd (format ["%1",_WeapName]);
@@ -151,7 +146,7 @@ if !(_include0) then {
     };
   };
 
-} foreach _uniquePylons;
+};
 
 _checklist lbSetCurSel (uiNameSpace getVariable ["BCE_CAS_MainList_selected", 0]);
 

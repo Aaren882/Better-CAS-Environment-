@@ -121,27 +121,30 @@ _vehicle setvectordir _vectorDir;
 				params ["_vehicle","_target","_casType","_weaponInfo"];
 				_weaponInfo params ["_WPNclass","_WPN_Mode","_WPN_turret","_WPN_count","_muzzle","_ATK_range"];
 				private _shooter = _vehicle turretUnit _WPN_turret;
+        private _non_mode = _WPN_Mode == "this";
 
 				//-Reload Time
-				private _muzzleCfg = if (_muzzle == "this") then {
-					configFile >> "CfgWeapons" >> _WPNclass;
-				} else {
-					configFile >> "CfgWeapons" >> _WPNclass >> _muzzle;
-				};
-				private _sleep = if (_WPN_Mode == "this") then {
-					getNumber (_muzzleCfg >> "reloadTime");
-				} else {
-					getNumber (_muzzleCfg >> _WPN_Mode >> "reloadTime");
-				};
+        private _muzzleCfg = [
+          configFile >> "CfgWeapons" >> _WPNclass >> _muzzle,
+          configFile >> "CfgWeapons" >> _WPNclass
+        ] select (_muzzle == "this");
 
-				private _burst = if (_WPN_Mode == "this") then {
-					getNumber (_muzzleCfg >> "burst");
-				} else {
-					getNumber (_muzzleCfg >> _WPN_Mode >> "burst");
-				};
+				private _sleep = [
+          getNumber (_muzzleCfg >> _WPN_Mode >> "reloadTime"),
+          getNumber (_muzzleCfg >> "reloadTime")
+        ] select _non_mode;
+
+				private _burst = [
+          getNumber (_muzzleCfg >> _WPN_Mode >> "burst"),
+          getNumber (_muzzleCfg >> "burst")
+        ] select _non_mode;
+
+        if (_non_mode) then {
+          _WPN_Mode = _WPNclass;
+        };
 
 				//Burst Mode - A-10-tastic (Compatibility)
-				private _Burst_Mode = (_burst >= 20);
+				private _Burst_Mode = _burst >= 20;
 
 				//Burst Mode
 				if (_Burst_Mode) then {

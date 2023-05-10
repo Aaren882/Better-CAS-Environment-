@@ -3,28 +3,65 @@ params ["_ctrl"];
 //- CAS
 private _vehicle = vehicle cameraOn;
 private _taskVar = _vehicle getVariable ["BCE_Task_Receiver",[]];
+private _veh_POS = getPosVisual _vehicle;
 
 //- Angle of View https://www.sr-research.com/eye-tracking-blog/background/visual-angle/
-/*if ((_vehicle isKindOf "Air") && (cameraView == "GUNNER")) then {
-  _ctrl drawEllipse
-  [
-    _vehicle,
-    25,
-    25,
-    atan(getObjectFOV cameraon)*2,
-    [1,1,1,1],
-    ""
-  ];
-};*/
+if (_vehicle isKindOf "Air") then {
+  //-draw FOV for every turrets (except FFV)
+  (allTurrets _vehicle + [[[],[-1]] select (hasPilotCamera _vehicle)]) apply {
+    private ["_crew","_angle","_isPilot","_pos","_dis","_dir","_vertices"];
+    _crew = _vehicle turretUnit _x;
+    _angle = _crew getVariable "BCE_Cam_FOV_Angle";
+    _isPilot = (_x # 0) == -1;
+
+    //-tell what pos for the turret
+    _pos = if ((local _vehicle) && _isPilot) then {
+      private _info = getPilotCameraTarget _vehicle;
+      [nil,_info # 1] select (_info # 0);
+    } else {
+      if (_isPilot) then {
+        private _var = _vehicle getVariable ["BCE_Camera_Info_Air",[false,[]]];
+        [nil,_var # 1] select (_var # 0);
+      } else {
+        [_vehicle,_x] call BCE_fnc_Turret_InterSurface;
+      };
+    };
+
+    //-drawing
+    if !(isnil {_pos}) then {
+      _dis = _vehicle distance2D _pos;
+      _dir = _veh_POS getDirVisual _pos;
+
+      //-Drawing
+      _vertices = [_veh_POS] + ([_angle,-_angle] apply {
+        _veh_POS getPos [_dis*1.2, _dir + (_x / 2)]
+      });
+
+      _ctrl drawPolygon [_vertices, [1,1,1,1]];
+      _ctrl drawIcon [
+        ["\a3\ui_f\data\IGUI\Cfg\Cursors\attack_ca.paa","\a3\ui_f\data\IGUI\Cfg\Cursors\board_ca.paa"] select visibleMap,
+        [1,1,1,1],
+        _pos,
+        35,
+        35,
+        0,
+        trim format ["%1 %2 km : %3", [_x,""] select _isPilot,round(_dis/100) / 10, name _crew],
+        1,
+        0.075,
+        'TahomaB',
+        'right'
+      ];
+    };
+  };
+};
 
 if (_taskVar isNotEqualto []) then {
-  private _pos = getPosASLVisual _vehicle;
   private _dir = getDirVisual _vehicle;
   //-Aircraft
   _ctrl drawIcon [
     "\a3\ui_f\data\Map\VehicleIcons\iconManVirtual_ca.paa",
     [1,1,1,1],
-    _pos,
+    _veh_POS,
     25,
     25,
     _dir,

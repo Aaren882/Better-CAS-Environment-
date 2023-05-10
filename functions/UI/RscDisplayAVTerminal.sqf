@@ -12,6 +12,11 @@ _fnc_onLBSelChanged = {
 
 	_vehicle_str = _ctrlValue lbdata _selectedIndex;
 
+	//-cTab Compat
+	#if __has_include("\cTab\config.bin")
+		['cTab_Tablet_dlg',[['uavCam',_vehicle_str]]] call cTab_fnc_setSettings;
+	#endif
+
 	//-CAS Layout
 	_createTask = _display displayCtrl 2103;
 
@@ -136,12 +141,6 @@ _fnc_onLBSelChanged = {
 	player setVariable ["TGP_View_Selected_Vehicle",_vehicle];
 };
 
-_fnc_onButtonClick_Connect = {
-	if !(player getVariable ["TGP_View_Selected_Vehicle",objNull] isEqualTo objNull) then {
-		(player getVariable "TGP_View_Selected_Vehicle") call BCE_fnc_TGP_Select_Confirm;
-	};
-};
-
 _fnc_onButtonClick_Switch = {
 	params ["_control"];
 
@@ -235,7 +234,6 @@ switch _mode do
 				_control lbSetData [_lbAdd, str _vehicle];
 			} foreach _UnitList;
 
-			//(_display displayctrl 2013) call BCE_fnc_IPMarkers;
 			//- Memory
 			for "_i" from 0 to ((lbsize _control) - 1) do {
 				if ((_control lbdata _i) == str _selected) exitwith {
@@ -244,26 +242,17 @@ switch _mode do
 			};
 
 			//-Widgets
-			if (uinamespace getVariable ['BCE_Terminal_WP',true]) then {
-				(_display displayctrl 1606) ctrlSetTextColor [1, 1, 1, 1];
-			} else {
-				(_display displayctrl 1606) ctrlSetTextColor [1, 0, 0, 0.5];
+
+			[
+				[1606,"BCE_Terminal_WP"],
+				[1607,"BCE_Terminal_Veh"],
+				[1608,"BCE_Terminal_Targeting"],
+				[1609,"BCE_Terminal_SelColor",[0,1,0.3,0.8],[1,1,0.3,0.8]]
+			] apply {
+				_x params ["_idc","_var",["_cor0",[1,0,0,0.5]],["_cor1",[1,1,1,1]]];
+				(_display displayctrl _idc) ctrlSetTextColor ([_cor0,_cor1] select (uinamespace getVariable [_var,true]));
 			};
-			if (uinamespace getVariable ['BCE_Terminal_Veh',true]) then {
-				(_display displayctrl 1607) ctrlSetTextColor [1, 1, 1, 1];
-			} else {
-				(_display displayctrl 1607) ctrlSetTextColor [1, 0, 0, 0.5];
-			};
-			if (uinamespace getVariable ['BCE_Terminal_Targeting',true]) then {
-				(_display displayctrl 1608) ctrlSetTextColor [1, 1, 1, 1];
-			} else {
-				(_display displayctrl 1608) ctrlSetTextColor [1, 0, 0, 0.5];
-			};
-			if (uinamespace getVariable ['BCE_Terminal_SelColor',true]) then {
-				(_display displayctrl 1609) ctrlSetTextColor [1,1,0.3,0.8];
-			} else {
-				(_display displayctrl 1609) ctrlSetTextColor [0,1,0.3,0.8];
-			};
+
 			private _map = _display displayctrl 51;
 			if (uinamespace getVariable ['BCE_Map_BGColor',true]) then {
 				(_display displayctrl 1610) ctrlSetTextColor [0.969,0.957,0.949,0.8];
@@ -297,7 +286,11 @@ switch _mode do
 
 		//-EHs
 		_control = _display displayctrl 1600;
-		_control ctrladdeventhandler ["ButtonClick",_fnc_onButtonClick_Connect];
+		_control ctrladdeventhandler ["ButtonClick",{
+			if !(player getVariable ["TGP_View_Selected_Vehicle",objNull] isEqualTo objNull) then {
+				(player getVariable "TGP_View_Selected_Vehicle") call BCE_fnc_TGP_Select_Confirm;
+			};
+		}];
 		_control = _display displayctrl 1601;
 		_control ctrlAddEventHandler ["ButtonClick",{
 			private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];

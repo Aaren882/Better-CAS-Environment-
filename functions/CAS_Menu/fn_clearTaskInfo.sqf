@@ -8,7 +8,6 @@ _clearAction = {
   _Task_Type = _display displayCtrl 2107;
 
   _sel_TaskType = _Task_Type lbValue (lbCurSel _Task_Type);
-  _curLine = [lbCurSel _taskList,0] select _Veh_Changed;
 
   _list_result = switch _sel_TaskType do {
     //-5 line
@@ -39,15 +38,12 @@ _clearAction = {
   _Expression_Ctrls = (_Expression_class apply {
       getArray (_x >> "Expression_idc")
     }) apply {
-    if !(_x isEqualTo []) then {
-      _x apply {
-        _display displayctrl _x
-      };
-    } else {
-      []
-    };
+    [
+      _x apply {_display displayctrl _x},[]
+    ] select (_x isEqualTo []);
   };
 
+  _curLine = [lbCurSel _taskList,0] select _Veh_Changed;
   _shownCtrls = _Expression_Ctrls # _curLine;
 
   switch _sel_TaskType do {
@@ -77,7 +73,7 @@ _MenuChanged = {
 
   //filter out next page
   _text_list = _code_list apply {
-    if (_x isequalto "-") then {
+    if (_x isEqualTo "-") then {
       _page = true;
     };
     [nil,_x] select _page;
@@ -92,11 +88,10 @@ _MenuChanged = {
 
   _text = _text_list apply {
     _x params [["_title",""],["_sub",""]];
-    if (_x isEqualType []) then {
+    [
+      format ["<t size='1.1' align='center' font='PuristaSemibold'>%1</t>",_title],
       format ["<t size='1.1' font='RobotoCondensedBold'>%1</t> : <t size='1.1' color='#FFD9D9D9'>%2</t>",_title,_sub]
-    } else {
-      format ["<t size='1.1' align='center' font='PuristaSemibold'>%1</t>",_title]
-    };
+    ] select (_x isEqualType []);
   };
   _desc ctrlSetStructuredText parseText (_text joinString "<br/>");
 };

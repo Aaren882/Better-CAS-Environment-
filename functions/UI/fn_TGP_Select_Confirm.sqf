@@ -26,7 +26,7 @@ _pphandle ppEffectEnable true;
 _pphandle ppEffectAdjust [0.5, 1, 0, [1.0, 0.1, 1.0, 0.75], [0.0, 1.0, 1.0, 1.0], [0.199, 0.587, 0.114, 0.0]];
 _pphandle ppEffectCommit 0;
 
-_config_path = configFile >> "CfgVehicles" >> typeOf _vehicle;
+_config_path = configOf _vehicle;
 _A3TI = isclass(configFile >> "CfgPatches" >> "A3TI");
 
 _Optic_LODs = _vehicle getVariable ["TGP_View_Available_Optics",[]];
@@ -43,11 +43,7 @@ _Selected_Optic = _player getVariable "TGP_View_Selected_Optic";
 _current_turret = (_Selected_Optic # 0) # 1;
 _is_Detached = (_Selected_Optic # 0) # 2;
 
-if (_is_Detached) then {
-  _cam attachTo [_vehicle, [0,0,0],(_Selected_Optic # 0) # 0];
-} else {
-  _cam attachTo [_vehicle, [0,0,0],(_Selected_Optic # 0) # 0,true];
-};
+_cam attachTo [_vehicle, [0,0,0],(_Selected_Optic # 0) # 0,!_is_Detached];
 
 _cam camSetFov 0.75;
 
@@ -148,11 +144,10 @@ _idEH = addMissionEventHandler ["Draw3D", {
   //call BCE_fnc_UpdateCameraInfo;
 
   if (_is_Detached) then {
-     _wRot = if (_current_turret isEqualTo []) then {
+    _wRot = [
+      (_vehicle selectionVectorDirAndUp [_TGP, "Memory"]) # 0,
       (_vehicle getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1
-    } else {
-      (_vehicle selectionVectorDirAndUp [_TGP, "Memory"]) # 0;
-    };
+    ] select ((_current_turret # 0) < 0);
     [_cam, _wRot, false] call BCE_fnc_VecRot;
   };
 
@@ -182,17 +177,15 @@ _idEH = addMissionEventHandler ["Draw3D", {
   _Engine_damage = _vehicle getHitPointDamage "hitEngine";
 
   //Engine
-  if (_Engine_damage > 0) then {
-    if (_Engine_damage >= 0.5) then {
-      //-Red
-      _ENG_W_ctrl ctrlSetTextColor [1,0,0,1];
-    } else {
-      //-Yallow
-      _ENG_W_ctrl ctrlSetTextColor [0.94,0.7,0,1];
-    };
+  _color = if (_Engine_damage > 0) then {
+    [
+      [0.94,0.7,0,1],
+      [1,0,0,1]
+    ] select (_Engine_damage >= 0.5)
   } else {
-    _ENG_W_ctrl ctrlSetTextColor [1,1,1,1];
+    [1,1,1,1]
   };
+  _ENG_W_ctrl ctrlSetTextColor _color;
 
   if (isNull findDisplay 1022553) then {
     player setVariable ["TGP_view_Mouse_Cursor",false];
@@ -274,9 +267,14 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
   call BCE_fnc_Cam_Layout;
 
-  //-Exit
-  if !(isnull curatorcamera) then {
+  #if __has_include("\cTab\config.bin")
+  	#define exitCdt (!(isnull curatorcamera) or !(isnil{cTabIfOpen}))
+  #else
+  	#define exitCdt !(isnull curatorcamera)
+  #endif
 
+  //-Exit
+  if (exitCdt) then {
     if !(TGP_View_Camera isEqualTo []) then {
       camUseNVG false;
 

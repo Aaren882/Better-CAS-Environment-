@@ -16,6 +16,20 @@ _idEH = addMissionEventHandler ["EachFrame", {
   //-TGP Update
   call BCE_fnc_UpdateCameraInfo;
 
+  //-cTab Main System
+  #if __has_include("\cTab\config.bin")
+    if (cTab_player != (missionNamespace getVariable ["BIS_fnc_moduleRemoteControl_unit",player])) then {
+      cTab_player = missionNamespace getVariable ["BIS_fnc_moduleRemoteControl_unit",player];
+
+      call cTab_fnc_close;
+      call cTab_fnc_updateLists;
+  		call cTab_fnc_updateUserMarkerList;
+
+      // remove msg notification
+  		cTabRscLayerMailNotification cutText ["", "PLAIN"];
+    };
+  #endif
+
   //-Take Client Side Handler
   private _EH = player getVariable ["IR_LaserLight_EachFrame_EH_Client",-1];
   private _BCE_list = (allPlayers select {_x getVariable ["Have_BCE_Loaded",false]}) apply {str _x};

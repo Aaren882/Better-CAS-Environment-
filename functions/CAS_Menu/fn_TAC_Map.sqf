@@ -15,8 +15,8 @@ _ctrl drawIcon [
   0.075
 ];
 
-{
-  private _config = configFile >> "CfgVehicles" >> typeOf _x;
+(vehicles select {(_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)}) apply {
+  private _config = configof _x;
   private _icon = getText (_config >> "icon");
   private _isSelected = (player getvariable ["TGP_View_Selected_Vehicle",objNull]) isEqualTo _x;
   private _pos = getPosASLVisual _x;
@@ -63,7 +63,7 @@ _ctrl drawIcon [
       50,
       50,
       0,
-      format ["%1 || ASL: %2m Speed: %3km/h",name (driver _x),round((getPosASL _x) # 2), round(Speed _x)],
+      format ["%1 || ASL: %2m Speed: %3km/h",name (driver _x),round(_pos # 2), round(Speed _x)],
       1,
       0.06,
       "EtelkaNarrowMediumPro",
@@ -83,11 +83,10 @@ _ctrl drawIcon [
         _x params ["_group","_index"];
 
         if (_index >= _current_WP) then {
-          private _WP_index = if (_forEachIndex < (count _waypoints - 1)) then {
+          private _WP_index = [
+            _x,
             _waypoints # (_forEachIndex + 1)
-          } else {
-            _x
-          };
+          ] select (_forEachIndex < (count _waypoints - 1));
 
           private _WPpos = getWPPos _x;
           private _WPposNext = getWPPos _WP_index;
@@ -104,27 +103,11 @@ _ctrl drawIcon [
     if (!(_connected_Optic isEqualTo []) && (uinamespace getVariable ['BCE_Terminal_Targeting',true])) then {
       private _current_turret = _connected_Optic # 0 # 1;
       //-is Pilot Camera
-      private _FocusPos = if (_current_turret isEqualTo []) then {
+      private _FocusPos = if (_current_turret isEqualTo [-1]) then {
         ((_x getVariable ["BCE_Camera_Info_Air",[]]) # 0) params [["_pilotCamTracking",false], ["_FocusPos",[0,0,0]]];
-        if (_pilotCamTracking) then {
-          _FocusPos
-        } else {
-          nil
-        };
+        [nil,_FocusPos] select _pilotCamTracking;
       } else {
-        if (uinamespace getVariable ['BCE_Terminal_Targeting',true]) then {
-          private _lod = getText([_x, _current_turret] call BIS_fnc_turretConfig >> "memoryPointGunnerOptics");
-          private _startLODPos = _x modelToWorldVisual (_x selectionPosition _lod);
-
-          private _dirNorm = [_x,_current_turret] call BCE_fnc_getTurretDir;
-          private _dirDist = _dirNorm vectorMultiply ((getObjectViewDistance # 0)*2);
-          private _startPos = (_dirNorm vectorMultiply 1.5) vectorAdd _startLODPos;
-          private _dirPoint = _startPos vectorAdd _dirDist;
-          private _FocusPos = ((lineIntersectsSurfaces [_startPos, _dirPoint, _x, objNull, true, -1, "VIEW"]) # 0) # 0;
-          _FocusPos
-        } else {
-          nil
-        };
+        [nil,[_x,_current_turret] call BCE_fnc_Turret_InterSurface] select (uinamespace getVariable ['BCE_Terminal_Targeting',true]);
       };
 
       if !(isNil {_FocusPos}) then {
@@ -145,7 +128,7 @@ _ctrl drawIcon [
       };
     };
   };
-} forEach (vehicles select {!(_x getVariable "TGP_View_Available_Optics" isEqualTo []) && (_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)});
+};
 
 //- CAS
 _Task_Type = _display displayCtrl 2107;
@@ -229,11 +212,10 @@ if ((_Target # 0) != "NA") then {
   };
 
   //-Icon
-  private _Icon = if ((_Target # 1) == "GRID") then {
+  private _Icon = [
+    "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
     "\a3\ui_f\data\GUI\Cfg\Cursors\hc_overenemy_gs.paa"
-  } else {
-    "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa"
-  };
+  ] select ((_Target # 1) == "GRID");
 
   _ctrl drawIcon [
     _Icon,
@@ -264,11 +246,10 @@ if ((_FRD # 0) != "NA") then {
   };
 
   //-Icon
-  private _Icon = if ((_FRD # 1) == "GRID") then {
+  private _Icon = [
+    "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
     "\a3\ui_f\data\Map\Markers\NATO\b_inf.paa"
-  } else {
-    "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa"
-  };
+  ] select ((_FRD # 1) == "GRID");
 
   _ctrl drawIcon [
     _Icon,
@@ -289,14 +270,12 @@ if ((_FRD # 0) != "NA") then {
 if (
   ((_EGRS # 0) != "NA") && ((_Target # 0) != "NA")
 ) then {
-
   private _HDG = _EGRS # 1;
-  private _relPOS = if (isnil{_EGRS # 3}) then {
-    (_Target # 2) getPos [500, _HDG];
-  } else {
-    //_EGRS # 3
-    (_Target # 2) vectorAdd (((_EGRS # 3) vectorDiff (_Target # 2)) vectorMultiply 0.95)
-  };
+  private _relPOS = [
+    (_Target # 2) vectorAdd (((_EGRS # 3) vectorDiff (_Target # 2)) vectorMultiply 0.95),
+    (_Target # 2) getPos [500, _HDG]
+  ] select (isnil{_EGRS # 3});
+
   _ctrl drawArrow [
     (_Target # 2),
     _relPOS,
