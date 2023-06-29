@@ -702,6 +702,9 @@ class CfgFunctions
 			class CAS_SelWPN;
 			class Extended_Desc;
 			class unitList_info;
+			class Show_CurTaskCtrls;
+			class TaskList_Changed;
+			class DrawFOV;
 		};
 		class Task_Receiver
 		{
@@ -738,8 +741,15 @@ class CfgFunctions
 			class cTab
 			{
 				file="MG8\AVFEVFX\functions\cTab";
+				class cTab_postInit;
 				class cTabMap;
-				class setVariables_cTab;
+				class ChangeTask_Desc;
+			};
+			class cTab_Task
+			{
+				file="MG8\AVFEVFX\functions\cTab\Task_Type";
+				class cTab_9_TaskChanged;
+				class cTab_5_TaskChanged;
 			};
 		#endif
 	};
@@ -748,25 +758,29 @@ class CfgFunctions
 		{
 			class Functions
 			{
+				class onIfKeyDown
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_onIfKeyDown.sqf";
+				};
 				class drawBftMarkers
 				{
-					file="MG8\AVFEVFX\functions\cTab\fn_drawBftMarkers.sqf";
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_drawBftMarkers.sqf";
 				};
 				class updateInterface
 				{
-					file="MG8\AVFEVFX\functions\cTab\fn_updateInterface.sqf";
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_updateInterface.sqf";
 				};
 				class updateLists
 				{
-					file="MG8\AVFEVFX\functions\cTab\fn_updateLists.sqf";
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_updateLists.sqf";
 				};
 				class createUavCam
 				{
-					file="MG8\AVFEVFX\functions\cTab\fn_createUavCam.sqf";
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_createUavCam.sqf";
 				};
 				class deleteUAVcam
 				{
-					file="MG8\AVFEVFX\functions\cTab\fn_deleteUAVcam.sqf";
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_deleteUAVcam.sqf";
 				};
 			};
 		};
@@ -839,6 +853,7 @@ class RscEditMulti;
 class RscStructuredText;
 class RscMapControl;
 class RscCheckBox;
+class RscBackground;
 
 //UI
 #include "Control_UI.hpp"

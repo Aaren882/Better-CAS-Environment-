@@ -84,6 +84,43 @@ class RscDisplayAVTerminal
 	scriptPath = "BCE_Function";
 	onLoad = "[""onLoad"",_this,""RscDisplayAVTerminal"",'BCE_Function'] call (uinamespace getvariable 'BIS_fnc_initDisplay')";
 	onUnload = "[""onUnload"",_this,""RscDisplayAVTerminal"",'BCE_Function'] call (uinamespace getvariable 'BIS_fnc_initDisplay')";
+
+	Brevity_Code[] =
+	{
+		"Weapon :",
+		{"Guns x3","Firing cannon."},
+		{"Rifle","Launch of A/G missile."},
+		{"Pickle","Release of (Cluster/General-Purpose)bomb."},
+		{"Paveway","Release of Laser-Guided bomb."},
+		{"Ripple","Release multiple munitions in close succession."},
+		{"Winchester","No ordnance remaining, can be used to against the specific target."},
+		{"Splash(ed)","Ammunition impact/target destroyed."},
+		{"Shack","Oradance impact on ground, (Unofficial)."},
+		"Task :",
+		{"Playtime","How long the aircraft can be on station."},
+		{"Contact","Sighting of a specified reference point."},
+		{"Visual","Sighting of the friendly.opposite “Blind”."},
+		{"Tally","Sighting of the target.opposite “No Joy”."},
+		{"Clear(ed) Hot","Give the plane clearance to attack."},
+		"-", //Next Page
+		{"Abort","Terminate the weapon release or mission."},
+		{"What Luck","Request for task result. “BDA”"},
+		{"IP Inbound","Aircraft has reached IP begin to attack."},
+		{"Bingo","Aircraft has no fuel but return to base."},
+		{"Continue","Continue present maneuver; does NOT imply clearance to engage."},
+		"Laser :",
+		{"Laser On","Call to begin Lasing at the target."},
+		{"Sparkle","Marks target by Laser."},
+		{"Lasing","You have begun Lasing the target."},
+		{"Snake/Pulse","Jiggle/Pulse Laser on the target."},
+		{"Steady","Steady the beam (Snake/Pulse)."},
+		{"Spot","When you spot the Laser designation."},
+		{"Rope","Circling Laser around an aircraft."},
+		"",
+		"<a href='https://wiki.hoggitworld.com/view/Brevity_List'>Hoggitworld</a>",
+		"<a href='https://en.wikipedia.org/wiki/Multiservice_tactical_brevity_code'>Wikipedia</a>"
+	};
+
 	class controlsBackground
 	{
 		class CA_Map: RscMapControl
@@ -435,41 +472,6 @@ class RscDisplayAVTerminal
 		{
 			idc = 2004;
 			text = "Description :";
-			Brevity_Code[] =
-			{
-				"Weapon :",
-				{"Guns x3","Firing cannon."},
-				{"Rifle","Launch of A/G missile."},
-				{"Pickle","Release of (Cluster/General-Purpose)bomb."},
-				{"Paveway","Release of Laser-Guided bomb."},
-				{"Ripple","Release multiple munitions in close succession."},
-				{"Winchester","No ordnance remaining, can be used to against the specific target."},
-				{"Splash(ed)","Ammunition impact/target destroyed."},
-				{"Shack","Oradance impact on ground, (Unofficial)."},
-				"Task :",
-				{"Playtime","How long the aircraft can be on station."},
-				{"Contact","Sighting of a specified reference point."},
-				{"Visual","Sighting of the friendly.opposite “Blind”."},
-				{"Tally","Sighting of the target.opposite “No Joy”."},
-				{"Clear(ed) Hot","Give the plane clearance to attack."},
-				"-", //Next Page
-				{"Abort","Terminate the weapon release or mission."},
-				{"What Luck","Request for task result. “BDA”"},
-				{"IP Inbound","Aircraft has reached IP begin to attack."},
-				{"Bingo","Aircraft has no fuel but return to base."},
-				{"Continue","Continue present maneuver; does NOT imply clearance to engage."},
-				"Laser :",
-				{"Laser On","Call to begin Lasing at the target."},
-				{"Sparkle","Marks target by Laser."},
-				{"Lasing","You have begun Lasing the target."},
-				{"Snake/Pulse","Jiggle/Pulse Laser on the target."},
-				{"Steady","Steady the beam (Snake/Pulse)."},
-				{"Spot","When you spot the Laser designation."},
-				{"Rope","Circling Laser around an aircraft."},
-				"",
-				"<a href='https://wiki.hoggitworld.com/view/Brevity_List'>Hoggitworld</a>",
-				"<a href='https://en.wikipedia.org/wiki/Multiservice_tactical_brevity_code'>Wikipedia</a>"
-			};
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2) min 0.048";
 			x = "50 * (safezoneW / 64) + (safezoneX)";
 			y = "3 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01)";
@@ -543,7 +545,7 @@ class RscDisplayAVTerminal
 				class Game_plan
 				{
 					text = "#: Game Plan :";
-					data = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but must have real time data from Scout or FO.";
+					data = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but must have real time data from FO/Scout.";
 					textRight = "click x2";
 					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023};
 					multi_options = 1;
@@ -657,9 +659,9 @@ class RscDisplayAVTerminal
 				};
 				class Line4: Line2
 				{
-					text = "4: Description/Mark :";
+					text = "4: DESC/Mark :";
 					data = "Description of target<br/>Method used to mark ENY position. (IR, tracer etc)";
-					tooltip = "Target Description";
+					tooltip = "Target Description/Mark method";
 					Expression_idc[] = {2015,2016};
 				};
 				class Remark: Line2
@@ -683,6 +685,7 @@ class RscDisplayAVTerminal
 			y = (MULTIY + 2) * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (0.035 * safezoneH);\
 			w = MULTIW * (safezoneH/safezonew) * (safezoneW / 55);\
 			h = MULTIH * (safezoneW / 55)
+
 		class New_Task_Expression: RscEdit
 		{
 			idc = 2010;
@@ -1085,7 +1088,7 @@ class RscDisplayAVTerminal
 				"Add Task",
 				"Brevity Codes"
 			};
-			onToolBoxSelChanged = "[_this # 0,_this # 1,true] call BCE_fnc_ToolBoxChanged";
+			onToolBoxSelChanged = "(_this + [true]) call BCE_fnc_ToolBoxChanged";
 		};
 
 		//-Buttons
