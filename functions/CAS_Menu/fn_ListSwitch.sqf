@@ -12,9 +12,9 @@ _list_result = switch (_Task_Type lbValue (lbCurSel _Task_Type)) do {
   //-5 line
   case 1: {
     _TaskList = _display displayCtrl 2005;
-    _TaskList lbSetText [0, format ["1: “%1”/“%2” :", groupId group _vehicle, groupId group player]];
-
     _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
+
+    _TaskList lbSetText [0, format ["1: “%1”/“%2” :", groupId group _vehicle, groupId group player]];
     [_TaskList,_taskVar]
   };
   //-9 line

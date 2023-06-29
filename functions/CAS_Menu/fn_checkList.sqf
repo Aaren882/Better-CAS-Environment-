@@ -145,7 +145,6 @@ _uniquePylons apply {
       _checklist lbSetPictureRightColor [_index, [1, 0, 0, 1]];
     };
   };
-
 };
 
 _checklist lbSetCurSel (uiNameSpace getVariable ["BCE_CAS_MainList_selected", 0]);

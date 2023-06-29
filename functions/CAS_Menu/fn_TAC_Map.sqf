@@ -102,7 +102,26 @@ _ctrl drawIcon [
     private _connected_Optic = player getVariable ["TGP_View_Selected_Optic",[]];
     if (!(_connected_Optic isEqualTo []) && (uinamespace getVariable ['BCE_Terminal_Targeting',true])) then {
       private _current_turret = _connected_Optic # 0 # 1;
-      //-is Pilot Camera
+      private _isPilot = (_current_turret # 0) == -1;
+
+      //-tell what pos for the turret
+      private _FocusPos = if ((local _x) && _isPilot) then {
+        private _info = getPilotCameraTarget _x;
+        [nil,_info # 1] select (_info # 0);
+      } else {
+        if (_isPilot) then {
+          private _var = _x getVariable ["BCE_Camera_Info_Air",[false,[]]];
+          [nil,_var # 1] select (_var # 0);
+        } else {
+          [_x,_current_turret] call BCE_fnc_Turret_InterSurface;
+        };
+      };
+
+      //-draw FOV for curret connected turret (except FFV)
+      if !(isnil {_FocusPos}) then {
+        [_x,_ctrl,_FocusPos,_current_turret,_color,format ["GRID: %1",mapGridPosition _FocusPos],uinamespace getVariable ['BCE_Terminal_Targeting',true]] call BCE_fnc_DrawFOV;
+      };
+      /* //-is Pilot Camera
       private _FocusPos = if (_current_turret isEqualTo [-1]) then {
         ((_x getVariable ["BCE_Camera_Info_Air",[]]) # 0) params [["_pilotCamTracking",false], ["_FocusPos",[0,0,0]]];
         [nil,_FocusPos] select _pilotCamTracking;
@@ -111,6 +130,8 @@ _ctrl drawIcon [
       };
 
       if !(isNil {_FocusPos}) then {
+
+
         _ctrl drawLine [_pos,_FocusPos,_color];
         _ctrl drawIcon [
           "\a3\ui_f\data\GUI\Cfg\Cursors\hc_overfriendly_gs.paa",
@@ -125,14 +146,14 @@ _ctrl drawIcon [
           "EtelkaNarrowMediumPro",
           "right"
         ];
-      };
+      }; */
     };
   };
 };
 
 //- CAS
 _Task_Type = _display displayCtrl 2107;
-_sel_TaskType = _Task_Type lbValue (lbCurSel _Task_Type);
+_sel_TaskType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
 _taskVars = switch _sel_TaskType do {
   //-5 line
   case 1: {

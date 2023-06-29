@@ -35,7 +35,7 @@ _playerVehicle = vehicle cTab_player;
 _playerGroup = group cTab_player;
 _mountedLabels = [];
 _drawText = cTabBFTtxt;
-_Connected_veh = player getvariable ["TGP_View_Selected_Vehicle",objNull];
+_Connected_veh = cTab_player getvariable ["TGP_View_Selected_Vehicle",objNull];
 
 // Anything but MicroDAGR
 if (_mode != 2) then {

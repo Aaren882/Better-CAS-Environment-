@@ -27,18 +27,3 @@ if ((ctrlShown _description) or (_Veh_Changed)) then {
 } else {
   uiNamespace setVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
 };
-
-//-Task Status
-{
-  if ((_x # 0) != "NA") then {
-    _TaskList lbSetTextRight [_forEachIndex, (_x # 0)];
-    _TaskList lbSetPictureRight [_forEachIndex,"\a3\ui_f\data\Map\Diary\Icons\diaryAssignTask_ca.paa"];
-    _TaskList lbSetPictureRightColor [_forEachIndex, [0, 1, 0, 1]];
-    _TaskList lbSetPictureRightColorSelected [_forEachIndex, [0, 1, 0, 1]];
-  } else {
-    _TaskList lbSetPictureRight [_forEachIndex,"\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa"];
-    _TaskList lbSetPictureRightColor [_forEachIndex, [0, 0, 0, 0]];
-    _TaskList lbSetPictureRightColorSelected [_forEachIndex, [0, 0, 0, 0]];
-    _TaskList lbSetTextRight [_forEachIndex, _Expression_TextR # _forEachIndex];
-  };
-} forEach (uiNamespace getVariable "BCE_CAS_5Line_Var");

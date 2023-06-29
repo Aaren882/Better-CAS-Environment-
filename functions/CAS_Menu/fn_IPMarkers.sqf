@@ -5,16 +5,12 @@ private _index = _combo lbAdd "Select Marker";
 _combo lbSetData [_index, "[]"];
 
 {
-  private _Channel = markerChannel _x;
-  private _class = getMarkerType _x;
-  private _path = configFile >> "CfgMarkers" >> _class;
+  private ["_Channel","_class","_path","_MP_Compat"];
+  _Channel = markerChannel _x;
+  _class = getMarkerType _x;
+  _path = configFile >> "CfgMarkers" >> _class;
 
-  private _MP_Compat = if (isMultiplayer) then {
-    _Channel >= 0
-    //currentChannel == _Channel
-  } else {
-    _Channel == -1
-  };
+  _MP_Compat = [_Channel == -1,_Channel >= 0] select isMultiplayer;
   //-Exclude Polylines
   if (
       (getNumber(_path >> "Size") != 0) &&
@@ -28,11 +24,7 @@ _combo lbSetData [_index, "[]"];
 
     //-Color
     private _color = (getArray (configFile >> "CfgMarkerColors" >> _color_c >> "Color")) apply {
-      if (_x isEqualType "") then {
-        call compile _x
-      } else {
-        _x
-      };
+      [_x, call compile _x] select (_x isEqualType "");
     };
 
     //-Set Control Contents

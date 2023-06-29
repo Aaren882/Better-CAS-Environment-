@@ -1,8 +1,8 @@
-params ["_control", "_lbCurSel"];
+params ["_control", "_lbCurSel",["_IDC_offset",0]];
 
 _deisplay = ctrlParent _control;
-_ctrlMode = _deisplay displayCtrl 2021;
-_ctrlCount = _deisplay displayCtrl 2023;
+_ctrlMode = _deisplay displayCtrl (_IDC_offset + 2021);
+_ctrlCount = _deisplay displayCtrl (_IDC_offset + 2023);
 lbClear _ctrlMode;
 
 _data = call compile (_control lbdata _lbCurSel);

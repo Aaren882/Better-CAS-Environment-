@@ -84,15 +84,6 @@ switch _curLine do {
       _ctrl2 ctrlShow false;
     };
 
-    //-Description POS
-    _c = 0;
-    {
-      _c = _c + ((ctrlPosition _x) # 3);
-    } forEach [_ctrl1,_ctrl2,_ctrl4];
-    private _c = (_titlePOS # 3) + _c;
-    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
-
     _ctrl2POS = ctrlPosition _ctrl2;
     _ctrl3POS = ctrlPosition _ctrl3;
 
@@ -108,8 +99,8 @@ switch _curLine do {
 
     _ctrl4 ctrlSetPosition
     [
-      _TaskListPOS # 0,
-      (_TaskListPOS # 1) + (_c) - (_ctrl4POS # 3),
+      _ctrl2POS # 0,
+      (_ctrl2POS # 1) + (_ctrl2POS # 3),
       _ctrl4POS # 2,
       _ctrl4POS # 3
     ];
@@ -136,15 +127,6 @@ switch _curLine do {
     } else {
       _ctrl2 ctrlShow false;
     };
-
-    //-Description POS
-    _c = 0;
-    {
-      _c = _c + ((ctrlPosition _x) # 3);
-    } forEach [_ctrl1,_ctrl2];
-    private _c = (_titlePOS # 3) + _c;
-    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
     _ctrl2POS = ctrlPosition _ctrl2;
     _ctrl3POS = ctrlPosition _ctrl3;
@@ -179,22 +161,13 @@ switch _curLine do {
       _ctrl2 ctrlSetText "Mark with...";
     };
 
-    _c = 0;
-    {
-      _c = _c + ((ctrlPosition _x) # 3);
-    } forEach [_ctrl1,_ctrl2];
-    _c = (_titlePOS # 3) + _c;
-
-    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
-
     _ctrl1POS = ctrlPosition _ctrl1;
     _ctrl2POS = ctrlPosition _ctrl2;
 
     //-Expression
     _ctrl2 ctrlSetPosition
     [
-      _TaskListPOS # 0,
+      _ctrl1POS # 0,
       (_ctrl1POS # 1) + (_ctrl1POS # 3),
       _ctrl2POS # 2,
       _ctrl2POS # 3
@@ -239,16 +212,6 @@ switch _curLine do {
         _ctrl4 ctrlShow false;
       };
     };
-
-    //-Description POS
-    _c = 0;
-    {
-      _c = _c + ((ctrlPosition _x) # 3);
-    } forEach [_ctrl1,_ctrl2,_ctrl3,_ctrl5];
-
-    private _c = (_titlePOS # 3) + _c;
-    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
     _ctrl2POS = ctrlPosition _ctrl2;
     _ctrl3POS = ctrlPosition _ctrl3;

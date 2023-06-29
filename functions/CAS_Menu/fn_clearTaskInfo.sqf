@@ -1,50 +1,45 @@
-params ["_control",["_Veh_Changed",false]];
+params ["_control",["_Veh_Changed",false],["_config","RscDisplayAVTerminal"],["_IDC_offset",0]];
 
 _display = ctrlparent _control;
-_config = configFile >> "RscDisplayAVTerminal" >> "controls";
+_isAVT = !isNull (findDisplay 160);
+
+//-get Which interface should be applied
+_curInterface = switch _IDC_offset do {
+  case 17000: {1};
+  default {0};
+};
+
 
 _clearAction = {
-  _description = _display displayctrl 2004;
-  _Task_Type = _display displayCtrl 2107;
+  _description = _display displayctrl (_IDC_offset + 2004);
+  _Task_Type = _display displayCtrl (_IDC_offset + 2107);
 
-  _sel_TaskType = _Task_Type lbValue (lbCurSel _Task_Type);
+  _sel_TaskType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
 
   _list_result = switch _sel_TaskType do {
     //-5 line
     case 1: {
-      _TaskList = _display displayCtrl 2005;
+      _TaskList = _display displayCtrl (_IDC_offset + 2005);
+      _name = "BCE_CAS_5Line_Var";
       _default = [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]];
-      _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", _default];
+      _taskVar = uiNamespace getVariable [_var, _default];
 
-      [_TaskList,_taskVar,_default]
+      [_TaskList,_taskVar,_default,_name]
     };
     //-9 line
     default {
-      _TaskList = _display displayCtrl 2002;
+      _TaskList = _display displayCtrl (_IDC_offset + 2002);
+      _name = "BCE_CAS_9Line_Var";
       _default = [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]];
-      _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", _default];
-      [_TaskList,_taskVar,_default]
+      _taskVar = uiNamespace getVariable [_name, _default];
+      [_TaskList,_taskVar,_default,_name]
     };
   };
-  _list_result params ["_TaskList","_taskVar","_default"];
+  _list_result params ["_TaskList","_taskVar","_default","_TaskVarName"];
+  _curLine = [lbCurSel _taskList,0] select _Veh_Changed;
 
   //-check current Controls
-  _Expression_class = "true" configClasses (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _TaskList >>"items");
-
-  _Expression_TextR = _Expression_class apply {
-    getText (_x >> "textRight")
-  };
-
-  _Expression_Ctrls = (_Expression_class apply {
-      getArray (_x >> "Expression_idc")
-    }) apply {
-    [
-      _x apply {_display displayctrl _x},[]
-    ] select (_x isEqualTo []);
-  };
-
-  _curLine = [lbCurSel _taskList,0] select _Veh_Changed;
-  _shownCtrls = _Expression_Ctrls # _curLine;
+  ([_display,_curLine,_curInterface,false,true,true] call BCE_fnc_Show_CurTaskCtrls) params ["_shownCtrls","_Expression_TextR"];
 
   switch _sel_TaskType do {
     //-5 line
@@ -56,13 +51,32 @@ _clearAction = {
       call BCE_fnc_clearTask9line;
     };
   };
+
+  //-Task Status
+  {
+    if ((_x # 0) != "NA") then {
+      _TaskList lbSetTextRight [_forEachIndex, (_x # 0)];
+      if (_isAVT) then {
+        _TaskList lbSetPictureRight [_forEachIndex,"\a3\ui_f\data\Map\Diary\Icons\diaryAssignTask_ca.paa"];
+      };
+      _TaskList lbSetPictureRightColor [_forEachIndex, [0, 1, 0, 1]];
+      _TaskList lbSetPictureRightColorSelected [_forEachIndex, [0, 1, 0, 1]];
+    } else {
+      if (_isAVT) then {
+        _TaskList lbSetPictureRight [_forEachIndex,"\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa"];
+      };
+      _TaskList lbSetPictureRightColor [_forEachIndex, [0, 0, 0, 0]];
+      _TaskList lbSetPictureRightColorSelected [_forEachIndex, [0, 0, 0, 0]];
+      _TaskList lbSetTextRight [_forEachIndex, _Expression_TextR # _forEachIndex];
+    };
+  } forEach (uiNamespace getVariable _TaskVarName);
 };
 
 _MenuChanged = {
   private ["_curStateText","_desc","_code_list","_page","_lastPage","_text_list","_text"];
   _curStateText = ctrlText _control;
   _desc = _display displayCtrl 2004;
-  _code_list = getArray (_config >> ctrlClassName _desc >> "Brevity_Code");
+  _code_list = getArray (configFile >> _config >> "Brevity_Code");
   _page = false;
 
   _lastPage = _curStateText == "<";
@@ -98,8 +112,4 @@ _MenuChanged = {
 
 _ismenu = lbCurSel (_display displayCtrl 2102) == 1;
 
-if (_ismenu) then {
-  call _MenuChanged;
-} else {
-  call _clearAction;
-};
+call ([_clearAction,_MenuChanged] select _ismenu);

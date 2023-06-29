@@ -30,7 +30,7 @@
 		call cTab_fnc_updateLists;
 */
 
-private ["_cTabBFTmembers","_cTabBFTgroups","_cTabBFTvehicles","_cTabUAVlist","_cTabHcamlist","_validSides","_playerEncryptionKey","_playerVehicle","_playerGroup","_updateInterface"];
+private ["_cTabUAVlist","_cTabHcamlist","_validSides","_playerEncryptionKey","_playerVehicle","_playerGroup","_updateInterface"];
 
 _validSides = call cTab_fnc_getPlayerSides;
 _playerVehicle = vehicle cTab_player;
@@ -39,7 +39,7 @@ _playerGroup = group cTab_player;
 /*
 cTabBFTmembers --- GROUP MEMBERS
 */
-_cTabBFTmembers = ((units cTab_player) apply {
+cTabBFTmembers = ((units cTab_player) apply {
   [
     nil,
     [_x,_x call cTab_fnc_getInfMarkerIcon,"",name _x,str([_x] call CBA_fnc_getGroupIndex)]
@@ -51,7 +51,7 @@ cTabBFTgroups --- GROUPS
 Groups on our side that player is not a member of. Use the leader for positioning if he has a Tablet or Android.
 Else, search through the group and use the first member we find equipped with a Tablet or Android for positioning.
 */
-_cTabBFTgroups = (allGroups apply {
+cTabBFTgroups = (allGroups apply {
   if ((side _x in _validSides) && {_x != _playerGroup}) then {
 		_leader = objNull;
 		call {
@@ -80,7 +80,7 @@ _cTabBFTgroups = (allGroups apply {
 cTabBFTvehicles --- VEHICLES
 Vehciles on our side, that are not empty and that player is not sitting in.
 */
-_cTabBFTvehicles = (vehicles apply {
+cTabBFTvehicles = (vehicles apply {
 	if ((side _x in _validSides) && {count (crew _x) > 0} && {_x != _playerVehicle}) then {
     private ["_groupID","_name","_customName","_iconA","_iconB"];
 		_groupID = "";
@@ -144,9 +144,6 @@ _cTabHcamlist = allUnits select {
 _updateInterface = [];
 
 // replace the global list arrays in the end so that we avoid them being empty unnecessarily
-cTabBFTmembers = _cTabBFTmembers;
-cTabBFTgroups = _cTabBFTgroups;
-cTabBFTvehicles = _cTabBFTvehicles;
 if !(cTabUAVlist isEqualTo _cTabUAVlist) then {
 	cTabUAVlist = _cTabUAVlist;
 	_updateInterface pushBack ["uavListUpdate",true];

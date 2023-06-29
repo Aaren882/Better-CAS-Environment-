@@ -1,35 +1,29 @@
-params ["_control", "_selectedIndex",["_ismenu",false]];
+params ["_control", "_selectedIndex",["_ismenu",false],["_IDC_offset",0],["_CfgClasses",["RscDisplayAVTerminal"]]];
 
 _display = ctrlParent _control;
-_Task_Type = _display displayCtrl 2107;
-_config = configFile >> "RscDisplayAVTerminal" >> "controls";
+_Task_Type = uiNameSpace getVariable ["BCE_Current_TaskType",0];
 
-_ListInfo = switch (_Task_Type lbValue (lbCurSel _Task_Type)) do {
+_config = configFile >> "RscDisplayAVTerminal";
+
+_IDCs = [2002,2005] apply {_x + _IDC_offset};
+
+//-get Which interface should be applied
+_curInterface = switch _IDC_offset do {
+  case 17000: {1};
+  default {0};
+};
+
+_ListInfo = switch _Task_Type do {
   //-5 line
-  case 1: {[_display displayCtrl 2005,4]};
+  case 1: {[_display displayCtrl (_IDCs # 1),4]};
   //-9 line
-  default {[_display displayCtrl 2002,10]};
+  default {[_display displayCtrl (_IDCs # 0),10]};
 };
 
 _ListInfo params ["_taskList","_remarks"];
 _curLine = lbCurSel _taskList;
 
-//-check current Control
-_Expression_Ctrls = ("true" configClasses (
-  _config >> ctrlClassName _TaskList >>"items"
-  ) apply {
-    getArray (_x >> "Expression_idc")
-  }) apply {
-  if !(_x isEqualTo []) then {
-    _x apply {
-      _display displayctrl _x
-    };
-  } else {
-    []
-  };
-};
-
-_shownCtrls = _Expression_Ctrls # _curLine;
+_shownCtrls = [_display,_curLine,_curInterface,false,_ismenu] call BCE_fnc_Show_CurTaskCtrls;
 
 _TypeChanged = {
   switch _curLine do {
@@ -149,10 +143,10 @@ _MenuChanged = {
       };
 
       _list_Title ctrlSetText (["Check List:","Create Task: (DoubleClick)"] select _ListState);
-      _clearbut ctrlSetText getText (_config >> ctrlClassName _clearbut >> "text");
+      _clearbut ctrlSetText getText (_config >> "controls" >> ctrlClassName _clearbut >> "text");
 
       {
-        private _w = getText (_config >> ctrlClassName _x >> "W");
+        private _w = getText (_config >> "controls" >> ctrlClassName _x >> "W");
         _x ctrlSetPositionW (call compile _w);
         private _condition = [!((ctrlIDC _x) in [2104,2105]),true] select _ListState;
         if (_condition) then {
@@ -195,7 +189,7 @@ _MenuChanged = {
       //-List of Brevity Codes
       private _page = false;
 
-      private _codelist = getArray (_config >> ctrlClassName _desc >> "Brevity_Code");
+      private _codelist = getArray (_config >> "Brevity_Code");
       reverse _codelist;
       private _text_list = _codelist apply {
         if (_x isequalto "-") then {
@@ -207,12 +201,12 @@ _MenuChanged = {
       reverse _text_list;
       private _text = _text_list apply {
         _x params [["_title",""],["_sub",""]];
-        if (_x isEqualType []) then {
+        [
+          format ["<t size='1.1' align='center' font='PuristaSemibold'>%1</t>",_title],
           format ["<t size='1.1' font='RobotoCondensedBold'>%1</t> : <t size='1.1' color='#FFD9D9D9'>%2</t>",_title,_sub]
-        } else {
-          format ["<t size='1.1' align='center' font='PuristaSemibold'>%1</t>",_title]
-        };
+        ] select (_x isEqualType []);
       };
+
       _desc ctrlSetStructuredText parseText (_text joinString "<br/>");
 
       private _list_Title_POS = ctrlPosition _list_Title;
@@ -228,7 +222,7 @@ _MenuChanged = {
         _x ctrlSetFade 1;
       } forEach _ctrlList;
 
-      {_X ctrlShow false} forEach ([_desc_ex,_desc_show,_desc_show,_squad_title,_squad_pic,_squad_list,_Button_Racks,_List_Racks] + _shownCtrls);
+      {_x ctrlShow false} forEach ([_desc_ex,_desc_show,_desc_show,_squad_title,_squad_pic,_squad_list,_Button_Racks,_List_Racks] + _shownCtrls);
       _ctrlList
     };
   };
@@ -236,8 +230,4 @@ _MenuChanged = {
   {_x ctrlCommit 0.2} forEach [_BG_grp] + _ctrlList;
 };
 
-if (_ismenu) then {
-  call _MenuChanged;
-} else {
-  call _TypeChanged;
-};
+call ([_TypeChanged,_MenuChanged] select _ismenu);

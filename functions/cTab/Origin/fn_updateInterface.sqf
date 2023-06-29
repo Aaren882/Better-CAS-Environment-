@@ -158,6 +158,7 @@ _settings apply {
 					IDC_CTAB_GROUP_HCAM,
 					IDC_CTAB_GROUP_MESSAGE,
           4651,
+					17000,
 					IDC_CTAB_CTABHCAMMAP,
 					IDC_CTAB_CTABUAVMAP,
 					IDC_CTAB_SCREEN,
@@ -285,10 +286,8 @@ _settings apply {
 					};
 
           // ---------- Task Builder -----------
-          if (_mode == "AIRTASK") exitWith {
+          if (_mode == "TASK_Builder") exitWith {
 						_displayItemsToShow = [4651];
-						call cTab_msg_gui_load;
-						cTabRscLayerMailNotification cutText ["", "PLAIN"];
 						_btnActCtrl ctrlSetTooltip "";
 					};
 
@@ -303,13 +302,35 @@ _settings apply {
 
 				// hide every _displayItems not in _displayItemsToShow
 				{(_display displayCtrl _x) ctrlShow (_x in _displayItemsToShow)} count _displayItems;
+
+				// ---------- Task Builder -----------
+				if (_mode == "TASK_Builder") then {
+					private ["_TaskType","_Tasklist","_curType","_all_lists","_description"];
+					_TaskType = _display displayctrl (17000 + 2107);
+
+					_all_lists = [17000 + 2002,17000 + 2005];
+					_all_lists apply {
+					  (_display displayctrl _x) ctrlshow false;
+					};
+
+					_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+					_TaskType lbSetCurSel _curType;
+
+					_Tasklist = _display displayctrl (_all_lists # _curType);
+					_Tasklist lbSetCurSel _curType;
+
+					_description = _display displayctrl (17000 + 2004);
+					_description ctrlSetStructuredText parseText (_Tasklist lbdata (lbCurSel _Tasklist));
+				};
+
+				// ----------------------------------
 			};
 		};
 		// ------------ SHOW ICON TEXT ------------
 		if (_x # 0 == "showIconText") exitWith {
 			_osdCtrl = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
 			if (!isNull _osdCtrl) then {
-				_text = if (_x # 1) then {"ON"} else {"OFF"};
+				_text = ["OFF","ON"] select (_x # 1);
 				_osdCtrl ctrlSetText _text;
 			};
 		};

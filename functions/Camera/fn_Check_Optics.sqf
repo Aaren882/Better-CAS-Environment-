@@ -45,19 +45,26 @@ if (_vehicle isKindOf "Air") then {
   if ((count (allTurrets _vehicle) > 0) or (hasPilotCamera _vehicle)) then {
 
     //-Apply default Turret FOV
-    (allTurrets _vehicle + [[[],[-1]] select (hasPilotCamera _vehicle)]) apply {
+    (_vehicle getVariable "TGP_View_Available_Optics") apply {
 
-      private _crew = _vehicle turretUnit _x;
+      private _turret = _x # 1;
+      private _crew = _vehicle turretUnit _turret;
+
       if ((_crew getVariable ["BCE_Cam_FOV_Angle",-1]) == -1) then {
-        private ["_config","_class","_fov"];
+        private ["_config","_optic","_class","_fov"];
         //-if is a pilot Cam (TGP)
         _config = [
-          [_vehicle, _x] call BIS_fnc_turretConfig,
+          [_vehicle, _turret] call BIS_fnc_turretConfig,
           configOf _vehicle >> "PilotCamera"
-        ] select ((_x # 0) == -1);
+        ] select ((_turret # 0) == -1);
+
+        _class = ([
+          [_config >> "ViewOptics"],
+          "true" configClasses (_config >> "OpticsIn")
+        ] select isclass (_config >> "OpticsIn")) # 0;
 
         //-init camera FOV
-        _class = (("true" configClasses (_config >> "OpticsIn")) # 0) >> "initFov";
+        _class = _class >> "initFov";
         _fov = [
           getNumber _class,
           call compile (getText _class)
@@ -74,18 +81,20 @@ if (_vehicle isKindOf "Air") then {
           //-Get FOV is all turrets and TGP (if curretly in an Aircraft)
           private _vehicle = cameraOn;
           if (
-              (_vehicle isKindOf "Air") &&
-              (
-                (count (allTurrets _vehicle) > 0) or
-                (hasPilotCamera _vehicle)
-              )
-            ) then {
-              if (cameraview == "GUNNER") then {
-                player setVariable ["BCE_Cam_FOV_Angle",deg (getObjectFOV _vehicle),true];
-              };
+            (_vehicle isKindOf "Air") &&
+            (
+              (count (allTurrets _vehicle) > 0) or
+              (hasPilotCamera _vehicle)
+            )
+          ) then {
+            if (cameraview == "GUNNER") then {
+              player setVariable ["BCE_Cam_FOV_Angle",deg (getObjectFOV _vehicle),true];
+            };
           } else {
-            removeUserActionEventHandler ["zoomIn", "Analog", BCE_FOV_actEHs # 0];
-            removeUserActionEventHandler ["zoomOut", "Analog", BCE_FOV_actEHs # 1];
+            {
+              removeUserActionEventHandler [_x, "Analog", BCE_FOV_actEHs # _forEachIndex];
+            } forEach ["zoomIn","zoomOut"];
+
             BCE_FOV_actEHs = nil;
             player setVariable ["BCE_Cam_FOV_Angle",-1,true];
           };
