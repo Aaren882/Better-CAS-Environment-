@@ -52,8 +52,10 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
 #define SwitchSound playSound (format ["switch_mod_0%1",(selectRandom [1,2,3,4,5])])
 #define isCtrlTurret ({count (_x getVariable ["TGP_View_Turret_Control",[]]) > 0} count (crew _vehicle)) > 0
 
+
 #if __has_include("\cTab\config.bin")
-	[BCE_fnc_SetVariables_cTab, [], 1] call CBA_fnc_WaitAndExecute;
+	[BCE_fnc_cTab_postInit, [], 1] call CBA_fnc_WaitAndExecute;
+
 	#define IsTGP_CAM_ON (((player getVariable ["TGP_View_EHs", -1]) != -1) or ((player getVariable ["cTab_TGP_View_EH",-1]) != -1))
 #else
 	#define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
