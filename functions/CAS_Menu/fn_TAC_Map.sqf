@@ -15,10 +15,13 @@ _ctrl drawIcon [
   0.075
 ];
 
+private _veh = player getvariable ["TGP_View_Selected_Vehicle",objNull];
+private _connected_Optic = player getVariable ["TGP_View_Selected_Optic",[]];
+
 (vehicles select {(_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)}) apply {
   private _config = configof _x;
   private _icon = getText (_config >> "icon");
-  private _isSelected = (player getvariable ["TGP_View_Selected_Vehicle",objNull]) isEqualTo _x;
+  private _isSelected = _veh isEqualTo _x;
   private _pos = getPosASLVisual _x;
 
   private _color = if (_isSelected) then {
@@ -99,7 +102,6 @@ _ctrl drawIcon [
     };
 
     //-Camera Info
-    private _connected_Optic = player getVariable ["TGP_View_Selected_Optic",[]];
     if (!(_connected_Optic isEqualTo []) && (uinamespace getVariable ['BCE_Terminal_Targeting',true])) then {
       private _current_turret = _connected_Optic # 0 # 1;
       private _isPilot = (_current_turret # 0) == -1;
@@ -118,35 +120,25 @@ _ctrl drawIcon [
       };
 
       //-draw FOV for curret connected turret (except FFV)
-      if !(isnil {_FocusPos}) then {
-        [_x,_ctrl,_FocusPos,_current_turret,_color,format ["GRID: %1",mapGridPosition _FocusPos],uinamespace getVariable ['BCE_Terminal_Targeting',true]] call BCE_fnc_DrawFOV;
-      };
-      /* //-is Pilot Camera
-      private _FocusPos = if (_current_turret isEqualTo [-1]) then {
-        ((_x getVariable ["BCE_Camera_Info_Air",[]]) # 0) params [["_pilotCamTracking",false], ["_FocusPos",[0,0,0]]];
-        [nil,_FocusPos] select _pilotCamTracking;
-      } else {
-        [nil,[_x,_current_turret] call BCE_fnc_Turret_InterSurface] select (uinamespace getVariable ['BCE_Terminal_Targeting',true]);
-      };
+      if (!(isnil {_FocusPos}) && !(isNull (_veh turretUnit _current_turret))) then {
+        private ["_dis","_turretName","_text"];
 
-      if !(isNil {_FocusPos}) then {
+        _dis = _veh distance _FocusPos;
 
+        _turretName = [
+          getText ([_veh, _current_turret] call BIS_fnc_turretConfig >> "gunnerName"),
+          localize "STR_DRIVER"
+        ] select _isPilot;
 
-        _ctrl drawLine [_pos,_FocusPos,_color];
-        _ctrl drawIcon [
-          "\a3\ui_f\data\GUI\Cfg\Cursors\hc_overfriendly_gs.paa",
-          _color,
-          _FocusPos,
-          40,
-          40,
-          0,
-          format ["GRID: %1",mapGridPosition _FocusPos],
-          1,
-          0.075,
-          "EtelkaNarrowMediumPro",
-          "right"
+        _text = trim format [
+          " %1 : %2 km [%3]",
+          _turretName,
+          round(_dis/100) / 10,
+          getText(configFile >> "CfgWeapons" >> (_veh currentWeaponTurret _current_turret) >> "DisplayName")
         ];
-      }; */
+
+        [_x,_ctrl,_FocusPos,_current_turret,_color,_text,uinamespace getVariable ['BCE_Terminal_Targeting',true]] call BCE_fnc_DrawFOV;
+      };
     };
   };
 };
@@ -165,7 +157,7 @@ _taskVars = switch _sel_TaskType do {
   };
   //-9 line
   default {
-    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
+    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
     _IPBP = _taskVar # 1;
     _Target = _taskVar # 6;
     _FRD = _taskVar # 8;
@@ -310,7 +302,7 @@ if (
     30,
     30,
     0,
-    _EGRS # 0,
+    format ["EGRS: %1",_EGRS # 0],
     1,
     0.075,
     "EtelkaNarrowMediumPro",

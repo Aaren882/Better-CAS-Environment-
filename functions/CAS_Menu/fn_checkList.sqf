@@ -35,7 +35,7 @@ if (
 lbClear _checklist;
 
 //-Weapons
-private _weapons = (typeOf _vehicle) call bis_fnc_weaponsEntityType;
+private _weapons = weapons _vehicle;
 
 //-Arrange Magazine and correct Weapon
 private _Matched = [_vehicle,_weapons,magazinesAllTurrets _vehicle] call {
@@ -102,7 +102,9 @@ private _uniquePylons = _Matched apply {
 
   private _name = getText (configFile >> "CfgWeapons" >> _wpn >> "DisplayName");
   private _type = getText (configFile >> "CfgMagazines" >> _mag >> "displayNameShort");
-  private _formatName = trim format ["%1 %2",_name ,_type];
+
+  //-weapon name and type must be different
+  private _formatName = trim ([_name,format ["%1 %2",_name ,_type]] select ((_name != _type) && (count _type <= 7)));
 
   //-Correct muzzle
   private _ammo = [
@@ -124,7 +126,7 @@ _uniquePylons apply {
   private _index = _checklist lbAdd (format ["%1",_WeapName]);
 
   _checklist lbSetTextRight [_index, format ["x%1",_Count]];
-  _checklist lbSetData [_index, str ([_WeapName,_class] + [_modes] + [_turret] + [_Count,_muzzle])];
+  _checklist lbSetData [_index, str ([_WeapName,_class] + [_modes] + [_turret] + [_Count,_muzzle,_mag])];
 
   if (_loop) then {
     _checklist lbSetPicture [_index,"\a3\ui_f\data\Map\Markers\Military\dot_CA.paa"];

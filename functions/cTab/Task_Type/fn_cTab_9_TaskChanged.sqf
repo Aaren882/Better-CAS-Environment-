@@ -7,12 +7,17 @@ switch _curLine do {
       "_title_ctrl","_ctrl",
       "_title_type","_type",
       "_ord_title",
-      "_weap","_mode","_range","_count"
+      "_weap","_mode","_range","_count","_height"
     ];
     _taskVar_0 = _taskVar # 0;
 
+    _vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
+
     //-Weapon List
-    [ctrlParent _weap,_weap,player getVariable ['TGP_View_Selected_Vehicle',objNull],false,false,false] call BCE_fnc_checkList;
+    [ctrlParent _weap,_weap,_vehicle,false,false,false] call BCE_fnc_checkList;
+
+    //-Abort button
+    _abort ctrlEnable ((_vehicle getVariable ["BCE_Task_Receiver",[]]) isNotEqualTo []);
 
     //-Default
     if ((_taskVar_0 # 0) != "NA") then {
@@ -23,6 +28,7 @@ switch _curLine do {
       _mode lbSetCurSel (_taskVarSel # 3);
       _range lbSetCurSel (_taskVarSel # 4);
       _count ctrlSetText (_taskVarSel # 5);
+      _height ctrlSetText (_taskVarSel # 6);
     } else {
       _ctrl lbSetCurSel 0;
       _type lbSetCurSel 0;
@@ -44,13 +50,20 @@ switch _curLine do {
     ];
     _count ctrlSetPosition
     [
-      (_weapPOS # 0) + (_modePOS # 2),
+      (_weapPOS # 0) + 2 * (_rangePOS # 2),
       _rangePOS # 1,
       _rangePOS # 2,
       _rangePOS # 3
     ];
-    _mode ctrlCommit 0;
-    _count ctrlCommit 0;
+    _height ctrlSetPosition
+    [
+      (_weapPOS # 0) + (_rangePOS # 2),
+      _rangePOS # 1,
+      _rangePOS # 2,
+      _rangePOS # 3
+    ];
+
+    [_mode,_count,_height] apply {_x ctrlCommit 0};
   };
 
   //-IP/BP

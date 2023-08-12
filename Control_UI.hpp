@@ -183,11 +183,12 @@ class RscDisplayAVTerminal
 		{
 			idc = 1600;
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
-			text = "Connect To Vehicle";
+			text = "Live Feed";
 			x = "0.3 * (safezoneW / 64) + (safezoneX)";
 			y = "0.71 * safezoneH + safezoneY";
 			w = "13.2 * (safezoneW / 64)";
 			h = "0.8 * (safezoneH / 40)";
+			
 			class TextPos
 			{
 				left = "0.25 * (((safezoneW / safezoneH) min 1.2) / 40)";
@@ -218,27 +219,41 @@ class RscDisplayAVTerminal
 			y = "0.66 * safezoneH + safezoneY";
 			W = "0.015 * safezoneW";
 			h = "0.9 * (safezoneH / 40)";
-			colorBackground[] = {0.36,0.36,0.36,0.5};
+			tooltip = "Next Turret";
+			onButtonClick = "call BCE_fnc_NextTurretButton;";
 			class Attributes: Attributes
 			{
 				font = "TahomaB";
-				align = "center";
 			};
 		};
 
 		//-Hide UI
-		class BCE_info_hide: Next_Turret_Button
+		class BCE_info_hide: BCE_RscButtonMenu
 		{
 			idc = 1604;
 			text = "X";
 			X = "0.2036 * safezoneW + safezoneX";
 			y = "0.558 * safezoneH + safezoneY";
+			W = "0.015 * safezoneW";
+			h = "0.9 * (safezoneH / 40)";
+			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 			onButtonClick = "_display = ctrlParent (_this#0); (_display displayCtrl 1605) ctrlShow true; {(_display displayCtrl _x) ctrlShow false;} forEach [1500,1501,1502,1503,1504,1505,1506,1507,1508,1509,1510,1511,1512,1513,1514,1515,1516,1517,1600,1601,1602,1603,1604,1606,1607,1608,1609,1610,1700];";
+			
 			colorBackground[] = {1,0,0,0.5};
-			colorBackgroundFocused[] = {1,0,0,0.8};
-			animTextureFocused = "#(argb,8,8,3)color(1,0,0,0.8)";
-			animTextureOver = "#(argb,8,8,3)color(1,1,1,1)";
-			periodFocus = 0;
+			colorBackground2[] = {1,0,0,0.5};
+			
+			colorBackgroundFocused[] = {1,0,0,0.5};
+			
+			animTextureOver = "#(argb,8,8,3)color(1,0.25,0.25,0.5)";
+			animTextureFocused = "#(argb,8,8,3)color(1,0,0,1)";
+			animTexturePressed = "#(argb,8,8,3)color(1,0.25,0.25,0.3)";
+			
+			class Attributes: Attributes
+			{
+				font = "TahomaB";
+				align = "center";
+				valign = "middle";
+			};
 		};
 		class BCE_info_show: BCE_info_hide
 		{
@@ -249,11 +264,11 @@ class RscDisplayAVTerminal
 			onButtonClick = "_display = ctrlParent (_this#0); (_this#0) ctrlShow false; {(_display displayCtrl _x) ctrlShow true;} forEach [1500,1501,1502,1503,1504,1505,1506,1507,1508,1509,1510,1511,1512,1513,1514,1515,1516,1517,1600,1601,1602,1603,1604,1606,1607,1608,1609,1610,1700];";
 			colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.13])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.54])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.21])",0.8};
 			animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
-			colorBackgroundFocused[] = {1,1,1,1};
+			colorBackgroundFocused[] = {0.5,0.5,0.5,0.8};
 		};
 
 		//-Toggle Widgets
-		class BCE_Waypoint_AV: Next_Turret_Button
+		class BCE_Waypoint_AV: BCE_RscButtonMenu
 		{
 			idc = 1606;
 			text = "WP";
@@ -263,13 +278,13 @@ class RscDisplayAVTerminal
 			onButtonClick = "if (uinamespace getVariable ['BCE_Terminal_WP',true]) then {(_this # 0) ctrlSetTextColor [1, 0, 0, 0.5]; uinamespace setVariable ['BCE_Terminal_WP',false];} else {uinamespace setVariable ['BCE_Terminal_WP',true]; (_this # 0) ctrlSetTextColor [1, 1, 1, 1];};";
 			size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.75)";
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1) min 0.04";
-			colorFocused[] = {1,1,1,0.5};
-			animTexturePressed = "";
-			periodFocus = 0;
-			periodOver = 0;
+			animTexturePressed = "#(argb,8,8,3)color(0.36,0.36,0.36,0.5)";
 			tooltip = "Waypoints of Selected Vehicle";
+			shadow = 0;
 			class Attributes: Attributes
 			{
+				align = "center";
+				valign = "middle";
 				font = "RobotoCondensedBold";
 			};
 		};
@@ -306,7 +321,6 @@ class RscDisplayAVTerminal
 			y = "0.805 * safezoneH + safezoneY";
 			text = "BG";
 			color[] = {0.969,0.957,0.949,0.8};
-			colorFocused[] = {1,1,1,0.8};
 			tooltip = "Map Brightness";
 			size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.7)";
 			onButtonClick = "_map = ((ctrlparent (_this # 0)) displayctrl 51); _color = getArray (configfile >> 'RscMapControl' >> 'colorBackground'); if (uinamespace getVariable ['BCE_Map_BGColor',true]) then {(_this # 0) ctrlSetTextColor [0,1,0,0.8]; uinamespace setVariable ['BCE_Map_BGColor',false]; _map ctrlSetBackgroundColor [0.075,0.075,0.075,0.5];} else {(_this # 0) ctrlSetTextColor [0.969,0.957,0.949,0.8]; uinamespace setVariable ['BCE_Map_BGColor',true]; _map ctrlSetBackgroundColor _color;};";
@@ -547,7 +561,7 @@ class RscDisplayAVTerminal
 					text = "#: Game Plan :";
 					data = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but must have real time data from FO/Scout.";
 					textRight = "click x2";
-					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023};
+					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 					multi_options = 1;
 					default = 1;
 					tooltip = "Game Plan";
@@ -637,7 +651,7 @@ class RscDisplayAVTerminal
 				{
 					text = "1:  :";
 					textRight = "click x2";
-					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023};
+					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 					multi_options = 1;
 					default = 1;
 					tooltip = "“Aircraft call sign” / “Yours”";
@@ -739,7 +753,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 20111;
 			text = "Attack Type: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
-			BCE_Desc = "“Bomb on Target” / “Bomb on Coordinate” <br/><br/>BOC : <br/>GPS guided ammunitions. <br/>Ex. GBU-31 GBU-32 GBU-35 <br/><br/>BOT : <br/>Guns ,rockets and Laser guided ammunitions. <br/>Ex. Hydra70 GBU-12";
+			BCE_Desc = "What kind of the attack will be performed.<br/><br/>BOT (Bomb on Target) : <br/>Guns ,rockets and Laser guided ammunitions. <br/>Ex. Hydra70 GBU-12<br/><br/>BOC (Bomb on Coordinate) : <br/>GPS guided ammunitions. <br/>Ex. GBU-31 GBU-32 GBU-35";
 			ExpPOS(3.25,0.5,1);
 		};
 		class New_Task_AttackType: New_Task_CtrlType
@@ -789,7 +803,7 @@ class RscDisplayAVTerminal
 			text = "<t size='1' align='left'>%1 - %2</t>";
 			ExpPOS(8.75,0.5,1);
 		};
-		class New_Task_Unit_Pic: RscPicture
+		class New_Task_Unit_Pic: RscPictureKeepAspect
 		{
 			idc = 20115;
 			text = "\A3\Ui_f\data\IGUI\RscIngameUI\RscOptics\square.paa";
@@ -810,6 +824,7 @@ class RscDisplayAVTerminal
 			colorSelect2Right[] = {0,1,0,1};
 			colorSelectBackground[] = {0,0,0,0};
 			colorSelectBackground2[] = {0,0,0,0};
+			period = 0;
 
 			onLBSelChanged = "call BCE_fnc_unitList_info";
 			ExpPOS(9.75,0.5,5);
@@ -919,7 +934,7 @@ class RscDisplayAVTerminal
 			show = 0;
 		};
 
-		//-GRID
+		//-Mark
 		class New_Task_GRID_DESC: RscEdit
 		{
 			idc = 2016;
@@ -1023,7 +1038,8 @@ class RscDisplayAVTerminal
 		class Attack_Range_Combo: AI_Remark_ModeCombo
 		{
 			idc = 2022;
-			ExpPOS(7.65,0.5,1);
+			ExpPOS(7.65,1/3,1);
+			tooltip = "Attack Range";
 			class Items
 			{
 				class 2000m
@@ -1047,9 +1063,16 @@ class RscDisplayAVTerminal
 		class Round_Count_Box: RscEdit
 		{
 			idc = 2023;
+			Style = 2;
 			show = 0;
 			text = "1";
 			tooltip = "Round Count";
+		};
+		class Attack_Height_Combo: Round_Count_Box
+		{
+			idc = 2024;
+			tooltip = "Attack Height ASL (m)";
+			text = "2000";
 		};
 
 		//-List Controls

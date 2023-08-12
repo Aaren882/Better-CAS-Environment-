@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
+
 _idEH = addMissionEventHandler ["EachFrame", {
   _LaserLight_UnitList = missionNamespace getVariable ["IR_LaserLight_UnitList", []];
   if (count _LaserLight_UnitList != 0) then {
@@ -26,7 +28,7 @@ _idEH = addMissionEventHandler ["EachFrame", {
   call BCE_fnc_UpdateCameraInfo;
 
   //-cTab Main System
-  #if __has_include("\cTab\config.bin")
+  #ifdef cTAB_Installed
     if (cTab_player != (missionNamespace getVariable ["BIS_fnc_moduleRemoteControl_unit",player])) then {
       cTab_player = missionNamespace getVariable ["BIS_fnc_moduleRemoteControl_unit",player];
 
@@ -45,7 +47,7 @@ _idEH = addMissionEventHandler ["EachFrame", {
   _BCE_list sort true;
 
   if ((({(_x getVariable ["IR_LaserLight_EachFrame_EH",-1]) != -1} count allPlayers) > 1) && !((_BCE_list # 0) == str player)) then {
-    call BCE_fnc_ClientSideLaser;
+    call BCE_fnc_ClientSide;
     player setVariable ["IR_LaserLight_EachFrame_EH",-1,true];
     removeMissionEventHandler ["EachFrame", _EH];
   };

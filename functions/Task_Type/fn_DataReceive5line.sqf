@@ -7,34 +7,51 @@ switch _curLine do {
       "_title_ctrl","_ctrl",
       "_title_type","_type",
       "_ord_title",
-      "_CTweap","_CTmode","_CTrange","_CTcount"
+      "_CTweap","_CTmode","_CTrange","_CTcount","_CTHeight"
     ];
-    private ["_typeCAS","_typeATK","_ordnanceInfo","_setCount","_rangeIndex","_ATK_range","_text"];
+    private ["_typeCAS","_typeATK","_ordnanceInfo","_setCount","_height","_lowest","_rangeIndex","_ATK_range","_text"];
     _typeCAS = ["T1","T2","T3"] # (lbCurSel _ctrl);
-    _typeATK = ["BoT","BoC"] # (lbCurSel _ctrl);
+    _typeATK = ["BoT","BoC"] # (lbCurSel _type);
 
     _ordnanceInfo = call compile (_CTmode lbdata (lbcursel _CTmode));
     _ordnanceInfo params ["_WeapName","_ModeName","_class","_Mode","_turret",["_Count",1,[0]]];
 
     //-Ammo Count
     _setCount = call compile (ctrlText _CTcount);
+    _height = call compile (ctrlText _CTHeight);
 
-    if (isnil{_setCount}) exitWith {};
+    if (isnil{_setCount} or isnil{_height}) exitWith {};
 
     if (_setCount > _Count) then {
       _setCount = _Count;
       _CTcount ctrlSetText (str _Count);
     };
 
+    //-so you can set it to whatever you want
+    _lowest = 0;
+
+    //-if it isn't a player (AI)
+    if !(isPlayer _vehicle) then {
+      _lowest = [50,500] select (_vehicle isKindOf "plane");
+    };
+
+    if (_height < _lowest) then {
+      _height = _lowest;
+      _CTHeight ctrlSetText (str _lowest);
+    };
+
+    //-dont write down on the right of the list
+    _writeDown = "Y";
+
     //-Attack Range
     _rangeIndex = lbCurSel _CTrange;
     _ATK_range = _CTrange lbValue _rangeIndex;
 
     _ordnanceInfo set [5,_setCount];
-    _text = format ["%1 %2 %3",_typeCAS,_typeATK,_WeapName];
+    _text = format ["%1 %2 %3 %4m",_typeCAS,_typeATK,_WeapName,_height];
 
     if (isnil _WeapName) then {
-      _taskVar set [0,[_text,_typeCAS,_typeATK,_ordnanceInfo + [_ATK_range],[lbCurSel _ctrl,lbCurSel _type,lbCurSel _CTweap,lbCurSel _CTmode,_rangeIndex,str _setCount]]];
+      _taskVar set [0,[_text,_typeCAS,_typeATK,_ordnanceInfo + [_ATK_range,_height],[lbCurSel _ctrl,lbCurSel _type,lbCurSel _CTweap,lbCurSel _CTmode,_rangeIndex,str _setCount, str _height]]];
     };
   };
 
@@ -44,16 +61,13 @@ switch _curLine do {
 
     private _text = ctrlText _ctrl4;
     private _isEmptyInfo = ((_text == "Mark with...") or (_text == ""));
-    private _info = if _isEmptyInfo then {
-      "with :[NA]"
-    } else {
-      format ["with :[%1]",toUpper _text]
-    };
+    private _info = [format ["with :[%1]",toUpper _text],"with :[NA]"] select _isEmptyInfo;
+
     if _isEmptyInfo then {
       _ctrl4 ctrlSetText "Mark with...";
     };
 
-    if (lbCurSel _ctrl1 == 0) then {
+    if ((lbCurSel _ctrl1 == 0) && !(_isOverwrite)) then {
       _TGPOS = call compile (_ctrl2 lbData (lbCurSel _ctrl2));
 
       //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5: Mark Info]
@@ -73,8 +87,8 @@ switch _curLine do {
         _taskVar set [1,["NA","",[],[0,0],""]];
       };
     } else {
-      if (lbCurSel _ctrl1 == 1) then {
-        _TGPOS = uinamespace getVariable ["BCE_MAP_ClickPOS",[]];
+      if ((lbCurSel _ctrl1 == 1) or (_isOverwrite)) then {
+        _TGPOS = uinamespace getVariable [["BCE_MAP_ClickPOS","BCE_FRND"] select _isOverwrite,[]];
 
         //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:CurSel, 5: Mark Info]
         if !(_TGPOS isEqualTo []) then {
@@ -114,7 +128,7 @@ switch _curLine do {
   case 2:{
     _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
 
-    if (lbCurSel _ctrl1 == 0) then {
+    if ((lbCurSel _ctrl1 == 0) && !(_isOverwrite)) then {
       _TGPOS = call compile (_ctrl2 lbData (lbCurSel _ctrl2));
 
       //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5:Elevation(ASL), 6:RAM]
@@ -134,7 +148,7 @@ switch _curLine do {
         _taskVar set [2,["NA",[]]];
       };
     } else {
-      _TGPOS = uinamespace getVariable ["BCE_MAP_ClickPOS",[]];
+      _TGPOS = uinamespace getVariable [["BCE_MAP_ClickPOS","BCE_GRID"] select _isOverwrite,[]];
 
       //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:Empty, 5:Elevation(ASL), 6:Marker info]
       if !(_TGPOS isEqualTo []) then {
@@ -164,11 +178,7 @@ switch _curLine do {
     _InfoText = ctrlText _ctrl2;
 
     _isEmptyInfo = ((_InfoText == "Mark with...") or (_InfoText == ""));
-    _Info = if _isEmptyInfo then {
-      ""
-    } else {
-      _InfoText
-    };
+    _Info = [_InfoText,""] select _isEmptyInfo;
 
     if (_text != "") then {
       _taskVar set [3,["",_text,_Info]];
@@ -221,7 +231,7 @@ switch _curLine do {
 
 //-Automatically Generate
 //-Line 1
-_taskVar set [0, (_taskVar # 0) + [(_display displayCtrl 2005) lbText 0]];
+_taskVar set [0, (_taskVar # 0) + [(_display displayCtrl (_IDC_offset + 2005)) lbText 0]];
 
 //-2 Friendly
 if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && !("with:" in (_taskVar # 1 # 0))) then {
@@ -237,11 +247,10 @@ if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && !("with:" in
   _InfoText = _taskVar_1 # 4;
   _isEmptyInfo = ((_InfoText == "Mark with...") or (_InfoText == ""));
 
-  _info = if _isEmptyInfo then {
-    format ["“%1” %2m [%3]", _cardinaldir, _dist, GetGRID(_TGPOS,8)];
-  } else {
-    format ["“%1” %2m [%3] with: [%4]", _cardinaldir, _dist, GetGRID(_TGPOS,8), toUpper _InfoText];
-  };
+  _info = [
+    format ["“%1” %2m [%3] with: [%4]", _cardinaldir, _dist, GetGRID(_TGPOS,8), toUpper _InfoText],
+    format ["“%1” %2m [%3]", _cardinaldir, _dist, GetGRID(_TGPOS,8)]
+  ] select _isEmptyInfo;
 
   _taskVar set [1, [_info,_taskVar_1 # 1,_taskVar_1 # 2,_taskVar_1 # 3,_taskVar_1 # 4]];
 };

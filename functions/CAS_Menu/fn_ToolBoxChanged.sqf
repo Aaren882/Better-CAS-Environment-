@@ -143,10 +143,10 @@ _MenuChanged = {
       };
 
       _list_Title ctrlSetText (["Check List:","Create Task: (DoubleClick)"] select _ListState);
-      _clearbut ctrlSetText getText (_config >> "controls" >> ctrlClassName _clearbut >> "text");
+      _clearbut ctrlSetText getText (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _clearbut >> "text");
 
       {
-        private _w = getText (_config >> "controls" >> ctrlClassName _x >> "W");
+        private _w = getText (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _x >> "w");
         _x ctrlSetPositionW (call compile _w);
         private _condition = [!((ctrlIDC _x) in [2104,2105]),true] select _ListState;
         if (_condition) then {

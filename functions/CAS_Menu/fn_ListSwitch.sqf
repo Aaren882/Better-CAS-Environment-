@@ -1,4 +1,4 @@
-params["_display",["_skip",1],["_preload",false],["_vehicle",objNull]];
+params["_display",["_period",1],["_preload",false],["_vehicle",objNull]];
 
 if ((lbcursel (_display displayCtrl 2102)) != 0) exitWith {};
 
@@ -20,7 +20,7 @@ _list_result = switch (_Task_Type lbValue (lbCurSel _Task_Type)) do {
   //-9 line
   default {
     _TaskList = _display displayCtrl 2002;
-    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
+    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
     [_TaskList,_taskVar]
   };
 };
@@ -160,7 +160,11 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
   _lastPage ctrlSetFade 0;
   _sendData ctrlSetFade 0;
 
-  if !(_vehicle isEqualTo objNull) then {
+  if (count (_vehicle getVariable ["BCE_Task_Receiver",[]]) > 0) then {
+    _sendData ctrlSetText "Abort Mission";
+  };
+
+  if !(isnull _vehicle) then {
     _checklist = _display displayCtrl 2020;
     _checklist lbSetCurSel 0;
     [_display,_checklist,_vehicle,true] call BCE_fnc_checkList;
@@ -215,11 +219,11 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
   _lastPage ctrlSetFade 1;
   _sendData ctrlSetFade 1;
 
-  if !(_vehicle isEqualTo objNull) then {
+  if !(isNull _vehicle) then {
     _checklist = _display displayCtrl 2100;
     [_display,_checklist,_vehicle,false] call BCE_fnc_checkList;
   };
 };
 
-_MainList ctrlCommit (_skip/2);
-{_x ctrlCommit _skip} foreach [_BG_grp,_createTask,_lastPage,_sendData,_TaskList,_Task_Type];
+_MainList ctrlCommit (_period/2);
+{_x ctrlCommit _period} foreach [_BG_grp,_createTask,_lastPage,_sendData,_TaskList,_Task_Type];

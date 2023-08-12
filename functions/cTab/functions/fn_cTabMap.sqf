@@ -1,6 +1,7 @@
 params["_display","_ctrl"];
 
 private _veh = player getvariable ["TGP_View_Selected_Vehicle",objNull];
+private _connected_Optic = player getVariable ["TGP_View_Selected_Optic",[]];
 
 if !(isnull _veh) then {
   private _color = [1,1,0.3,0.8];
@@ -32,20 +33,64 @@ if !(isnull _veh) then {
     _x params ["_group","_index"];
 
     if (_index >= _current_WP) then {
-      private _WP_index = [
+      private ["_WP_index","_WPpos","_WPposNext"];
+      _WP_index = [
         _x,
         _waypoints # (_forEachIndex + 1)
       ] select (_forEachIndex < (count _waypoints - 1));
 
-      private _WPpos = getWPPos _x;
-      private _WPposNext = getWPPos _WP_index;
+      _WPpos = getWPPos _x;
+      _WPposNext = getWPPos _WP_index;
 
       if (!(_WPpos isEqualTo [0,0,0]) && !(_WPposNext isEqualTo [0,0,0])) then {
         _ctrl drawArrow [_WPpos, _WPposNext, _color];
       };
     };
   } forEach _waypoints;
+
+  //-Camera Info
+  if (!(_connected_Optic isEqualTo []) && (uinamespace getVariable ['BCE_Terminal_Targeting',true])) then {
+    private _current_turret = _connected_Optic # 0 # 1;
+    private _isPilot = (_current_turret # 0) == -1;
+
+    //-tell what pos for the turret
+    private _FocusPos = if ((local _veh) && _isPilot) then {
+      private _info = getPilotCameraTarget _veh;
+      [nil,_info # 1] select (_info # 0);
+    } else {
+      if (_isPilot) then {
+        private _var = _veh getVariable ["BCE_Camera_Info_Air",[false,[]]];
+        [nil,_var # 1] select (_var # 0);
+      } else {
+        [_veh,_current_turret] call BCE_fnc_Turret_InterSurface;
+      };
+    };
+
+    //-draw FOV for curret connected turret (except FFV)
+    if (!(isnil {_FocusPos}) && !(isNull (_veh turretUnit _current_turret))) then {
+      private ["_dis","_wpn","_turretName","_text"];
+
+      _dis = _veh distance _FocusPos;
+      _wpn = getText(configFile >> "CfgWeapons" >> (_veh currentWeaponTurret _current_turret) >> "DisplayName");
+
+      _turretName = [
+        getText ([_veh, _current_turret] call BIS_fnc_turretConfig >> "gunnerName"),
+        localize "STR_DRIVER"
+      ] select _isPilot;
+
+      _text = trim format [
+        " %1 : %2 km [%3]",
+        _turretName,
+        round(_dis/100) / 10,
+        [_wpn,"NA"] select (_wpn == "")
+      ];
+      [_veh,_ctrl,_FocusPos,_current_turret,_color,_text,uinamespace getVariable ['BCE_Terminal_Targeting',true]] call BCE_fnc_DrawFOV;
+    };
+  };
 };
+
+//-Exit if it's not cTab or TAD
+if !((cTabIfOpen # 1) in ["cTab_Tablet_dlg"]) exitWith {};
 
 //- CAS
 private _Task_Type = _display displayCtrl 2107;
@@ -61,7 +106,7 @@ private _taskVars = switch _sel_TaskType do {
   };
   //-9 line
   default {
-    private _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
+    private _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
     private _IPBP = _taskVar # 1;
     private _Target = _taskVar # 6;
     private _FRD = _taskVar # 8;
@@ -104,12 +149,12 @@ if ((_Target # 0) != "NA") then {
 
   //-FAD/H to TG line
   if ((_remarks # 1) != -1) then {
-    private _HDG = _remarks # 1;
+    private _HDG = (_remarks # 1) + 180;
     private _relPOS = (_Target # 2) getPos [1000, _HDG];
     private _posDiff = ((_Target # 2) vectorDiff _relPOS) vectorMultiply 0.9;
     _ctrl drawArrow [
-      _relPOS,
       _relPOS vectorAdd _posDiff,
+      _relPOS,
       [0.6,1,0.37,1]
     ];
 
@@ -188,11 +233,11 @@ if (
   ((_EGRS # 0) != "NA") && ((_Target # 0) != "NA")
 ) then {
   private _HDG = _EGRS # 1;
-  private _relPOS = if (isnil{_EGRS # 3}) then {
-    (_Target # 2) getPos [500, _HDG];
-  } else {
-    (_Target # 2) vectorAdd (((_EGRS # 3) vectorDiff (_Target # 2)) vectorMultiply 0.95)
-  };
+  private _relPOS = [
+    (_Target # 2) vectorAdd (((_EGRS # 3) vectorDiff (_Target # 2)) vectorMultiply 0.95),
+    (_Target # 2) getPos [500, _HDG]
+  ] select (isnil{_EGRS # 3});
+
   _ctrl drawArrow [
     (_Target # 2),
     _relPOS,
@@ -206,7 +251,7 @@ if (
     30,
     30,
     0,
-    _EGRS # 0,
+    format ["EGRS: %1",_EGRS # 0],
     1,
     0.075,
     "EtelkaNarrowMediumPro",

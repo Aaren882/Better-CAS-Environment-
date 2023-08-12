@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
+
 class CfgPatches
 {
 	class AVFEVFX
@@ -7,14 +9,20 @@ class CfgPatches
 		requiredVersion="2.00";
 		requiredAddons[]=
 		{
+			#if __has_include("\vme_clp_a3_language_uifonts_f\config.cpp")
+				"VME_CLP_A3_FONTS",
+			#endif
 			#if __has_include("\A3TI\config.bin")
 				"A3TI",
 			#endif
 			#if __has_include("\z\ace\addons\map\config.bin")
 				"ace_map",
 			#endif
-			#if __has_include("\cTab\config.bin")
+			#ifdef cTAB_Installed
 				"cTab",
+			#endif
+			#if __has_include("\z\ctab\addons\core\config.bin")
+				"ctab_core",
 			#endif
 			"A3_Ui_F",
 			"A3_Weapons_F",
@@ -34,6 +42,15 @@ class CfgPatches
 #if __has_include("\CTG_HMD_RHSUSAF\config.cpp")
 	#define RHS_HMD_Macro 1
 #endif
+
+//-CBA Compile
+/*class Extended_PreStart_EventHandlers
+{
+	class ctab_core
+	{
+		init = "call compile preprocessFileLineNumbers '\MG8\AVFEVFX\XEH_preStart.sqf'";
+	};
+};*/
 
 class Extended_PreInit_EventHandlers
 {
@@ -479,76 +496,6 @@ class CfgVehicles
 		};
 	};
 
-	/*class Car;
-	class Car_F: Car
-	{
-		class NewTurret;
-		class Turrets
-		{
-			class MainTurret;
-		};
-	};
-	class Wheeled_APC_F: Car_F
-	{
-		class Turrets
-		{
-			class MainTurret: NewTurret
-			{
-				class Turrets
-				{
-					class CommanderOptics;
-				};
-			};
-		};
-	};
-	class AFV_Wheeled_01_base_F: Wheeled_APC_F
-	{
-		class Turrets: Turrets
-		{
-			class MainTurret: MainTurret
-			{
-				class Turrets: Turrets
-				{
-					class CommanderOptics: CommanderOptics
-					{
-						primaryGunner = 1;
-					};
-				};
-				primaryGunner = 0;
-			};
-		};
-	};
-	class MRAP_03_base_F: Car_F
-	{
-		class Turrets: Turrets
-		{
-			class CommanderTurret: MainTurret
-			{
-				primaryGunner = 1;
-			};
-		};
-	};
-	class MRAP_03_hmg_base_F: MRAP_03_base_F
-	{
-		class Turrets: Turrets
-		{
-			class MainTurret: MainTurret
-			{
-				primaryGunner = 0;
-			};
-		};
-	};
-	class MRAP_03_gmg_base_F: MRAP_03_hmg_base_F
-	{
-		class Turrets: Turrets
-		{
-			class MainTurret: MainTurret
-			{
-				primaryGunner = 0;
-			};
-		};
-	};*/
-
 	class Tank;
 	class Tank_F: Tank
 	{
@@ -576,39 +523,9 @@ class CfgVehicles
 	class Plane_Base_F: Plane
 	{
 		class Eventhandlers;
-		//class Turrets;
 	};
 
 	#include "Compat.hpp"
-	/*class VTOL_Base_F: Plane_Base_F
-	{
-		class NewTurret;
-		class Turrets: Turrets
-		{
-			class CopilotTurret;
-		};
-	};
-	//Black Fish
-	class VTOL_01_base_F: VTOL_Base_F
-	{
-		class Turrets: Turrets
-		{
-			class CopilotTurret: CopilotTurret
-			{
-				primaryGunner = 1;
-			};
-		};
-	};
-	class VTOL_01_armed_base_F: VTOL_01_base_F
-	{
-		class Turrets: Turrets
-		{
-			class GunnerTurret_01: NewTurret
-			{
-				primaryGunner = 0;
-			};
-		};
-	};*/
 };
 class CfgFunctions
 {
@@ -618,7 +535,8 @@ class CfgFunctions
 		{
 			file="MG8\AVFEVFX\Functions";
 			class Init;
-			class perf_EH;
+			class ServerClientSide;
+			class ClientSide;
 			class ACE_actions;
 		};
 		class HUD
@@ -646,7 +564,6 @@ class CfgFunctions
 			class delete;
 			class VecRot;
 			class isLaserOn;
-			class ClientSideLaser;
 		};
 		class Camera
 		{
@@ -668,6 +585,7 @@ class CfgFunctions
 			class getTurretDir;
 			class LandMarks_icon;
 			class Turret_interSurface;
+			class Set_EnvironmentList;
 		};
 		class Lists
 		{
@@ -702,9 +620,14 @@ class CfgFunctions
 			class CAS_SelWPN;
 			class Extended_Desc;
 			class unitList_info;
+			class getUnitParams;
 			class Show_CurTaskCtrls;
+			class get_TaskCtrls;
 			class TaskList_Changed;
+			class Reset_TaskList;
+			class SetTaskReceiver;
 			class DrawFOV;
+			class NextTurretButton;
 		};
 		class Task_Receiver
 		{
@@ -732,18 +655,28 @@ class CfgFunctions
 			file="MG8\AVFEVFX\functions\Radio_Compat";
 			#if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
 				class getFreq_ACRE;
+				class setRacks_ACRE;
 				class ButtonRacks;
 			#else
 				class getFreq_TFAR;
 			#endif
 		};
-		#if __has_include("\cTab\config.bin")
+		#ifdef cTAB_Installed
 			class cTab
 			{
 				file="MG8\AVFEVFX\functions\cTab";
 				class cTab_postInit;
+			};
+			class cTab_BCE
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions";
 				class cTabMap;
-				class ChangeTask_Desc;
+				class ctab_ChangeTask_Desc;
+				class ctab_List_AV_Info;
+				class ctab_Switch_ExtendedList;
+				class ctab_BFT_ToolBox;
+				class Extended_WeaponDESC;
+				class Extended_TaskDESC;
 			};
 			class cTab_Task
 			{
@@ -753,11 +686,54 @@ class CfgFunctions
 			};
 		#endif
 	};
-	#if __has_include("\cTab\config.bin")
+	#ifdef cTAB_Installed
 		class cTab
 		{
 			class Functions
 			{
+				class AVInfoMenu_toggle
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_AVInfoMenu_toggle.sqf";
+				};
+				class Tablet_btnACT
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_Tablet_btnACT.sqf";
+				};
+				class showMenu_toggle
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_showMenu_toggle.sqf";
+				};
+				
+				class OnDrawbft
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawbft.sqf";
+				};
+				class OnDrawbftAndroid
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawbftAndroid.sqf";
+				};
+				class OnDrawbftAndroidDsp
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawbftAndroidDsp.sqf";
+				};
+				class OnDrawbftTAD
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawbftTAD.sqf";
+				};
+				class OnDrawbftTADdialog
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawbftTADdialog.sqf";
+				};
+				class OnDrawbftVeh
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawbftVeh.sqf";
+				};
+				class OnDrawUAV
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawUAV.sqf";
+				};
+				
+				//-Original Ones
 				class onIfKeyDown
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_onIfKeyDown.sqf";
@@ -765,6 +741,14 @@ class CfgFunctions
 				class drawBftMarkers
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_drawBftMarkers.sqf";
+				};
+				class drawUserMarkers
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_drawUserMarkers.sqf";
+				};
+				class findUserMarker
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_findUserMarker.sqf";
 				};
 				class updateInterface
 				{
@@ -778,9 +762,17 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_createUavCam.sqf";
 				};
+				class userMenuSelect
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_userMenuSelect.sqf";
+				};
 				class deleteUAVcam
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_deleteUAVcam.sqf";
+				};
+				class toggleMapTools
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_toggleMapTools.sqf";
 				};
 			};
 		};
@@ -798,33 +790,20 @@ class CfgFunctions
 		};
 	#endif
 };
+
+#define set_Switch_Sound(NUM) \
+	class switch_mod_0##NUM \
+	{ \
+		sound[] = {#\a3\sounds_f_epb\Weapons\noise\switch_mod_0##NUM ,1,1}; \
+		titles[] = {}; \
+	}
 class CfgSounds
 {
-	class switch_mod_01
-	{
-		sound[] = {"\a3\sounds_f_epb\Weapons\noise\switch_mod_01",1,1};
-		titles[] = {};
-	};
-	class switch_mod_02
-	{
-		sound[] = {"\a3\sounds_f_epb\Weapons\noise\switch_mod_02",1,1};
-		titles[] = {};
-	};
-	class switch_mod_03
-	{
-		sound[] = {"\a3\sounds_f_epb\Weapons\noise\switch_mod_03",1,1};
-		titles[] = {};
-	};
-	class switch_mod_04
-	{
-		sound[] = {"\a3\sounds_f_epb\Weapons\noise\switch_mod_04",1,1};
-		titles[] = {};
-	};
-	class switch_mod_05
-	{
-		sound[] = {"\a3\sounds_f_epb\Weapons\noise\switch_mod_05",1,1};
-		titles[] = {};
-	};
+	set_Switch_Sound(1);
+	set_Switch_Sound(2);
+	set_Switch_Sound(3);
+	set_Switch_Sound(4);
+	set_Switch_Sound(5);
 };
 class CfgScriptPaths
 {
@@ -851,14 +830,74 @@ class RscEdit;
 class RscCombo;
 class RscEditMulti;
 class RscStructuredText;
-class RscMapControl;
+class RscMapControl
+{
+	class Bunker;
+	class busstop;
+	class Chapel;
+	class church;
+	class Cross;
+	class Fountain;
+	class Fortress;
+	class fuelstation;
+	class hospital;
+	class Legend;
+	class lighthouse;
+	class power;
+	class powersolar;
+	class powerwave;
+	class powerwind;
+	class quay;
+	class ruin;
+	class shipwreck;
+	class Stack;
+	class Tourism;
+	class transmitter;
+	class viewtower;
+	class watertower;
+};
 class RscCheckBox;
 class RscBackground;
+class BCE_RscButtonMenu: RscButtonMenu
+{
+	style = 2;
+	shadow = 1;
+	colorBackground[] = {0.36,0.36,0.36,0.5};
+	colorBackground2[] = {0.36,0.36,0.36,0.5};
+	
+	colorBackgroundFocused[] = {0.36,0.36,0.36,0.5};
+	
+	//-Text
+	color[] = {1,1,1,1};
+	color2[] = {1,1,1,1};
+	colorFocused[] = {0.3,0.3,0.3,1};
+	colorFocusedSecondary[] = {0.3,0.3,0.3,1};
+	
+	period = 0;
+	periodFocus = 0;
+	periodOver = 0;
+	
+	class Attributes
+	{
+		font = "RobotoCondensed";
+		color = "#E5E5E5";
+		align = "left";
+		shadow = "false";
+	};
+};
+
+#include "cTab\cTab_Macros.hpp"
+
+//-cTab UI
+#ifdef cTAB_Installed
+	#include "cTab\cTab_UI.hpp"
+#endif
+
+//-Fix Chinese Localization Enhanced Compat
+#if __has_include("\vme_clp_a3_language_uifonts_f\config.cpp")
+	#include "Font\Font.hpp"
+#endif
 
 //UI
 #include "Control_UI.hpp"
 #include "Dialog.hpp"
-
-#if __has_include("\cTab\config.bin")
-	#include "cTab_UI.hpp"
-#endif

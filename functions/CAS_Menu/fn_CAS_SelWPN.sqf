@@ -12,20 +12,17 @@ _ctrlCount ctrlShow !((_class isKindOf ["CannonCore", configFile >> "CfgWeapons"
 
 //-Modes Combo List
 _modes apply {
-  private _weapon_name = getText (configFile >> "CfgWeapons" >> _class >> "displayName");
-  private _mode_name = getText (configFile >> "CfgWeapons" >> _class >> _x >> "displayName");
-  private _mode = if ((count _modes > 1) && (_x != "this") && (_mode_name != _weapon_name)) then {
-    if (_mode_name == "") then {
-      _mode = _x
-    } else {
-      _mode_name
-    };
+  private ["_weapon_name","_mode_name","_mode","_index"];
+  _weapon_name = getText (configFile >> "CfgWeapons" >> _class >> "displayName");
+  _mode_name = getText (configFile >> "CfgWeapons" >> _class >> _x >> "displayName");
+  _mode = if ((count _modes > 1) && (_x != "this") && (_mode_name != _weapon_name)) then {
+    [_mode_name,_x] select (_mode_name == "");
   } else {
     "Default"
   };
 
   //-Add LB
-  private _index = _ctrlMode lbAdd _mode;
+  _index = _ctrlMode lbAdd _mode;
   _ctrlMode lbSetData [_index, str [_WeapName,_mode,_class,_x,_turret,_Count,_muzzle]];
 };
 

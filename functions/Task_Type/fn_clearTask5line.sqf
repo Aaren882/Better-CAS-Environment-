@@ -1,4 +1,4 @@
-if ((ctrlShown _description) or (_Veh_Changed)) then {
+if ((ctrlShown _description) or (_Veh_Changed) or (_isOverwrite)) then {
   switch _curLine do {
     case 1:{
       _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
@@ -15,7 +15,7 @@ if ((ctrlShown _description) or (_Veh_Changed)) then {
     };
     default {
       _shownCtrls apply {
-        if (ctrlIDC _x == 2014) then {
+        if (ctrlIDC _x == (_IDC_offset + 2014)) then {
           _x ctrlSetText "NA";
           break;
         };

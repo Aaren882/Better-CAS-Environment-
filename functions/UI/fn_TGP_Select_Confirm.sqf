@@ -1,3 +1,4 @@
+#include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 params ["_vehicle"];
 
 _player = player;
@@ -80,7 +81,9 @@ _Mode_ctrl = _display displayCtrl 1032;
 
 //- Widgets
 _widgets_ctrl = _display displayCtrl 2000;
+_Exit_ctrl = _display displayCtrl 2025;
 _widget_01_ctrl = _Widgets_ctrl controlsGroupCtrl 100;
+_env_ctrl = _display displayCtrl 101;
 
 //- Weapon
 _WeaponDelay_ctrl = _display displayCtrl 1033;
@@ -113,7 +116,7 @@ _widgets_01 = [
 
   private _key = (["TGP Cam Settings", _action] call CBA_fnc_getKeybind) # 8 # 0 # 0;
 
-  private _index = _widget_01_ctrl lbAdd (format ['%1 "%2"', _text, (keyName _key) select [1, 1]]);
+  private _index = _widget_01_ctrl lbAdd format ["%1 %2", _text, keyImage _key];
 
   _widget_01_ctrl lbSetPicture [_index,"\a3\ui_f\data\Map\Markers\Military\dot_CA.paa"];
 
@@ -125,6 +128,11 @@ _widgets_01 = [
     _widget_01_ctrl lbSetColor [_forEachIndex, [1, 0, 0, 1]];
   };
 } foreach _widgets_01;
+
+//-Set Exit Hint
+_Exit_ctrl ctrlSetText format ["Press %1 to Exit Camera",keyImage ((["TGP Cam Settings", "Exit"] call CBA_fnc_getKeybind) # 8 # 0 # 0)];
+
+[BCE_fnc_Set_EnvironmentList, [_env_ctrl,lbSize _env_ctrl - 1], 0] call CBA_fnc_waitAndExecute;
 
 //Draw Icons And Set DirUp
 _idEH = addMissionEventHandler ["Draw3D", {
@@ -205,9 +213,17 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
   //currentWeapon
   _weapon_info = weaponState [_vehicle,_current_turret];
-  _weapon_info params ["_infoWeapon", "_infoMuzzle", "_infomode", "_infomagazine", "_ammoCount", "_roundReloadPhase", "_magazineReloadPhase"];
+  _weapon_info params ["_infoWeapon", "_infomuzzle", "_infomode", "_infomagazine", "_ammoCount", "_roundReloadPhase", "_magazineReloadPhase"];
 
-  _Weapon_ctrl ctrlSetText (format ["%1", getText (configFile >> "CfgWeapons" >> _infoWeapon >> "DisplayName")]);
+  //-Ammo Count
+  _count = ({
+    _x params ["_m","_c"];
+    (_m == _infomagazine) && (_c > 0)
+  } count (magazinesAmmo [_vehicle, true])) max 1;
+
+  _ammoCount = _count * _ammoCount;
+
+  _Weapon_ctrl ctrlSetText getText (configFile >> "CfgWeapons" >> _infoWeapon >> "DisplayName");
   if ((getText (configFile >> "CfgWeapons" >> _infoWeapon >> "DisplayName") == "") or ("laserdesignator" in (tolower _infoWeapon))) then {
     _Mode_ctrl ctrlSetText "";
     _Ammo_ctrl ctrlSetText "";
@@ -216,16 +232,11 @@ _idEH = addMissionEventHandler ["Draw3D", {
     _Ammo_ctrl ctrlSetText (format ["Ammo: %1  %2", getText (configFile >> "CfgMagazines" >> _infomagazine >> "displayNameShort"), _ammoCount]);
   };
 
-  if ((_roundReloadPhase > 0) or (_magazineReloadPhase > 0)) then {
-    _Weapon_ctrl ctrlSetTextColor [0.76,0.71,0.215,1];
-  } else {
-    _Weapon_ctrl ctrlSetTextColor [1,1,1,1];
-  };
-
-  _laser_Vars = _player getVariable "TGP_View_laser_update";
+  _Weapon_ctrl ctrlSetTextColor ([[1,1,1,1],[0.76,0.71,0.215,1]] select ((_roundReloadPhase > 0) or (_magazineReloadPhase > 0)));
 
   //Laser
   if (_vehicle isLaserOn _current_turret) then {
+    _laser_Vars = _player getVariable "TGP_View_laser_update";
     if ((_laser_Vars # 0) <= time) then {
       if ((_laser_Vars # 1) Equal "") then {
         _player setVariable ["TGP_View_laser_update", [time+0.2,"L T D / R"]];
@@ -267,7 +278,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
   call BCE_fnc_Cam_Layout;
 
-  #if __has_include("\cTab\config.bin")
+  #ifdef cTAB_Installed
   	#define exitCdt (!(isnull curatorcamera) or !(isnil{cTabIfOpen}))
   #else
   	#define exitCdt !(isnull curatorcamera)

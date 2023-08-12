@@ -4,6 +4,9 @@
  	Author(s):
 		Gundy
 
+	Edit:
+		Aaren
+
  	Description:
 		Update current interface (display or dialog) to match current settings.
 		If no parameters are specified, all interface elements are updated
@@ -21,12 +24,15 @@
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_backgroundOffset","_ctrlPos","_mousePos"];
+private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_backgroundOffset","_ctrlPos","_mousePos"];
 disableSerialization;
 
 if (isNil "cTabIfOpen") exitWith {false};
 _displayName = cTabIfOpen # 1;
+
 _display = uiNamespace getVariable _displayName;
+uiNameSpace setVariable ["cTab_BFT_CurSel",objNull];
+
 _interfaceInit = false;
 _loadingCtrl = _display displayCtrl IDC_CTAB_LOADINGTXT;
 _targetMapCtrl = controlNull;
@@ -116,24 +122,38 @@ _settings apply {
 			};
 		};
 
+
+		//-Check if it's "1erGTD"
+		#if __has_include("\z\ctab\addons\core\config.bin")
+			#define TAD_BG ["\cTab\img\TAD_background_ca.paa","\cTab\img\TAD_background_night_ca.paa"]
+			#define PHONE_BG ["\cTab\img\android_s7_ca.paa","\cTab\img\android_s7_night_ca.paa"]
+			#define DAGR_BG ["\cTab\img\microDAGR_background_ca.paa","\cTab\img\microDAGR_background_night_ca.paa"]
+			#define TAB_BG ["\cTab\img\Tablet_background_ca.paa","\cTab\img\tablet_background_night_ca.paa"]
+		#else
+			#define TAD_BG ["\cTab\img\TAD_background_ca.paa","\cTab\img\TAD_background_night_ca.paa"]
+			#define PHONE_BG ["\cTab\img\android_background_ca.paa","\cTab\img\android_background_night_ca.paa"]
+			#define DAGR_BG ["\cTab\img\microDAGR_background_ca.paa","\cTab\img\microDAGR_background_night_ca.paa"]
+			#define TAB_BG ["\cTab\img\tablet_background_ca.paa","\cTab\img\tablet_background_night_ca.paa"]
+		#endif
+
 		// ------------ NIGHT MODE ------------
 		// 0 = day mode, 1 = night mode, 2 = automatic
 		if (_x # 0 == "nightMode") exitWith {
 			_nightMode = _x # 1;
 			// transform nightMode into boolean
-			_nightMode = if (_nightMode == 1 || {_nightMode == 2 && (sunOrMoon < 0.2)}) then {true} else {false};
+			_nightMode = (_nightMode == 1) || (_nightMode == 2 && (sunOrMoon < 0.2));
 			_background = call {
 				if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) exitWith {
-					if (_nightMode) then {"\cTab\img\TAD_background_night_ca.paa"} else {"\cTab\img\TAD_background_ca.paa"};
+					TAD_BG select _nightMode
 				};
-				if (_displayName in ["cTab_Android_dsp","cTab_Android_dlg"]) exitWith {
-					"\cTab\img\android_background_ca.paa"; if (_nightMode) then {"\cTab\img\android_background_night_ca.paa"} else {"\cTab\img\android_background_ca.paa"};
+				if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) exitWith {
+					PHONE_BG select _nightMode
 				};
 				if (_displayName in ["cTab_microDAGR_dsp","cTab_microDAGR_dlg"]) exitWith {
-					"\cTab\img\microDAGR_background_ca.paa";if (_nightMode) then {"\cTab\img\microDAGR_background_night_ca.paa"} else {"\cTab\img\microDAGR_background_ca.paa"};
+					DAGR_BG select _nightMode
 				};
 				if (_displayName in ["cTab_Tablet_dlg"]) exitWith {
-					"\cTab\img\tablet_background_ca.paa";if (_nightMode) then {"\cTab\img\tablet_background_night_ca.paa"} else {"\cTab\img\tablet_background_ca.paa"};
+					TAB_BG select _nightMode
 				};
 				""
 			};
@@ -152,15 +172,26 @@ _settings apply {
 
 			_displayItems = call {
 				if (_displayName == "cTab_Tablet_dlg") exitWith {
-					[3300,3301,3302,3303,3304,3305,3306,3307,
+					[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
+					17000 + 3300,
+					17000 + 33000,
+					17000 + 3301,
 					IDC_CTAB_GROUP_DESKTOP,
 					IDC_CTAB_GROUP_UAV,
 					IDC_CTAB_GROUP_HCAM,
 					IDC_CTAB_GROUP_MESSAGE,
-          4651,
-					17000,
+					4651,
+					4652,
+					4653,
+					17000 + 4651,
+					17000 + 4652,
+					17000 + 4653,
 					IDC_CTAB_CTABHCAMMAP,
 					IDC_CTAB_CTABUAVMAP,
+					17000 + 1200,
+					17000 + 1201,
+					17000 + 12010,
+					17000 + 12011,
 					IDC_CTAB_SCREEN,
 					IDC_CTAB_SCREEN_TOPO,
 					IDC_CTAB_HCAM_FULL,
@@ -170,8 +201,21 @@ _settings apply {
 					IDC_CTAB_OSD_HOOK_DIR,
 					IDC_CTAB_NOTIFICATION]
 				};
-				if (_displayName == "cTab_Android_dlg") exitWith {
-					[3300,3301,3302,3303,3304,3305,3306,3307,
+				if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) exitWith {
+					[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
+					4630,
+					17000 + 3300,
+					17000 + 33000,
+					1775,
+					1776,
+					17000 + 46320,
+
+					//-BG
+					17000 + 4630,
+					17000 + 4631,
+					17000 + 4632,
+					17000 + 4650,
+					IDC_CTAB_GROUP_DESKTOP,
 					IDC_CTAB_GROUP_MENU,
 					IDC_CTAB_GROUP_MESSAGE,
 					IDC_CTAB_GROUP_COMPOSE,
@@ -184,7 +228,7 @@ _settings apply {
 					IDC_CTAB_NOTIFICATION]
 				};
 				if (_displayName in ["cTab_FBCB2_dlg","cTab_TAD_dlg"]) exitWith {
-					[3300,3301,3302,3303,3304,3305,3306,3307,
+					[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
 					IDC_CTAB_NOTIFICATION]
 				};
 				[IDC_CTAB_NOTIFICATION] // default
@@ -206,21 +250,22 @@ _settings apply {
 						_mapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
 						_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
 
-						_displayItemsToShow pushBack _mapIDC;
+						_displayItemsToShow = [
+							_mapIDC,
+							17000 + 1200,
+							17000 + 1201,
+							IDC_CTAB_OSD_HOOK_GRID,
+							IDC_CTAB_OSD_HOOK_ELEVATION,
+							IDC_CTAB_OSD_HOOK_DST,
+							IDC_CTAB_OSD_HOOK_DIR
+						];
 
-						_mapTools = [_displayName,"mapTools"] call cTab_fnc_getSettings;
-						if (!isNil "_mapTools" && {_mapTools}) then {
-							_displayItemsToShow append [
-								IDC_CTAB_OSD_HOOK_GRID,
-								IDC_CTAB_OSD_HOOK_ELEVATION,
-								IDC_CTAB_OSD_HOOK_DST,
-								IDC_CTAB_OSD_HOOK_DIR
-							];
-						};
-
-						_showMenu = [_displayName,"showMenu"] call cTab_fnc_getSettings;
-						if (!isNil "_showMenu" && {_showMenu}) then	{
-							_displayItemsToShow pushBack IDC_CTAB_GROUP_MENU;
+						//-Tool Menu
+						if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
+							_showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
+							if (!isNil "_showMenu" && _showMenu) then	{
+								_displayItemsToShow pushBack IDC_CTAB_GROUP_MENU;
+							};
 						};
 
 						_btnActCtrl ctrlSetTooltip "";
@@ -228,8 +273,11 @@ _settings apply {
 						// update scale and world position when not on interface init
 						if (!_interfaceInit) then {
 							if (_isDialog) then {
-								_settings pushBack ["mapScaleDlg",[_displayName,"mapScaleDlg"] call cTab_fnc_getSettings];
-								_settings pushBack ["mapWorldPos",[_displayName,"mapWorldPos"] call cTab_fnc_getSettings];
+								private _widgets = [["BCE_mapTools"], []] select (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]);
+
+								(["mapScaleDlg","mapWorldPos","mapTools"] + _widgets) apply {
+									_settings pushBack [_x,[_displayName,_x] call cTab_fnc_getSettings];
+								};
 							};
 						};
 					};
@@ -249,15 +297,25 @@ _settings apply {
 						};
 					};
 					// ---------- UAV -----------
-					if (_mode == "UAV") exitWith {
+					if (_mode in "UAV") exitWith {
 						_displayItemsToShow = [
 							IDC_CTAB_GROUP_UAV,
 							IDC_CTAB_CTABUAVMAP
 						];
-						_btnActCtrl ctrlSetTooltip "View Gunner Optics";
+
+
+						if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
+							private ["_showMenu","_Showlist"];
+							_showMenu = [_displayName,"uavInfo"] call cTab_fnc_getSettings;
+							_Showlist = [17000 + 4630,17000 + 4631,17000 + 4632,17000 + 46320] + [([1776,1775] select (_showMenu))];
+						  _displayItemsToShow append _Showlist;
+						} else {
+							_btnActCtrl ctrlSetTooltip "View Gunner Optics";
+						};
+
 						_settings pushBack ["uavListUpdate",true];
 						if (!_interfaceInit) then {
-							_settings pushBack ["uavCam",[_displayName,"uavCam"] call cTab_fnc_getSettings];
+							_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
 						};
 					};
 					// ---------- HELMET CAM -----------
@@ -287,7 +345,14 @@ _settings apply {
 
           // ---------- Task Builder -----------
           if (_mode == "TASK_Builder") exitWith {
-						_displayItemsToShow = [4651];
+						_displayItemsToShow = [
+							4651,
+							4652,
+							4653,
+							17000 + 4651,
+							17000 + 4652,
+							17000 + 4653
+						];
 						_btnActCtrl ctrlSetTooltip "";
 					};
 
@@ -305,27 +370,23 @@ _settings apply {
 
 				// ---------- Task Builder -----------
 				if (_mode == "TASK_Builder") then {
-					private ["_TaskType","_Tasklist","_curType","_all_lists","_description"];
-					_TaskType = _display displayctrl (17000 + 2107);
+					[_display,17000] call BCE_fnc_Reset_TaskList;
 
-					_all_lists = [17000 + 2002,17000 + 2005];
-					_all_lists apply {
-					  (_display displayctrl _x) ctrlshow false;
+					//-Show and Hide Switcable Lists
+					[_display displayCtrl (17000 + 3101),(uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0,0] call BCE_fnc_ctab_Switch_ExtendedList;
+
+					_settings pushBack ["uavListUpdate",true];
+
+					if (!_interfaceInit) then {
+						_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
 					};
-
-					_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
-					_TaskType lbSetCurSel _curType;
-
-					_Tasklist = _display displayctrl (_all_lists # _curType);
-					_Tasklist lbSetCurSel _curType;
-
-					_description = _display displayctrl (17000 + 2004);
-					_description ctrlSetStructuredText parseText (_Tasklist lbdata (lbCurSel _Tasklist));
 				};
-
 				// ----------------------------------
 			};
 		};
+
+		//----------------------------------------------------------------------------------------------//
+
 		// ------------ SHOW ICON TEXT ------------
 		if (_x # 0 == "showIconText") exitWith {
 			_osdCtrl = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
@@ -425,104 +486,44 @@ _settings apply {
 				};
 			};
 		};
-		// ------------ UAV CAM ------------
-		if ((_x # 0) == "uavCam") exitWith {
-			if (_mode == "UAV") then {
-				private _data = _x # 1;
-				private _veh = objNull;
-				{
-					if (_data == str _x) exitWith {_veh = _x};
-				} count cTabUAVlist;
 
-				if ((_data != "") && !(isNull _veh)) then {
-					cTab_player setVariable ["TGP_View_Selected_Vehicle",_veh];
-					[_data,[[1,"rendertarget9"]],unitIsUAV _veh] call cTab_fnc_createUavCam;
-				} else {
-					call cTab_fnc_deleteUAVcam;
-				};
-			};
-		};
-		// ------------ HCAM ------------
-		if (_x # 0 == "hCam") exitWith {
-			_renderTarget = call {
-				if (_mode == "HCAM") exitWith {"rendertarget12"};
-				if (_mode == "HCAM_FULL") exitWith {"rendertarget13"}
-			};
-			if (!isNil "_renderTarget") then {
-				_data = _x # 1;
-				if (_data != "") then {
-					[_renderTarget,_data] call cTab_fnc_createHelmetCam;
-				} else {
-					call cTab_fnc_deleteHelmetCam;
-				}
-			};
-		};
-		// ------------ MAP TOOLS ------------
-		if (_x # 0 == "mapTools") exitWith {
-			cTabDrawMapTools = _x # 1;
-			if (_mode == "BFT") then {
-				if !(_displayName in ["cTab_TAD_dlg","cTab_TAD_dsp"]) then {
-					[IDC_CTAB_OSD_HOOK_GRID,IDC_CTAB_OSD_HOOK_DIR,IDC_CTAB_OSD_HOOK_DST,IDC_CTAB_OSD_HOOK_ELEVATION] apply {
-						private _ctrl = _display displayCtrl _x;
-						if (!isNull _ctrl) then {
-							_ctrl ctrlShow cTabDrawMapTools;
-						};
-					};
-				};
-				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL1;
-				if (!isNull _osdCtrl) then {
-					_text = if (_x # 1) then {"OWN"} else {"CURS"};
-					_osdCtrl ctrlSetText _text;
-				};
-				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL2;
-				if (!isNull _osdCtrl) then {
-					_text = if (_x # 1) then {"CURS"} else {"OWN"};
-					_osdCtrl ctrlSetText _text;
-				};
-			};
-		};
-		// ------------ MENU ------------
-		if (_x # 0 == "showMenu") exitWith {
-			_osdCtrl = _display displayCtrl IDC_CTAB_GROUP_MENU;
-			if (!isNull _osdCtrl) then {
-				if (_mode == "BFT") then {
-					_osdCtrl ctrlShow (_x # 1);
-				};
-			};
-		};
 		// ------------ UAV List Update ------------
 		if (_x # 0 == "uavListUpdate") exitWith {
-			if (_mode == "UAV") then {
-				_data = [_displayName,"uavCam"] call cTab_fnc_getSettings;
-				_uavListCtrl = _display displayCtrl IDC_CTAB_CTABUAVLIST;
+			if (_mode in ["UAV","TASK_Builder"]) then {
+				_data = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+				[IDC_CTAB_CTABUAVLIST, 17000+IDC_CTAB_CTABUAVLIST] apply {
+					private ["_uavListCtrl","_default"];
+					_uavListCtrl = _display displayCtrl _x;
+					if (isnull _uavListCtrl) then {continue};
 
-				lbClear _uavListCtrl;
-				private _default = _uavListCtrl lbAdd "--";
+					lbClear _uavListCtrl;
+					_default = _uavListCtrl lbAdd "--";
+					_uavListCtrl lbSetData [_default,str objNull];
 
-				// Populate list of UAVs
-				cTabUAVlist apply {
-					if (count (crew _x) > 0) then {
-						private _index = _uavListCtrl lbAdd format ["%1:%2 (%3)",groupId group _x,[_x] call CBA_fnc_getGroupIndex,getText (configfile >> "cfgVehicles" >> typeOf _x >> "displayname")];
-						_uavListCtrl lbSetData [_index,str _x];
-					};
-				};
-
-				if (_data != "") then {
-					// Find last selected UAV and # if found
-					for "_x" from 0 to (lbSize _uavListCtrl - 1) do {
-						if (_data == _uavListCtrl lbData _x) exitWith {
-							if (lbCurSel _uavListCtrl != _x) then {
-								_uavListCtrl lbSetCurSel _x;
-							};
+					// Populate list of UAVs
+					cTabUAVlist apply {
+						if (count (crew _x) > 0) then {
+							private _index = _uavListCtrl lbAdd format ["[%1] %2", name (driver _x), getText (configOf _x >> "displayname")];
+							_uavListCtrl lbSetData [_index,str _x];
 						};
 					};
-					// If no UAV could be selected, clear last selected UAV
-					if (lbCurSel _uavListCtrl == -1) then {
-						[_displayName,[["uavCam",""]]] call cTab_fnc_setSettings;
+
+					if !(isnull _data) then {
+						// Find last selected UAV and # if found
+						for "_i" from 0 to (lbSize _uavListCtrl - 1) do {
+							if (str _data == (_uavListCtrl lbData _i)) exitWith {
+								_uavListCtrl lbSetCurSel _i;
+							};
+						};
+						// If no UAV could be selected, clear last selected UAV
+						if (lbCurSel _uavListCtrl == -1) then {
+							[_displayName,[["uavCam",""]]] call cTab_fnc_setSettings;
+							cTab_player setVariable ["TGP_View_Selected_Vehicle",objNull];
+							_uavListCtrl lbSetCurSel 0;
+						};
+					} else {
 						_uavListCtrl lbSetCurSel 0;
 					};
-				} else {
-					_uavListCtrl lbSetCurSel 0;
 				};
 			};
 		};
@@ -553,6 +554,226 @@ _settings apply {
 						[_displayName,[["hCam",""]]] call cTab_fnc_setSettings;
 					};
 				};
+			};
+		};
+
+		// ------------ UAV CAM ------------
+		// ------------ init AV info ------------
+		if ((_x # 0) == "uavCam") exitWith {
+			if (_mode in ["UAV","TASK_Builder"]) then {
+				private ["_UAV_Interface","_data","_veh","_veh_changed","_list"];
+
+				_UAV_Interface = _mode == "UAV";
+
+				//-Find Vehicle
+				_data = _x # 1;
+				_veh = objNull;
+				{
+					if (_data == str _x) exitWith {_veh = _x};
+				} count cTabUAVlist;
+
+				_veh_changed = _veh isNotEqualTo (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull]);
+
+				cTab_player setVariable ["TGP_View_Selected_Vehicle",_veh];
+				_condition = [((uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0) == 0,true] select _UAV_Interface;
+
+				//-Create PIP camera if mode is "UAV"
+				if !(isNull _veh) then {
+					[_veh,[[1,["rendertarget8","rendertarget9"] select _UAV_Interface]],unitIsUAV _veh,_UAV_Interface] call cTab_fnc_createUavCam;
+				} else {
+					//-Clean Up if the vehicle is null
+					call cTab_fnc_deleteUAVcam;
+					[1787,2020,2021] apply {lbClear (_display displayCtrl (17000 + _x))};
+					(_display displayCtrl (17000 + 1788)) ctrlSetStructuredText parseText "";
+
+					if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
+						(_display displayCtrl (17000 + 46320)) ctrlSetText "--";
+					};
+				};
+
+				//-Task Builder
+				if !(_UAV_Interface) then {
+					if (_veh_changed) then {
+					  [_display,17000,0] call BCE_fnc_Reset_TaskList;
+					};
+					[_display,_display displayCtrl (17000 + 1787),_veh,true] call BCE_fnc_checkList;
+				};
+
+				//-update vehicle info
+				_list = _display displayCtrl (([17000,0] select _UAV_Interface) + 1775);
+				[_list,_veh] call BCE_fnc_ctab_List_AV_Info;
+			};
+		};
+
+		// ------------ HCAM ------------
+		if (_x # 0 == "hCam") exitWith {
+			_renderTarget = ["rendertarget12","rendertarget13"] select (_mode == "HCAM_FULL");
+
+			if (!isNil "_renderTarget") then {
+				_data = _x # 1;
+				if (_data != "") then {
+					[_renderTarget,_data] call cTab_fnc_createHelmetCam;
+				} else {
+					call cTab_fnc_deleteHelmetCam;
+				}
+			};
+		};
+		// ------------ MAP TOOLS ------------
+		if ((_x # 0) in ["mapTools","BCE_mapTools"]) exitWith {
+
+			if ((_x # 0) == "mapTools") then {
+			  cTabDrawMapTools = _x # 1;
+			};
+
+			if (_mode == "BFT") then {
+				if !(_displayName in ["cTab_TAD_dlg","cTab_TAD_dsp"]) then {
+					private ["_Tool_toggle","_BCE_toggle","_ToolCtrl","_toggleW","_period","_cal_H","_ToolPOS","_index","_sort"];
+					_Tool_toggle = _display displayCtrl (17000 + 1200);
+					_BCE_toggle = _display displayCtrl (17000 + 1201);
+					_ToolCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_DIR;
+
+					(ctrlPosition _Tool_toggle) params ["","_toggleY","_toggleW","_toggleH"];
+					(ctrlPosition _ToolCtrl) params ["_CTRLX","_CTRLY","_CTRLW","_CTRLH"];
+
+					_period = [0.2,0] select _interfaceInit;
+
+					//-Get Y axis and H
+					_cal_H = _CTRLH / 2;
+
+					_ToolPOS = [
+						[_CTRLW - _toggleW , [_CTRLX + _CTRLW ,0]],
+						[-_toggleW , [_CTRLX ,_CTRLW]]
+					] select (_x # 1);
+
+					_index = switch (_x # 0) do {
+					  case "mapTools": {
+							[
+								IDC_CTAB_OSD_HOOK_GRID,
+								IDC_CTAB_OSD_HOOK_DIR,
+								IDC_CTAB_OSD_HOOK_DST,
+								IDC_CTAB_OSD_HOOK_ELEVATION
+							] apply {
+								private _ctrl = _display displayCtrl _x;
+								if (!isNull _ctrl) then {
+									_ctrl ctrlShow cTabDrawMapTools;
+								};
+								/* (_ToolPOS # 1) params ["_x","_w"];
+								_ctrl ctrlSetPositionX _x;
+								_ctrl ctrlSetPositionW _w;
+								_ctrl ctrlCommit _period; */
+							};
+
+							_Tool_toggle ctrlSetPositionX (_CTRLX + (_ToolPOS # 0));
+
+							0
+					  };
+
+						case "BCE_mapTools": {
+							private _status = _x # 1;
+
+							[12010, 12011] apply {
+								private _ctrl = _display displayCtrl (17000 + _x);
+
+								(_ToolPOS # 1) params ["_Cx","_Cw"];
+								_ctrl ctrlSetPositionX _Cx;
+								_ctrl ctrlSetPositionW _Cw;
+
+								_ctrl ctrlshow _status;
+								_ctrl ctrlCommit _period;
+							};
+
+						  _BCE_toggle ctrlSetPositionX (_CTRLX + (_ToolPOS # 0));
+
+							private _list = _display displayCtrl (17000 + 12010);
+							[_list, lbCurSel _list, _status] call BCE_fnc_ctab_BFT_ToolBox;
+
+							1
+						};
+					};
+
+					_sort = [
+						[[], 4, "mapTools"],
+						[[17000 + 1201, 17000 + 12011, 17000 + 12010], 4, "BCE_mapTools"]
+					] apply {
+						_x params ["_idc","_size","_id"];
+
+						private _ctrl = _idc apply {
+							[controlNull,_display displayctrl _x] select (_x > 0);
+						};
+
+						//-Output
+						[_ctrl, _size * _CTRLH, [_displayName,_id] call cTab_fnc_getSettings]
+					};
+
+					//- Set Y axis of current selected ctrl
+					private _i = _CTRLY + _CTRLH;
+
+					//-Set Y axis
+					{
+						_x params ["_ctrls","_H",["_Open",false]];
+
+						if (_forEachIndex > 0) then {
+							private _j = 0;
+							{
+								if (isnull _x) then {continue};
+								private ["_Start","_Cy"];
+
+								_Start = _forEachIndex == 0;
+								_Cy = [_i - _H + _j, _i - _toggleH] select _Start;
+
+								_x ctrlSetPositionY _Cy;
+								_x ctrlCommit _period;
+
+								if !(_Start) then {
+								  _j = _j + ((ctrlPosition _x) # 3);
+								};
+							} forEach _ctrls;
+						};
+
+						_i = _i - (_cal_H / 4) - ([_toggleH, _H] select _Open);
+					} forEach _sort;
+
+					//-Commit
+					_Tool_toggle ctrlCommit _period;
+					_BCE_toggle ctrlCommit _period;
+				};
+
+				//--------------------------------//
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL1;
+				if (!isNull _osdCtrl) then {
+					_text = ["CURS","OWN"] select (_x # 1);
+					_osdCtrl ctrlSetText _text;
+				};
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL2;
+				if (!isNull _osdCtrl) then {
+					_text = ["OWN","CURS"] select (_x # 1);
+					_osdCtrl ctrlSetText _text;
+				};
+			};
+		};
+
+		// ------------ MENU ------------
+		if (_x # 0 == "showMenu") exitWith {
+			_osdCtrl = _display displayCtrl IDC_CTAB_GROUP_MENU;
+			if (!isNull _osdCtrl) then {
+				if (_mode == "BFT") then {
+					_osdCtrl ctrlShow (_x # 1);
+					//ctrlSetFocus _osdCtrl;
+				};
+			};
+		};
+
+		if (_x # 0 == "uavInfo") exitWith {
+			private _status = _x # 1;
+			[[1775,_status],[1776,!_status]] apply {
+				_x params ["_idc","_show"];
+				private _osdCtrl = _display displayCtrl _idc;
+				if (!isNull _osdCtrl) then {
+					_osdCtrl ctrlShow _show;
+				};
+			};
+			if (_status) exitWith {
+				[_display displayCtrl 1775, cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_ctab_List_AV_Info;
 			};
 		};
 		// ----------------------------------

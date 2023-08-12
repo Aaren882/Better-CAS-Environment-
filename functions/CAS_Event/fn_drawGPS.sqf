@@ -26,18 +26,33 @@ if (_vehicle isKindOf "Air") then {
       };
     };
 
-    private _dis = _vehicle distance _FocusPos;
     private _crew = _vehicle turretUnit _turret;
 
     //-Draw
-    if !(isnil {_FocusPos}) then {
-      [_vehicle,_ctrl,_FocusPos,_turret,[1,1,1,1],trim format ["%1 %2 km : %3", [_turret,""] select _isPilot,round(_dis/100) / 10, name _crew]] call BCE_fnc_DrawFOV;
+    if (!(isnil {_FocusPos}) && !(isNull _crew)) then {
+      private ["_dis","_turretName","_text"];
+
+      _dis = _vehicle distance _FocusPos;
+
+      _turretName = [
+        getText ([_vehicle, _turret] call BIS_fnc_turretConfig >> "gunnerName"),
+        localize "STR_DRIVER"
+      ] select _isPilot;
+
+      _text = trim format [
+        " %1 : %2 km [%3]",
+        _turretName,
+        round(_dis/100) / 10,
+        getText(configFile >> "CfgWeapons" >> (_vehicle currentWeaponTurret _turret) >> "DisplayName")
+      ];
+      [_vehicle,_ctrl,_FocusPos,_turret,[1,1,1,1],_text] call BCE_fnc_DrawFOV;
     };
   };
 };
 
 if (_taskVar isNotEqualto []) then {
   private _dir = getDirVisual _vehicle;
+
   //-Aircraft
   _ctrl drawIcon [
     "\a3\ui_f\data\Map\VehicleIcons\iconManVirtual_ca.paa",
@@ -65,7 +80,7 @@ if (_taskVar isNotEqualto []) then {
 
         //-Vehicle to TG line
         _ctrl drawArrow [
-          _pos,
+          _veh_POS,
           _Target # 2,
           [1,0,0,1]
         ];
@@ -189,7 +204,7 @@ if (_taskVar isNotEqualto []) then {
         	];
           //-Plane to IP/BP
           _ctrl drawArrow [
-            _pos,
+            _veh_POS,
             _IPBP # 2,
             [1,1,0,1]
           ];
@@ -214,7 +229,7 @@ if (_taskVar isNotEqualto []) then {
         } else {
           //-Plane to IP/BP
           _ctrl drawArrow [
-            _pos,
+            _veh_POS,
             _Target # 2,
             [1,0,0,1]
           ];

@@ -1,3 +1,4 @@
+#include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 if (!hasInterface) exitWith {};
 
 TGP_View_Unit_List = [];
@@ -51,14 +52,12 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
 #define getTurret (call BCE_fnc_getTurret)
 #define SwitchSound playSound (format ["switch_mod_0%1",(selectRandom [1,2,3,4,5])])
 #define isCtrlTurret ({count (_x getVariable ["TGP_View_Turret_Control",[]]) > 0} count (crew _vehicle)) > 0
+#define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
 
-
-#if __has_include("\cTab\config.bin")
+#ifdef cTAB_Installed
 	[BCE_fnc_cTab_postInit, [], 1] call CBA_fnc_WaitAndExecute;
 
-	#define IsTGP_CAM_ON (((player getVariable ["TGP_View_EHs", -1]) != -1) or ((player getVariable ["cTab_TGP_View_EH",-1]) != -1))
-#else
-	#define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
+	//#define IsTGP_CAM_ON (((player getVariable ["TGP_View_EHs", -1]) != -1) or ((player getVariable ["cTab_TGP_View_EH",-1]) != -1))
 #endif
 
 //- Optic Mode

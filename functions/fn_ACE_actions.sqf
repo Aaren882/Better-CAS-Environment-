@@ -22,12 +22,12 @@ _action = ["BCE_Task_Clear","Clear","\a3\ui_f\data\Map\Diary\Icons\diaryUnassign
 //-Slew to TG
 _action = ["BCE_Task_Slew","Slew TG","",{
 	params ["_unit"];
-	private _vehicle = vehicle _unit;
-	private _turret = _unit call CBA_fnc_turretPath;
-	private _var = _vehicle getVariable ['BCE_Task_Receiver',[]];
-	private _type = _var # 2;
-	private _task = _var # 3;
-	private _POS = switch _type do {
+	private ["_vehicle","_type","_task","_turret"];
+	_vehicle = vehicle _unit;
+	_turret = _unit call CBA_fnc_turretPath;
+	(_vehicle getVariable ['BCE_Task_Receiver',[]]) params ["","","_type","_task"];
+
+	_POS = switch _type do {
 	  case 5: {
 	    _task # 2 # 2
 	  };
@@ -36,10 +36,13 @@ _action = ["BCE_Task_Slew","Slew TG","",{
 		};
 	};
 
-	_vehicle setPilotCameraTarget (AGLToASL _POS);
-	_vehicle lockCameraTo [AGLToASL _POS, _turret, true];
+	if ((_turret # 0) > 0) then {
+	  _vehicle lockCameraTo [AGLToASL _POS, _turret, true];
+	} else {
+		_vehicle setPilotCameraTarget (AGLToASL _POS);
+	};
 
-	},{
+},{
 	params ["_unit"];
 	(((vehicle _unit) getVariable ['BCE_Task_Receiver',[]]) isNotEqualto [])
 }] call aceAction;
@@ -82,15 +85,15 @@ _action = ["BCE_Select_TGP","Select Vehicle TGP","",{
 
 _action = ["BCE_Use_Selected_TGP","TGP View","",{
   	params ["_unit"];
-		((_unit getVariable "TGP_View_Selected_Optic") # 1) call BCE_fnc_TGP_Select_Confirm;
+		(_unit getVariable "TGP_View_Selected_Vehicle") call BCE_fnc_TGP_Select_Confirm;
 	},{
   params ["_unit"];
-	private _selected = _unit getVariable ["TGP_View_Selected_Optic",[]];
-	private _condition = if (_selected isEqualTo []) then {
-	  false
-	} else {
-		(alive (_selected # 1)) && (isEngineOn (_selected # 1))
-	};
+	private ["_selected","_condition"];
+	_selected = _unit getVariable ["TGP_View_Selected_Vehicle",objNull];
+	_condition = [
+		(alive _selected) && (isEngineOn _selected),
+		false
+	] select (isnull _selected);
 
 	(_condition) && (_unit getVariable ["TGP_View_EHs",-1] == -1)
 }] call aceAction;
@@ -148,8 +151,9 @@ _action = ["BCE_Use_Heli_SpotLight_IR","Toggle Light (IR)","",{
 // -Laser Red
 _action = ["BCE_Use_Heli_LaserR","Toggle Laser (Red)","",{
   params ["_unit"];
-  private _sources = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
-	private _mode = "LaserR";
+	private ["_sources","_mode"];
+  _sources = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
+	_mode = "LaserR";
   if (_sources isEqualTo []) then {
     [vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
   } else {
@@ -169,8 +173,9 @@ _action = ["BCE_Use_Heli_LaserR","Toggle Laser (Red)","",{
 // -Laser Red
 _action = ["BCE_Use_Heli_LaserG","Toggle Laser (Green)","",{
   params ["_unit"];
-  private _sources = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
-	private _mode = "LaserG";
+	private ["_sources","_mode"];
+  _sources = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
+	_mode = "LaserG";
   if (_sources isEqualTo []) then {
     [vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
   } else {
@@ -190,8 +195,9 @@ _action = ["BCE_Use_Heli_LaserG","Toggle Laser (Green)","",{
 // -Laser IR
 _action = ["BCE_Use_Heli_LaserIR","Toggle Laser (IR)","",{
   params ["_unit"];
-  private _sources = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
-	private _mode = "LaserIR";
+	private ["_sources","_mode"];
+  _sources = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
+	_mode = "LaserIR";
   if (_sources isEqualTo []) then {
     [vehicle _unit, "LaserIR",_unit] call BCE_fnc_CreateLaser;
   } else {

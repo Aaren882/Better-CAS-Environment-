@@ -21,38 +21,31 @@
 		// delete a specific UAV camera
 		[_cam] call cTab_fnc_deleteUAVcam;
 */
+private ["_displayName","_display","_mode","_squad_list","_EH"];
 
-private ["_cam","_camToDelete","_i"];
+_displayName = cTabIfOpen # 1;
+_display = uiNamespace getVariable _displayName;
 
-//private _camToDelete = [objNull,_this # 0] select (count _this == 1);
+_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
+_squad_list = [20116,17000 + 1785] select (_mode == "TASK_Builder");
 
-// remove cameras
-/* for "_i" from (count cTabUAVcams -1) to 0 step -1 do {
-	_cam = cTabUAVcams # _i # 1;
-	if (isNull _camToDelete || {_cam == _camToDelete}) then {
-		0 = cTabUAVcams deleteAt _i;
-		_cam cameraEffect ["TERMINATE","BACK"];
-		camDestroy _cam;
-	};
-}; */
 cTabUAVcams apply {
-	_cam = _x # 1;
+	private _cam = _x # 1;
 	_cam cameraEffect ["TERMINATE","BACK"];
 	camDestroy _cam;
 };
+
 cTabUAVcams = [];
 cTabActUav = cTab_player;
+
 // remove camera direction update event handler if no more cams are present
-if (count cTabUAVcams == 0) then {
-	private _EH = cTab_player getVariable ["cTab_TGP_View_EH",-1];
-	private _display = uiNamespace getVariable (cTabIfOpen # 1);
-	(_display displayctrl 20114) ctrlSetStructuredText parseText "";
-	lbClear (_display displayCtrl 1775);
-	lbClear (_display displayCtrl 20116);
-	if (_EH != -1) then {
-		removeMissionEventHandler ["Draw3D",_EH];
-		cTab_player setVariable ["cTab_TGP_View_EH",-1];
-	};
+_EH = cTab_player getVariable ["cTab_TGP_View_EH",-1];
+(_display displayctrl 20114) ctrlSetStructuredText parseText "";
+lbClear (_display displayCtrl _squad_list);
+
+if (_EH != -1) then {
+	removeMissionEventHandler ["Draw3D",_EH];
+	cTab_player setVariable ["cTab_TGP_View_EH",-1];
 };
 
 true

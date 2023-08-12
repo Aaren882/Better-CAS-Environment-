@@ -31,6 +31,7 @@
 */
 
 private ["_cTabUAVlist","_cTabHcamlist","_validSides","_playerEncryptionKey","_playerVehicle","_playerGroup","_updateInterface"];
+disableSerialization;
 
 _validSides = call cTab_fnc_getPlayerSides;
 _playerVehicle = vehicle cTab_player;
@@ -95,30 +96,71 @@ cTabBFTvehicles = (vehicles apply {
 			};
 			_name = groupID group _x;
 		};
-		_iconA = "";
+		//_iconA = "";
 		_iconB = "";
+
+    _iconA = switch true do {
+      case (_x isKindOf "MRAP_01_base_F"): {
+        "\cTab\img\b_mech_inf_wheeled.paa"
+      };
+      case (_x isKindOf "MRAP_02_base_F"): {
+        "\cTab\img\b_mech_inf_wheeled.paa"
+      };
+      case (_x isKindOf "MRAP_03_base_F"): {
+        "\cTab\img\b_mech_inf_wheeled.paa"
+      };
+      case (_x isKindOf "Wheeled_APC_F"): {
+        "\cTab\img\b_mech_inf_wheeled.paa"
+      };
+      case (_x isKindOf "Truck_F"): {
+        [
+          "\A3\ui_f\data\map\markers\nato\b_support.paa",
+          "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa"
+        ] select (getNumber (configOf _x >> "transportSoldier") > 2);
+      };
+      case (_x isKindOf "Car_F"): {
+        "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa"
+      };
+      case (_x isKindOf "UAV"): {
+        "\A3\ui_f\data\map\markers\nato\b_uav.paa"
+      };
+      case (_x isKindOf "UAV_01_base_F"): {
+        "\A3\ui_f\data\map\markers\nato\b_uav.paa"
+      };
+      case (_x isKindOf "Helicopter"): {
+        _iconB = "\cTab\img\icon_air_contact_ca.paa";
+        "\A3\ui_f\data\map\markers\nato\b_air.paa"
+      };
+      case (_x isKindOf "Plane"): {
+        _iconB = "\cTab\img\icon_air_contact_ca.paa";
+
+        "\A3\ui_f\data\map\markers\nato\b_plane.paa"
+      };
+      case (_x isKindOf "Tank"): {
+        [
+          "\A3\ui_f\data\map\markers\nato\b_armor.paa",
+          "\A3\ui_f\data\map\markers\nato\b_mech_inf.paa"
+        ] select (getNumber (configOf _x >> "transportSoldier") > 6);
+      };
+      case (_x isKindOf "MBT_01_arty_base_F"): {
+        "\A3\ui_f\data\map\markers\nato\b_art.paa"
+      };
+      case (_x isKindOf "MBT_01_mlrs_base_F"): {
+        "\A3\ui_f\data\map\markers\nato\b_art.paa"
+      };
+      case (_x isKindOf "MBT_02_arty_base_F"): {
+        "\A3\ui_f\data\map\markers\nato\b_art.paa"
+      };
+      case (_x isKindOf "StaticMortar"): {
+        "\A3\ui_f\data\map\markers\nato\b_mortar.paa"
+      };
+      default {
+        ""
+      };
+    };
 		call {
-			if (_x isKindOf "MRAP_01_base_F") exitWith {_iconA = "\cTab\img\b_mech_inf_wheeled.paa";};
-			if (_x isKindOf "MRAP_02_base_F") exitWith {_iconA = "\cTab\img\b_mech_inf_wheeled.paa";};
-			if (_x isKindOf "MRAP_03_base_F") exitWith {_iconA = "\cTab\img\b_mech_inf_wheeled.paa";};
-			if (_x isKindOf "Wheeled_APC_F") exitWith {_iconA = "\cTab\img\b_mech_inf_wheeled.paa";};
-			if (_x isKindOf "Truck_F" && {getNumber (configfile >> "cfgVehicles" >> typeOf _x >> "transportSoldier") > 2}) exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
-			if (_x isKindOf "Truck_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_support.paa";};
-			if (_x isKindOf "Car_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
-			if (_x isKindOf "UAV") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_uav.paa";};
-			if (_x isKindOf "UAV_01_base_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_uav.paa";};
-			if (_x isKindOf "Helicopter") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_air.paa"; _iconB = "\cTab\img\icon_air_contact_ca.paa";};
-			if (_x isKindOf "Plane") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_plane.paa"; _iconB = "\cTab\img\icon_air_contact_ca.paa";};
-			if (_x isKindOf "Tank" && {getNumber (configfile >> "cfgVehicles" >> typeOf _x >> "transportSoldier") > 6}) exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_mech_inf.paa";};
-			if (_x isKindOf "MBT_01_arty_base_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
-			if (_x isKindOf "MBT_01_mlrs_base_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
-			if (_x isKindOf "MBT_02_arty_base_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
-			if (_x isKindOf "Tank") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
-			if (_x isKindOf "StaticMortar") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_mortar.paa";};
-		};
-		call {
-			if (_iconA isEqualTo "" && {!(_x isKindOf "Static")} && {!(_x isKindOf "StaticWeapon")}) then {_iconA = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";};
-			if (_iconA isEqualTo "") exitWith {};
+			if (_iconA == "" && {!(_x isKindOf "Static")} && {!(_x isKindOf "StaticWeapon")}) then {_iconA = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";};
+			if (_iconA == "") exitWith {};
 			[_x,_iconA,_iconB,_name,_groupID]
 		};
 	} else {

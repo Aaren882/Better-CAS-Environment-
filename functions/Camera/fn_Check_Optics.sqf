@@ -30,7 +30,7 @@ if (_vehicle isKindOf "Air") then {
       [["",[]]]
     };
 
-    _Turrets_Optics pushBack _pilot_cam_LOD;
+    _Turrets_Optics = [_pilot_cam_LOD] + _Turrets_Optics;
     _Optics_Array = _Turrets_Optics;
 
     //Filter
@@ -88,7 +88,10 @@ if (_vehicle isKindOf "Air") then {
             )
           ) then {
             if (cameraview == "GUNNER") then {
-              player setVariable ["BCE_Cam_FOV_Angle",deg (getObjectFOV _vehicle),true];
+              //-is an UAV
+              _unit = [player, getConnectedUAVUnit player] select (unitIsUAV cameraOn);
+
+              _unit setVariable ["BCE_Cam_FOV_Angle",deg (getObjectFOV _vehicle),true];
             };
           } else {
             {
@@ -122,7 +125,7 @@ if !((_vehicle getvariable ["IR_LaserLight_has_gunner",[false,["","",""],false,1
       _config = [_vehicle, _x] call BIS_fnc_turretConfig;
       _weapons = getArray (_config >> "Weapons");
 
-      if (true in (_weapons apply {(tolower "Laserdesignator") in tolower _x})) then {
+      if (true in (_weapons apply {"laserdesignator" in tolower _x})) then {
 
         _turret_pos_mem = getText (_config >> "memoryPointGunnerOptics");
         _turret_gunBeg_mem = getText (_config >> "gunBeg");
