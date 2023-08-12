@@ -1,6 +1,6 @@
 #include "\A3\ui_f\hpp\defineResincl.inc"
 #include "\A3\ui_f\hpp\defineResinclDesign.inc"
-
+#include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 params["_mode","_params","_class"];
 
 _fnc_onLBSelChanged = {
@@ -13,7 +13,7 @@ _fnc_onLBSelChanged = {
 	_vehicle_str = _ctrlValue lbdata _selectedIndex;
 
 	//-cTab Compat
-	#if __has_include("\cTab\config.bin")
+	#ifdef cTAB_Installed
 		['cTab_Tablet_dlg',[['uavCam',_vehicle_str]]] call cTab_fnc_setSettings;
 	#endif
 
@@ -69,7 +69,7 @@ _fnc_onLBSelChanged = {
 
 		_vehicle = player getvariable ["TGP_View_Selected_Vehicle",objNull];
 
-		if (!(_vehicle isEqualTo objNull) or (ctrlShown (_display displayCtrl 1700))) then {
+		if (!(isnull _vehicle) or (ctrlShown (_display displayCtrl 1700))) then {
 
 			_Selected_Optic = player getVariable "TGP_View_Selected_Optic";
 			_current_turret = (_Selected_Optic # 0) param [1,[0]];
@@ -97,7 +97,7 @@ _fnc_onLBSelChanged = {
 				(_display displayctrl 1601) ctrlEnable true;
 			};
 
-			if (_vehicle isEqualTo objNull) then {
+			if (isnull _vehicle) then {
 				(_display displayCtrl 1503) ctrlSetText "-";
 				(_display displayCtrl 1504) ctrlSetText "-";
 				(_display displayCtrl 1505) ctrlSetText "-";
@@ -105,23 +105,11 @@ _fnc_onLBSelChanged = {
 				(_display displayCtrl 1507) ctrlSetText "-";
 				(_display displayCtrl 1508) ctrlSetText "-";
 			} else {
-				_weapon = if (isNil {_current_turret}) then {
-				  getText (configFile >> "CfgWeapons" >> currentWeapon _vehicle >> "DisplayName")
-				} else {
-					if (_current_turret isEqualTo []) then {
-						if (getText (configFile >> "CfgWeapons" >> currentWeapon _vehicle >> "DisplayName") != "") then {
-						  getText (configFile >> "CfgWeapons" >> currentWeapon _vehicle >> "DisplayName")
-						} else {
-							"-"
-						};
-					} else {
-						if (getText (configFile >> "CfgWeapons" >> _vehicle currentWeaponTurret _current_turret >> "DisplayName") != "") then {
-						  getText (configFile >> "CfgWeapons" >> _vehicle currentWeaponTurret _current_turret >> "DisplayName")
-						} else {
-							"-"
-						};
-					};
-				};
+				_config = configFile >> "CfgWeapons";
+				_weapon = [
+					getText (_config >> _vehicle currentWeaponTurret _current_turret >> "DisplayName"),
+					"-"
+				] select (getText (_config >> _vehicle currentWeaponTurret _current_turret >> "DisplayName") == "");
 
 				(_display displayCtrl 1503) ctrlSetText format ["%1",_weapon];
 				(_display displayCtrl 1504) ctrlSetText format ["%1%2",round ((fuel _vehicle) * 100) , "%"];
@@ -139,30 +127,6 @@ _fnc_onLBSelChanged = {
 	] call CBA_fnc_waitUntilAndExecute;
 
 	player setVariable ["TGP_View_Selected_Vehicle",_vehicle];
-};
-
-_fnc_onButtonClick_Switch = {
-	params ["_control"];
-
-	private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
-	if !(_vehicle isEqualTo objNull) then {
-		(call BCE_fnc_getTurret) params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
-
-		if (count _Optic_LODs == 1) exitWith {};
-		_current_turret = if (_current_turret >= ((count _Optic_LODs) - 1)) then {
-			0
-		} else {
-			_current_turret + 1
-		};
-
-		_turret_select = _Optic_LODs # _current_turret;
-		player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
-		_squad_list = (ctrlParent _control) displayctrl 20116;
-
-		if (ctrlshown _squad_list) then {
-		 	_squad_list lbSetCurSel ([(_current_turret + 1) min (count _Optic_LODs),_current_turret] select (-1 in (flatten _Optic_LODs)));
-		};
-	};
 };
 
 switch _mode do
@@ -228,7 +192,7 @@ switch _mode do
 
 			{
 			  _vehicle = _x;
-			  _cfg = configfile >> "cfgvehicles" >> typeOf _vehicle;
+			  _cfg = configOf _vehicle;
 
 				_lbAdd = _control lbAdd format ["%1   %2",Name _vehicle,gettext (_cfg >> "displayName")];
 				_control lbSetData [_lbAdd, str _vehicle];
@@ -294,13 +258,11 @@ switch _mode do
 		_control = _display displayctrl 1601;
 		_control ctrlAddEventHandler ["ButtonClick",{
 			private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
-			if !(_vehicle isEqualTo objNull) then {
+			if !(isnull _vehicle) then {
 			  [_vehicle,cameraview] call BCE_fnc_onButtonClick_Gunner;
 				_vehicle call BCE_fnc_TGP_Select_Confirm;
 			};
 		}];
-		_control = _display displayctrl 1602;
-		_control ctrladdeventhandler ["ButtonClick",_fnc_onButtonClick_Switch];
 
 		//Switch to driver/gunner after click on PIP (picture doesn't have buttonClick event, using MouseButtonUp instead).
 		_control = _display displayctrl IDC_IGUI_AVT_PIP1;

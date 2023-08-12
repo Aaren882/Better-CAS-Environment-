@@ -14,6 +14,59 @@ class RscTitles
 		duration = 0;
 	};
 	#include "Task_Receiver.hpp"
+	
+	#ifdef cTAB_Installed
+		#include "cTab\cTab_classes.hpp"
+		#define PHONE_CLASS class cTab_Android_dsp
+		
+		#define phoneSizeX (((452)) / 2048 * (0.86) + (safezoneX - (0.86) * 0.17))
+		#define phoneSizeY ((((713) + (60))) / 2048 * ((0.86) * 4/3) + (safezoneY + safezoneH * 0.88 - ((0.86) * 4/3) * 0.72))
+		#define phoneSizeW ((((PHONE_MOD))) / 2048 * (0.86))
+		#define phoneSizeH ((((626) - (60) - (0))) / 2048 * ((0.86) * 4/3))
+		
+		#define MOUSE_CLICK_EH ""
+		
+		#define PhoneH (safezoneH * 0.8)
+		#define PhoneW (0.86)
+		#define TextSize (((38)) / 2048 * (PhoneW * 4/3))
+		
+		#define cTab_Set_SubMenu \
+			DUMMY_CLASS
+		
+		#if MAP_MODE > 0
+			class cTab_android_RscMapControl: RscMapControl{};
+			class cTab_microDAGR_RscMapControl: RscMapControl{};
+			class cTab_TAD_RscMapControl: RscMapControl{};
+		#endif
+		
+		#if MAP_MODE > 2
+			class cTab_TAD_dsp
+			{
+				class controlsBackground
+				{
+					class screen: cTab_TAD_RscMapControl{}; 
+					class screenTopo: screen
+					{
+						#include "Map_Type\TOPO_AIR.hpp"
+					};
+				};
+			};
+			class cTab_microDAGR_dsp
+			{
+				class controlsBackground
+				{
+					class screen: cTab_microDAGR_RscMapControl{}; 
+					class screenTopo: screen
+					{
+						#include "Map_Type\TOPO_GRD.hpp"
+					};
+				};
+			};
+		#endif
+		
+		//-Phone display
+		#include "cTab\cTab_Android.hpp"
+	#endif
 	class BCE_TGP_View_GUI
 	{
 		idd = -1;
@@ -21,7 +74,7 @@ class RscTitles
 		fadeout = 0;
 		duration = 1e+007;
 		enableSimulation = 1;
-		movingEnable = 1;
+		movingEnable = 0;
 		name = "BCE_TGP_View_GUI";
 		onLoad = "uiNamespace setVariable ['BCE_TGP', _this # 0]";
 		class controls
@@ -52,16 +105,11 @@ class RscTitles
 				colorText[] = {1,1,1,1};
 				sizeEx = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2);
 			};
-			class Gunner: RscText
+			class Gunner: Pilot
 			{
 				idc = 1029;
 				text = "Gunner:";
-				x = safezoneXAbs + safezoneWAbs - ((0.06 * safezoneW) + 0.2);
 				y = ABSYD(2.8,0.0275 * safezoneH);
-				w = 0.123788 * safezoneW;
-				h = 0.0275 * safezoneH;
-				colorText[] = {1,1,1,1};
-				sizeEx = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2);
 			};
 			
 			#define ABSYU(MUTI,CON)(safezoneY + 0.07 * safezoneW)+(MUTI*(CON))
@@ -306,12 +354,25 @@ class RscTitles
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
 			};
 			
+			//-Exit Hint
+			class Exit_hint: time_data
+			{
+				idc = 2025;
+				style = 2;
+				x = safezoneX;
+				y = ABSYD(0.8,0.1);
+				w = safezoneW;
+				h = 0.1;
+				text = "Press “Space” to Exit Camera";
+				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2)";
+			};
+			
 			//-Widgets
 			class widget: RscControlsGroupNoScrollbars
 			{
 				idc = 2000;
 				text = "";
-				x = 0.857553 * safezoneW + safezoneX;
+				x = safezoneXAbs + safezoneWAbs - ((0.06 * safezoneW) + 0.2);
 				y = (0.801853 * safezoneH + safezoneY) - (10 * (0.0275 * safezoneH));
 				w = 0.123788 * safezoneW;
 				h = 7 * (0.0275 * safezoneH);
@@ -328,6 +389,46 @@ class RscTitles
 						colorBackground[] = {0,0,0,0};
 						sizeEx = 0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18);
 						shadow = 1;
+					};
+				};
+			};
+			
+			//-Environment
+			class Environment: RscListBox
+			{
+				idc = 101;
+				text = "";
+				x = ABSXL(1);
+				y = ABSYU(4.1,0.1);
+				w = 0.123788 * safezoneW;
+				h = 5 * (0.0275 * safezoneH);
+				colorBackground[] = {0,0,0,0};
+				sizeEx = 0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18);
+				shadow = 2;
+				class Items
+				{
+					class temp
+					{
+						text = "Temperature :";
+						data = "['%1°C', round (ambientTemperature # 0)]";
+					};
+					class humidity
+					{
+						text = "Humidity :";
+						data = "['%1%2', round (humidity * 10) * 10, '%']";
+					};
+					class wind
+					{
+						text = "Wind :";
+					};
+					class fog
+					{
+						text = "Fog :";
+					};
+					class visibility
+					{
+						text = "Visibility";
+						textright = "Good";
 					};
 				};
 			};

@@ -1,5 +1,5 @@
 params ["_ActWP","_grp","_vehicle","_IP_POS","_FAD_POS","_posTarget","_EGRS","_weaponInfo"];
-_weaponInfo params ["_WPNclass","_WPN_Mode","_WPN_turret","_WPN_count","_muzzle","_ATK_range"];
+_weaponInfo params ["_WPNclass","_WPN_Mode","_WPN_turret","_WPN_count","_muzzle","_ATK_range","_ATK_height"];
 
 if (_IP_POS isEqualTo []) then {
   _IP_POS = _FAD_POS;
@@ -19,7 +19,7 @@ _Set_PitchBank = {
 //Basic Definition
 _dis = _FAD_POS distance _posTarget;
 _dir = _vehicle getDir _posTarget;
-_alt = 2000;
+_alt = _ATK_height;
 _fly_speed = 400;
 _trigger_range = _ATK_range;
 //_alt = if (_casType == 2) then {500} else {2000};
@@ -29,8 +29,11 @@ _fireNull = true;
 
 //Approach
 _cfgweapon_path = configFile >> "CfgWeapons";
-_Is_GunRun = true in (["machinegun","CannonCore"] apply {_WPNclass isKindOf [_x, configFile >> "CfgWeapons"]});
-_Is_Bombing = true in (["bomblauncher","weapon_lgblauncherbase","mk82bomblauncher","USAF_BombLauncherBase"] apply {_WPNclass isKindOf [_x, configFile >> "CfgWeapons"]});
+_Cfg = {
+  true in (_this apply {_WPNclass isKindOf [_x, configFile >> "CfgWeapons"]})
+};
+_Is_GunRun = ["machinegun","CannonCore"] call _Cfg;
+_Is_Bombing = ["bomblauncher","weapon_lgblauncherbase","mk82bomblauncher","USAF_BombLauncherBase"] call _Cfg;
 
 _casType = 0;
 _offset_Cfg = 0;
@@ -38,50 +41,52 @@ _offset_Cfg = 0;
 //-Gun run
 if (_Is_GunRun) then {
   _casType = 1;
+  _offset_Cfg = linearConversion [500, 2000, _ATK_height, -60, 0];
 };
 
 //-Bombing
 if (_Is_Bombing) then {
-	_offset_Cfg = linearConversion [1000, 2000, _trigger_range, 200, 600];
+	_offset_Cfg = (linearConversion [1000, 2000, _trigger_range, 200, 600]) + (linearConversion [500, 2000, _ATK_height, 300, 0]);
 	if (getNumber (_cfgweapon_path >> _WPNclass >> "USAF_ripple") > 0) then {
 		_casType = 2;
-	  _offset_Cfg = 100;
+	  _offset_Cfg = 100 + (linearConversion [1000, 2000, _trigger_range, 0, 100]) + (linearConversion [500, 2000, _ATK_height, 40, 0]);
 	};
 };
-_target_offset = _offset_Cfg + (linearConversion [1000, 2000, _trigger_range, 0, 30]);
+
+//-Offset + ATK_range (offset) + ATK_height (offset);
+_target_offset = _offset_Cfg + (linearConversion [1000, 2000, _trigger_range, 0, 30]) + (linearConversion [500, 2000, _ATK_height, 150, 0]);
 
 _time = time;
-_offset = if (_casType == 2) then {35} else {0};
+_offset = [0,35] select (_casType == 2);
 
 //WayPoints
 _posATL = _posTarget getPos [_target_offset,_dir];
 _pos =+ _posATL;
 _pos set [2,(_pos # 2) + getTerrainHeightASL _pos];
-_CAS_Dir = _FAD_POS getDir _posTarget;
 
 //Vehicle Setups
-_planePos = getPos _vehicle;
-_planePos set [2,(_pos # 2) + _alt];
+_planePos = getPosASL _vehicle;
 
 _vehicle setdir _dir;
 _vehicle setSpeedMode "FULL";
 
 _vectorUp = vectorup _vehicle;
-_vehicle setPosASL _planePos;
 
 _vectorDir = [_planePos,_pos] call bis_fnc_vectorFromXtoY;
 _velocity = [_vectorDir,_speed] call bis_fnc_vectorMultiply;
-_vehicle setvectordir _vectorDir;
+_vehicle setVectorDir _vectorDir;
 
 //CM
-{
-	private _weapon = _x;
- if (("counter" in toLower(_weapon)) or ("cmlauncher" in toLower(_weapon)) or ("flare" in toLower(_weapon)) or ("cmdispenser" in toLower(_weapon))) then {
-	 private _modes = getArray (_cfgweapon_path >> _weapon >> "modes");
-	 private _mode = _modes # 0;
-	 _vehicle setVariable ["CAS_CounterMeasure",[_weapon,_mode]];
- };
-} forEach ((typeOf _vehicle) call bis_fnc_weaponsEntityType);
+if ((_vehicle getVariable ["CAS_CounterMeasure",[]]) isEqualTo []) then {
+  {
+  	private _weapon = _x;
+   if (("counter" in toLower(_weapon)) or ("cmlauncher" in toLower (_weapon)) or ("flare" in toLower (_weapon)) or ("cmdispenser" in toLower (_weapon))) then {
+  	 private _modes = getArray (_cfgweapon_path >> _weapon >> "modes");
+  	 private _mode = _modes # 0;
+  	 _vehicle setVariable ["CAS_CounterMeasure",[_weapon,_mode]];
+   };
+  } forEach ((typeOf _vehicle) call bis_fnc_weaponsEntityType);
+};
 
 //Radio
 [_vehicle,"CuratorModuleCAS"] call bis_fnc_curatorSayMessage;
@@ -187,7 +192,7 @@ _vehicle setvectordir _vectorDir;
 		};
 	};
 
-	(_vehicle getVariable ["BCE_Fire_Progress_Done",false]) or (isnull _vehicle) or !(alive _vehicle)
+	(_vehicle getVariable ["BCE_Fire_Progress_Done",false]) or ((_vehicle getVariable ["BCE_Task_Receiver", []]) isEqualTo []) or !(alive _vehicle)
 }, {
 	params [
 			"_posTarget","_casType","_pos","_posATL","_dis","_dir","_alt","_speed","_target_offset",
@@ -209,7 +214,7 @@ _vehicle setvectordir _vectorDir;
           private _pos = _vehicle getPos [2000, _EGRS];
           private _wp = _grp addWaypoint [_pos, 0, _i];
 
-					_wp setWaypointStatements ["true", "vehicle this flyInHeight 2000;"];
+					_wp setWaypointStatements ["true", format ["vehicle this flyInHeight %1;",_alt]];
         };
 
         //-Back IP
@@ -236,7 +241,8 @@ _vehicle setvectordir _vectorDir;
 		};
 
 		//-Egress
-		_vehicle flyInHeight _alt/3;
+		_vehicle flyInHeight ((_alt/3) max 800);
+    _vehicle setVariable ["BCE_Task_Receiver", [], true];
 
 		//Sound Handler
 		_vehicle setVariable ["Module_CAS_Sound",false,true];

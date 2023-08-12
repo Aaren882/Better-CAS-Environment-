@@ -26,18 +26,14 @@
 
 private["_display","_dikCode","_shiftKey","_ctrlKey","_altKey","_displayName","_mapTypes","_currentMapType","_currentMapTypeIndex","_ctrlScreen","_markerIndex"];
 
-_display = _this select 0;
-_displayName = cTabIfOpen select 1;
-_dikCode = _this select 1;
-_shiftKey = _this select 2;
-_ctrlKey = _this select 3;
-_altKey = _this select 4;
+params ["_display","_dikCode","_shiftKey","_ctrlKey","_altKey"];
+_displayName = cTabIfOpen # 1;
 
 if (_dikCode == DIK_F1 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"]}) exitWith {
 	[_displayName,[["mode","BFT"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == DIK_F2 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith {
+if (_dikCode == DIK_F2 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"]}) exitWith {
 	[_displayName,[["mode","UAV"]]] call cTab_fnc_setSettings;
 	true
 };
@@ -46,11 +42,11 @@ if (_dikCode == DIK_F3 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith {
 	true
 };
 if (_dikCode == DIK_F4 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"]}) exitWith {
-	[_displayName,[["mode","TASK_Builder"]]] call cTab_fnc_setSettings;
+	[_displayName,[["mode","MESSAGE"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == DIK_F5 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg","cTab_TAD_dlg","cTab_microDAGR_dlg","cTab_FBCB2_dlg"]}) exitWith {
-	[_displayName] call cTab_fnc_toggleMapTools;
+if (_dikCode == DIK_F5 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith {
+	[_displayName,[["mode","TASK_Builder"]]] call cTab_fnc_setSettings;
 	true
 };
 if (_dikCode == DIK_F6 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg","cTab_TAD_dlg","cTab_microDAGR_dlg","cTab_FBCB2_dlg"]}) exitWith {
@@ -67,7 +63,7 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
 	_ctrlScreen = _display displayCtrl (_mapTypes select _currentMapTypeIndex select 1);
 	_markerIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
-	if (_markerIndex != -1) then {
+	if ((_markerIndex isNotEqualTo -1) && (_markerIndex isEqualType 0)) then {
 		[call cTab_fnc_getPlayerEncryptionKey,_markerIndex] call cTab_fnc_deleteUserMarker;
 	};
 	true

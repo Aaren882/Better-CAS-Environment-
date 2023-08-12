@@ -1,3 +1,4 @@
+#include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 params["_vehicle","_cameraview"];
 
 _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
@@ -31,7 +32,7 @@ _turret_Unit setVariable ["TGP_View_Turret_Control",_keyEHs,true];
     _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
     _turret_Unit_Now = _vehicle turretUnit _current_turret;
 
-    #if __has_include("\cTab\config.bin")
+    #ifdef cTAB_Installed
     	#define exitCdt ((isnull curatorcamera) && (player getVariable ["TGP_View_EHs",-1] != -1) && (isnil{cTabIfOpen}))
     #else
     	#define exitCdt ((isnull curatorcamera) && (player getVariable ["TGP_View_EHs",-1] != -1))

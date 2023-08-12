@@ -5,6 +5,7 @@ if (
       (isLaserOn cameraOn) or
       ({
         (
+          !(isMultiplayer) or
           ((_x getVariable ["TGP_View_EHs",-1]) != -1) or
           ((_x getVariable ["cTab_TGP_View_EH",-1]) != -1)
         ) &&

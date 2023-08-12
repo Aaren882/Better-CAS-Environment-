@@ -1,4 +1,4 @@
-if ((ctrlShown _description) or (_Veh_Changed)) then {
+if ((ctrlShown _description) or (_Veh_Changed) or (_isOverwrite)) then {
   switch _curLine do {
     //-IP/BP
     case 1:{
@@ -21,7 +21,7 @@ if ((ctrlShown _description) or (_Veh_Changed)) then {
 
     //-GRID
     case 6:{
-      _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
+      _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
 
       //-Erase 2~4 line
       _taskVar set [2,["NA",180]];
@@ -30,7 +30,6 @@ if ((ctrlShown _description) or (_Veh_Changed)) then {
 
       _taskVar set [6,["NA","",[],[0,0],[]]];
       _ctrl3 ctrlSetText "NA";
-      _ctrl4 ctrlSetText "Mark with...";
     };
 
     //-MARK
@@ -67,5 +66,5 @@ if ((ctrlShown _description) or (_Veh_Changed)) then {
   };
   uiNamespace setVariable ["BCE_CAS_9Line_Var", _taskVar];
 } else {
-  uiNamespace setVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
+  uiNamespace setVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
 };

@@ -8,8 +8,9 @@ private ["_veh_POS","_dis","_dir","_angle","_vertices"];
 _veh_POS = getPosASLVisual _vehicle;
 _dis = _vehicle distance2D _FocusPos;
 _dir = _veh_POS getDirVisual _FocusPos;
+_angle = (_vehicle turretUnit _turret) getVariable ["BCE_Cam_FOV_Angle",-1];
 
-_angle = (_vehicle turretUnit _turret) getVariable "BCE_Cam_FOV_Angle";
+if (_angle < 0) exitWith {};
 
 //-Drawing
 _vertices = [_veh_POS] + ([_angle,-_angle] apply {
@@ -27,6 +28,6 @@ _ctrl drawIcon [
   _text,
   1,
   0.075,
-  'TahomaB',
+  'PuristaMedium',
   'right'
 ];

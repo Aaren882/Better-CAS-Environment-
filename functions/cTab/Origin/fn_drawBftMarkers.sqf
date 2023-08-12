@@ -36,10 +36,12 @@ _playerGroup = group cTab_player;
 _mountedLabels = [];
 _drawText = cTabBFTtxt;
 _Connected_veh = cTab_player getvariable ["TGP_View_Selected_Vehicle",objNull];
+_PointedIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
 
 // Anything but MicroDAGR
 if (_mode != 2) then {
 	// ------------------ VEHICLES ------------------
+	_i = 0;
 	cTabBFTvehicles apply {
     _x params ["_veh","_iconA","_iconB","_text","_groupID"];
 
@@ -65,10 +67,13 @@ if (_mode != 2) then {
 			// Draw on anything but TAD
 			call {
 				if (_veh != _playerVehicle) exitWith {
-          private _color = [
-            cTabColorBlue,
-            [1,1,0.3,0.8]
-          ] select (_Connected_veh == _veh);
+					private _color =[
+						cTabColorBlue,
+						[1,1,0.3,0.8]
+					] select (_Connected_veh == _veh);
+
+					//-if it's pointed vehicle
+					if (_veh isEqualTo _PointedIndex) then {_color = cTabTADhighlightColour};
 
 					// player is not sitting in this vehicle
 					_ctrlScreen drawIcon [_iconA,_color,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB","right"];
@@ -80,6 +85,7 @@ if (_mode != 2) then {
 			};
 		};
 		0 = _vehicles pushBack _veh;
+		_i = _i + 1;
 	};
 
 	// ------------------ GROUPS ------------------

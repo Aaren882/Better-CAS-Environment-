@@ -15,7 +15,7 @@ _fnc_onConfirm = {
   {
     if (_vehicle_str == str _x) exitWith {_vehicle = _x};
   } count (vehicles select {(_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)});
-	if !(_vehicle isEqualTo objNull) then {
+	if !(isnull _vehicle) then {
 		player setVariable ["TGP_View_Selected_Vehicle",_vehicle];
 		_vehicle call BCE_fnc_TGP_Select_Confirm;
 	};

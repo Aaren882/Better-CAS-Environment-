@@ -19,7 +19,7 @@ switch _sel_TaskType do {
     _taskVar params ["_taskVar_0","_taskVar_1","_taskVar_2","_taskVar_3","_taskVar_4"];
 
     if (CHECK_TASK(_taskVar_0) && CHECK_TASK(_taskVar_1) && CHECK_TASK(_taskVar_2)) then {
-      (_taskVar_0 # 3) params ["_WeapName","_ModeName","_class","_Mode","_turret","_Count","_muzzle","_ATK_range"];
+      (_taskVar_0 # 3) params ["_WeapName","_ModeName","_class","_Mode","_turret","_Count","_muzzle","_ATK_range","_ATK_height"];
 
       _FAD_NA = (_taskVar_4 # 1) == -1;
 
@@ -37,18 +37,24 @@ switch _sel_TaskType do {
         ])
       };
       _EGRS = round ((_taskVar_2 # 2) getDirVisual _POS);
-      [_vehicle, [], _POS, _TGPOS, _EGRS, [_class,_Mode,_turret,_Count,_muzzle,_ATK_range],_taskVar,5] call BCE_fnc_Plane_CASEvent;
+      [_vehicle, [], _POS, _TGPOS, _EGRS, [_class,_Mode,_turret,_Count,_muzzle,_ATK_range,_ATK_height],_taskVar,5] call BCE_fnc_Plane_CASEvent;
     } else {
-      hint "Fail...\nCheck 1, 2, 3,and selected Aircraft.";
+      //-if isn't AV Terminal
+      if (_NotAVT) then {
+        //-cTab
+        ["Task_Builder","Check 1, 2, 3,and selected Aircraft.",5] call cTab_fnc_addNotification;
+      } else {
+        hint "Fail...\nCheck 1, 2, 3,and selected Aircraft.";
+      };
     };
   };
   //-9 line
   default {
-    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","desc"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
+    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
     _taskVar params ["_taskVar_0",["_taskVar_1",["NA","",[]]],"","","","",["_taskVar_6",["NA","111222"]],"","_taskVar_8",["_taskVar_9",["NA",0,[],nil,nil]],"_taskVar_10"];
 
-    if (!(_vehicle isEqualTo objNull) && CHECK_TASK(_taskVar_0) && CHECK_TASK(_taskVar_6) && CHECK_TASK(_taskVar_8) && CHECK_TASK(_taskVar_9)) then {
-      (_taskVar_0 # 3) params ["_WeapName","_ModeName","_class","_Mode","_turret","_Count","_muzzle","_ATK_range"];
+    if (!(isnull _vehicle) && CHECK_TASK(_taskVar_0) && CHECK_TASK(_taskVar_6) && CHECK_TASK(_taskVar_8) && CHECK_TASK(_taskVar_9)) then {
+      (_taskVar_0 # 3) params ["_WeapName","_ModeName","_class","_Mode","_turret","_Count","_muzzle","_ATK_range","_ATK_height"];
 
       _IP_NA = "NA" in _taskVar_1;
       _FAD_NA = (_taskVar_10 # 1) == -1;
@@ -75,9 +81,15 @@ switch _sel_TaskType do {
           };
         };
       };
-      [_vehicle, _taskVar_1 # 2, _POS, _taskVar_6 # 2, _taskVar_9 # 1, [_class,_Mode,_turret,_Count,_muzzle,_ATK_range],_taskVar,9] call BCE_fnc_Plane_CASEvent;
+      [_vehicle, _taskVar_1 # 2, _POS, _taskVar_6 # 2, _taskVar_9 # 1, [_class,_Mode,_turret,_Count,_muzzle,_ATK_range,_ATK_height],_taskVar,9] call BCE_fnc_Plane_CASEvent;
     } else {
-      hint "Fail...\ncheck “Game Plan” ,6 ,8 ,9 ,and selected Aircraft.";
+      //-if isn't AV Terminal
+      if (_NotAVT) then {
+        //-cTab
+        ["Task_Builder","Check “Game Plan” ,6 ,8 ,9 ,and selected Aircraft.",5] call cTab_fnc_addNotification;
+      } else {
+        hint "Fail...\nCheck “Game Plan” ,6 ,8 ,9 ,and selected Aircraft.";
+      };
     };
   };
 };

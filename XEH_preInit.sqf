@@ -1,7 +1,17 @@
 #include "CBA_Setting.hpp"
+#include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 
-//-All Infos from types of task list 
+//-All Infos from types of task list
 if (hasInterface) exitWith {
+  //-Set task default variables
+  [
+    ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]],
+    ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]]
+  ] apply {
+    uiNamespace setVariable _x
+  };
+
+  //-Set All IDCs
   _set_TaskBuilder_Vars = {
   	private ["_config","_offset"];
   	params ["_config",["_offset",0]];
@@ -18,7 +28,7 @@ if (hasInterface) exitWith {
   		}),
   		(_classes apply {
   			_x apply {
-  				getText (_x >> "textRight")
+  				[getText (_x >> "textRight"), getText (_x >> "Task_writeDown")]
   			}
   		})
   	]
@@ -27,7 +37,7 @@ if (hasInterface) exitWith {
   //-Set all Task IDCs
   AVT_Task_TaskItems = (configFile >> "RscDisplayAVTerminal") call _set_TaskBuilder_Vars;
 
-  #if __has_include("\cTab\config.bin")
+  #ifdef cTAB_Installed
     cTab_Task_TaskItems = [configFile >> "cTab_Tablet_dlg" >> "controls" >> "Task_Builder",17000] call _set_TaskBuilder_Vars;
   #endif
 };

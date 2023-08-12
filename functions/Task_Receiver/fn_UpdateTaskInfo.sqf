@@ -1,76 +1,24 @@
-private _display = uiNamespace getVariable "BCE_Task_Receiver";
-private _vehicle = vehicle cameraOn;
-private _var = _vehicle getVariable "BCE_Task_Receiver";
+private ["_display","_vehicle","_var","_ctrlUnit","_ctrlList","_Cfg"];
 
-private _ctrlUnit = _display displayCtrl 101;
-private _ctrlList = _display displayCtrl 102;
-private _Cfg = configFile >> "RscTitles" >> "BCE_Task_Receiver" >> "controls" >> "TaskList" >> "CfgItems";
+_display = uiNamespace getVariable "BCE_Task_Receiver";
+_vehicle = vehicle cameraOn;
+_var = _vehicle getVariable "BCE_Task_Receiver";
 
-_var params ["_caller","_callerGrp","_type","_taskVar"];
+_ctrlUnit = _display displayCtrl 101;
+_ctrlList = _display displayCtrl 102;
+
+_var params ["_caller","_callerGrp","_type","_taskVar","_time"];
 
 _ctrlUnit ctrlSetText (format ["%1 [%2]",_callerGrp, name _caller]);
 
 //-Set LB
-switch _type do {
-
-  //-5 Line
-  case 5: {
-    private _classes = ("true" configClasses (_Cfg >> "5Line")) apply {getText(_x >> "Text")};
-    private _Danclose = (_taskVar # 4 # 2) param [2,false];
-    {
-      if (_forEachIndex == 0) then {
-        private _index = _ctrlList lbAdd (_x # 2);
-        _ctrlList lbSetTextRight [_index, _x # 0];
-      } else {
-        private _index = _ctrlList lbAdd (_classes # _forEachIndex);
-        if (_index == 3) then {
-          _ctrlList lbSetTextRight [_index, format ["%1 with: [%2]", trim(_x # 1), trim(_x # 2)]];
-        } else {
-          _ctrlList lbSetTextRight [_index, _x # 0];
-        };
-
-        //-Read Back
-        if (_index in [4]) then {
-          private _color = [[0.27,1,0.16,1],[1,0.22,0.17,1]] select _Danclose;
-          _ctrlList lbSetColor [_index, _color];
-          _ctrlList lbSetColorRight [_index, _color];
-        };
-      };
-    } foreach _taskVar;
-  };
-
-  //-9 Line
-  case 9: {
-    private _classes = ("true" configClasses (_Cfg >> "9Line")) apply {getText(_x >> "Text")};
-    private _Danclose = (_taskVar # 10 # 2) param [2,false];
-    {
-      private _index = _ctrlList lbAdd (_classes # _forEachIndex);
-
-      //-Read Back
-      if (_index in [4,6,8,10]) then {
-        private _color = [[0.27,1,0.16,1],[1,0.22,0.17,1]] select _Danclose;
-        _ctrlList lbSetColor [_index, _color];
-        _ctrlList lbSetColorRight [_index, _color];
-      };
-
-      if (_index == 5) then {
-        _ctrlList lbSetTextRight [_index, _x # 1];
-      } else {
-        _ctrlList lbSetTextRight [_index, _x # 0];
-      };
-    } foreach _taskVar;
-  };
-};
+[_ctrlList,_type,_taskVar] call BCE_fnc_SetTaskReceiver;
 
 //-Set UI POS
 {
   _x params ["_idc",["_BG",0]];
   private _ctrl = _display displayCtrl _idc;
-  private _class = if (_BG > 0) then {
-    configFile >> "RscTitles" >> "BCE_Task_Receiver" >> "controlsBackground" >> ctrlClassName _ctrl
-  } else {
-    configFile >> "RscTitles" >> "BCE_Task_Receiver" >> "controls" >> ctrlClassName _ctrl
-  };
+  private _class = configFile >> "RscTitles" >> "BCE_Task_Receiver" >> ["controls","controlsBackground"] select (_BG > 0) >> ctrlClassName _ctrl;
   private _pos = ["x","y","w","h"] apply {
     call compile getText (_class >> _x)
   };

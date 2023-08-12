@@ -6,7 +6,7 @@
 ["vehicle", BCE_fnc_SetMFDValue, true] call CBA_fnc_addPlayerEventHandler;
 ["AllVehicles","GetIn",BCE_fnc_Check_Optics] call CBA_fnc_addClassEventHandler;
 ["Helicopter","GetOut",{
-	params ["_vehicle", "_role", "_unit", "_turret"];
+	params ["", "", "_unit", ""];
 	private _laser = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
 	private _light = _unit getVariable ["BCE_turret_Gunner_Lights",[]];
 
@@ -21,13 +21,18 @@
 //ACE Actions
 call BCE_fnc_ACE_actions;
 
+//-Debug on MP initiation
+if (isMultiplayer) then {
+  vehicles apply {_x call BCE_fnc_Check_Optics};
+};
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //PostInit Perf_EH
 player setVariable ["Have_BCE_Loaded",true,true];
 if (({(_x getVariable ["IR_LaserLight_EachFrame_EH",-1]) != -1} count allPlayers) == 0) then {
-	call BCE_fnc_perf_EH;
+	call BCE_fnc_ServerClientSide;
 } else {
-	call BCE_fnc_ClientSideLaser;
+	call BCE_fnc_ClientSide;
 };
 
 ["turret", {
