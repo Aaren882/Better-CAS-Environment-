@@ -56,11 +56,8 @@ _fnc_onLBSelChanged = {
 	(_display displayctrl 1600) ctrlEnable !(_Optic_LODs isEqualTo []);
 	(_display displayctrl 1602) ctrlEnable (count _Optic_LODs > 1);
 
-	if (player getVariable ["TGP_View_Selected_Optic",[]] isEqualTo []) then {
-	  player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
-	};
-
-	if !(_vehicle isEqualTo ((player getVariable "TGP_View_Selected_Optic") # 1)) then {
+	_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
+	if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_vehicle isNotEqualTo (_Selected_Optic # 1))) then {
 	  player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 	};
 
@@ -120,9 +117,12 @@ _fnc_onLBSelChanged = {
 			};
 		};
 
-		((lbCurSel _ctrlValue < 0) or !(_vehicle_New isEqualTo _vehicle) or !(alive player))
+		((lbCurSel _ctrlValue < 0) or !(_vehicle_New isEqualTo _vehicle) or !(alive player)) or (isNull _display)
 	}, {
-
+		params ["_display"];
+		if (isNull _display) then {
+			player setVariable ['BCE_TACMap_Visiable',false,true];
+		};
 		}, [_display,_ctrlValue,_Selected,_vehicle]
 	] call CBA_fnc_waitUntilAndExecute;
 
@@ -133,6 +133,7 @@ switch _mode do
 {
 	case "onLoad":
 	{
+		player setVariable ["BCE_TACMap_Visiable",true,true];
 		with uinamespace do
 		{
 			_display = _params # 0;
@@ -158,11 +159,9 @@ switch _mode do
 			_ctrlHintGroup = _display displayctrl IDC_RSCADVANCEDHINT_HINTGROUP;
 			_ctrlHintGroup ctrlShow false;
 			_ctrlHintGroup ctrlEnable false;
-			(_display displayctrl 1600) ctrlEnable false;
-			(_display displayctrl 1601) ctrlEnable false;
-			(_display displayctrl 1602) ctrlEnable false;
-			(_display displayctrl 2103) ctrlEnable false;
-			(_display displayctrl 201142) ctrlEnable false;
+			[1600,1601,1602,2103,201142] apply {
+				(_display displayctrl _x) ctrlEnable false
+			};
 			(_display displayctrl 20116) ctrlSetPositionH 0;
 		  (_display displayctrl 20116) ctrlCommit 0;
 

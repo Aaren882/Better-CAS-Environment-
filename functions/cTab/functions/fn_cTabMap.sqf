@@ -1,7 +1,6 @@
 params["_display","_ctrl"];
 
-private _veh = player getvariable ["TGP_View_Selected_Vehicle",objNull];
-private _connected_Optic = player getVariable ["TGP_View_Selected_Optic",[]];
+(player getVariable ["TGP_View_Selected_Optic",[[],objNull]]) params ["_connected_Optic","_veh"];
 
 if !(isnull _veh) then {
   private _color = [1,1,0.3,0.8];
@@ -50,7 +49,7 @@ if !(isnull _veh) then {
 
   //-Camera Info
   if (!(_connected_Optic isEqualTo []) && (uinamespace getVariable ['BCE_Terminal_Targeting',true])) then {
-    private _current_turret = _connected_Optic # 0 # 1;
+    private _current_turret = _connected_Optic # 1;
     private _isPilot = (_current_turret # 0) == -1;
 
     //-tell what pos for the turret
@@ -59,8 +58,8 @@ if !(isnull _veh) then {
       [nil,_info # 1] select (_info # 0);
     } else {
       if (_isPilot) then {
-        private _var = _veh getVariable ["BCE_Camera_Info_Air",[false,[]]];
-        [nil,_var # 1] select (_var # 0);
+        private _var = _veh getVariable ["BCE_Camera_Info_Air",[[false,[]],[]]];
+        [nil,_var # 0 # 1] select (_var # 0 # 0);
       } else {
         [_veh,_current_turret] call BCE_fnc_Turret_InterSurface;
       };

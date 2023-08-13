@@ -45,7 +45,7 @@ lbClear (_display displayCtrl _squad_list);
 
 if (_EH != -1) then {
 	removeMissionEventHandler ["Draw3D",_EH];
-	cTab_player setVariable ["cTab_TGP_View_EH",-1];
+	cTab_player setVariable ["cTab_TGP_View_EH",-1,true];
 };
 
 true

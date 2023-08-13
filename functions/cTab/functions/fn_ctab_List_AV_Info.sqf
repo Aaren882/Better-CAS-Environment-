@@ -43,13 +43,15 @@ _List_index = [
 [{
 	params ["_veh","_list","_List_index","_config"];
 
-	_vehicle_New = cTab_player getvariable ["TGP_View_Selected_Vehicle",objNull];
-	_current_turret = (cTab_player getVariable "TGP_View_Selected_Optic") # 0 # 1;
+	(cTab_player getVariable ["TGP_View_Selected_Optic",[[],objNull]]) params ["_connected_Optic","_vehicle_New"];
 
-	_turret_Unit = _veh turretUnit _current_turret;
+	if (alive _vehicle_New) then {
+		_current_turret = _connected_Optic # 1;
+		_turret_Unit = _veh turretUnit _current_turret;
 
-	_List_index apply {
-		_list lbSetTextRight [_x # 0,call (_x # 1)];
+		_List_index apply {
+			_list lbSetTextRight [_x # 0,call (_x # 1)];
+		};
 	};
 
 	!(ctrlShown _list) or (isNull _list) or (_veh != _vehicle_New) or !(alive cTab_player) or !(alive _veh)

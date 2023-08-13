@@ -24,7 +24,7 @@
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_backgroundOffset","_ctrlPos","_mousePos"];
+private ["_interfaceInit","_TAC_Vis","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_backgroundOffset","_ctrlPos","_mousePos"];
 disableSerialization;
 
 if (isNil "cTabIfOpen") exitWith {false};
@@ -33,7 +33,9 @@ _displayName = cTabIfOpen # 1;
 _display = uiNamespace getVariable _displayName;
 uiNameSpace setVariable ["cTab_BFT_CurSel",objNull];
 
+
 _interfaceInit = false;
+_TAC_Vis = false;
 _loadingCtrl = _display displayCtrl IDC_CTAB_LOADINGTXT;
 _targetMapCtrl = controlNull;
 _targetMapScale = nil;
@@ -249,6 +251,7 @@ _settings apply {
 						_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
 						_mapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
 						_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
+						_TAC_Vis = true;
 
 						_displayItemsToShow = [
 							_mapIDC,
@@ -383,6 +386,9 @@ _settings apply {
 				};
 				// ----------------------------------
 			};
+
+			//-Check Visibility of BFT
+			cTab_player setVariable ["BCE_TACMap_Visiable",_TAC_Vis,true];
 		};
 
 		//----------------------------------------------------------------------------------------------//
@@ -583,6 +589,7 @@ _settings apply {
 				} else {
 					//-Clean Up if the vehicle is null
 					call cTab_fnc_deleteUAVcam;
+					player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
 					[1787,2020,2021] apply {lbClear (_display displayCtrl (17000 + _x))};
 					(_display displayCtrl (17000 + 1788)) ctrlSetStructuredText parseText "";
 

@@ -54,12 +54,20 @@ call {
 			};
       _reset_Veh = true;
   		player setVariable ["TGP_View_Selected_Vehicle",_curSel];
+			["cTab_Tablet_dlg",[["uavCam",str _curSel]],false] call cTab_fnc_setSettings;
+
+			_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
+			if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_curSel isNotEqualTo (_Selected_Optic # 1))) then {
+			  player setVariable ["TGP_View_Selected_Optic",[(_curSel getVariable "TGP_View_Available_Optics") # 0, _curSel],true];
+			};
   	};
 	};
   //-DisConnect Vehicle
   if (_type == -3) exitWith {
     _reset_Veh = true;
     player setVariable ["TGP_View_Selected_Vehicle",objNull];
+		player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
+		["cTab_Tablet_dlg",[["uavCam",str objNull]],false] call cTab_fnc_setSettings;
 	};
 
 	if (_type == -4) exitWith {

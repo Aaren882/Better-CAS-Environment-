@@ -44,7 +44,7 @@ _turrets = _Optic_LODs apply {((_x # 1) # 0) + 1};
 
 _isEmpty = ((cTab_player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_veh isNotEqualTo (_Selected_Optic # 1));
 
-if (!_isUAV && _isEmpty) then {
+if (_isEmpty) then {
   cTab_player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_veh],true];
 };
 

@@ -15,12 +15,10 @@ _ctrl drawIcon [
   0.075
 ];
 
-private _veh = player getvariable ["TGP_View_Selected_Vehicle",objNull];
-private _connected_Optic = player getVariable ["TGP_View_Selected_Optic",[]];
+(player getVariable ["TGP_View_Selected_Optic",[[],objNull]]) params ["_connected_Optic","_veh"];
 
 (vehicles select {(_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)}) apply {
-  private _config = configof _x;
-  private _icon = getText (_config >> "icon");
+  private _icon = getText (configof _x >> "icon");
   private _isSelected = _veh isEqualTo _x;
   private _pos = getPosASLVisual _x;
 
@@ -103,7 +101,7 @@ private _connected_Optic = player getVariable ["TGP_View_Selected_Optic",[]];
 
     //-Camera Info
     if (!(_connected_Optic isEqualTo []) && (uinamespace getVariable ['BCE_Terminal_Targeting',true])) then {
-      private _current_turret = _connected_Optic # 0 # 1;
+      private _current_turret = _connected_Optic # 1;
       private _isPilot = (_current_turret # 0) == -1;
 
       //-tell what pos for the turret
@@ -112,8 +110,8 @@ private _connected_Optic = player getVariable ["TGP_View_Selected_Optic",[]];
         [nil,_info # 1] select (_info # 0);
       } else {
         if (_isPilot) then {
-          private _var = _x getVariable ["BCE_Camera_Info_Air",[false,[]]];
-          [nil,_var # 1] select (_var # 0);
+          private _var = _x getVariable ["BCE_Camera_Info_Air",[[false,[]],[]]];
+          [nil,_var # 0 # 1] select (_var # 0 # 0);
         } else {
           [_x,_current_turret] call BCE_fnc_Turret_InterSurface;
         };
@@ -200,12 +198,12 @@ if ((_Target # 0) != "NA") then {
 
   //-FAD/H to TG line
   if ((_remarks # 1) != -1) then {
-    private _HDG = _remarks # 1;
+    private _HDG = (_remarks # 1) + 180;
     private _relPOS = (_Target # 2) getPos [1000, _HDG];
     private _posDiff = ((_Target # 2) vectorDiff _relPOS) vectorMultiply 0.9;
     _ctrl drawArrow [
-      _relPOS,
       _relPOS vectorAdd _posDiff,
+      _relPOS,
       [0.6,1,0.37,1]
     ];
 

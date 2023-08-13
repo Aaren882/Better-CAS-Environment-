@@ -84,7 +84,6 @@ class RscDisplayAVTerminal
 	scriptPath = "BCE_Function";
 	onLoad = "[""onLoad"",_this,""RscDisplayAVTerminal"",'BCE_Function'] call (uinamespace getvariable 'BIS_fnc_initDisplay')";
 	onUnload = "[""onUnload"",_this,""RscDisplayAVTerminal"",'BCE_Function'] call (uinamespace getvariable 'BIS_fnc_initDisplay')";
-
 	Brevity_Code[] =
 	{
 		"Weapon :",

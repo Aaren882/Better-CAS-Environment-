@@ -774,6 +774,10 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_toggleMapTools.sqf";
 				};
+				class onIfClose
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_onIfClose.sqf";
+				};
 			};
 		};
 	#endif
