@@ -35,17 +35,18 @@ if (
 lbClear _checklist;
 
 //-Weapons
-private _weapons = weapons _vehicle;
+//private _weapons = weapons _vehicle;
 
 //-Arrange Magazine and correct Weapon
-private _Matched = [_vehicle,_weapons,magazinesAllTurrets _vehicle] call {
-  params ["_vehicle","_weapons","_magazines"];
+private _Matched = [_vehicle,magazinesAllTurrets _vehicle] call {
+  params ["_vehicle","_magazines"];
   private _a = [];
+  private _weapons = flatten (([[-1]] + allTurrets _vehicle) apply {
+     _vehicle weaponsTurret _x
+  });
 
   {
-    private _mag = _x # 0;
-    private _turret = _x # 1;
-    private _ammo = _x # 2;
+    _x params ["_mag","_turret","_ammo"];
 
     //-Magazine
     {
@@ -53,27 +54,25 @@ private _Matched = [_vehicle,_weapons,magazinesAllTurrets _vehicle] call {
       private _config = configFile >> "CfgWeapons" >> _wpn;
       private _muzzles = getArray (_config >> "muzzles");
 
-      if (_wpn in (_vehicle weaponsTurret _turret)) then {
-        if (count _muzzles > 1) then {
-          {
-            private _WPN_Mags = getArray (_config >> _x >> "magazines");
-            if (
-              (_mag in _WPN_Mags) &&
-              !(_wpn isKindOf ["Laserdesignator_mounted", configFile >> "CfgWeapons"]) &&
-              ((getText (_config >> "simulation")) != "cmlauncher")
-            ) then {
-              _a pushBackUnique [_wpn,_mag,_turret,_x];
-            };
-          } forEach _muzzles;
-        } else {
-          private _WPN_Mags = getArray (_config >> "magazines");
+      if (count _muzzles > 1) then {
+        {
+          private _WPN_Mags = getArray (_config >> _x >> "magazines");
           if (
             (_mag in _WPN_Mags) &&
             !(_wpn isKindOf ["Laserdesignator_mounted", configFile >> "CfgWeapons"]) &&
-            ((getText (configFile >> "CfgWeapons" >> _wpn >> "simulation")) != "cmlauncher")
+            ((getText (_config >> "simulation")) != "cmlauncher")
           ) then {
-            _a pushBackUnique [_wpn,_mag,_turret,"this"];
+            _a pushBackUnique [_wpn,_mag,_turret,_x];
           };
+        } forEach _muzzles;
+      } else {
+        private _WPN_Mags = getArray (_config >> "magazines");
+        if (
+          (_mag in _WPN_Mags) &&
+          !(_wpn isKindOf ["Laserdesignator_mounted", configFile >> "CfgWeapons"]) &&
+          ((getText (_config >> "simulation")) != "cmlauncher")
+        ) then {
+          _a pushBackUnique [_wpn,_mag,_turret,"this"];
         };
       };
     } forEach _weapons;
@@ -96,9 +95,9 @@ private _uniquePylons = _Matched apply {
   private _modes = [_modes,_All_modes] select (count _modes == 0);
 
   private _count = ({
-    _x params ["_m","_c"];
-    (_m == _mag) && (_c > 0)
-  } count (magazinesAmmo [_vehicle, true])) max 1;
+    _x params ["_m"];
+    _m == _mag
+  } count (_vehicle magazinesTurret _turret)) max 1;
 
   private _name = getText (configFile >> "CfgWeapons" >> _wpn >> "DisplayName");
   private _type = getText (configFile >> "CfgMagazines" >> _mag >> "displayNameShort");
@@ -107,10 +106,10 @@ private _uniquePylons = _Matched apply {
   private _formatName = trim ([_name,format ["%1 %2",_name ,_type]] select ((_name != _type) && (count _type <= 7)));
 
   //-Correct muzzle
-  private _ammo = [
-    (weaponState [_vehicle,_turret,_wpn,_muzzle]) # 4,
-    (weaponState [_vehicle,_turret,_wpn]) # 4
-  ] select (_muzzle == "this");
+  private _ammo = weaponState ([
+    [_vehicle,_turret,_wpn,_muzzle],
+    [_vehicle,_turret,_wpn]
+  ] select (_muzzle == "this")) # 4;
 
   [_formatName, _ammo*_count, _wpn, _mag, _modes, _turret, _muzzle]
 };
