@@ -197,7 +197,7 @@ class RscDisplayAVTerminal
 			};
 			class Attributes
 			{
-				font = "RobotoCondensed";
+				font = "RobotoCondensedLight";
 				color = "#E5E5E5";
 				align = "center";
 				shadow = "true";
@@ -493,6 +493,11 @@ class RscDisplayAVTerminal
 			show = 0;
 			colorBackground[] = {0,0,0,0};
 			lineSpacing = 0.5;
+			class Attributes
+			{
+				font = "RobotoCondensedLight";
+				colorLink = "#D09B43";
+			};
 		};
 		class New_Task_Desc_Extended: New_Task_Desc
 		{
@@ -745,6 +750,7 @@ class RscDisplayAVTerminal
 				"Type 2",
 				"Type 3"
 			};
+			font = "RobotoCondensedBold";
 			show = 0;
 			colorBackground[] = {0,0,0,0.3};
 		};

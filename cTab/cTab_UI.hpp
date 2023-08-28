@@ -296,7 +296,7 @@ class cTab_Tablet_dlg
 					};
 					class Attributes
 					{
-						font = "RobotoCondensed";
+						font = "RobotoCondensedLight";
 						color = "#E5E5E5";
 						align = "center";
 						shadow = "true";
@@ -426,7 +426,7 @@ class cTab_Tablet_dlg
 				{
 					idc = idc_D(1775);
 					text = "";
-					font = "RobotoCondensed";
+					font = "RobotoCondensedLight";
 					sizeEx = "0.75 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					colorBackground[] = {0.5,0.5,0.5,0.3};
 					colorSelect[] = {1,1,1,1};
@@ -459,7 +459,7 @@ class cTab_Tablet_dlg
 					};
 					class Attributes
 					{
-						font = "RobotoCondensed";
+						font = "RobotoCondensedLight";
 						color = "#E5E5E5";
 						align = "center";
 						valign = "middle";
@@ -522,7 +522,7 @@ class cTab_Tablet_dlg
 				{
 					idc = idc_D(1785);
 					text = "";
-					font = "RobotoCondensed";
+					font = "RobotoCondensedLight";
 					sizeEx = "0.65 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					colorBackground[] = {0,0,0,0};
 					colorSelect[] = {0,1,0,1};
@@ -587,7 +587,7 @@ class cTab_Tablet_dlg
 					InfoPOS(1,1);
 					class Attributes
 					{
-						font = "RobotoCondensed";
+						font = "RobotoCondensedLight";
 						color = "#ffffff";
 						align = "left";
 						shadow = 1;
@@ -599,7 +599,7 @@ class cTab_Tablet_dlg
 				class Task_List: cTab_RscListbox_Tablet
 				{
 					idc = idc_D(1789);
-					font = "RobotoCondensed";
+					font = "RobotoCondensedLight";
 					onLBSelChanged = "call BCE_fnc_Extended_TaskDESC";
 					InfoPOS(0,1);
 				}
@@ -620,7 +620,7 @@ class cTab_Tablet_dlg
 					InfoPOS(1,1);
 					class Attributes
 					{
-						font = "RobotoCondensed";
+						font = "RobotoCondensedLight";
 						color = "#ffffff";
 						align = "left";
 						shadow = 1;
@@ -647,7 +647,6 @@ class cTab_Tablet_dlg
 					y = 0;
 					w = ContW;
 					h = ContH;
-					//font = "RobotoCondensedLight";
 					colorBackground[] = {0,0,0,1};
 					colorSelectBackground[] = {0.5,0.5,0.5,1};
 					wholeHeight = 0.8;
@@ -693,7 +692,7 @@ class cTab_Tablet_dlg
 					h = smalFmH - ContC;
 					class Attributes
 					{
-						font = "RobotoCondensed";
+						font = "RobotoCondensedLight";
 						color = "#ffffff";
 						align = "left";
 						shadow = 1;
@@ -920,7 +919,7 @@ class cTab_Tablet_dlg
 					w = ContW;
 					h = "safezoneH / 40";
 					text = "Send Data";
-					font = "RobotoCondensed";
+					font = "RobotoCondensedLight";
 					sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					colorBackground[] = {0.5,0.5,0.5,0.5};
 					onButtonClick = "(_this + [17000,true]) call BCE_fnc_DataReceiveButton";
@@ -959,6 +958,7 @@ class cTab_Tablet_dlg
 						"Type 2",
 						"Type 3"
 					};
+					font = "RobotoCondensedBold";
 					colorBackground[] = {0,0,0,0.3};
 					sizeEx = "0.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 				};
