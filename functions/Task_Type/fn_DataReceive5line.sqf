@@ -231,7 +231,7 @@ switch _curLine do {
 
 //-Automatically Generate
 //-Line 1
-_taskVar set [0, (_taskVar # 0) + [(_display displayCtrl (_IDC_offset + 2005)) lbText 0]];
+(_taskVar # 0) pushBackUnique ((_display displayCtrl (_IDC_offset + 2005)) lbText 0);
 
 //-2 Friendly
 if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && !("with:" in (_taskVar # 1 # 0))) then {

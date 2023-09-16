@@ -39,5 +39,9 @@ if (hasInterface) exitWith {
 
   #ifdef cTAB_Installed
     cTab_Task_TaskItems = [configFile >> "cTab_Tablet_dlg" >> "controls" >> "Task_Builder",17000] call _set_TaskBuilder_Vars;
+
+    //- Set Default Devices
+    ctab_core_personneldevices = ["ItemcTab","ItemAndroid","ItemMicroDAGR"];
+    ctab_core_leaderDevices = ["ItemcTab","ItemAndroid"];
   #endif
 };

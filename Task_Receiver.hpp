@@ -65,7 +65,7 @@ class BCE_Task_Receiver
 			text = "";
 			colorBackground[] = {0,0,0,0};
 			shadow = 2;
-			font = "RobotoCondensedBold";
+			font = "RobotoCondensed_BCE";
 			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 			class CfgItems
 			{

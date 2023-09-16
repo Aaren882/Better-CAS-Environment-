@@ -48,6 +48,14 @@ if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
 //PostInit
 ["BCE_Init",[]] call CBA_fnc_localEvent;
 
+//-Add map eventhandler
+addMissionEventHandler ["Map", {
+	//- Refesh widgets infos
+	if (_this # 0) then {
+		[findDisplay 12, -1] call BCE_fnc_Update_MapCtrls;
+	};
+}];
+
 #define IsPilot_CAM_ON ((player getVariable ["AHUD_Actived",-1]) != -1)
 #define getTurret (call BCE_fnc_getTurret)
 #define SwitchSound playSound (format ["switch_mod_0%1",(selectRandom [1,2,3,4,5])])

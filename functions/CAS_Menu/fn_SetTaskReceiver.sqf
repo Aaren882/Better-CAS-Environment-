@@ -13,13 +13,17 @@ switch _type do {
 
     {
       if (_forEachIndex == 0) then {
-        private _index = _ctrlList lbAdd (_x # 2);
+        private _index = _ctrlList lbAdd (_x # -1);
         _ctrlList lbSetTextRight [_index, _x # 0];
       } else {
         private ["_index","_text"];
         _index = _ctrlList lbAdd (_classes # _forEachIndex);
 
-        _text = [_x # 0,format ["%1 with: [%2]", trim(_x # 1), trim(_x # 2)]] select (_index == 3);
+        _text = if (_index == 3) then {
+          format ["%1 with: [%2]", trim(_x # 1), trim(_x # 2)]
+        } else {
+          _x # 0
+        };
         _ctrlList lbSetTextRight [_index,_text];
 
         //-Read Back

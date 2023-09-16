@@ -48,6 +48,80 @@ class RscDisplayMainMap
 			#endif
 		};
 	};
+	class controls
+	{
+		//- 0.018
+		#define MAP_TOGGLE_X(INDEX,SPC) #(safezoneX + safezoneW - INDEX * (2.5 * (((safezoneW / safezoneH) min 1.2) / 40)) - (SPC * 0.015))
+		#define MAP_TOGGLE_Y(INDEX,SPC) #((2.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + (safezoneY)) + INDEX * (0.85 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)) + (SPC * 0.01))
+		class BCE_FOV_toggle: BCE_RscButtonMenu
+		{
+			idc = 1606;
+			style="0x02";
+			text = "FOV";
+			tooltip = "FOV of vehicle turrets";
+			font = "RobotoCondensed_BCE";
+			x = MAP_TOGGLE_X(1,1);
+			y = MAP_TOGGLE_Y(0,0);
+			w = "2.5 * (((safezoneW / safezoneH) min 1.2) / 40)";
+			h = "0.85 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			onButtonClick = "[_this # 0,0] call BCE_fnc_Update_MapCtrls";
+			sizeEx="0.75 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			
+			colorBackground[] = {0,0,0,1};
+			colorBackground2[] = {0,0,0,1};
+			animTexturePressed = "#(argb,8,8,3)color(0.36,0.36,0.36,0.5)";
+			class Attributes: Attributes
+			{
+				align = "center";
+				valign = "middle";
+				shadow = "true";
+				size = "0.7";
+			};
+		};
+		class BCE_Task_toggle: BCE_FOV_toggle
+		{
+			idc = 1607;
+			text = "Task";
+			tooltip = "Toggle current Task infos";
+			x = MAP_TOGGLE_X(2,1.5);
+			onButtonClick = "[_this # 0,1] call BCE_fnc_Update_MapCtrls";
+		};
+		
+		//-ACE Flash light
+		#if __has_include("\z\ace\addons\map\config.bin")
+			class BCE_MapLight_toggle: BCE_Task_toggle
+			{	
+				idc = 1608;
+				text = "<img image='\a3\3den\data\displays\display3den\toolbar\flashlight_off_ca.paa' align='left' size='0.8' /> Map Illumination";
+				tooltip = "Toggle Map Flash Light";
+				onButtonClick = "[_this # 0,2] call BCE_fnc_Update_MapCtrls";
+				y = MAP_TOGGLE_Y(1,1);
+				w = "5 * (((safezoneW / safezoneH) min 1.2) / 40) + (0.5 * 0.015)";
+			};
+		#endif
+		
+		//-POLPOX map tools
+		#if __has_include("\PLP_MapTools\config.bin")
+			#define PLP_TOOL 1
+		#endif
+		#if __has_include("\plp\plp_mapToolsRemastered\config.bin")
+			#define PLP_TOOL 1
+		#endif
+		
+		#ifdef PLP_TOOL
+			class BCE_MapTools_toggle: BCE_Task_toggle
+			{	
+				idc = 1609;
+				text = '<img image="\a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa" align="center" size="0.8" /> PLP Tools "Q"';
+				tooltip = "MOD : ""Key Combine""";
+				onButtonClick = "";
+				y = MAP_TOGGLE_Y(2,2);
+				w = "5 * (((safezoneW / safezoneH) min 1.2) / 40) + (0.5 * 0.015)";
+				colorDisabled[]={1,1,1,1};
+				colorBackgroundDisabled[]={0,0,0,0.5};
+			};
+		#endif
+	}
 };
 //Select Aircraft
 class RscDisplay_TGP_Control: RscAttributeCAS
@@ -187,7 +261,7 @@ class RscDisplayAVTerminal
 			y = "0.71 * safezoneH + safezoneY";
 			w = "13.2 * (safezoneW / 64)";
 			h = "0.8 * (safezoneH / 40)";
-			
+
 			class TextPos
 			{
 				left = "0.25 * (((safezoneW / safezoneH) min 1.2) / 40)";
@@ -197,7 +271,7 @@ class RscDisplayAVTerminal
 			};
 			class Attributes
 			{
-				font = "RobotoCondensedLight";
+				font = "RobotoCondensed_BCE";
 				color = "#E5E5E5";
 				align = "center";
 				shadow = "true";
@@ -237,16 +311,16 @@ class RscDisplayAVTerminal
 			h = "0.9 * (safezoneH / 40)";
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 			onButtonClick = "_display = ctrlParent (_this#0); (_display displayCtrl 1605) ctrlShow true; {(_display displayCtrl _x) ctrlShow false;} forEach [1500,1501,1502,1503,1504,1505,1506,1507,1508,1509,1510,1511,1512,1513,1514,1515,1516,1517,1600,1601,1602,1603,1604,1606,1607,1608,1609,1610,1700];";
-			
+
 			colorBackground[] = {1,0,0,0.5};
 			colorBackground2[] = {1,0,0,0.5};
-			
+
 			colorBackgroundFocused[] = {1,0,0,0.5};
-			
+
 			animTextureOver = "#(argb,8,8,3)color(1,0.25,0.25,0.5)";
 			animTextureFocused = "#(argb,8,8,3)color(1,0,0,1)";
 			animTexturePressed = "#(argb,8,8,3)color(1,0.25,0.25,0.3)";
-			
+
 			class Attributes: Attributes
 			{
 				font = "TahomaB";
@@ -271,9 +345,9 @@ class RscDisplayAVTerminal
 		{
 			idc = 1606;
 			text = "WP";
-			X = "0.17 * safezoneW + safezoneX";
+			x = "0.17 * safezoneW + safezoneX";
 			y = "0.755 * safezoneH + safezoneY";
-			W = "0.0165 * safezoneW";
+			w = "0.0165 * safezoneW";
 			onButtonClick = "if (uinamespace getVariable ['BCE_Terminal_WP',true]) then {(_this # 0) ctrlSetTextColor [1, 0, 0, 0.5]; uinamespace setVariable ['BCE_Terminal_WP',false];} else {uinamespace setVariable ['BCE_Terminal_WP',true]; (_this # 0) ctrlSetTextColor [1, 1, 1, 1];};";
 			size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.75)";
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1) min 0.04";
@@ -284,13 +358,13 @@ class RscDisplayAVTerminal
 			{
 				align = "center";
 				valign = "middle";
-				font = "RobotoCondensedBold";
+				font = "RobotoCondensed_BCE";
 			};
 		};
 		class BCE_Vehicles_AV: BCE_Waypoint_AV
 		{
 			idc = 1607;
-			X = "0.188 * safezoneW + safezoneX";
+			x = "0.188 * safezoneW + safezoneX";
 			text = "AV";
 			tooltip = "Icon of Other Vehicles";
 			onButtonClick = "if (uinamespace getVariable ['BCE_Terminal_Veh',true]) then {(_this # 0) ctrlSetTextColor [1, 0, 0, 0.5]; uinamespace setVariable ['BCE_Terminal_Veh',false];} else {uinamespace setVariable ['BCE_Terminal_Veh',true]; (_this # 0) ctrlSetTextColor [1, 1, 1, 1];};";
@@ -464,6 +538,7 @@ class RscDisplayAVTerminal
 			y = "2 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01)";
 			w = "14 * (safezoneW / 64)";
 			h = "safezoneH / 40";
+			font = "RobotoCondensed_BCE";
 			colorBackground[] = {0,0,0,0.5};
 		};
 
@@ -492,10 +567,10 @@ class RscDisplayAVTerminal
 			h = 11 * TextH;
 			show = 0;
 			colorBackground[] = {0,0,0,0};
-			lineSpacing = 0.5;
+			//lineSpacing = 0.5;
 			class Attributes
 			{
-				font = "RobotoCondensedLight";
+				font = "RobotoCondensed_BCE";
 				colorLink = "#D09B43";
 			};
 		};
@@ -518,7 +593,7 @@ class RscDisplayAVTerminal
 			w = "0.0135 * safezoneW";
 			h = "1.8 * (safezoneH / 40)";
 			text = "<";
-			font = "RobotoCondensedLight";
+			font = "RobotoCondensed_BCE";
 			sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 15)";
 			show = 0;
 			tooltip = "Show Description";
@@ -533,7 +608,7 @@ class RscDisplayAVTerminal
 			};
 			class Attributes
 			{
-				font = "RobotoCondensedLight";
+				font = "RobotoCondensed_BCE";
 				color = "#E5E5E5";
 				align = "center";
 				shadow = "false";
@@ -728,7 +803,7 @@ class RscDisplayAVTerminal
 			periodOver = 0;
 			tooltip = "more details";
 			onButtonClick = "call BCE_fnc_Extended_Desc";
-			BCE_Desc = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but <t font='RobotoCondensedBold'>must have real time data</t> from FO/Scout.";
+			BCE_Desc = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but <t font='RobotoCondensedBold_BCE'>must have real time data</t> from FO/Scout.";
 			class Attributes
 			{
 				font = "RobotoCondensed";
@@ -750,7 +825,7 @@ class RscDisplayAVTerminal
 				"Type 2",
 				"Type 3"
 			};
-			font = "RobotoCondensedBold";
+			font = "RobotoCondensed_BCE";
 			show = 0;
 			colorBackground[] = {0,0,0,0.3};
 		};
@@ -1128,7 +1203,7 @@ class RscDisplayAVTerminal
 			w = "14 * (safezoneW / 64)";
 			h = "safezoneH / 30";
 			text = "New Task";
-			font = "RobotoCondensedLight";
+			font = "RobotoCondensed_BCE";
 			sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 			Enable = 0;
 			onButtonClick = "[ctrlParent(_this#0), 1, false, player getVariable ['TGP_View_Selected_Vehicle',objNull]] call BCE_fnc_ListSwitch;";
@@ -1159,7 +1234,7 @@ class RscDisplayAVTerminal
 			w = "5 * (safezoneW / 64)";
 			h = "safezoneH / 40";
 			text = "Clear All";
-			font = "RobotoCondensedLight";
+			font = "RobotoCondensed_BCE";
 			show = 0;
 			onButtonClick = "call BCE_fnc_clearTaskInfo";
 		};
@@ -1172,7 +1247,7 @@ class RscDisplayAVTerminal
 			y = "3 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (10 * (safezoneH / 40)) + (safezoneH / 30)";
 			w = "14 * (safezoneW / 64)";
 			h = "safezoneH / 45";
-			font = "RobotoCondensedLight";
+			font = "RobotoCondensed_BCE";
 			colorBackground[] = {0,0,0,0.3};
 			colorSelectBackground[] = {0.5,0.5,0.5,0.6};
 			wholeHeight = 0.8;

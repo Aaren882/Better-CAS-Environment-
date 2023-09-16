@@ -9,9 +9,6 @@ class CfgPatches
 		requiredVersion="2.00";
 		requiredAddons[]=
 		{
-			#if __has_include("\vme_clp_a3_language_uifonts_f\config.cpp")
-				"VME_CLP_A3_FONTS",
-			#endif
 			#if __has_include("\A3TI\config.bin")
 				"A3TI",
 			#endif
@@ -44,14 +41,6 @@ class CfgPatches
 #endif
 
 //-CBA Compile
-/*class Extended_PreStart_EventHandlers
-{
-	class ctab_core
-	{
-		init = "call compile preprocessFileLineNumbers '\MG8\AVFEVFX\XEH_preStart.sqf'";
-	};
-};*/
-
 class Extended_PreInit_EventHandlers
 {
 	class AVFEVFX_EH
@@ -638,6 +627,7 @@ class CfgFunctions
 		{
 			file="MG8\AVFEVFX\functions\UI";
 			class TGP_Select_Confirm;
+			class Update_MapCtrls;
 		};
 		class Task_Type
 		{
@@ -883,7 +873,7 @@ class BCE_RscButtonMenu: RscButtonMenu
 	
 	class Attributes
 	{
-		font = "RobotoCondensed";
+		font = "RobotoCondensed_BCE";
 		color = "#E5E5E5";
 		align = "left";
 		shadow = "false";
@@ -897,10 +887,18 @@ class BCE_RscButtonMenu: RscButtonMenu
 	#include "cTab\cTab_UI.hpp"
 #endif
 
-//-Fix Chinese Localization Enhanced Compat
-#if __has_include("\vme_clp_a3_language_uifonts_f\config.cpp")
-	#include "Font\Font.hpp"
-#endif
+class CfgFontFamilies
+{
+	//-Default Font for BCE
+	class RobotoCondensed_BCE
+	{
+		fonts[] = {{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed8","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light6"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed9","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light7"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed10","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light8"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed11","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light9"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed12","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light10"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed13","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light11"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed14","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light12"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed15","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light13"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed16","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light14"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed17","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light15"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed18","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light16"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed19","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light17"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed20","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light18"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed21","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light19"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed22","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light20"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed23","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light21"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed24","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light22"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed25","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light23"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed26","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light24"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed27","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light25"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed28","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light26"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed29","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light27"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed30","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light28"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed31","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light29"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed34","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light30"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed35","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light31"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed37","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light34"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light35"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light37"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed\Roboto-Condensed46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light46"}};
+	};
+	class RobotoCondensedBold_BCE
+	{
+		fonts[] = {{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold9","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light6"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold10","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light7"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold11","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light8"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold12","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light9"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold13","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light10"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold14","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light11"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold15","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light12"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold16","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light13"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold17","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light14"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold18","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light15"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold19","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light16"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold20","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light17"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold21","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light18"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold22","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light19"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold23","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light20"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold24","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light21"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold25","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light22"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold26","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light23"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold27","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light24"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold28","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light25"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold29","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light26"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold30","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light27"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold31","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light28"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold34","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light29"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold35","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light30"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold37","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light31"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light34"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light35"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light37"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light46"}};
+	};
+};
 
 //UI
 #include "Control_UI.hpp"

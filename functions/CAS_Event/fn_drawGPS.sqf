@@ -3,10 +3,11 @@ params ["_ctrl"];
 //- CAS
 private _vehicle = vehicle cameraOn;
 private _taskVar = _vehicle getVariable ["BCE_Task_Receiver",[]];
+private _widgets = uiNameSpace getVariable ["BCE_MainMap_Widget",[true,true]];
 private _veh_POS = getPosASLVisual _vehicle;
 
 //- Angle of View https://www.sr-research.com/eye-tracking-blog/background/visual-angle/
-if (_vehicle isKindOf "Air") then {
+if ((_vehicle isKindOf "Air") && (_widgets # 0)) then {
   //-draw FOV for every turrets (except FFV)
   (_vehicle getVariable "TGP_View_Available_Optics") apply {
     private _turret = _x # 1;
@@ -50,7 +51,7 @@ if (_vehicle isKindOf "Air") then {
   };
 };
 
-if (_taskVar isNotEqualto []) then {
+if ((_taskVar isNotEqualto []) && (_widgets # 1)) then {
   private _dir = getDirVisual _vehicle;
 
   //-Aircraft

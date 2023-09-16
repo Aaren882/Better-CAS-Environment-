@@ -33,14 +33,14 @@ class cTab_MenuItem: RscButtonMenu
 	colorBackgroundFocused[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",0.5};
 	shadow = 2;
 	style = 0;
-	
+
 	period = 0;
 	periodFocus = 2;
 	periodOver = 0.5;
-	
+
 	offsetPressedX = "pixelW";
 	offsetPressedY = "pixelH";
-	
+
 	class Attributes
 	{
 		font = "PuristaLight";
@@ -167,7 +167,7 @@ class cTab_Tablet_dlg
 			w = 2 * smalFmW;
 			h = smalFmH - (1.75 * ContH);
 		};
-		
+
 	};
 	class controls
 	{
@@ -189,7 +189,7 @@ class cTab_Tablet_dlg
 			action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleMapTools;";
 		};
 		class Map_Tool_Show_BCE_widgets: Map_Tool_Show
-		{	
+		{
 			idc = idc_D(1201);
 			text = "a3\3den\data\displays\display3den\toolbar\vision_normal_ca.paa";
 			toolTip = "Set BCE POS (Hold 'Alt' and Click)";
@@ -197,13 +197,13 @@ class cTab_Tablet_dlg
 			action = "['cTab_Tablet_dlg','BCE_mapTools'] call cTab_fnc_toggleMapTools;";
 		};
 		class Map_Tool_BCE_widgets: RscToolbox
-		{	
+		{
 			idc = idc_D(12010);
-			
+
 			Y = sizeY(5.25) - (sizeW * (safezoneH * 1.2));
 			w = sizeW * ((safezoneH * 1.2) * 3/4);
 			h = 1.5 * (sizeW * (safezoneH * 1.2));
-			
+
 			rows = 3;
 			columns = 1;
 			strings[] =
@@ -229,15 +229,15 @@ class cTab_Tablet_dlg
 			Y = sizeY(6.25) - (sizeW * (safezoneH * 1.2));
 			w = sizeW * ((safezoneH * 1.2) * 3/4);
 			h = (sizeW * (safezoneH * 1.2)) / 2;
-			
+
 			colorBackground[] = {1,0,0,0.2};
 			colorBackgroundActive[] = {1,0.25,0.25,0.3};
-	
+
 			text = "DEL MARK";
 			tooltip = "Delete Task Marker";
 			action = "[-4] call cTab_fnc_userMenuSelect;";
 		};
-		
+
 		//---- Groups ----//
 		class Desktop: cTab_RscControlsGroup
 		{
@@ -269,11 +269,11 @@ class cTab_Tablet_dlg
 				delete UAVListBG;
 				delete UAVVidBG2;
 				delete UAVVidTL2;
-				//-Text 
+				//-Text
 				#if PHONE_MOD == 1134
 					AV_Members;
 				#endif
-				
+
 				//-Camera Ctrls
 				class cTab_CameraConnect: RscButtonMenu
 				{
@@ -281,7 +281,7 @@ class cTab_Tablet_dlg
 					text = "View Camera";
 					x = TabletRX;
 					y = TabletDY + (TabletH - (safezoneH / 40));
-					
+
 					w = TabletW / 2;
 					h = (safezoneH / 40);
 					colorBackground[] = {0.5,0.5,0.5,0.55};
@@ -296,7 +296,7 @@ class cTab_Tablet_dlg
 					};
 					class Attributes
 					{
-						font = "RobotoCondensedLight";
+						font = "RobotoCondensed_BCE";
 						color = "#E5E5E5";
 						align = "center";
 						shadow = "true";
@@ -341,13 +341,13 @@ class cTab_Tablet_dlg
 					w = TabletW;
 					h = (safezoneH / 40);
 				};
-				
+
 				//-PIP displays
 				class cTabUAVdisplay: cTab_RscPicture
 				{
 					text = "#(argb,512,512,1)r2t(rendertarget9,1.1896551724)";
 				};
-				
+
 				//-List
 				class cTabUAVlist: RscCombo
 				{
@@ -426,7 +426,7 @@ class cTab_Tablet_dlg
 				{
 					idc = idc_D(1775);
 					text = "";
-					font = "RobotoCondensedLight";
+					font = "RobotoCondensed_BCE";
 					sizeEx = "0.75 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					colorBackground[] = {0.5,0.5,0.5,0.3};
 					colorSelect[] = {1,1,1,1};
@@ -459,7 +459,7 @@ class cTab_Tablet_dlg
 					};
 					class Attributes
 					{
-						font = "RobotoCondensedLight";
+						font = "RobotoCondensed_BCE";
 						color = "#E5E5E5";
 						align = "center";
 						valign = "middle";
@@ -522,7 +522,7 @@ class cTab_Tablet_dlg
 				{
 					idc = idc_D(1785);
 					text = "";
-					font = "RobotoCondensedLight";
+					font = "RobotoCondensed_BCE";
 					sizeEx = "0.65 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					colorBackground[] = {0,0,0,0};
 					colorSelect[] = {0,1,0,1};
@@ -545,7 +545,7 @@ class cTab_Tablet_dlg
 					class Vic_ACRE_Info_List: Vic_Crew_Info_List
 					{
 						idc = idc_D(17850);
-						
+
 						colorBackground[] = {0,0,0,0};
 						colorSelect[] = {1,1,1,1};
 						colorSelect2[] = {1,1,1,1};
@@ -553,7 +553,7 @@ class cTab_Tablet_dlg
 						colorSelect2Right[] = {1,1,1,1};
 						soundSelect[] = {"",0,1};
 						onLBSelChanged = "";
-						
+
 						x = 0;
 						y = (1.65 * ContH) + (0.5 * (smalFmH - (2.75 * ContH)));
 						w = ContW;
@@ -565,7 +565,7 @@ class cTab_Tablet_dlg
 					idc = idc_D(1786);
 					text = "#(argb,512,512,1)r2t(rendertarget8,1.1896551724)";
 					fade = 1;
-					
+
 					InfoPOS(1,1);
 				};
 
@@ -587,7 +587,7 @@ class cTab_Tablet_dlg
 					InfoPOS(1,1);
 					class Attributes
 					{
-						font = "RobotoCondensedLight";
+						font = "RobotoCondensed_BCE";
 						color = "#ffffff";
 						align = "left";
 						shadow = 1;
@@ -599,7 +599,7 @@ class cTab_Tablet_dlg
 				class Task_List: cTab_RscListbox_Tablet
 				{
 					idc = idc_D(1789);
-					font = "RobotoCondensedLight";
+					font = "RobotoCondensed_BCE";
 					onLBSelChanged = "call BCE_fnc_Extended_TaskDESC";
 					InfoPOS(0,1);
 				}
@@ -616,11 +616,11 @@ class cTab_Tablet_dlg
 					colorSelectBackground2[] = {0,0,0,0};
 					period = 0;
 					fade = 1;
-					
+
 					InfoPOS(1,1);
 					class Attributes
 					{
-						font = "RobotoCondensedLight";
+						font = "RobotoCondensed_BCE";
 						color = "#ffffff";
 						align = "left";
 						shadow = 1;
@@ -692,7 +692,7 @@ class cTab_Tablet_dlg
 					h = smalFmH - ContC;
 					class Attributes
 					{
-						font = "RobotoCondensedLight";
+						font = "RobotoCondensed_BCE";
 						color = "#ffffff";
 						align = "left";
 						shadow = 1;
@@ -729,7 +729,7 @@ class cTab_Tablet_dlg
 							multi_options = 1;
 							default = 1;
 							tooltip = "Game Plan";
-							
+
 							//-dont write down on the right of the list
 							Task_writeDown = "Y";
 						};
@@ -919,7 +919,7 @@ class cTab_Tablet_dlg
 					w = ContW;
 					h = "safezoneH / 40";
 					text = "Send Data";
-					font = "RobotoCondensedLight";
+					font = "RobotoCondensed_BCE";
 					sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					colorBackground[] = {0.5,0.5,0.5,0.5};
 					onButtonClick = "(_this + [17000,true]) call BCE_fnc_DataReceiveButton";
@@ -958,7 +958,7 @@ class cTab_Tablet_dlg
 						"Type 2",
 						"Type 3"
 					};
-					font = "RobotoCondensedBold";
+					font = "RobotoCondensed_BCE";
 					colorBackground[] = {0,0,0,0.3};
 					sizeEx = "0.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 				};
@@ -969,7 +969,7 @@ class cTab_Tablet_dlg
 					colorBackground[] = {0,0,0,0.4};
 					tooltip = "more details";
 					onButtonClick = (_this + [17000+2004,'"cTab_Tablet_dlg" >> "controls" >> "Task_Builder" >> "controls"']) call BCE_fnc_ctab_ChangeTask_Desc;
-					BCE_Desc = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but <t font='RobotoCondensedBold'>must have real time data</t> from FO/Scout.";
+					BCE_Desc = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but <t font='RobotoCondensedBold_BCE'>must have real time data</t> from FO/Scout.";
 					ExpPOS(1,0.5,1);
 					periodFocus = 0;
 					periodOver = 0;
@@ -1214,7 +1214,7 @@ class cTab_Tablet_dlg
 				};
 			};
 		};
-		
+
 		//-SubMenu + lerGTD SubMenu + BCE Submenu
 		class MainSubmenu: cTab_RscControlsGroup
 		{
@@ -1240,14 +1240,14 @@ class cTab_Tablet_dlg
 		SetSubMenu(EnemySub4,E_SUB4,SubMenuH);
 		SetSubMenu(CasulSub1,C_SUB1,SubMenuH);
 		SetSubMenu(GenSub1,G_SUB1,SubMenuH);
-		
+
 		#if PHONE_MOD == 1134
 			lerGTD_SUB(MenuCustomText,btn8,8,SubMenuH);
 			lerGTD_SUB(MenuControlPoint,btn9,9,SubMenuH);
 			lerGTD_SUB(MenuManoeuvre,btn5,5,SubMenuH);
 			lerGTD_SUB(MenuSustainment,btn5,5,SubMenuH);
 		#endif
-		
+
 		//-SubMenu
 		class Connect_Veh_Submenu: MainSubmenu
 		{
@@ -1301,7 +1301,7 @@ class cTab_Tablet_dlg
 				class exit: exit{};
 			};
 		};
-		
+
 		//-Edit User Marker
 		class Marker_Edit_Submenu: Connect_Veh_Submenu
 		{
@@ -1341,7 +1341,7 @@ class cTab_Tablet_dlg
 				};
 			};
 		};
-		
+
 		class btnF2: cTab_Tablet_btnF2
 		{
 			tooltip = "AV Intel Live Feed - Quick Key";
@@ -1360,7 +1360,7 @@ class cTab_FBCB2_dlg
 	#if MAP_MODE > 2
 		class controlsBackground
 		{
-			class screen: RscMapControl{}; 
+			class screen: RscMapControl{};
 			class screenTopo: screen
 			{
 				#include "..\Map_Type\TOPO_GRD.hpp"
@@ -1377,7 +1377,7 @@ class cTab_TAD_dlg
 	#if MAP_MODE > 2
 		class controlsBackground
 		{
-			class screen: cTab_TAD_RscMapControl{}; 
+			class screen: cTab_TAD_RscMapControl{};
 			class screenTopo: screen
 			{
 				#include "..\Map_Type\TOPO_AIR.hpp"
@@ -1394,7 +1394,7 @@ class cTab_TAD_dlg
 	{
 		class controlsBackground
 		{
-			class screen: cTab_microDAGR_RscMapControl{}; 
+			class screen: cTab_microDAGR_RscMapControl{};
 			class screenTopo: screen
 			{
 				#include "..\Map_Type\TOPO_GRD.hpp"

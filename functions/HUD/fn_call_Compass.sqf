@@ -5,7 +5,12 @@ _Unit_veh = cameraon;
 //if !(_Unit_veh in vehicles) exitWith {};
 
 _condition = if ((count (allTurrets _Unit_veh) > 0) && !((_Unit_veh isKindOf "UAV") or (_Unit_veh isKindOf "UAV_01_base_F"))) then {
-  !((getText ([_Unit_veh, (_Unit_veh unitTurret _player)] call BIS_fnc_turretConfig >> "turretInfoType")) in A_OPTICS)
+  private _turret = _Unit_veh unitTurret _player;
+  if ((_turret # 0) < 0) then {
+    true
+  } else {
+    !((getText ([_Unit_veh, _turret] call BIS_fnc_turretConfig >> "turretInfoType")) in A_OPTICS)
+  };
 } else {
   true
 };

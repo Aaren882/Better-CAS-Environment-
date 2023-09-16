@@ -44,10 +44,7 @@ _squad_list = _display displayctrl 20116;
 
 //-Description
 _extend_desc = (_Expression_class apply {getNumber(_x >> "multi_options") == 1}) # (lbCurSel _TaskList);
-_Task_Description = [
-  _display displayctrl 2004,
-  _display displayctrl 20041
-] select _extend_desc;
+_Task_Description = _display displayctrl ([2004,20041] select _extend_desc);
 
 _clearbut = _display displayCtrl 2106;
 
@@ -67,7 +64,7 @@ _Expression_Ctrls = (_Expression_class apply {
 //-Task Status
 {
   if ((_x # 0) != "NA") then {
-    _TaskList lbSetTextRight [_forEachIndex, (_x # 0)];
+    _TaskList lbSetTextRight [_forEachIndex, [(_x # 0),"Y"] select (_forEachIndex == 0)];
     _TaskList lbSetPictureRight [_forEachIndex,"\a3\ui_f\data\Map\Diary\Icons\diaryAssignTask_ca.paa"];
     _TaskList lbSetPictureRightColor [_forEachIndex, [0, 1, 0, 1]];
     _TaskList lbSetPictureRightColorSelected [_forEachIndex, [0, 1, 0, 1]];

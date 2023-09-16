@@ -44,7 +44,7 @@ cTabBFTmembers = ((units cTab_player) apply {
   [
     nil,
     [_x,_x call cTab_fnc_getInfMarkerIcon,"",name _x,str([_x] call CBA_fnc_getGroupIndex)]
-  ] select ((_x != cTab_player) && {[_x,["ItemcTab","ItemAndroid","ItemMicroDAGR"]] call cTab_fnc_checkGear});
+  ] select ((_x != cTab_player) && {[_x,ctab_core_personneldevices] call cTab_fnc_checkGear});
 }) select {!isnil {_x}};
 
 /*
@@ -56,9 +56,9 @@ cTabBFTgroups = (allGroups apply {
   if ((side _x in _validSides) && {_x != _playerGroup}) then {
 		_leader = objNull;
 		call {
-			if ([leader _x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) exitWith {_leader = leader _x;};
+			if ([leader _x,ctab_core_leaderDevices] call cTab_fnc_checkGear) exitWith {_leader = leader _x;};
 			{
-				if ([_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) exitWith {_leader = _x;};
+				if ([_x,ctab_core_leaderDevices] call cTab_fnc_checkGear) exitWith {_leader = _x;};
 			} count units _x;
 		};
 		if !(IsNull _leader) then {

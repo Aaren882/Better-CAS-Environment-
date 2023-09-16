@@ -36,10 +36,10 @@ _action = ["BCE_Task_Slew","Slew TG","",{
 		};
 	};
 
-	if ((_turret # 0) > 0) then {
-	  _vehicle lockCameraTo [AGLToASL _POS, _turret, true];
-	} else {
+	if (_turret isEqualTo []) then {
 		_vehicle setPilotCameraTarget (AGLToASL _POS);
+	} else {
+		_vehicle lockCameraTo [AGLToASL _POS, _turret, true];
 	};
 
 },{
