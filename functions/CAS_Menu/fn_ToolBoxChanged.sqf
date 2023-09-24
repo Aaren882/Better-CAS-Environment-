@@ -117,7 +117,6 @@ _MenuChanged = {
 
   _ctrlList = [_taskList,_Task_Type,_task_title];
   _ListState = uiNameSpace getVariable ["BCE_CAS_ListSwtich", false];
-
   _ctrlList = switch _selectedIndex do {
     case 0: {
       _desc ctrlshow false;
@@ -146,9 +145,10 @@ _MenuChanged = {
       _clearbut ctrlSetText getText (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _clearbut >> "text");
 
       {
-        private _w = getText (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _x >> "w");
+        private ["_w","_condition"];
+        _w = getText (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _x >> "w");
         _x ctrlSetPositionW (call compile _w);
-        private _condition = [!((ctrlIDC _x) in [2104,2105]),true] select _ListState;
+        _condition = [!((ctrlIDC _x) in [2104,2105]),true] select _ListState;
         if (_condition) then {
           _x ctrlSetFade 0;
         };
@@ -203,7 +203,7 @@ _MenuChanged = {
         _x params [["_title",""],["_sub",""]];
         [
           format ["<t size='1.1' align='center' font='PuristaSemibold'>%1</t>",_title],
-          format ["<t size='1.1' font='RobotoCondensedBold_BCE'>%1</t> : <t size='1.1' color='#FFD9D9D9'>%2</t>",_title,_sub]
+          format ["<t size='1.1' font='RobotoCondensedBold_BCE'>%1</t> : <t size='1.1' color='#FFD9D9D9'>%2</t>",_title,_sub call BCE_fnc_formatLanguage]
         ] select (_x isEqualType []);
       };
 

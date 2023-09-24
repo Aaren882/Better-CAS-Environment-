@@ -184,7 +184,7 @@ switch _curLine do {
     if ((_taskVar7 # 0) != "NA") then {
       _ctrl ctrlSetText (_taskVar # 7 # 1);
     } else {
-      _ctrl ctrlSetText "Mark with...";
+      _ctrl ctrlSetText localize "STR_BCE_MarkWith";
     };
 
     _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
@@ -207,10 +207,10 @@ switch _curLine do {
     _taskVar_8 = _taskVar # 8;
     _ctrl4POS = ctrlPosition _ctrl4;
     _InfoText = _taskVar_8 # 4;
-    _isEmptyInfo = ((_InfoText == "Mark with...") or (_InfoText == ""));
+    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
 
     _Info = if _isEmptyInfo then {
-      "Mark with..."
+      localize "STR_BCE_MarkWith"
     } else {
       format ["with :[%1]",_taskVar_8 # 4]
     };
@@ -221,7 +221,7 @@ switch _curLine do {
       _ctrl2 lbSetCurSel (_taskVar_8 # 3 # 1);
       _ctrl4 ctrlSetText _Info;
     } else {
-      _ctrl4 ctrlSetText "Mark with...";
+      _ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
     };
 
     _ctrl1sel = lbCurSel _ctrl1;
@@ -279,7 +279,7 @@ switch _curLine do {
 
       _ctrl2 ctrlSetText (str (_taskVar_9 # 1));
     } else {
-      _ctrl2 ctrlSetText "Bearing...";
+      _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
     };
 
     _ctrl1sel = lbCurSel _ctrl1;
@@ -347,7 +347,7 @@ switch _curLine do {
         _ctrl2 ctrlSetText (str (_taskVar_10 # 1));
       };
     } else {
-      _ctrl2 ctrlSetText "Bearing...";
+      _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
     };
 
     _ctrl1sel = lbCurSel _ctrl1;
@@ -374,13 +374,8 @@ switch _curLine do {
     } forEach [_ctrl1,_ctrl2,_ctrl3,_ctrl5];
 
     private _c = (_titlePOS # 3) + _c;
-    _description ctrlSetPosition
-    [
-      _TaskListPOS # 0,
-      (_TaskListPOS # 1) + _c,
-      _TaskListPOS # 2,
-      (_TaskListPOS # 3) - _c
-    ];
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
+    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
     _ctrl2POS = ctrlPosition _ctrl2;
     _ctrl3POS = ctrlPosition _ctrl3;

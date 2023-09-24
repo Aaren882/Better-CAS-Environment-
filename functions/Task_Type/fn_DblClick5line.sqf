@@ -66,11 +66,11 @@ switch _curLine do {
     _taskVar_1 = _taskVar # 1;
     _ctrl4POS = ctrlPosition _ctrl4;
     _InfoText = _taskVar_1 # 4;
-    _isEmptyInfo = ((_InfoText == "Mark with...") or (_InfoText == ""));
+    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
 
     _Info = [
       format ["with :[%1]",_taskVar_1 # 4],
-      "Mark with..."
+      localize "STR_BCE_MarkWith"
     ] select _isEmptyInfo;
 
     //-Back to previous status
@@ -79,7 +79,7 @@ switch _curLine do {
       _ctrl2 lbSetCurSel (_taskVar_1 # 3 # 1);
       _ctrl4 ctrlSetText _Info;
     } else {
-      _ctrl4 ctrlSetText "Mark with...";
+      _ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
     };
 
     _ctrl1sel = lbCurSel _ctrl1;
@@ -175,16 +175,16 @@ switch _curLine do {
     _taskVar_3 = _taskVar # 3;
     _InfoText = _taskVar_3 # 2;
 
-    _isEmptyInfo = ((_InfoText == "Mark with...") or (_InfoText == ""));
+    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
 
-    _Info = [_InfoText,"Mark with..."] select _isEmptyInfo;
+    _Info = [_InfoText,localize "STR_BCE_MarkWith"] select _isEmptyInfo;
 
     //-Back to previous status
     if ((_taskVar_3 # 0) != "NA") then {
       _ctrl1 ctrlSetText (_taskVar_3 # 1);
       _ctrl2 ctrlSetText _Info;
     } else {
-      _ctrl2 ctrlSetText "Mark with...";
+      _ctrl2 ctrlSetText localize "STR_BCE_MarkWith";
     };
 
     _c = 0;
@@ -228,7 +228,7 @@ switch _curLine do {
         _ctrl2 ctrlSetText (str (_taskVar_4 # 1));
       };
     } else {
-      _ctrl2 ctrlSetText "Bearing...";
+      _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
     };
 
     _ctrl1sel = lbCurSel _ctrl1;

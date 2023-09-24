@@ -1,7 +1,7 @@
 params ["_combo"];
 
 lbclear _combo;
-private _index = _combo lbAdd "Select Marker";
+private _index = _combo lbAdd (localize "STR_BCE_SelectMarker");
 _combo lbSetData [_index, "[]"];
 
 {

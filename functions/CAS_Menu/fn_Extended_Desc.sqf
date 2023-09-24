@@ -27,7 +27,7 @@ if (_write or (ctrlText _description_show == "<")) then {
 
   private _text = getText(configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _control >> "BCE_Desc");
   if (_write && (_text != "")) then {
-    _desc = format ["Description : <br/>%1", _text];
+    private _desc = format ["%1<br/>%2", localize "STR_BCE_Description", _text call BCE_fnc_formatLanguage];
     _description ctrlSetStructuredText parseText _desc;
   };
 

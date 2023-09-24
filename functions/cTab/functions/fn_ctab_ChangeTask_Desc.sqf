@@ -5,5 +5,5 @@ _description = _display displayCtrl _desc_IDC;
 
 _config = call compile ("configFile >> " + _config);
 
-_text = parseText (getText (_config >> ctrlClassName _control >> "BCE_desc"));
-_description ctrlSetStructuredText _text;
+_text = getText (_config >> ctrlClassName _control >> "BCE_desc");
+_description ctrlSetStructuredText parseText (_text call BCE_fnc_formatLanguage);

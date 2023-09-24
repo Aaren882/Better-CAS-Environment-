@@ -593,6 +593,7 @@ class CfgFunctions
 		class CAS_Menu
 		{
 			file="MG8\AVFEVFX\functions\CAS_Menu";
+			class formatLanguage;
 			class checkList;
 			class DataReceiveButton;
 			class ListSwitch;

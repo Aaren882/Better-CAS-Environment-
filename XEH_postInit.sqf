@@ -64,8 +64,6 @@ addMissionEventHandler ["Map", {
 
 #ifdef cTAB_Installed
 	[BCE_fnc_cTab_postInit, [], 1] call CBA_fnc_WaitAndExecute;
-
-	//#define IsTGP_CAM_ON (((player getVariable ["TGP_View_EHs", -1]) != -1) or ((player getVariable ["cTab_TGP_View_EH",-1]) != -1))
 #endif
 
 //- Optic Mode

@@ -160,35 +160,35 @@ class RscDisplayAVTerminal
 	onUnload = "[""onUnload"",_this,""RscDisplayAVTerminal"",'BCE_Function'] call (uinamespace getvariable 'BIS_fnc_initDisplay')";
 	Brevity_Code[] =
 	{
-		"Weapon :",
-		{"Guns x3","Firing cannon."},
-		{"Rifle","Launch of A/G missile."},
-		{"Pickle","Release of (Cluster/General-Purpose)bomb."},
-		{"Paveway","Release of Laser-Guided bomb."},
-		{"Ripple","Release multiple munitions in close succession."},
-		{"Winchester","No ordnance remaining, can be used to against the specific target."},
-		{"Splash(ed)","Ammunition impact/target destroyed."},
-		{"Shack","Oradance impact on ground, (Unofficial)."},
-		"Task :",
-		{"Playtime","How long the aircraft can be on station."},
-		{"Contact","Sighting of a specified reference point."},
-		{"Visual","Sighting of the friendly.opposite “Blind”."},
-		{"Tally","Sighting of the target.opposite “No Joy”."},
-		{"Clear(ed) Hot","Give the plane clearance to attack."},
+		"$STR_BCE_BVTITLE_Weapon",
+		{"Guns x3","$STR_BCE_BVT_Guns"},
+		{"Rifle","$STR_BCE_BVT_Rifle"},
+		{"Pickle","$STR_BCE_BVT_Pickle"},
+		{"Paveway","$STR_BCE_BVT_Paveway"},
+		{"Ripple","$STR_BCE_BVT_Ripple"},
+		{"Winchester","$STR_BCE_BVT_Winchester"},
+		{"Splash(ed)","$STR_BCE_BVT_Splash"},
+		{"Shack","$STR_BCE_BVT_Shack"},
+		"$STR_BCE_BVTITLE_Task",
+		{"Playtime","$STR_BCE_BVT_Playtime"},
+		{"Contact","$STR_BCE_BVT_Contact"},
+		{"Visual","$STR_BCE_BVT_Visual"},
+		{"Tally","$STR_BCE_BVT_Tally"},
+		{"Clear(ed) Hot","$STR_BCE_BVT_ClearHot"},
 		"-", //Next Page
-		{"Abort","Terminate the weapon release or mission."},
-		{"What Luck","Request for task result. “BDA”"},
-		{"IP Inbound","Aircraft has reached IP begin to attack."},
-		{"Bingo","Aircraft has no fuel but return to base."},
-		{"Continue","Continue present maneuver; does NOT imply clearance to engage."},
-		"Laser :",
-		{"Laser On","Call to begin Lasing at the target."},
-		{"Sparkle","Marks target by Laser."},
-		{"Lasing","You have begun Lasing the target."},
-		{"Snake/Pulse","Jiggle/Pulse Laser on the target."},
-		{"Steady","Steady the beam (Snake/Pulse)."},
-		{"Spot","When you spot the Laser designation."},
-		{"Rope","Circling Laser around an aircraft."},
+		{"Abort","$STR_BCE_BVT_Abort"},
+		{"What Luck","$STR_BCE_BVT_What_Luck"},
+		{"IP Inbound","$STR_BCE_BVT_IP_Inbound"},
+		{"Bingo","$STR_BCE_BVT_Bingo"},
+		{"Continue","$STR_BCE_BVT_Continue"},
+		"$STR_BCE_BVTITLE_Laser",
+		{"Laser On","$STR_BCE_BVT_Laser_On"},
+		{"Sparkle","$STR_BCE_BVT_Sparkle"},
+		{"Lasing","$STR_BCE_BVT_Lasing"},
+		{"Snake/Pulse","$STR_BCE_BVT_SnakePulse"},
+		{"Steady","$STR_BCE_BVT_Steady"},
+		{"Spot","$STR_BCE_BVT_Spot"},
+		{"Rope","$STR_BCE_BVT_Rope"},
 		"",
 		"<a href='https://wiki.hoggitworld.com/view/Brevity_List'>Hoggitworld</a>",
 		"<a href='https://en.wikipedia.org/wiki/Multiservice_tactical_brevity_code'>Wikipedia</a>"
@@ -256,7 +256,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 1600;
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
-			text = "Live Feed";
+			text = "$STR_BCE_Live_Feed";
 			x = "0.3 * (safezoneW / 64) + (safezoneX)";
 			y = "0.71 * safezoneH + safezoneY";
 			w = "13.2 * (safezoneW / 64)";
@@ -280,7 +280,7 @@ class RscDisplayAVTerminal
 		class Connect_Gunner_Button: Connect_Button
 		{
 			idc = 1601;
-			text = "Control Turret";
+			text = "$STR_BCE_Control_Turret";
 			y = "0.685 * safezoneH + safezoneY";
 		};
 		class Next_Turret_Button: Connect_Button
@@ -559,7 +559,7 @@ class RscDisplayAVTerminal
 		class New_Task_Desc: RscStructuredText
 		{
 			idc = 2004;
-			text = "Description :";
+			text = "$STR_BCE_Description";
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2) min 0.048";
 			x = "50 * (safezoneW / 64) + (safezoneX)";
 			y = "3 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01)";
@@ -638,7 +638,7 @@ class RscDisplayAVTerminal
 				class Game_plan
 				{
 					text = "#: Game Plan :";
-					data = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but must have real time data from FO/Scout.";
+					data = "$STR_BCE_DECS_GAMEPLAN";
 					textRight = "click x2";
 					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 					multi_options = 1;
@@ -648,7 +648,7 @@ class RscDisplayAVTerminal
 				class Line1: Game_plan
 				{
 					text = "1: IP/BP :";
-					data = "“Alt + LMB” on the map to set marker<br/><br/>“Initial Point” or “Battle Position”.<br/><br/>IP for FW aircraft (Planes), the IP is the starting point for the run-in to the target. <br/><br/>BP for RW aircraft (Helis), the BP is where attacks on the target are commenced.";
+					data = "$STR_BCE_DECS_IPBP";
 					Expression_idc[] = {2012,2013,2014};
 					multi_options = 0;
 					tooltip = "Initial Point\Battle Position";
@@ -656,7 +656,7 @@ class RscDisplayAVTerminal
 				class Line2: Line1
 				{
 					text = "2: HDG :";
-					data = "Heading and Offset.<br/><br/>The heading is given in degrees magnetic from the “IP to target” or from the center of the BP to the target. <br/><br/>The offset is the side of the “IP to target” line on which aircrews can maneuver for the attack.";
+					data = "$STR_BCE_DECS_HDG";
 					textRight = "--";
 					Expression_idc[] = {};
 					tooltip = "Heading between IP/BP and Target";
@@ -664,7 +664,7 @@ class RscDisplayAVTerminal
 				class Line3: Line1
 				{
 					text = "3: DIST :";
-					data = "Distance.<br/><br/>The distance “IP/BP to target”.";
+					data = "$STR_BCE_DECS_DIST";
 					textRight = "--";
 					Expression_idc[] = {};
 					tooltip = "Distance between IP/BP and Target";
@@ -672,7 +672,7 @@ class RscDisplayAVTerminal
 				class Line4: Line1
 				{
 					text = "4: ELEV :";
-					data = "Target Elevation.<br/><br/>The target elevation is given in <t underline='true'>Feet</t> Mean Sea Level (MSL) unless otherwise specified.";
+					data = "$STR_BCE_DECS_ELEV";
 					textRight = "--";
 					Expression_idc[] = {};
 					tooltip = "Target elevation (in Feet)";
@@ -680,42 +680,42 @@ class RscDisplayAVTerminal
 				class Line5: Line1
 				{
 					text = "5: DESC :";
-					data = "Target Description.<br/><br/>The description should be specific enough for the aircrew to recognize the target.";
+					data = "$STR_BCE_DECS_DESC";
 					tooltip = "Target description";
 					Expression_idc[] = {2015};
 				};
 				class Line6: Line1
 				{
 					text = "6: GRID :";
-					data = "The target location.";
+					data = "$STR_BCE_DECS_GRID";
 					tooltip = "Target Position (GRID)";
 					Expression_idc[] = {20121,2013,2014};
 				};
 				class Line7: Line1
 				{
 					text = "7: MARK :";
-					data = "Mark Type/Terminal Guidance.<br/><br/>The type of mark the JTAC/FAC(A) will use (for example, smoke(WP), laser, or IR). <br/><br/>If using a laser, the JTAC/FAC(A) will also pass the call sign of the platform/ individual that will provide terminal guidance for the weapon and laser code.";
+					data = "$STR_BCE_DECS_MARK";
 					tooltip = "Mark method";
 					Expression_idc[] = {2016};
 				};
 				class Line8: Line1
 				{
 					text = "8: FRND :";
-					data = "Friendlies bearing from the target.<br/><br/>Cardinal/sub-cardinal bearing from the target (N, NE, E, SE, S, SW, W, or NW) and distance of <t underline='true'>closest friendlies</t> from the target in meters (e.g., “South 300”). ";
+					data = "$STR_BCE_DECS_FRND";
 					tooltip = "Friendlies";
 					Expression_idc[] = {2012,2013,2014,2016};
 				};
 				class Line9: Line1
 				{
 					text = "9: EGRS :";
-					data = "Egress.<br/><br/>These are the instructions the aircrews use to exit the target area.";
+					data = "$STR_BCE_DECS_EGRS";
 					tooltip = "Egress";
 					Expression_idc[] = {2019,2018,2014,2017,2013};
 				};
 				class Remark: Line1
 				{
 					text = "Remarks :";
-					data = "Supplies additional important information.<br/><br/>1.<t underline='true'>Troops in Contact</t> or <t underline='true'>Danger Close</t><br/>2.Final Attack Heading (FAH) or altitude restrictions <br/>3.Threat <br/>5.Active gun target lines <br/>etc";
+					data = "$STR_BCE_DECS_Remarks";
 					tooltip = "Remarks/Restrictions";
 					Expression_idc[] = {2200,2018,2014,2017,2201,2202};
 				};
@@ -738,7 +738,7 @@ class RscDisplayAVTerminal
 				class Line2: Line1
 				{
 					text = "2: FRND/Mark :";
-					data = "Friendly position (The closest one to the Target).<br/>GRID/TRP/bearing and range etc<br/><br/>Marked by (smoke/VS-17 panel/beacon/GLINT/IR strobe etc.)";
+					data = "$STR_BCE_DECS_FRNDMark";
 					tooltip = "Friendly";
 					multi_options = 0;
 					Expression_idc[] = {2012,2013,2014,2016};
@@ -746,21 +746,21 @@ class RscDisplayAVTerminal
 				class Line3: Line2
 				{
 					text = "3: TGT :";
-					data = "Target location. (GRID/TRP/bearing and range etc)";
+					data = "$STR_BCE_DECS_TGT";
 					tooltip = "The target location";
 					Expression_idc[] = {20121,2013,2014};
 				};
 				class Line4: Line2
 				{
 					text = "4: DESC/Mark :";
-					data = "Description of target<br/>Method used to mark ENY position. (IR, tracer etc)";
+					data = "$STR_BCE_DECS_DESCMark";
 					tooltip = "Target Description/Mark method";
 					Expression_idc[] = {2015,2016};
 				};
 				class Remark: Line2
 				{
 					text = "Remarks :";
-					data = "Supplies additional important information.<br/><br/>1.<t underline='true'>Troops in Contact</t> or <t underline='true'>Danger Close</t><br/>2.Final Attack Heading (FAH) or altitude restrictions <br/>3.Threat <br/>5.Active gun target lines <br/>etc";
+					data = "$STR_BCE_DECS_Remarks";
 					tooltip = "Remarks/Restrictions";
 					Expression_idc[] = {2200,2018,2014,2017,2201,2202};
 				};
@@ -801,12 +801,12 @@ class RscDisplayAVTerminal
 			shadow = 1;
 			periodFocus = 0;
 			periodOver = 0;
-			tooltip = "more details";
+			tooltip = "$STR_BCE_more_Details";
 			onButtonClick = "call BCE_fnc_Extended_Desc";
-			BCE_Desc = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but <t font='RobotoCondensedBold_BCE'>must have real time data</t> from FO/Scout.";
+			BCE_Desc = "$STR_BCE_DECS_sm_CtrlType";
 			class Attributes
 			{
-				font = "RobotoCondensed";
+				font = "RobotoCondensed_BCE";
 				color = "#E5E5E5";
 				align = "left";
 				shadow = "true";
@@ -833,7 +833,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 20111;
 			text = "Attack Type: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
-			BCE_Desc = "What kind of the attack will be performed.<br/><br/>BOT (Bomb on Target) : <br/>Guns ,rockets and Laser guided ammunitions. <br/>Ex. Hydra70 GBU-12<br/><br/>BOC (Bomb on Coordinate) : <br/>GPS guided ammunitions. <br/>Ex. GBU-31 GBU-32 GBU-35";
+			BCE_Desc = "$STR_BCE_DECS_sm_AttackType";
 			ExpPOS(3.25,0.5,1);
 		};
 		class New_Task_AttackType: New_Task_CtrlType
@@ -851,7 +851,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 20113;
 			text = "Request Ordnance: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
-			BCE_Desc = "What ammunition will be droped. <br/>How many. <br/>How far. <br/>etc";
+			BCE_Desc = "$STR_BCE_DECS_sm_Ordnance";
 			ExpPOS(5.5,0.5,1);
 		};
 
@@ -991,7 +991,7 @@ class RscDisplayAVTerminal
 			{
 				class NA
 				{
-					text = "Select Marker";
+					text = "$STR_BCE_SelectMarker";
 					data = "[]";
 					default = 1;
 				};
@@ -1019,7 +1019,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 2016;
 			ExpPOS(3,1,1);
-			text = "Mark with...";
+			text = "$STR_BCE_MarkWith";
 			show = 0;
 		};
 
@@ -1058,7 +1058,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 2018;
 			ExpPOS(2,0.5,1);
-			text = "Bearing...";
+			text = "$STR_BCE_Bearing";
 			show = 0;
 		};
 		class New_Task_EGRS: New_Task_IPtype
@@ -1091,11 +1091,18 @@ class RscDisplayAVTerminal
 			idc = 2201;
 			ExpBOX(4,1,17,1);
 			text = ": Danger Close";
+			tooltip = "$STR_BCE_DangerClose_DESC";
 			show = 0;
 		};
 		class New_Task_DangerClose_Box: RscCheckBox
 		{
 			idc = 2202;
+			textureChecked = "a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+			textureFocusedChecked = "a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+			textureHoverChecked = "a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+			texturePressedChecked = "a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+			textureDisabledChecked = "a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+			tooltip = "$STR_BCE_DangerClose_DESC";
 			ExpBOX(4,1,1,0);
 			show = 0;
 		};

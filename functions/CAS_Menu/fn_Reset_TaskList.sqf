@@ -31,7 +31,7 @@ if (_clear_index > -1) then {
   [(_display displayCtrl (17000 + 12010)), false, 'cTab_Tablet_dlg', 17000, _clear_index] call BCE_fnc_clearTaskInfo;
 } else {
   //-Set Description
-  _description ctrlSetStructuredText parseText (_Tasklist lbdata (lbCurSel _Tasklist));
+  _description ctrlSetStructuredText parseText (_Tasklist lbdata (lbCurSel _Tasklist)) call BCE_fnc_formatLanguage;
 };
 
 //-Update Contents for all lists

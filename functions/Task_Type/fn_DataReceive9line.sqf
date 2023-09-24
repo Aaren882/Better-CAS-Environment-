@@ -173,11 +173,11 @@ switch _curLine do {
     _shownCtrls params ["_ctrl1"];
 
     private _text = toUpper (trim (ctrlText _ctrl1));
-    private _isEmptyInfo = ((_text == "Mark with...") or (_text == ""));
-    private _info = [format ["with :[%1]",_text],""] select _isEmptyInfo ;
+    private _isEmptyInfo = ((_text == localize "STR_BCE_MarkWith") or (_text == ""));
+    private _info = [format [" with :[%1]",_text],""] select _isEmptyInfo ;
 
     if _isEmptyInfo then {
-      _ctrl1 ctrlSetText "Mark with...";
+      _ctrl1 ctrlSetText localize "STR_BCE_MarkWith";
     };
 
     if (_text != "") then {
@@ -192,10 +192,10 @@ switch _curLine do {
     _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
 
     private _text = ctrlText _ctrl4;
-    private _isEmptyInfo = ((_text == "Mark with...") or (_text == ""));
+    private _isEmptyInfo = ((_text == localize "STR_BCE_MarkWith") or (_text == ""));
     private _info = [format ["with :[%1]",toUpper _text],"with :[NA]"] select _isEmptyInfo;
     if _isEmptyInfo then {
-      _ctrl4 ctrlSetText "Mark with...";
+      _ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
     };
 
     if ((lbCurSel _ctrl1 == 0) && !(_isOverwrite)) then {
@@ -266,14 +266,14 @@ switch _curLine do {
       _TextInfo = ctrlText _ctrl2;
 
       //-Debug
-      if ((_TextInfo == "") or (_TextInfo == "Bearing...") or isnil{(call compile _TextInfo)}) exitWith {
+      if ((_TextInfo == "") or (_TextInfo == localize "STR_BCE_Bearing") or isnil{(call compile _TextInfo)}) exitWith {
         hint "Wrong Input!!";
-        _ctrl2 ctrlSetText "Bearing...";
+        _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
       };
 
       _HDG = round (call compile _TextInfo);
       if (_HDG > 360) exitWith {
-        _ctrl2 ctrlSetText "Bearing...";
+        _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
         _HDG = nil;
       };
     } else {
@@ -320,9 +320,9 @@ switch _curLine do {
         _TextInfo = ctrlText _ctrl2;
 
         //-Debug
-        if ((_TextInfo == "") or (_TextInfo == "Bearing...") or isnil{(call compile _TextInfo)}) exitWith {
+        if ((_TextInfo == "") or (_TextInfo == localize "STR_BCE_Bearing") or isnil{(call compile _TextInfo)}) exitWith {
           hint "Wrong Input!!";
-          _ctrl2 ctrlSetText "Bearing...";
+          _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
         };
 
         _HDG = (round (call compile _TextInfo)) % 360;
@@ -362,11 +362,14 @@ if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 6 # 0) != "NA")) then {
   _taskVar set [3, [format ["%1m",_DIST],_DIST]];
 };
 
-//-4 ELEV
+//- 6 GRID  //- 4 ELEV
 if ((_taskVar # 6 # 0) != "NA") then {
-  private ["_taskVar_6","_ELEV"];
+  private ["_taskVar_6","_taskVar_7","_ELEV"];
   _taskVar_6 = _taskVar # 6;
+  _taskVar_7 = _taskVar # 7;
+
   _ELEV = round (((_taskVar_6 # 4) * 3.2808399) / 10) * 10;
+
   //-in Feet
   _taskVar set [4, [format ["%1 MSL",_ELEV],_ELEV]];
 
@@ -378,15 +381,8 @@ if ((_taskVar # 6 # 0) != "NA") then {
     _text = format ["[%1] %2 %3°",_taskVar_9 # 4, _HDG call BCE_fnc_getAzimuth, _HDG];
     _taskVar set [9,[_text,_HDG,_taskVar_9 # 2,_taskVar_9 # 3,_taskVar_9 # 4]];
   };
-};
-
-//-6 GRID
-if (((_taskVar # 6 # 0) != "NA") && ((_taskVar # 7 # 0) != "NA")) then {
-  private ["_taskVar_6","_taskVar_7"];
-  _taskVar_6 = _taskVar # 6;
-  _taskVar_7 = _taskVar # 7;
-
-  _taskVar set [6, [format ["%1 %2",_taskVar_6 # 5, _taskVar_7 # 0],_taskVar_6 # 1,_taskVar_6 # 2,_taskVar_6 # 3,_taskVar_6 # 4,_taskVar_6 # 5]];
+  //-Mark with
+  _taskVar set [6, [format ["%1%2",_taskVar_6 # 5, ["",_taskVar_7 # 0] select ((_taskVar # 7 # 0) != "NA")],_taskVar_6 # 1,_taskVar_6 # 2,_taskVar_6 # 3,_taskVar_6 # 4,_taskVar_6 # 5]];
 };
 
 //-8 Friendlies
@@ -401,7 +397,7 @@ if (((_taskVar # 8 # 0) != "NA") && ((_taskVar # 6 # 0) != "NA")  && !("with:" i
   _dist = round (((_taskVar_6 # 2) distance2D _TGPOS) / 10) * 10;
   _cardinaldir = _HDG call BCE_fnc_getAzimuth;
   _InfoText = _taskVar_8 # 4;
-  _isEmptyInfo = ((_InfoText == "Mark with...") or (_InfoText == ""));
+  _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
 
   _info = [
     format ["“%1” %2m with: [%3]", _cardinaldir, _dist, toUpper _InfoText],

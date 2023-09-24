@@ -60,11 +60,11 @@ switch _curLine do {
     _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
 
     private _text = ctrlText _ctrl4;
-    private _isEmptyInfo = ((_text == "Mark with...") or (_text == ""));
+    private _isEmptyInfo = ((_text == localize "STR_BCE_MarkWith") or (_text == ""));
     private _info = [format ["with :[%1]",toUpper _text],"with :[NA]"] select _isEmptyInfo;
 
     if _isEmptyInfo then {
-      _ctrl4 ctrlSetText "Mark with...";
+      _ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
     };
 
     if ((lbCurSel _ctrl1 == 0) && !(_isOverwrite)) then {
@@ -177,7 +177,7 @@ switch _curLine do {
     _text = ctrlText _ctrl1;
     _InfoText = ctrlText _ctrl2;
 
-    _isEmptyInfo = ((_InfoText == "Mark with...") or (_InfoText == ""));
+    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
     _Info = [_InfoText,""] select _isEmptyInfo;
 
     if (_text != "") then {
@@ -205,9 +205,9 @@ switch _curLine do {
         _TextInfo = ctrlText _ctrl2;
 
         //-Debug
-        if ((_TextInfo == "") or (_TextInfo == "Bearing...") or isnil{(call compile _TextInfo)}) exitWith {
+        if ((_TextInfo == "") or (_TextInfo == localize "STR_BCE_Bearing") or isnil{(call compile _TextInfo)}) exitWith {
           hint "Wrong Input!!";
-          _ctrl2 ctrlSetText "Bearing...";
+          _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
         };
 
         _HDG = (round (call compile _TextInfo)) % 360;
@@ -234,7 +234,7 @@ switch _curLine do {
 (_taskVar # 0) pushBackUnique ((_display displayCtrl (_IDC_offset + 2005)) lbText 0);
 
 //-2 Friendly
-if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && !("with:" in (_taskVar # 1 # 0))) then {
+if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && !("with :" in (_taskVar # 1 # 0))) then {
   private ["_taskVar_1","_taskVar_2","_HDG","_dist","_cardinaldir","_InfoText","_info","_isEmptyInfo"];
   _taskVar_1 = _taskVar # 1;
   _taskVar_2 = _taskVar # 2;
@@ -245,7 +245,7 @@ if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && !("with:" in
   _dist = round (((_taskVar_2 # 2) distance2D _TGPOS) / 10) * 10;
   _cardinaldir = _HDG call BCE_fnc_getAzimuth;
   _InfoText = _taskVar_1 # 4;
-  _isEmptyInfo = ((_InfoText == "Mark with...") or (_InfoText == ""));
+  _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
 
   _info = [
     format ["“%1” %2m [%3] with: [%4]", _cardinaldir, _dist, GetGRID(_TGPOS,8), toUpper _InfoText],
