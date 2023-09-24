@@ -266,14 +266,14 @@ switch _curLine do {
       _TextInfo = ctrlText _ctrl2;
 
       //-Debug
-      if ((_TextInfo == "") or (_TextInfo == localize "STR_BCE_Bearing") or isnil{(call compile _TextInfo)}) exitWith {
+      if ((_TextInfo == "") or (_TextInfo == localize "STR_BCE_Bearing_ENT") or isnil{(call compile _TextInfo)}) exitWith {
         hint "Wrong Input!!";
-        _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
+        _ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
       };
 
       _HDG = round (call compile _TextInfo);
       if (_HDG > 360) exitWith {
-        _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
+        _ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
         _HDG = nil;
       };
     } else {
@@ -320,9 +320,9 @@ switch _curLine do {
         _TextInfo = ctrlText _ctrl2;
 
         //-Debug
-        if ((_TextInfo == "") or (_TextInfo == localize "STR_BCE_Bearing") or isnil{(call compile _TextInfo)}) exitWith {
+        if ((_TextInfo == "") or (_TextInfo == localize "STR_BCE_Bearing_ENT") or isnil{(call compile _TextInfo)}) exitWith {
           hint "Wrong Input!!";
-          _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
+          _ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
         };
 
         _HDG = (round (call compile _TextInfo)) % 360;

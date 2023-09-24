@@ -27,7 +27,7 @@ _curLine = [lbCurSel _taskList,_overwrite] select _isOverwrite;
 _vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
 
 //-Send Data
-if ((tolower _button_text) == "send data") exitWith {
+if ((tolower _button_text) == localize "STR_BCE_SendData") exitWith {
   call BCE_fnc_SendTaskData;
 
   if !(_NotAVT) then {
@@ -52,7 +52,7 @@ if ("abort" in (tolower _button_text)) exitWith {
   //-Abort button
   switch _IDC_offset do {
     case 0: {
-      _control ctrlSetText "Send Data";
+      _control ctrlSetText localize "STR_BCE_SendData";
     };
     case 17000: {
       (_display displayCtrl (_IDC_offset + 21050)) ctrlEnable false;

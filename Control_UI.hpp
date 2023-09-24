@@ -532,7 +532,7 @@ class RscDisplayAVTerminal
 		class TaskList_Title: RscText
 		{
 			idc = 2001;
-			text = "Check List:";
+			text = "$STR_BCE_TL_Check_List";
 			sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 15)";
 			x = "50 * (safezoneW / 64) + (safezoneX)";
 			y = "2 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01)";
@@ -639,11 +639,11 @@ class RscDisplayAVTerminal
 				{
 					text = "#: Game Plan :";
 					data = "$STR_BCE_DECS_GAMEPLAN";
-					textRight = "click x2";
+					textRight = "$STR_BCE_clickx2";
 					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 					multi_options = 1;
 					default = 1;
-					tooltip = "Game Plan";
+					tooltip = "$STR_BCE_TIP_GAMEPLAN";
 				};
 				class Line1: Game_plan
 				{
@@ -651,7 +651,7 @@ class RscDisplayAVTerminal
 					data = "$STR_BCE_DECS_IPBP";
 					Expression_idc[] = {2012,2013,2014};
 					multi_options = 0;
-					tooltip = "Initial Point\Battle Position";
+					tooltip = "$STR_BCE_TIP_IPBP";
 				};
 				class Line2: Line1
 				{
@@ -659,7 +659,7 @@ class RscDisplayAVTerminal
 					data = "$STR_BCE_DECS_HDG";
 					textRight = "--";
 					Expression_idc[] = {};
-					tooltip = "Heading between IP/BP and Target";
+					tooltip = "$STR_BCE_TIP_HDG";
 				};
 				class Line3: Line1
 				{
@@ -667,7 +667,7 @@ class RscDisplayAVTerminal
 					data = "$STR_BCE_DECS_DIST";
 					textRight = "--";
 					Expression_idc[] = {};
-					tooltip = "Distance between IP/BP and Target";
+					tooltip = "$STR_BCE_TIP_DIST";
 				};
 				class Line4: Line1
 				{
@@ -675,48 +675,48 @@ class RscDisplayAVTerminal
 					data = "$STR_BCE_DECS_ELEV";
 					textRight = "--";
 					Expression_idc[] = {};
-					tooltip = "Target elevation (in Feet)";
+					tooltip = "$STR_BCE_TIP_ELEV";
 				};
 				class Line5: Line1
 				{
 					text = "5: DESC :";
 					data = "$STR_BCE_DECS_DESC";
-					tooltip = "Target description";
+					tooltip = "$STR_BCE_TIP_DESC";
 					Expression_idc[] = {2015};
 				};
 				class Line6: Line1
 				{
 					text = "6: GRID :";
 					data = "$STR_BCE_DECS_GRID";
-					tooltip = "Target Position (GRID)";
+					tooltip = "$STR_BCE_TIP_GRID";
 					Expression_idc[] = {20121,2013,2014};
 				};
 				class Line7: Line1
 				{
 					text = "7: MARK :";
 					data = "$STR_BCE_DECS_MARK";
-					tooltip = "Mark method";
+					tooltip = "$STR_BCE_TIP_MARK";
 					Expression_idc[] = {2016};
 				};
 				class Line8: Line1
 				{
 					text = "8: FRND :";
 					data = "$STR_BCE_DECS_FRND";
-					tooltip = "Friendlies";
+					tooltip = "$STR_BCE_TIP_FRND";
 					Expression_idc[] = {2012,2013,2014,2016};
 				};
 				class Line9: Line1
 				{
 					text = "9: EGRS :";
 					data = "$STR_BCE_DECS_EGRS";
-					tooltip = "Egress";
+					tooltip = "$STR_BCE_TIP_EGRS";
 					Expression_idc[] = {2019,2018,2014,2017,2013};
 				};
 				class Remark: Line1
 				{
 					text = "Remarks :";
 					data = "$STR_BCE_DECS_Remarks";
-					tooltip = "Remarks/Restrictions";
+					tooltip = "$STR_BCE_TIP_Remarks";
 					Expression_idc[] = {2200,2018,2014,2017,2201,2202};
 				};
 			};
@@ -729,17 +729,17 @@ class RscDisplayAVTerminal
 				class Line1: Game_plan
 				{
 					text = "1:  :";
-					textRight = "click x2";
+					textRight = "$STR_BCE_clickx2";
 					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 					multi_options = 1;
 					default = 1;
-					tooltip = "“Aircraft call sign” / “Yours”";
+					tooltip = "$STR_BCE_TIP_5Line";
 				};
 				class Line2: Line1
 				{
 					text = "2: FRND/Mark :";
 					data = "$STR_BCE_DECS_FRNDMark";
-					tooltip = "Friendly";
+					tooltip = "$STR_BCE_TIP_FRND";
 					multi_options = 0;
 					Expression_idc[] = {2012,2013,2014,2016};
 				};
@@ -747,21 +747,21 @@ class RscDisplayAVTerminal
 				{
 					text = "3: TGT :";
 					data = "$STR_BCE_DECS_TGT";
-					tooltip = "The target location";
+					tooltip = "$STR_BCE_TIP_GRID";
 					Expression_idc[] = {20121,2013,2014};
 				};
 				class Line4: Line2
 				{
 					text = "4: DESC/Mark :";
 					data = "$STR_BCE_DECS_DESCMark";
-					tooltip = "Target Description/Mark method";
+					tooltip = "$STR_BCE_TIP_DESC";
 					Expression_idc[] = {2015,2016};
 				};
 				class Remark: Line2
 				{
 					text = "Remarks :";
 					data = "$STR_BCE_DECS_Remarks";
-					tooltip = "Remarks/Restrictions";
+					tooltip = "$STR_BCE_TIP_Remarks";
 					Expression_idc[] = {2200,2018,2014,2017,2201,2202};
 				};
 			};
@@ -793,7 +793,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 20110;
 			style = 2;
-			text = "Control Type: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
+			text = "$STR_BCE_ControlType_BNT";
 			size = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
 			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
 			colorBackground[] = {0,0,0,0.4};
@@ -832,7 +832,7 @@ class RscDisplayAVTerminal
 		class New_Task_AttackType_Title: New_Task_Ctrl_Title
 		{
 			idc = 20111;
-			text = "Attack Type: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
+			text = "$STR_BCE_AttackType_BNT";
 			BCE_Desc = "$STR_BCE_DECS_sm_AttackType";
 			ExpPOS(3.25,0.5,1);
 		};
@@ -850,7 +850,7 @@ class RscDisplayAVTerminal
 		class New_Task_Ordnance_Title: New_Task_Ctrl_Title
 		{
 			idc = 20113;
-			text = "Request Ordnance: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
+			text = "$STR_BCE_OrdnanceREQ_BNT";
 			BCE_Desc = "$STR_BCE_DECS_sm_Ordnance";
 			ExpPOS(5.5,0.5,1);
 		};
@@ -959,9 +959,9 @@ class RscDisplayAVTerminal
 			columns = 3;
 			strings[] =
 			{
-				"Map Marker",
-				"Click Map “Alt + LMB”",
-				"OverHead"
+				"$STR_BCE_Tit_Map_marker",
+				"$STR_BCE_Tit_Click_Map",
+				"$STR_BCE_Tit_OverHead"
 			};
 			onToolBoxSelChanged = "call BCE_fnc_ToolBoxChanged";
 		};
@@ -971,8 +971,8 @@ class RscDisplayAVTerminal
 			columns = 2;
 			strings[] =
 			{
-				"Map Marker",
-				"Click Map “Alt + LMB”"
+				"$STR_BCE_Tit_Map_marker",
+				"$STR_BCE_Tit_Click_Map"
 			};
 		};
 		class New_Task_MarkerCombo: RscCombo
@@ -1058,7 +1058,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 2018;
 			ExpPOS(2,0.5,1);
-			text = "$STR_BCE_Bearing";
+			text = "$STR_BCE_Bearing_ENT";
 			show = 0;
 		};
 		class New_Task_EGRS: New_Task_IPtype
@@ -1069,8 +1069,8 @@ class RscDisplayAVTerminal
 			{
 				"Azimuth",
 				"Bearing",
-				"Map Marker",
-				"OverHead"
+				"$STR_BCE_Tit_Map_marker",
+				"$STR_BCE_Tit_OverHead"
 			};
 		};
 
@@ -1083,7 +1083,7 @@ class RscDisplayAVTerminal
 			{
 				"FAD",
 				"FAH",
-				"Default"
+				$STR_BCE_Default
 			};
 		};
 		class New_Task_DangerClose_Text: RscText
@@ -1126,7 +1126,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 2022;
 			ExpPOS(7.65,1/3,1);
-			tooltip = "Attack Range";
+			tooltip = "$STR_BCE_tip_Attack_Range";
 			class Items
 			{
 				class 2000m
@@ -1153,12 +1153,12 @@ class RscDisplayAVTerminal
 			Style = 2;
 			show = 0;
 			text = "1";
-			tooltip = "Round Count";
+			tooltip = "$STR_BCE_tip_Round_Count";
 		};
-		class Attack_Height_Combo: Round_Count_Box
+		class Attack_Height_Box: Round_Count_Box
 		{
 			idc = 2024;
-			tooltip = "Attack Height ASL (m)";
+			tooltip = "$STR_BCE_tip_Attack_Height";
 			text = "2000";
 		};
 
@@ -1195,8 +1195,8 @@ class RscDisplayAVTerminal
 			};
 			tooltips[] =
 			{
-				"Add Task",
-				"Brevity Codes"
+				"$STR_BCE_AddTask",
+				"$STR_BCE_Brevity_Codes"
 			};
 			onToolBoxSelChanged = "(_this + [true]) call BCE_fnc_ToolBoxChanged";
 		};
@@ -1209,7 +1209,7 @@ class RscDisplayAVTerminal
 			y = "3 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + (10 * (safezoneH / 40))";
 			w = "14 * (safezoneW / 64)";
 			h = "safezoneH / 30";
-			text = "New Task";
+			text = "$STR_BCE_New_Task";
 			font = "RobotoCondensed_BCE";
 			sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 			Enable = 0;
@@ -1228,7 +1228,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 2105;
 			x = "50 * (safezoneW / 64) + (safezoneX) + (7 * (safezoneW / 64))";
-			text = "Send Data";
+			text = "$STR_BCE_SendData";
 			fade = 1;
 			enable = 0;
 			onButtonClick = "call BCE_fnc_DataReceiveButton";
@@ -1240,7 +1240,7 @@ class RscDisplayAVTerminal
 			y = "2 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01)";
 			w = "5 * (safezoneW / 64)";
 			h = "safezoneH / 40";
-			text = "Clear All";
+			text = "$STR_BCE_ClearAll";
 			font = "RobotoCondensed_BCE";
 			show = 0;
 			onButtonClick = "call BCE_fnc_clearTaskInfo";

@@ -51,7 +51,7 @@ if ((ctrlShown _description) or (_Veh_Changed) or (_isOverwrite)) then {
     case 8:{
       _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4","_ctrl5"];
       _taskVar set [9,["NA",0,[],nil,nil]];
-      _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
+      _ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
       _ctrl3 ctrlSetText "NA";
     };
     default {

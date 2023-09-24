@@ -130,7 +130,7 @@ _MenuChanged = {
         );
       } else {
         //-when inputting Info
-        if (ctrlText (_display displayCtrl 2105) == "Enter") then {
+        if (ctrlText (_display displayCtrl 2105) == localize "STR_BCE_Enter") then {
           [_taskList,_curLine] call BCE_fnc_TaskListDblCLick;
         };
 
@@ -141,7 +141,7 @@ _MenuChanged = {
         );
       };
 
-      _list_Title ctrlSetText (["Check List:","Create Task: (DoubleClick)"] select _ListState);
+      _list_Title ctrlSetText ([localize "STR_BCE_TL_Check_List",format["%1 (%2)",localize "STR_BCE_TL_Create_Task", localize "STR_BCE_DoubleClick"]] select _ListState);
       _clearbut ctrlSetText getText (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _clearbut >> "text");
 
       {
@@ -214,7 +214,7 @@ _MenuChanged = {
       _desc ctrlSetPositionH (_To_BottomH * SafeZoneH);
       _desc ctrlCommit 0;
 
-      _list_Title ctrlSetText "Common Brevity Codes:";
+      _list_Title ctrlSetText ((localize "STR_BCE_Brevity_Codes") + ":");
       _clearbut ctrlSetText ">";
 
       {

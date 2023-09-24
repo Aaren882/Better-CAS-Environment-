@@ -86,7 +86,7 @@ _Expression_Ctrls = (_Expression_class apply {
 //-from the Last page (Break)
 if (ctrlShown _Task_title) exitWith {
   {_x ctrlShow false} forEach ([_Task_title,_Task_Description,_desc_show,_squad_title,_squad_pic,_squad_list,_Button_Racks,_List_Racks] + (flatten _Expression_Ctrls));
-  (_display displayCtrl 2105) ctrlSetText "Send Data";
+  (_display displayCtrl 2105) ctrlSetText localize "STR_BCE_SendData";
   _TaskList ctrlShow true;
 
   //-Back to check list
@@ -109,8 +109,9 @@ _MainList_POS = ctrlPosition _MainList;
 _createTask_POS = ctrlPosition _createTask;
 _sendData_POS = ctrlPosition _sendData;
 
+_list_Title ctrlSetText ([localize "STR_BCE_TL_Check_List",format["%1 (%2)",localize "STR_BCE_TL_Create_Task", localize "STR_BCE_DoubleClick"]] select (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]));
+
 if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
-  _list_Title ctrlSetText "Create Task: (DoubleClick)";
   private _To_BottomH = 1 - (((_MainList_POS # 1) - safezoneY) / safezoneH);
 
   _BG_grp ctrlSetPositionH (_To_BottomH * SafeZoneH);
@@ -175,7 +176,6 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
   };
 
 } else {
-  _list_Title ctrlSetText "Check List:";
   _BG_grp ctrlSetPositionH (call compile getText (_config >> ctrlClassName _BG_grp >> "H"));
 
   _createTask ctrlSetPosition

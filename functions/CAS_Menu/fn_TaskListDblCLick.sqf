@@ -126,7 +126,7 @@ _TaskList ctrlshow false;
 //-Write down description
 _desc = format ["%1<br/>%2", localize "STR_BCE_Description", (_TaskList lbData _curLine) call BCE_fnc_formatLanguage];
 _description ctrlSetStructuredText parseText _desc;
-_sendData ctrlSetText "Enter";
+_sendData ctrlSetText localize "STR_BCE_Enter";
 
 _descriptionPOS = ctrlPosition _description;
 _TaskListPOS = ctrlPosition _TaskList;

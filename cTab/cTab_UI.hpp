@@ -728,7 +728,7 @@ class cTab_Tablet_dlg
 							Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 							multi_options = 1;
 							default = 1;
-							tooltip = "Game Plan";
+							tooltip = "$STR_BCE_TIP_GAMEPLAN";
 
 							//-dont write down on the right of the list
 							Task_writeDown = "Y";
@@ -739,7 +739,7 @@ class cTab_Tablet_dlg
 							data = "$STR_BCE_DECS_IPBP";
 							Expression_idc[] = {2012,2013,2014};
 							multi_options = 0;
-							tooltip = "Initial Point\Battle Position";
+							tooltip = "$STR_BCE_TIP_IPBP";
 							Task_writeDown = "";
 						};
 						class Line2: Line1
@@ -748,7 +748,7 @@ class cTab_Tablet_dlg
 							data = "$STR_BCE_DECS_HDG";
 							textRight = "--";
 							Expression_idc[] = {};
-							tooltip = "Heading between IP/BP and Target";
+							tooltip = "$STR_BCE_TIP_HDG";
 						};
 						class Line3: Line1
 						{
@@ -756,7 +756,7 @@ class cTab_Tablet_dlg
 							data = "$STR_BCE_DECS_DIST";
 							textRight = "--";
 							Expression_idc[] = {};
-							tooltip = "Distance between IP/BP and Target";
+							tooltip = "$STR_BCE_TIP_DIST";
 						};
 						class Line4: Line1
 						{
@@ -764,48 +764,48 @@ class cTab_Tablet_dlg
 							data = "$STR_BCE_DECS_ELEV";
 							textRight = "--";
 							Expression_idc[] = {};
-							tooltip = "Target elevation (in Feet)";
+							tooltip = "$STR_BCE_TIP_ELEV";
 						};
 						class Line5: Line1
 						{
 							text = "5: DESC :";
 							data = "$STR_BCE_DECS_DESC";
-							tooltip = "Target description";
+							tooltip = "$STR_BCE_TIP_DESC";
 							Expression_idc[] = {2015};
 						};
 						class Line6: Line1
 						{
 							text = "6: GRID :";
 							data = "$STR_BCE_DECS_GRID";
-							tooltip = "Target Position (GRID)";
+							tooltip = "$STR_BCE_TIP_GRID";
 							Expression_idc[] = {20121,2013,2014};
 						};
 						class Line7: Line1
 						{
 							text = "7: MARK :";
 							data = "$STR_BCE_DECS_MARK";
-							tooltip = "Mark method";
+							tooltip = "$STR_BCE_TIP_MARK";
 							Expression_idc[] = {2016};
 						};
 						class Line8: Line1
 						{
 							text = "8: FRND :";
 							data = "$STR_BCE_DECS_FRND";
-							tooltip = "Friendlies";
+							tooltip = "$STR_BCE_TIP_FRND";
 							Expression_idc[] = {2012,2013,2014,2016};
 						};
 						class Line9: Line1
 						{
 							text = "9: EGRS :";
 							data = "$STR_BCE_DECS_EGRS";
-							tooltip = "Egress";
+							tooltip = "$STR_BCE_TIP_EGRS";
 							Expression_idc[] = {2019,2018,2014,2017,2013};
 						};
 						class Remark: Line1
 						{
 							text = "Remarks :";
 							data = "$STR_BCE_DECS_Remarks";
-							tooltip = "Remarks/Restrictions";
+							tooltip = "$STR_BCE_TIP_Remarks";
 							Expression_idc[] = {2200,2018,2014,2017,2201,2202};
 						};
 					};
@@ -823,13 +823,13 @@ class cTab_Tablet_dlg
 							Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 							multi_options = 1;
 							default = 1;
-							tooltip = "“Aircraft call sign” / “Yours”";
+							tooltip = "$STR_BCE_TIP_5Line";
 						};
 						class Line2: Line1
 						{
 							text = "2: FRND/Mark :";
 							data = "$STR_BCE_DECS_FRNDMark";
-							tooltip = "Friendly";
+							tooltip = "$STR_BCE_TIP_FRND";
 							textRight = "NA";
 							multi_options = 0;
 							Task_writeDown = "";
@@ -839,21 +839,21 @@ class cTab_Tablet_dlg
 						{
 							text = "3: TGT :";
 							data = "$STR_BCE_DECS_TGT";
-							tooltip = "The target location";
+							tooltip = "$STR_BCE_TIP_GRID";
 							Expression_idc[] = {20121,2013,2014};
 						};
 						class Line4: Line2
 						{
 							text = "4: DESC/Mark :";
 							data = "$STR_BCE_DECS_DESCMark";
-							tooltip = "Target Description/Mark method";
+							tooltip = "$STR_BCE_TIP_DESC";
 							Expression_idc[] = {2015,2016};
 						};
 						class Remark: Line2
 						{
 							text = "Remarks :";
 							data = "$STR_BCE_DECS_Remarks";
-							tooltip = "Remarks/Restrictions";
+							tooltip = "$STR_BCE_TIP_Remarks";
 							Expression_idc[] = {2200,2018,2014,2017,2201,2202};
 						};
 					};
@@ -918,7 +918,7 @@ class cTab_Tablet_dlg
 					y = smalFmH - (safezoneH / 40);
 					w = ContW;
 					h = "safezoneH / 40";
-					text = "Send Data";
+					text = "$STR_BCE_SendData";
 					font = "RobotoCondensed_BCE";
 					sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					colorBackground[] = {0.5,0.5,0.5,0.5};
@@ -941,7 +941,7 @@ class cTab_Tablet_dlg
 				{
 					idc = idc_D(21051);
 					x = FrameLX + smalFmW + smalSpc + (0.5 * ContW);
-					text = "Enter";
+					text = "$STR_BCE_Enter";
 					colorBackground[] = {0.5,0.5,0.5,0.5};
 				};
 
@@ -1009,9 +1009,9 @@ class cTab_Tablet_dlg
 					columns = 3;
 					strings[] =
 					{
-						"Map Marker",
+						"$STR_BCE_Tit_Map_marker",
 						"“BFT” Marker",
-						"OverHead"
+						"$STR_BCE_Tit_OverHead"
 					};
 					onToolBoxSelChanged = _this + [false,TASK_OFFSET] call BCE_fnc_ToolBoxChanged;
 				};
@@ -1021,7 +1021,7 @@ class cTab_Tablet_dlg
 					columns = 2;
 					strings[] =
 					{
-						"Map Marker",
+						"$STR_BCE_Tit_Map_marker",
 						"“BFT” Marker"
 					};
 				};
@@ -1113,7 +1113,7 @@ class cTab_Tablet_dlg
 				{
 					idc = idc_D(2018);
 					ExpPOS(2,0.5,1);
-					text = "$STR_BCE_Bearing";
+					text = "$STR_BCE_Bearing_ENT";
 					show = 0;
 				};
 				class New_Task_EGRS: New_Task_IPtype
@@ -1124,8 +1124,8 @@ class cTab_Tablet_dlg
 					{
 						"Azimuth",
 						"Bearing",
-						"Map Marker",
-						"OverHead"
+						"$STR_BCE_Tit_Map_marker",
+						"$STR_BCE_Tit_OverHead"
 					};
 					sizeEx = "0.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 				};
@@ -1139,7 +1139,7 @@ class cTab_Tablet_dlg
 					{
 						"FAD",
 						"FAH",
-						"Default"
+						$STR_BCE_Default
 					};
 				};
 				class New_Task_DangerClose_Text: RscText

@@ -43,7 +43,7 @@ if (_button == 0) then {
         ) &&
         (
           !(ctrlshown _type) or
-          !(_type lbText (lbCurSel _type) == "OverHead")
+          !(_type lbText (lbCurSel _type) == (localize "STR_BCE_Tit_OverHead"))
         )
       ) then {
       "MAP_ClickPOS" call _mark;

@@ -170,6 +170,15 @@ switch _mode do
 			//-CAS Layout
 			[_display,0,true] call BCE_fnc_ListSwitch;
 
+			//-Set UI Game Plan UI BNTs
+			{
+				(_display displayctrl (_x # 0)) ctrlSetStructuredText parseText ((localize (_x # 1)) call BCE_fnc_formatLanguage)
+			} count [
+				[20110,"STR_BCE_ControlType_BNT"],
+				[20111,"STR_BCE_AttackType_BNT"],
+				[20113,"STR_BCE_OrdnanceREQ_BNT"]
+			];
+
 			("RscAdvancedHint" call bis_fnc_rsclayer) cuttext ["","plain"];
 
 			_control = _display displayctrl 1700;

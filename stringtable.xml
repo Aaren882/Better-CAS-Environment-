@@ -17,6 +17,48 @@
             <Original>more details</Original>
 			<Chinese>更多細項</Chinese>
         </Key>
+		<Key ID="STR_BCE_Default">
+            <Original>Default</Original>
+			<Chinese>預設</Chinese>
+        </Key>
+		<Key ID="STR_BCE_SendData">
+            <Original>Send Data</Original>
+			<Chinese>送出</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Enter">
+            <Original>Enter</Original>
+			<Chinese>輸入</Chinese>
+        </Key>
+		<Key ID="STR_BCE_ClearAll">
+            <Original>Clear All</Original>
+			<Chinese>全部清除</Chinese>
+        </Key>
+		<Key ID="STR_BCE_New_Task">
+            <Original>New Task</Original>
+			<Chinese>創建新任務</Chinese>
+        </Key>
+		<Key ID="STR_BCE_DoubleClick">
+            <Original>DoubleClick</Original>
+			<Chinese>雙擊左鍵</Chinese>
+        </Key>
+		<Key ID="STR_BCE_clickx2">
+            <Original>click x2</Original>
+			<Chinese>點擊 x2</Chinese>
+        </Key>
+		
+		
+		<Key ID="STR_BCE_ControlType_BNT">
+            <Original>Control Type: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Original>
+			<Chinese>控制類型: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Chinese>
+        </Key><Key ID="STR_BCE_AttackType_BNT">
+            <Original>Attack Type: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Original>
+			<Chinese>攻擊類型: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Chinese>
+        </Key><Key ID="STR_BCE_OrdnanceREQ_BNT">
+            <Original>Request Ordnance: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Original>
+			<Chinese>彈藥請求: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Chinese>
+        </Key>
+		
+		
 		<Key ID="STR_BCE_MarkWith">
             <Original>Mark with...</Original>
 			<Chinese>輸入標記方式...</Chinese>
@@ -25,10 +67,58 @@
             <Original>Select Marker</Original>
 			<Chinese>選擇地圖標記</Chinese>
         </Key>
-		<Key ID="STR_BCE_Bearing">
+		<Key ID="STR_BCE_Bearing_ENT">
             <Original>Bearing...</Original>
 			<Chinese>輸入方位...</Chinese>
         </Key>
+		<Key ID="STR_BCE_AddTask">
+            <Original>Add Task</Original>
+			<Chinese>添加任務</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Brevity_Codes">
+            <Original>Common Brevity Codes</Original>
+			<Chinese>常見 簡短代號</Chinese>
+        </Key>
+		
+		
+		<Key ID="STR_BCE_TL_Check_List">
+            <Original>Check List:</Original>
+			<Chinese>武器清單:</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TL_Create_Task">
+            <Original>Create Task:</Original>
+			<Chinese>建立任務:</Chinese>
+        </Key>
+		
+		
+		<Key ID="STR_BCE_Tit_Map_marker">
+            <Original>Map Marker</Original>
+			<Chinese>地圖標記</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Tit_Click_Map">
+            <Original>Click Map “Alt + LMB”</Original>
+			<Chinese>點擊地圖 “Alt + 左鍵”</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Tit_OverHead">
+            <Original>OverHead</Original>
+			<Chinese>目前位置</Chinese>
+        </Key>
+		
+		
+		<Key ID="STR_BCE_tip_Attack_Range">
+            <Original>Attack Range</Original>
+			<Chinese>攻擊距離</Chinese>
+        </Key>
+		<Key ID="STR_BCE_tip_Round_Count">
+            <Original>Round Count</Original>
+			<Chinese>多少發</Chinese>
+        </Key>
+		<Key ID="STR_BCE_tip_Attack_Height">
+            <Original>Attack Height ASL (m)</Original>
+			<Chinese>攻擊高度 海平面(m)</Chinese>
+        </Key>
+		
+		
 		<Key ID="STR_BCE_DangerClose_DESC">
             <Original>Friendly forces are very close to the target, Range may vary depends on the ordnance or ROE.</Original>
 			<Chinese>友軍部隊非常接近目標，距離可能會根據彈種或交戰規則而改變。</Chinese>
@@ -47,6 +137,7 @@
             <Original>Laser :</Original>
 			<Chinese>雷射 呼號 :</Chinese>
         </Key>
+		
 		
 		<Key ID="STR_BCE_BVT_Guns">
             <Original>Firing cannon.</Original>
@@ -90,11 +181,11 @@
         </Key>
 		<Key ID="STR_BCE_BVT_Visual">
             <Original>Sighting of the friendly.opposite “Blind”.</Original>
-			<Chinese>目視 友軍，與 “Blind” 相反。</Chinese>
+			<Chinese>目視 友軍，相反詞 “Blind”。</Chinese>
         </Key>
 		<Key ID="STR_BCE_BVT_Tally">
             <Original>Sighting of the target.opposite “No Joy”.</Original>
-			<Chinese>目視 目標，與 “No Joy” 相反。</Chinese>
+			<Chinese>目視 目標，相反詞 “No Joy”。</Chinese>
         </Key>
 		<Key ID="STR_BCE_BVT_ClearHot">
             <Original>Give the plane clearance to attack.</Original>
@@ -110,15 +201,15 @@
         </Key>
 		<Key ID="STR_BCE_BVT_IP_Inbound">
             <Original>Aircraft has reached IP begin to attack.</Original>
-			<Chinese>飛機已達到IP，開始進行攻擊。</Chinese>
+			<Chinese>飛機已達到IP，準備開始進行攻擊。</Chinese>
         </Key>
 		<Key ID="STR_BCE_BVT_Bingo">
             <Original>Aircraft has no fuel ,but return to base.</Original>
 			<Chinese>飛機已無燃料，只能返回基地。</Chinese>
         </Key>
 		<Key ID="STR_BCE_BVT_Continue">
-            <Original>Continue present maneuver; does NOT imply clearance to engage.</Original>
-			<Chinese>持續現有機動; “無”開火許可。</Chinese>
+            <Original>Continue present maneuver. does NOT imply clearance to engage.</Original>
+			<Chinese>持續現有機動。 “無”開火許可。</Chinese>
         </Key>
 		<Key ID="STR_BCE_BVT_Laser_On">
             <Original>Call to begin Lasing at the target.</Original>
@@ -151,6 +242,8 @@
 		
 		
 		
+		
+		
 		<Key ID="STR_BCE_DECS_GAMEPLAN">
             <Original>Provide a short summary of how the attack is going to be performed.%1%1 1. Type of the control (1,2 or 3)%1 2. Kind of the Attack (BOT/BOC)%1 3. Ordnance requested on target</Original>
 			<Chinese>提供攻擊方式的簡要摘要。%1%1 1. 控制類型 (1、2或3) %1 2. 攻擊類型 (BOT/BOC) %1 3. 對目標的武器選項</Chinese>
@@ -161,15 +254,15 @@
         </Key>
 		<Key ID="STR_BCE_DECS_HDG">
             <Original>Heading and Offset.%1%1The heading is given in degrees magnetic from the “IP to target” or the center of the “BP to the target”. %1%1The offset is the side of the “IP to target” line on which aircrews can maneuver for the attack.</Original>
-			<Chinese>“飛行方向” 和 “偏移”。%1%1飛行方向以指北針角度表示，從 “起始點 (IP) 到目標” 或 “戰鬥位置 (BP) 的中心到目標”。 %1%1“偏移” 是指在 “起始點到目標” 的一側，人員可以在該側進行攻擊機動。</Chinese>
+			<Chinese>“飛行方向” 和 “偏移”。%1%1飛行方向以指北針角度表示，從 “起始點 (IP) 到目標” 或 “戰鬥位置 (BP) 的中心到目標”。 %1%1“偏移” 是指在 “起始點到目標” 的一側，人員可以在該側 進行攻擊動作。</Chinese>
         </Key>
 		<Key ID="STR_BCE_DECS_DIST">
             <Original>Distance.%1%1The distance “IP/BP to target”.</Original>
 			<Chinese>距離。%1%1“IP/BP -> 目標” 的距離。</Chinese>
         </Key>
 		<Key ID="STR_BCE_DECS_ELEV">
-            <Original>Target Elevation.%1%1The target elevation is given in %2 %5%3Feet%4 Mean Sea Level (MSL) unless otherwise specified.</Original>
-			<Chinese>目標高度。%1%1目標高度以 海平面 (MSL) 計算，除非另有指定，以%2 %5%3英尺%4為單位。</Chinese>
+            <Original>Target Elevation.%1%1The target elevation is given in %2t %5%3Feet%4 Mean Sea Level (MSL) unless otherwise specified.</Original>
+			<Chinese>目標高度。%1%1目標高度以 海平面 (MSL) 計算，除非另有指定，以%2t %5%3英尺%4為單位。</Chinese>
         </Key>
 		<Key ID="STR_BCE_DECS_DESC">
             <Original>Target Description.%1%1The description should be specific enough for the aircrew to recognize the target.</Original>
@@ -184,17 +277,17 @@
 			<Chinese>標記方式/終端引導。%1%1JTAC/FAC(A)將使用的標記類型 (例如，煙霧 (WP) 、雷射 或 紅外線) 。 %1%1如果使用雷射，JTAC/FAC(A)還要提供 個人呼號/使用平台/武器終端引導 和 雷射代碼。</Chinese>
         </Key>
 		<Key ID="STR_BCE_DECS_FRND">
-            <Original>Friendlies bearing from the target.%1%1Cardinal/sub-cardinal bearing from the target (N, NE, E, SE, S, SW, W, or NW) and distance of %2 %5%3closest friendlies%4 from the target in meters (e.g., “South 300”).</Original>
-			<Chinese>友軍位置根據目標的方位。%1%1從目標的 基本/次基本 方位 (北、東北、東、東南、南、西南、西、西北) 和最近友軍離目標的距離，以公尺表示 (例如，“南方 300”) 以%2 %5%3最近的友軍%4為例。</Chinese>
+            <Original>Friendlies bearing from the target.%1%1Cardinal/sub-cardinal bearing from the target (N, NE, E, SE, S, SW, W, or NW) and distance of %2t %5%3closest friendlies%4 from the target in meters (e.g., “South 300”).</Original>
+			<Chinese>友軍位置根據目標的方位。%1%1從目標的 基本/次基本 方位 (北、東北、東、東南、南、西南、西、西北) 和最近友軍離目標的距離，以公尺表示 (例如，“南方 300”) 以%2t %5%3最近的友軍%4為例。</Chinese>
         </Key>
 		<Key ID="STR_BCE_DECS_EGRS">
             <Original>Egress.%1%1These are the instructions the aircrews use to exit the target area.</Original>
 			<Chinese>Egress (撤離) 。%1%1這些是空中單位用來離開目標區域的指示。</Chinese>
         </Key>
 		<Key ID="STR_BCE_DECS_Remarks">
-            <Original>Supplies additional important information.%1%1 1.%2 %5%3Troops in Contact%4 or %2 %5%3Danger Close%4%1 2.Final Attack Heading (FAH) or altitude restrictions %1 3.Threat %1 5.Active gun target lines %1etc</Original>
-			<Chinese>提供額外重要資訊。%1%1 1. %2 %5%3處於交戰%4 或 %2 %5%3Danger Close%4%1 2. 最終攻擊方向 (FAH) 或 高度限制 %1 3. 區域威脅 %1 4. 正在使用的射擊槍線 %1等等</Chinese>
-        </Key>
+            <Original>Supplies additional important information.%1%1 1.%2t %5%3Troops in Contact%4 or %2t %5%3Danger Close%4%1 2.Final Attack Heading (FAH) or altitude restrictions %1 3.Threat %1 5.Active gun target lines %1etc</Original>
+			<Chinese>提供額外重要資訊。%1%1 1. %2t %5%3處於交戰%4 或 %2t %5%3Danger Close%4%1 2. 最終攻擊方向 (FAH) 或 高度限制 %1 3. 區域威脅 %1 4. 正在使用的射擊槍線 %1等等</Chinese>
+        </Key
 		
 		
 		
@@ -213,8 +306,8 @@
 		
 		
 		<Key ID="STR_BCE_DECS_sm_CtrlType">
-            <Original>Type 1 : %1JTAC can see target and Aircraft, and is for individual attacks.%1%1Type 2 : %1JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.%1%1Type 3 : %1Multiple attacks within a single engagement, JTAC can't see the aircraft but %2 %6'RobotoCondensedBold_BCE'%3must have real time data%4 from FO/Scout.</Original>
-			<Chinese>Type 1：%1JTAC能看到目標和飛機，並且用於個別攻擊。%1%1Type 2：%1JTAC可以看到目標或飛機(其中之一，而不是兩者兼具)，用於個別攻擊，他必須從FO(前線觀察員)/偵察兵那裡獲得實時目標數據。%1%1Type 3：%1在單一攻擊中進行多次攻擊，JTAC無法看到飛機，但%2 %5%3必須從FO(前線觀測員)/偵察兵%4那裡獲得實時數據。</Chinese>
+            <Original>Type 1 : %1JTAC can see target and Aircraft, and is for individual attacks.%1%1Type 2 : %1JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.%1%1Type 3 : %1Multiple attacks within a single engagement, JTAC can't see the aircraft but %2t %6'RobotoCondensedBold_BCE'%3must have real time data%4 from FO/Scout.</Original>
+			<Chinese>Type 1：%1JTAC能看到目標和飛機，並且用於個別攻擊。%1%1Type 2：%1JTAC可以看到目標或飛機(其中之一，而不是兩者兼具)，用於個別攻擊，他必須從FO(前線觀察員)/偵察兵那裡獲得實時目標數據。%1%1Type 3：%1在單一攻擊中進行多次攻擊，JTAC無法看到飛機，但%2t %5%3必須從FO(前線觀測員)/偵察兵%4那裡獲得實時數據。</Chinese>
         </Key>
 		<Key ID="STR_BCE_DECS_sm_AttackType">
             <Original>What kind of the attack will be performed.%1%1BOT (Bomb on Target): %1Guns ,rockets and Laser guided ammunitions. %1Ex. Hydra70 GBU-12%1%1BOC (Bomb on Coordinate): %1GPS guided ammunitions. %1Ex. GBU-31 GBU-32 GBU-35</Original>
@@ -225,5 +318,56 @@
 			<Chinese>將投放何種彈藥。%1用多少。%1多遠投放。%1等等</Chinese>
         </Key>
 		
+		
+		
+		<Key ID="STR_BCE_TIP_GAMEPLAN">
+            <Original>Game Plan</Original>
+			<Chinese>任務計劃</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_IPBP">
+            <Original>Initial Point\Battle Position</Original>
+			<Chinese>“起始點(IP)” \ “戰鬥位置(BP)”</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_HDG">
+            <Original>Heading from Target to IP/BP</Original>
+			<Chinese>從目標到 IP/BP 的方向</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_DIST">
+            <Original>Distance between IP/BP and Target</Original>
+			<Chinese>IP/BP 和 目標 的距離</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_ELEV">
+            <Original>Target elevation (in Feet)</Original>
+			<Chinese>目標高度 (英尺)</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_DESC">
+            <Original>Target description</Original>
+			<Chinese>目標描述</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_GRID">
+            <Original>Target Position (GRID)</Original>
+			<Chinese>目標位置</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_MARK">
+            <Original>Mark method</Original>
+			<Chinese>標記方式</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_FRND">
+            <Original>Friendly info</Original>
+			<Chinese>友軍資訊</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_EGRS">
+            <Original>Egress instructions</Original>
+			<Chinese>撤離指示</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_Remarks">
+            <Original>Remarks/Restrictions</Original>
+			<Chinese>額外資訊</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_TIP_5Line">
+            <Original>“Aircraft call sign” / “Yours”</Original>
+			<Chinese>“空中單位代號” / “你的代號”</Chinese>
+        </Key>
     </Package>
 </Project>

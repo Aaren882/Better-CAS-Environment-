@@ -223,7 +223,7 @@ switch _curLine do {
 
       _ctrl2 ctrlSetText (str (_taskVar_9 # 1));
     } else {
-      _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
+      _ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
     };
 
     _ctrl1sel = lbCurSel _ctrl1;
@@ -282,7 +282,7 @@ switch _curLine do {
         _ctrl2 ctrlSetText (str (_taskVar_10 # 1));
       };
     } else {
-      _ctrl2 ctrlSetText localize "STR_BCE_Bearing";
+      _ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
     };
 
     _ctrl1sel = lbCurSel _ctrl1;
