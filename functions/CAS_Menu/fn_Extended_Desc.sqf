@@ -1,4 +1,5 @@
 params ["_control",["_write",true]];
+private ["_move","_display","_description","_description_show","_cfg","_pos"];
 
 _move = {
   if (ctrlText _description_show != "<") then {
@@ -17,15 +18,17 @@ _move = {
 _display = ctrlparent _control;
 _description = _display displayCtrl 20041;
 _description_show = _display displayCtrl 20042;
+
+_cfg = configFile >> "RscDisplayAVTerminal" >> "controls";
 _pos = ["x","y","w","h"] apply {
-  call compile (getText(configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _description >> _x))
+  call compile (getText(_cfg >> ctrlClassName _description >> _x))
 };
 
 if (_write or (ctrlText _description_show == "<")) then {
   _description ctrlSetFade 0;
   _description_show ctrlSetText ">";
 
-  private _text = getText(configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _control >> "BCE_Desc");
+  private _text = getText(_cfg >> ctrlClassName _control >> "BCE_Desc");
   if (_write && (_text != "")) then {
     private _desc = format ["%1<br/>%2", localize "STR_BCE_Description", _text call BCE_fnc_formatLanguage];
     _description ctrlSetStructuredText parseText _desc;

@@ -38,10 +38,10 @@ BCE_LandMarks = (nearestLocations [
   ]
 };
 
-BCE_have_ACE_earPlugs = false;
-if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
-  ace_hearing_enableCombatDeafness = false;
-};
+#if __has_include("\z\ace\addons\hearing\config.bin")
+	BCE_have_ACE_earPlugs = false;
+#endif
+//ace_hearing_enableCombatDeafness = false;
 
 ["BCE_Init",BCE_fnc_init] call CBA_fnc_addEventHandler;
 
@@ -155,17 +155,19 @@ addMissionEventHandler ["Map", {
   "Swich View Left",
   {
     if (IsTGP_CAM_ON) then {
-      if !(count (getTurret # 2) > 1) exitWith {};
-      getTurret params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
+			getTurret params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
+      if (count _Optic_LODs < 1) exitWith {};
       SwitchSound;
       if (count _Optic_LODs == 1) exitWith {};
 
       _current_turret = [_current_turret - 1,(count _Optic_LODs) - 1] select (_current_turret < 1);
       _turret_select = _Optic_LODs # _current_turret;
-			_turret_Unit = _vehicle turretUnit _turret_select # 1;
+			_turret = _turret_select # 1;
+			_turret_Unit = _vehicle turretUnit _turret;
 
-			if ((isCtrlTurret) && ((_turret_select # 1 # 0) < 0)) exitWith {};
+			if ((isCtrlTurret) && ((_turret # 0) < 0)) exitWith {};
 
+			//call BCE_fnc_UpdateCameraUI;
       _cam attachTo [_vehicle, [0,0,0],_turret_select # 0,!(_turret_select # 2)];
       player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
 
@@ -185,15 +187,18 @@ addMissionEventHandler ["Map", {
   {
     if (IsTGP_CAM_ON) then {
       getTurret params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
-      if !(count (getTurret # 2) > 1) exitWith {};
+      if (count _Optic_LODs < 1) exitWith {};
       SwitchSound;
       if (count _Optic_LODs == 1) exitWith {};
+
       _current_turret = [_current_turret + 1,0] select (_current_turret >= ((count _Optic_LODs) - 1));
       _turret_select = _Optic_LODs # _current_turret;
-			_turret_Unit = _vehicle turretUnit _turret_select # 1;
+			_turret = _turret_select # 1;
+			_turret_Unit = _vehicle turretUnit _turret;
 
-			if ((isCtrlTurret) && ((_turret_select # 1 # 0) < 0)) exitWith {};
+			if ((isCtrlTurret) && ((_turret # 0) < 0)) exitWith {};
 
+			//call BCE_fnc_UpdateCameraUI;
       _cam attachTo [_vehicle, [0,0,0],_turret_select # 0,!(_turret_select # 2)];
       player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
 

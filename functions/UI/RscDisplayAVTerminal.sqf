@@ -39,7 +39,7 @@ _fnc_onLBSelChanged = {
 		_createTask ctrlEnable false;
 	};
 	_vehicle = (vehicles Select {(_x isKindOf "Air") && (isEngineOn _x)}) apply {
-		if (_vehicle_str  == str _x) exitwith {_x};
+		if (_vehicle_str == str _x) exitwith {_x};
 	};
 
 	if !(_vehicle isEqualTo (player getVariable "TGP_View_Selected_Vehicle")) then {
@@ -47,7 +47,7 @@ _fnc_onLBSelChanged = {
 		[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
 	};
 
-	_Optic_LODs = _vehicle getVariable ["TGP_View_Available_Optics",[]];
+	_Optic_LODs = [_vehicle,0] call BCE_fnc_Check_Optics;
 
 	[_display,1,true,_vehicle] call BCE_fnc_ListSwitch;
 	_createTask ctrlEnable true;
@@ -172,11 +172,11 @@ switch _mode do
 
 			//-Set UI Game Plan UI BNTs
 			{
-				(_display displayctrl (_x # 0)) ctrlSetStructuredText parseText ((localize (_x # 1)) call BCE_fnc_formatLanguage)
+				(_display displayctrl (20110 + (_x # 0))) ctrlSetStructuredText parseText ((localize (_x # 1)) call BCE_fnc_formatLanguage)
 			} count [
-				[20110,"STR_BCE_ControlType_BNT"],
-				[20111,"STR_BCE_AttackType_BNT"],
-				[20113,"STR_BCE_OrdnanceREQ_BNT"]
+				[0,"STR_BCE_ControlType_BNT"],
+				[1,"STR_BCE_AttackType_BNT"],
+				[3,"STR_BCE_OrdnanceREQ_BNT"]
 			];
 
 			("RscAdvancedHint" call bis_fnc_rsclayer) cuttext ["","plain"];
@@ -216,13 +216,13 @@ switch _mode do
 			//-Widgets
 
 			[
-				[1606,"BCE_Terminal_WP"],
-				[1607,"BCE_Terminal_Veh"],
-				[1608,"BCE_Terminal_Targeting"],
-				[1609,"BCE_Terminal_SelColor",[0,1,0.3,0.8],[1,1,0.3,0.8]]
+				[0,"BCE_Terminal_WP"],
+				[1,"BCE_Terminal_Veh"],
+				[2,"BCE_Terminal_Targeting"],
+				[3,"BCE_Terminal_SelColor",[0,1,0.3,0.8],[1,1,0.3,0.8]]
 			] apply {
 				_x params ["_idc","_var",["_cor0",[1,0,0,0.5]],["_cor1",[1,1,1,1]]];
-				(_display displayctrl _idc) ctrlSetTextColor ([_cor0,_cor1] select (uinamespace getVariable [_var,true]));
+				(_display displayctrl (1606 + _idc)) ctrlSetTextColor ([_cor0,_cor1] select (uinamespace getVariable [_var,true]));
 			};
 
 			private _map = _display displayctrl 51;

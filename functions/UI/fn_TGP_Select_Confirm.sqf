@@ -5,20 +5,27 @@ _player = player;
 if ((_player getVariable ["TGP_View_EHs", -1]) != -1) exitWith {};
 
 #define Equal isEqualTo
-#define have_ACE (isClass(configFile >> "CfgPatches" >> "ace_hearing"))
+//#define have_ACE (isClass(configFile >> "CfgPatches" >> "ace_hearing"))
+#if __has_include("\z\ace\addons\hearing\config.bin")
+  #define have_ACE 1
+#endif
 
 _cam = "camera" camCreate [0,0,0];
 _cam cameraEffect ["Internal", "Back"];
 
-if (have_ACE && ace_hearing_enableCombatDeafness) then {
-  BCE_have_ACE_earPlugs = _player getVariable ["ACE_hasEarPlugsin", false];
-  _player setVariable ["ACE_hasEarPlugsIn", true, true];
+#ifdef have_ACE
+  if (ace_hearing_enableCombatDeafness) then {
+    BCE_have_ACE_earPlugs = _player getVariable ["ACE_hasEarPlugsin", false];
+    _player setVariable ["ACE_hasEarPlugsIn", true, true];
 
-  [[true]] call ace_hearing_fnc_updateVolume;
-  [] call ace_hearing_fnc_updateHearingProtection;
-} else {
+    [[true]] call ace_hearing_fnc_updateVolume;
+    [] call ace_hearing_fnc_updateHearingProtection;
+  } else {
+    0 fadeSound 0.1;
+  };
+#else
   0 fadeSound 0.1;
-};
+#endif
 TGP_View_Unit_List = [];
 
 //PP Effect
@@ -28,11 +35,10 @@ _pphandle ppEffectAdjust [0.5, 1, 0, [1.0, 0.1, 1.0, 0.75], [0.0, 1.0, 1.0, 1.0]
 _pphandle ppEffectCommit 0;
 
 _config_path = configOf _vehicle;
-_A3TI = isclass(configFile >> "CfgPatches" >> "A3TI");
 
-_Optic_LODs = _vehicle getVariable ["TGP_View_Available_Optics",[]];
+_Optic_LODs = [_vehicle,0] call BCE_fnc_Check_Optics;
 
-if ((_player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) then {
+if ((_player getVariable ["TGP_View_Selected_Optic",[]]) Equal []) then {
   _player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 };
 
@@ -41,11 +47,11 @@ if !(_vehicle Equal ((_player getVariable "TGP_View_Selected_Optic") # 1)) then 
 };
 
 _Selected_Optic = _player getVariable "TGP_View_Selected_Optic";
-_current_turret = (_Selected_Optic # 0) # 1;
+_turret = (_Selected_Optic # 0) # 1;
 _is_Detached = (_Selected_Optic # 0) # 2;
 
+//call BCE_fnc_UpdateCameraUI;
 _cam attachTo [_vehicle, [0,0,0],(_Selected_Optic # 0) # 0,!_is_Detached];
-
 _cam camSetFov 0.75;
 
 TGP_View_Camera = [_cam,_pphandle];
@@ -61,10 +67,10 @@ showCinemaBorder false;
 _player setVariable ["TGP_View_laser_update", [time,""]];
 
 //Crews
-_turret_Unit = _vehicle turretUnit _current_turret;
+_turret_Unit = _vehicle turretUnit _turret;
 
-_gunner = [name _turret_Unit,"--"] select (((_turret_Unit isEqualTo objNull) or (_turret_Unit isEqualTo (driver _vehicle))));
-_pilot = [name (driver _vehicle),"--"] select ((driver _vehicle) isEqualTo objNull);
+_gunner = [name _turret_Unit,"--"] select (((_turret_Unit Equal objNull) or (_turret_Unit Equal (driver _vehicle))));
+_pilot = [name (driver _vehicle),"--"] select ((driver _vehicle) Equal objNull);
 
 //-Controls
 _display = uiNameSpace getVariable "BCE_TGP";
@@ -140,28 +146,25 @@ _idEH = addMissionEventHandler ["Draw3D", {
   _vehicle = _thisArgs # 1;
   _Optic_LODs = _thisArgs # 2;
   _player = _thisArgs # 3;
-  _A3TI = _thisArgs # 4;
-  (_thisArgs # 5) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_vision_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_Ammo_ctrl","_Mode_ctrl","_ENG_W_ctrl","_widget_01_ctrl","_widgets_01"];
+  (_thisArgs # 4) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_vision_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_Ammo_ctrl","_Mode_ctrl","_ENG_W_ctrl","_widget_01_ctrl","_widgets_01"];
 
   _Selected_Optic = (_player getVariable "TGP_View_Selected_Optic") # 0;
   _TGP = _Selected_Optic # 0;
-  _current_turret = _Selected_Optic # 1;
+  _turret = _Selected_Optic # 1;
   _is_Detached = _Selected_Optic # 2;
 
   //-Output TGP Dir (For current controlling vehicle only)
-  //call BCE_fnc_UpdateCameraInfo;
-
   if (_is_Detached) then {
-    _wRot = [
-      (_vehicle selectionVectorDirAndUp [_TGP, "Memory"]) # 0,
+    private _wRot = [
+      [_vehicle,_turret] call BCE_fnc_getTurretDir,
       (_vehicle getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1
-    ] select ((_current_turret # 0) < 0);
+    ] select ((_turret # 0) < 0);
     [_cam, _wRot, false] call BCE_fnc_VecRot;
   };
 
   //-A3TI
   _visionType = _player getVariable ["TGP_View_Optic_Mode", 2];
-  if (_A3TI) then {
+  #if __has_include("\A3TI\config.bin")
     if (((call A3TI_fnc_getA3TIVision) != "") && (_visionType == 2)) then {
       _vision_ctrl ctrlSetText (format ["CMODE %1",call A3TI_fnc_getA3TIVision]);
     } else {
@@ -169,7 +172,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
         _vision_ctrl ctrlSetText "CMODE NORMAL";
       };
     };
-  };
+  #endif
 
   /* _camDir = (_vehicle selectionVectorDirAndUp [_TGP, "Memory"]) # 0;
   //_camDir = (_vehicle selectionPosition "PiP0_pos") vectorFromTo (_vehicle selectionPosition "PiP0_dir");
@@ -212,7 +215,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
   } foreach _widgets_01;
 
   //currentWeapon
-  _weapon_info = weaponState [_vehicle,_current_turret];
+  _weapon_info = weaponState [_vehicle,_turret];
   _weapon_info params ["_infoWeapon", "_infomuzzle", "_infomode", "_infomagazine", "_ammoCount", "_roundReloadPhase", "_magazineReloadPhase"];
 
   //-Ammo Count
@@ -235,7 +238,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
   _Weapon_ctrl ctrlSetTextColor ([[1,1,1,1],[0.76,0.71,0.215,1]] select ((_roundReloadPhase > 0) or (_magazineReloadPhase > 0)));
 
   //Laser
-  if (_vehicle isLaserOn _current_turret) then {
+  if (_vehicle isLaserOn _turret) then {
     _laser_Vars = _player getVariable "TGP_View_laser_update";
     if ((_laser_Vars # 0) <= time) then {
       if ((_laser_Vars # 1) Equal "") then {
@@ -286,7 +289,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
   //-Exit
   if (exitCdt) then {
-    if !(TGP_View_Camera isEqualTo []) then {
+    if !(TGP_View_Camera Equal []) then {
       camUseNVG false;
 
   		ppEffectDestroy (TGP_View_Camera # 1);
@@ -294,15 +297,15 @@ _idEH = addMissionEventHandler ["Draw3D", {
   		556 cutRsc ["default","PLAIN"];
   		cutText ["", "BLACK IN",0.5];
 
-      if (have_ACE) then {
+      #ifdef have_ACE
         if !(BCE_have_ACE_earPlugs) then {
           _player setVariable ["ACE_hasEarPlugsIn", false, true];
           [[true]] call ace_hearing_fnc_updateVolume;
           [] call ace_hearing_fnc_updateHearingProtection;
         };
-      } else {
+      #else
         1.5 fadeSound 1;
-      };
+      #endif
 
       TGP_View_Camera = [];
 
@@ -316,7 +319,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
     };
   };
 },[
-  _cam,_vehicle,_Optic_LODs,_player,_A3TI,
+  _cam,_vehicle,_Optic_LODs,_player,
   [_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_vision_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_Ammo_ctrl,_Mode_ctrl,_ENG_W_ctrl,_widget_01_ctrl,_widgets_01]
 ]];
 

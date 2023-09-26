@@ -1,10 +1,9 @@
-#define getOpticVars _unit getVariable ["TGP_View_Available_Optics",[]]
-#define have_ACE (isClass(configFile >> "CfgPatches" >> "ace_hearing"))
+#define getOpticVars ([_unit,0] call BCE_fnc_Check_Optics)
 
 //HUD Compass
 ["cameraView", BCE_fnc_call_Compass, true] call CBA_fnc_addPlayerEventHandler;
 ["vehicle", BCE_fnc_SetMFDValue, true] call CBA_fnc_addPlayerEventHandler;
-["AllVehicles","GetIn",BCE_fnc_Check_Optics] call CBA_fnc_addClassEventHandler;
+["AllVehicles","GetIn",(_this # 0) call BCE_fnc_Check_Optics] call CBA_fnc_addClassEventHandler;
 ["Helicopter","GetOut",{
 	params ["", "", "_unit", ""];
 	private _laser = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
@@ -54,15 +53,15 @@ if (({(_x getVariable ["IR_LaserLight_EachFrame_EH",-1]) != -1} count allPlayers
 		556 cutRsc ["default","PLAIN"];
 		cutText ["", "BLACK IN",0.5];
 
-		if (have_ACE) then {
+		#if __has_include("\z\ace\addons\hearing\config.bin")
 		  if !(BCE_have_ACE_earPlugs) then {
 		    player setVariable ["ACE_hasEarPlugsIn", false, true];
 		    [[true]] call ace_hearing_fnc_updateVolume;
 		    [] call ace_hearing_fnc_updateHearingProtection;
 		  };
-		} else {
+		#else
 		  1.5 fadeSound 1;
-		};
+		#endif
 
 		_current_EH = player getVariable "TGP_View_EHs";
 		removeMissionEventHandler ["Draw3D", _current_EH];

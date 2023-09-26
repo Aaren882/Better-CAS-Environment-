@@ -1,6 +1,6 @@
 #define aceAction ace_interact_menu_fnc_createAction
 #define aceActionClass ace_interact_menu_fnc_addActionToClass
-#define getOpticVars ((vehicle _unit) getVariable ["TGP_View_Available_Optics",[]])
+#define getOpticVars ([vehicle _unit,0] call BCE_fnc_Check_Optics)
 #define Available_Optics ["","RscWeaponZeroing","RscOptics_Offroad_01","RscOptics_crows","RHS_RscWeaponZeroing_TurretAdjust"]
 #define SpotLight_Condition (_condition && ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in Available_Optics) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x select 1})))
 #define Laser_Condition (_condition && ((getText ([(vehicle _unit), ((vehicle _unit) unitTurret _unit)] call BIS_fnc_turretConfig >> "turretInfoType")) in Available_Optics) && (((vehicle _unit) unitTurret _unit) in (getOpticVars apply {_x select 1})))
