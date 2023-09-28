@@ -58,7 +58,7 @@ call {
 
 			_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
 			if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_curSel isNotEqualTo (_Selected_Optic # 1))) then {
-			  player setVariable ["TGP_View_Selected_Optic",([_curSel,0] call BCE_fnc_Check_Optics) # 0, _curSel],true];
+			  player setVariable ["TGP_View_Selected_Optic",[([_curSel,0] call BCE_fnc_Check_Optics) # 0, _curSel],true];
 			};
   	};
 	};

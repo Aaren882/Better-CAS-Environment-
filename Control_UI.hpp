@@ -104,9 +104,6 @@ class RscDisplayMainMap
 		#if __has_include("\PLP_MapTools\config.bin")
 			#define PLP_TOOL 1
 		#endif
-		#if __has_include("\plp\plp_mapToolsRemastered\config.bin")
-			#define PLP_TOOL 1
-		#endif
 		
 		#ifdef PLP_TOOL
 			class BCE_MapTools_toggle: BCE_Task_toggle
@@ -1083,7 +1080,7 @@ class RscDisplayAVTerminal
 			{
 				"FAD",
 				"FAH",
-				$STR_BCE_Default
+				"$STR_BCE_Default"
 			};
 		};
 		class New_Task_DangerClose_Text: RscText

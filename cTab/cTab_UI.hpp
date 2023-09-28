@@ -179,7 +179,7 @@ class cTab_Tablet_dlg
 		{
 			idc = idc_D(1200);
 			style = "0x02 + 0x30 + 0x800";
-			text = "a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa";
+			text = "a3\3den\data\displays\display3den\toolbar\map_off_ca.paa";
 			colorBackground[] = {0,0,0,0.3};
 			x = sizeX + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4)) - (sizeW * ((safezoneH * 1.2) * 3/4));
 			Y = sizeY(0) - (sizeW * (safezoneH * 1.2));
@@ -188,19 +188,21 @@ class cTab_Tablet_dlg
 			tooltip = "Toggle Map Tools";
 			action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleMapTools;";
 		};
+		
+		//-BCE Widgets
 		class Map_Tool_Show_BCE_widgets: Map_Tool_Show
 		{
 			idc = idc_D(1201);
 			text = "a3\3den\data\displays\display3den\toolbar\vision_normal_ca.paa";
 			toolTip = "Set BCE POS (Hold 'Alt' and Click)";
-			Y = sizeY(2.25) - (sizeW * (safezoneH * 1.2));
+			Y = sizeY(4.5) - (sizeW * (safezoneH * 1.2));
 			action = "['cTab_Tablet_dlg','BCE_mapTools'] call cTab_fnc_toggleMapTools;";
 		};
 		class Map_Tool_BCE_widgets: RscToolbox
 		{
 			idc = idc_D(12010);
 
-			Y = sizeY(5.25) - (sizeW * (safezoneH * 1.2));
+			Y = sizeY(5.25 + 2.25) - (sizeW * (safezoneH * 1.2));
 			w = sizeW * ((safezoneH * 1.2) * 3/4);
 			h = 1.5 * (sizeW * (safezoneH * 1.2));
 
@@ -226,7 +228,7 @@ class cTab_Tablet_dlg
 			idc = idc_D(12011);
 			style = 2;
 			x = sizeX + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4)) - (sizeW * ((safezoneH * 1.2) * 3/4));
-			Y = sizeY(6.25) - (sizeW * (safezoneH * 1.2));
+			Y = sizeY(6.25 + 2.25) - (sizeW * (safezoneH * 1.2));
 			w = sizeW * ((safezoneH * 1.2) * 3/4);
 			h = (sizeW * (safezoneH * 1.2)) / 2;
 
@@ -236,6 +238,48 @@ class cTab_Tablet_dlg
 			text = "DEL MARK";
 			tooltip = "Delete Task Marker";
 			action = "[-4] call cTab_fnc_userMenuSelect;";
+		};
+		
+		//-POLPOX Map Tools Widgets
+		class Map_Tool_Show_PLP_widgets: Map_Tool_Show
+		{
+			idc = idc_D(1202);
+			//text = "a3\3den\data\displays\display3den\panelright\customcomposition_editentities_ca.paa";
+			text = "a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa";
+			toolTip = "MapTools Remastered";
+			Y = sizeY(2.25) - (sizeW * (safezoneH * 1.2));
+			action = "['cTab_Tablet_dlg','PLP_mapTools'] call cTab_fnc_toggleMapTools;";
+		};
+		class Map_Tool_PLP_widgets: RscToolbox
+		{
+			idc = idc_D(12012);
+
+			Y = sizeY(5.25 + 2.25) - (sizeW * (safezoneH * 1.2));
+			w = sizeW * ((safezoneH * 1.2) * 3/4);
+			h = 3 * (sizeW * (safezoneH * 1.2));
+
+			rows = 6;
+			columns = 1;
+			strings[] =
+			{
+				"Distance",
+				"Mark Houses",
+				"Height",
+				"Compass",
+				"Edit Grid",
+				"Find Flat"
+			};
+			tooltips[] =
+			{
+				"If you have only one point to measure, will draw a circle to tell you the concentric distance. If you have multiple, will tell you the distance of the lines.",
+				"Indexes the houses in the area you draw. You can change the color of the grid with the same way with the markers.",
+				"Draws the graph of the height between two points.",
+				"Gives you the compass from the defined point. Supports both Degrees and Mil.",
+				"Makes a easy to recognize grid for your team. You can change the color of the grid with the same way with the markers. The grid size is determined on the current map zoom level.",
+				"A quick way to check if the area is flat enough. Green means almost same height with the cursor position, red means higher, blue means lower."
+			};
+			colorBackground[] = {0,0,0,0.25};
+			onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";
 		};
 
 		//---- Groups ----//
@@ -1139,7 +1183,7 @@ class cTab_Tablet_dlg
 					{
 						"FAD",
 						"FAH",
-						$STR_BCE_Default
+						"$STR_BCE_Default"
 					};
 				};
 				class New_Task_DangerClose_Text: RscText

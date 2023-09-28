@@ -12,6 +12,7 @@
 	["uavCam",""],
 	["hCam",""],
 	["BCE_mapTools",false],
+	["PLP_mapTools",false],
 	["mapTools",true],
 	["nightMode",2],
 	["brightness",0.9]

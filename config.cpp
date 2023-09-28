@@ -784,6 +784,44 @@ class CfgFunctions
 			};
 		};
 	#endif
+	
+	//-POLPOX map tools
+	#if __has_include("\plp\plp_mapToolsRemastered\config.bin")
+		#define PLP_TOOL 1
+	#endif
+	
+	#if cTAB_Installed == PLP_TOOL
+		class PLP
+		{
+			class PLP_SMT
+			{
+				class SMT_distance
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_distance.sqf";
+				};
+				class SMT_markHouses
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_markHouses.sqf";
+				};
+				class SMT_height
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_height.sqf";
+				};
+				class SMT_compass
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_compass.sqf";
+				};
+				class SMT_placeGrid
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_placeGrid.sqf";
+				};
+				class SMT_findFlat
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_findFlat.sqf";
+				};
+			};
+		};
+	#endif
 };
 
 #define set_Switch_Sound(NUM) \

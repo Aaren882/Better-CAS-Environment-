@@ -33,7 +33,6 @@ _displayName = cTabIfOpen # 1;
 _display = uiNamespace getVariable _displayName;
 uiNameSpace setVariable ["cTab_BFT_CurSel",objNull];
 
-
 _interfaceInit = false;
 _TAC_Vis = false;
 _loadingCtrl = _display displayCtrl IDC_CTAB_LOADINGTXT;
@@ -192,8 +191,10 @@ _settings apply {
 					IDC_CTAB_CTABUAVMAP,
 					17000 + 1200,
 					17000 + 1201,
+					17000 + 1202,
 					17000 + 12010,
 					17000 + 12011,
+					17000 + 12012,
 					IDC_CTAB_SCREEN,
 					IDC_CTAB_SCREEN_TOPO,
 					IDC_CTAB_HCAM_FULL,
@@ -257,6 +258,7 @@ _settings apply {
 							_mapIDC,
 							17000 + 1200,
 							17000 + 1201,
+							17000 + 1202,
 							IDC_CTAB_OSD_HOOK_GRID,
 							IDC_CTAB_OSD_HOOK_ELEVATION,
 							IDC_CTAB_OSD_HOOK_DST,
@@ -276,7 +278,7 @@ _settings apply {
 						// update scale and world position when not on interface init
 						if (!_interfaceInit) then {
 							if (_isDialog) then {
-								private _widgets = [["BCE_mapTools"], []] select (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]);
+								private _widgets = [["BCE_mapTools","PLP_mapTools"], []] select (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]);
 
 								(["mapScaleDlg","mapWorldPos","mapTools"] + _widgets) apply {
 									_settings pushBack [_x,[_displayName,_x] call cTab_fnc_getSettings];
@@ -626,7 +628,7 @@ _settings apply {
 			};
 		};
 		// ------------ MAP TOOLS ------------
-		if ((_x # 0) in ["mapTools","BCE_mapTools"]) exitWith {
+		if ((_x # 0) in ["mapTools","BCE_mapTools","PLP_mapTools"]) exitWith {
 
 			if ((_x # 0) == "mapTools") then {
 			  cTabDrawMapTools = _x # 1;
@@ -634,9 +636,12 @@ _settings apply {
 
 			if (_mode == "BFT") then {
 				if !(_displayName in ["cTab_TAD_dlg","cTab_TAD_dsp"]) then {
-					private ["_Tool_toggle","_BCE_toggle","_ToolCtrl","_toggleW","_period","_cal_H","_ToolPOS","_index","_sort"];
+					private ["_Tool_toggle","_BCE_toggle","_PLP_toggle","_ToolCtrl","_toggleW","_period","_cal_H","_ToolPOS","_index","_sort"];
+
 					_Tool_toggle = _display displayCtrl (17000 + 1200);
 					_BCE_toggle = _display displayCtrl (17000 + 1201);
+					_PLP_toggle = _display displayCtrl (17000 + 1202);
+
 					_ToolCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_DIR;
 
 					(ctrlPosition _Tool_toggle) params ["","_toggleY","_toggleW","_toggleH"];
@@ -664,16 +669,49 @@ _settings apply {
 								if (!isNull _ctrl) then {
 									_ctrl ctrlShow cTabDrawMapTools;
 								};
-								/* (_ToolPOS # 1) params ["_x","_w"];
-								_ctrl ctrlSetPositionX _x;
-								_ctrl ctrlSetPositionW _w;
-								_ctrl ctrlCommit _period; */
 							};
 
 							_Tool_toggle ctrlSetPositionX (_CTRLX + (_ToolPOS # 0));
 
 							0
 					  };
+
+						case "PLP_mapTools": {
+						  private _status = _x # 1;
+
+							private _ctrl = _display displayCtrl (17000 + 12012);
+
+							(_ToolPOS # 1) params ["_Cx","_Cw"];
+							_ctrl ctrlSetPositionX _Cx;
+							_ctrl ctrlSetPositionW _Cw;
+
+							_ctrl ctrlshow _status;
+							_ctrl ctrlCommit _period;
+
+							_PLP_toggle ctrlSetPositionX (_CTRLX + (_ToolPOS # 0));
+
+							if (_status) then {
+							  [_ctrl,lbCurSel _ctrl] call BCE_fnc_ctab_BFT_ToolBox;
+							} else {
+								private _PLP_EH = uiNamespace getVariable ["PLP_SMT_EH",-1];
+								private _PLP_Tool = _display displayCtrl 73453;
+
+								if !(isNull _PLP_Tool) then {
+							    ctrlDelete _PLP_Tool;
+							  };
+
+								if (_PLP_EH > 0) then {
+									private ["_mapTypes","_currentMapType","_currentMapTypeIndex","_mapIDC"];
+									_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+								  _currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
+								  _currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
+								  _mapIDC = _mapTypes # _currentMapTypeIndex # 1;
+							    (_display displayCtrl _mapIDC) ctrlRemoveEventHandler ["Draw",_PLP_EH];
+							  };
+							};
+
+							1
+						};
 
 						case "BCE_mapTools": {
 							private _status = _x # 1;
@@ -694,12 +732,13 @@ _settings apply {
 							private _list = _display displayCtrl (17000 + 12010);
 							[_list, lbCurSel _list, _status] call BCE_fnc_ctab_BFT_ToolBox;
 
-							1
+							2
 						};
 					};
 
 					_sort = [
 						[[], 4, "mapTools"],
+						[[17000 + 1202, 17000 + 12012], 6, "PLP_mapTools"],
 						[[17000 + 1201, 17000 + 12011, 17000 + 12010], 4, "BCE_mapTools"]
 					] apply {
 						_x params ["_idc","_size","_id"];
@@ -742,6 +781,7 @@ _settings apply {
 
 					//-Commit
 					_Tool_toggle ctrlCommit _period;
+					_PLP_toggle ctrlCommit _period;
 					_BCE_toggle ctrlCommit _period;
 				};
 
@@ -765,7 +805,6 @@ _settings apply {
 			if (!isNull _osdCtrl) then {
 				if (_mode == "BFT") then {
 					_osdCtrl ctrlShow (_x # 1);
-					//ctrlSetFocus _osdCtrl;
 				};
 			};
 		};
