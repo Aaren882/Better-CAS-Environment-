@@ -45,6 +45,10 @@
             <Original>click x2</Original>
 			<Chinese>點擊 x2</Chinese>
         </Key>
+		<Key ID="STR_BCE_Map_illumination">
+            <Original>Toggle Map Flash Light</Original>
+			<Chinese>開關地圖照明</Chinese>
+        </Key>
 		
 		
 		<Key ID="STR_BCE_ControlType_BNT">

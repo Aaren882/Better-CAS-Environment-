@@ -24,7 +24,7 @@ if (_control isEqualTo (_display displayCtrl (17000 + 12010))) then {
   _status = ((uiNameSpace getVariable (_task # 1)) # _info) param [0,"NA"];
   _clear ctrlshow ((_status != "NA") && (_condition));
 } else {
-  private ["_PLP_Tool","_PLP_EH","_displayName","_mapTypes","_currentMapType","_currentMapTypeIndex","_mapIDC","_map","_SelTool"];
+  private ["_PLP_Tool","_PLP_EH","_displayName","_mapTypes","_currentMapType","_currentMapTypeIndex","_mapIDC","_map","_cfg","_SelTool"];
 
   _PLP_Tool = _display displayCtrl 73453;
   _PLP_EH = uiNamespace getVariable ["PLP_SMT_EH",-1];
@@ -44,26 +44,28 @@ if (_control isEqualTo (_display displayCtrl (17000 + 12010))) then {
   };
 
   //-POLPOX Map Tools
-  _SelTool = _Toolswitch (lbCurSel _control) do {
+  _SelTool = switch (lbCurSel _control) do {
     //- 5 line
     case 0: {
-      PLP_fnc_SMT_distance;
+      "Distance"
     };
     case 1: {
-      PLP_fnc_SMT_markHouses;
+      "MarkHouses"
     };
     case 2: {
-    	PLP_fnc_SMT_height;
+    	"Height"
     };
     case 3: {
-      PLP_fnc_SMT_compass;
+      "Compass"
     };
     case 4: {
-      PLP_fnc_SMT_placeGrid;
+      "EditGrid"
     };
     case 5: {
-      PLP_fnc_SMT_findFlat;
+      "FindFlat"
     };
   };
-  [_display, _mapIDC] call _SelTool;
+  _cfg = configFile >> "PLP_SMT_Data" >> "RadialMenu" >> _SelTool;
+  [_display, _mapIDC] call (missionNamespace getVariable getText (_cfg >> "function"));
+  [_cfg,_display] call PLP_fnc_SMT_Description;
 };

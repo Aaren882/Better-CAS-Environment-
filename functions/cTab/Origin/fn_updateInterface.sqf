@@ -174,6 +174,9 @@ _settings apply {
 			_displayItems = call {
 				if (_displayName == "cTab_Tablet_dlg") exitWith {
 					[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
+					//-POLPOX Map Tools
+					73454,
+
 					17000 + 3300,
 					17000 + 33000,
 					17000 + 3301,
@@ -636,7 +639,7 @@ _settings apply {
 
 			if (_mode == "BFT") then {
 				if !(_displayName in ["cTab_TAD_dlg","cTab_TAD_dsp"]) then {
-					private ["_Tool_toggle","_BCE_toggle","_PLP_toggle","_ToolCtrl","_toggleW","_period","_cal_H","_ToolPOS","_index","_sort"];
+					private ["_Tool_toggle","_BCE_toggle","_PLP_toggle","_ToolCtrl","_toggleW","_period","_cal_H","_Tool_statment","_ToolPOS","_toggled_ctrl","_sort"];
 
 					_Tool_toggle = _display displayCtrl (17000 + 1200);
 					_BCE_toggle = _display displayCtrl (17000 + 1201);
@@ -644,20 +647,20 @@ _settings apply {
 
 					_ToolCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_DIR;
 
-					(ctrlPosition _Tool_toggle) params ["","_toggleY","_toggleW","_toggleH"];
+					(ctrlPosition _Tool_toggle) params ["","","_toggleW","_toggleH"];
 					(ctrlPosition _ToolCtrl) params ["_CTRLX","_CTRLY","_CTRLW","_CTRLH"];
 
 					_period = [0.2,0] select _interfaceInit;
 
 					//-Get Y axis and H
 					_cal_H = _CTRLH / 2;
-
-					_ToolPOS = [
+					_Tool_statment = [
 						[_CTRLW - _toggleW , [_CTRLX + _CTRLW ,0]],
 						[-_toggleW , [_CTRLX ,_CTRLW]]
-					] select (_x # 1);
+					];
+					_ToolPOS = _Tool_statment select (_x # 1);
 
-					_index = switch (_x # 0) do {
+					_toggled_ctrl = switch (_x # 0) do {
 					  case "mapTools": {
 							[
 								IDC_CTAB_OSD_HOOK_GRID,
@@ -671,24 +674,13 @@ _settings apply {
 								};
 							};
 
-							_Tool_toggle ctrlSetPositionX (_CTRLX + (_ToolPOS # 0));
-
-							0
+							_Tool_toggle
 					  };
 
 						case "PLP_mapTools": {
-						  private _status = _x # 1;
-
+							private _status = _x # 1;
 							private _ctrl = _display displayCtrl (17000 + 12012);
-
-							(_ToolPOS # 1) params ["_Cx","_Cw"];
-							_ctrl ctrlSetPositionX _Cx;
-							_ctrl ctrlSetPositionW _Cw;
-
-							_ctrl ctrlshow _status;
-							_ctrl ctrlCommit _period;
-
-							_PLP_toggle ctrlSetPositionX (_CTRLX + (_ToolPOS # 0));
+							(_display displayCtrl 73454) ctrlshow _status;
 
 							if (_status) then {
 							  [_ctrl,lbCurSel _ctrl] call BCE_fnc_ctab_BFT_ToolBox;
@@ -710,45 +702,46 @@ _settings apply {
 							  };
 							};
 
-							1
+							_PLP_toggle
 						};
 
 						case "BCE_mapTools": {
 							private _status = _x # 1;
-
-							[12010, 12011] apply {
-								private _ctrl = _display displayCtrl (17000 + _x);
-
-								(_ToolPOS # 1) params ["_Cx","_Cw"];
-								_ctrl ctrlSetPositionX _Cx;
-								_ctrl ctrlSetPositionW _Cw;
-
-								_ctrl ctrlshow _status;
-								_ctrl ctrlCommit _period;
-							};
-
-						  _BCE_toggle ctrlSetPositionX (_CTRLX + (_ToolPOS # 0));
-
 							private _list = _display displayCtrl (17000 + 12010);
 							[_list, lbCurSel _list, _status] call BCE_fnc_ctab_BFT_ToolBox;
 
-							2
+							_BCE_toggle
 						};
 					};
 
 					_sort = [
-						[[], 4, "mapTools"],
-						[[17000 + 1202, 17000 + 12012], 6, "PLP_mapTools"],
-						[[17000 + 1201, 17000 + 12011, 17000 + 12010], 4, "BCE_mapTools"]
+						[_Tool_toggle,[], 4, "mapTools"],
+						[_PLP_toggle,[12012], 6, "PLP_mapTools"],
+						[_BCE_toggle,[[12011,false], 12010], 4, "BCE_mapTools"]
 					] apply {
-						_x params ["_idc","_size","_id"];
+						_x params ["_toggle","_idc","_size","_id"];
 
-						private _ctrl = _idc apply {
-							[controlNull,_display displayctrl _x] select (_x > 0);
-						};
+						private _status = [_displayName,_id] call cTab_fnc_getSettings;
+						private _POS = _Tool_statment select _status;
+
+						private _ctrls = [_toggle] + (_idc apply {
+							_x params ["_IDC",["_showOnInit",true]];
+							private _c = _display displayctrl (17000 + _IDC);
+							if (_showOnInit) then {
+							 	_c ctrlshow _status;
+							};
+
+							(_POS # 1) params ["_Cx","_Cw"];
+							_c ctrlSetPositionX _Cx;
+							_c ctrlSetPositionW _Cw;
+							_c ctrlCommit _period;
+							_c
+						});
+
+						_toggle ctrlSetPositionX (_CTRLX + (_POS # 0));
 
 						//-Output
-						[_ctrl, _size * _CTRLH, [_displayName,_id] call cTab_fnc_getSettings]
+						[_ctrls, _size * _CTRLH, _status]
 					};
 
 					//- Set Y axis of current selected ctrl
@@ -758,31 +751,29 @@ _settings apply {
 					{
 						_x params ["_ctrls","_H",["_Open",false]];
 
-						if (_forEachIndex > 0) then {
-							private _j = 0;
-							{
-								if (isnull _x) then {continue};
-								private ["_Start","_Cy"];
+						private _j = 0;
+						{
+							private ["_Start","_Cy"];
 
-								_Start = _forEachIndex == 0;
-								_Cy = [_i - _H + _j, _i - _toggleH] select _Start;
+							_Start = _forEachIndex == 0;
+							_Cy = [_i - _H + _j, _i - _toggleH] select _Start;
 
-								_x ctrlSetPositionY _Cy;
-								_x ctrlCommit _period;
+							_x ctrlSetPositionY _Cy;
+							_x ctrlCommit _period;
 
-								if !(_Start) then {
-								  _j = _j + ((ctrlPosition _x) # 3);
-								};
-							} forEach _ctrls;
-						};
+							if !(_Start) then {
+								_j = _j + ((ctrlPosition _x) # 3);
+							};
+						} forEach _ctrls;
 
 						_i = _i - (_cal_H / 4) - ([_toggleH, _H] select _Open);
 					} forEach _sort;
 
-					//-Commit
-					_Tool_toggle ctrlCommit _period;
-					_PLP_toggle ctrlCommit _period;
-					_BCE_toggle ctrlCommit _period;
+					//- Commit
+					/* {
+						_x ctrlCommit _period;
+					} count [_Tool_toggle,_PLP_toggle,_BCE_toggle]; */
+
 				};
 
 				//--------------------------------//

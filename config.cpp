@@ -819,6 +819,10 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_findFlat.sqf";
 				};
+				class SMT_Description
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_Description.sqf";
+				};
 			};
 		};
 	#endif
@@ -918,6 +922,11 @@ class BCE_RscButtonMenu: RscButtonMenu
 		shadow = "false";
 	};
 };
+
+//-POLPOX Map Tools Control
+#if cTAB_Installed == PLP_TOOL
+	class PLP_SMT_Description;
+#endif
 
 #include "cTab\cTab_Macros.hpp"
 

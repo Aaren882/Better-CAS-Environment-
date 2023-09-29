@@ -93,7 +93,7 @@ class RscDisplayMainMap
 			{	
 				idc = 1608;
 				text = "<img image='\a3\3den\data\displays\display3den\toolbar\flashlight_off_ca.paa' align='left' size='0.8' /> Map Illumination";
-				tooltip = "Toggle Map Flash Light";
+				tooltip = "$STR_BCE_Map_illumination";
 				onButtonClick = "[_this # 0,2] call BCE_fnc_Update_MapCtrls";
 				y = MAP_TOGGLE_Y(1,1);
 				w = "5 * (((safezoneW / safezoneH) min 1.2) / 40) + (0.5 * 0.015)";
@@ -106,7 +106,7 @@ class RscDisplayMainMap
 		#endif
 		
 		#ifdef PLP_TOOL
-			class BCE_MapTools_toggle: BCE_Task_toggle
+			class BCE_MapTools_Tooltip: BCE_Task_toggle
 			{	
 				idc = 1609;
 				text = '<img image="\a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa" align="center" size="0.8" /> PLP Tools "Q"';

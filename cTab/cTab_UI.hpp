@@ -194,7 +194,7 @@ class cTab_Tablet_dlg
 		{
 			idc = idc_D(1201);
 			text = "a3\3den\data\displays\display3den\toolbar\vision_normal_ca.paa";
-			toolTip = "Set BCE POS (Hold 'Alt' and Click)";
+			toolTip = "$STR_BCE_Tit_Click_Map";
 			Y = sizeY(4.5) - (sizeW * (safezoneH * 1.2));
 			action = "['cTab_Tablet_dlg','BCE_mapTools'] call cTab_fnc_toggleMapTools;";
 		};
@@ -216,9 +216,9 @@ class cTab_Tablet_dlg
 			};
 			tooltips[] =
 			{
-				"Initial Point\Battle Position",
-				"Target Position (GRID)",
-				"Friendly Position"
+				"$STR_BCE_TIP_IPBP",
+				"$STR_BCE_TIP_GRID",
+				"$STR_BCE_TIP_FRND"
 			};
 			colorBackground[] = {0,0,0,0.25};
 			onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";
@@ -280,6 +280,23 @@ class cTab_Tablet_dlg
 			};
 			colorBackground[] = {0,0,0,0.25};
 			onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";
+		};
+		/*class BCE_MapTools_Tooltip: RscStructuredText
+		{	
+			idc = idc_D(1609);
+			text = '<img image="\a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa" align="center" size="0.8" /> PLP Tools "Q"';
+			tooltip = "MOD : ""Key Combine""";
+			x = MAP_TOGGLE_X(2,1.5);
+			y = MAP_TOGGLE_Y(2,2);
+			w = "5 * (((safezoneW / safezoneH) min 1.2) / 40) + (0.5 * 0.015)";
+			h = 3 * (sizeW * (safezoneH * 1.2));
+			colorBackground[]={0,0,0,0.3};
+			colorDisabled[]={1,1,1,1};
+			colorBackgroundDisabled[]={0,0,0,0.5};
+		};*/
+		class BCE_MapTools_Tooltip: PLP_SMT_Description
+		{
+			
 		};
 
 		//---- Groups ----//
