@@ -146,7 +146,7 @@ PHONE_CLASS
 				class Info_Vic: cTab_RscButton
 				{
 					idc = idc_D(16120);
-					text = "Switch List";
+					text = "$STR_BCE_SwitchList";
 					sizeEx = TextSize;
 
 					offsetX = 0;
@@ -171,7 +171,7 @@ PHONE_CLASS
 					colorBorder[] = {0,0,0,0};
 
 					text = ">>";
-					tooltip = "Next Turret";
+					tooltip = "$STR_BCE_NextTurret";
 					sizeEx = TextSize;
 
 					action = "";

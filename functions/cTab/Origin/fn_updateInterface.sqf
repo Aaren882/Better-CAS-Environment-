@@ -590,7 +590,7 @@ _settings apply {
 
 				//-Create PIP camera if mode is "UAV"
 				if !(isNull _veh) then {
-					[_veh,[[1,["rendertarget8","rendertarget9"] select _UAV_Interface]],unitIsUAV _veh,_UAV_Interface] call cTab_fnc_createUavCam;
+					[_veh,[[1,["rendertarget8","rendertarget9"] select _UAV_Interface]],_UAV_Interface] call cTab_fnc_createUavCam;
 				} else {
 					//-Clean Up if the vehicle is null
 					call cTab_fnc_deleteUAVcam;
@@ -734,7 +734,6 @@ _settings apply {
 							(_POS # 1) params ["_Cx","_Cw"];
 							_c ctrlSetPositionX _Cx;
 							_c ctrlSetPositionW _Cw;
-							_c ctrlCommit _period;
 							_c
 						});
 
@@ -768,11 +767,6 @@ _settings apply {
 
 						_i = _i - (_cal_H / 4) - ([_toggleH, _H] select _Open);
 					} forEach _sort;
-
-					//- Commit
-					/* {
-						_x ctrlCommit _period;
-					} count [_Tool_toggle,_PLP_toggle,_BCE_toggle]; */
 
 				};
 

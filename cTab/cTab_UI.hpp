@@ -339,7 +339,7 @@ class cTab_Tablet_dlg
 				class cTab_CameraConnect: RscButtonMenu
 				{
 					idc = 2100;
-					text = "View Camera";
+					text = "$STR_BCE_Live_Feed";
 					x = TabletRX;
 					y = TabletDY + (TabletH - (safezoneH / 40));
 
@@ -503,7 +503,7 @@ class cTab_Tablet_dlg
 				class cTab_CameraConnect: RscButtonMenu
 				{
 					idc = idc_D(2100);
-					text = "View Camera";
+					text = "$STR_BCE_Live_Feed";
 					x = FrameLX;
 					y = FrameUY + (smalFmH - (2 * ContH));
 					w = 0.5 * smalFmW;
@@ -525,7 +525,7 @@ class cTab_Tablet_dlg
 						align = "center";
 						valign = "middle";
 						shadow = "true";
-						size = 0.91;
+						size = 0.9;
 					};
 				};
 				class cTab_CameraControl: cTab_CameraConnect
@@ -757,7 +757,6 @@ class cTab_Tablet_dlg
 						color = "#ffffff";
 						align = "left";
 						shadow = 1;
-						size = 0.68;
 					};
 				};
 				// -List
@@ -958,8 +957,8 @@ class cTab_Tablet_dlg
 					y = ContH + (ContH / 3);
 					w = 0.5 * ContW;
 					h = "safezoneH / 53";
-					text = "Clear Task Info <img image='\a3\3den\data\cfg3den\history\deleteitems_ca.paa' align='Right' size='0.8' />";
-					tooltip = "Clear Task Info";
+					text = "$STR_BCE_ClearTaskInfo";
+					//tooltip = "Clear Task Info";
 					onButtonClick = "(_this + [false,'cTab_Tablet_dlg',17000]) call BCE_fnc_clearTaskInfo";
 
 					colorBackground[] = {1,0,0,0.5};
@@ -1026,11 +1025,11 @@ class cTab_Tablet_dlg
 				class New_Task_Ctrl_Title: Clear_TaskInfo
 				{
 					idc = idc_D(20110);
-					text = "Control Type: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
+					text = "$STR_BCE_ControlType_BNT";
 					colorBackground[] = {0,0,0,0.4};
-					tooltip = "more details";
+					tooltip = "$STR_BCE_more_Details";
 					onButtonClick = (_this + [17000+2004,'"cTab_Tablet_dlg" >> "controls" >> "Task_Builder" >> "controls"']) call BCE_fnc_ctab_ChangeTask_Desc;
-					BCE_Desc = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but <t font='RobotoCondensedBold_BCE'>must have real time data</t> from FO/Scout.";
+					BCE_Desc = "$STR_BCE_DECS_sm_CtrlType";
 					ExpPOS(1,0.5,1);
 					periodFocus = 0;
 					periodOver = 0;
@@ -1038,8 +1037,8 @@ class cTab_Tablet_dlg
 				class New_Task_AttackType_Title: New_Task_Ctrl_Title
 				{
 					idc = idc_D(20111);
-					text = "Attack Type: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
-					BCE_Desc = "What kind of the attack will be performed.<br/><br/>BOT (Bomb on Target) : <br/>Guns ,rockets and Laser guided ammunitions. <br/>Ex. Hydra70 GBU-12<br/><br/>BOC (Bomb on Coordinate) : <br/>GPS guided ammunitions. <br/>Ex. GBU-31 GBU-32 GBU-35";
+					text = "$STR_BCE_AttackType_BNT";
+					BCE_Desc = "$STR_BCE_DECS_sm_AttackType";
 					ExpPOS(3.25,0.5,1);
 				};
 				class New_Task_AttackType: New_Task_CtrlType
@@ -1056,8 +1055,8 @@ class cTab_Tablet_dlg
 				class New_Task_Ordnance_Title: New_Task_Ctrl_Title
 				{
 					idc = idc_D(20113);
-					text = "Request Ordnance: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
-					BCE_Desc = "What ammunition will be droped. <br/>How many. <br/>How far. <br/>etc";
+					text = "$STR_BCE_OrdnanceREQ_BNT";
+					BCE_Desc = "$STR_BCE_DECS_sm_Ordnance";
 					ExpPOS(5.5,0.575,1);
 				};
 

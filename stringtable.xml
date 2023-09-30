@@ -33,6 +33,10 @@
             <Original>Clear All</Original>
 			<Chinese>全部清除</Chinese>
         </Key>
+		<Key ID="STR_BCE_ClearTaskInfo">
+            <Original>Clear Task Info %2img image='\a3\3den\data\cfg3den\history\deleteitems_ca.paa' align='Right' size='0.8' /%3</Original>
+			<Chinese>清除任務資訊 %2img image='\a3\3den\data\cfg3den\history\deleteitems_ca.paa' align='Right' size='0.8' /%3</Chinese>
+        </Key>
 		<Key ID="STR_BCE_New_Task">
             <Original>New Task</Original>
 			<Chinese>創建新任務</Chinese>
@@ -44,6 +48,14 @@
 		<Key ID="STR_BCE_clickx2">
             <Original>click x2</Original>
 			<Chinese>點擊 x2</Chinese>
+        </Key>
+		<Key ID="STR_BCE_NextTurret">
+            <Original>Next Turret</Original>
+			<Chinese>下個砲塔</Chinese>
+        </Key>
+		<Key ID="STR_BCE_SwitchList">
+            <Original>Switch List</Original>
+			<Chinese>切換列表</Chinese>
         </Key>
 		<Key ID="STR_BCE_Map_illumination">
             <Original>Toggle Map Flash Light</Original>

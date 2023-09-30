@@ -25,8 +25,8 @@
 	Example:
 		[str _uavVehicle,[[0,"rendertarget8"],[1,"rendertarget9"]]] call cTab_fnc_createUavCam;
 */
-params ["_veh","_uavCams","_isUAV","_UAV_Interface"];
-private ["_veh","_displayName","_display","_squad_list","_Optic_LODs","_Selected_Optic","_renderTarget","_data","_seat","_veh","_uavCams","_seatName","_camPosMemPt","_cam","_turrets"];
+params ["_veh","_uavCams","_UAV_Interface"];
+private ["_veh","_displayName","_display","_squad_list","_Optic_LODs","_Selected_Optic","_turrets","_isEmpty","_renderTarget","_data","_seat","_veh","_uavCams","_seatName","_camPosMemPt","_cam","_turrets"];
 
 _displayName = cTabIfOpen # 1;
 _display = uiNamespace getVariable _displayName;
@@ -60,13 +60,7 @@ _uavCams apply {
     _is_Detached = false;
     _turret = [0];
 
-    if ((_seat == 1) && (_isUAV)) then {
-      _camPosMemPt = getText (configOf _veh >> "uavCameraDriverPos");
-    } else {
-      _camPosMemPt = (_Selected_Optic # 0) # 0;
-      _turret = (_Selected_Optic # 0) # 1;
-      _is_Detached = (_Selected_Optic # 0) # 2;
-    };
+    (_Selected_Optic # 0) params ["_camPosMemPt","_turret","_is_Detached"];
 
   	// If memory points could be retrieved, create camera
   	if (_camPosMemPt != "") then {
@@ -160,27 +154,33 @@ if !(isNull _squad_list) then {
 
 // set up event handler
 if (count cTabUAVcams > 0) exitWith {
+  //-Only Detach ones need this
 	if ((cTab_player getVariable ["cTab_TGP_View_EH",-1]) == -1) then {
-		private _EH = addMissionEventHandler ["Draw3D",{
-			_veh = _thisArgs # 0;
 
-			if (alive _veh) then {
-				cTabUAVcams apply {
-					if !(isNil {_x}) then {
-						_x params ["","_cam","_camPosMemPt","_turret","_is_Detached"];
-	          if (_is_Detached) then {
-	            private _dir = [
-		           (_veh selectionVectorDirAndUp [_camPosMemPt, "Memory"]) # 0,
-		           (_veh getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1
-		    			] select ((_turret # 0) < 0);
-	          	[_cam, _dir, false] call BCE_fnc_VecRot;
-	          };
-					};
-				};
-			} else {
-				call cTab_fnc_deleteUAVcam;
-			};
-		},[_veh]];
+    private _EH = if (({_x # 4} count cTabUAVcams) > 0) then {
+      addMissionEventHandler ["Draw3D",{
+  			_veh = _thisArgs # 0;
+
+  			if (alive _veh) then {
+  				(cTabUAVcams select {_x # 4}) apply {
+            _x params ["","_cam","","_turret","_is_Detached"];
+
+            if (_is_Detached) then {
+              private _dir = [
+               [_veh,_turret] call BCE_fnc_getTurretDir,
+               (_veh getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1
+              ] select ((_turret # 0) < 0);
+              [_cam, _dir, false] call BCE_fnc_VecRot;
+            };
+  				};
+  			} else {
+  				call cTab_fnc_deleteUAVcam;
+  			};
+  		},[_veh]];
+    } else {
+      -2
+    };
+
     cTab_player setVariable ["cTab_TGP_View_EH",_EH,true];
 	};
 

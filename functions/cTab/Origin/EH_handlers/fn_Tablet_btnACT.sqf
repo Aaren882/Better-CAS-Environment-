@@ -29,7 +29,7 @@ if (_info isNotEqualTo "") exitWith {
 ////////////////////////////////////////////////////////////////////////////
 _mode = [cTabIfOpen # 1,"mode"] call cTab_fnc_getSettings;
 
-//-View Camera
+//-Live Feed
 _View_Cam = {
   private ["_vehicle","_current_turret"];
 

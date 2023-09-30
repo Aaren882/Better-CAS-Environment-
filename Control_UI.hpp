@@ -289,7 +289,7 @@ class RscDisplayAVTerminal
 			y = "0.66 * safezoneH + safezoneY";
 			W = "0.015 * safezoneW";
 			h = "0.9 * (safezoneH / 40)";
-			tooltip = "Next Turret";
+			tooltip = "$STR_BCE_NextTurret";
 			onButtonClick = "call BCE_fnc_NextTurretButton;";
 			class Attributes: Attributes
 			{

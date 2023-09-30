@@ -30,8 +30,20 @@ _all_Tasks = ["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"];
 if (_clear_index > -1) then {
   [(_display displayCtrl (17000 + 12010)), false, 'cTab_Tablet_dlg', 17000, _clear_index] call BCE_fnc_clearTaskInfo;
 } else {
+  private _text = format ["<t size='%1'>%2</t>",[0.6,0.8] select ("chinese" in language),_Tasklist lbdata (lbCurSel _Tasklist)];
+
   //-Set Description
-  _description ctrlSetStructuredText parseText (_Tasklist lbdata (lbCurSel _Tasklist)) call BCE_fnc_formatLanguage;
+  _description ctrlSetStructuredText parseText (_text call BCE_fnc_formatLanguage);
+
+  //-Set Button Text
+  {
+    (_display displayctrl (_IDC_offset + 20110 + (_x # 0))) ctrlSetStructuredText parseText ((localize (_x # 1)) call BCE_fnc_formatLanguage)
+  } count [
+    [0,"STR_BCE_ControlType_BNT"],
+    [1,"STR_BCE_AttackType_BNT"],
+    [3,"STR_BCE_OrdnanceREQ_BNT"]
+  ];
+  (_display displayctrl (_IDC_offset + 2106)) ctrlSetStructuredText parseText ((localize "STR_BCE_ClearTaskInfo") call BCE_fnc_formatLanguage)
 };
 
 //-Update Contents for all lists

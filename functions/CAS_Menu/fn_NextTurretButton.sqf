@@ -18,7 +18,7 @@ if !(isnull _vehicle) then {
   _squad_list = _display displayctrl 20116;
 
   #ifdef cTAB_Installed
-    if (!(cTabIfOpenStart) && ((cTab_player getVariable ["cTab_TGP_View_EH",-1]) != -1)) then {
+    if (!(cTabIfOpenStart) && (cTabActUav != cTab_player)) then {
       [[["uavCam",str _vehicle]]] call cTab_fnc_updateInterface;
     };
   #endif

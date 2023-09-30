@@ -68,6 +68,10 @@ call {
     player setVariable ["TGP_View_Selected_Vehicle",objNull];
 		player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
 		["cTab_Tablet_dlg",[["uavCam",str objNull]],false] call cTab_fnc_setSettings;
+
+		if (cTabActUav != cTab_player) then {
+		  call cTab_fnc_deleteUAVcam;
+		};
 	};
 
 	if (_type == -4) exitWith {

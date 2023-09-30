@@ -31,7 +31,7 @@ _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
 if !(isNil{_turret_info}) then {
   player setVariable ["TGP_View_Selected_Optic",[_turret_info,_vehicle],true];
   #ifdef cTAB_Installed
-    if (!(cTabIfOpenStart) && ((cTab_player getVariable ["cTab_TGP_View_EH",-1]) != -1)) then {
+    if (!(cTabIfOpenStart) && (cTabActUav != cTab_player)) then {
       [[["uavCam",str _vehicle]]] call cTab_fnc_updateInterface;
     };
   #endif
