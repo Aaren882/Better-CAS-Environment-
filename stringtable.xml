@@ -385,5 +385,57 @@
             <Original>“Aircraft call sign” / “Yours”</Original>
 			<Chinese>“空中單位代號” / “你的代號”</Chinese>
         </Key>
+		
+		
+		<Key ID="STR_BCE_PLP_Title_Distance">
+            <Original>Distance</Original>
+			<Chinese>距離</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Title_Mark_House">
+            <Original>Mark Houses</Original>
+			<Chinese>標記房屋</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Title_Height">
+            <Original>Height</Original>
+			<Chinese>高度</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Title_Compass">
+            <Original>Compass</Original>
+			<Chinese>指北針</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Title_Edit_Grid">
+            <Original>Edit Grid</Original>
+			<Chinese>設置網格</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Title_Find_Flat">
+            <Original>Find Flat</Original>
+			<Chinese>尋找平地</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_PLP_Tip_Distance">
+            <Original>If you have only one point to measure, will draw a circle to tell you the concentric distance. If you have multiple, will tell you the distance of the lines.</Original>
+			<Chinese>如果您只有一個點要測量，將會繪製一個圓圈來告訴您同心距離。如果您有多個點，將告訴您這些線的距離。</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Tip_Mark_House">
+            <Original>Indexes the houses in the area you draw. You can change the color of the grid with the same way with the markers.</Original>
+			<Chinese>對您所繪制的區域中的房子進行標記。您可以更改網格的顏色使用與〝地圖標記〞相同的方式。</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Tip_Height">
+            <Original>Draws the graph of the height between two points.</Original>
+			<Chinese>繪製兩點之間的高度圖。</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Tip_Compass">
+            <Original>Gives you the compass from the defined point. Supports both Degrees and Mil.</Original>
+			<Chinese>從指定點提供指北針。支援〝方位角〞和〝Mil〞兩種單位。</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Tip_Edit_Grid">
+            <Original>Makes a easy to recognize grid for your team. You can change the color of the grid with the same way with the markers. The grid size is determined on the current map zoom level.</Original>
+			<Chinese>為您的團隊製作易於識別的網格。您可以使用與標記相同的方式更改網格的顏色。網格大小根據當前地圖的縮放大小而定。</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Tip_Find_Flat">
+            <Original>A quick way to check if the area is flat enough. Green means almost same height with the cursor position, red means higher, blue means lower.</Original>
+			<Chinese>快速檢查地形是否足夠平坦的方法。綠色表示與鼠標位置幾乎相同的高度，紅色表示較高，藍色表示較低。</Chinese>
+        </Key>
+		
     </Package>
 </Project>

@@ -24,6 +24,11 @@
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
+//-POLPOX Map Tools
+#if __has_include("\plp\plp_mapToolsRemastered\config.bin")
+	#define PLP_TOOL 1
+#endif
+
 private ["_interfaceInit","_TAC_Vis","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_backgroundOffset","_ctrlPos","_mousePos"];
 disableSerialization;
 
@@ -174,8 +179,6 @@ _settings apply {
 			_displayItems = call {
 				if (_displayName == "cTab_Tablet_dlg") exitWith {
 					[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
-					//-POLPOX Map Tools
-					73454,
 
 					17000 + 3300,
 					17000 + 33000,
@@ -194,10 +197,15 @@ _settings apply {
 					IDC_CTAB_CTABUAVMAP,
 					17000 + 1200,
 					17000 + 1201,
-					17000 + 1202,
 					17000 + 12010,
 					17000 + 12011,
-					17000 + 12012,
+
+					//-POLPOX Map Tools
+					#ifdef PLP_TOOL
+						73454,
+						17000 + 1202,
+						17000 + 12012,
+					#endif
 					IDC_CTAB_SCREEN,
 					IDC_CTAB_SCREEN_TOPO,
 					IDC_CTAB_HCAM_FULL,
@@ -281,7 +289,15 @@ _settings apply {
 						// update scale and world position when not on interface init
 						if (!_interfaceInit) then {
 							if (_isDialog) then {
-								private _widgets = [["BCE_mapTools","PLP_mapTools"], []] select (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]);
+								private _widgets = [
+									[
+										#ifdef PLP_TOOL
+											"PLP_mapTools",
+										#endif
+										"BCE_mapTools"
+									],
+									[]
+								] select (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]);
 
 								(["mapScaleDlg","mapWorldPos","mapTools"] + _widgets) apply {
 									_settings pushBack [_x,[_displayName,_x] call cTab_fnc_getSettings];
@@ -643,7 +659,10 @@ _settings apply {
 
 					_Tool_toggle = _display displayCtrl (17000 + 1200);
 					_BCE_toggle = _display displayCtrl (17000 + 1201);
-					_PLP_toggle = _display displayCtrl (17000 + 1202);
+
+					#ifdef PLP_TOOL
+						_PLP_toggle = _display displayCtrl (17000 + 1202);
+					#endif
 
 					_ToolCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_DIR;
 
@@ -677,33 +696,35 @@ _settings apply {
 							_Tool_toggle
 					  };
 
-						case "PLP_mapTools": {
-							private _status = _x # 1;
-							private _ctrl = _display displayCtrl (17000 + 12012);
-							(_display displayCtrl 73454) ctrlshow _status;
+						#ifdef PLP_TOOL
+							case "PLP_mapTools": {
+								private _status = _x # 1;
+								private _ctrl = _display displayCtrl (17000 + 12012);
+								(_display displayCtrl 73454) ctrlshow _status;
 
-							if (_status) then {
-							  [_ctrl,lbCurSel _ctrl] call BCE_fnc_ctab_BFT_ToolBox;
-							} else {
-								private _PLP_EH = uiNamespace getVariable ["PLP_SMT_EH",-1];
-								private _PLP_Tool = _display displayCtrl 73453;
+								if (_status) then {
+								  [_ctrl,lbCurSel _ctrl] call BCE_fnc_ctab_BFT_ToolBox;
+								} else {
+									private _PLP_EH = uiNamespace getVariable ["PLP_SMT_EH",-1];
+									private _PLP_Tool = _display displayCtrl 73453;
 
-								if !(isNull _PLP_Tool) then {
-							    ctrlDelete _PLP_Tool;
-							  };
+									if !(isNull _PLP_Tool) then {
+								    ctrlDelete _PLP_Tool;
+								  };
 
-								if (_PLP_EH > 0) then {
-									private ["_mapTypes","_currentMapType","_currentMapTypeIndex","_mapIDC"];
-									_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-								  _currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
-								  _currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
-								  _mapIDC = _mapTypes # _currentMapTypeIndex # 1;
-							    (_display displayCtrl _mapIDC) ctrlRemoveEventHandler ["Draw",_PLP_EH];
-							  };
+									if (_PLP_EH > 0) then {
+										private ["_mapTypes","_currentMapType","_currentMapTypeIndex","_mapIDC"];
+										_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+									  _currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
+									  _currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
+									  _mapIDC = _mapTypes # _currentMapTypeIndex # 1;
+								    (_display displayCtrl _mapIDC) ctrlRemoveEventHandler ["Draw",_PLP_EH];
+								  };
+								};
+
+								_PLP_toggle
 							};
-
-							_PLP_toggle
-						};
+						#endif
 
 						case "BCE_mapTools": {
 							private _status = _x # 1;
@@ -716,7 +737,9 @@ _settings apply {
 
 					_sort = [
 						[_Tool_toggle,[], 4, "mapTools"],
-						[_PLP_toggle,[12012], 6, "PLP_mapTools"],
+						#ifdef PLP_TOOL
+							[_PLP_toggle,[12012], 6, "PLP_mapTools"],
+						#endif
 						[_BCE_toggle,[[12011,false], 12010], 4, "BCE_mapTools"]
 					] apply {
 						_x params ["_toggle","_idc","_size","_id"];

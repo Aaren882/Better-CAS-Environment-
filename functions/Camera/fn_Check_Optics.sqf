@@ -14,7 +14,8 @@ if (isnil "BCE_IRLaser_Cache") then {
 
 //-Exit with Return
 if ((_mode > -1) && (_class_veh in ([BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode))) exitWith {
-  ([BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode) get _class_veh
+  private _result = ([BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode) get _class_veh;
+  [_result, []] select (isNil {_result});
 };
 
 if ((_mode == 1) && ((_class_veh in ([BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode)) or (count _allTurrets < 1))) exitWith {};

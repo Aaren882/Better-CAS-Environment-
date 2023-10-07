@@ -21,6 +21,12 @@ class CfgPatches
 			#if __has_include("\z\ctab\addons\core\config.bin")
 				"ctab_core",
 			#endif
+			//-POLPOX map tools
+			#define PLP_TOOL 0
+			#if __has_include("\plp\plp_mapToolsRemastered\config.bin")
+				#define PLP_TOOL 1
+				"PLP_mapToolsRemastered",
+			#endif
 			"A3_Ui_F",
 			"A3_Weapons_F",
 			"A3_Air_F_Heli_Light_01",
@@ -785,11 +791,6 @@ class CfgFunctions
 		};
 	#endif
 	
-	//-POLPOX map tools
-	#if __has_include("\plp\plp_mapToolsRemastered\config.bin")
-		#define PLP_TOOL 1
-	#endif
-	
 	#if cTAB_Installed == PLP_TOOL
 		class PLP
 		{
@@ -926,6 +927,54 @@ class BCE_RscButtonMenu: RscButtonMenu
 //-POLPOX Map Tools Control
 #if cTAB_Installed == PLP_TOOL
 	class PLP_SMT_Description;
+	class PLP_SMT_Data
+	{
+		class RadialMenu
+		{
+			class Distance
+			{
+				displayName = "$STR_BCE_PLP_Title_Distance";
+				function = "PLP_fnc_SMT_distance";
+				controls = "- L. Click to add point\n- L. Drag to move point\n- R. Click to remove point";
+				description = "$STR_BCE_PLP_Tip_Distance";
+			};
+			class MarkHouses
+			{
+				displayName = "$STR_BCE_PLP_Title_Mark_House";
+				function = "PLP_fnc_SMT_markHouses";
+				controls = "- L. Drag to make the area\n- Ctrl + R. Dbl. Click to delete area";
+				description = "$STR_BCE_PLP_Tip_Mark_House";
+			};
+			class Height
+			{
+				displayName = "$STR_BCE_PLP_Title_Height";
+				function = "PLP_fnc_SMT_height";
+				controls = "- L. Click to add point";
+				description = "$STR_BCE_PLP_Tip_Height";
+			};
+			class Compass
+			{
+				displayName = "$STR_BCE_PLP_Title_Compass";
+				function = "PLP_fnc_SMT_compass";
+				controls = "- L. Click to place point\n- Hold L. Click to show Mil";
+				description = "$STR_BCE_PLP_Tip_Compass";
+			};
+			class EditGrid
+			{
+				displayName = "$STR_BCE_PLP_Title_Edit_Grid";
+				function = "PLP_fnc_SMT_placeGrid";
+				controls = "- L. Drag to make a grid\n- Ctrl + R. Dbl. Click on your grid to delete";
+				description = "$STR_BCE_PLP_Tip_Edit_Grid";
+			};
+			class FindFlat
+			{
+				displayName = "$STR_BCE_PLP_Title_Find_Flat";
+				function = "PLP_fnc_SMT_findFlat";
+				controls = "- Mouse to move the scan area.";
+				description = "$STR_BCE_PLP_Tip_Find_Flat";
+			};
+		};
+	};
 #endif
 
 #include "cTab\cTab_Macros.hpp"

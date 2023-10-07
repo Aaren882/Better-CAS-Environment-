@@ -241,46 +241,52 @@ class cTab_Tablet_dlg
 		};
 		
 		//-POLPOX Map Tools Widgets
-		class Map_Tool_Show_PLP_widgets: Map_Tool_Show
-		{
-			idc = idc_D(1202);
-			//text = "a3\3den\data\displays\display3den\panelright\customcomposition_editentities_ca.paa";
-			text = "a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa";
-			toolTip = "MapTools Remastered";
-			Y = sizeY(2.25) - (sizeW * (safezoneH * 1.2));
-			action = "['cTab_Tablet_dlg','PLP_mapTools'] call cTab_fnc_toggleMapTools;";
-		};
-		class Map_Tool_PLP_widgets: RscToolbox
-		{
-			idc = idc_D(12012);
-
-			Y = sizeY(5.25 + 2.25) - (sizeW * (safezoneH * 1.2));
-			w = sizeW * ((safezoneH * 1.2) * 3/4);
-			h = 3 * (sizeW * (safezoneH * 1.2));
-
-			rows = 6;
-			columns = 1;
-			strings[] =
+		#if PLP_TOOL == 1
+			class Map_Tool_Show_PLP_widgets: Map_Tool_Show
 			{
-				"Distance",
-				"Mark Houses",
-				"Height",
-				"Compass",
-				"Edit Grid",
-				"Find Flat"
+				idc = idc_D(1202);
+				//text = "a3\3den\data\displays\display3den\panelright\customcomposition_editentities_ca.paa";
+				text = "a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa";
+				toolTip = "MapTools Remastered";
+				Y = sizeY(2.25) - (sizeW * (safezoneH * 1.2));
+				action = "['cTab_Tablet_dlg','PLP_mapTools'] call cTab_fnc_toggleMapTools;";
 			};
-			tooltips[] =
+			class Map_Tool_PLP_widgets: RscToolbox
 			{
-				"If you have only one point to measure, will draw a circle to tell you the concentric distance. If you have multiple, will tell you the distance of the lines.",
-				"Indexes the houses in the area you draw. You can change the color of the grid with the same way with the markers.",
-				"Draws the graph of the height between two points.",
-				"Gives you the compass from the defined point. Supports both Degrees and Mil.",
-				"Makes a easy to recognize grid for your team. You can change the color of the grid with the same way with the markers. The grid size is determined on the current map zoom level.",
-				"A quick way to check if the area is flat enough. Green means almost same height with the cursor position, red means higher, blue means lower."
+				idc = idc_D(12012);
+	
+				Y = sizeY(5.25 + 2.25) - (sizeW * (safezoneH * 1.2));
+				w = sizeW * ((safezoneH * 1.2) * 3/4);
+				h = 3 * (sizeW * (safezoneH * 1.2));
+	
+				rows = 6;
+				columns = 1;
+				strings[] =
+				{
+					"$STR_BCE_PLP_Title_Distance",
+					"$STR_BCE_PLP_Title_Mark_House",
+					"$STR_BCE_PLP_Title_Height",
+					"$STR_BCE_PLP_Title_Compass",
+					"$STR_BCE_PLP_Title_Edit_Grid",
+					"$STR_BCE_PLP_Title_Find_Flat"
+				};
+				tooltips[] =
+				{
+					"$STR_BCE_PLP_Tip_Distance",
+					"$STR_BCE_PLP_Tip_Mark_House",
+					"$STR_BCE_PLP_Tip_Height",
+					"$STR_BCE_PLP_Tip_Compass",
+					"$STR_BCE_PLP_Tip_Edit_Grid",
+					"$STR_BCE_PLP_Tip_Find_Flat"
+				};
+				colorBackground[] = {0,0,0,0.25};
+				onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";
 			};
-			colorBackground[] = {0,0,0,0.25};
-			onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";
-		};
+			
+			//-Tool Description
+			class BCE_MapTools_Tooltip: PLP_SMT_Description{};
+		#endif
+		
 		/*class BCE_MapTools_Tooltip: RscStructuredText
 		{	
 			idc = idc_D(1609);
@@ -294,10 +300,6 @@ class cTab_Tablet_dlg
 			colorDisabled[]={1,1,1,1};
 			colorBackgroundDisabled[]={0,0,0,0.5};
 		};*/
-		class BCE_MapTools_Tooltip: PLP_SMT_Description
-		{
-			
-		};
 
 		//---- Groups ----//
 		class Desktop: cTab_RscControlsGroup
