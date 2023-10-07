@@ -412,6 +412,31 @@
 			<Chinese>尋找平地</Chinese>
         </Key>
 		
+		<Key ID="STR_BCE_PLP_Ctrl_Distance">
+            <Original>- L. Click to add point\n- L. Drag to move point\n- R. Click to remove point</Original>
+			<Chinese>- 左鍵 新增位置點\n- 左鍵 + 拖移 移動位置點\n- 右鍵移除位置點</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Ctrl_Mark_House">
+            <Original>- L. Drag to make the area\n- Ctrl + R. Dbl. Click to delete area</Original>
+			<Chinese>- 左鍵 + 拖移 創建區域\n- Ctrl + 雙擊右鍵 移除區域</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Ctrl_Height">
+            <Original>- L. Click to add point</Original>
+			<Chinese>- 左鍵 新增位置點</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Ctrl_Compass">
+            <Original>- L. Click to place point\n- Hold L. Click to show Mil</Original>
+			<Chinese>- 左鍵 放置位置點\n- 按住左鍵 顯示Mil</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Ctrl_Edit_Grid">
+            <Original>- L. Drag to make a grid\n- Ctrl + R. Dbl. Click on your grid to delete</Original>
+			<Chinese>- 左鍵 + 拖移 創建網格\n- Ctrl + 雙擊右鍵 移除網格</Chinese>
+        </Key>
+		<Key ID="STR_BCE_PLP_Ctrl_Find_Flat">
+            <Original>- Mouse to move the scan area.</Original>
+			<Chinese>- 移動鼠標來掃描區域</Chinese>
+        </Key>
+		
 		<Key ID="STR_BCE_PLP_Tip_Distance">
             <Original>If you have only one point to measure, will draw a circle to tell you the concentric distance. If you have multiple, will tell you the distance of the lines.</Original>
 			<Chinese>如果您只有一個點要測量，將會繪製一個圓圈來告訴您同心距離。如果您有多個點，將告訴您這些線的距離。</Chinese>

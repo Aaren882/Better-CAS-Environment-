@@ -1,3 +1,4 @@
+private ["_keyEH_1","_keyEH_2","_keyEH_3"];
 _keyEH_1 = addUserActionEventHandler ["defaultAction", "Activate", {
 
   (player getVariable "TGP_View_Selected_Optic") params ["_turretInfo","_vehicle"];
@@ -46,4 +47,16 @@ _keyEH_2 = addUserActionEventHandler ["gunElevAuto", "Activate", {
   };
 }];
 
-[_keyEH_1,_keyEH_2]
+_keyEH_3 = addUserActionEventHandler ["vehLockTurretView", "Activate", {
+  (player getVariable "TGP_View_Selected_Optic") params ["_turretInfo","_vehicle"];
+  _current_turret = _turretInfo # 1;
+  _POS = [_vehicle,_current_turret] call BCE_fnc_Turret_InterSurface;
+  _target = [
+    objNull,
+    AGLToASL _POS
+  ] select isnil{(_vehicle lockedCameraTo _current_turret)};
+
+  _vehicle lockCameraTo [_target, _current_turret];
+}];
+
+[_keyEH_1,_keyEH_2,_keyEH_3]

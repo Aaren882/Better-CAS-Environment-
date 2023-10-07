@@ -935,42 +935,42 @@ class BCE_RscButtonMenu: RscButtonMenu
 			{
 				displayName = "$STR_BCE_PLP_Title_Distance";
 				function = "PLP_fnc_SMT_distance";
-				controls = "- L. Click to add point\n- L. Drag to move point\n- R. Click to remove point";
+				controls = "$STR_BCE_PLP_Ctrl_Distance";
 				description = "$STR_BCE_PLP_Tip_Distance";
 			};
 			class MarkHouses
 			{
 				displayName = "$STR_BCE_PLP_Title_Mark_House";
 				function = "PLP_fnc_SMT_markHouses";
-				controls = "- L. Drag to make the area\n- Ctrl + R. Dbl. Click to delete area";
+				controls = "$STR_BCE_PLP_Ctrl_Mark_House";
 				description = "$STR_BCE_PLP_Tip_Mark_House";
 			};
 			class Height
 			{
 				displayName = "$STR_BCE_PLP_Title_Height";
 				function = "PLP_fnc_SMT_height";
-				controls = "- L. Click to add point";
+				controls = "$STR_BCE_PLP_Ctrl_Height";
 				description = "$STR_BCE_PLP_Tip_Height";
 			};
 			class Compass
 			{
 				displayName = "$STR_BCE_PLP_Title_Compass";
 				function = "PLP_fnc_SMT_compass";
-				controls = "- L. Click to place point\n- Hold L. Click to show Mil";
+				controls = "$STR_BCE_PLP_Ctrl_Compass";
 				description = "$STR_BCE_PLP_Tip_Compass";
 			};
 			class EditGrid
 			{
 				displayName = "$STR_BCE_PLP_Title_Edit_Grid";
 				function = "PLP_fnc_SMT_placeGrid";
-				controls = "- L. Drag to make a grid\n- Ctrl + R. Dbl. Click on your grid to delete";
+				controls = "$STR_BCE_PLP_Ctrl_Edit_Grid";
 				description = "$STR_BCE_PLP_Tip_Edit_Grid";
 			};
 			class FindFlat
 			{
 				displayName = "$STR_BCE_PLP_Title_Find_Flat";
 				function = "PLP_fnc_SMT_findFlat";
-				controls = "- Mouse to move the scan area.";
+				controls = "$STR_BCE_PLP_Ctrl_Find_Flat";
 				description = "$STR_BCE_PLP_Tip_Find_Flat";
 			};
 		};

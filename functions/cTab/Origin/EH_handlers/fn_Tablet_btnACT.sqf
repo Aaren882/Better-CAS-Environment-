@@ -2,15 +2,22 @@ params [["_info",""]];
 
 //-Control Turret
 if (_info isNotEqualTo "") exitWith {
+  private ["_vehicle","_current_turret","_condition"];
   _vehicle = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
   _current_turret = ((cTab_player getVariable ["TGP_View_Selected_Optic",[["",[-1]],objNull]]) # 0) # 1;
 
   _condition = [
-    ({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle)) > 0,
-    (isUAVConnected _vehicle)
+    false,
+    (isUAVConnected _vehicle) && (((UAVControl _vehicle) # 0) isNotEqualTo cTab_player)
   ] select (unitIsUAV _vehicle);
 
-  if (!(isnull _vehicle) && !(_condition) && ((_current_turret # 0) > -1)) then {
+  if (
+    !(isnull _vehicle) &&
+    !(_condition) &&
+    ((_current_turret # 0) > -1) &&
+    ({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle) > 0) &&
+    !((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"])
+  ) then {
     //-delete PIP Cam && close TAD UI
     call cTab_fnc_deleteUAVcam;
     call cTab_fnc_close;

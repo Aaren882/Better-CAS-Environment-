@@ -72,21 +72,25 @@ _fnc_onLBSelChanged = {
 			_current_turret = (_Selected_Optic # 0) param [1,[0]];
 
 			_turret_Unit = _vehicle turretUnit _current_turret;
+			_turret_List = missionNamespace getVariable ["TGP_View_Turret_List",[]];
 
 			_gunner = [name _turret_Unit,"-"] select (((_turret_Unit isEqualTo objNull) or (_turret_Unit isEqualTo (driver _vehicle))));
 			_pilot = [name (driver _vehicle),"-"] select ((driver _vehicle) isEqualTo objNull);
 
-			_Cant_CtrlVeh = ({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle)) > 0;
+			_Cond_CtrlVeh = [
+		    false,
+		    (isUAVConnected _vehicle) && (((UAVControl _vehicle) # 0) isNotEqualTo player)
+		  ] select (unitIsUAV _vehicle);
 
 			(_display displayCtrl 1501) ctrlSetText _pilot;
 			(_display displayCtrl 1502) ctrlSetText _gunner;
 
 			// - Disable Unavailable Turret
 			if (
-				 _Cant_CtrlVeh or
+				_Cond_CtrlVeh or
 				(_gunner == "-") or
-				(_turret_Unit in (missionNamespace getVariable ["TGP_View_Turret_List",[]])) or
-				((vehicle _turret_Unit) in (missionNamespace getVariable ["TGP_View_Turret_List",[]])) or
+				(_turret_Unit in _turret_List) or
+				(({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle)) > 0) or
 			  ((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"])
 			) then {
 			  (_display displayctrl 1601) ctrlEnable false;
@@ -95,13 +99,11 @@ _fnc_onLBSelChanged = {
 			};
 
 			if (isnull _vehicle) then {
-				(_display displayCtrl 1503) ctrlSetText "-";
-				(_display displayCtrl 1504) ctrlSetText "-";
-				(_display displayCtrl 1505) ctrlSetText "-";
-				(_display displayCtrl 1506) ctrlSetText "-";
-				(_display displayCtrl 1507) ctrlSetText "-";
-				(_display displayCtrl 1508) ctrlSetText "-";
+				{
+					(_display displayCtrl (1500 + _x)) ctrlSetText "-";
+				} count [3,4,5,6,7,8];
 			} else {
+				private ["_config","_weapon"];
 				_config = configFile >> "CfgWeapons";
 				_weapon = [
 					getText (_config >> _vehicle currentWeaponTurret _current_turret >> "DisplayName"),
@@ -117,7 +119,7 @@ _fnc_onLBSelChanged = {
 			};
 		};
 
-		((lbCurSel _ctrlValue < 0) or !(_vehicle_New isEqualTo _vehicle) or !(alive player)) or (isNull _display)
+		((lbCurSel _ctrlValue < 0) or !(_vehicle_New isEqualTo _vehicle) or !(alive player) or (isNull (findDisplay 160)))
 	}, {
 		params ["_display"];
 		if (isNull _display) then {
