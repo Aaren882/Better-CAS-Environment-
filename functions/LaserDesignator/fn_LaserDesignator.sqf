@@ -85,35 +85,40 @@ if (_unit isKindOf "Air") then {
 
   _weaponPOS = if (_unit in vehicles) then {
     (
-      (allTurrets _unit) select {_unit isLaserOn _x}
+      //(allTurrets _unit) select {_unit isLaserOn _x}
+      ([_unit,1] call BCE_fnc_Check_Optics) select {_unit isLaserOn (_x # 0)}
     ) apply {
-      private ["_turret","_cfg","_LOD","_offset"];
-      _turret = _x;
-      _cfg = [_unit, _turret] call BIS_fnc_turretConfig;
-      _LOD = getText (_cfg >> "memoryPointGunnerOptics");
-      _offset = [
-        [0,0,0],
-        getArray (_cfg >> "LaserDesignator_Offset")
-      ] select (isArray (_cfg >> "LaserDesignator_Offset"));
+      _x params ["_turret","_LOD","_gunBeg","_offset"];
+      private ["_Beg","_POS","_dir","_ASL"];
 
-      [_unit selectionPosition _LOD, _turret, _LOD, _offset];
+      //-Correcting Laser
+      _Beg = _unit selectionPosition _gunBeg;
+      _POS = _unit selectionPosition _LOD;
+      _dir = [_unit,_turret] call BCE_fnc_getTurretDir;
+      _ASL = (_unit modelToWorldVisualWorld _Beg) vectorAdd (_dir vectorMultiply (_unit distance (_unit laserTarget [0,0])));
+
+      [_POS, (_unit modelToWorldVisualWorld _POS) vectorFromTo _ASL, _turret, _LOD, _offset]
     };
   } else {
-    [[(_unit selectionPosition "proxy:\a3\characters_f\proxies\binoculars.001") vectorAdd [0.06,0,0],[],"proxy:\a3\characters_f\proxies\binoculars.001",[0,0,0]]];
+    [
+      [
+        (_unit selectionPosition "proxy:\a3\characters_f\proxies\binoculars.001") vectorAdd [0.06,0,0],
+        _unit weaponDirection (currentWeapon _unit),
+        [],
+        "proxy:\a3\characters_f\proxies\binoculars.001",
+        [0,0,0]
+      ]
+    ]
   };
 
   _weaponPOS apply {
-    _x params ["_weaponLocal", "_turretLocal", "_LOD", ["_Offset",[0,0,0],[]]];
-    private ["_weaponWorld","_dir","_light"];
+    _x params ["_weaponLocal", "_dir", "_turretLocal", "_LOD", ["_Offset",[0,0,0],[]]];
+    private ["_weaponWorld","_light"];
 
     _weaponWorld = _unit modelToWorldWorld (_weaponLocal vectorAdd _Offset);
-    _dir = [
-      [_unit,_turretLocal] call BCE_fnc_getTurretDir,
-      _unit weaponDirection (currentWeapon _unit)
-    ] select (_turretLocal isEqualTo []);
 
     //Light Source
-    if ((_Light_Soure isEqualTo objNull) && (_is_Server) && (BCE_inf_IR_Lig_S_fn)) then {
+    if ((isNull _Light_Soure) && (_is_Server) && (BCE_inf_IR_Lig_S_fn)) then {
       _light = "Reflector_Cone_IR_LaserDesignator_Light_F" createVehicle [0,0,0];
 
       if (_turretLocal isEqualTo []) then {

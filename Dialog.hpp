@@ -254,10 +254,11 @@ class RscTitles
 			class Laseron: RscText
 			{
 				idc = 1023;
+				style = 2;
 				shadow = 0;
-				x = 0.472413 * safezoneW + safezoneX;
+				x = safezoneX;
 				y = 0.242 * safezoneH + safezoneY;
-				w = 0.0557045 * safezoneW;
+				w = safezoneW;
 				h = 0.044 * safezoneH;
 				colorText[] = {1,0,0,1};
 				text = "L T D / R";
@@ -351,6 +352,7 @@ class RscTitles
 				h = 0.0356667 * safezoneH;
 				colorText[] = {1,1,1,1};
 				colorBackground[] = {0,0,0,0.4};
+				font = "RobotoCondensed_BCE";
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
 			};
 			
@@ -409,25 +411,25 @@ class RscTitles
 				{
 					class temp
 					{
-						text = "Temperature :";
+						text = "$STR_BCE_Env_temp";
 						data = "['%1°C', round (ambientTemperature # 0)]";
 					};
 					class humidity
 					{
-						text = "Humidity :";
+						text = "$STR_BCE_Env_humidity";
 						data = "['%1%2', round (humidity * 10) * 10, '%']";
 					};
 					class wind
 					{
-						text = "Wind :";
+						text = "$STR_BCE_Env_wind";
 					};
 					class fog
 					{
-						text = "Fog :";
+						text = "$STR_BCE_Env_fog";
 					};
 					class visibility
 					{
-						text = "Visibility";
+						text = "$STR_BCE_Env_visibility";
 						textright = "Good";
 					};
 				};

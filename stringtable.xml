@@ -462,5 +462,210 @@
 			<Chinese>快速檢查地形是否足夠平坦的方法。綠色表示與鼠標位置幾乎相同的高度，紅色表示較高，藍色表示較低。</Chinese>
         </Key>
 		
+		
+		<Key ID="STR_BCE_Press_key">
+            <Original>Press %1</Original>
+			<Chinese>按 %1</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Exit_Camera">
+            <Original>離開畫面</Original>
+			<Chinese>離開畫面</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_Env_temp">
+            <Original>Temperature :</Original>
+			<Chinese>氣溫 :</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Env_humidity">
+            <Original>Humidity :</Original>
+			<Chinese>濕度 :</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Env_wind">
+            <Original>Wind :</Original>
+			<Chinese>風向 :</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Env_fog">
+            <Original>Fog :</Original>
+			<Chinese>霧氣 :</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Env_visibility">
+            <Original>Visibility</Original>
+			<Chinese>視野可見度</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_Env_wind_strong">
+            <Original>Strong</Original>
+			<Chinese>強烈</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Env_wind_gentle">
+            <Original>Gentle</Original>
+			<Chinese>輕拂</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Env_wind_calm">
+            <Original>Calm</Original>
+			<Chinese>無風</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_Env_fog_Haze">
+            <Original>Haze</Original>
+			<Chinese>迷霧</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Env_fog_Mist">
+            <Original>Mist</Original>
+			<Chinese>薄霧</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Env_fog_Clear">
+            <Original>Clear</Original>
+			<Chinese>清楚</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_Env_vis_Very_Bad">
+            <Original>Very Bad</Original>
+			<Chinese>糟糕</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Env_vis_Bad">
+            <Original>Bad</Original>
+			<Chinese>差</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Env_vis_Good">
+            <Original>Good</Original>
+			<Chinese>良好</Chinese>
+        </Key>
+		
+		
+		<Key ID="STR_BCE_Cam_Altitude">
+            <Original>Altitude: %1</Original>
+			<Chinese>高度: %1</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Cam_Time">
+            <Original>Time: %1</Original>
+			<Chinese>時間: %1</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Cam_Grid">
+            <Original>GRID: %1</Original>
+			<Chinese>位置: %1</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Cam_Fuel">
+            <Original>Fuel: %1%2</Original>
+			<Chinese>油量: %1%2</Chinese>
+        </Key>
+		
+		
+		<Key ID="STR_BCE_Toggle">
+            <Original>Toggle</Original>
+			<Chinese>切換</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Optic_Mode">
+            <Original>Switch Optic Mode</Original>
+			<Chinese>切換鏡頭模式</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Tracker_Box">
+            <Original>Tracker Box</Original>
+			<Chinese>人形追蹤框</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Unit_Tracker">
+            <Original>Unit Tracker</Original>
+			<Chinese>友方追蹤</Chinese>
+        </Key>
+		<Key ID="STR_BCE_3D_Compass">
+            <Original>3D Compass</Original>
+			<Chinese>3D羅盤</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Map_Icon">
+            <Original>Map Icon</Original>
+			<Chinese>地圖標記</Chinese>
+        </Key>
+		<Key ID="STR_BCE_LandMark_Icon">
+            <Original>LandMark Icon</Original>
+			<Chinese>地標圖示</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Mouse_Cursor">
+            <Original>Mouse Cursor</Original>
+			<Chinese>點擊標記</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_Zoom_In">
+            <Original>Zoom In</Original>
+			<Chinese>增加倍率</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Zoom_Out">
+            <Original>Zoom Out</Original>
+			<Chinese>減少倍率</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_Swich_View_Left">
+            <Original>Swich View Left</Original>
+			<Chinese>切換視角 左</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Swich_View_Right">
+            <Original>Swich View Right</Original>
+			<Chinese>切換視角 右</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_Next_Weapon_Setup">
+            <Original>Next Weapon Setup</Original>
+			<Chinese>下個武器配置</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Set_Touch_Marker">
+            <Original>Set Touch Marker</Original>
+			<Chinese>設置點擊標記</Chinese>
+        </Key>
+		
+		
+		<Key ID="STR_BCE_Opacity">
+            <Original>Opacity</Original>
+			<Chinese>不透明度</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Custom_HUD_Color">
+            <Original>Custom HUD Color</Original>
+			<Chinese>自訂HUD顏色</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Rocket_HUD">
+            <Original>Rocket HUD</Original>
+			<Chinese>火箭 HUD</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Show_HUD">
+            <Original>Show HUD</Original>
+			<Chinese>顯示 HUD</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_Select_Turret_Control_Trait">
+            <Original>Select available Trait for Turret Control</Original>
+			<Chinese>選擇可控制砲塔的職位</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Laser_for_Air_Vehicles_Laserdesignator">
+            <Original>Laser for Air Vehicles Laserdesignator</Original>
+			<Chinese>空中載具的雷射指示器效果</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Laser_for_Laserdesignator">
+            <Original>Laser for Laserdesignator</Original>
+			<Chinese>雷射指示器的 雷射效果</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Laser_Light_Source_for_Laserdesignator">
+            <Original>Laser Light Source for Laserdesignator</Original>
+			<Chinese>雷射指示器的 光源效果</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Unit_Render_Range">
+            <Original>Unit Render Range</Original>
+			<Chinese>單位顯示距離</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Exclude_AI_Aircrafts_have_the_Laser_Effect">
+            <Original>Exclude AI Aircrafts have the Laser Effect</Original>
+			<Chinese>排除AI飛機具有 雷射效果</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Available_AI_CAS_via_CAS_Receiver">
+            <Original>Available AI CAS via CAS Receiver</Original>
+			<Chinese>AI執行CAS透過 CAS接收器</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_Spotlight_on_Ground_Vehicle_Turret">
+            <Original>Spotlight on Ground Vehicle Turret</Original>
+			<Chinese>探照燈在 地面載具 炮塔上</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Laser_on_Ground_Vehicle_Turret">
+            <Original>Laser on Ground Vehicle Turret</Original>
+			<Chinese>雷射在 地面載具 炮塔上</Chinese>
+        </Key>
+		
     </Package>
 </Project>

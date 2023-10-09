@@ -49,6 +49,9 @@ _keyEH_2 = addUserActionEventHandler ["gunElevAuto", "Activate", {
 
 _keyEH_3 = addUserActionEventHandler ["vehLockTurretView", "Activate", {
   (player getVariable "TGP_View_Selected_Optic") params ["_turretInfo","_vehicle"];
+
+  if !(unitIsUAV _vehicle) exitWith {};
+  
   _current_turret = _turretInfo # 1;
   _POS = [_vehicle,_current_turret] call BCE_fnc_Turret_InterSurface;
   _target = [

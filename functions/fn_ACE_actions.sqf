@@ -210,6 +210,6 @@ _action = ["BCE_Use_Heli_LaserIR","Toggle Laser (IR)","",{
 },{
     params ["_unit"];
 		_condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
-	  Laser_Condition
+		Laser_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
