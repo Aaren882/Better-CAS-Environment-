@@ -23,7 +23,7 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 	} else {
 		findDisplay 12
 	};
-	
+
 	private _mapScale = ctrlMapScale _map ;
 
 	/*{
@@ -154,9 +154,13 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 			} ;
 		} ;
 
-		private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090 ;
-		private _color = _colorLb lbValue lbCurSel _colorLb ;
-		_color = configName (("true" configClasses (configFile >> "CfgMarkerColors"))#_color) ;
+		private _color = if (_iscTab) then {
+			private _colorLb = _display displayCtrl (17000 + 1090);
+			(call compile (_colorLb lbData lbCurSel _colorLb)) # 0;
+		} else {
+			private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090;
+			configName (("true" configClasses (configFile >> "CfgMarkerColors")) # (_colorLb lbValue lbCurSel _colorLb));
+		};
 
 		_markers apply {_x setMarkerShape "Rectangle" ; _x setMarkerColor _color ; _x setMarkerAlpha 0.8 ; _x setMarkerBrush "SolidFull" ;} ;
 		_markersText apply {_x setMarkerType "EmptyIcon" ; _x setMarkerSize [0,0] ; _x setMarkerColor _color ; _x setMarkerShadow true} ;
@@ -164,6 +168,19 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 
 		_lastGrid set [3,[_markers,_markersText,_markersTextAlpha]] ;
 	} ;
+
+	//-Get Color RGBs
+	private _color = if (_iscTab) then {
+		private _colorLb = _display displayCtrl (17000 + 1090);
+		(call compile (_colorLb lbData lbCurSel _colorLb)) # 1;
+	} else {
+		private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090;
+		private _class = configName (("true" configClasses (configFile >> "CfgMarkerColors")) # (_colorLb lbValue lbCurSel _colorLb));
+		(getArray (configFile >> "CfgMarkerColors" >> _class >> "color")) apply {
+			if (_x isEqualType "") then {call compile _x} else {_x};
+		};
+	};
+	_color set [3,1];
 
 	{
 		_x params ["_pointA","_pointB","_scale"] ;
@@ -177,12 +194,6 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 			private _pointNE = [] ;
 			_pointNE set [0,(_pointA#0) min (_pointB#0)] ;
 			_pointNE set [1,(_pointA#1) max (_pointB#1)] ;
-
-			private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090 ;
-			private _color = _colorLb lbValue lbCurSel _colorLb ;
-			_color = (("true" configClasses (configFile >> "CfgMarkerColors"))#_color) ;
-			_color = getArray (_color >> "color") ;
-			_color set [3,1] ;
 
 			_map drawRectangle [
 				_pointNE vectorAdd [-50000,-_height/2],50000,_height/2,0,[0,0,0,0.3],"#(argb,1,1,1)color(1,1,1,1)"

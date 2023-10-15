@@ -113,13 +113,12 @@ if (_unit isKindOf "Air") then {
 
   _weaponPOS apply {
     _x params ["_weaponLocal", "_dir", "_turretLocal", "_LOD", ["_Offset",[0,0,0],[]]];
-    private ["_weaponWorld","_light"];
 
-    _weaponWorld = _unit modelToWorldWorld (_weaponLocal vectorAdd _Offset);
+    private _weaponWorld = _unit modelToWorldWorld (_weaponLocal vectorAdd _Offset);
 
     //Light Source
     if ((isNull _Light_Soure) && (_is_Server) && (BCE_inf_IR_Lig_S_fn)) then {
-      _light = "Reflector_Cone_IR_LaserDesignator_Light_F" createVehicle [0,0,0];
+      private _light = "Reflector_Cone_IR_LaserDesignator_Light_F" createVehicle [0,0,0];
 
       if (_turretLocal isEqualTo []) then {
         _light attachTo [_unit, [0.06,0.08,0] vectorAdd _Offset, _LOD];

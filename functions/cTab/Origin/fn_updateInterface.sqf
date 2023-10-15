@@ -229,6 +229,15 @@ _settings apply {
 					17000 + 4631,
 					17000 + 4632,
 					17000 + 4650,
+
+					//-BTF Widgets
+					17000 + 1200,
+					//-POLPOX Map Tools
+					#ifdef PLP_TOOL
+						73454,
+						17000 + 1202,
+						17000 + 12012,
+					#endif
 					IDC_CTAB_GROUP_DESKTOP,
 					IDC_CTAB_GROUP_MENU,
 					IDC_CTAB_GROUP_MESSAGE,
@@ -391,6 +400,9 @@ _settings apply {
 
 				// hide every _displayItems not in _displayItemsToShow
 				{(_display displayCtrl _x) ctrlShow (_x in _displayItemsToShow)} count _displayItems;
+				if (_displayName == "cTab_Android_dlg") then {
+				  (_display displayCtrl 10) ctrlShow false;
+				};
 
 				// ---------- Task Builder -----------
 				if (_mode == "TASK_Builder") then {
@@ -584,6 +596,28 @@ _settings apply {
 			};
 		};
 
+		//-Marker Color
+		if ((_x # 0) == "markerColor") exitWith {
+			private _markerColor = _display displayCtrl (17000 + 1090);
+			if (lbSize _markerColor == 0) then {
+				private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkerColors");
+				{
+					private ["_name","_color","_index"];
+					_name = getText (_x >> "name");
+					_color = (getArray (_x >> "color")) apply {
+						if (_x isEqualType "") then {call compile _x} else {_x};
+					};
+					_index = _markerColor lbAdd _name;
+					_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
+
+					_markerColor lbSetPictureColorSelected [_index, _color];
+					_markerColor lbSetPictureColor [_index, _color];
+					_markerColor lbSetData [_index, str [configName _x, _color]];
+				} count _cfg;
+			};
+			_markerColor lbSetCurSel (_x # 1);
+		};
+
 		// ------------ UAV CAM ------------
 		// ------------ init AV info ------------
 		if ((_x # 0) == "uavCam") exitWith {
@@ -655,7 +689,7 @@ _settings apply {
 
 			if (_mode == "BFT") then {
 				if !(_displayName in ["cTab_TAD_dlg","cTab_TAD_dsp"]) then {
-					private ["_Tool_toggle","_BCE_toggle","_PLP_toggle","_ToolCtrl","_toggleW","_period","_cal_H","_Tool_statment","_ToolPOS","_toggled_ctrl","_sort"];
+					private ["_Tool_toggle","_BCE_toggle","_PLP_toggle","_ToolCtrl","_toggleW","_period","_MoveDir","_cal_H","_Tool_statment","_toggled_ctrl","_sort"];
 
 					_Tool_toggle = _display displayCtrl (17000 + 1200);
 					_BCE_toggle = _display displayCtrl (17000 + 1201);
@@ -670,14 +704,14 @@ _settings apply {
 					(ctrlPosition _ToolCtrl) params ["_CTRLX","_CTRLY","_CTRLW","_CTRLH"];
 
 					_period = [0.2,0] select _interfaceInit;
+					_MoveDir = [1,-1] select ("Android" in _displayName);
 
 					//-Get Y axis and H
 					_cal_H = _CTRLH / 2;
 					_Tool_statment = [
-						[_CTRLW - _toggleW , [_CTRLX + _CTRLW ,0]],
-						[-_toggleW , [_CTRLX ,_CTRLW]]
+						[[_CTRLW - _toggleW, 0] select (_MoveDir < 0) , [_CTRLX + (_CTRLW * _MoveDir) ,0]],
+						[[(-_toggleW), _CTRLW] select (_MoveDir < 0), [_CTRLX ,_CTRLW]]
 					];
-					_ToolPOS = _Tool_statment select (_x # 1);
 
 					_toggled_ctrl = switch (_x # 0) do {
 					  case "mapTools": {
@@ -735,13 +769,9 @@ _settings apply {
 						};
 					};
 
-					_sort = [
-						[_Tool_toggle,[], 4, "mapTools"],
-						#ifdef PLP_TOOL
-							[_PLP_toggle,[12012], 6, "PLP_mapTools"],
-						#endif
-						[_BCE_toggle,[[12011,false], 12010], 4, "BCE_mapTools"]
-					] apply {
+					_sort = [];
+					{
+						if (isnull (_x # 0)) then {continue};
 						_x params ["_toggle","_idc","_size","_id"];
 
 						private _status = [_displayName,_id] call cTab_fnc_getSettings;
@@ -754,6 +784,12 @@ _settings apply {
 							 	_c ctrlshow _status;
 							};
 
+							//-Preset of List Content
+							if (_MoveDir < 0) then {
+								_c ctrlSetPositionX _CTRLX;
+								_c ctrlCommit 0;
+							};
+
 							(_POS # 1) params ["_Cx","_Cw"];
 							_c ctrlSetPositionX _Cx;
 							_c ctrlSetPositionW _Cw;
@@ -763,8 +799,14 @@ _settings apply {
 						_toggle ctrlSetPositionX (_CTRLX + (_POS # 0));
 
 						//-Output
-						[_ctrls, _size * _CTRLH, _status]
-					};
+						_sort pushBack [_ctrls, _size * _CTRLH, _status];
+					} forEach [
+						[_Tool_toggle,[], 4, "mapTools"],
+						#ifdef PLP_TOOL
+							[_PLP_toggle,[12012], 6, "PLP_mapTools"],
+						#endif
+						[_BCE_toggle,[[12011,false], 12010], 4, "BCE_mapTools"]
+					];
 
 					//- Set Y axis of current selected ctrl
 					private _i = _CTRLY + _CTRLH;
@@ -789,7 +831,7 @@ _settings apply {
 						} forEach _ctrls;
 
 						_i = _i - (_cal_H / 4) - ([_toggleH, _H] select _Open);
-					} forEach _sort;
+					} count _sort;
 
 				};
 
@@ -813,6 +855,7 @@ _settings apply {
 			if (!isNull _osdCtrl) then {
 				if (_mode == "BFT") then {
 					_osdCtrl ctrlShow (_x # 1);
+					(_display displayCtrl 10) ctrlShow false;
 				};
 			};
 		};

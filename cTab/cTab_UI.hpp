@@ -171,6 +171,23 @@ class cTab_Tablet_dlg
 	};
 	class controls
 	{
+		//-Color Select
+		class MarkerColor: RscCombo
+		{
+			idc=idc_D(1090);
+			x = "((((10) + ((257))) + ((10) + ((((1341)) - (10) * 8) / 7)) * (6 - 1))) / 2048  * 	(	(safezoneH * 1.2) * 3/4) + 	(safezoneX + (safezoneW - 	(	(safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048)) + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4))";
+			y = "((491) + ((42) - (35)) / 2) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2)";
+			w = "2.5 * (((35)) / 2048 * ((safezoneH * 1.2) * 3/4))";
+			h = "((35)) / 2048 * (safezoneH * 1.2)";
+			
+			colorBackground[]={0.3,0.3,0.3,1};
+			
+			colorSelect[]={1,1,1,1};
+			colorSelectBackground[]={0.2,0.2,0.2,1};
+			
+			onLBSelChanged = "['cTab_Tablet_dlg',[['markerColor',_this # 1]]] call cTab_fnc_setSettings;";
+		};
+		
 		#define sizeX ((((-(10) + ((257)) + ((1341))) - ((((1341)) - (10) * 8) / 7))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048)))
 		#define sizeY(SIZE) (((-(0) + (491) + (993)) - (10) - ((42) - (10)) * SIZE) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2))
 		#define sizeW (64 / 2048)
@@ -179,7 +196,7 @@ class cTab_Tablet_dlg
 		{
 			idc = idc_D(1200);
 			style = "0x02 + 0x30 + 0x800";
-			text = "a3\3den\data\displays\display3den\toolbar\map_off_ca.paa";
+			text = "\a3\3den\data\displays\display3den\toolbar\map_off_ca.paa";
 			colorBackground[] = {0,0,0,0.3};
 			x = sizeX + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4)) - (sizeW * ((safezoneH * 1.2) * 3/4));
 			Y = sizeY(0) - (sizeW * (safezoneH * 1.2));
@@ -193,7 +210,7 @@ class cTab_Tablet_dlg
 		class Map_Tool_Show_BCE_widgets: Map_Tool_Show
 		{
 			idc = idc_D(1201);
-			text = "a3\3den\data\displays\display3den\toolbar\vision_normal_ca.paa";
+			text = "\a3\3den\data\displays\display3den\toolbar\vision_normal_ca.paa";
 			toolTip = "$STR_BCE_Tit_Click_Map";
 			Y = sizeY(4.5) - (sizeW * (safezoneH * 1.2));
 			action = "['cTab_Tablet_dlg','BCE_mapTools'] call cTab_fnc_toggleMapTools;";
@@ -245,8 +262,8 @@ class cTab_Tablet_dlg
 			class Map_Tool_Show_PLP_widgets: Map_Tool_Show
 			{
 				idc = idc_D(1202);
-				//text = "a3\3den\data\displays\display3den\panelright\customcomposition_editentities_ca.paa";
-				text = "a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa";
+				//text = "\a3\3den\data\displays\display3den\panelright\customcomposition_editentities_ca.paa";
+				text = "\a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa";
 				toolTip = "MapTools Remastered";
 				Y = sizeY(2.25) - (sizeW * (safezoneH * 1.2));
 				action = "['cTab_Tablet_dlg','PLP_mapTools'] call cTab_fnc_toggleMapTools;";
@@ -286,20 +303,6 @@ class cTab_Tablet_dlg
 			//-Tool Description
 			class BCE_MapTools_Tooltip: PLP_SMT_Description{};
 		#endif
-		
-		/*class BCE_MapTools_Tooltip: RscStructuredText
-		{	
-			idc = idc_D(1609);
-			text = '<img image="\a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa" align="center" size="0.8" /> PLP Tools "Q"';
-			tooltip = "MOD : ""Key Combine""";
-			x = MAP_TOGGLE_X(2,1.5);
-			y = MAP_TOGGLE_Y(2,2);
-			w = "5 * (((safezoneW / safezoneH) min 1.2) / 40) + (0.5 * 0.015)";
-			h = 3 * (sizeW * (safezoneH * 1.2));
-			colorBackground[]={0,0,0,0.3};
-			colorDisabled[]={1,1,1,1};
-			colorBackgroundDisabled[]={0,0,0,0.5};
-		};*/
 
 		//---- Groups ----//
 		class Desktop: cTab_RscControlsGroup
@@ -316,7 +319,7 @@ class cTab_Tablet_dlg
 				class actTKBtxt: actBFTtxt
 				{
 					idc = 10041;
-					text = "a3\characters_f\data\ui\icon_expl_specialist_ca.paa";
+					text = "\a3\characters_f\data\ui\icon_expl_specialist_ca.paa";
 					//text = "\a3\3den\Data\Displays\Display3DEN\PanelRight\customcomposition_edit_ca.paa";
 					y = "(((((491) + (42)) + (25) * 5 + (100) * 4) - ((491) + (42))) / 2048  * 	(safezoneH * 1.2))";
 					action = "['cTab_Tablet_dlg',[['mode','TASK_Builder']]] call cTab_fnc_setSettings;";
@@ -1215,6 +1218,11 @@ class cTab_Tablet_dlg
 				class New_Task_DangerClose_Box: RscCheckBox
 				{
 					idc = idc_D(2202);
+					textureChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					textureFocusedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					textureHoverChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					texturePressedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
 					ExpBOX(4,1,1,0);
 					show = 0;
 				};
@@ -1480,5 +1488,10 @@ class cTab_TAD_dlg
 
 #define TextSize (((38)) / 2048 * (PhoneH * 4/3))
 
+#define PhoneMarkerColor \
+	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048 * PhoneW + (safezoneX + (safezoneW - PhoneW) / 2) + ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW; \
+	y = #((713) + ((60) - (38)) / 2) / 2048 * (PhoneW * 4/3) + (safezoneY + (safezoneH - (PhoneW * 4/3)) / 2); \
+	w = #2.5*(((42)) / 2048 * PhoneW); \
+	h = #(((60) - (20))) / 2048 * (PhoneW * 4/3)
 //-Phone display
 #include "cTab_Android.hpp"

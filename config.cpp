@@ -514,39 +514,6 @@ class CfgVehicles
 		};
 	};
 	
-	class Car_F;
-	class Wheeled_APC_F: Car_F
-	{
-		class NewTurret;
-		class Turrets
-		{
-			class MainTurret: NewTurret
-			{
-				class Turrets
-				{
-					class CommanderOptics;
-				};
-			};
-		};
-	};
-	class AFV_Wheeled_01_base_F: Wheeled_APC_F
-	{
-		class Turrets: Turrets
-		{
-			class MainTurret: MainTurret
-			{
-				class Turrets: Turrets
-				{
-					class CommanderOptics: CommanderOptics
-					{
-						//LaserDesignator_Offset[] = {0,1,0};
-						
-					};
-				};
-			};
-		};
-	};
-	
 	class Plane;
 	class Plane_Base_F: Plane
 	{
@@ -926,6 +893,7 @@ class RscMapControl
 	class transmitter;
 	class viewtower;
 	class watertower;
+	showCountourInterval = 2;
 };
 class RscCheckBox;
 class RscBackground;

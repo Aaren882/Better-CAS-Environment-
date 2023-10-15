@@ -19,17 +19,24 @@ class RscTitles
 		#include "cTab\cTab_classes.hpp"
 		#define PHONE_CLASS class cTab_Android_dsp
 		
-		#define phoneSizeX (((452)) / 2048 * (0.86) + (safezoneX - (0.86) * 0.17))
-		#define phoneSizeY ((((713) + (60))) / 2048 * ((0.86) * 4/3) + (safezoneY + safezoneH * 0.88 - ((0.86) * 4/3) * 0.72))
-		#define phoneSizeW ((((PHONE_MOD))) / 2048 * (0.86))
-		#define phoneSizeH ((((626) - (60) - (0))) / 2048 * ((0.86) * 4/3))
-		
-		#define MOUSE_CLICK_EH ""
+		//#define MOUSE_CLICK_EH ""
+		#undef MOUSE_CLICK_EH
 		
 		#define PhoneH (safezoneH * 0.8)
 		#define PhoneW (0.86)
 		#define TextSize (((38)) / 2048 * (PhoneW * 4/3))
 		
+		#define phoneSizeX (((452)) / 2048 * PhoneW + (safezoneX - PhoneW * 0.17))
+		#define phoneSizeY ((((713) + (60))) / 2048 * (PhoneW * 4/3) + (safezoneY + safezoneH * 0.88 - (PhoneW * 4/3) * 0.72))
+		#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
+		#define phoneSizeH ((((626) - (60) - (0))) / 2048 * (PhoneW * 4/3))
+		
+		#define PhoneMarkerColor \
+			x = #((((20) + (452)) + ((20) + (((1167) - (20) * 6) / 5)) * (4 - 1))) / 2048 * (0.86) + (safezoneX - (0.86) * 0.17) + (((((1167) - (20) * 6) / 5)) / 2048 * PhoneW); \
+			y = #((713) + ((60) - (42)) / 2) / 2048 * (	PhoneW * 4/3) + (safezoneY + safezoneH * 0.88 - (PhoneW * 4/3) * 0.72); \
+			w = #2.5 * (((42)) / 2048 * PhoneW); \
+			h = #((42)) / 2048 * (PhoneW * 4/3)
+			
 		#define cTab_Set_SubMenu \
 			DUMMY_CLASS
 		

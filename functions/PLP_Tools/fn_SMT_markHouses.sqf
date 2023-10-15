@@ -43,9 +43,14 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 
 	private _mPos = (MAPPOS(getMousePosition#0,getMousePosition#1)) ;
 
-	private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090 ;
-	private _color = _colorLb lbValue lbCurSel _colorLb ;
-	_color = configName (("true" configClasses (configFile >> "CfgMarkerColors"))#_color) ;
+
+	private _color = if (_iscTab) then {
+		private _colorLb = _display displayCtrl (17000 + 1090);
+		(call compile (_colorLb lbData lbCurSel _colorLb)) # 0;
+	} else {
+		private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090;
+		configName (("true" configClasses (configFile >> "CfgMarkerColors")) # (_colorLb lbValue lbCurSel _colorLb));
+	};
 
 	if (inputMouse 0 >= 1) then {
 		if (_lastClick == -1) then {
@@ -114,7 +119,9 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 		_curPoints params ["_posOrig"] ;
 		(_posOrig vectorDiff _mPos) params ["_width","_height"] ;
 
-		_color = getArray (configFile >> "CfgMarkerColors" >> _color >> "color") ;
+		_color = (getArray (configFile >> "CfgMarkerColors" >> _color >> "color")) apply {
+			if (_x isEqualType "") then {call compile _x} else {_x};
+		};
 		_color set [3,1] ;
 
 		_map drawRectangle [
@@ -141,7 +148,6 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 		] ;
 	} ;
 
-
 	{
 		_x params ["_posOrig","_scale","_markers","_color"] ;
 		_scale params ["_width","_height"] ;
@@ -149,7 +155,9 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 		private _inArea = _mPos inArea [_posOrig vectorAdd [-_width/2,-_height/2],_width/2,_height/2,0,true] ;
 
 		if (!_inArea) then {
-			_color = getArray (configFile >> "CfgMarkerColors" >> _color >> "color") ;
+			_color = (getArray (configFile >> "CfgMarkerColors" >> _color >> "color")) apply {
+				if (_x isEqualType "") then {call compile _x} else {_x};
+			};
 			_color set [3,1] ;
 		} else {
 			_color = [1,1,1,1] ;

@@ -3,6 +3,7 @@
 [cTabSettings,"Tablet",[
 	["dlgIfPosition",[]],
 	["mode","DESKTOP"],
+	["markerColor",0],
 	["showIconText",true],
 	["mapWorldPos",[]],
 	["mapScaleDsp",2],
@@ -22,6 +23,7 @@
 	["dlgIfPosition",[]],
 	["dspIfPosition",false],
 	["mode","BFT"],
+	["markerColor",0],
 	["showIconText",true],
 	["mapWorldPos",[]],
 	["mapScaleDsp",0.4],
@@ -33,6 +35,7 @@
 	["uavCam",""],
 	["uavInfo",false],
 	["mapTools",true],
+	["PLP_mapTools",false],
 	["nightMode",2],
 	["brightness",0.9]
 ]] call BIS_fnc_setToPairs;
