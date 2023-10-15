@@ -1,6 +1,8 @@
+if !(hasPilotCamera cameraOn) exitWith {};
+
 if (
     (time > (BCE_TGP_LastUpdate + 0.035)) &&
-    (hasPilotCamera cameraOn) &&
+    (driver cameraon == player) &&
     (
       (isLaserOn cameraOn) or
       !(isMultiplayer) or
