@@ -25,7 +25,7 @@ _idEH = addMissionEventHandler ["EachFrame", {
 
       call cTab_fnc_close;
       call cTab_fnc_updateLists;
-  		call cTab_fnc_updateUserMarkerList;
+      call cTab_fnc_updateUserMarkerList;
 
       // remove msg notification
   		cTabRscLayerMailNotification cutText ["", "PLAIN"];
