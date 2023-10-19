@@ -81,6 +81,7 @@ PHONE_CLASS
 			{
 				x = phoneSizeX + (phoneSizeW * 3/5);
 				w = phoneSizeW * 2/5;
+				h = phoneSizeH;
 				class controls
 				{
 					class menuBackground: cTab_IGUIBack
@@ -93,7 +94,7 @@ PHONE_CLASS
 						colorBackground[] = {0.2,0.2,0.2,0.5};
 					};
 					#define PhoneBFTContainerW(AxisX) AxisX*((phoneSizeW * 2/5)/3)
-					#define ATAK_APP(APP,TITLE) #<img size=3 align='center' image=APP/><br/><t align='center'>TITLE</t>
+					#define ATAK_APP(APP,TITLE) #<t align='center'><img size=3 image=APP/><br/>TITLE</t>
 					class actMSGtxt: BCE_RscButtonMenu
 					{
 						idc = 4660 + 100;
@@ -147,16 +148,32 @@ PHONE_CLASS
 					};
 					class actGrouptxt: actDashBoardtxt
 					{
-						idc = 4660 + 103;
+						idc = 4660 + 104;
 						x = PhoneBFTContainerW(1);
 						text = ATAK_APP("a3\3den\data\displays\display3den\panelright\modegroups_ca.paa",Groups);
 						action = "";
 					};
-					class actSettingtxt: actDashBoardtxt
+					class actWeathertxt: actDashBoardtxt
 					{
-						idc = 4660 + 103;
+						idc = 4660 + 105;
 						x = PhoneBFTContainerW(2);
-						text = ATAK_APP("a3\weapons_f_orange\reticle\data\settings_ca.paa",Settings);
+						text = ATAK_APP("a3\3den\data\displays\display3den\toolbar\intel_ca.paa",Weather);
+						action = "";
+					};
+					class actBDAtxt: actMSGtxt
+					{
+						idc = 4660 + 106;
+						y = 2*((phoneSizeW * 3/5)/3);
+						x = PhoneBFTContainerW(0);
+						text = ATAK_APP("a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa",Damage Assessment);
+						action = "";
+					};
+					class actSettingtxt: actMSGtxt
+					{
+						idc = 4660 + 106;
+						y = 2*((phoneSizeW * 3/5)/3);
+						x = PhoneBFTContainerW(1);
+						text = "<t align='center'><img size=3 image='a3\weapons_f_orange\reticle\data\settings_ca.paa'/><br/>Settings</t>";
 						action = "";
 					};
 					
