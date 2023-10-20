@@ -5,7 +5,7 @@
 ["vehicle", BCE_fnc_SetMFDValue, true] call CBA_fnc_addPlayerEventHandler;
 ["AllVehicles","GetIn",(_this # 0) call BCE_fnc_Check_Optics] call CBA_fnc_addClassEventHandler;
 ["Helicopter","GetOut",{
-	params ["", "", "_unit", ""];
+	params ["", "", "_unit"];
 	private _laser = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
 	private _light = _unit getVariable ["BCE_turret_Gunner_Lights",[]];
 
@@ -27,8 +27,7 @@ if (isMultiplayer) then {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //PostInit Perf_EH
-player setVariable ["Have_BCE_Loaded",true,true];
-if (({(_x getVariable ["IR_LaserLight_EachFrame_EH",-1]) != -1} count allPlayers) == 0) then {
+if (BCE_SYSTEM_Handler == "") then {
 	call BCE_fnc_ServerClientSide;
 } else {
 	call BCE_fnc_ClientSide;
@@ -63,8 +62,7 @@ if (({(_x getVariable ["IR_LaserLight_EachFrame_EH",-1]) != -1} count allPlayers
 		  1.5 fadeSound 1;
 		#endif
 
-		_current_EH = player getVariable "TGP_View_EHs";
-		removeMissionEventHandler ["Draw3D", _current_EH];
+		removeMissionEventHandler [_thisEvent, _thisEventHandler];
 
 		player setVariable ["TGP_View_EHs",-1,true];
 		//TGP_View_Camera = [];

@@ -11,6 +11,11 @@ IR_LaserLight_UnitList = [];
 IR_LaserLight_UnitList_LastUpdate = 0;
 BCE_TGP_LastUpdate = 0;
 
+if (isnil {BCE_SYSTEM_Handler}) then {
+  BCE_SYSTEM_Handler = "";
+};
+
+
 private _mapCenter = worldSize / 2;
 private _landmarks = ["NameVillage", "NameCity", "NameCityCapital", "NameLocal", "NameMarine", "Hill"];
 BCE_LandMarks = (nearestLocations [

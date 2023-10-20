@@ -1,6 +1,6 @@
 params ["_unit"];
 
-private _is_Server = (player getVariable ["IR_LaserLight_EachFrame_EH",-1]) > 0;
+private _is_Server = BCE_SYSTEM_Handler == str player;
 
 //Air Vehicles
 if (_unit isKindOf "Air") then {
@@ -114,7 +114,7 @@ if (_unit isKindOf "Air") then {
   _weaponPOS apply {
     _x params ["_weaponLocal", "_dir", "_turretLocal", "_LOD", ["_Offset",[0,0,0],[]]];
 
-    _weaponWorld = _unit modelToWorldWorld (_weaponLocal vectorAdd _Offset);
+    _weaponWorld = _unit modelToWorldVisualWorld (_weaponLocal vectorAdd _Offset);
 
     //Light Source
     if ((isNull _Light_Soure) && (_is_Server) && (BCE_inf_IR_Lig_S_fn)) then {
