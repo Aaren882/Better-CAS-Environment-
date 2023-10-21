@@ -1,5 +1,5 @@
 params ["_veh","_mode","_unit"];
-_Optics = _veh getVariable "TGP_View_Available_Optics";
+_Optics = [_veh,0] call BCE_fnc_Check_Optics;
 
 #define hideLight ([_lightL, true] remoteExec ["hideObjectGlobal", 2])
 
