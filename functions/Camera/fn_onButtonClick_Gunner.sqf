@@ -42,8 +42,10 @@ _turret_Unit setVariable ["TGP_View_Turret_Control",_keyEHs,true];
       objnull remotecontrol _turret_Unit;
       player remotecontrol _turret_Unit_Now;
       _turret_Unit_Now switchcamera "gunner";
-      removeUserActionEventHandler ["defaultAction", "Activate", ((_turret_Unit getVariable "TGP_View_Turret_Control") # 0)];
-      removeUserActionEventHandler ["gunElevAuto", "Activate", ((_turret_Unit getVariable "TGP_View_Turret_Control") # 1)];
+      {
+        removeUserActionEventHandler [_x, "Activate", ((_turret_Unit getVariable "TGP_View_Turret_Control") # _forEachIndex)];
+      } forEach ["defaultAction","gunElevAuto","vehLockTurretView"];
+
       _turret_Unit setVariable ["TGP_View_Turret_Control",[],true];
 
       [_vehicle,_cameraview] call BCE_fnc_onButtonClick_Gunner;
@@ -51,8 +53,9 @@ _turret_Unit setVariable ["TGP_View_Turret_Control",_keyEHs,true];
     } else {
       objnull remotecontrol _turret_Unit_Now;
       player switchcamera _cameraview;
-      removeUserActionEventHandler ["defaultAction", "Activate", ((_turret_Unit getVariable "TGP_View_Turret_Control") # 0)];
-      removeUserActionEventHandler ["gunElevAuto", "Activate", ((_turret_Unit getVariable "TGP_View_Turret_Control") # 1)];
+      {
+        removeUserActionEventHandler [_x, "Activate", ((_turret_Unit getVariable "TGP_View_Turret_Control") # _forEachIndex)];
+      } forEach ["defaultAction","gunElevAuto","vehLockTurretView"];
       _turret_Unit setVariable ["TGP_View_Turret_Control",[],true];
     };
 

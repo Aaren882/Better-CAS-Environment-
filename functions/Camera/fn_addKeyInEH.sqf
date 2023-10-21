@@ -1,23 +1,19 @@
+private ["_keyEH_1","_keyEH_2","_keyEH_3"];
 _keyEH_1 = addUserActionEventHandler ["defaultAction", "Activate", {
 
-  _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
-  _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
+  (player getVariable "TGP_View_Selected_Optic") params ["_turretInfo","_vehicle"];
+  _current_turret = _turretInfo # 1;
   _turret_Unit = _vehicle turretUnit _current_turret;
   _weapon_info = weaponState [_vehicle,_current_turret];
-  _Weapon = _weapon_info # 0;
-  _Muzzle = _weapon_info # 1;
-  _mode = _weapon_info # 2;
+  _weapon_info params ["_Weapon","_Muzzle","_mode"];
 
-
-  if (((getNumber (configFile >> "CfgWeapons" >> _Weapon >> _mode >> "autoFire")) == 1) && !("laserdesignator" in (tolower _Weapon))) then {
+  if (((getNumber (configFile >> "CfgWeapons" >> _Weapon >> _mode >> "autoFire")) == 1) && !("laserdesignator" in (tolower _Weapon)) && !(isnil {_current_turret})) then {
     [{
       params ["_vehicle","_turret","_turret_Unit","_Weapon_old"];
       _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
 
       _weapon_info = weaponState [_vehicle,_current_turret];
-      _Weapon = _weapon_info # 0;
-      _Muzzle = _weapon_info # 1;
-      _mode = _weapon_info # 2;
+      _weapon_info params ["_Weapon","_Muzzle","_mode"];
 
       //-Fire
       if(inputAction "defaultAction" > 0) then {
@@ -51,4 +47,19 @@ _keyEH_2 = addUserActionEventHandler ["gunElevAuto", "Activate", {
   };
 }];
 
-[_keyEH_1,_keyEH_2]
+_keyEH_3 = addUserActionEventHandler ["vehLockTurretView", "Activate", {
+  (player getVariable "TGP_View_Selected_Optic") params ["_turretInfo","_vehicle"];
+
+  if !(unitIsUAV _vehicle) exitWith {};
+  
+  _current_turret = _turretInfo # 1;
+  _POS = [_vehicle,_current_turret] call BCE_fnc_Turret_InterSurface;
+  _target = [
+    objNull,
+    AGLToASL _POS
+  ] select isnil{(_vehicle lockedCameraTo _current_turret)};
+
+  _vehicle lockCameraTo [_target, _current_turret];
+}];
+
+[_keyEH_1,_keyEH_2,_keyEH_3]

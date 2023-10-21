@@ -1,5 +1,5 @@
 params["_vehicle","_turret",["_opticMode",false]];
-
+private ["_turretConfig","_result"];
 _turretConfig = [_vehicle, _turret] call BIS_fnc_turretConfig;
 
 if (_opticMode) exitWith {
