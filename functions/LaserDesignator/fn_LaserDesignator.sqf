@@ -25,12 +25,7 @@ if (_unit isKindOf "Air") then {
       [_lightL,_light_object] apply {_x hideObject true};
 
       _Attach = [_unit, _vars_turret # 1, _vars_turret # 0];
-      /*if (_isTurret) then {
-        [_unit, [0,0,0], (_vars_turret # 0)];
-      } else {
-        [_unit, [0,0,0], getText(configFile >> "CfgVehicles" >> typeOf _unit >> "memoryPointDriverOptics")];
-      }; */
-      hintsilent str [_Attach,time];
+
       _lightL attachTo _Attach;
       _light_object attachTo _Attach;
 
@@ -71,7 +66,6 @@ if (_unit isKindOf "Air") then {
           _light_object hideObject (((cameraView in ["INTERNAL","GUNNER"]) && ((player in _unit) or (cameraon isEqualTo _unit))) or (_VisionMode == 0));
         };
 
-        systemChat str [_lightL,_light_object,_wRot,_isTurret,time];
         //-Rotate
         {
           [_x, _wRot, _isTurret] call BCE_fnc_VecRot;
