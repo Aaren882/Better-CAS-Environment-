@@ -22,7 +22,17 @@ if ((_mode > -1) && (_class_veh in ([BCE_Camera_Cache, BCE_IRLaser_Cache] # _mod
   [_result, []] select (isNil {_result});
 };
 
-if ((_mode == 1) && ((_class_veh in ([BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode)) or (count _allTurrets < 1))) exitWith {};
+//-IR Laser
+_turret_Weapons = ([[-1]] + _allTurrets apply {
+  [
+    [_x, flatten getArray ([_vehicle, _x] call BIS_fnc_turretConfig >> "Weapons")],
+    [_x, getArray (_config_path >> "Weapons")]
+  ] select ((_x # 0) < 0);
+}) select {
+  {"laserdesignator" in tolower _x} count (_x # 1) > 0
+};
+
+if ((_mode == 1) && ((_class_veh in BCE_IRLaser_Cache) or (count _turret_Weapons < 1))) exitWith {};
 
 //-Available Optics
 _pilot_cam_LOD = if (
@@ -57,7 +67,6 @@ _Optic_LODs = _Turrets_Optics select {
   !(_x isEqualTo ["",[]])
 };
 
-//_vehicle setVariable ["TGP_View_Available_Optics",_Optic_LODs,true];
 BCE_Camera_Cache set [_class_veh, _Optic_LODs];
 
 //-FOV handler
@@ -122,16 +131,6 @@ if (((count _allTurrets > 0) or (hasPilotCamera _vehicle)) && (_vehicle isKindOf
       }];
     };
   };
-};
-
-//-IR Laser
-_turret_Weapons = ([[-1]] + _allTurrets apply {
-  [
-    [_x, flatten getArray ([_vehicle, _x] call BIS_fnc_turretConfig >> "Weapons")],
-    [_x, getArray(_config_path >> "Weapons")]
-  ] select ((_x # 0) < 0);
-}) select {
-  {"laserdesignator" in tolower _x} count (_x # 1) > 0
 };
 
 //Get memory point
