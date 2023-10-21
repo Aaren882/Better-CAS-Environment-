@@ -9,7 +9,7 @@ private _veh_POS = getPosASLVisual _vehicle;
 //- Angle of View https://www.sr-research.com/eye-tracking-blog/background/visual-angle/
 if ((_vehicle isKindOf "Air") && (_widgets # 0)) then {
   //-draw FOV for every turrets (except FFV)
-  (_vehicle getVariable "TGP_View_Available_Optics") apply {
+  ([_vehicle,0] call BCE_fnc_Check_Optics) apply {
     private _turret = _x # 1;
     private _isPilot = (_turret # 0) == -1;
 

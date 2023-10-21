@@ -30,7 +30,7 @@ _pphandle ppEffectCommit 0;
 _config_path = configOf _vehicle;
 _A3TI = isclass(configFile >> "CfgPatches" >> "A3TI");
 
-_Optic_LODs = _vehicle getVariable ["TGP_View_Available_Optics",[]];
+_Optic_LODs = [_vehicle,0] call BCE_fnc_Check_Optics;
 
 if ((_player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) then {
   _player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];

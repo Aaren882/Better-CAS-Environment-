@@ -47,7 +47,7 @@ _fnc_onLBSelChanged = {
 		[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
 	};
 
-	_Optic_LODs = _vehicle getVariable ["TGP_View_Available_Optics",[]];
+	_Optic_LODs = [_vehicle,0] call BCE_fnc_Check_Optics;
 
 	[_display,1,true,_vehicle] call BCE_fnc_ListSwitch;
 	_createTask ctrlEnable true;

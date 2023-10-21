@@ -38,7 +38,7 @@ call cTab_fnc_deleteUAVcam;
 // exit if requested UAV is not alive/is null
 if !(alive _veh) exitWith {false};
 
-_Optic_LODs = _veh getVariable ["TGP_View_Available_Optics",[]];
+_Optic_LODs = [_veh,0] call BCE_fnc_Check_Optics;
 _Selected_Optic = cTab_player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
 _turrets = _Optic_LODs apply {((_x # 1) # 0) + 1};
 

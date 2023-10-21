@@ -44,7 +44,7 @@ if (_extend_desc) then {
   lbClear _squad_list;
 
   //-Check turrets
-  _turret_optics = _vehicle getVariable "TGP_View_Available_Optics";
+  _turret_optics = [_vehicle,0] call BCE_fnc_Check_Optics;
   _Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
   _current_optic = _turret_optics find (_Selected_Optic # 0);
   _turrets = _turret_optics apply {((_x # 1) # 0) + 1};
