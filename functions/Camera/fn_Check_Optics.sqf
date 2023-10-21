@@ -125,8 +125,11 @@ if (((count _allTurrets > 0) or (hasPilotCamera _vehicle)) && (_vehicle isKindOf
 };
 
 //-IR Laser
-_turret_Weapons = (_allTurrets apply {
-  [_x, flatten getArray ([_vehicle, _x] call BIS_fnc_turretConfig >> "Weapons")]
+_turret_Weapons = ([[-1]] + _allTurrets apply {
+  [
+    [_x, flatten getArray ([_vehicle, _x] call BIS_fnc_turretConfig >> "Weapons")],
+    [_x, getArray(_config_path >> "Weapons")]
+  ] select ((_x # 0) < 0);
 }) select {
   {"laserdesignator" in tolower _x} count (_x # 1) > 0
 };
@@ -136,17 +139,23 @@ if (count _turret_Weapons > 0) then {
 
   private _result = _turret_Weapons apply {
     _x params ["_turret"];
-    private ["_config","_turret_pos_mem","_Beg_pos_mem","_offset"];
+    private ["_is_turret","_config","_turret_pos_mem","_offset"];
 
-    _config = [_vehicle, _turret] call BIS_fnc_turretConfig;
-    _Beg_pos_mem = getText (_config >> "gunBeg");
-    _turret_pos_mem = getText (_config >> "memoryPointGunnerOptics");
+    _is_turret = (_turret # 0) >= 0;
+    if (_is_turret) then {
+      _config = [_vehicle, _turret] call BIS_fnc_turretConfig;
+      _turret_pos_mem = getText (_config >> "memoryPointGunnerOptics");
+    } else {
+      _config = _config_path;
+      _turret_pos_mem = getText (_config >> "memoryPointDriverOptics");
+    };
+
     _offset = [
       [0,0,0],
       getArray (_config >> "LaserDesignator_Offset")
     ] select (isArray (_config >> "LaserDesignator_Offset"));
 
-    [_turret,_turret_pos_mem,_Beg_pos_mem,_offset]
+    [_is_turret,[_turret_pos_mem,_offset,_turret]]
   };
   BCE_IRLaser_Cache set [_class_veh, _result];
 };

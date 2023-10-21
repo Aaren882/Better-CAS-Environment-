@@ -37,7 +37,7 @@ addMissionEventHandler ["EachFrame", {
   private _BCE_list = (allPlayers select {_x getVariable ["Have_BCE_Loaded",false]}) apply {str _x};
   _BCE_list sort true;
 
-  if (((BCE_SYSTEM_Handler == "") && ((_BCE_list # 0) == str player)) or (isnil {BCE_SYSTEM_Handler})) then {
+  if ((_BCE_list # 0) == str player) then {
     call BCE_fnc_ServerClientSide;
     removeMissionEventHandler [_thisEvent, _thisEventHandler];
   };

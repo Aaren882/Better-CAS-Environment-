@@ -29,11 +29,11 @@ addMissionEventHandler ["EachFrame", {
     _BCE_list sort true;
 
     //-if BCE_SYSTEM_Handler variable been deleted
-    if (isnil {BCE_SYSTEM_Handler}) then {
-      missionNamespace setVariable ["BCE_SYSTEM_Handler",str player,true];
+    if (isnil {BCE_SYSTEM_Handler} or (BCE_SYSTEM_Handler == "")) then {
+      missionNamespace setVariable ["BCE_SYSTEM_Handler",str _Server_unit,true];
     };
 
-    if (((BCE_SYSTEM_Handler != "") && ((_BCE_list # 0) != str player)) or !(alive _Server_unit)) then {
+    if ((_BCE_list # 0) != str _Server_unit) then {
       call BCE_fnc_ClientSide;
       missionNamespace setVariable ["BCE_SYSTEM_Handler","",true];
       removeMissionEventHandler [_thisEvent, _thisEventHandler];

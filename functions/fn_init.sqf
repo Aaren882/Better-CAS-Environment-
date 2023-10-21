@@ -27,11 +27,12 @@ if (isMultiplayer) then {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //PostInit Perf_EH
-if (BCE_SYSTEM_Handler == "") then {
+call BCE_fnc_ClientSide;
+/* if (BCE_SYSTEM_Handler == "") then {
 	call BCE_fnc_ServerClientSide;
 } else {
 	call BCE_fnc_ClientSide;
-};
+}; */
 
 ["turret", {
 	params ["_unit", "_turret", "_turretPrev"];
