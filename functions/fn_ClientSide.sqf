@@ -20,9 +20,9 @@ addMissionEventHandler ["EachFrame", {
 
   //-cTab Main System
   #ifdef cTAB_Installed
-    _cTabPlayer = missionNamespace getVariable ["BIS_fnc_moduleRemoteControl_unit",player];
+    private _cTabPlayer = missionNamespace getVariable ["BIS_fnc_moduleRemoteControl_unit",player];
     if (cTab_player != _cTabPlayer) then {
-      cTab_player = _cTabPlayer
+      cTab_player = _cTabPlayer;
 
       call cTab_fnc_close;
       call cTab_fnc_updateLists;
