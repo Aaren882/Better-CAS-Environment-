@@ -106,16 +106,16 @@ class CfgHints
 		logicalOrder = 22;
 		class Task_Received
 		{
-			displayName = "Task Received";
-			description = "You have received a New Task";
+			displayName = "$STR_BCE_ReceivedHint_Title";
+			description = "$STR_BCE_ReceivedHint_DESC";
 			tip = "";
 			arguments[] = {};
 			image = "";
 			logicalOrder = 1;
 			class ActionMenu_sub
 			{
-				displayName = "Task Received";
-				description = "You have received a New Task";
+				displayName = "$STR_BCE_ReceivedHint_Title";
+				description = "$STR_BCE_ReceivedHint_DESC";
 				tip = "";
 				image = "";
 				arguments[] = {{{""}}};
@@ -130,10 +130,10 @@ class RscSubmenu;
 class RscTeam: RscSubmenu
 {
 	//-Sort
-	items[] = {"AssignRed","AssignGreen","AssignBlue","AssignYellow","AssignMain","Separator","SelectTeam","AssignJTAC","UnAssignJTAC","Back"};
+	items[] = {"AssignRed","AssignGreen","AssignBlue","AssignYellow","AssignMain","AssignJTAC","UnAssignJTAC","Separator","SelectTeam","Back"};
 	class AssignJTAC
 	{
-		title = "Assign JTAC";
+		title = "$STR_BCE_AsJTAC";
 		enable = "NotEmpty";
 		shortcuts[] = {7};
 		shortcutsAction = "CommandingMenu6";
@@ -146,7 +146,7 @@ class RscTeam: RscSubmenu
 	};
 	class UnAssignJTAC
 	{
-		title = "UnAssign JTAC";
+		title = "$STR_BCE_UnAsJTAC";
 		enable = "NotEmpty";
 		shortcuts[] = {8};
 		shortcutsAction = "CommandingMenu7";
@@ -173,17 +173,17 @@ class CfgVehicles
 				{
 					class ACE_BCE_Assign_JTAC
 					{
-						displayName="Assign as JTAC";
-						condition="!(_target getVariable ['BCE_is_JTAC',false]) && (isFormationLeader _player)";
+						displayName="$STR_BCE_AsJTAC";
+						condition="!(_target getVariable ['BCE_is_JTAC',false]) && (_player == leader _player)";
 						icon="\a3\Ui_f\data\GUI\Cfg\CommunicationMenu\call_ca.paa";
 						exceptions[]={};
 						statement="_target setVariable ['BCE_is_JTAC',true,true]";
 					};
 					class ACE_BCE_Unassign_JTAC
 					{
-						displayName="Unssign as JTAC";
+						displayName="$STR_BCE_UnAsJTAC";
 						exceptions[]={};
-						condition="(_target getVariable ['BCE_is_JTAC',false]) && (isFormationLeader _player)";
+						condition="(_target getVariable ['BCE_is_JTAC',false]) && (_player == leader _player)";
 						statement="_target setVariable ['BCE_is_JTAC',false,true]";
 					};
 				};
@@ -848,6 +848,7 @@ class CfgScriptPaths
 	BCE_Function = "MG8\AVFEVFX\Functions\UI\";
 };
 
+class ScrollBar;
 class RscLine;
 class RscInfoBack;
 class RscText;

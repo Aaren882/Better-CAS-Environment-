@@ -1478,13 +1478,13 @@ class cTab_TAD_dlg
 #define PHONE_CLASS class cTab_Android_dlg
 #define MOUSE_CLICK_EH "(_this + [17000]) call BCE_fnc_GetMapClickPOS"
 
-#define phoneSizeX ((((452))) / 2048 * (safezoneW * 0.8) + (safezoneX + (safezoneW - (safezoneW * 0.8)) / 2))
-#define phoneSizeY ((((713) + (60))) / 2048 * ((safezoneW * 0.8) * 4/3) + (safezoneY + (safezoneH - ((safezoneW * 0.8) * 4/3)) / 2))
-#define phoneSizeW ((((PHONE_MOD))) / 2048 * (safezoneW * 0.8))
-#define phoneSizeH ((((626) - (60) - (0))) / 2048 * ((safezoneW * 0.8) * 4/3))
-
 #define PhoneH (safezoneH * 1.2)
 #define PhoneW (safezoneW * 0.8)
+
+#define phoneSizeX ((((452))) / 2048 * PhoneW + (safezoneX + (safezoneW - PhoneW) / 2))
+#define phoneSizeY ((((713) + (60))) / 2048 * (PhoneW * 4/3) + (safezoneY + (safezoneH - (PhoneW * 4/3)) / 2))
+#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
+#define phoneSizeH ((((626) - (60) - (0))) / 2048 * (PhoneW * 4/3))
 
 #define TextSize (((38)) / 2048 * (PhoneH * 4/3))
 

@@ -63,7 +63,6 @@ cutText ["", "BLACK IN",0.5];
 cameraEffectEnableHUD true;
 showCinemaBorder false;
 
-[_player getVariable ["TGP_View_Optic_Mode",2]] call BCE_fnc_OpticMode;
 _player setVariable ["TGP_View_laser_update", [time,""]];
 
 //Crews
@@ -162,12 +161,9 @@ _idEH = addMissionEventHandler ["Draw3D", {
   //-A3TI
   _visionType = _player getVariable ["TGP_View_Optic_Mode", 2];
   #if __has_include("\A3TI\config.bin")
-    if (((call A3TI_fnc_getA3TIVision) != "") && (_visionType == 2)) then {
-      _vision_ctrl ctrlSetText (format ["CMODE %1",call A3TI_fnc_getA3TIVision]);
-    } else {
-      if (((call A3TI_fnc_getA3TIVision) == "")  && (_visionType == 2)) then {
-        _vision_ctrl ctrlSetText "CMODE NORMAL";
-      };
+    _A3TI = call A3TI_fnc_getA3TIVision;
+    if (_visionType == 2) then {
+      _vision_ctrl ctrlSetText format ["CMODE %1",[_A3TI, "NORMAL"] select (isnil {_A3TI})];
     };
   #endif
 
@@ -321,3 +317,11 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
 _player setVariable ["TGP_View_EHs",_idEH,true];
 _player setVariable ["TGP_View_Camera_FOV", 0.75];
+
+//-Set Camera Vision Mode
+_visionMode = _player getVariable ["TGP_View_Optic_Mode",2];
+#if __has_include("\A3TI\config.bin")
+  _A3TI = A3TI_FLIR_VisionMode;
+  _visionMode = [_visionMode,_A3TI] select (_A3TI > -1);
+#endif
+_visionMode call BCE_fnc_OpticMode;

@@ -57,6 +57,22 @@
             <Original>Switch List</Original>
 			<Chinese>切換列表</Chinese>
         </Key>
+		<Key ID="STR_BCE_AsJTAC">
+            <Original>Assign JTAC</Original>
+			<Chinese>任命JTAC身分</Chinese>
+        </Key>
+		<Key ID="STR_BCE_UnAsJTAC">
+            <Original>UnAssign JTAC</Original>
+			<Chinese>取消JTAC身分</Chinese>
+        </Key>
+		<Key ID="STR_BCE_ReceivedHint_Title">
+            <Original>Task Received</Original>
+			<Chinese>收到任務</Chinese>
+        </Key>
+		<Key ID="STR_BCE_ReceivedHint_DESC">
+            <Original>You have received a New Task</Original>
+			<Chinese>已收到新任務</Chinese>
+        </Key>
 		<Key ID="STR_BCE_Map_illumination">
             <Original>Toggle Map Flash Light</Original>
 			<Chinese>開關地圖照明</Chinese>

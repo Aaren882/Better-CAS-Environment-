@@ -51,6 +51,7 @@ if (_isEmpty) then {
 _Selected_Optic = cTab_player getVariable "TGP_View_Selected_Optic";
 
 _uavCams apply {
+  private ["_cam","_camPosMemPt","_is_Detached","_turret","_vision","_A3TI"];
   _x params ["_seat","_renderTarget"];
 
   if !(isNil {_seat}) then {
@@ -70,11 +71,22 @@ _uavCams apply {
   		// set up cam on render target
   		_cam cameraEffect ["INTERNAL","BACK",_renderTarget];
 
+      _vision = cTab_player getVariable ["TGP_View_Optic_Mode", 2];
+      #if __has_include("\A3TI\config.bin")
+        _A3TI = A3TI_FLIR_VisionMode;
+      #endif
+
       //-Set Vision Mode
-      private _vision = switch (cTab_player getVariable ["TGP_View_Optic_Mode", 2]) do {
+      _vision = switch (true) do {
+        #if __has_include("\A3TI\config.bin")
+          case (_vision == 5 || _A3TI == 0): {2};
+          case (_vision == 4 || _A3TI == 1): {7};
+        #else
+          case (_vision == 5): {2};
+          case (_vision == 4): {7};
+        #endif
+
         case 3: {1};
-        case 4: {7};
-        case 5: {2};
         default {0};
       };
 
