@@ -67,7 +67,7 @@
         </Key>
 		<Key ID="STR_BCE_ReceivedHint_Title">
             <Original>Task Received</Original>
-			<Chinese>收到任務</Chinese>
+			<Chinese>新任務</Chinese>
         </Key>
 		<Key ID="STR_BCE_ReceivedHint_DESC">
             <Original>You have received a New Task</Original>

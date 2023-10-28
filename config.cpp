@@ -681,6 +681,11 @@ class CfgFunctions
 				class cTab_9_TaskChanged;
 				class cTab_5_TaskChanged;
 			};
+			class ATAK
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK";
+				class ATAK_openPage;
+			};
 		#endif
 	};
 	#ifdef cTAB_Installed

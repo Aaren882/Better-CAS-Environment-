@@ -62,6 +62,7 @@ PHONE_CLASS
 	class controls
 	{
 		#ifdef MOUSE_CLICK_EH
+			delete menuContainer;
 			//-BFT
 			class Map_Tool_Show: ctrlButton
 			{
@@ -75,116 +76,6 @@ PHONE_CLASS
 				h = sizeW * PhoneW;
 				tooltip = "Toggle Map Tools";
 				action = "['cTab_Android_dlg'] call cTab_fnc_toggleMapTools;";
-			};
-			//-Option Menu
-			class menuContainer: cTab_RscControlsGroup
-			{
-				x = phoneSizeX + (phoneSizeW * 3/5);
-				w = phoneSizeW * 2/5;
-				h = phoneSizeH;
-				class controls
-				{
-					class menuBackground: cTab_IGUIBack
-					{
-						idc = 9;
-						x = 0;
-						y = 0;
-						w = "safezoneW";
-						h = "safezoneH";
-						colorBackground[] = {0.2,0.2,0.2,0.5};
-					};
-					#define PhoneBFTContainerW(AxisX) AxisX*((phoneSizeW * 2/5)/3)
-					#define ATAK_APP(APP,TITLE) #<t align='center'><img size=3 image=APP/><br/>TITLE</t>
-					class actMSGtxt: BCE_RscButtonMenu
-					{
-						idc = 4660 + 100;
-						shadow = 1;
-						text = ATAK_APP(APP_MSG,Messages);
-	
-						x = 0;
-						y = 0;
-						w = PhoneBFTContainerW(1);
-						h = (phoneSizeW * 3/5)/3;
-						
-						//-Style
-						colorBackground[] = {0,0,0,0.5};
-						colorBackground2[] = {0,0,0,0};
-						colorBackgroundFocused[] = {0,0,0,0};
-
-						animTextureDefault="#(argb,8,8,3)color(0,0,0,0)";
-						animTextureNormal="#(argb,8,8,3)color(0,0,0,0)";
-						animTextureOver = "#(argb,8,8,3)color(0,0,0,0.5)";
-						animTextureFocused = "#(argb,8,8,3)color(0,0,0,0)";
-						animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
-	
-						action = "['cTab_Android_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
-						class Attributes
-						{
-							font = "RobotoCondensed_BCE";
-							color = "#E5E5E5";
-						};
-					};
-					class actTKBtxt: actMSGtxt
-					{
-						idc = 4660 + 101;
-						text = ATAK_APP("\a3\characters_f\data\ui\icon_expl_specialist_ca.paa",Missions);
-						x = PhoneBFTContainerW(1);
-						action = "['cTab_Android_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
-					};
-					class actUAVtxt: actMSGtxt
-					{
-						idc = 4660 + 102;
-						x = PhoneBFTContainerW(2);
-						text = ATAK_APP(APP_UAV,UAVs);
-						action = "['cTab_Android_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
-					};
-					//-Second Line
-					class actDashBoardtxt: actMSGtxt
-					{
-						idc = 4660 + 103;
-						y = (phoneSizeW * 3/5)/3;
-						text = ATAK_APP("a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa",CheckList);
-						action = "";
-					};
-					class actGrouptxt: actDashBoardtxt
-					{
-						idc = 4660 + 104;
-						x = PhoneBFTContainerW(1);
-						text = ATAK_APP("a3\3den\data\displays\display3den\panelright\modegroups_ca.paa",Groups);
-						action = "";
-					};
-					class actWeathertxt: actDashBoardtxt
-					{
-						idc = 4660 + 105;
-						x = PhoneBFTContainerW(2);
-						text = ATAK_APP("a3\3den\data\displays\display3den\toolbar\intel_ca.paa",Weather);
-						action = "";
-					};
-					class actBDAtxt: actMSGtxt
-					{
-						idc = 4660 + 106;
-						y = 2*((phoneSizeW * 3/5)/3);
-						x = PhoneBFTContainerW(0);
-						text = ATAK_APP("a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa",Damage Assessment);
-						action = "";
-					};
-					class actSettingtxt: actMSGtxt
-					{
-						idc = 4660 + 106;
-						y = 2*((phoneSizeW * 3/5)/3);
-						x = PhoneBFTContainerW(1);
-						text = "<t align='center'><img size=3 image='a3\weapons_f_orange\reticle\data\settings_ca.paa'/><br/>Settings</t>";
-						action = "";
-					};
-					
-					delete btnTextonoff;
-					delete btnIcnSizeup;
-					delete btnIconSizedwn;
-					
-					delete btnF5;
-					delete btnF6;
-					delete btnF7;
-				};
 			};
 			
 			//-POLPOX Map Tools Widgets
@@ -234,6 +125,155 @@ PHONE_CLASS
 				class BCE_MapTools_Tooltip: PLP_SMT_Description{};
 			#endif
 		#endif
+		
+		//-Option Menu
+		class ATAK_MenuBG: cTab_RscControlsGroup
+		{
+			idc = 4660;
+			x = phoneSizeX + (phoneSizeW * 3/5);
+			y = phoneSizeY;
+			w = phoneSizeW * 2/5;
+			h = phoneSizeH;
+			class VScrollbar{};
+			class HScrollbar{};
+			class Scrollbar{};
+			class controls
+			{
+				class menuBackground: cTab_IGUIBack
+				{
+					idc = 9;
+					x = 0;
+					y = 0;
+					w = "safezoneW";
+					h = "safezoneH";
+					colorBackground[] = {0.2,0.2,0.2,0.5};
+				};
+			};
+		};
+		class ATAK_Tools: ATAK_MenuBG
+		{
+			idc = idc_D(4660);
+			class controls
+			{
+				#define PhoneBFTContainerW(AxisX) AxisX*((phoneSizeW * 2/5)/3)
+				#define ATAK_APP(APP,TITLE) #<t align='center'><img size=3 image=APP/><br/>TITLE</t>
+				class actMSGtxt: BCE_RscButtonMenu
+				{
+					idc = 4660 + 100;
+					shadow = 1;
+					text = ATAK_APP(APP_MSG,Messages);
+	
+					x = 0;
+					y = 0;
+					w = PhoneBFTContainerW(1);
+					h = (phoneSizeW * 3/5)/3;
+					
+					//-Style
+					colorBackground[] = {0,0,0,0.5};
+					colorBackground2[] = {0,0,0,0};
+					colorBackgroundFocused[] = {0,0,0,0};
+
+					animTextureDefault="#(argb,8,8,3)color(0,0,0,0)";
+					animTextureNormal="#(argb,8,8,3)color(0,0,0,0)";
+					animTextureOver = "#(argb,8,8,3)color(0,0,0,0.5)";
+					animTextureFocused = "#(argb,8,8,3)color(0,0,0,0)";
+					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
+	
+					action = "['cTab_Android_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
+					class Attributes
+					{
+						font = "RobotoCondensed_BCE";
+						color = "#E5E5E5";
+					};
+				};
+				class actTKBtxt: actMSGtxt
+				{
+					idc = 4660 + 101;
+					text = ATAK_APP("\a3\characters_f\data\ui\icon_expl_specialist_ca.paa",Missions);
+					x = PhoneBFTContainerW(1);
+					action = "['cTab_Android_dlg',[['showMenu',['mission',true]]]] call cTab_fnc_setSettings;";
+				};
+				class actUAVtxt: actMSGtxt
+				{
+					idc = 4660 + 102;
+					x = PhoneBFTContainerW(2);
+					text = ATAK_APP(APP_UAV,UAVs);
+					action = "['cTab_Android_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
+				};
+				//-Second Line
+				class actDashBoardtxt: actMSGtxt
+				{
+					idc = 4660 + 103;
+					y = (phoneSizeW * 3/5)/3;
+					text = ATAK_APP("a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa",CheckList);
+					action = "";
+				};
+				class actGrouptxt: actDashBoardtxt
+				{
+					idc = 4660 + 104;
+					x = PhoneBFTContainerW(1);
+					text = ATAK_APP("a3\3den\data\displays\display3den\panelright\modegroups_ca.paa",Groups);
+					action = "";
+				};
+				class actWeathertxt: actDashBoardtxt
+				{
+					idc = 4660 + 105;
+					x = PhoneBFTContainerW(2);
+					text = ATAK_APP("a3\3den\data\displays\display3den\toolbar\intel_ca.paa",Weather);
+					action = "";
+				};
+				class actBDAtxt: actMSGtxt
+				{
+					idc = 4660 + 106;
+					y = 2*((phoneSizeW * 3/5)/3);
+					x = PhoneBFTContainerW(0);
+					text = ATAK_APP("a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa",Damage Assessment);
+					action = "";
+				};
+				class actSettingtxt: actMSGtxt
+				{
+					idc = 4660 + 106;
+					y = 2*((phoneSizeW * 3/5)/3);
+					x = PhoneBFTContainerW(1);
+					text = ATAK_APP("a3\weapons_f_orange\reticle\data\settings_ca.paa",Settings);
+					action = "";
+				};
+			};
+		};
+		
+		//-Realistic ATAK
+		class Task_Builder: ATAK_Tools
+		{
+			idc = idc_D(4661);
+			class controls
+			{
+				#define ATAK_POS(YPOS) \
+					x = 0; \
+					y = YPOS * ((42)) / 2048 * (PhoneW * 4/3); \
+					w = safezoneW; \
+					h = ((42)) / 2048 * (PhoneW * 4/3)
+				class Game_Plan_T: RscText
+				{
+					idc = -1;
+					text="Game Plan";
+					sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 15)";
+					ATAK_POS(0);
+					font = "RobotoCondensed_BCE";
+					colorBackground[] = {0,0,0,0};
+					colorText[]={1,0.737255,0.0196078,1};
+				};
+				class Back: cTab_RscButton
+				{
+					idc = 4661 + 101;
+					text = "Back";
+					x = PhoneBFTContainerW(1);
+					y = 0;
+					w = (0.75 * (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW));
+					h = ((60)) / 2048 * (PhoneW * 4/3);
+					action = "['cTab_Android_dlg',[['showMenu',['main',true]]]] call cTab_fnc_setSettings;";
+				};
+			};
+		};
 		
 		//-Color Select
 		class MarkerColor: RscCombo

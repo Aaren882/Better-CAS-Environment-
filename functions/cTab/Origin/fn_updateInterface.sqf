@@ -29,7 +29,7 @@
 	#define PLP_TOOL 1
 #endif
 
-private ["_interfaceInit","_TAC_Vis","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_backgroundOffset","_ctrlPos","_mousePos"];
+private ["_interfaceInit","_maptoolsInit","_TAC_Vis","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_backgroundOffset","_ctrlPos","_mousePos"];
 disableSerialization;
 
 if (isNil "cTabIfOpen") exitWith {false};
@@ -39,6 +39,7 @@ _display = uiNamespace getVariable _displayName;
 uiNameSpace setVariable ["cTab_BFT_CurSel",objNull];
 
 _interfaceInit = false;
+_maptoolsInit = false;
 _TAC_Vis = false;
 _loadingCtrl = _display displayCtrl IDC_CTAB_LOADINGTXT;
 _targetMapCtrl = controlNull;
@@ -224,6 +225,10 @@ _settings apply {
 					1776,
 					17000 + 46320,
 
+					//-ATAK
+					17000 + 4660,
+					17000 + 4661,
+
 					//-BG
 					17000 + 4630,
 					17000 + 4631,
@@ -288,27 +293,32 @@ _settings apply {
 						//-Tool Menu
 						if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
 							_showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
-							if (!isNil "_showMenu" && _showMenu) then	{
-								_displayItemsToShow pushBack IDC_CTAB_GROUP_MENU;
+							if (!isNil "_showMenu" && (_showMenu # 1)) then	{
+								//_settings pushBack ["showMenu",[_displayName,"showMenu"] call cTab_fnc_getSettings];
+								_displayItemsToShow append [IDC_CTAB_GROUP_MENU,((_showMenu # 0) call BCE_fnc_ATAK_openPage)];
 							};
 						};
 
 						_btnActCtrl ctrlSetTooltip "";
+						_maptoolsInit = true;
 
+						private _widgets = [
+							[
+								#ifdef PLP_TOOL
+									"PLP_mapTools",
+								#endif
+								"BCE_mapTools"
+							],
+							[]
+						] select (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]);
+
+						(["mapTools"] + _widgets) apply {
+							_settings pushBack [_x,[_displayName,_x] call cTab_fnc_getSettings];
+						};
 						// update scale and world position when not on interface init
 						if (!_interfaceInit) then {
 							if (_isDialog) then {
-								private _widgets = [
-									[
-										#ifdef PLP_TOOL
-											"PLP_mapTools",
-										#endif
-										"BCE_mapTools"
-									],
-									[]
-								] select (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]);
-
-								(["mapScaleDlg","mapWorldPos","mapTools"] + _widgets) apply {
+								["mapScaleDlg","mapWorldPos"] apply {
 									_settings pushBack [_x,[_displayName,_x] call cTab_fnc_getSettings];
 								};
 							};
@@ -335,7 +345,6 @@ _settings apply {
 							IDC_CTAB_GROUP_UAV,
 							IDC_CTAB_CTABUAVMAP
 						];
-
 
 						if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
 							private ["_showMenu","_Showlist"];
@@ -400,9 +409,6 @@ _settings apply {
 
 				// hide every _displayItems not in _displayItemsToShow
 				{(_display displayCtrl _x) ctrlShow (_x in _displayItemsToShow)} count _displayItems;
-				if (_displayName == "cTab_Android_dlg") then {
-				  (_display displayCtrl 10) ctrlShow false;
-				};
 
 				// ---------- Task Builder -----------
 				if (_mode == "TASK_Builder") then {
@@ -596,7 +602,7 @@ _settings apply {
 			};
 		};
 
-		//-Marker Color
+		// ---------- Marker Color -----------
 		if ((_x # 0) == "markerColor") exitWith {
 			private _markerColor = _display displayCtrl (17000 + 1090);
 			if (lbSize _markerColor == 0) then {
@@ -703,7 +709,7 @@ _settings apply {
 					(ctrlPosition _Tool_toggle) params ["","","_toggleW","_toggleH"];
 					(ctrlPosition _ToolCtrl) params ["_CTRLX","_CTRLY","_CTRLW","_CTRLH"];
 
-					_period = [0.2,0] select _interfaceInit;
+					_period = [0.2,0] select (_interfaceInit || _maptoolsInit);
 					_MoveDir = [1,-1] select ("Android" in _displayName);
 
 					//-Get Y axis and H
@@ -849,14 +855,14 @@ _settings apply {
 			};
 		};
 
-		// ------------ MENU ------------
-		if (_x # 0 == "showMenu") exitWith {
-			_osdCtrl = _display displayCtrl IDC_CTAB_GROUP_MENU;
-			if (!isNull _osdCtrl) then {
-				if (_mode == "BFT") then {
-					_osdCtrl ctrlShow (_x # 1);
-					(_display displayCtrl 10) ctrlShow false;
-				};
+		// ---------- ATAK Tools -----------
+		if ((_x # 0) == "showMenu") exitWith {
+			private _osdCtrl = _display displayCtrl IDC_CTAB_GROUP_MENU;
+			{(_display displayCtrl _x) ctrlShow false} count [IDC_CTAB_GROUP_MENU, 17000 + 4661, 17000 + 4660];
+			if (!isNull _osdCtrl && (_mode == "BFT")) then {
+				(_x # 1) params ["_page","_show"];
+				(_display displayCtrl (_page call BCE_fnc_ATAK_openPage)) ctrlShow _show;
+				_osdCtrl ctrlShow _show;
 			};
 		};
 
