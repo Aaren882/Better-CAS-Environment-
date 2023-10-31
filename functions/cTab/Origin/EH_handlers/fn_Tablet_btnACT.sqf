@@ -15,7 +15,7 @@ if (_info isNotEqualTo "") exitWith {
     !(isnull _vehicle) &&
     !(_condition) &&
     ((_current_turret # 0) > -1) &&
-    ({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle) > 0) &&
+    ({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle) == 0) &&
     !((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"])
   ) then {
     //-delete PIP Cam && close TAD UI

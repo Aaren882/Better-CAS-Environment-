@@ -67,7 +67,9 @@ _Optic_LODs = _Turrets_Optics select {
   !(_x isEqualTo ["",[]])
 };
 
-BCE_Camera_Cache set [_class_veh, _Optic_LODs];
+if (count _Optic_LODs > 0) then {
+  BCE_Camera_Cache set [_class_veh, _Optic_LODs];
+};
 
 //-FOV handler
 if (((count _allTurrets > 0) or (hasPilotCamera _vehicle)) && (_vehicle isKindOf "Air")) then {
@@ -156,7 +158,10 @@ if (count _turret_Weapons > 0) then {
 
     [_is_turret,[_turret_pos_mem,_offset,_turret]]
   };
-  BCE_IRLaser_Cache set [_class_veh, _result];
+
+  if (count _result > 0) then {
+    BCE_IRLaser_Cache set [_class_veh, _result];
+  };
 };
 
 //-Return

@@ -1,5 +1,3 @@
-if (_curLine in [2,3,4]) then {_clearbut ctrlShow false};
-
 switch _curLine do {
   //-Game Plan
   case 0:{

@@ -147,6 +147,7 @@ switch _sel_TaskType do {
   };
   //-9 line
   default {
+    if (_curLine in [2,3,4]) then {_clearbut ctrlShow false};
     call BCE_fnc_DblClick9line;
   };
 };

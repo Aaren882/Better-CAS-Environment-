@@ -228,6 +228,7 @@ _settings apply {
 					//-ATAK
 					17000 + 4660,
 					17000 + 4661,
+					46600,
 
 					//-BG
 					17000 + 4630,
@@ -294,8 +295,7 @@ _settings apply {
 						if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
 							_showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
 							if (!isNil "_showMenu" && (_showMenu # 1)) then	{
-								//_settings pushBack ["showMenu",[_displayName,"showMenu"] call cTab_fnc_getSettings];
-								_displayItemsToShow append [IDC_CTAB_GROUP_MENU,((_showMenu # 0) call BCE_fnc_ATAK_openPage)];
+								_displayItemsToShow append flatten [IDC_CTAB_GROUP_MENU, [_display, (_showMenu # 0), true, true] call BCE_fnc_ATAK_openPage];
 							};
 						};
 
@@ -861,7 +861,7 @@ _settings apply {
 			{(_display displayCtrl _x) ctrlShow false} count [IDC_CTAB_GROUP_MENU, 17000 + 4661, 17000 + 4660];
 			if (!isNull _osdCtrl && (_mode == "BFT")) then {
 				(_x # 1) params ["_page","_show"];
-				(_display displayCtrl (_page call BCE_fnc_ATAK_openPage)) ctrlShow _show;
+				(_display displayCtrl ([_display,_page] call BCE_fnc_ATAK_openPage)) ctrlShow _show;
 				_osdCtrl ctrlShow _show;
 			};
 		};

@@ -304,9 +304,9 @@ _idEH = addMissionEventHandler ["Draw3D", {
       [2] call BCE_fnc_OpticMode;
     };
 
-		_current_EH = _player getVariable ["TGP_View_EHs",-1];
+		private _current_EH = _player getVariable ["TGP_View_EHs",-1];
     if (_current_EH != -1) then {
-      removeMissionEventHandler ["Draw3D", _current_EH];
+      removeMissionEventHandler ["Draw3D", _thisEventHandler];
   		_player setVariable ["TGP_View_EHs",-1,true];
     };
   };

@@ -138,14 +138,14 @@ PHONE_CLASS
 			class HScrollbar{};
 			class Scrollbar{};
 			class controls
-			{
+			{	
 				class menuBackground: cTab_IGUIBack
 				{
 					idc = 9;
 					x = 0;
 					y = 0;
 					w = "safezoneW";
-					h = "safezoneH";
+					h = phoneSizeH;
 					colorBackground[] = {0.2,0.2,0.2,0.5};
 				};
 			};
@@ -153,6 +153,7 @@ PHONE_CLASS
 		class ATAK_Tools: ATAK_MenuBG
 		{
 			idc = idc_D(4660);
+			h = phoneSizeH - 0.75 * (((60)) / 2048 * (PhoneW * 4/3));
 			class controls
 			{
 				#define PhoneBFTContainerW(AxisX) AxisX*((phoneSizeW * 2/5)/3)
@@ -247,29 +248,262 @@ PHONE_CLASS
 			idc = idc_D(4661);
 			class controls
 			{
-				#define ATAK_POS(YPOS) \
-					x = 0; \
-					y = YPOS * ((42)) / 2048 * (PhoneW * 4/3); \
-					w = safezoneW; \
-					h = ((42)) / 2048 * (PhoneW * 4/3)
+				#define ATAK_POS(XPOS,YPOS,WPOS,HPOS) \
+					x = PhoneBFTContainerW(XPOS); \
+					y = YPOS * ((60)) / 2048 * (PhoneW * 4/3); \
+					w = PhoneBFTContainerW(WPOS); \
+					h = HPOS * (((60)) / 2048 * (PhoneW * 4/3))
 				class Game_Plan_T: RscText
 				{
 					idc = -1;
+					shadow=2;
 					text="Game Plan";
-					sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 15)";
-					ATAK_POS(0);
+					sizeEx = TextSize;
+					ATAK_POS(0,0,1,1);
 					font = "RobotoCondensed_BCE";
 					colorBackground[] = {0,0,0,0};
 					colorText[]={1,0.737255,0.0196078,1};
 				};
-				class Back: cTab_RscButton
+				
+				//-Task Type
+				class TaskType: RscCombo
 				{
-					idc = 4661 + 101;
+					idc = idc_D(2107);
+					ATAK_POS(1,0.35/2,2,0.65);
+					
+					wholeHeight = 0.8;
+					sizeEx = 0.8 * TextSize;
+					font = "PuristaMedium";
+					
+					colorBackground[] = {0,0,0,1};
+					colorSelect[]={1,1,1,1};
+					colorSelectBackground[]={0.2,0.2,0.2,1};
+					
+					//onLBSelChanged = "(_this + [17000]) call BCE_fnc_TaskTypeChanged";
+					class Items
+					{
+						class 9line
+						{
+							text = "9 Line";
+							textRight = "";
+							value = 0;
+							default = 1;
+						};
+						class 5line
+						{
+							text = "5 Line";
+							textRight = "";
+							value = 1;
+						};
+					};
+				};
+				
+				class Type_T: Game_Plan_T
+				{
+					text="Type";
+					ATAK_POS(0,1.1,1,0.8);
+					sizeEx = 0.9 * TextSize;
+				};
+				
+				//-MOA
+				class New_Task_CtrlType: RscToolbox
+				{
+					idc = idc_D(2011);
+					ATAK_POS(0.5,(1 + (0.35/2)),1.2,0.65);
+					rows = 1;
+					columns = 3;
+					strings[] =
+					{
+						"T1",
+						"T2",
+						"T3"
+					};
+					font = "RobotoCondensed_BCE";
+					colorBackground[] = {0,0,0,0.3};
+					sizeEx = 0.8 * TextSize;
+				};
+				class MOA_T: Game_Plan_T
+				{
+					text="MOA";
+					sizeEx = 0.65 * TextSize;
+					ATAK_POS(1.7,(1 + (0.35/2)),0.4,0.65);
+				};
+				class MOA_Combo: TaskType
+				{
+					idc = idc_D(20112);
+					ATAK_POS(2.2,(1 + (0.35/2)),0.7,0.65);
+					
+					colorBackground[] = {0.3,0.3,0.3,1};
+					colorSelect[]={1,1,1,1};
+					colorSelectBackground[]={0.4,0.4,0.4,1};
+					
+					class Items
+					{
+						class BoT
+						{
+							text = "BoT";
+							textRight = "";
+							value = 0;
+							default = 1;
+						};
+						class BoC
+						{
+							text = "BoC";
+							textRight = "";
+							value = 1;
+						};
+					};
+				};
+				//-Weapons
+				class Weapon_T: Type_T
+				{
+					text="Weapon";
+					ATAK_POS(0,(2 + (0.35/2)),1,0.63);
+				};
+				class AI_Remark_WeaponCombo: MOA_Combo
+				{
+					idc = 2020;
+					ATAK_POS(0.8,(2 + (0.35/2)),1.1,0.65);
+					sizeEx = 0.8 * TextSize;
+					onMouseButtonClick = "";
+					onLBSelChanged = "call BCE_fnc_CAS_SelWPN";
+					class Items{};
+				};
+				class AI_Remark_ModeCombo: AI_Remark_WeaponCombo
+				{
+					idc = 2021;
+					ATAK_POS(1.9,(2 + (0.35/2)),1.05,0.63);
+					onLBSelChanged = "";
+				};
+				class Attack_Range_Combo: AI_Remark_ModeCombo
+				{
+					idc = 2022;
+					ATAK_POS(0.8,(2.65 + (0.35/2)),1.1,0.63);
+					tooltip = "$STR_BCE_tip_Attack_Range";
+					class Items
+					{
+						class 2000m
+						{
+							text = "2000m";
+							value = 2000;
+							default = 1;
+						};
+						class 1500m
+						{
+							text = "1500m";
+							value = 1500;
+						};
+						class 1000m
+						{
+							text = "1000m";
+							value = 1000;
+						};
+					};
+				};
+				class Round_Count_Box: RscEdit
+				{
+					idc = 2023;
+					ATAK_POS(1.9,(2.65 + (0.35/2)),0.4,0.63);
+					Style = 2;
+					show = 0;
+					text = "1";
+					sizeEx = 0.8 * TextSize;
+					tooltip = "$STR_BCE_tip_Round_Count";
+				};
+				class Attack_Height_Box: Round_Count_Box
+				{
+					idc = 2024;
+					ATAK_POS(2.3,(2.65 + (0.35/2)),0.65,0.63);
+					tooltip = "$STR_BCE_tip_Attack_Height";
+					text = "2000";
+				};
+				
+				//-1~3 lines
+				class IP2TG_T: Type_T
+				{
+					text="1-3";
+					ATAK_POS(0,(3.65 + (0.35/2)),1,0.65);
+				};
+				class Line4_T: Type_T
+				{
+					text="4";
+					ATAK_POS(0,(4.65 + (0.35/2)),1,0.65);
+				};
+				class Line5_T: Type_T
+				{
+					text="5";
+					ATAK_POS(0,(5.65 + (0.35/2)),1,0.65);
+				};
+				class Line6_T: Type_T
+				{
+					text="6";
+					ATAK_POS(0,(7.65 + (0.35/2)),1,0.65);
+				};
+				class Line7_T: Type_T
+				{
+					text="7";
+					ATAK_POS(0,(8.65 + (0.35/2)),1,0.65);
+				};
+				class Line8_T: Type_T
+				{
+					text="8";
+					ATAK_POS(0,(9.65 + (0.35/2)),1,0.65);
+				};
+				class Line9_T: Type_T
+				{
+					text="9";
+					ATAK_POS(0,(10.65 + (0.35/2)),1,0.65);
+				};
+				class Separator: cTab_RscFrame
+				{
+					idc=-1;
+					ATAK_POS(0.1,(12.65 + (0.35/2)),2.8,0.001);
+				};
+				
+				class Remark: Game_Plan_T
+				{
+					text="Remarks/Restrictions";
+					ATAK_POS(0,(12.7 + (0.35/2)),3,1);
+					sizeEx = 0.8 * TextSize;
+					font = "RobotoCondensedBold_BCE";
+				};
+				class AddRemark: BCE_RscButtonMenu
+				{
+					ATAK_POS(2.3,(12.8 + (0.35/2)),0.65,0.63);
+					
+					//-Style
+					colorBackground[] = {0,0,0,0.8};
+					colorBackground2[] = {0,0,0,0};
+					colorBackgroundFocused[] = {0,0,0,0};
+
+					animTextureDefault="#(argb,8,8,3)color(0,0,0,0.8)";
+					animTextureNormal="#(argb,8,8,3)color(0,0,0,0.8)";
+					animTextureOver = "#(argb,8,8,3)color(0,0,0,0.5)";
+					animTextureFocused = "#(argb,8,8,3)color(0,0,0,0.8)";
+					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
+					
+					text = "<img image='a3\3den\data\displays\display3den\panelleft\entitylist_layer_ca.paa' align='center' valign='middle' size='1'/>";
+				};
+			};
+		};
+		
+		//-Bottons for ATAK Tools
+		class InputButtons: ATAK_MenuBG
+		{
+			idc = 46600;
+			y = phoneSizeY + phoneSizeH - (0.75 * (((60)) / 2048 * (PhoneW * 4/3)));
+			h = 0.75 * (((60)) / 2048 * (PhoneW * 4/3));
+			class controls 
+			{
+				class Back: ctrlButton
+				{
+					idc = 10;
 					text = "Back";
-					x = PhoneBFTContainerW(1);
+					sizeEx = 0.9 * TextSize;
+					x = 0;
 					y = 0;
-					w = (0.75 * (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW));
-					h = ((60)) / 2048 * (PhoneW * 4/3);
+					w = PhoneBFTContainerW(2);
+					h = 0.64 * (((60)) / 2048 * (PhoneW * 4/3));
 					action = "['cTab_Android_dlg',[['showMenu',['main',true]]]] call cTab_fnc_setSettings;";
 				};
 			};
@@ -278,7 +512,7 @@ PHONE_CLASS
 		//-Color Select
 		class MarkerColor: RscCombo
 		{
-			idc=idc_D(1090);
+			idc = idc_D(1090);
 			
 			PhoneMarkerColor;
 			colorBackground[]={0.3,0.3,0.3,1};
