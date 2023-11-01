@@ -4,7 +4,7 @@ private _is_Server = BCE_SYSTEM_Handler == str player;
 
 //Air Vehicles
 if (_unit isKindOf "Air") then {
-  private ["_isTurret","_lightL","_light_object","_Attach","_wRot"];
+  private ["_lightL","_light_object","_Attach","_wRot"];
 
   ([_unit, 1] call BCE_fnc_Check_Optics) apply {
     _x params [["_isTurret",false],["_vars_turret",["","",""]]];
