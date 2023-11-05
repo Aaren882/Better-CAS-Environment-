@@ -246,6 +246,10 @@ PHONE_CLASS
 		class Task_Builder: ATAK_Tools
 		{
 			idc = idc_D(4661);
+			class VScrollbar
+			{
+				scrollSpeed=0.08;
+			};
 			class controls
 			{
 				#define ATAK_POS(XPOS,YPOS,WPOS,HPOS) \
@@ -326,7 +330,7 @@ PHONE_CLASS
 				{
 					text="MOA";
 					sizeEx = 0.65 * TextSize;
-					ATAK_POS(1.7,(1 + (0.35/2)),0.4,0.65);
+					ATAK_POS(1.8,(1 + (0.35/2)),0.4,0.65);
 				};
 				class MOA_Combo: TaskType
 				{
@@ -354,7 +358,8 @@ PHONE_CLASS
 						};
 					};
 				};
-				//-Weapons
+
+				//-Weapons Selections
 				class Weapon_T: Type_T
 				{
 					text="Weapon";
@@ -363,7 +368,7 @@ PHONE_CLASS
 				class AI_Remark_WeaponCombo: MOA_Combo
 				{
 					idc = 2020;
-					ATAK_POS(0.8,(2 + (0.35/2)),1.1,0.65);
+					ATAK_POS(0.7,(2 + (0.35/2)),1.1,0.65);
 					sizeEx = 0.8 * TextSize;
 					onMouseButtonClick = "";
 					onLBSelChanged = "call BCE_fnc_CAS_SelWPN";
@@ -372,13 +377,13 @@ PHONE_CLASS
 				class AI_Remark_ModeCombo: AI_Remark_WeaponCombo
 				{
 					idc = 2021;
-					ATAK_POS(1.9,(2 + (0.35/2)),1.05,0.63);
+					ATAK_POS(1.8,(2 + (0.35/2)),1.1,0.63);
 					onLBSelChanged = "";
 				};
 				class Attack_Range_Combo: AI_Remark_ModeCombo
 				{
 					idc = 2022;
-					ATAK_POS(0.8,(2.65 + (0.35/2)),1.1,0.63);
+					ATAK_POS(0.7,(2.65 + (0.35/2)),1.1,0.63);
 					tooltip = "$STR_BCE_tip_Attack_Range";
 					class Items
 					{
@@ -403,7 +408,7 @@ PHONE_CLASS
 				class Round_Count_Box: RscEdit
 				{
 					idc = 2023;
-					ATAK_POS(1.9,(2.65 + (0.35/2)),0.4,0.63);
+					ATAK_POS(1.8,(2.65 + (0.35/2)),(1.1/3),0.63);
 					Style = 2;
 					show = 0;
 					text = "1";
@@ -413,7 +418,7 @@ PHONE_CLASS
 				class Attack_Height_Box: Round_Count_Box
 				{
 					idc = 2024;
-					ATAK_POS(2.3,(2.65 + (0.35/2)),0.65,0.63);
+					ATAK_POS((1.8 + (1.1/3)),(2.65 + (0.35/2)),(2.2/3),0.63);
 					tooltip = "$STR_BCE_tip_Attack_Height";
 					text = "2000";
 				};
@@ -424,36 +429,46 @@ PHONE_CLASS
 					text="1-3";
 					ATAK_POS(0,(3.65 + (0.35/2)),1,0.65);
 				};
+
+				//-Line 4
 				class Line4_T: Type_T
 				{
 					text="4";
 					ATAK_POS(0,(4.65 + (0.35/2)),1,0.65);
 				};
+
+				//-Line 5
 				class Line5_T: Type_T
 				{
 					text="5";
 					ATAK_POS(0,(5.65 + (0.35/2)),1,0.65);
 				};
+				//-Line 6
 				class Line6_T: Type_T
 				{
 					text="6";
 					ATAK_POS(0,(7.65 + (0.35/2)),1,0.65);
 				};
+				//-Line 7
 				class Line7_T: Type_T
 				{
 					text="7";
 					ATAK_POS(0,(8.65 + (0.35/2)),1,0.65);
 				};
+				//-Line 8
 				class Line8_T: Type_T
 				{
 					text="8";
 					ATAK_POS(0,(9.65 + (0.35/2)),1,0.65);
 				};
+				//-Line 9
 				class Line9_T: Type_T
 				{
 					text="9";
 					ATAK_POS(0,(10.65 + (0.35/2)),1,0.65);
 				};
+
+				//-Separator Between Remarks
 				class Separator: cTab_RscFrame
 				{
 					idc=-1;
@@ -469,10 +484,10 @@ PHONE_CLASS
 				};
 				class AddRemark: BCE_RscButtonMenu
 				{
-					ATAK_POS(2.3,(12.8 + (0.35/2)),0.65,0.63);
+					ATAK_POS((2.4+0.15/2),(12.8 + (0.35/2)),0.4,0.65);
 					
 					//-Style
-					colorBackground[] = {0,0,0,0.8};
+					colorBackground[] = {0,0,0,0.5};
 					colorBackground2[] = {0,0,0,0};
 					colorBackgroundFocused[] = {0,0,0,0};
 
@@ -482,7 +497,7 @@ PHONE_CLASS
 					animTextureFocused = "#(argb,8,8,3)color(0,0,0,0.8)";
 					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
 					
-					text = "<img image='a3\3den\data\displays\display3den\panelleft\entitylist_layer_ca.paa' align='center' valign='middle' size='1'/>";
+					text = "<img image='a3\3den\data\displays\display3den\panelleft\entitylist_layer_ca.paa' valign='middle' align='center' size='1.1'/>";
 				};
 			};
 		};
@@ -493,7 +508,7 @@ PHONE_CLASS
 			idc = 46600;
 			y = phoneSizeY + phoneSizeH - (0.75 * (((60)) / 2048 * (PhoneW * 4/3)));
 			h = 0.75 * (((60)) / 2048 * (PhoneW * 4/3));
-			class controls 
+			class controls
 			{
 				class Back: ctrlButton
 				{

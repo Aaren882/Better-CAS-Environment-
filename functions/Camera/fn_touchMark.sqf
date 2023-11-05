@@ -1,4 +1,5 @@
 TGP_View_Marker_List apply {
+  private["_pos","_time","_alpha"];
   _pos = _x getVariable ["TGP_View_Mark",[]];
   _time = _x getVariable "TGP_View_Marker_last";
   _alpha = abs (1 min _time);
