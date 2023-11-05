@@ -4,11 +4,10 @@ private _is_Server = BCE_SYSTEM_Handler == str player;
 
 //Air Vehicles
 if (_unit isKindOf "Air") then {
-  private ["_isTurret","_lightL","_light_object","_Attach","_wRot"];
+  private ["_lightL","_light_object","_Attach","_wRot"];
 
   ([_unit, 1] call BCE_fnc_Check_Optics) apply {
     _x params [["_isTurret",false],["_vars_turret",["","",""]]];
-    _isTurret = !isnil {_isTurret};
 
     if (((_unit getVariable ["IR_LaserLight_Source_Air",[]]) isEqualTo []) && (BCE_veh_IR_S_fn) && (_is_Server)) then {
 
@@ -86,9 +85,9 @@ if (_unit isKindOf "Air") then {
   _weaponPOS = if (_unit in vehicles) then {
     (
       //(allTurrets _unit) select {_unit isLaserOn _x}
-      ([_unit,1] call BCE_fnc_Check_Optics) select {_unit isLaserOn (_x # 0)}
+      ([_unit,1] call BCE_fnc_Check_Optics) select {_unit isLaserOn (_x # 1 # 2)}
     ) apply {
-      _x params ["_turret","_LOD","_gunBeg","_offset"];
+      (_x # 1) params ["_LOD","_offset","_turret","_gunBeg"];
       private ["_Beg","_POS","_dir","_ASL"];
 
       //-Correcting Laser
@@ -114,7 +113,7 @@ if (_unit isKindOf "Air") then {
   _weaponPOS apply {
     _x params ["_weaponLocal", "_dir", "_turretLocal", "_LOD", ["_Offset",[0,0,0],[]]];
 
-    _weaponWorld = _unit modelToWorldVisualWorld (_weaponLocal vectorAdd _Offset);
+    private _weaponWorld = _unit modelToWorldVisualWorld (_weaponLocal vectorAdd _Offset);
 
     //Light Source
     if ((isNull _Light_Soure) && (_is_Server) && (BCE_inf_IR_Lig_S_fn)) then {

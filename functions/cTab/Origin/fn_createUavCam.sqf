@@ -25,8 +25,8 @@
 	Example:
 		[str _uavVehicle,[[0,"rendertarget8"],[1,"rendertarget9"]]] call cTab_fnc_createUavCam;
 */
-params ["_veh","_uavCams","_isUAV","_UAV_Interface"];
-private ["_veh","_displayName","_display","_squad_list","_Optic_LODs","_Selected_Optic","_renderTarget","_data","_seat","_veh","_uavCams","_seatName","_camPosMemPt","_cam","_turrets"];
+params ["_veh","_uavCams","_UAV_Interface"];
+private ["_veh","_displayName","_display","_squad_list","_Optic_LODs","_Selected_Optic","_turrets","_isEmpty","_renderTarget","_data","_seat","_veh","_uavCams","_seatName","_camPosMemPt","_cam","_turrets"];
 
 _displayName = cTabIfOpen # 1;
 _display = uiNamespace getVariable _displayName;
@@ -51,6 +51,7 @@ if (_isEmpty) then {
 _Selected_Optic = cTab_player getVariable "TGP_View_Selected_Optic";
 
 _uavCams apply {
+  private ["_cam","_camPosMemPt","_is_Detached","_turret","_vision","_A3TI"];
   _x params ["_seat","_renderTarget"];
 
   if !(isNil {_seat}) then {
@@ -60,13 +61,7 @@ _uavCams apply {
     _is_Detached = false;
     _turret = [0];
 
-    if ((_seat == 1) && (_isUAV)) then {
-      _camPosMemPt = getText (configOf _veh >> "uavCameraDriverPos");
-    } else {
-      _camPosMemPt = (_Selected_Optic # 0) # 0;
-      _turret = (_Selected_Optic # 0) # 1;
-      _is_Detached = (_Selected_Optic # 0) # 2;
-    };
+    (_Selected_Optic # 0) params ["_camPosMemPt","_turret","_is_Detached"];
 
   	// If memory points could be retrieved, create camera
   	if (_camPosMemPt != "") then {
@@ -76,11 +71,22 @@ _uavCams apply {
   		// set up cam on render target
   		_cam cameraEffect ["INTERNAL","BACK",_renderTarget];
 
+      _vision = cTab_player getVariable ["TGP_View_Optic_Mode", 2];
+      #if __has_include("\A3TI\config.bin")
+        _A3TI = A3TI_FLIR_VisionMode;
+      #endif
+
       //-Set Vision Mode
-      private _vision = switch (cTab_player getVariable ["TGP_View_Optic_Mode", 2]) do {
+      _vision = switch (true) do {
+        #if __has_include("\A3TI\config.bin")
+          case (_vision == 5 || _A3TI == 0): {2};
+          case (_vision == 4 || _A3TI == 1): {7};
+        #else
+          case (_vision == 5): {2};
+          case (_vision == 4): {7};
+        #endif
+
         case 3: {1};
-        case 4: {7};
-        case 5: {2};
         default {0};
       };
 
@@ -160,27 +166,33 @@ if !(isNull _squad_list) then {
 
 // set up event handler
 if (count cTabUAVcams > 0) exitWith {
+  //-Only Detach ones need this
 	if ((cTab_player getVariable ["cTab_TGP_View_EH",-1]) == -1) then {
-		private _EH = addMissionEventHandler ["Draw3D",{
-			_veh = _thisArgs # 0;
 
-			if (alive _veh) then {
-				cTabUAVcams apply {
-					if !(isNil {_x}) then {
-						_x params ["","_cam","_camPosMemPt","_turret","_is_Detached"];
-	          if (_is_Detached) then {
-	            private _dir = [
-		           (_veh selectionVectorDirAndUp [_camPosMemPt, "Memory"]) # 0,
-		           (_veh getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1
-		    			] select ((_turret # 0) < 0);
-	          	[_cam, _dir, false] call BCE_fnc_VecRot;
-	          };
-					};
-				};
-			} else {
-				call cTab_fnc_deleteUAVcam;
-			};
-		},[_veh]];
+    private _EH = if (({_x # 4} count cTabUAVcams) > 0) then {
+      addMissionEventHandler ["Draw3D",{
+  			_veh = _thisArgs # 0;
+
+  			if (alive _veh) then {
+  				(cTabUAVcams select {_x # 4}) apply {
+            _x params ["","_cam","","_turret","_is_Detached"];
+
+            if (_is_Detached) then {
+              private _dir = [
+               [_veh,_turret] call BCE_fnc_getTurretDir,
+               (_veh getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1
+              ] select ((_turret # 0) < 0);
+              [_cam, _dir, false] call BCE_fnc_VecRot;
+            };
+  				};
+  			} else {
+  				call cTab_fnc_deleteUAVcam;
+  			};
+  		},[_veh]];
+    } else {
+      -2
+    };
+
     cTab_player setVariable ["cTab_TGP_View_EH",_EH,true];
 	};
 

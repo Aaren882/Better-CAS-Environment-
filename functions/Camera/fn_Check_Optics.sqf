@@ -1,5 +1,5 @@
 params ["_vehicle",["_mode",-1]];
-private ["_class_veh","_allTurrets","_config_path","_pilot_cam_LOD","_Turrets_Optics","_Optic_LODs","_turret_Weapons"];
+private ["_class_veh","_allTurrets","_config_path","_pilot_cam_LOD","_Turrets_Optics","_Optic_LODs","_turret_Weapons","_return"];
 
 //-exit if _vehicle is not Vehicle
 if !(_vehicle in vehicles) exitWith {[]};
@@ -67,7 +67,9 @@ _Optic_LODs = _Turrets_Optics select {
   !(_x isEqualTo ["",[]])
 };
 
-BCE_Camera_Cache set [_class_veh, _Optic_LODs];
+if (count _Optic_LODs > 0) then {
+  BCE_Camera_Cache set [_class_veh, _Optic_LODs];
+};
 
 //-FOV handler
 if (((count _allTurrets > 0) or (hasPilotCamera _vehicle)) && (_vehicle isKindOf "Air")) then {
@@ -138,9 +140,10 @@ if (count _turret_Weapons > 0) then {
 
   private _result = _turret_Weapons apply {
     _x params ["_turret"];
-    private ["_is_turret","_config","_turret_pos_mem","_offset"];
+    private ["_is_turret","_gunBeg","_config","_turret_pos_mem","_offset"];
 
     _is_turret = (_turret # 0) >= 0;
+
     if (_is_turret) then {
       _config = [_vehicle, _turret] call BIS_fnc_turretConfig;
       _turret_pos_mem = getText (_config >> "memoryPointGunnerOptics");
@@ -149,18 +152,27 @@ if (count _turret_Weapons > 0) then {
       _turret_pos_mem = getText (_config >> "memoryPointDriverOptics");
     };
 
+    _gunBeg = [
+      getText (_config >> "gunBeg"),
+      nil
+    ] select ((_unit isKindOf "Air") && (_is_turret));
+
     _offset = [
       [0,0,0],
       getArray (_config >> "LaserDesignator_Offset")
     ] select (isArray (_config >> "LaserDesignator_Offset"));
 
-    [_is_turret,[_turret_pos_mem,_offset,_turret]]
+    [_is_turret,[_turret_pos_mem,_offset,_turret,_gunBeg]]
   };
-  BCE_IRLaser_Cache set [_class_veh, _result];
+
+  if (count _result > 0) then {
+    BCE_IRLaser_Cache set [_class_veh, _result];
+  };
 };
 
 //-Return
+_return = [BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode;
 [
   [],
-  ([BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode) get _class_veh
-] select (_mode > -1);
+  _return get _class_veh
+] select ((_mode > -1) && (_class_veh in _return));
