@@ -84,7 +84,7 @@
 			<Chinese>控制類型: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Chinese>
         </Key><Key ID="STR_BCE_AttackType_BNT">
             <Original>Attack Type: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Original>
-			<Chinese>攻擊類型: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Chinese>
+			<Chinese>攻擊方式: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Chinese>
         </Key><Key ID="STR_BCE_OrdnanceREQ_BNT">
             <Original>Request Ordnance: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Original>
 			<Chinese>彈藥請求: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Chinese>
@@ -278,7 +278,7 @@
 		
 		<Key ID="STR_BCE_DECS_GAMEPLAN">
             <Original>Provide a short summary of how the attack is going to be performed.%1%1 1. Type of the control (1,2 or 3)%1 2. Kind of the Attack (BOT/BOC)%1 3. Ordnance requested on target</Original>
-			<Chinese>提供攻擊方式的簡要摘要。%1%1 1. 控制類型 (1、2或3) %1 2. 攻擊類型 (BOT/BOC) %1 3. 對目標的武器選項</Chinese>
+			<Chinese>提供攻擊方式的簡要摘要。%1%1 1. 控制類型 (1、2或3) %1 2. 攻擊方式 (BOT/BOC) %1 3. 對目標的武器選項</Chinese>
         </Key>
 		<Key ID="STR_BCE_DECS_IPBP">
             <Original>“Alt + LMB” on the map to set marker%1%1“Initial Point” or “Battle Position”.%1%1IP for FW aircraft (Planes), the IP is the starting point for the run-in to the target. %1%1BP for RW aircraft (Helis), the BP is where attacks on the target are commenced.</Original>
@@ -356,6 +356,22 @@
             <Original>Game Plan</Original>
 			<Chinese>任務計劃</Chinese>
         </Key>
+		<Key ID="STR_BCE_TIP_CtrlType">
+            <Original>Control Type</Original>
+			<Chinese>控制方式</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_MOA">
+            <Original>Method of Attack</Original>
+			<Chinese>攻擊方式</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_Weapon">
+            <Original>Weapon Selection</Original>
+			<Chinese>武器選擇</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_IPBP_Info">
+            <Original>Infos between “IP\BP” and TGT</Original>
+			<Chinese>“起始點(IP)” \ “戰鬥位置(BP)” 和目標間的資訊</Chinese>
+        </Key>
 		<Key ID="STR_BCE_TIP_IPBP">
             <Original>Initial Point\Battle Position</Original>
 			<Chinese>“起始點(IP)” \ “戰鬥位置(BP)”</Chinese>
@@ -375,6 +391,10 @@
 		<Key ID="STR_BCE_TIP_DESC">
             <Original>Target description</Original>
 			<Chinese>目標描述</Chinese>
+        </Key>
+		<Key ID="STR_BCE_TIP_AddDESC">
+            <Original>Additional description</Original>
+			<Chinese>補充描述</Chinese>
         </Key>
 		<Key ID="STR_BCE_TIP_GRID">
             <Original>Target Position (GRID)</Original>

@@ -848,10 +848,6 @@ class CfgSounds
 	set_Switch_Sound(4);
 	set_Switch_Sound(5);
 };
-class CfgScriptPaths
-{
-	BCE_Function = "MG8\AVFEVFX\Functions\UI\";
-};
 
 class ScrollBar;
 class RscLine;
@@ -1007,3 +1003,8 @@ class CfgFontFamilies
 //UI
 #include "Control_UI.hpp"
 #include "Dialog.hpp"
+
+class CfgScriptPaths
+{
+	BCE_Function = "MG8\AVFEVFX\Functions\UI\";
+};

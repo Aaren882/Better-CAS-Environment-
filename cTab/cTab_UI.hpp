@@ -1487,6 +1487,7 @@ class cTab_TAD_dlg
 #define phoneSizeH ((((626) - (60) - (0))) / 2048 * (PhoneW * 4/3))
 
 #define TextSize (((38)) / 2048 * (PhoneH * 4/3))
+#define TextMenu "1"
 
 #define PhoneMarkerColor \
 	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048 * PhoneW + (safezoneX + (safezoneW - PhoneW) / 2) + ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW; \
