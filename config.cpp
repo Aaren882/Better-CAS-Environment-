@@ -918,6 +918,13 @@ class BCE_RscButtonMenu: RscButtonMenu
 	periodFocus = 0;
 	periodOver = 0;
 	
+	class ShortcutPos
+	{
+		left = 0;
+		top = 0.005;
+		w = 0.0175;
+		h = 0.025;
+	};
 	class Attributes
 	{
 		font = "RobotoCondensed_BCE";

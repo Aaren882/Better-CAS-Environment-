@@ -26,7 +26,7 @@ class RscTitles
 		#define PhoneW (0.86)
 		
 		#define TextSize (((38)) / 2048 * (PhoneW * 4/3))
-		#define TextMenu # __EVAL(1/2.537)
+		#define TextMenu # __EVAL(1.1/2.537)
 		
 		#define phoneSizeX (((452)) / 2048 * PhoneW + (safezoneX - PhoneW * 0.17))
 		#define phoneSizeY ((((713) + (60))) / 2048 * (PhoneW * 4/3) + (safezoneY + safezoneH * 0.88 - (PhoneW * 4/3) * 0.72))

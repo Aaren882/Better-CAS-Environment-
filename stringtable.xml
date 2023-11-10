@@ -29,13 +29,17 @@
             <Original>Enter</Original>
 			<Chinese>輸入</Chinese>
         </Key>
+		<Key ID="STR_BCE_Abort_Task">
+            <Original>Abort Task</Original>
+			<Chinese>中止任務</Chinese>
+        </Key>
 		<Key ID="STR_BCE_ClearAll">
             <Original>Clear All</Original>
 			<Chinese>全部清除</Chinese>
         </Key>
 		<Key ID="STR_BCE_ClearTaskInfo">
-            <Original>Clear Task Info %2img image='\a3\3den\data\cfg3den\history\deleteitems_ca.paa' align='Right' size='0.8' /%3</Original>
-			<Chinese>清除任務資訊 %2img image='\a3\3den\data\cfg3den\history\deleteitems_ca.paa' align='Right' size='0.8' /%3</Chinese>
+            <Original>Clear Task Info</Original>
+			<Chinese>清除任務資訊</Chinese>
         </Key>
 		<Key ID="STR_BCE_New_Task">
             <Original>New Task</Original>
@@ -53,6 +57,118 @@
             <Original>Next Turret</Original>
 			<Chinese>下個砲塔</Chinese>
         </Key>
+		
+		<Key ID="STR_BCE_Widgets_VIC">
+            <Original>VIC</Original>
+			<Chinese>載具</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Widgets_WPN">
+            <Original>WPN</Original>
+			<Chinese>武器</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Widgets_TASK">
+            <Original>TASK</Original>
+			<Chinese>任務</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_Widgets_TIP_VIC">
+            <Original>Vic Info</Original>
+			<Chinese>載具資訊</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Widgets_TIP_WPN">
+            <Original>Weapon Info</Original>
+			<Chinese>武器資訊</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Widgets_TIP_TASK">
+            <Original>Current Task Info</Original>
+			<Chinese>目前任務資訊</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_DataSent">
+            <Original>Data Sent.</Original>
+			<Chinese>已送出</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Error_InputVal">
+            <Original>Fail...  Check the input values.</Original>
+			<Chinese>失敗...檢查輸入資料。</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Error_Vehicle">
+            <Original>Fail...  Check selected Aircraft.</Original>
+			<Chinese>失敗...檢查所選的載具。</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Error_Unavailable">
+            <Original>This Aircraft is Unavailable for a New Task.</Original>
+			<Chinese>這架飛機無法執行新任務。</Chinese>
+        </Key>
+		
+		
+		<Key ID="STR_BCE_Task_Type">
+            <Original>Task Type</Original>
+			<Chinese>任務類型</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Caller">
+            <Original>Caller</Original>
+			<Chinese>呼叫者</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Detail">
+            <Original>Detail</Original>
+			<Chinese>描述</Chinese>
+        </Key>
+		
+		
+		<Key ID="STR_BCE_Type">
+            <Original>Type</Original>
+			<Chinese>類型</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Guidance">
+            <Original>Guidance</Original>
+			<Chinese>導引方式</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Weight">
+            <Original>Weight</Original>
+			<Chinese>重量</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Max_Range">
+            <Original>Max Range</Original>
+			<Chinese>射程距離</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Warhead">
+            <Original>Warhead</Original>
+			<Chinese>彈頭</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Classified">
+            <Original>Classified</Original>
+			<Chinese>機密</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Cost">
+            <Original>Cost</Original>
+			<Chinese>造價</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Payload">
+            <Original>Payload</Original>
+			<Chinese>裝載內容</Chinese>
+        </Key>
+		<Key ID="STR_BCE_None">
+            <Original>None</Original>
+			<Chinese>無</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Function">
+            <Original>Function</Original>
+			<Chinese>功能</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Power_Requirements">
+            <Original>Power Requirements</Original>
+			<Chinese>動力來源</Chinese>
+        </Key>
+		
+		
+		<Key ID="STR_BCE_No_Info">
+            <Original>No Info...</Original>
+			<Chinese>無資訊...</Chinese>
+        </Key>
+		
+		
+		
 		<Key ID="STR_BCE_SwitchList">
             <Original>Switch List</Original>
 			<Chinese>切換列表</Chinese>
@@ -80,14 +196,14 @@
 		
 		
 		<Key ID="STR_BCE_ControlType_BNT">
-            <Original>Control Type: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Original>
-			<Chinese>控制類型: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Chinese>
+            <Original>Control Type:</Original>
+			<Chinese>控制類型:</Chinese>
         </Key><Key ID="STR_BCE_AttackType_BNT">
-            <Original>Attack Type: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Original>
-			<Chinese>攻擊方式: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Chinese>
+            <Original>Attack Type:</Original>
+			<Chinese>攻擊方式:</Chinese>
         </Key><Key ID="STR_BCE_OrdnanceREQ_BNT">
-            <Original>Request Ordnance: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Original>
-			<Chinese>彈藥請求: %2img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' /%3</Chinese>
+            <Original>Request Ordnance:</Original>
+			<Chinese>彈藥請求:</Chinese>
         </Key>
 		
 		
@@ -126,6 +242,10 @@
 		<Key ID="STR_BCE_Tit_Map_marker">
             <Original>Map Marker</Original>
 			<Chinese>地圖標記</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Tit_BFT_marker">
+            <Original>“BFT” Marker</Original>
+			<Chinese>“BFT” 標記</Chinese>
         </Key>
 		<Key ID="STR_BCE_Tit_Click_Map">
             <Original>Click Map “Alt + LMB”</Original>
@@ -396,6 +516,11 @@
             <Original>Additional description</Original>
 			<Chinese>補充描述</Chinese>
         </Key>
+		<Key ID="STR_BCE_TIP_AddRemark">
+            <Original>Add Restriction</Original>
+			<Chinese>新增備註</Chinese>
+        </Key>
+		
 		<Key ID="STR_BCE_TIP_GRID">
             <Original>Target Position (GRID)</Original>
 			<Chinese>目標位置</Chinese>
@@ -414,7 +539,7 @@
         </Key>
 		<Key ID="STR_BCE_TIP_Remarks">
             <Original>Remarks/Restrictions</Original>
-			<Chinese>額外資訊</Chinese>
+			<Chinese>額外備註</Chinese>
         </Key>
 		
 		<Key ID="STR_BCE_TIP_5Line">

@@ -31,7 +31,7 @@ if ((tolower _button_text) == localize "STR_BCE_SendData") exitWith {
   call BCE_fnc_SendTaskData;
 
   if !(_NotAVT) then {
-    _control ctrlSetText "Abort Mission";
+    _control ctrlSetText localize "STR_BCE_Abort_Task";
   };
 
   //-Abort button
@@ -39,7 +39,7 @@ if ((tolower _button_text) == localize "STR_BCE_SendData") exitWith {
 };
 
 //-Abort Mission
-if ("abort" in (tolower _button_text)) exitWith {
+if ((localize "STR_BCE_Abort_Task") in (tolower _button_text)) exitWith {
   _vehicle setVariable ["BCE_Task_Receiver", [], true];
 
   //-Clear Waypoints
@@ -90,14 +90,14 @@ if (_NotAVT) then {
   if (_IDC_offset == 17000) then {
     private _msg = switch true do {
       case (_curLine in _condition): {
-        "Fail...  Check selected Aircraft."
+        "STR_BCE_Error_InputVal"
       };
       case (_taskVar # _curLine # 0 == "NA"): {
-        "Fail...  Check the input values."
+        "STR_BCE_Error_Vehicle"
       };
     };
     if (_msg isEqualType "") then {
-      ["Task_Builder",_msg,5] call cTab_fnc_addNotification;
+      ["Task_Builder",localize _msg,5] call cTab_fnc_addNotification;
     };
   };
   (_display displayCtrl (_IDC_offset + 2106)) ctrlSetBackgroundColor ([[1,0,0,0.5],[0,0,0,0.8]] select ((_taskVar # _curLine # 0) == "NA"));

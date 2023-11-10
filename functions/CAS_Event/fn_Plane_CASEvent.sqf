@@ -2,17 +2,17 @@ params ["_vehicle",["_IP_POS",[]],"_FAD_POS","_posTarget","_EGRS","_weaponInfo",
 _weaponInfo params ["_WPNclass","_WPN_Mode","_WPN_turret","_WPN_count","_muzzle","_ATK_range","_ATK_height"];
 
 if (
-  !canMove _vehicle or
-  !alive driver _vehicle or
-  fuel _vehicle == 0 or
+  !canMove _vehicle ||
+  !alive driver _vehicle ||
+  fuel _vehicle == 0 ||
   unitIsUAV _vehicle
 ) exitWith {};
 
 if ((_vehicle getVariable ["BCE_Task_Receiver", []]) isNotEqualTo []) exitWith {
-  hint str "This Aircraft is Unavailable for a New Task";
+  hint str localize "STR_BCE_Error_Unavailable";
 };
 
-hint "Data Sent.";
+hint localize "STR_BCE_DataSent";
 
 if ((isMultiplayer) && (isplayer _vehicle)) then {
   [["BCE", "Task_Received"],15,"",35,"",false,false,true] remoteExec ["BIS_fnc_advHint",_vehicle,true];
@@ -46,7 +46,7 @@ if (((_remarks # 0) == "NA") && !(_has_IP)) then {
 private _task_info = [player,group player,_type,_taskVar,call BCE_fnc_UpdateTime];
 _vehicle setVariable ["BCE_Task_Receiver", _task_info, true];
 
-if ((_vehicle isKindOf "Helicopter") or !(BCE_AI_CAS_Support_fn) or (isplayer _vehicle) or (_isGunShip)) exitWith {};
+if ((_vehicle isKindOf "Helicopter") || !(BCE_AI_CAS_Support_fn) || (isplayer _vehicle) || (_isGunShip)) exitWith {};
 
 _vehicle disableAI "TARGET";
 _vehicle disableAI "AUTOTARGET";
@@ -118,7 +118,7 @@ if ((_vehicle distance2D _posTarget) <= (_vehicle distance2D _IP)) then {
           [{
               params ["_ActWP","_grp","_vehicle"];
 
-              ((currentWaypoint _grp) > _ActWP) or !(alive _vehicle) or (isplayer _vehicle) or ((_vehicle getVariable ["BCE_Task_Receiver", []]) isEqualTo [])
+              ((currentWaypoint _grp) > _ActWP) || !(alive _vehicle) || (isplayer _vehicle) || ((_vehicle getVariable ["BCE_Task_Receiver", []]) isEqualTo [])
             }, {
               params ["_ActWP","_grp","_vehicle"];
 
@@ -176,7 +176,7 @@ if ((_vehicle distance2D _posTarget) <= (_vehicle distance2D _IP)) then {
           [{
               params ["_ActWP","_grp","_vehicle"];
 
-              ((currentWaypoint _grp) > _ActWP) or !(alive _vehicle) or (isplayer _vehicle) or ((_vehicle getVariable ["BCE_Task_Receiver", []]) isEqualTo [])
+              ((currentWaypoint _grp) > _ActWP) || !(alive _vehicle) || (isplayer _vehicle) || ((_vehicle getVariable ["BCE_Task_Receiver", []]) isEqualTo [])
             }, {
               params ["_ActWP","_grp","_vehicle"];
 

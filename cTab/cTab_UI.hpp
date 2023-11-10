@@ -562,12 +562,12 @@ class cTab_Tablet_dlg
 					w = smalFmW;
 					h = 1.15 * ContH;
 
-					strings[] = {"VIC","WPN","TASK"};
+					strings[] = {"$STR_BCE_Widgets_VIC","$STR_BCE_Widgets_WPN","$STR_BCE_Widgets_TASK"};
 					tooltips[] =
 					{
-						"Vic Info",
-						"Weapon Info",
-						"Current Task Info"
+						"$STR_BCE_Widgets_TIP_VIC",
+						"$STR_BCE_Widgets_TIP_WPN",
+						"$STR_BCE_Widgets_TIP_TASK"
 					};
 					rows = 1;
 					columns = 3;
@@ -963,6 +963,7 @@ class cTab_Tablet_dlg
 					w = 0.5 * ContW;
 					h = "safezoneH / 53";
 					text = "$STR_BCE_ClearTaskInfo";
+					textureNoShortcut = "\a3\3den\data\cfg3den\history\deleteitems_ca.paa";
 					//tooltip = "Clear Task Info";
 					onButtonClick = "(_this + [false,'cTab_Tablet_dlg',17000]) call BCE_fnc_clearTaskInfo";
 
@@ -974,6 +975,11 @@ class cTab_Tablet_dlg
 					animTextureOver = "#(argb,8,8,3)color(1,0.25,0.25,0.5)";
 					animTextureFocused = "#(argb,8,8,3)color(1,0,0,1)";
 					animTexturePressed = "#(argb,8,8,3)color(1,0.25,0.25,0.3)";
+					
+					class ShortcutPos: ShortcutPos
+					{
+						left = 0.5 * ContW - (1.5 * 0.0175);
+					};
 				};
 
 				class CAS_UI_SendData: ctrlButton
@@ -996,7 +1002,7 @@ class cTab_Tablet_dlg
 					y = smalFmH - ((safezoneH / 40) + (safezoneH / 52));
 					w = 0.5 * ContW;
 					h = "safezoneH / 53";
-					text = "Abort Task";
+					text = "$STR_BCE_Abort_Task";
 					font = "PuristaMedium";
 					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					colorBackground[] = {1,0.25,0.25,0.5};
@@ -1038,6 +1044,7 @@ class cTab_Tablet_dlg
 					ExpPOS(1,0.5,1);
 					periodFocus = 0;
 					periodOver = 0;
+					textureNoShortcut="\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa";
 				};
 				class New_Task_AttackType_Title: New_Task_Ctrl_Title
 				{
@@ -1063,6 +1070,11 @@ class cTab_Tablet_dlg
 					text = "$STR_BCE_OrdnanceREQ_BNT";
 					BCE_Desc = "$STR_BCE_DECS_sm_Ordnance";
 					ExpPOS(5.5,0.575,1);
+					
+					class ShortcutPos: ShortcutPos
+					{
+						left = 0.575 * ContW - (1.5 * 0.0175);
+					};
 				};
 
 				//-IP
@@ -1075,7 +1087,7 @@ class cTab_Tablet_dlg
 					strings[] =
 					{
 						"$STR_BCE_Tit_Map_marker",
-						"“BFT” Marker",
+						"$STR_BCE_Tit_BFT_marker",
 						"$STR_BCE_Tit_OverHead"
 					};
 					onToolBoxSelChanged = _this + [false,TASK_OFFSET] call BCE_fnc_ToolBoxChanged;
@@ -1087,7 +1099,7 @@ class cTab_Tablet_dlg
 					strings[] =
 					{
 						"$STR_BCE_Tit_Map_marker",
-						"“BFT” Marker"
+						"$STR_BCE_Tit_BFT_marker"
 					};
 				};
 				class New_Task_MarkerCombo: RscCombo
@@ -1247,6 +1259,7 @@ class cTab_Tablet_dlg
 					idc = idc_D(2022);
 					ExpPOS(7.65,1/3,1);
 					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+					tooltip = "$STR_BCE_tip_Attack_Range";
 					class Items
 					{
 						class 2000m
@@ -1273,13 +1286,13 @@ class cTab_Tablet_dlg
 					Style = 2;
 					show = 0;
 					text = "1";
-					tooltip = "Round Count";
+					tooltip = "$STR_BCE_tip_Round_Count";
 					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 				};
 				class Attack_Height_Combo: Round_Count_Box
 				{
 					idc = idc_D(2024);
-					tooltip = "Attack Height ASL (m)";
+					tooltip = "$STR_BCE_tip_Attack_Height";
 					text = "2000";
 				};
 			};
@@ -1487,7 +1500,7 @@ class cTab_TAD_dlg
 #define phoneSizeH ((((626) - (60) - (0))) / 2048 * (PhoneW * 4/3))
 
 #define TextSize (((38)) / 2048 * (PhoneH * 4/3))
-#define TextMenu "1"
+#define TextMenu "1.1"
 
 #define PhoneMarkerColor \
 	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048 * PhoneW + (safezoneX + (safezoneW - PhoneW) / 2) + ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW; \

@@ -178,7 +178,7 @@ addMissionEventHandler ["Map", {
       player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
 
       //UI
-      _gunner = [name _turret_Unit,"--"] select ((_turret_Unit isEqualTo objNull) or (name (driver _vehicle) == name _turret_Unit));
+      _gunner = [name _turret_Unit,"--"] select ((_turret_Unit isEqualTo objNull) || (name (driver _vehicle) == name _turret_Unit));
       ((uiNameSpace getVariable "BCE_TGP") displayCtrl 1029) ctrlSetText (format ["Gunner: %1", _gunner]);
     };
   },
@@ -209,7 +209,7 @@ addMissionEventHandler ["Map", {
       player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
 
       //UI
-      _gunner = [name _turret_Unit,"--"] select ((_turret_Unit isEqualTo objNull) or (name (driver _vehicle) == name _turret_Unit));
+      _gunner = [name _turret_Unit,"--"] select ((_turret_Unit isEqualTo objNull) || (name (driver _vehicle) == name _turret_Unit));
       ((uiNameSpace getVariable "BCE_TGP") displayCtrl 1029) ctrlSetText (format ["Gunner: %1", _gunner]);
     };
   },
@@ -223,7 +223,7 @@ addMissionEventHandler ["Map", {
   "Better CAS Environment (TGP)","Unit_Tracker_Box",
   SetTitle("STR_BCE_Toggle","STR_BCE_Tracker_Box"),
   {
-    if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
+    if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
       SwitchSound;
       if (player getVariable ["TGP_view_Unit_Tracker_Box",true]) then {
         player setVariable ["TGP_view_Unit_Tracker_Box",false];
@@ -240,7 +240,7 @@ addMissionEventHandler ["Map", {
   "Better CAS Environment (TGP)","Unit_Tracker",
   SetTitle("STR_BCE_Toggle","STR_BCE_Unit_Tracker"),
   {
-    if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
+    if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
       SwitchSound;
       if (player getVariable ["TGP_view_Unit_Tracker",true]) then {
         player setVariable ["TGP_view_Unit_Tracker",false];
@@ -257,7 +257,7 @@ addMissionEventHandler ["Map", {
   "Better CAS Environment (TGP)","Compass",
   SetTitle("STR_BCE_Toggle","STR_BCE_3D_Compass"),
   {
-    if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
+    if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
       SwitchSound;
       if (player getVariable ["TGP_view_3D_Compass",true]) then {
         player setVariable ["TGP_view_3D_Compass",false];
@@ -316,7 +316,7 @@ addMissionEventHandler ["Map", {
   "Better CAS Environment (TGP)","LandMark_Icon",
   SetTitle("STR_BCE_Toggle","STR_BCE_LandMark_Icon"),
   {
-    if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
+    if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
       SwitchSound;
       if (player getVariable ["TGP_view_LandMark_Icon",true]) then {
         player setVariable ["TGP_view_LandMark_Icon",false];
@@ -362,7 +362,7 @@ addMissionEventHandler ["Map", {
         _Weapon_Index = _weapons find _selectWeapon;
 
         //Dont Have other muzzle
-        if ((_selectMuzzle == "this") or (_selectMuzzle == _selectWeapon)) then {
+        if ((_selectMuzzle == "this") || (_selectMuzzle == _selectWeapon)) then {
 
           //-Select Weapon
           if (_Weapon_Index >= ((count _weapons) - 1)) then {
@@ -405,7 +405,7 @@ addMissionEventHandler ["Map", {
 
       // - Debug
       _Muzzles = getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "muzzles");
-      if ((_selectMuzzle == "this") or (_selectMuzzle == _selectWeapon)) then {
+      if ((_selectMuzzle == "this") || (_selectMuzzle == _selectWeapon)) then {
         _selectMuzzle = _selectWeapon;
       };
       if (isnil{_selectMode}) then {
@@ -424,9 +424,9 @@ addMissionEventHandler ["Map", {
   "Better CAS Environment (TGP)","TouchMark",
   localize "STR_BCE_Set_Touch_Marker",
   {
-    if (!(IsTGP_CAM_ON) or (isNull findDisplay 1022553)) exitWith {};
+    if (!(IsTGP_CAM_ON) || (isNull findDisplay 1022553)) exitWith {};
     _list = allUnits select {
-      ((_x getVariable ["AHUD_Actived",-1]) != -1) or ((_x getVariable ["TGP_View_EHs",-1]) != -1)
+      ((_x getVariable ["AHUD_Actived",-1]) != -1) || ((_x getVariable ["TGP_View_EHs",-1]) != -1)
     };
     [selectRandom ["TacticalPing2","TacticalPing3","TacticalPing4"]] remoteExecCall ["playSound",_list,true];
 
@@ -443,7 +443,7 @@ addMissionEventHandler ["Map", {
         params ["_end","_pos_old","_unit"];
         _last_time = _end - time;
         _unit setVariable ["TGP_View_Marker_last",_last_time,true];
-        ((time >= _end) or !(_pos_old isEqualTo (_unit getVariable "TGP_View_Mark")))
+        ((time >= _end) || !(_pos_old isEqualTo (_unit getVariable "TGP_View_Mark")))
         }, {
           params ["_end","_pos_old","_unit"];
           /* if (time >= _end) then {

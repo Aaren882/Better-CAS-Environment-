@@ -327,17 +327,4 @@
 	#define MAP_MODE 3
 #endif
 
-//-Clean up
-#if MAP_MODE > 0
-	class cTab_Tablet_RscMapControl: RscMapControl{};
-	class cTab_android_RscMapControl: RscMapControl{};
-	class cTab_microDAGR_RscMapControl: RscMapControl{};
-	class cTab_TAD_RscMapControl: RscMapControl{};
-#else
-	class cTab_Tablet_RscMapControl;
-	class cTab_android_RscMapControl;
-	class cTab_microDAGR_RscMapControl;
-	class cTab_TAD_RscMapControl;
-#endif
-
-//-Change TOPO -> Enhanced GPS
+class cTab_RscMapControl;

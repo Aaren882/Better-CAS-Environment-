@@ -1,11 +1,12 @@
 params ["_control",["_lbCurSel",-1]];
+private ["_display","_desc","_text","_desc_text","_type"];
 
 _display = ctrlParent _control;
 _desc = _display displayCtrl (17000 + 1788);
 
 //-Exit if it's empty
 if (_lbCurSel == -1) exitWith {
-  _desc ctrlSetStructuredText parseText "No Info...";
+  _desc ctrlSetStructuredText parseText localize "STR_BCE_No_Info";
 };
 
 uiNameSpace setVariable ['BCE_CAS_MainList_selected', _lbCurSel];
@@ -21,7 +22,7 @@ _type = "";
   ["CannonCore","Cannon"],
   ["MGun","Gun"],
   ["RocketPods","Rocket"],
-  ["","Missile",getNumber (configFile >> "CfgWeapons" >> _class >> "weaponLockSystem") > 0],
+  ["","Missile",getNumber (configFile >> "CfgWeapons" >> _class >> "canLock") > 0],
   ["weapon_LGBLauncherBase","Bomb"],
   ["Mk82BombLauncher","Bomb"],
   ["USAF_BombLauncherBase","Bomb"]
@@ -117,7 +118,7 @@ if ("USAF" in _class) then {
   };
 
   if (_desc_text == "") then {
-    _desc_text = "No Info...";
+    _desc_text = localize "STR_BCE_No_Info";
   };
 
   _desc_text = format [
@@ -130,8 +131,26 @@ if ("USAF" in _class) then {
 };
 
 if (_desc_text == "") then {
-  _desc_text = "None Description.";
+  _desc_text = localize "STR_BCE_No_Info";
 };
 
 _text = format ["<t size='0.9'>%1</t> :<br/> %2",_WeapName,_desc_text];
+{ 
+  _x params ["_i","_t",["_add",""]]; 
+  _text = [_text, _i, (localize _t) + _add] call CBA_fnc_replace; 
+} count [ 
+  ["Type","STR_BCE_Type"], 
+  ["Guidance","STR_BCE_Guidance"], 
+  ["Weight","STR_BCE_Weight"], 
+  ["Max Range","STR_BCE_Max_Range"], 
+  ["Warhead:","STR_BCE_Warhead",":<br/>"], 
+  ["Cost","STR_BCE_Cost"], 
+  ["Function","STR_BCE_Function"],
+  ["Power Requirements","STR_BCE_Power_Requirements"],
+  ["CLASSIFIED TOP SECRET","STR_BCE_Classified"],
+  ["Classified","STR_BCE_Classified"],
+  ["Payload","STR_BCE_Payload"],
+  ["None","STR_BCE_None"]
+];
+
 _desc ctrlSetStructuredText parseText _text;

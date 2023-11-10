@@ -166,7 +166,7 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
   _sendData ctrlSetFade 0;
 
   if (count (_vehicle getVariable ["BCE_Task_Receiver",[]]) > 0) then {
-    _sendData ctrlSetText "Abort Mission";
+    _sendData ctrlSetText localize "STR_BCE_Abort_Task";
   };
 
   if !(isnull _vehicle) then {

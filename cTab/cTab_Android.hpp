@@ -439,13 +439,13 @@ PHONE_CLASS
 				class IP2TG_T: CtrlType
 				{
 					text="1-3";
-					ATAK_POS(0,(3.65 + (0.35/2)),1,0.65);
+					ATAK_POS(0,(3.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_IPBP_Info";
 				};
 				class IP2TG_EditBnt: BCE_RscButtonMenu
 				{
 					idc = idc_D(2025);
-					ATAK_POS(0.4,(3.65 + (0.35/2)),2.5,0.65);
+					ATAK_POS(0.4,(3.6 + (0.35/2)),2.5,0.7);
 					sizeEx = TextSize;
 					text = "T1 , 360° , 1200m";
 					
@@ -472,13 +472,13 @@ PHONE_CLASS
 				class Line4_T: CtrlType
 				{
 					text="4";
-					ATAK_POS(0,(4.65 + (0.35/2)),1,0.65);
+					ATAK_POS(0,(4.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_ELEV";
 				};
 				class L94_EditBnt: IP2TG_EditBnt
 				{
 					idc = idc_D(2026);
-					ATAK_POS(0.2,(4.65 + (0.35/2)),2.7,0.65);
+					ATAK_POS(0.2,(4.6 + (0.35/2)),2.7,0.7);
 					text = "535ft MSL DTED1";
 				};
 
@@ -486,13 +486,13 @@ PHONE_CLASS
 				class Line5_T: CtrlType
 				{
 					text="5";
-					ATAK_POS(0,(5.65 + (0.35/2)),1,0.65);
+					ATAK_POS(0,(5.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_DESC";
 				};
 				class L95_EditBnt: IP2TG_EditBnt
 				{
 					idc = idc_D(2027);
-					ATAK_POS(0.2,(5.65 + (0.35/2)),2.7,0.65);
+					ATAK_POS(0.2,(5.6 + (0.35/2)),2.7,0.7);
 					text = "Custom Description";
 				};
 				class L95_EditText: RscEdit
@@ -509,13 +509,13 @@ PHONE_CLASS
 				class Line6_T: CtrlType
 				{
 					text="6";
-					ATAK_POS(0,(7.65 + (0.35/2)),1,0.65);
+					ATAK_POS(0,(7.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_GRID";
 				};
 				class L96_EditBnt: IP2TG_EditBnt
 				{
 					idc = 2028;
-					ATAK_POS(0.2,(7.65 + (0.35/2)),2.7,0.65);
+					ATAK_POS(0.2,(7.6 + (0.35/2)),2.7,0.7);
 					text = "XT 123456";
 				};
 				
@@ -523,13 +523,13 @@ PHONE_CLASS
 				class Line7_T: CtrlType
 				{
 					text="7";
-					ATAK_POS(0,(8.65 + (0.35/2)),1,0.65);
+					ATAK_POS(0,(8.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_MARK";
 				};
 				class L97_EditBnt: IP2TG_EditBnt
 				{
 					idc = 2028;
-					ATAK_POS(0.2,(8.65 + (0.35/2)),2.7,0.65);
+					ATAK_POS(0.2,(8.6 + (0.35/2)),2.7,0.7);
 					text = "NO MARKS";
 				};
 				
@@ -537,26 +537,26 @@ PHONE_CLASS
 				class Line8_T: CtrlType
 				{
 					text="8";
-					ATAK_POS(0,(9.65 + (0.35/2)),1,0.65);
+					ATAK_POS(0,(9.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_FRND";
 				};
 				class L98_EditBnt: IP2TG_EditBnt
 				{
 					idc = 2028;
-					ATAK_POS(0.2,(9.65 + (0.35/2)),2.7,0.65);
+					ATAK_POS(0.2,(9.6 + (0.35/2)),2.7,0.7);
 					text = "None";
 				};
 				//-Line 9
 				class Line9_T: CtrlType
 				{
 					text="9";
-					ATAK_POS(0,(10.65 + (0.35/2)),1,0.65);
+					ATAK_POS(0,(10.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_EGRS";
 				};
 				class L99_EditBnt: IP2TG_EditBnt
 				{
 					idc = 2028;
-					ATAK_POS(0.2,(10.65 + (0.35/2)),2.7,0.65);
+					ATAK_POS(0.2,(10.6 + (0.35/2)),2.7,0.7);
 					text = "Back To IP";
 				};
 
@@ -571,13 +571,13 @@ PHONE_CLASS
 				{
 					text="Remarks/Restrictions";
 					ATAK_POS(0,(12.7 + (0.35/2)),3,1);
-					sizeEx = 0.8 * TextSize;
+					sizeEx = 0.85 * TextSize;
 					font = "RobotoCondensedBold_BCE";
 					tooltip="$STR_BCE_TIP_Remarks";
 				};
 				class AddRemark: BCE_RscButtonMenu
 				{
-					ATAK_POS((2.4+0.15/2),(12.8 + (0.35/2)),0.4,0.65);
+					ATAK_POS((2.4+0.15/2),(12.8 + (0.35/2)),0.4,0.7);
 					
 					//-Style
 					colorBackground[] = {0,0,0,0.5};
@@ -589,6 +589,7 @@ PHONE_CLASS
 					animTextureOver = "#(argb,8,8,3)color(0,0,0,0.5)";
 					animTextureFocused = "#(argb,8,8,3)color(0,0,0,0.8)";
 					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
+					tooltip = "$STR_BCE_TIP_AddRemark";
 					
 					text = "<img image='a3\3den\data\displays\display3den\panelleft\entitylist_layer_ca.paa' valign='middle'/>";
 					class Attributes
