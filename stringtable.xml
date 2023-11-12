@@ -808,7 +808,7 @@
 		
 		
 		<Key ID="STR_BCE_Toggle">
-            <Original>Toggle</Original>
+            <Original>Toggle </Original>
 			<Chinese>切換</Chinese>
         </Key>
 		<Key ID="STR_BCE_Optic_Mode">
@@ -866,8 +866,67 @@
             <Original>Set Touch Marker</Original>
 			<Chinese>設置點擊標記</Chinese>
         </Key>
+
+
+		<Key ID="STR_BCE_Slew_TG">
+            <Original>Slew TG</Original>
+			<Chinese>轉向目標</Chinese>
+        </Key>
+		<Key ID="STR_BCE_AV_Camera">
+            <Original>AV Camera</Original>
+			<Chinese>飛行器畫面</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Select_AV_Camera">
+            <Original>Select AV Camera</Original>
+			<Chinese>選擇飛行器畫面</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Spot_Light">
+            <Original>Spot Light</Original>
+			<Chinese>探照燈</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Spot_Light_IR">
+            <Original>Spot Light (IR)</Original>
+			<Chinese>探照燈(紅外線)</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Laser_Red">
+            <Original>Laser (Red)</Original>
+			<Chinese>雷射(紅色)</Chinese>
+        </Key>
+        <Key ID="STR_BCE_Laser_Green">
+            <Original>Laser (Green)</Original>
+			<Chinese>雷射(綠色)</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Laser_IR">
+            <Original>Laser (IR)</Original>
+			<Chinese>雷射(紅外線)</Chinese>
+        </Key>
 		
 		
+		<Key ID="STR_BCE_Title_HUD_Settings">
+            <Original>HUD Settings</Original>
+			<Chinese>HUD設定</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Title_Aircraft_Camera">
+            <Original>Aircraft Camera</Original>
+			<Chinese>飛行器鏡頭</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Title_AV_Cam_Settings">
+            <Original>AV Camera Settings</Original>
+			<Chinese>不透明度</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Title_LaserDesign_Settings">
+            <Original>IR Laser Designation</Original>
+			<Chinese>IR 雷射指示</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Title_Turret_Gunner">
+            <Original>Turret Gunner</Original>
+			<Chinese>砲台砲手</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Title_CAS_Receiver">
+            <Original>CAS Receiver</Original>
+			<Chinese>CAS接收器</Chinese>
+        </Key>
+
 		<Key ID="STR_BCE_Opacity">
             <Original>Opacity</Original>
 			<Chinese>不透明度</Chinese>
