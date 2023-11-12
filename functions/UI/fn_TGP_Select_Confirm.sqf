@@ -102,8 +102,8 @@ _Gunner_ctrl = _display displayCtrl 1029;
 _Vehicle_ctrl = _display displayCtrl 1030;
 
 //UI
-_pilot_ctrl ctrlSetText (format ["Pilot: %1", _pilot]);
-_Gunner_ctrl ctrlSetText (format ["Gunner: %1", _gunner]);
+_pilot_ctrl ctrlSetText (format ["%1: %2", localize "str_position_pilot", _pilot]);
+_Gunner_ctrl ctrlSetText (format ["%1: %2",localize "STR_GUNNER", _gunner]);
 _Vehicle_ctrl ctrlSetText (getText (_config_path >> "DisplayName"));
 
 //-widgets
@@ -163,14 +163,9 @@ _idEH = addMissionEventHandler ["Draw3D", {
   #if __has_include("\A3TI\config.bin")
     _A3TI = call A3TI_fnc_getA3TIVision;
     if (_visionType == 2) then {
-      _vision_ctrl ctrlSetText format ["CMODE %1",[_A3TI, "NORMAL"] select (isnil {_A3TI})];
+      _vision_ctrl ctrlSetText format ["%1 %2", localize "STR_BCE_CMODE",[_A3TI, "NORMAL"] select (isnil {_A3TI})];
     };
   #endif
-
-  /* _camDir = (_vehicle selectionVectorDirAndUp [_TGP, "Memory"]) # 0;
-  //_camDir = (_vehicle selectionPosition "PiP0_pos") vectorFromTo (_vehicle selectionPosition "PiP0_dir");
-  _cam setVectorDirAndUp [_camDir,_camDir vectorCrossProduct [-(_camDir # 1), _camDir # 0, 0]];*/
-  //hintSilent str [[_camDir,_camDir vectorCrossProduct [-(_camDir # 1), _camDir # 0, 0]],_TGP];
 
   //UI Update
   _time_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Time",call BCE_fnc_UpdateTime]);
@@ -223,8 +218,8 @@ _idEH = addMissionEventHandler ["Draw3D", {
     _Mode_ctrl ctrlSetText "";
     _Ammo_ctrl ctrlSetText "";
   } else {
-    _Mode_ctrl ctrlSetText (format ["Mode: %1", getText (configFile >> "CfgWeapons" >> _infoWeapon >> _infomode >> "DisplayName")]);
-    _Ammo_ctrl ctrlSetText (format ["Ammo: %1  %2", getText (configFile >> "CfgMagazines" >> _infomagazine >> "displayNameShort"), _ammoCount]);
+    _Mode_ctrl ctrlSetText (format ["%1: %2", localize "str_a3_firemode1", getText (configFile >> "CfgWeapons" >> _infoWeapon >> _infomode >> "DisplayName")]);
+    _Ammo_ctrl ctrlSetText (format ["%1: %2  %3",localize "STR_DISP_ARCUNIT_AMMO", getText (configFile >> "CfgMagazines" >> _infomagazine >> "displayNameShort"), _ammoCount]);
   };
 
   _Weapon_ctrl ctrlSetTextColor ([[1,1,1,1],[0.76,0.71,0.215,1]] select ((_roundReloadPhase > 0) or (_magazineReloadPhase > 0)));

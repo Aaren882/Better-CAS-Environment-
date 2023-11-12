@@ -61,7 +61,7 @@ switch _curLine do {
 
     private _text = ctrlText _ctrl4;
     private _isEmptyInfo = ((_text == localize "STR_BCE_MarkWith") or (_text == ""));
-    private _info = [format ["with :[%1]",toUpper _text],"with :[NA]"] select _isEmptyInfo;
+    private _info = format ["%1 :[%2]", localize "STR_BCE_With", [toUpper _text, "NA"] select _isEmptyInfo];
 
     if _isEmptyInfo then {
       _ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
@@ -206,7 +206,7 @@ switch _curLine do {
 
         //-Debug
         if ((_TextInfo == "") or (_TextInfo == localize "STR_BCE_Bearing_ENT") or isnil{(call compile _TextInfo)}) exitWith {
-          hint "Wrong Input!!";
+          hint localize "STR_BCE_Error_InputVal";
           _ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
         };
 
@@ -234,7 +234,7 @@ switch _curLine do {
 (_taskVar # 0) pushBackUnique ((_display displayCtrl (_IDC_offset + 2005)) lbText 0);
 
 //-2 Friendly
-if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && !("with :" in (_taskVar # 1 # 0))) then {
+if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && (!((localize "STR_BCE_With") in (_taskVar # 8 # 0)) || (_isOverwrite))) then {
   private ["_taskVar_1","_taskVar_2","_HDG","_dist","_cardinaldir","_InfoText","_info","_isEmptyInfo"];
   _taskVar_1 = _taskVar # 1;
   _taskVar_2 = _taskVar # 2;
@@ -248,7 +248,7 @@ if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && !("with :" i
   _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
 
   _info = [
-    format ["“%1” %2m [%3] with: [%4]", _cardinaldir, _dist, GetGRID(_TGPOS,8), toUpper _InfoText],
+    format ["“%1” %2m [%3] %4: [%5]", _cardinaldir, _dist, GetGRID(_TGPOS,8), localize "STR_BCE_With", toUpper _InfoText],
     format ["“%1” %2m [%3]", _cardinaldir, _dist, GetGRID(_TGPOS,8)]
   ] select _isEmptyInfo;
 

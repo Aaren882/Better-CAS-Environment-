@@ -164,7 +164,7 @@ PHONE_CLASS
 			class controls
 			{
 				#define PhoneBFTContainerW(AxisX) AxisX*((phoneSizeW * 2/5)/3)
-				#define ATAK_APP(APP,TITLE) #<t align='center'><img size=3 image=APP/><br/>TITLE</t>
+				
 				class actMSGtxt: BCE_RscButtonMenu
 				{
 					idc = 4660 + 100;
@@ -189,10 +189,22 @@ PHONE_CLASS
 					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
 	
 					action = "['cTab_Android_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
+					
+					class TextPos
+					{
+						left = "0.25 * (((safezoneW / safezoneH) min 1.2) / 40)";
+						top = (phoneSizeW * 3/5)/3/20;
+						right = 0.0049999999;
+						bottom = 0;
+					};
+					
 					class Attributes
 					{
+						valign = "middle";
 						font = "RobotoCondensed_BCE";
 						color = "#E5E5E5";
+						align = "center";
+						size = __EVAL(3/TextTimes);
 					};
 				};
 				class actTKBtxt: actMSGtxt
@@ -462,9 +474,9 @@ PHONE_CLASS
 					
 					class Attributes: Attributes
 					{
-						align="center";
+						align = "center";
 						font = "RobotoCondensedBold_BCE";
-						size=TextMenu;
+						size = TextMenu;
 					};
 				};
 

@@ -20,7 +20,7 @@ switch _type do {
         _index = _ctrlList lbAdd (_classes # _forEachIndex);
 
         _text = if (_index == 3) then {
-          format ["%1 with: [%2]", trim(_x # 1), trim(_x # 2)]
+          format ["%1 %2: [%3]", trim(_x # 1),localize "STR_BCE_With", trim(_x # 2)]
         } else {
           _x # 0
         };

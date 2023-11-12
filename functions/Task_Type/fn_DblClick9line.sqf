@@ -210,7 +210,7 @@ switch _curLine do {
     _Info = if _isEmptyInfo then {
       localize "STR_BCE_MarkWith"
     } else {
-      format ["with :[%1]",_taskVar_8 # 4]
+      format ["%1 :[%2]", localize "STR_BCE_With",_taskVar_8 # 4]
     };
 
     //-Back to previous status

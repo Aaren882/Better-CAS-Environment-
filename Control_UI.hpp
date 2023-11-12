@@ -103,9 +103,6 @@ class RscDisplayMainMap
 		//-POLPOX map tools
 		#if __has_include("\PLP_MapTools\config.bin")
 			#define PLP_TOOL 1
-		#endif
-		
-		#ifdef PLP_TOOL
 			class BCE_MapTools_Tooltip: BCE_Task_toggle
 			{	
 				idc = 1609;
@@ -403,7 +400,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 1516;
 			y = "0.63 * safezoneH + safezoneY";
-			text = "$STR_DRIVER";
+			text = "$str_position_pilot";
 		};
 		class TGP_Value_Driver: AVT_Value_Fuel
 		{
@@ -1000,6 +997,7 @@ class RscDisplayAVTerminal
 			ExpPOS(2,0.5,1);
 			text = "";
 			canModify = 0;
+			tooltip = "$STR_BCE_tip_ShowResult";
 		};
 
 		//-TG Description
@@ -1064,8 +1062,8 @@ class RscDisplayAVTerminal
 			columns = 4;
 			strings[] =
 			{
-				"Azimuth",
-				"Bearing",
+				"$STR_BCE_Tit_Azimuth",
+				"$STR_BCE_Tit_Bearing",
 				"$STR_BCE_Tit_Map_marker",
 				"$STR_BCE_Tit_OverHead"
 			};

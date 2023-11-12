@@ -111,6 +111,9 @@ _sendData_POS = ctrlPosition _sendData;
 
 _list_Title ctrlSetText ([localize "STR_BCE_TL_Check_List",format["%1 (%2)",localize "STR_BCE_TL_Create_Task", localize "STR_BCE_DoubleClick"]] select (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]));
 
+
+_sendData ctrlSetText localize (["STR_BCE_SendData","STR_BCE_Abort_Task"] select (count (_vehicle getVariable ["BCE_Task_Receiver",[]]) > 0));
+
 if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
   private _To_BottomH = 1 - (((_MainList_POS # 1) - safezoneY) / safezoneH);
 
@@ -164,10 +167,6 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
 
   _lastPage ctrlSetFade 0;
   _sendData ctrlSetFade 0;
-
-  if (count (_vehicle getVariable ["BCE_Task_Receiver",[]]) > 0) then {
-    _sendData ctrlSetText localize "STR_BCE_Abort_Task";
-  };
 
   if !(isnull _vehicle) then {
     private _checklist = _display displayCtrl 2020;

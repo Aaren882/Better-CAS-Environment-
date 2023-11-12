@@ -1133,7 +1133,7 @@ class cTab_Tablet_dlg
 					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					show = 0;
 					colorBackground[] = {0,0,0,0};
-					tooltip = "This shows the input result";
+					tooltip = "$STR_BCE_tip_ShowResult";
 				};
 
 				//-TG Description
@@ -1199,8 +1199,8 @@ class cTab_Tablet_dlg
 					columns = 4;
 					strings[] =
 					{
-						"Azimuth",
-						"Bearing",
+						"$STR_BCE_Tit_Azimuth",
+						"$STR_BCE_Tit_Bearing",
 						"$STR_BCE_Tit_Map_marker",
 						"$STR_BCE_Tit_OverHead"
 					};
@@ -1500,12 +1500,16 @@ class cTab_TAD_dlg
 #define phoneSizeH ((((626) - (60) - (0))) / 2048 * (PhoneW * 4/3))
 
 #define TextSize (((38)) / 2048 * (PhoneH * 4/3))
+#define TextTimes 1
 #define TextMenu "1.1"
+
+#define ATAK_APP(APP,TITLE) #<img image=APP/><br/><t size='1'>TITLE</t>
 
 #define PhoneMarkerColor \
 	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048 * PhoneW + (safezoneX + (safezoneW - PhoneW) / 2) + ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW; \
 	y = #((713) + ((60) - (38)) / 2) / 2048 * (PhoneW * 4/3) + (safezoneY + (safezoneH - (PhoneW * 4/3)) / 2); \
 	w = #2.5*(((42)) / 2048 * PhoneW); \
 	h = #(((60) - (20))) / 2048 * (PhoneW * 4/3)
+
 //-Phone display
 #include "cTab_Android.hpp"

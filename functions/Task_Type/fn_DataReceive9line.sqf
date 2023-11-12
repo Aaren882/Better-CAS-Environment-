@@ -20,7 +20,7 @@ switch _curLine do {
     _setCount = call compile (ctrlText _CTcount);
     _height = call compile (ctrlText _CTHeight);
 
-    if (isnil{_setCount} or isnil{_height}) exitWith {};
+    if (isnil{_setCount} || isnil{_height}) exitWith {};
 
     if (_setCount > _Count) then {
       _setCount = _Count;
@@ -74,7 +74,7 @@ switch _curLine do {
         _taskVar set [1,["NA",[]]];
       };
     } else {
-      if ((lbCurSel _ctrl1 == 1) or (_isOverwrite)) then {
+      if ((lbCurSel _ctrl1 == 1) || (_isOverwrite)) then {
         _TGPOS = uinamespace getVariable [["BCE_MAP_ClickPOS","BCE_IP/BP"] select _isOverwrite,[]];
 
         //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:Elevation]
@@ -173,18 +173,18 @@ switch _curLine do {
     _shownCtrls params ["_ctrl1"];
 
     private _text = toUpper (trim (ctrlText _ctrl1));
-    private _isEmptyInfo = ((_text == localize "STR_BCE_MarkWith") or (_text == ""));
-    private _info = [format [" with :[%1]",_text],""] select _isEmptyInfo ;
+    private _isEmptyInfo = ((_text == localize "STR_BCE_MarkWith") || (_text == ""));
+    private _info = [format [" %1 :[%2]", localize "STR_BCE_With", _text],""] select _isEmptyInfo ;
 
     if _isEmptyInfo then {
       _ctrl1 ctrlSetText localize "STR_BCE_MarkWith";
     };
 
-    if (_text != "") then {
-      _taskVar set [7,[_info,_text]];
-    } else {
-      _taskVar set [7,["NA"]];
-    };
+    _taskVar set [7,[
+        ["NA"],
+        [_info,_text]
+      ] select (_text != "")
+    ];
   };
 
   //-Friendlies
@@ -192,8 +192,8 @@ switch _curLine do {
     _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
 
     private _text = ctrlText _ctrl4;
-    private _isEmptyInfo = ((_text == localize "STR_BCE_MarkWith") or (_text == ""));
-    private _info = [format ["with :[%1]",toUpper _text],"with :[NA]"] select _isEmptyInfo;
+    private _isEmptyInfo = ((_text == localize "STR_BCE_MarkWith") || (_text == ""));
+    private _info = format ["%1 :[%2]", localize "STR_BCE_With", [toUpper _text,"NA"] select _isEmptyInfo];
     if _isEmptyInfo then {
       _ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
     };
@@ -218,7 +218,7 @@ switch _curLine do {
         _taskVar set [8,["NA","",[],[0,0],""]];
       };
     } else {
-      if ((lbCurSel _ctrl1 == 1) or (_isOverwrite)) then {
+      if ((lbCurSel _ctrl1 == 1) || (_isOverwrite)) then {
         _TGPOS = uinamespace getVariable [["BCE_MAP_ClickPOS","BCE_FRND"] select _isOverwrite,[]];
 
         //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:CurSel, 5: Mark Info]
@@ -266,8 +266,8 @@ switch _curLine do {
       _TextInfo = ctrlText _ctrl2;
 
       //-Debug
-      if ((_TextInfo == "") or (_TextInfo == localize "STR_BCE_Bearing_ENT") or isnil{(call compile _TextInfo)}) exitWith {
-        hint "Wrong Input!!";
+      if ((_TextInfo == "") || (_TextInfo == localize "STR_BCE_Bearing_ENT") || isnil{(call compile _TextInfo)}) exitWith {
+        hint localize "STR_BCE_Error_InputVal";
         _ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
       };
 
@@ -285,7 +285,7 @@ switch _curLine do {
       if (lbCurSel _ctrl1 == 3) then {
         _TGPOS = getpos cameraOn;
         _TGPOS set [2,0];
-        _marker = "OverHead";
+        _marker = localize "STR_BCE_Tit_OverHead";
       };
     };
 
@@ -320,7 +320,7 @@ switch _curLine do {
         _TextInfo = ctrlText _ctrl2;
 
         //-Debug
-        if ((_TextInfo == "") or (_TextInfo == localize "STR_BCE_Bearing_ENT") or isnil{(call compile _TextInfo)}) exitWith {
+        if ((_TextInfo == "") || (_TextInfo == localize "STR_BCE_Bearing_ENT") || isnil{(call compile _TextInfo)}) exitWith {
           hint "Wrong Input!!";
           _ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
         };
@@ -386,7 +386,7 @@ if ((_taskVar # 6 # 0) != "NA") then {
 };
 
 //-8 Friendlies
-if (((_taskVar # 8 # 0) != "NA") && ((_taskVar # 6 # 0) != "NA")  && !("with:" in (_taskVar # 8 # 0))) then {
+if (((_taskVar # 8 # 0) != "NA") && ((_taskVar # 6 # 0) != "NA") && (!((localize "STR_BCE_With") in (_taskVar # 8 # 0)) || (_isOverwrite))) then {
   private ["_taskVar_6","_taskVar_8","_HDG","_dist","_cardinaldir","_InfoText","_info","_isEmptyInfo"];
   _taskVar_6 = _taskVar # 6;
   _taskVar_8 = _taskVar # 8;
@@ -397,10 +397,10 @@ if (((_taskVar # 8 # 0) != "NA") && ((_taskVar # 6 # 0) != "NA")  && !("with:" i
   _dist = round (((_taskVar_6 # 2) distance2D _TGPOS) / 10) * 10;
   _cardinaldir = _HDG call BCE_fnc_getAzimuth;
   _InfoText = _taskVar_8 # 4;
-  _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
+  _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") || (_InfoText == ""));
 
   _info = [
-    format ["“%1” %2m with: [%3]", _cardinaldir, _dist, toUpper _InfoText],
+    format ["“%1” %2m %3: [%4]", _cardinaldir, _dist, localize "STR_BCE_With", toUpper _InfoText],
     format ["“%1” %2m", _cardinaldir, _dist]
   ] select _isEmptyInfo;
   _taskVar set [8,[_info,_taskVar_8 # 1,_taskVar_8 # 2,_taskVar_8 # 3,_taskVar_8 # 4]];

@@ -4,6 +4,11 @@ params [["_info",""]];
 if (_info isNotEqualTo "") exitWith {
   private ["_vehicle","_current_turret","_condition"];
   _vehicle = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+
+  if (isNull _vehicle) exitWith {
+    ["UAV",localize "STR_BCE_Error_Vehicle",5] call cTab_fnc_addNotification;
+  };
+
   _current_turret = ((cTab_player getVariable ["TGP_View_Selected_Optic",[["",[-1]],objNull]]) # 0) # 1;
 
   _condition = [
@@ -29,7 +34,7 @@ if (_info isNotEqualTo "") exitWith {
     }, [_vehicle], 0.1] call CBA_fnc_WaitAndExecute;
   } else {
 
-    ["UAV","Unable to Control the Turret",5] call cTab_fnc_addNotification;
+    ["UAV",localize "STR_BCE_Error_ControlTurret",5] call cTab_fnc_addNotification;
   };
 };
 
@@ -51,7 +56,7 @@ _View_Cam = {
       _vehicle call BCE_fnc_TGP_Select_Confirm;
     }, [_vehicle], 0.1] call CBA_fnc_WaitAndExecute;
   } else {
-    ["UAV","None Vehicle Selected",5] call cTab_fnc_addNotification;
+    ["UAV",localize "STR_BCE_Error_Vehicle",5] call cTab_fnc_addNotification;
   };
 };
 

@@ -70,6 +70,10 @@
             <Original>TASK</Original>
 			<Chinese>任務</Chinese>
         </Key>
+		<Key ID="STR_BCE_With">
+            <Original>with</Original>
+			<Chinese>標記</Chinese>
+        </Key>
 		
 		<Key ID="STR_BCE_Widgets_TIP_VIC">
             <Original>Vic Info</Original>
@@ -95,6 +99,31 @@
 		<Key ID="STR_BCE_Error_Vehicle">
             <Original>Fail...  Check selected Aircraft.</Original>
 			<Chinese>失敗...檢查所選的載具。</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Error_EngineOff">
+            <Original>Fail... The engine is not running.</Original>
+			<Chinese>失敗...引擎未啟動。</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Error_Task5">
+            <Original>Check 1, 2, 3,and selected Aircraft.</Original>
+			<Chinese>檢查 第1、2、3 和選定的飛機。</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Error_Task9">
+            <Original>Check “Game Plan” ,6 ,8 ,9 ,and selected Aircraft.</Original>
+			<Chinese>檢查 “Game Plan”、第 6、8、9 和選定的飛機。</Chinese>
+        </Key>
+		
+		<Key ID="STR_BCE_Error_ControlTurret">
+            <Original>Unable to Control the Turret.</Original>
+			<Chinese>無法控制砲塔。</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Error_TaskSupport">
+            <Original>Current task is not supported.</Original>
+			<Chinese>不支援當前任務。</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Error_Same_TG_FRD">
+            <Original>Target position can't be the same.</Original>
+			<Chinese>目標不能在相同位置。</Chinese>
         </Key>
 		<Key ID="STR_BCE_Error_Unavailable">
             <Original>This Aircraft is Unavailable for a New Task.</Original>
@@ -161,12 +190,62 @@
 			<Chinese>動力來源</Chinese>
         </Key>
 		
-		
 		<Key ID="STR_BCE_No_Info">
             <Original>No Info...</Original>
 			<Chinese>無資訊...</Chinese>
         </Key>
 		
+		
+		<Key ID="STR_BCE_Cannon">
+            <Original>Cannon</Original>
+			<Chinese>機砲/大砲</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Bomb">
+            <Original>Bomb</Original>
+			<Chinese>炸彈</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Gun">
+            <Original>Gun</Original>
+			<Chinese>機槍</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Rocket">
+            <Original>Rocket</Original>
+			<Chinese>火箭</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Missile">
+            <Original>Missile</Original>
+			<Chinese>導彈</Chinese>
+        </Key>
+		
+		
+		<Key ID="STR_BCE_Laser">
+            <Original>Laser</Original>
+			<Chinese>雷射</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Data_L">
+            <Original>Data-L</Original>
+			<Chinese>資料鏈</Chinese>
+        </Key>
+		<Key ID="STR_BCE_IR">
+            <Original>IR</Original>
+			<Chinese>紅外線</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Active_Rad">
+            <Original>Active-Rad</Original>
+			<Chinese>主動雷達</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Radar">
+            <Original>Radar</Original>
+			<Chinese>雷達</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Pass_Rad">
+            <Original>Pass-Rad</Original>
+			<Chinese>被動雷達</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Anti_Rad">
+            <Original>Anti-Rad</Original>
+			<Chinese>反輻射</Chinese>
+        </Key>
 		
 		
 		<Key ID="STR_BCE_SwitchList">
@@ -255,6 +334,14 @@
             <Original>OverHead</Original>
 			<Chinese>目前位置</Chinese>
         </Key>
+		<Key ID="STR_BCE_Tit_Azimuth">
+            <Original>Azimuth</Original>
+			<Chinese>方位角</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Tit_Bearing">
+            <Original>Bearing</Original>
+			<Chinese>方位</Chinese>
+        </Key>
 		
 		
 		<Key ID="STR_BCE_tip_Attack_Range">
@@ -268,6 +355,10 @@
 		<Key ID="STR_BCE_tip_Attack_Height">
             <Original>Attack Height ASL (m)</Original>
 			<Chinese>攻擊高度 海平面(m)</Chinese>
+			
+        </Key><Key ID="STR_BCE_tip_ShowResult">
+            <Original>This shows the input result</Original>
+			<Chinese>這顯示了輸入結果</Chinese>
         </Key>
 		
 		
@@ -629,8 +720,12 @@
 			<Chinese>按 %1</Chinese>
         </Key>
 		<Key ID="STR_BCE_Exit_Camera">
-            <Original>離開畫面</Original>
+            <Original>Exit Camera</Original>
 			<Chinese>離開畫面</Chinese>
+        </Key>
+		<Key ID="STR_BCE_CMODE">
+            <Original>CMODE</Original>
+			<Chinese>鏡頭模式</Chinese>
         </Key>
 		
 		<Key ID="STR_BCE_Env_temp">

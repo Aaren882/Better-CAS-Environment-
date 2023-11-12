@@ -19,17 +19,18 @@ _desc_text = [_text, ["\n","</br>"] select ("</br>" in _text)] call CBA_fnc_spli
 //-Weapon Type
 _type = "";
 [
-  ["CannonCore","Cannon"],
-  ["MGun","Gun"],
-  ["RocketPods","Rocket"],
-  ["","Missile",getNumber (configFile >> "CfgWeapons" >> _class >> "canLock") > 0],
-  ["weapon_LGBLauncherBase","Bomb"],
-  ["Mk82BombLauncher","Bomb"],
-  ["USAF_BombLauncherBase","Bomb"]
+  ["CannonCore","STR_BCE_Cannon"],
+  ["MGun","STR_BCE_Gun"],
+  ["RocketPods","STR_BCE_Rocket"],
+  ["","STR_BCE_Missile",getNumber (configFile >> "CfgWeapons" >> _class >> "canLock") > 0],
+  ["weapon_LGBLauncherBase","STR_BCE_Bomb"],
+  ["Mk82BombLauncher","STR_BCE_Bomb"],
+  ["USAF_BombLauncherBase","STR_BCE_Bomb"],
+  ["USAF_LGBLauncherBase","STR_BCE_Bomb"]
 ] apply {
   private ["_id","_condition"];
   _x params ["","_id",["_condition",_class isKindOf [_x # 0, configFile >> "CfgWeapons"]]];
-  _type = [_type,_id] select _condition;
+  _type = [_type, localize _id] select _condition;
 };
 
 //-Description formattig
@@ -43,6 +44,30 @@ if ("USAF" in _class) then {
       private ["_i","_str"];
       _i = 0;
       _str = (_x splitString ":") apply {
+
+        //-tell what guidance systems it has
+        if ("/" in _x) then {
+          _x = (_x splitString "/") apply {
+            switch _x do {
+              case "Laser": {
+                localize "STR_BCE_Laser"
+              };
+              case "IR": {
+                localize "STR_BCE_IR"
+              };
+              case "Radar": {
+                localize "STR_BCE_Radar"
+              };
+              case "Anti-Radiation Homing": {
+                localize "STR_BCE_Anti_Rad"
+              };
+              default {
+                _x
+              };
+            };
+          } joinString "/";
+        };
+        
         private _str = [format ["<t size='0.7' color='#e3c500'> %1</t>",trim _x], format [" %1",trim _x]] select (_i == 0);
         _i = _i + 1;
         _str
@@ -67,30 +92,32 @@ if ("USAF" in _class) then {
   //-if the new Targeting Sensor is applied
   _guidance = if (isClass (_config >> "Components" >> "SensorsManagerComponent")) then {
     ("true" configClasses (_config >> "Components" >> "SensorsManagerComponent" >> "Components")) apply {
-      private ["_name"];
+      private ["_name","_result"];
       _name = getText (_x >> "componentType");
       _range = _range max (getNumber (_x >> "GroundTarget" >> "maxRange"));
 
-      switch _name do {
+      _result = switch _name do {
         case "LaserSensorComponent": {
-          "Laser"
+          "STR_BCE_Laser"
         };
         case "DataLinkSensorComponent": {
-          "Data-L"
+          "STR_BCE_Data_L"
         };
         case "IRSensorComponent": {
-          "IR"
+          "STR_BCE_IR"
         };
         case "ActiveRadarSensorComponent": {
-          "Active-Rad"
+          "STR_BCE_Active_Rad"
         };
         case "PassiveRadarSensorComponent": {
-          ["Anti-Rad","Pass-Rad"] select (getNumber (_x >> "allowsMarking") == 0);
+          ["STR_BCE_Anti_Rad","STR_BCE_Pass_Rad"] select (getNumber (_x >> "allowsMarking") == 0);
         };
         default {
           ""
         };
       };
+
+      localize _result
     };
   } else {
     _range = getNumber (_config >> "missileLockMaxDistance");
@@ -99,10 +126,10 @@ if ("USAF" in _class) then {
       if (_name > 0) then {
         switch _x do {
           case "laserLock": {
-            "Laser"
+            "STR_BCE_Laser"
           };
           case "irLock": {
-            "IR"
+            "STR_BCE_IR"
           };
         };
       } else {
@@ -143,7 +170,7 @@ _text = format ["<t size='0.9'>%1</t> :<br/> %2",_WeapName,_desc_text];
   ["Guidance","STR_BCE_Guidance"], 
   ["Weight","STR_BCE_Weight"], 
   ["Max Range","STR_BCE_Max_Range"], 
-  ["Warhead:","STR_BCE_Warhead",":<br/>"], 
+  ["Warhead:","STR_BCE_Warhead"], 
   ["Cost","STR_BCE_Cost"], 
   ["Function","STR_BCE_Function"],
   ["Power Requirements","STR_BCE_Power_Requirements"],

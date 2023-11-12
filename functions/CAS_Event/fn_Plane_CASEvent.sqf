@@ -15,7 +15,7 @@ if ((_vehicle getVariable ["BCE_Task_Receiver", []]) isNotEqualTo []) exitWith {
 hint localize "STR_BCE_DataSent";
 
 if ((isMultiplayer) && (isplayer _vehicle)) then {
-  [["BCE", "Task_Received"],15,"",35,"",false,false,true] remoteExec ["BIS_fnc_advHint",_vehicle,true];
+  [["BCE", "Task_Received"],15,"",35,"",true,false,true] remoteExec ["BIS_fnc_advHint",_vehicle,true];
 };
 
 _isGunShip = (typeof _vehicle) in ["B_T_VTOL_01_armed_F","USAF_AC130U"];

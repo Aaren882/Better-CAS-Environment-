@@ -81,7 +81,7 @@ if (_button == 0) then {
 
       //-Exit if is not support
       if ((_info # 1) < 0) exitWith {
-        ["Task_Builder","Current task is not supported.",3] call cTab_fnc_addNotification;
+        ["Task_Builder",localize "STR_BCE_Error_TaskSupport",3] call cTab_fnc_addNotification;
       };
 
       [_type,_info # 0] call _mark;

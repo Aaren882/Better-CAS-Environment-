@@ -42,9 +42,9 @@ switch _sel_TaskType do {
       //-if isn't AV Terminal
       if (_NotAVT) then {
         //-cTab
-        ["Task_Builder","Check 1, 2, 3,and selected Aircraft.",5] call cTab_fnc_addNotification;
+        ["Task_Builder",localize "STR_BCE_Error_Task5",5] call cTab_fnc_addNotification;
       } else {
-        hint "Fail...\nCheck 1, 2, 3,and selected Aircraft.";
+        hint localize "STR_BCE_Error_Task5";
       };
     };
   };
@@ -86,9 +86,9 @@ switch _sel_TaskType do {
       //-if isn't AV Terminal
       if (_NotAVT) then {
         //-cTab
-        ["Task_Builder","Check “Game Plan” ,6 ,8 ,9 ,and selected Aircraft.",5] call cTab_fnc_addNotification;
+        ["Task_Builder",localize "STR_BCE_Error_Task9",5] call cTab_fnc_addNotification;
       } else {
-        hint "Fail...\nCheck “Game Plan” ,6 ,8 ,9 ,and selected Aircraft.";
+        hint localize "STR_BCE_Error_Task9";
       };
     };
   };

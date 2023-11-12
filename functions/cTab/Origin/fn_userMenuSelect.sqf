@@ -49,18 +49,18 @@ call {
   if (_type == 3) exitWith {
     _curSel = uiNameSpace getVariable ["cTab_BFT_CurSel",objNull];
     if !(isnull _curSel) then {
-			if !(isEngineOn _curSel) exitWith {
-			  ["Task_Builder","Fail... The engine is not running.",5] call cTab_fnc_addNotification;
-			};
-      _reset_Veh = true;
-  		player setVariable ["TGP_View_Selected_Vehicle",_curSel];
-			["cTab_Tablet_dlg",[["uavCam",str _curSel]],false] call cTab_fnc_setSettings;
+     	if !(isEngineOn _curSel) exitWith {
+     	  ["Task_Builder",localize "STR_BCE_Error_EngineOff",5] call cTab_fnc_addNotification;
+     	};
+     	_reset_Veh = true;
+     	player setVariable ["TGP_View_Selected_Vehicle",_curSel];
+     	["cTab_Tablet_dlg",[["uavCam",str _curSel]],false] call cTab_fnc_setSettings;
 
-			_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
-			if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_curSel isNotEqualTo (_Selected_Optic # 1))) then {
-			  player setVariable ["TGP_View_Selected_Optic",[([_curSel,0] call BCE_fnc_Check_Optics) # 0, _curSel],true];
-			};
-  	};
+     	_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
+    	if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_curSel isNotEqualTo (_Selected_Optic # 1))) then {
+      		player setVariable ["TGP_View_Selected_Optic",[([_curSel,0] call BCE_fnc_Check_Optics) # 0, _curSel],true];
+      	};
+      };
 	};
   //-DisConnect Vehicle
   if (_type == -3) exitWith {
@@ -151,7 +151,7 @@ call {
 
     //-GRID cant be the same as the others
     if (_condition) exitWith {
-      ["Task_Builder","Target position can't be the same.",3] call cTab_fnc_addNotification;
+      ["Task_Builder",localize "STR_BCE_Error_Same_TG_FRD",3] call cTab_fnc_addNotification;
     };
 
     uinamespace setVariable [_mode, _POS];
@@ -159,8 +159,8 @@ call {
     _ctrlEnter = _display displayctrl (17000 + 21051);
     [_ctrlEnter, 17000, true, _info # 1] call BCE_fnc_DataReceiveButton;
 
-		private _list = _display displayCtrl (17000 + 12010);
-		[_list, lbCurSel _list] call BCE_fnc_ctab_BFT_ToolBox;
+	private _list = _display displayCtrl (17000 + 12010);
+	[_list, lbCurSel _list] call BCE_fnc_ctab_BFT_ToolBox;
   };
 
 	_idcToShow = switch _type do {
@@ -169,17 +169,17 @@ call {
     case 13: {3304};
     case 14: {
       if (cTabUserSelIcon # 1 != 0) then {
-				cTabUserSelIcon set [2,0];
-				3304
-			} else {3307};
+      	cTabUserSelIcon set [2,0];
+      	3304
+      } else {3307};
     };
     case 21: {3305};
     case 31: {3306};
 
-		case 100: {3308};
-		case 101: {3309};
-		case 102: {3310};
-		case 103: {3311};
+    case 100: {3308};
+    case 101: {3309};
+    case 102: {3310};
+    case 103: {3311};
 
     default {_type};
   };
