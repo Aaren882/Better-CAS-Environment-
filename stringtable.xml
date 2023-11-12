@@ -912,7 +912,7 @@
         </Key>
 		<Key ID="STR_BCE_Title_AV_Cam_Settings">
             <Original>AV Camera Settings</Original>
-			<Chinese>不透明度</Chinese>
+			<Chinese>飛行器鏡頭 設定</Chinese>
         </Key>
 		<Key ID="STR_BCE_Title_LaserDesign_Settings">
             <Original>IR Laser Designation</Original>
@@ -950,7 +950,7 @@
         </Key>
 		<Key ID="STR_BCE_Laser_for_Air_Vehicles_Laserdesignator">
             <Original>Laser for Air Vehicles Laserdesignator</Original>
-			<Chinese>空中載具的雷射指示器效果</Chinese>
+			<Chinese>空中載具的 雷指效果</Chinese>
         </Key>
 		<Key ID="STR_BCE_Laser_for_Laserdesignator">
             <Original>Laser for Laserdesignator</Original>
@@ -966,11 +966,11 @@
         </Key>
 		<Key ID="STR_BCE_Exclude_AI_Aircrafts_have_the_Laser_Effect">
             <Original>Exclude AI Aircrafts have the Laser Effect</Original>
-			<Chinese>排除AI飛機具有 雷射效果</Chinese>
+			<Chinese>排除AI飛機具有 雷指效果</Chinese>
         </Key>
 		<Key ID="STR_BCE_Available_AI_CAS_via_CAS_Receiver">
             <Original>Available AI CAS via CAS Receiver</Original>
-			<Chinese>AI執行CAS透過 CAS接收器</Chinese>
+			<Chinese>AI透過 CAS接收器 執行CAS</Chinese>
         </Key>
 		
 		<Key ID="STR_BCE_Spotlight_on_Ground_Vehicle_Turret">

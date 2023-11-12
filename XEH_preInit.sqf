@@ -13,10 +13,9 @@ if (hasInterface) exitWith {
 
   //-Set All IDCs
   _set_TaskBuilder_Vars = {
-  	private ["_config","_offset"];
   	params ["_config",["_offset",0]];
 
-  	_classes = ["CAS_TaskList_9","CAS_TaskList_5"] apply {
+  	private _classes = ["CAS_TaskList_9","CAS_TaskList_5"] apply {
   		"true" configClasses (_config >> "controls" >> _x >> "items");
   	};
 

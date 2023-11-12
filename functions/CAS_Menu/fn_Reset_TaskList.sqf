@@ -1,4 +1,5 @@
 params ["_display",["_IDC_offset",0],["_clear_index",-1]];
+private ["_items","_all_lists","_curType","_TaskType","_description","_Tasklist","_all_Tasks","_TextR"];
 
 _items = switch _IDC_offset do {
   case 17000: {

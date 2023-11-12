@@ -62,6 +62,10 @@ PHONE_CLASS
 	class controls
 	{
 		#ifdef MOUSE_CLICK_EH
+		
+			//-SubMenu + lerGTD SubMenu + BCE Submenu
+			cTab_Set_SubMenu(SubMenuH_P);
+		
 			delete menuContainer;
 			//-BFT
 			class Map_Tool_Show: ctrlButton
@@ -263,6 +267,11 @@ PHONE_CLASS
 		};
 		
 		//-Realistic ATAK
+		#define ATAK_POS(XPOS,YPOS,WPOS,HPOS) \
+			x = PhoneBFTContainerW(XPOS); \
+			y = YPOS * ((60)) / 2048 * (PhoneW * 4/3); \
+			w = PhoneBFTContainerW(WPOS); \
+			h = HPOS * (((60)) / 2048 * (PhoneW * 4/3))
 		class Task_Builder: ATAK_Tools
 		{
 			idc = idc_D(4661);
@@ -272,11 +281,7 @@ PHONE_CLASS
 			};
 			class controls
 			{
-				#define ATAK_POS(XPOS,YPOS,WPOS,HPOS) \
-					x = PhoneBFTContainerW(XPOS); \
-					y = YPOS * ((60)) / 2048 * (PhoneW * 4/3); \
-					w = PhoneBFTContainerW(WPOS); \
-					h = HPOS * (((60)) / 2048 * (PhoneW * 4/3))
+				
 				class Game_Plan_T: RscText
 				{
 					idc = -1;
@@ -613,6 +618,192 @@ PHONE_CLASS
 			};
 		};
 		
+		//- Task building Components
+		class Task_Building: Task_Builder
+		{
+			idc = idc_D(4662);
+			class controls
+			{
+				//-Description
+				class taskDesc: RscStructuredText
+				{
+					idc = idc_D(2004);
+					text = "Desc :";
+					colorBackground[] = {0,0,0,0};
+					ATAK_POS(0,0,1,1);
+					class Attributes
+					{
+						font = "RobotoCondensed_BCE";
+						color = "#ffffff";
+						align = "left";
+						shadow = 1;
+					};
+				};
+				
+				//-IP
+				class New_Task_IPtype: New_Task_CtrlType
+				{
+					idc = idc_D(2012);
+					ATAK_POS(0,0,1,1);;
+					rows = 1;
+					columns = 3;
+					strings[] =
+					{
+						"$STR_BCE_Tit_Map_marker",
+						"$STR_BCE_Tit_BFT_marker",
+						"$STR_BCE_Tit_OverHead"
+					};
+					onToolBoxSelChanged = _this + [false,TASK_OFFSET] call BCE_fnc_ToolBoxChanged;
+				};
+				class New_Task_TGT: New_Task_IPtype
+				{
+					idc = idc_D(20121);
+					columns = 2;
+					strings[] =
+					{
+						"$STR_BCE_Tit_Map_marker",
+						"$STR_BCE_Tit_BFT_marker"
+					};
+				};
+				class New_Task_MarkerCombo: RscCombo
+				{
+					idc = idc_D(2013);
+					ATAK_POS(0,0,1,1);;
+					show = 0;
+					colorBackground[] = {0.5,0.5,0.5,0.6};
+					colorSelectBackground[] = {0.5,0.5,0.5,0.6};
+					//colorPictureSelected[] = {1,1,1,0};
+					wholeHeight = 0.8;
+					font = "PuristaMedium";
+					sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+					onMouseButtonClick = "(_this # 0) call BCE_fnc_IPMarkers;";
+					class Items
+					{
+						class NA
+						{
+							text = "$STR_BCE_SelectMarker";
+							data = "[]";
+							default = 1;
+						};
+					};
+				};
+				class New_Task_IPExpression: RscEdit
+				{
+					idc = idc_D(2014);
+					ATAK_POS(0,0,1,1);;
+					text = "";
+					canModify = 0;
+					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+					show = 0;
+					colorBackground[] = {0,0,0,0};
+					tooltip = "$STR_BCE_tip_ShowResult";
+				};
+				
+				//-TG Description
+				class New_Task_TG_DESC: RscEditMulti
+				{
+					idc = idc_D(2015);
+					ATAK_POS(0,0,1,1);;
+					text = "";
+					show = 0;
+				};
+
+				//-Mark
+				class New_Task_GRID_DESC: RscEdit
+				{
+					idc = idc_D(2016);
+					ATAK_POS(0,0,1,1);;
+					text = "$STR_BCE_MarkWith";
+					show = 0;
+				};
+
+				//-ERGS
+				class New_Task_EGRS_Azimuth: New_Task_CtrlType
+				{
+					idc = idc_D(2017);
+					ATAK_POS(0,0,1,1);
+					rows = 1;
+					columns = 8;
+					strings[] =
+					{
+						"N",
+						"NE",
+						"E",
+						"SE",
+						"S",
+						"SW",
+						"W",
+						"NW"
+					};
+					values[] =
+					{
+						0,
+						45,
+						90,
+						135,
+						180,
+						225,
+						270,
+						315
+					};
+					show = 0;
+					sizeEx = "0.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+				};
+				class New_Task_EGRS_Bearing: RscEdit
+				{
+					idc = idc_D(2018);
+					ATAK_POS(0,0,1,1);
+					text = "$STR_BCE_Bearing_ENT";
+					show = 0;
+				};
+				class New_Task_EGRS: New_Task_IPtype
+				{
+					idc = idc_D(2019);
+					columns = 4;
+					strings[] =
+					{
+						"$STR_BCE_Tit_Azimuth",
+						"$STR_BCE_Tit_Bearing",
+						"$STR_BCE_Tit_Map_marker",
+						"$STR_BCE_Tit_OverHead"
+					};
+					sizeEx = "0.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+				};
+
+				//-Remarks
+				class New_Task_FADH: New_Task_IPtype
+				{
+					idc = idc_D(2200);
+					columns = 3;
+					strings[] =
+					{
+						"FAD",
+						"FAH",
+						"$STR_BCE_Default"
+					};
+				};
+				class New_Task_DangerClose_Text: RscText
+				{
+					idc = idc_D(2201);
+					ATAK_POS(0,0,1,1);;
+					text = ": Danger Close";
+					show = 0;
+					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+				};
+				class New_Task_DangerClose_Box: RscCheckBox
+				{
+					idc = idc_D(2202);
+					textureChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					textureFocusedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					textureHoverChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					texturePressedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					ATAK_POS(0,0,1,1);
+					show = 0;
+				};
+			};
+		};
+			
 		//-Bottons for ATAK Tools
 		class InputButtons: ATAK_MenuBG
 		{
@@ -800,9 +991,6 @@ PHONE_CLASS
 				};
 			};
 		};
-
-		//-SubMenu + lerGTD SubMenu + BCE Submenu
-		cTab_Set_SubMenu(SubMenuH_P);
 
 		//-Message
 		class MESSAGE: cTab_RscControlsGroup

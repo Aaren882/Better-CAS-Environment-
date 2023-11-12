@@ -85,7 +85,27 @@
 	#define SubMenuH_FB (24 / 2048 * ( (safezoneW) * 4/3) / 0.8)
 	#define SubMenuH_TAD ((42 / 2048  *  (safezoneH * 0.8)) / 0.8)
 #endif
+
+#define SubMenuID_FIX(SIZE_H) \
+	SetSubMenu(GenSub1,G_SUB1,SIZE_H)
+
+
 //-Check if the cTab is "Devastator Edition"
+#if __has_include("\cTab\img\rp_ca.paa")
+	#define SubMenuID_FIX(SIZE_H) \
+		class GenSub1: cTab_RscControlsGroup \
+		{ \
+			h = G_SUB1 * SIZE_H; \
+			REMOVE_SCROLL; \
+			class Controls \
+			{ \
+				class aopbtn: cTab_MenuItem \
+				{ \
+					action = "cTabUserSelIcon set [1,40];[1] call cTab_fnc_userMenuSelect;"; \
+				}; \
+			}; \
+		}
+#endif
 
 //-Submenu btn
 #define SubMenuNEbnt \
@@ -108,7 +128,7 @@
 	}; \
 	SetSubMenu(EnemySub4,E_SUB4_P,SIZE_H); \
 	SetSubMenu(CasulSub1,C_SUB1_P,SIZE_H); \
-	SetSubMenu(GenSub1,G_SUB1_P,SIZE_H); \
+	SubMenuID_FIX(SIZE_H); \
 	class Connect_Veh_Submenu: MainSubmenu \
 	{ \
 		idc = idc_D(3300); \

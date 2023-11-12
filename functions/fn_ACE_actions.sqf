@@ -63,7 +63,7 @@ _action = ["BCE_Task_Show",localize "str_ca_show","\a3\ui_f\data\Map\Diary\Icons
 ["CAManBase", 1, ["ACE_SelfActions","BCE_Task_Receiver"], _action, true] call aceActionClass;
 
 //-Hide
-_action = ["BCE_Task_Hide",locaize "str_ca_hide","",{
+_action = ["BCE_Task_Hide",localize "str_ca_hide","",{
 	params ["_unit"];
 	557 cutRsc ["default","PLAIN"];
 
@@ -216,3 +216,5 @@ _action = ["BCE_Use_Heli_LaserIR",SetTitle("STR_BCE_Toggle","STR_BCE_Laser_IR"),
 	Laser_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
+
+_action = nil;

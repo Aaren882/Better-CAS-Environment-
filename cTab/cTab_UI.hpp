@@ -1289,7 +1289,7 @@ class cTab_Tablet_dlg
 					tooltip = "$STR_BCE_tip_Round_Count";
 					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 				};
-				class Attack_Height_Combo: Round_Count_Box
+				class Attack_Height_Box: Round_Count_Box
 				{
 					idc = idc_D(2024);
 					tooltip = "$STR_BCE_tip_Attack_Height";
@@ -1322,7 +1322,7 @@ class cTab_Tablet_dlg
 		};
 		SetSubMenu(EnemySub4,E_SUB4,SubMenuH);
 		SetSubMenu(CasulSub1,C_SUB1,SubMenuH);
-		SetSubMenu(GenSub1,G_SUB1,SubMenuH);
+		SubMenuID_FIX(SubMenuH);
 
 		#if PHONE_MOD == 1134
 			lerGTD_SUB(MenuCustomText,btn8,8,SubMenuH);
