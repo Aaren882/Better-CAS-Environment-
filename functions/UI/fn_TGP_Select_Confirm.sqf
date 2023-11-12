@@ -108,20 +108,20 @@ _Vehicle_ctrl ctrlSetText (getText (_config_path >> "DisplayName"));
 
 //-widgets
 _widgets_01 = [
-  ["Unit_Tracker_Box","TGP_view_Unit_Tracker_Box","STR_BCE_Tracker_Box"],
-  ["Unit_Tracker","TGP_view_Unit_Tracker","STR_BCE_Unit_Tracker"],
-  ["Compass","TGP_view_3D_Compass","STR_BCE_3D_Compass"],
-  ["Unit_MapIcon","TGP_view_Map_Icon","STR_BCE_Map_Icon"],
-  ["LandMark_Icon","TGP_view_LandMark_Icon","STR_BCE_LandMark_Icon"],
-  ["ToggleCursor","TGP_view_Mouse_Cursor","STR_BCE_Mouse_Cursor",false]
+  ["Unit_Tracker_Box","TGP_view_Unit_Tracker_Box","Tracker Box"],
+  ["Unit_Tracker","TGP_view_Unit_Tracker","Unit Tracker"],
+  ["Compass","TGP_view_3D_Compass","3D Compass"],
+  ["Unit_MapIcon","TGP_view_Map_Icon","Map Icon"],
+  ["LandMark_Icon","TGP_view_LandMark_Icon","LandMark Icon"],
+  ["ToggleCursor","TGP_view_Mouse_Cursor","Mouse Cursor",false]
 ];
 
 {
   _x params ["_action","_var","_text",["_default",true]];
   private ["_key","_index","_color"];
 
-  _key = (["Better CAS Environment (TGP)", _action] call CBA_fnc_getKeybind) # 8 # 0 # 0;
-  _index = _widget_01_ctrl lbAdd format ["%1 %2", localize _text, keyImage _key];
+  _key = (["TGP Cam Settings", _action] call CBA_fnc_getKeybind) # 8 # 0 # 0;
+  _index = _widget_01_ctrl lbAdd format ["%1 %2", _text, keyImage _key];
   _widget_01_ctrl lbSetPicture [_index,"\a3\ui_f\data\Map\Markers\Military\dot_CA.paa"];
 
   _color = [
@@ -134,7 +134,7 @@ _widgets_01 = [
 } foreach _widgets_01;
 
 //-Set Exit Hint
-_Exit_ctrl ctrlSetText format [localize "STR_BCE_Press_key" + " " + localize "STR_BCE_Exit_Camera",keyImage ((["Better CAS Environment (TGP)", "Exit"] call CBA_fnc_getKeybind) # 8 # 0 # 0)];
+_Exit_ctrl ctrlSetText format ["Press %1 to Exit Camera",keyImage ((["TGP Cam Settings", "Exit"] call CBA_fnc_getKeybind) # 8 # 0 # 0)];
 
 [BCE_fnc_Set_EnvironmentList, [_env_ctrl,lbSize _env_ctrl - 1], 0] call CBA_fnc_waitAndExecute;
 
@@ -167,17 +167,12 @@ _idEH = addMissionEventHandler ["Draw3D", {
     };
   #endif
 
-  /* _camDir = (_vehicle selectionVectorDirAndUp [_TGP, "Memory"]) # 0;
-  //_camDir = (_vehicle selectionPosition "PiP0_pos") vectorFromTo (_vehicle selectionPosition "PiP0_dir");
-  _cam setVectorDirAndUp [_camDir,_camDir vectorCrossProduct [-(_camDir # 1), _camDir # 0, 0]];*/
-  //hintSilent str [[_camDir,_camDir vectorCrossProduct [-(_camDir # 1), _camDir # 0, 0]],_TGP];
-
   //UI Update
-  _time_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Time",call BCE_fnc_UpdateTime]);
-  _Altitude_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Altitude",Round ((getPosASL _vehicle) # 2)]);
-  _Grid_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Grid",mapGridPosition (screenToWorld [0.5,0.5])]);
+  _time_ctrl ctrlSetText (format ["Time: %1",call BCE_fnc_UpdateTime]);
+  _Altitude_ctrl ctrlSetText (format ["Altitude: %1",Round ((getPosASL _vehicle) # 2)]);
+  _Grid_ctrl ctrlSetText (format ["Grid: %1",mapGridPosition (screenToWorld [0.5,0.5])]);
   _camDir_ctrl ctrlSetText (format ["%1°", round (getDir _cam)]);
-  _Fuel_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Fuel", round ((fuel _vehicle) * 100),"%"]);
+  _Fuel_ctrl ctrlSetText (format ["Fuel: %1%2", round ((fuel _vehicle) * 100),"%"]);
   _Engine_damage = _vehicle getHitPointDamage "hitEngine";
 
   //Engine
