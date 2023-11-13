@@ -685,6 +685,8 @@ class CfgFunctions
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK";
 				class ATAK_openPage;
+				class ATAK_TaskCreate;
+				class ATAK_LastPage;
 			};
 		#endif
 	};

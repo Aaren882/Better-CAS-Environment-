@@ -30,7 +30,7 @@
 	["mapScaleDlg",0.4],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
-	["showMenu",["main",false]],
+	["showMenu",["main",false,-1]],
 	["showModeMenu",false],
 	["uavCam",""],
 	["uavInfo",false],

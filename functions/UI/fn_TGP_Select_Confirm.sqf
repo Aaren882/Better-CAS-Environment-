@@ -250,12 +250,12 @@ _idEH = addMissionEventHandler ["Draw3D", {
   };
 
   if (count TGP_View_Unit_List > 0) then {
-    _friendlyActive = true;
-    _boxActive = true;
+    private _friendlyActive = true;
+    private _boxActive = true;
     call BCE_fnc_Unit_Icon;
   };
   if (_player getVariable ["TGP_view_Map_Icon",true]) then {
-    _alpha = 0.4;
+    private _alpha = 0.4;
     call BCE_fnc_map_Icon;
   };
   if (_player getVariable ["TGP_view_LandMark_Icon",true]) then {

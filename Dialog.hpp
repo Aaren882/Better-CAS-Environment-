@@ -27,7 +27,7 @@ class RscTitles
 		
 		#define TextSize (((38)) / 2048 * (PhoneW * 4/3))
 		#define TextTimes 2.537
-		#define TextMenu # __EVAL(1.1/TextTimes)
+		#define TextMenu(MULTI) __EVAL(1.1/TextTimes*MULTI)
 		
 		#define ATAK_APP(APP,TITLE) #<img image=APP/><br/><t size='0.394'>TITLE</t>
 		
@@ -41,9 +41,7 @@ class RscTitles
 			y = #((713) + ((60) - (42)) / 2) / 2048 * (	PhoneW * 4/3) + (safezoneY + safezoneH * 0.88 - (PhoneW * 4/3) * 0.72); \
 			w = #2.5 * (((42)) / 2048 * PhoneW); \
 			h = #((42)) / 2048 * (PhoneW * 4/3)
-			
-		#define cTab_Set_SubMenu \
-			DUMMY_CLASS
+		
 		
 		#if MAP_MODE > 0
 			class cTab_android_RscMapControl: RscMapControl{};

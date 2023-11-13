@@ -1,5 +1,3 @@
-//-Dummy class
-#define DUMMY_CLASS class Dummy
 #define SubMenuText 0.8
 
 //-17000 + SET

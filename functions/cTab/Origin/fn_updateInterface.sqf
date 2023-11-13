@@ -295,7 +295,7 @@ _settings apply {
 
 						//-Tool Menu
 						if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
-							_showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
+							private _showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
 							if (!isNil "_showMenu" && (_showMenu # 1)) then	{
 								_displayItemsToShow append flatten [IDC_CTAB_GROUP_MENU, [_display, (_showMenu # 0), true, true] call BCE_fnc_ATAK_openPage];
 							};
@@ -387,8 +387,8 @@ _settings apply {
 						call cTab_msg_gui_load;
 					};
 
-          // ---------- Task Builder -----------
-          if (_mode == "TASK_Builder") exitWith {
+          			// ---------- Task Builder -----------
+          			if (_mode == "TASK_Builder") exitWith {
 						_displayItemsToShow = [
 							4651,
 							4652,
@@ -860,7 +860,7 @@ _settings apply {
 		// ---------- ATAK Tools -----------
 		if ((_x # 0) == "showMenu") exitWith {
 			private _osdCtrl = _display displayCtrl IDC_CTAB_GROUP_MENU;
-			{(_display displayCtrl _x) ctrlShow false} count [IDC_CTAB_GROUP_MENU, 17000 + 4661, 17000 + 4660];
+			{(_display displayCtrl _x) ctrlShow false} count [IDC_CTAB_GROUP_MENU, 17000 + 4660, 17000 + 4661, 17000 + 4662];
 			if (!isNull _osdCtrl && (_mode == "BFT")) then {
 				(_x # 1) params ["_page","_show"];
 				(_display displayCtrl ([_display,_page] call BCE_fnc_ATAK_openPage)) ctrlShow _show;

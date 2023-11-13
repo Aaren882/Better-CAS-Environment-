@@ -1501,7 +1501,7 @@ class cTab_TAD_dlg
 
 #define TextSize (((38)) / 2048 * (PhoneH * 4/3))
 #define TextTimes 1
-#define TextMenu "1.1"
+#define TextMenu(MULTI) __EVAL(1.1*MULTI)
 
 #define ATAK_APP(APP,TITLE) #<img image=APP/><br/><t size='1'>TITLE</t>
 

@@ -216,7 +216,7 @@ PHONE_CLASS
 					idc = 4660 + 101;
 					text = ATAK_APP("\a3\characters_f\data\ui\icon_expl_specialist_ca.paa",Missions);
 					x = PhoneBFTContainerW(1);
-					action = "['cTab_Android_dlg',[['showMenu',['mission',true]]]] call cTab_fnc_setSettings;";
+					action = "['cTab_Android_dlg',[['showMenu',['mission',true,-1]]]] call cTab_fnc_setSettings;";
 				};
 				class actUAVtxt: actMSGtxt
 				{
@@ -309,7 +309,7 @@ PHONE_CLASS
 					colorSelect[]={1,1,1,1};
 					colorSelectBackground[]={0.2,0.2,0.2,1};
 					
-					//onLBSelChanged = "(_this + [17000]) call BCE_fnc_TaskTypeChanged";
+					onLBSelChanged = "(_this + [17000]) call BCE_fnc_TaskTypeChanged";
 					class Items
 					{
 						class 9line
@@ -477,11 +477,13 @@ PHONE_CLASS
 					animTextureFocused = "#(argb,8,8,3)color(0,0,0,0.8)";
 					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
 					
+					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,1]]]] call cTab_fnc_setSettings;";
+					
 					class Attributes: Attributes
 					{
 						align = "center";
 						font = "RobotoCondensedBold_BCE";
-						size = TextMenu;
+						size = TextMenu(1);
 					};
 				};
 
@@ -612,7 +614,7 @@ PHONE_CLASS
 					class Attributes
 					{
 						align="center";
-						size=TextMenu;
+						size = TextMenu(1);
 					};
 				};
 			};
@@ -630,21 +632,23 @@ PHONE_CLASS
 					idc = idc_D(2004);
 					text = "Desc :";
 					colorBackground[] = {0,0,0,0};
-					ATAK_POS(0,0,1,1);
+					ATAK_POS(0,0,3,1);
 					class Attributes
 					{
 						font = "RobotoCondensed_BCE";
 						color = "#ffffff";
 						align = "left";
 						shadow = 1;
+						size = TextMenu(0.8);
 					};
 				};
 				
 				//-IP
-				class New_Task_IPtype: New_Task_CtrlType
+				class New_Task_IPtype: RscToolbox
 				{
 					idc = idc_D(2012);
-					ATAK_POS(0,0,1,1);;
+					ATAK_POS(0.1,0.35/2,2.8,0.65);
+					
 					rows = 1;
 					columns = 3;
 					strings[] =
@@ -653,29 +657,24 @@ PHONE_CLASS
 						"$STR_BCE_Tit_BFT_marker",
 						"$STR_BCE_Tit_OverHead"
 					};
-					onToolBoxSelChanged = _this + [false,TASK_OFFSET] call BCE_fnc_ToolBoxChanged;
-				};
-				class New_Task_TGT: New_Task_IPtype
-				{
-					idc = idc_D(20121);
-					columns = 2;
-					strings[] =
-					{
-						"$STR_BCE_Tit_Map_marker",
-						"$STR_BCE_Tit_BFT_marker"
-					};
+					
+					font = "RobotoCondensed_BCE";
+					colorBackground[] = {0,0,0,0.3};
+					sizeEx = 0.8 * TextSize;
+					
+					//onToolBoxSelChanged = _this + [false,TASK_OFFSET] call BCE_fnc_ToolBoxChanged;
 				};
 				class New_Task_MarkerCombo: RscCombo
 				{
 					idc = idc_D(2013);
-					ATAK_POS(0,0,1,1);;
+					ATAK_POS(0.1,(0.65 + 0.35/2),1.4,0.65);
 					show = 0;
 					colorBackground[] = {0.5,0.5,0.5,0.6};
 					colorSelectBackground[] = {0.5,0.5,0.5,0.6};
 					//colorPictureSelected[] = {1,1,1,0};
 					wholeHeight = 0.8;
 					font = "PuristaMedium";
-					sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+					sizeEx = 0.75 * TextSize;
 					onMouseButtonClick = "(_this # 0) call BCE_fnc_IPMarkers;";
 					class Items
 					{
@@ -690,20 +689,30 @@ PHONE_CLASS
 				class New_Task_IPExpression: RscEdit
 				{
 					idc = idc_D(2014);
-					ATAK_POS(0,0,1,1);;
+					ATAK_POS(1.5,(0.65 + 0.35/2),1.4,0.65);
 					text = "";
 					canModify = 0;
-					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+					sizeEx = 0.75 * TextSize;
 					show = 0;
 					colorBackground[] = {0,0,0,0};
 					tooltip = "$STR_BCE_tip_ShowResult";
 				};
 				
 				//-TG Description
+				/*class New_Task_TGT: New_Task_IPtype
+				{
+					idc = idc_D(20121);
+					columns = 2;
+					strings[] =
+					{
+						"$STR_BCE_Tit_Map_marker",
+						"$STR_BCE_Tit_BFT_marker"
+					};
+				};
 				class New_Task_TG_DESC: RscEditMulti
 				{
 					idc = idc_D(2015);
-					ATAK_POS(0,0,1,1);;
+					ATAK_POS(0,0,1,1);
 					text = "";
 					show = 0;
 				};
@@ -712,13 +721,13 @@ PHONE_CLASS
 				class New_Task_GRID_DESC: RscEdit
 				{
 					idc = idc_D(2016);
-					ATAK_POS(0,0,1,1);;
+					ATAK_POS(0,0,1,1);
 					text = "$STR_BCE_MarkWith";
 					show = 0;
 				};
 
 				//-ERGS
-				class New_Task_EGRS_Azimuth: New_Task_CtrlType
+				class New_Task_EGRS_Azimuth: New_Task_IPtype
 				{
 					idc = idc_D(2017);
 					ATAK_POS(0,0,1,1);
@@ -785,7 +794,7 @@ PHONE_CLASS
 				class New_Task_DangerClose_Text: RscText
 				{
 					idc = idc_D(2201);
-					ATAK_POS(0,0,1,1);;
+					ATAK_POS(0,0,1,1);
 					text = ": Danger Close";
 					show = 0;
 					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
@@ -800,7 +809,7 @@ PHONE_CLASS
 					textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
 					ATAK_POS(0,0,1,1);
 					show = 0;
-				};
+				};*/
 			};
 		};
 			
@@ -821,7 +830,7 @@ PHONE_CLASS
 					y = 0;
 					w = PhoneBFTContainerW(2);
 					h = 0.64 * (((60)) / 2048 * (PhoneW * 4/3));
-					action = "['cTab_Android_dlg',[['showMenu',['main',true]]]] call cTab_fnc_setSettings;";
+					action = "call BCE_fnc_ATAK_LastPage";
 				};
 			};
 		};
