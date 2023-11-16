@@ -1,7 +1,7 @@
 #include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 params ["_vehicle"];
 
-_player = player;
+private _player = player;
 if ((_player getVariable ["TGP_View_EHs", -1]) != -1) exitWith {};
 
 #define Equal isEqualTo
@@ -31,7 +31,7 @@ TGP_View_Unit_List = [];
 //PP Effect
 _pphandle = ppEffectCreate ["FilmGrain", 1501];
 _pphandle ppEffectEnable true;
-_pphandle ppEffectAdjust [0.5, 1, 0, [1.0, 0.1, 1.0, 0.75], [0.0, 1.0, 1.0, 1.0], [0.199, 0.587, 0.114, 0.0]];
+_pphandle ppEffectAdjust [BCE_CamNoise_sdr, 1, 0, [1.0, 0.1, 1.0, 0.75], [0.0, 1.0, 1.0, 1.0], [0.199, 0.587, 0.114, 0.0]];
 _pphandle ppEffectCommit 0;
 
 _config_path = configOf _vehicle;

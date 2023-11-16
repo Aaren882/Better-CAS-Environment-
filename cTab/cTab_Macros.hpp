@@ -224,8 +224,6 @@
 	#define SubMenuH_FB (((24)) / 2048 * ((safezoneW) * 4/3) / 0.8)
 	#define SubMenuH_TAD ((((42)) / 2048 * (safezoneH * 0.8)) / 0.8)
 	
-	#define SubMenuNEbnt DUMMY_CLASS
-	
 	//-Set SubMenu
 	#define lerGTD_SUB(CLASS1,CLASS2,LINE,SIZE_H) \
 		class CLASS1: cTab_RscControlsGroup \
@@ -247,6 +245,8 @@
 			Shadow = 2; \
 		}
 	
+	#undef SubMenuNEbnt
+	
 	// - lerGTD SubMenu
 	// - SubMenu + lerGTD SubMenu + BCE Submenu
 	#define cTab_Set_SubMenu(SIZE_H) \
@@ -257,7 +257,6 @@
 		{ \
 			h = E_SUB3_P * SIZE_H; \
 			REMOVE_SCROLL; \
-			SubMenuNEbnt; \
 		}; \
 		SetSubMenu(EnemySub4,E_SUB4_P,SIZE_H); \
 		SetSubMenu(CasulSub1,C_SUB1_P,SIZE_H); \

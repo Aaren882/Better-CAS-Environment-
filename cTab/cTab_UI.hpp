@@ -211,7 +211,7 @@ class cTab_Tablet_dlg
 		{
 			idc = idc_D(1201);
 			text = "\a3\3den\data\displays\display3den\toolbar\vision_normal_ca.paa";
-			toolTip = "$STR_BCE_Tit_Click_Map";
+			toolTip = "$STR_BCE_Tip_Click_Map";
 			Y = sizeY(4.5) - (sizeW * (safezoneH * 1.2));
 			action = "['cTab_Tablet_dlg','BCE_mapTools'] call cTab_fnc_toggleMapTools;";
 		};
@@ -1139,8 +1139,9 @@ class cTab_Tablet_dlg
 				//-TG Description
 				class New_Task_TG_DESC: RscEditMulti
 				{
-					idc = idc_D(2015);
+					idc = idc_D(20121);
 					ExpPOS(1,1,8);
+					sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
 					text = "";
 					show = 0;
 				};
@@ -1318,7 +1319,9 @@ class cTab_Tablet_dlg
 		{
 			h = E_SUB3 * SubMenuH;
 			REMOVE_SCROLL;
-			SubMenuNEbnt;
+			#ifdef SubMenuNEbnt
+				SubMenuNEbnt;
+			#endif
 		};
 		SetSubMenu(EnemySub4,E_SUB4,SubMenuH);
 		SetSubMenu(CasulSub1,C_SUB1,SubMenuH);
@@ -1503,7 +1506,7 @@ class cTab_TAD_dlg
 #define TextTimes 1
 #define TextMenu(MULTI) __EVAL(1.1*MULTI)
 
-#define ATAK_APP(APP,TITLE) #<img image=APP/><br/><t size='1'>TITLE</t>
+#define ATAK_APP(APP,TITLE) #<br/><t size='1'><br/><br/>TITLE</t>
 
 #define PhoneMarkerColor \
 	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048 * PhoneW + (safezoneX + (safezoneW - PhoneW) / 2) + ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW; \

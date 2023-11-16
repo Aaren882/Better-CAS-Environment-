@@ -39,10 +39,10 @@ if (_info isNotEqualTo "") exitWith {
 };
 
 ////////////////////////////////////////////////////////////////////////////
-_mode = [cTabIfOpen # 1,"mode"] call cTab_fnc_getSettings;
+private _mode = [cTabIfOpen # 1,"mode"] call cTab_fnc_getSettings;
 
 //-Live Feed
-_View_Cam = {
+private _View_Cam = {
   private ["_vehicle","_current_turret"];
 
   _vehicle = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];

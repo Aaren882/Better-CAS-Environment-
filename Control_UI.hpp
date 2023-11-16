@@ -400,7 +400,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 1516;
 			y = "0.63 * safezoneH + safezoneY";
-			text = "$str_position_pilot";
+			text = "$STR_DRIVER";
 		};
 		class TGP_Value_Driver: AVT_Value_Fuel
 		{
@@ -957,7 +957,7 @@ class RscDisplayAVTerminal
 				"$STR_BCE_Tit_Click_Map",
 				"$STR_BCE_Tit_OverHead"
 			};
-			onToolBoxSelChanged = "call BCE_fnc_ToolBoxChanged";
+			onToolBoxSelChanged = "_this call BCE_fnc_ToolBoxChanged";
 		};
 		class New_Task_TGT: New_Task_IPtype
 		{

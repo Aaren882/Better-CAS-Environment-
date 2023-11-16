@@ -39,7 +39,7 @@
 
 [
 	"BCE_Alpha_sdr", "SLIDER",
-	[localize "STR_BCE_Opacity"],
+	[localize "STR_BCE_Brightness"],
 	["Better CAS Environment", localize "STR_BCE_Title_HUD_Settings"],
 	[0, 1, 1, 2],
 	0,
@@ -92,6 +92,21 @@
 	["Better CAS Environment", localize "STR_BCE_Title_Aircraft_Camera"],
 	false,
 	1
+] call CBA_fnc_addSetting;
+
+[
+	"BCE_CamNoise_sdr", "SLIDER",
+	[localize "STR_BCE_CamNoise"],
+	["Better CAS Environment", localize "STR_BCE_Title_Aircraft_Camera"],
+	[0, 1, 0.5, 2],
+	1,
+	{
+		if (count TGP_View_Camera > 0) then {
+			private _pphandle = TGP_View_Camera # 1;
+			_pphandle ppEffectAdjust [BCE_CamNoise_sdr, 1, 0, [1.0, 0.1, 1.0, 0.75], [0.0, 1.0, 1.0, 1.0], [0.199, 0.587, 0.114, 0.0]];
+			_pphandle ppEffectCommit 0;
+		};
+	}
 ] call CBA_fnc_addSetting;
 
 //- List

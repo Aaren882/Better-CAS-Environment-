@@ -1,6 +1,6 @@
-params ["_display","_page",["_condition",true],["_BG", false]];
+params ["_display","_page",["_Back", false]];
 
-(_display displayCtrl 46600) ctrlShow ((_page != "main") && (_condition));
+(_display displayCtrl 46600) ctrlShow _Back;
 
 private _return = switch _page do {
   case "mission": {
@@ -8,11 +8,13 @@ private _return = switch _page do {
   };
   case "mission_Build": {
     _display call BCE_fnc_ATAK_TaskCreate;
-    4662
+    nil
   };
   default {
     4660
   };
 };
 
-[17000 + _return , [17000 + _return, 46600]] select _BG;
+//
+if (isnil {_return}) exitWith {};
+17000 + _return

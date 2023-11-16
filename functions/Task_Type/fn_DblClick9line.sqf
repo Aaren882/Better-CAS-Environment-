@@ -81,12 +81,12 @@ switch _curLine do {
     };
 
     //-Description POS
-    private _c = 0;
+    private _c = _titlePOS # 3;
     {
       _c = _c + ((ctrlPosition _x) # 3);
     } forEach [_ctrl1,_ctrl2];
 
-    _description ctrlSetPositionY (((ctrlPosition _ctrl1) # 1) + _c);
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
     _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
     _ctrl2POS = ctrlPosition _ctrl2;
@@ -123,9 +123,9 @@ switch _curLine do {
   case 5:{
     _shownCtrls params ["_ctrl"];
     private _ctrlPOS = ctrlPosition _ctrl;
-    private _c = _ctrlPOS # 3;
-    hintsilent str [_c,time];
-    _description ctrlSetPositionY ((_ctrlPOS # 1) + _c);
+    private _c = (_ctrlPOS # 3) + (_titlePOS # 3);
+
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
     _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
   };
 
@@ -151,12 +151,12 @@ switch _curLine do {
     };
 
     //-Description POS
-    private _c = 0;
+    private _c = _titlePOS # 3;
     {
       _c = _c + ((ctrlPosition _x) # 3);
     } forEach [_ctrl1,_ctrl2];
 
-    _description ctrlSetPositionY (((ctrlPosition _ctrl1) # 1) + _c);
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
     _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
     _ctrl2POS = ctrlPosition _ctrl2;
@@ -178,7 +178,7 @@ switch _curLine do {
     _shownCtrls params ["_ctrl"];
     private _taskVar7 = _taskVar # 7;
     private _ctrlPOS = ctrlPosition _ctrl;
-    private _c = (_titlePOS # 3) + (_ctrlPOS # 3);
+    private _c = (_ctrlPOS # 3) + (_titlePOS # 3);
 
     if ((_taskVar7 # 0) != "NA") then {
       _ctrl ctrlSetText (_taskVar # 7 # 1);
@@ -204,7 +204,7 @@ switch _curLine do {
     _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
     private ["_taskVar_8","_ctrl4POS","_InfoText","_isEmptyInfo","_Info"];
     _taskVar_8 = _taskVar # 8;
-    _ctrl4POS = ctrlPosition _ctrl4;
+    
     _InfoText = _taskVar_8 # 4;
     _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
 
@@ -234,16 +234,17 @@ switch _curLine do {
     };
 
     //-Description POS
-    private _c = 0;
+    private _c = _titlePOS # 3;
     {
       _c = _c + ((ctrlPosition _x) # 3);
     } forEach [_ctrl1,_ctrl2,_ctrl4];
     
-    _description ctrlSetPositionY (((ctrlPosition _ctrl1) # 1) + _c);
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
     _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
     
     _ctrl2POS = ctrlPosition _ctrl2;
     _ctrl3POS = ctrlPosition _ctrl3;
+    _ctrl4POS = ctrlPosition _ctrl4;
 
     //-Expression
     _ctrl3 ctrlSetPosition
@@ -257,7 +258,7 @@ switch _curLine do {
 
     _ctrl4 ctrlSetPosition
     [
-      _TaskListPOS # 0,
+      _ctrl2POS # 0,
       (_ctrl3POS # 1) + (_ctrl3POS # 3),
       _ctrl4POS # 2,
       _ctrl4POS # 3
@@ -306,12 +307,12 @@ switch _curLine do {
     };
 
     //-Description POS
-    private _c = 0;
+    private _c = _titlePOS # 3;
     {
       _c = _c + ((ctrlPosition _x) # 3);
     } forEach [_ctrl1,_ctrl2,_ctrl3];
 
-    _description ctrlSetPositionY (((ctrlPosition _ctrl1) # 1) + _c);
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
     _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
     _ctrl2POS = ctrlPosition _ctrl2;
@@ -367,12 +368,12 @@ switch _curLine do {
     };
 
     //-Description POS
-    private _c = 0;
+    private _c = _titlePOS # 3;
     {
       _c = _c + ((ctrlPosition _x) # 3);
     } forEach [_ctrl1,_ctrl2,_ctrl3,_ctrl5];
 
-    _description ctrlSetPositionY (((ctrlPosition _ctrl1) # 1) + _c);
+    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
     _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
     _ctrl2POS = ctrlPosition _ctrl2;
@@ -387,5 +388,10 @@ switch _curLine do {
       _ctrl2POS # 3
     ];
     _ctrl3 ctrlCommit 0;
+  };
+
+  default {
+    _description ctrlSetPositionY (_TaskListPOS # 1);
+    _description ctrlSetPositionH (_TaskListPOS # 3);
   };
 };

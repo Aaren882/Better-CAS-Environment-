@@ -1,28 +1,39 @@
-params ["_control", "_selectedIndex",["_ismenu",false],["_IDC_offset",0],["_CfgClasses",["RscDisplayAVTerminal"]]];
+params ["_control", "_selectedIndex",["_ismenu",false],["_IDC_offset",0],["_DisplayName",""]];
+private ["_display","_Task_Type","_curInterface","_ListInfo","_curLine","_shownCtrls","_TypeChanged","_MenuChanged"];
 
 _display = ctrlParent _control;
 _Task_Type = uiNameSpace getVariable ["BCE_Current_TaskType",0];
 
-_config = configFile >> "RscDisplayAVTerminal";
-
-_IDCs = [2002,2005] apply {_x + _IDC_offset};
-
-//-get Which interface should be applied
 _curInterface = switch _IDC_offset do {
   case 17000: {1};
   default {0};
 };
 
-_ListInfo = switch _Task_Type do {
-  //-5 line
-  case 1: {[_display displayCtrl (_IDCs # 1),4]};
-  //-9 line
-  default {[_display displayCtrl (_IDCs # 0),10]};
+//-get Which interface should be applied
+if (_DisplayName == "cTab_Android_dlg") then {
+  private _showMenu = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
+
+  _ListInfo = switch _Task_Type do {
+    //-5 line
+    case 1: {[controlNull,4]};
+    //-9 line
+    default {[controlNull,10]};
+  };
+  _curLine = _showMenu # 2;
+  
+} else {
+
+  private _IDCs = [2002,2005] apply {_x + _IDC_offset};
+  _ListInfo = switch _Task_Type do {
+    //-5 line
+    case 1: {[_display displayCtrl (_IDCs # 1),4]};
+    //-9 line
+    default {[_display displayCtrl (_IDCs # 0),10]};
+  };
+  _curLine = lbCurSel (_ListInfo # 0);
 };
 
 _ListInfo params ["_taskList","_remarks"];
-_curLine = lbCurSel _taskList;
-
 _shownCtrls = [_display,_curLine,_curInterface,false,_ismenu] call BCE_fnc_Show_CurTaskCtrls;
 
 _TypeChanged = {
@@ -189,7 +200,7 @@ _MenuChanged = {
       //-List of Brevity Codes
       private _page = false;
 
-      private _codelist = getArray (_config >> "Brevity_Code");
+      private _codelist = getArray (configFile >> "RscDisplayAVTerminal" >> "Brevity_Code");
       reverse _codelist;
       private _text_list = _codelist apply {
         if (_x isequalto "-") then {

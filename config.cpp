@@ -687,6 +687,7 @@ class CfgFunctions
 				class ATAK_openPage;
 				class ATAK_TaskCreate;
 				class ATAK_LastPage;
+				class ATAK_DescType_Changed;
 			};
 		#endif
 	};

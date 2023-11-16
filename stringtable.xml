@@ -326,10 +326,16 @@
             <Original>“BFT” Marker</Original>
 			<Chinese>“BFT” 標記</Chinese>
         </Key>
+		
 		<Key ID="STR_BCE_Tit_Click_Map">
+            <Original>Click Map</Original>
+			<Chinese>點擊地圖</Chinese>
+        </Key>
+		<Key ID="STR_BCE_Tip_Click_Map">
             <Original>Click Map “Alt + LMB”</Original>
 			<Chinese>點擊地圖 “Alt + 左鍵”</Chinese>
         </Key>
+		
 		<Key ID="STR_BCE_Tit_OverHead">
             <Original>OverHead</Original>
 			<Chinese>目前位置</Chinese>
@@ -927,9 +933,13 @@
 			<Chinese>CAS接收器</Chinese>
         </Key>
 
-		<Key ID="STR_BCE_Opacity">
-            <Original>Opacity</Original>
-			<Chinese>不透明度</Chinese>
+		<Key ID="STR_BCE_Brightness">
+            <Original>Brightness</Original>
+			<Chinese>亮度</Chinese>
+        </Key>
+		<Key ID="STR_BCE_CamNoise">
+            <Original>Camera Noise</Original>
+			<Chinese>鏡頭雜訊</Chinese>
         </Key>
 		<Key ID="STR_BCE_Custom_HUD_Color">
             <Original>Custom HUD Color</Original>

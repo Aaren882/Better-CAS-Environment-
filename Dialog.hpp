@@ -19,7 +19,6 @@ class RscTitles
 		#include "cTab\cTab_classes.hpp"
 		#define PHONE_CLASS class cTab_Android_dsp
 		
-		//#define MOUSE_CLICK_EH ""
 		#undef MOUSE_CLICK_EH
 		
 		#define PhoneH (safezoneH * 0.8)
