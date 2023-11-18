@@ -334,6 +334,8 @@ PHONE_CLASS
 		class Task_Builder: ATAK_Tools
 		{
 			idc = idc_D(4661);
+			w = PhoneBFTContainerW(WPOS); \
+			h = HPOS * (((60)) / 2048 * (PhoneW * 4/3))
 			class VScrollbar
 			{
 				scrollSpeed=0.08;
@@ -368,7 +370,7 @@ PHONE_CLASS
 					colorSelect[]={1,1,1,1};
 					colorSelectBackground[]={0.2,0.2,0.2,1};
 					
-					onLBSelChanged = "(_this + [17000]) call BCE_fnc_TaskTypeChanged";
+					onLBSelChanged = "call BCE_fnc_ATAK_TaskTypeChanged";
 					class Items
 					{
 						class 9line
@@ -455,7 +457,7 @@ PHONE_CLASS
 				};
 				class AI_Remark_WeaponCombo: MOA_Combo
 				{
-					idc = 2020;
+					idc = idc_D(2020);
 					ATAK_POS(0.7,(2 + (0.35/2)),1.1,0.65);
 					sizeEx = 0.8 * TextSize;
 					onMouseButtonClick = "";
@@ -464,13 +466,13 @@ PHONE_CLASS
 				};
 				class AI_Remark_ModeCombo: AI_Remark_WeaponCombo
 				{
-					idc = 2021;
+					idc = idc_D(2021);
 					ATAK_POS(1.8,(2 + (0.35/2)),1.1,0.63);
 					onLBSelChanged = "";
 				};
 				class Attack_Range_Combo: AI_Remark_ModeCombo
 				{
-					idc = 2022;
+					idc = idc_D(2022);
 					ATAK_POS(0.7,(2.65 + (0.35/2)),1.1,0.63);
 					tooltip = "$STR_BCE_tip_Attack_Range";
 					class Items
@@ -495,7 +497,7 @@ PHONE_CLASS
 				};
 				class Round_Count_Box: RscEdit
 				{
-					idc = 2023;
+					idc = idc_D(2023);
 					ATAK_POS(1.8,(2.65 + (0.35/2)),(1.1/3),0.63);
 					Style = 2;
 					text = "1";
@@ -504,15 +506,16 @@ PHONE_CLASS
 				};
 				class Attack_Height_Box: Round_Count_Box
 				{
-					idc = 2024;
+					idc = idc_D(2024);
 					ATAK_POS((1.8 + (1.1/3)),(2.65 + (0.35/2)),(2.2/3),0.63);
 					tooltip = "$STR_BCE_tip_Attack_Height";
 					text = "2000";
 				};
 				
 				//-1~3 lines
-				class IP2TG_T: CtrlType
+				class IP2TG_T9: CtrlType
 				{
+					idc = 93;
 					text="1-3";
 					ATAK_POS(0,(3.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_IPBP_Info";
@@ -546,8 +549,9 @@ PHONE_CLASS
 				};
 
 				//-Line 4
-				class Line4_T: CtrlType
+				class Line4_T9: CtrlType
 				{
+					idc = 94;
 					text="4";
 					ATAK_POS(0,(4.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_ELEV";
@@ -556,11 +560,12 @@ PHONE_CLASS
 				{
 					idc = idc_D(2026);
 					ATAK_POS(0.2,(4.6 + (0.35/2)),2.3,0.7);
-					text = "535ft MSL DTED1";
+					text = "535ft MSL";
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,4]]]] call cTab_fnc_setSettings;";
 				};
 				class L94_PullBnt: ctrlButton
 				{
+					idc = idc_D(20260);
 					ATAK_POS(2.55,(4.6 + (0.35/2)),0.35,0.7);
 					
 					style = "0x02 + 0x30 + 0x800";
@@ -572,8 +577,9 @@ PHONE_CLASS
 				};
 
 				//-Line 5
-				class Line5_T: CtrlType
+				class Line5_T9: CtrlType
 				{
+					idc = 95;
 					text="5";
 					ATAK_POS(0,(5.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_DESC";
@@ -636,6 +642,7 @@ PHONE_CLASS
 				};
 				class L95_PullBnt: L94_PullBnt
 				{
+					idc = idc_D(20270);
 					ATAK_POS(2.55,(5.6 + (0.35/2)),0.35,0.7);
 				};
 				class L95_EditText: RscEdit
@@ -649,8 +656,9 @@ PHONE_CLASS
 				};
 				
 				//-Line 6
-				class Line6_T: CtrlType
+				class Line6_T9: CtrlType
 				{
+					idc = 96;
 					text="6";
 					ATAK_POS(0,(7.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_GRID";
@@ -664,67 +672,140 @@ PHONE_CLASS
 				};
 				
 				//-Line 7
-				class Line7_T: CtrlType
+				class Line7_T9: CtrlType
 				{
+					idc = 97;
 					text="7";
 					ATAK_POS(0,(8.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_MARK";
 				};
 				class L97_EditBnt: IP2TG_EditBnt
 				{
-					idc = 2028;
+					idc = idc_D(2029);
 					ATAK_POS(0.2,(8.6 + (0.35/2)),2.7,0.7);
 					text = "NO MARKS";
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,7]]]] call cTab_fnc_setSettings;";
 				};
 				
 				//-Line 8
-				class Line8_T: CtrlType
+				class Line8_T9: CtrlType
 				{
+					idc = 98;
 					text="8";
 					ATAK_POS(0,(9.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_FRND";
 				};
 				class L98_EditBnt: IP2TG_EditBnt
 				{
-					idc = 2028;
+					idc = idc_D(2030);
 					ATAK_POS(0.2,(9.6 + (0.35/2)),2.7,0.7);
 					text = "None";
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,8]]]] call cTab_fnc_setSettings;";
 				};
 				//-Line 9
-				class Line9_T: CtrlType
+				class Line9_T9: CtrlType
 				{
+					idc = 99;
 					text="9";
 					ATAK_POS(0,(10.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_EGRS";
 				};
 				class L99_EditBnt: IP2TG_EditBnt
 				{
-					idc = 2028;
+					idc = idc_D(2031);
 					ATAK_POS(0.2,(10.6 + (0.35/2)),2.7,0.7);
 					text = "Back To IP";
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,9]]]] call cTab_fnc_setSettings;";
 				};
 
-				//-Separator for Remarks
+				////////// -5 Line //////////
+				class Line1_T5: CtrlType
+				{
+					idc = 51;
+					text="1";
+					ATAK_POS(0,(3.6 + (0.35/2)),1,0.7);
+					tooltip="$STR_BCE_TIP_5Line";
+				};
+				class L51_EditBnt: RscStructuredText
+				{
+					idc = idc_D(2040);
+					ATAK_POS(0.2,(3.6 + (0.35/2)),2.5,0.7);
+					colorBackground[] = {0,0,0,0.5};
+					
+					sizeEx = TextSize;
+					text = "“Alpha 1-1” / “Alpha 1-2”";
+					
+					class Attributes: Attributes
+					{
+						align = "center";
+						font = "RobotoCondensedBold_BCE";
+						size = TextMenu(1);
+					};
+				};
+				
+				class Line2_T5: CtrlType
+				{
+					idc = 51;
+					text="2";
+					ATAK_POS(0,(4.6 + (0.35/2)),1,0.7);
+					tooltip="$STR_BCE_TIP_FRND";
+				};
+				class L52_EditBnt: IP2TG_EditBnt
+				{
+					idc = idc_D(2041);
+					ATAK_POS(0.2,(4.6 + (0.35/2)),2.7,0.7);
+					text = "None";
+					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,2]]]] call cTab_fnc_setSettings;";
+				};
+				
+				class Line3_T5: CtrlType
+				{
+					idc = 51;
+					text="3";
+					ATAK_POS(0,(5.6 + (0.35/2)),1,0.7);
+					tooltip="$STR_BCE_TIP_GRID";
+				};
+				class L53_EditBnt: IP2TG_EditBnt
+				{
+					idc = idc_D(2041);
+					ATAK_POS(0.2,(5.6 + (0.35/2)),2.7,0.7);
+					text = "None";
+					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,3]]]] call cTab_fnc_setSettings;";
+				};
+				
+				class Line4_T5: CtrlType
+				{
+					idc = 51;
+					text="4";
+					ATAK_POS(0,(6.6 + (0.35/2)),1,0.7);
+					tooltip="$STR_BCE_TIP_DESC";
+				};
+				class L54_EditBnt: IP2TG_EditBnt
+				{
+					idc = idc_D(2041);
+					ATAK_POS(0.2,(6.6 + (0.35/2)),2.7,0.7);
+					text = "None";
+					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,4]]]] call cTab_fnc_setSettings;";
+				};
+				
+				////// -Separator for Remarks //////
 				class Separator: cTab_RscFrame
 				{
 					idc=-1;
-					ATAK_POS(0.1,(12.65 + (0.35/2)),2.8,0.001);
+					ATAK_POS(0.1,(11.65 + (0.35/2)),2.8,0.001);
 				};
 				
 				class Remark: Game_Plan_T
 				{
 					text="Remarks/Restrictions";
-					ATAK_POS(0,(12.7 + (0.35/2)),3,1);
+					ATAK_POS(0,(11.7 + (0.35/2)),3,1);
 					sizeEx = 0.85 * TextSize;
 					font = "RobotoCondensedBold_BCE";
 					tooltip="$STR_BCE_TIP_Remarks";
 				};
 				class AddRemark: ctrlButton
 				{
-					ATAK_POS((2.4+0.15/2),(12.8 + (0.35/2)),0.4,0.7);
+					ATAK_POS((2.4+0.15/2),(11.8 + (0.35/2)),0.4,0.7);
 					
 					style = "0x02 + 0x30 + 0x800";
 					colorBackground[] = {0,0,0,0.3};

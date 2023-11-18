@@ -333,18 +333,18 @@ _settings apply {
 			};
 			// ---------- _NOT_ BFT -----------
 			if (_isDialog) then {
-			_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-			if (count _mapTypes > 1) then {
-				_targetMapName = [_displayName,"mapType"] call cTab_fnc_getSettings;
-				_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
-				_targetMapCtrl = _display displayCtrl _targetMapIDC;
+				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+				if (count _mapTypes > 1) then {
+					_targetMapName = [_displayName,"mapType"] call cTab_fnc_getSettings;
+					_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
+					_targetMapCtrl = _display displayCtrl _targetMapIDC;
 
-				// If we find the map to be shown, we are switching away from BFT. Lets save map scale and position
-				if (ctrlShown _targetMapCtrl) then {
-					_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
-					[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScaleDlg",_mapScale]],false] call cTab_fnc_setSettings;
+					// If we find the map to be shown, we are switching away from BFT. Lets save map scale and position
+					if (ctrlShown _targetMapCtrl) then {
+						_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
+						[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScaleDlg",_mapScale]],false] call cTab_fnc_setSettings;
+					};
 				};
-			};
 			};
 			// ---------- UAV -----------
 			if (_mode in "UAV") exitWith {
@@ -443,192 +443,194 @@ _settings apply {
 
 		// ------------ SHOW ICON TEXT ------------
 		if (_x # 0 == "showIconText") exitWith {
-		_osdCtrl = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
-		if (!isNull _osdCtrl) then {
-		_text = ["OFF","ON"] select (_x # 1);
-		_osdCtrl ctrlSetText _text;
-		};
+			_osdCtrl = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
+			if (!isNull _osdCtrl) then {
+				_text = ["OFF","ON"] select (_x # 1);
+				_osdCtrl ctrlSetText _text;
+			};
 		};
 		// ------------ MAP SCALE DSP------------
 		if (_x # 0 == "mapScaleDsp") exitWith {
-		if (_mode == "BFT" && !_isDialog) then {
-		_mapScaleKm = _x # 1;
-		// pre-Calculate map scales
-		_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_getSettings;
-		_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_getSettings;
-		_mapScaleKm = call {
-			if (_mapScaleKm >= _mapScaleMax) exitWith {_mapScaleMax};
-			if (_mapScaleKm <= _mapScaleMin) exitWith {_mapScaleMin};
-			// pick the next best scale that is an even multiple of the minimum map scale... It does tip in favour of the larger scale due to the use of logarithm, so its not perfect
-			_mapScaleMin * 2 ^ round (log (_mapScaleKm / _mapScaleMin) / log (2))
-		};
-		if (_mapScaleKm != (_x # 1)) then {
-			[_displayName,[["mapScaleDsp",_mapScaleKm]],false] call cTab_fnc_setSettings;
-		};
-		cTabMapScale = _mapScaleKm / cTabMapScaleFactor;
+			if (_mode == "BFT" && !_isDialog) then {
+				_mapScaleKm = _x # 1;
+				// pre-Calculate map scales
+				_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_getSettings;
+				_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_getSettings;
+				_mapScaleKm = call {
+					if (_mapScaleKm >= _mapScaleMax) exitWith {_mapScaleMax};
+					if (_mapScaleKm <= _mapScaleMin) exitWith {_mapScaleMin};
+					// pick the next best scale that is an even multiple of the minimum map scale... It does tip in favour of the larger scale due to the use of logarithm, so its not perfect
+					_mapScaleMin * 2 ^ round (log (_mapScaleKm / _mapScaleMin) / log (2))
+				};
+				if (_mapScaleKm != (_x # 1)) then {
+					[_displayName,[["mapScaleDsp",_mapScaleKm]],false] call cTab_fnc_setSettings;
+				};
+				cTabMapScale = _mapScaleKm / cTabMapScaleFactor;
 
-		_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
-		if (!isNull _osdCtrl) then {
-			// divide by 2 because we want to display the radius, not the diameter
-			_mapScaleTxt = if (_mapScaleKm > 1) then {
-				_mapScaleKm / 2
-			} else {
-			[_mapScaleKm / 2,0,1] call CBA_fnc_formatNumber
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
+				if (!isNull _osdCtrl) then {
+					// divide by 2 because we want to display the radius, not the diameter
+					_mapScaleTxt = if (_mapScaleKm > 1) then {
+						_mapScaleKm / 2
+					} else {
+						[_mapScaleKm / 2,0,1] call CBA_fnc_formatNumber
+					};
+					_osdCtrl ctrlSetText format ["%1",_mapScaleTxt];
+				};
 			};
-			_osdCtrl ctrlSetText format ["%1",_mapScaleTxt];
-		};
-		};
 		};
 		// ------------ MAP SCALE DLG------------
 		if (_x # 0 == "mapScaleDlg") exitWith {
-		if (_mode == "BFT" && _isDialog) then {
-		_mapScaleKm = _x # 1;
-		_targetMapScale = _mapScaleKm / cTabMapScaleFactor * 0.86 / (safezoneH * 0.8);
-		};
+			if (_mode == "BFT" && _isDialog) then {
+				_mapScaleKm = _x # 1;
+				_targetMapScale = _mapScaleKm / cTabMapScaleFactor * 0.86 / (safezoneH * 0.8);
+			};
 		};
 		// ------------ MAP WORLD POSITION ------------
 		if (_x # 0 == "mapWorldPos") exitWith {
-		if (_mode == "BFT") then {
-		if (_isDialog) then {
-			_mapWorldPos = _x # 1;
-			if !(_mapWorldPos isEqualTo []) then {
-			_targetMapWorldPos = _mapWorldPos;
+			if (_mode == "BFT") then {
+				if (_isDialog) then {
+					_mapWorldPos = _x # 1;
+					if !(_mapWorldPos isEqualTo []) then {
+						_targetMapWorldPos = _mapWorldPos;
+					};
+				};
 			};
-		};
-		};
 		};
 		// ------------ MAP TYPE ------------
 		if (_x # 0 == "mapType") exitWith {
-		_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-		if ((count _mapTypes > 1) && (_mode == "BFT")) then {
-		_targetMapName = _x # 1;
-		_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
-		_targetMapCtrl = _display displayCtrl _targetMapIDC;
+			_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+			if ((count _mapTypes > 1) && (_mode == "BFT")) then {
+				_targetMapName = _x # 1;
+				_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
+				_targetMapCtrl = _display displayCtrl _targetMapIDC;
 
-		if (!_interfaceInit && _isDialog) then {
-			_previousMapCtrl = controlNull;
-			{
-			_previousMapIDC = _x # 1;
-			_previousMapCtrl = _display displayCtrl _previousMapIDC;
-			if (ctrlShown _previousMapCtrl) exitWith {};
-			_previousMapCtrl = controlNull;
-			} count _mapTypes;
-			// See if _targetMapCtrl is already being shown
-			if ((!ctrlShown _targetMapCtrl) && (_targetMapCtrl != _previousMapCtrl)) then {
-			// Update _targetMapCtrl to scale and position of _previousMapCtrl
-			if (isNil "_targetMapScale") then {_targetMapScale = ctrlMapScale _previousMapCtrl;};
-			if (isNil "_targetMapWorldPos") then {_targetMapWorldPos = [_previousMapCtrl] call cTab_fnc_ctrlMapCenter};
+				if (!_interfaceInit && _isDialog) then {
+					_previousMapCtrl = controlNull;
+					{
+						_previousMapIDC = _x # 1;
+						_previousMapCtrl = _display displayCtrl _previousMapIDC;
+						if (ctrlShown _previousMapCtrl) exitWith {};
+						_previousMapCtrl = controlNull;
+					} count _mapTypes;
+
+					// See if _targetMapCtrl is already being shown
+					if ((!ctrlShown _targetMapCtrl) && (_targetMapCtrl != _previousMapCtrl)) then {
+						// Update _targetMapCtrl to scale and position of _previousMapCtrl
+						if (isNil "_targetMapScale") then {_targetMapScale = ctrlMapScale _previousMapCtrl;};
+						if (isNil "_targetMapWorldPos") then {_targetMapWorldPos = [_previousMapCtrl] call cTab_fnc_ctrlMapCenter};
+					};
+				};
+
+				// Hide all unwanted map types
+				_mapTypes apply {
+					if (_x # 0 != _targetMapName) then {
+						(_display displayCtrl (_x # 1)) ctrlShow false;
+					};
+				};
+
+				// Update OSD element if it exists
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
+				if (!isNull _osdCtrl) then {_osdCtrl ctrlSetText _targetMapName;};
+
+				// show correct map contorl
+				if (!ctrlShown _targetMapCtrl) then {
+					_targetMapCtrl ctrlShow true;
+					// wait until map control is shown, otherwise we can get in trouble with ctrlMapAnimCommit later on, depending on timing
+					while {!ctrlShown _targetMapCtrl} do {};
+				};
 			};
-		};
-
-		// Hide all unwanted map types
-		_mapTypes apply {
-			if (_x # 0 != _targetMapName) then {
-			(_display displayCtrl (_x # 1)) ctrlShow false;
-			};
-		};
-
-		// Update OSD element if it exists
-		_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
-		if (!isNull _osdCtrl) then {_osdCtrl ctrlSetText _targetMapName;};
-
-		// show correct map contorl
-		if (!ctrlShown _targetMapCtrl) then {
-			_targetMapCtrl ctrlShow true;
-			// wait until map control is shown, otherwise we can get in trouble with ctrlMapAnimCommit later on, depending on timing
-			while {!ctrlShown _targetMapCtrl} do {};
-		};
-		};
 		};
 
 		// ------------ UAV List Update ------------
 		if (_x # 0 == "uavListUpdate") exitWith {
-		if (_mode in ["UAV","TASK_Builder"]) then {
-		_data = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
-		[IDC_CTAB_CTABUAVLIST, 17000+IDC_CTAB_CTABUAVLIST] apply {
-			private ["_uavListCtrl","_default"];
-			_uavListCtrl = _display displayCtrl _x;
-			if (isnull _uavListCtrl) then {continue};
+			if (_mode in ["UAV","TASK_Builder"]) then {
+				_data = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+				[IDC_CTAB_CTABUAVLIST, 17000+IDC_CTAB_CTABUAVLIST] apply {
+					private ["_uavListCtrl","_default"];
+					_uavListCtrl = _display displayCtrl _x;
+					if (isnull _uavListCtrl) then {continue};
 
-			lbClear _uavListCtrl;
-			_default = _uavListCtrl lbAdd "--";
-			_uavListCtrl lbSetData [_default,str objNull];
+					lbClear _uavListCtrl;
+					_default = _uavListCtrl lbAdd "--";
+					_uavListCtrl lbSetData [_default,str objNull];
 
-			// Populate list of UAVs
-			cTabUAVlist apply {
-			if (count (crew _x) > 0) then {
-				private _index = _uavListCtrl lbAdd format ["[%1] %2", name (driver _x), getText (configOf _x >> "displayname")];
-				_uavListCtrl lbSetData [_index,str _x];
-			};
-			};
+					// Populate list of UAVs
+					cTabUAVlist apply {
+						if (count (crew _x) > 0) then {
+							private _index = _uavListCtrl lbAdd format ["[%1] %2", name (driver _x), getText (configOf _x >> "displayname")];
+							_uavListCtrl lbSetData [_index,str _x];
+						};
+					};
 
-			if !(isnull _data) then {
-			// Find last selected UAV and # if found
-			for "_i" from 0 to (lbSize _uavListCtrl - 1) do {
-				if (str _data == (_uavListCtrl lbData _i)) exitWith {
-				_uavListCtrl lbSetCurSel _i;
+					if !(isnull _data) then {
+						// Find last selected UAV and # if found
+						for "_i" from 0 to (lbSize _uavListCtrl - 1) do {
+							if (str _data == (_uavListCtrl lbData _i)) exitWith {
+								_uavListCtrl lbSetCurSel _i;
+							};
+						};
+						// If no UAV could be selected, clear last selected UAV
+						if (lbCurSel _uavListCtrl == -1) then {
+							[_displayName,[["uavCam",""]]] call cTab_fnc_setSettings;
+							cTab_player setVariable ["TGP_View_Selected_Vehicle",objNull];
+							_uavListCtrl lbSetCurSel 0;
+						};
+					} else {
+						_uavListCtrl lbSetCurSel 0;
+					};
 				};
 			};
-			// If no UAV could be selected, clear last selected UAV
-			if (lbCurSel _uavListCtrl == -1) then {
-				[_displayName,[["uavCam",""]]] call cTab_fnc_setSettings;
-				cTab_player setVariable ["TGP_View_Selected_Vehicle",objNull];
-				_uavListCtrl lbSetCurSel 0;
-			};
-			} else {
-			_uavListCtrl lbSetCurSel 0;
-			};
-		};
-		};
 		};
 		// ------------ HCAM List Update ------------
 		if (_x # 0 == "hCamListUpdate") exitWith {
-		if (_mode == "HCAM") then {
-		_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
-		_hcamListCtrl = _display displayCtrl IDC_CTAB_CTABHCAMLIST;
-		// Populate list of HCAMs
-		lbClear _hcamListCtrl;
-		_hcamListCtrl lbSetCurSel -1;
-		cTabHcamlist apply {
-			_index = _hcamListCtrl lbAdd format ["%1:%2 (%3)",groupId group _x,[_x] call CBA_fnc_getGroupIndex,name _x];
-			_hcamListCtrl lbSetData [_index,str _x];
-		};
-		lbSort [_hcamListCtrl, "ASC"];
-		if (_data != "") then {
-			// Find last selected hCam and # if found
-			for "_x" from 0 to (lbSize _hcamListCtrl - 1) do {
-			if (_data == _hcamListCtrl lbData _x) exitWith {
-				if (lbCurSel _hcamListCtrl != _x) then {
-				_hcamListCtrl lbSetCurSel _x;
+			if (_mode == "HCAM") then {
+				_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
+				_hcamListCtrl = _display displayCtrl IDC_CTAB_CTABHCAMLIST;
+				// Populate list of HCAMs
+				lbClear _hcamListCtrl;
+				_hcamListCtrl lbSetCurSel -1;
+				cTabHcamlist apply {
+					_index = _hcamListCtrl lbAdd format ["%1:%2 (%3)",groupId group _x,[_x] call CBA_fnc_getGroupIndex,name _x];
+					_hcamListCtrl lbSetData [_index,str _x];
+				};
+				lbSort [_hcamListCtrl, "ASC"];
+				if (_data != "") then {
+					// Find last selected hCam and # if found
+					for "_x" from 0 to (lbSize _hcamListCtrl - 1) do {
+						if (_data == _hcamListCtrl lbData _x) exitWith {
+							if (lbCurSel _hcamListCtrl != _x) then {
+								_hcamListCtrl lbSetCurSel _x;
+							};
+						};
+					};
+
+					// If no hCam could be selected, clear last selected hCam
+					if (lbCurSel _hcamListCtrl == -1) then {
+						[_displayName,[["hCam",""]]] call cTab_fnc_setSettings;
+					};
 				};
 			};
-			};
-			// If no hCam could be selected, clear last selected hCam
-			if (lbCurSel _hcamListCtrl == -1) then {
-			[_displayName,[["hCam",""]]] call cTab_fnc_setSettings;
-			};
-		};
-		};
 		};
 
 		// ---------- Marker Color -----------
 		if ((_x # 0) == "markerColor") exitWith {
-		private _markerColor = _display displayCtrl (17000 + 1090);
-		if (lbSize _markerColor == 0) then {
-		private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkerColors");
-		{
-			private ["_name","_color","_index"];
-			_name = getText (_x >> "name");
-			_color = (getArray (_x >> "color")) apply {
-			if (_x isEqualType "") then {call compile _x} else {_x};
-			};
-			_index = _markerColor lbAdd _name;
-			_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
+			private _markerColor = _display displayCtrl (17000 + 1090);
+			if (lbSize _markerColor == 0) then {
+			private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkerColors");
+			{
+				private ["_name","_color","_index"];
+				_name = getText (_x >> "name");
+				_color = (getArray (_x >> "color")) apply {
+				if (_x isEqualType "") then {call compile _x} else {_x};
+				};
+				_index = _markerColor lbAdd _name;
+				_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
 
-			_markerColor lbSetPictureColorSelected [_index, _color];
-			_markerColor lbSetPictureColor [_index, _color];
-			_markerColor lbSetData [_index, str [configName _x, _color]];
-		} count _cfg;
+				_markerColor lbSetPictureColorSelected [_index, _color];
+				_markerColor lbSetPictureColor [_index, _color];
+				_markerColor lbSetData [_index, str [configName _x, _color]];
+			} count _cfg;
 		};
 		_markerColor lbSetCurSel (_x # 1);
 		};
@@ -636,232 +638,232 @@ _settings apply {
 		// ------------ UAV CAM ------------
 		// ------------ init AV info ------------
 		if ((_x # 0) == "uavCam") exitWith {
-		if (_mode in ["UAV","TASK_Builder"]) then {
-		private ["_UAV_Interface","_data","_veh","_veh_changed","_list"];
+			if (_mode in ["UAV","TASK_Builder"]) then {
+				private ["_UAV_Interface","_data","_veh","_veh_changed","_list"];
 
-		_UAV_Interface = _mode == "UAV";
+				_UAV_Interface = _mode == "UAV";
 
-		//-Find Vehicle
-		_data = _x # 1;
-		_veh = objNull;
-		{
-			if (_data == str _x) exitWith {_veh = _x};
-		} count cTabUAVlist;
+				//-Find Vehicle
+				_data = _x # 1;
+				_veh = objNull;
+				{
+					if (_data == str _x) exitWith {_veh = _x};
+				} count cTabUAVlist;
 
-		_veh_changed = _veh isNotEqualTo (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull]);
+				_veh_changed = _veh isNotEqualTo (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull]);
 
-		cTab_player setVariable ["TGP_View_Selected_Vehicle",_veh];
-		_condition = [((uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0) == 0,true] select _UAV_Interface;
+				cTab_player setVariable ["TGP_View_Selected_Vehicle",_veh];
+				_condition = [((uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0) == 0,true] select _UAV_Interface;
 
-		//-Create PIP camera if mode is "UAV"
-		if !(isNull _veh) then {
-			[_veh,[[1,["rendertarget8","rendertarget9"] select _UAV_Interface]],_UAV_Interface] call cTab_fnc_createUavCam;
-		} else {
-			//-Clean Up if the vehicle is null
-			call cTab_fnc_deleteUAVcam;
-			player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
-			[1787,2020,2021] apply {lbClear (_display displayCtrl (17000 + _x))};
-			(_display displayCtrl (17000 + 1788)) ctrlSetStructuredText parseText "";
+				//-Create PIP camera if mode is "UAV"
+				if !(isNull _veh) then {
+					[_veh,[[1,["rendertarget8","rendertarget9"] select _UAV_Interface]],_UAV_Interface] call cTab_fnc_createUavCam;
+				} else {
+					//-Clean Up if the vehicle is null
+					call cTab_fnc_deleteUAVcam;
+					player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
+					[1787,2020,2021] apply {lbClear (_display displayCtrl (17000 + _x))};
+					(_display displayCtrl (17000 + 1788)) ctrlSetStructuredText parseText "";
 
-			if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
-			(_display displayCtrl (17000 + 46320)) ctrlSetText "--";
+					if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
+						(_display displayCtrl (17000 + 46320)) ctrlSetText "--";
+					};
+				};
+
+				//-Task Builder
+				if !(_UAV_Interface) then {
+					if (_veh_changed) then {
+						[_display,17000,0] call BCE_fnc_Reset_TaskList;
+					};
+					[_display,_display displayCtrl (17000 + 1787),_veh,true] call BCE_fnc_checkList;
+				};
+
+				//-update vehicle info
+				_list = _display displayCtrl (([17000,0] select _UAV_Interface) + 1775);
+				[_list,_veh] call BCE_fnc_ctab_List_AV_Info;
 			};
-		};
-
-		//-Task Builder
-		if !(_UAV_Interface) then {
-			if (_veh_changed) then {
-			[_display,17000,0] call BCE_fnc_Reset_TaskList;
-			};
-			[_display,_display displayCtrl (17000 + 1787),_veh,true] call BCE_fnc_checkList;
-		};
-
-		//-update vehicle info
-		_list = _display displayCtrl (([17000,0] select _UAV_Interface) + 1775);
-		[_list,_veh] call BCE_fnc_ctab_List_AV_Info;
-		};
 		};
 
 		// ------------ HCAM ------------
 		if (_x # 0 == "hCam") exitWith {
-		_renderTarget = ["rendertarget12","rendertarget13"] select (_mode == "HCAM_FULL");
+			_renderTarget = ["rendertarget12","rendertarget13"] select (_mode == "HCAM_FULL");
 
-		if (!isNil "_renderTarget") then {
-		_data = _x # 1;
-		if (_data != "") then {
-			[_renderTarget,_data] call cTab_fnc_createHelmetCam;
-		} else {
-			call cTab_fnc_deleteHelmetCam;
-		}
-		};
+			if (!isNil "_renderTarget") then {
+				_data = _x # 1;
+				if (_data != "") then {
+					[_renderTarget,_data] call cTab_fnc_createHelmetCam;
+				} else {
+					call cTab_fnc_deleteHelmetCam;
+				}
+			};
 		};
 		// ------------ MAP TOOLS ------------
 		if ((_x # 0) in ["mapTools","BCE_mapTools","PLP_mapTools"]) exitWith {
 
-		if ((_x # 0) == "mapTools") then {
-		cTabDrawMapTools = _x # 1;
-		};
-
-		if (_mode == "BFT") then {
-		if !(_displayName in ["cTab_TAD_dlg","cTab_TAD_dsp"]) then {
-			private ["_Tool_toggle","_BCE_toggle","_PLP_toggle","_ToolCtrl","_toggleW","_period","_MoveDir","_cal_H","_Tool_statment","_toggled_ctrl","_sort"];
-
-			_Tool_toggle = _display displayCtrl (17000 + 1200);
-			_BCE_toggle = _display displayCtrl (17000 + 1201);
-
-			#ifdef PLP_TOOL
-			_PLP_toggle = _display displayCtrl (17000 + 1202);
-			#endif
-
-			_ToolCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_DIR;
-
-			(ctrlPosition _Tool_toggle) params ["","","_toggleW","_toggleH"];
-			(ctrlPosition _ToolCtrl) params ["_CTRLX","_CTRLY","_CTRLW","_CTRLH"];
-
-			_period = [0.2,0] select (_interfaceInit || _maptoolsInit);
-			_MoveDir = [1,-1] select ("Android" in _displayName);
-
-			//-Get Y axis and H
-			_cal_H = _CTRLH / 2;
-			_Tool_statment = [
-			[[_CTRLW - _toggleW, 0] select (_MoveDir < 0) , [_CTRLX + (_CTRLW * _MoveDir) ,0]],
-			[[(-_toggleW), _CTRLW] select (_MoveDir < 0), [_CTRLX ,_CTRLW]]
-			];
-
-			_toggled_ctrl = switch (_x # 0) do {
-			case "mapTools": {
-				[
-				IDC_CTAB_OSD_HOOK_GRID,
-				IDC_CTAB_OSD_HOOK_DIR,
-				IDC_CTAB_OSD_HOOK_DST,
-				IDC_CTAB_OSD_HOOK_ELEVATION
-				] apply {
-				private _ctrl = _display displayCtrl _x;
-				if (!isNull _ctrl) then {
-					_ctrl ctrlShow cTabDrawMapTools;
-				};
-				};
-
-				_Tool_toggle
+			if ((_x # 0) == "mapTools") then {
+				cTabDrawMapTools = _x # 1;
 			};
 
-			#ifdef PLP_TOOL
-				case "PLP_mapTools": {
-				private _status = _x # 1;
-				private _ctrl = _display displayCtrl (17000 + 12012);
-				(_display displayCtrl 73454) ctrlshow _status;
+			if (_mode == "BFT") then {
+				if !(_displayName in ["cTab_TAD_dlg","cTab_TAD_dsp"]) then {
+					private ["_Tool_toggle","_BCE_toggle","_PLP_toggle","_ToolCtrl","_toggleW","_period","_MoveDir","_cal_H","_Tool_statment","_toggled_ctrl","_sort"];
 
-				if (_status) then {
-					[_ctrl,lbCurSel _ctrl] call BCE_fnc_ctab_BFT_ToolBox;
-				} else {
-					private _PLP_EH = uiNamespace getVariable ["PLP_SMT_EH",-1];
-					private _PLP_Tool = _display displayCtrl 73453;
+					_Tool_toggle = _display displayCtrl (17000 + 1200);
+					_BCE_toggle = _display displayCtrl (17000 + 1201);
 
-					if !(isNull _PLP_Tool) then {
-					ctrlDelete _PLP_Tool;
+					#ifdef PLP_TOOL
+					_PLP_toggle = _display displayCtrl (17000 + 1202);
+					#endif
+
+					_ToolCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_DIR;
+
+					(ctrlPosition _Tool_toggle) params ["","","_toggleW","_toggleH"];
+					(ctrlPosition _ToolCtrl) params ["_CTRLX","_CTRLY","_CTRLW","_CTRLH"];
+
+					_period = [0.2,0] select (_interfaceInit || _maptoolsInit);
+					_MoveDir = [1,-1] select ("Android" in _displayName);
+
+					//-Get Y axis and H
+					_cal_H = _CTRLH / 2;
+					_Tool_statment = [
+						[[_CTRLW - _toggleW, 0] select (_MoveDir < 0) , [_CTRLX + (_CTRLW * _MoveDir) ,0]],
+						[[(-_toggleW), _CTRLW] select (_MoveDir < 0), [_CTRLX ,_CTRLW]]
+					];
+
+					_toggled_ctrl = switch (_x # 0) do {
+						case "mapTools": {
+							[
+								IDC_CTAB_OSD_HOOK_GRID,
+								IDC_CTAB_OSD_HOOK_DIR,
+								IDC_CTAB_OSD_HOOK_DST,
+								IDC_CTAB_OSD_HOOK_ELEVATION
+							] apply {
+								private _ctrl = _display displayCtrl _x;
+								if (!isNull _ctrl) then {
+									_ctrl ctrlShow cTabDrawMapTools;
+								};
+							};
+
+							_Tool_toggle
+						};
+
+						#ifdef PLP_TOOL
+							case "PLP_mapTools": {
+							private _status = _x # 1;
+							private _ctrl = _display displayCtrl (17000 + 12012);
+							(_display displayCtrl 73454) ctrlshow _status;
+
+							if (_status) then {
+								[_ctrl,lbCurSel _ctrl] call BCE_fnc_ctab_BFT_ToolBox;
+							} else {
+								private _PLP_EH = uiNamespace getVariable ["PLP_SMT_EH",-1];
+								private _PLP_Tool = _display displayCtrl 73453;
+
+								if !(isNull _PLP_Tool) then {
+									ctrlDelete _PLP_Tool;
+								};
+
+								if (_PLP_EH > 0) then {
+									private ["_mapTypes","_currentMapType","_currentMapTypeIndex","_mapIDC"];
+									_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+									_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
+									_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
+									_mapIDC = _mapTypes # _currentMapTypeIndex # 1;
+									(_display displayCtrl _mapIDC) ctrlRemoveEventHandler ["Draw",_PLP_EH];
+								};
+							};
+
+							_PLP_toggle
+							};
+						#endif
+
+						case "BCE_mapTools": {
+							private _status = _x # 1;
+							private _list = _display displayCtrl (17000 + 12010);
+							[_list, lbCurSel _list, _status] call BCE_fnc_ctab_BFT_ToolBox;
+
+							_BCE_toggle
+						};
 					};
 
-					if (_PLP_EH > 0) then {
-					private ["_mapTypes","_currentMapType","_currentMapTypeIndex","_mapIDC"];
-					_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-					_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
-					_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
-					_mapIDC = _mapTypes # _currentMapTypeIndex # 1;
-					(_display displayCtrl _mapIDC) ctrlRemoveEventHandler ["Draw",_PLP_EH];
-					};
+					_sort = [];
+					{
+					if (isnull (_x # 0)) then {continue};
+					_x params ["_toggle","_idc","_size","_id"];
+
+					private _status = [_displayName,_id] call cTab_fnc_getSettings;
+					private _POS = _Tool_statment select _status;
+
+					private _ctrls = [_toggle] + (_idc apply {
+						_x params ["_IDC",["_showOnInit",true]];
+						private _c = _display displayctrl (17000 + _IDC);
+						if (_showOnInit) then {
+						 _c ctrlshow _status;
+						};
+
+						//-Preset of List Content
+						if (_MoveDir < 0) then {
+							_c ctrlSetPositionX _CTRLX;
+							_c ctrlCommit 0;
+						};
+
+						(_POS # 1) params ["_Cx","_Cw"];
+						_c ctrlSetPositionX _Cx;
+						_c ctrlSetPositionW _Cw;
+						_c
+					});
+
+					_toggle ctrlSetPositionX (_CTRLX + (_POS # 0));
+
+					//-Output
+					_sort pushBack [_ctrls, _size * _CTRLH, _status];
+					} forEach [
+						[_Tool_toggle,[], 4, "mapTools"],
+						#ifdef PLP_TOOL
+							[_PLP_toggle,[12012], 6, "PLP_mapTools"],
+						#endif
+						[_BCE_toggle,[[12011,false], 12010], 4, "BCE_mapTools"]
+					];
+
+					//- Set Y axis of current selected ctrl
+					private _i = _CTRLY + _CTRLH;
+
+					//-Set Y axis
+					{
+						_x params ["_ctrls","_H",["_Open",false]];
+
+						private _j = 0;
+						{
+							private ["_Start","_Cy"];
+
+							_Start = _forEachIndex == 0;
+							_Cy = [_i - _H + _j, _i - _toggleH] select _Start;
+
+							_x ctrlSetPositionY _Cy;
+							_x ctrlCommit _period;
+
+							if !(_Start) then {
+								_j = _j + ((ctrlPosition _x) # 3);
+							};
+						} forEach _ctrls;
+
+						_i = _i - (_cal_H / 4) - ([_toggleH, _H] select _Open);
+					} count _sort;
+
 				};
 
-				_PLP_toggle
+				//--------------------------------//
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL1;
+				if (!isNull _osdCtrl) then {
+					_text = ["CURS","OWN"] select (_x # 1);
+					_osdCtrl ctrlSetText _text;
 				};
-			#endif
-
-			case "BCE_mapTools": {
-				private _status = _x # 1;
-				private _list = _display displayCtrl (17000 + 12010);
-				[_list, lbCurSel _list, _status] call BCE_fnc_ctab_BFT_ToolBox;
-
-				_BCE_toggle
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL2;
+				if (!isNull _osdCtrl) then {
+					_text = ["OWN","CURS"] select (_x # 1);
+					_osdCtrl ctrlSetText _text;
+				};
 			};
-			};
-
-			_sort = [];
-			{
-			if (isnull (_x # 0)) then {continue};
-			_x params ["_toggle","_idc","_size","_id"];
-
-			private _status = [_displayName,_id] call cTab_fnc_getSettings;
-			private _POS = _Tool_statment select _status;
-
-			private _ctrls = [_toggle] + (_idc apply {
-				_x params ["_IDC",["_showOnInit",true]];
-				private _c = _display displayctrl (17000 + _IDC);
-				if (_showOnInit) then {
-				 _c ctrlshow _status;
-				};
-
-				//-Preset of List Content
-				if (_MoveDir < 0) then {
-				_c ctrlSetPositionX _CTRLX;
-				_c ctrlCommit 0;
-				};
-
-				(_POS # 1) params ["_Cx","_Cw"];
-				_c ctrlSetPositionX _Cx;
-				_c ctrlSetPositionW _Cw;
-				_c
-			});
-
-			_toggle ctrlSetPositionX (_CTRLX + (_POS # 0));
-
-			//-Output
-			_sort pushBack [_ctrls, _size * _CTRLH, _status];
-			} forEach [
-			[_Tool_toggle,[], 4, "mapTools"],
-			#ifdef PLP_TOOL
-				[_PLP_toggle,[12012], 6, "PLP_mapTools"],
-			#endif
-			[_BCE_toggle,[[12011,false], 12010], 4, "BCE_mapTools"]
-			];
-
-			//- Set Y axis of current selected ctrl
-			private _i = _CTRLY + _CTRLH;
-
-			//-Set Y axis
-			{
-			_x params ["_ctrls","_H",["_Open",false]];
-
-			private _j = 0;
-			{
-				private ["_Start","_Cy"];
-
-				_Start = _forEachIndex == 0;
-				_Cy = [_i - _H + _j, _i - _toggleH] select _Start;
-
-				_x ctrlSetPositionY _Cy;
-				_x ctrlCommit _period;
-
-				if !(_Start) then {
-				_j = _j + ((ctrlPosition _x) # 3);
-				};
-			} forEach _ctrls;
-
-			_i = _i - (_cal_H / 4) - ([_toggleH, _H] select _Open);
-			} count _sort;
-
-		};
-
-		//--------------------------------//
-		_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL1;
-		if (!isNull _osdCtrl) then {
-			_text = ["CURS","OWN"] select (_x # 1);
-			_osdCtrl ctrlSetText _text;
-		};
-		_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL2;
-		if (!isNull _osdCtrl) then {
-			_text = ["OWN","CURS"] select (_x # 1);
-			_osdCtrl ctrlSetText _text;
-		};
-		};
 		};
 
 		// ---------- ATAK Tools -----------
@@ -886,9 +888,12 @@ _settings apply {
 					//-ATAK Control Adjustments
 					switch (_page) do {
 						case "mission": {
-							//-Select Description Type
-							private _ctrl = (_display displayCtrl (17000 + 4661)) controlsGroupCtrl (17000 + 2027);
-							_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_ATAK_Desc_Type",0]);
+							//-Select Last Type that set
+							{
+								_x params ["_idc","_var"];
+								private _ctrl = (_display displayCtrl (17000 + 4661)) controlsGroupCtrl (17000 + _idc);
+								_ctrl lbSetCurSel (uiNamespace getVariable [_var,0]);
+							} count [[2107,"BCE_Current_TaskType"],[2027,"BCE_ATAK_Desc_Type"]];
 						};
 					};
 				};
@@ -896,17 +901,17 @@ _settings apply {
 		};
 
 		if (_x # 0 == "uavInfo") exitWith {
-		private _status = _x # 1;
-		[[1775,_status],[1776,!_status]] apply {
-		_x params ["_idc","_show"];
-		private _osdCtrl = _display displayCtrl _idc;
-		if (!isNull _osdCtrl) then {
-			_osdCtrl ctrlShow _show;
-		};
-		};
-		if (_status) exitWith {
-		[_display displayCtrl 1775, cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_ctab_List_AV_Info;
-		};
+			private _status = _x # 1;
+			[[1775,_status],[1776,!_status]] apply {
+				_x params ["_idc","_show"];
+				private _osdCtrl = _display displayCtrl _idc;
+				if (!isNull _osdCtrl) then {
+					_osdCtrl ctrlShow _show;
+				};
+			};
+			if (_status) exitWith {
+				[_display displayCtrl 1775, cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_ctab_List_AV_Info;
+			};
 		};
 		// ----------------------------------
 	};

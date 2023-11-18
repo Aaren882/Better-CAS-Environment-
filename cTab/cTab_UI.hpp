@@ -914,7 +914,7 @@ class cTab_Tablet_dlg
 							tooltip = "$STR_BCE_TIP_DESC";
 							Expression_idc[] = {2015,2016};
 						};
-						class Remark: Line2
+						class Remark: Remark
 						{
 							text = "Remarks :";
 							data = "$STR_BCE_DECS_Remarks";

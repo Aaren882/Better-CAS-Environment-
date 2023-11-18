@@ -12,7 +12,7 @@ if (hasInterface) exitWith {
   };
 
   //-Set All IDCs
-  _set_TaskBuilder_Vars = {
+  private _set_TaskBuilder_Vars = {
   	params ["_config",["_offset",0]];
 
   	private _classes = ["CAS_TaskList_9","CAS_TaskList_5"] apply {
@@ -38,7 +38,15 @@ if (hasInterface) exitWith {
 
   #ifdef cTAB_Installed
     cTab_Task_TaskItems = [configFile >> "cTab_Tablet_dlg" >> "controls" >> "Task_Builder",17000] call _set_TaskBuilder_Vars;
-
+    
+    private _condition = "!(getNumber (_x >> 'IDC') in [-1,17000 + 2107,17000 + 2011,17000 + 20112,17000 + 2020,17000 + 2021,17000 + 2022,17000 + 2023,17000 + 2024])";
+    private _classes = _condition configClasses (configFile >> "cTab_Android_dlg" >> "controls" >> "Task_Builder" >> "controls");
+    ATAK_Task_Items = _classes apply {
+      private ["_idc"];
+      _idc = getNumber(_x >> "IDC");
+    };
+    
+    
     //- Set Default Devices
     ctab_core_personneldevices = ["ItemcTab","ItemAndroid","ItemMicroDAGR"];
     ctab_core_leaderDevices = ["ItemcTab","ItemAndroid"];

@@ -35,6 +35,4 @@ _desc = switch (_curType) do {
 call ([BCE_fnc_DblClick9line, BCE_fnc_DblClick5line] # _curType);
 
 _description ctrlCommit 0;
-
-_desc = format ["%1<br/>%2", localize "STR_BCE_Description", (localize (_desc # _curLine)) call BCE_fnc_formatLanguage];
-_description ctrlSetStructuredText parseText _desc;
+_description ctrlSetStructuredText parseText format ["%1<br/>%2", localize "STR_BCE_Description", (localize (_desc # _curLine)) call BCE_fnc_formatLanguage];
