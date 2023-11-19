@@ -17,6 +17,14 @@ class cTab_android_on_screen_hookDst: cTab_android_on_screen_hookGrid
 #undef Android_BR_InfoY
 PHONE_CLASS
 {
+	#ifdef MOUSE_CLICK_EH
+		TaskIDCs_List[] = {
+			//- 9 Line
+			{93,94,95,96,97,98,99,idc_D(2025),idc_D(2026),idc_D(20260),idc_D(2027),idc_D(20270),idc_D(2028),idc_D(2029),idc_D(2030),idc_D(2031),idc_D(2032)},
+			//- 5 Line
+			{51,52,53,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2043),idc_D(20430),idc_D(2044)}
+		};
+	#endif
 	class controlsBackground
 	{
 		#ifdef MOUSE_CLICK_EH
@@ -334,8 +342,6 @@ PHONE_CLASS
 		class Task_Builder: ATAK_Tools
 		{
 			idc = idc_D(4661);
-			w = PhoneBFTContainerW(WPOS); \
-			h = HPOS * (((60)) / 2048 * (PhoneW * 4/3))
 			class VScrollbar
 			{
 				scrollSpeed=0.08;
@@ -363,7 +369,7 @@ PHONE_CLASS
 					ATAK_POS(1,0.35/2,1.9,0.65);
 					
 					wholeHeight = 0.8;
-					sizeEx = 0.8 * TextSize;
+					sizeEx = 0.9 * TextSize;
 					font = "PuristaMedium";
 					
 					colorBackground[] = {0,0,0,1};
@@ -393,7 +399,7 @@ PHONE_CLASS
 				{
 					text="Type";
 					ATAK_POS(0,1.1,1,0.8);
-					sizeEx = 0.9 * TextSize;
+					sizeEx = TextSize;
 					tooltip="$STR_BCE_TIP_CtrlType";
 				};
 				
@@ -412,12 +418,12 @@ PHONE_CLASS
 					};
 					font = "RobotoCondensed_BCE";
 					colorBackground[] = {0,0,0,0.3};
-					sizeEx = 0.8 * TextSize;
+					sizeEx = 0.9 * TextSize;
 				};
 				class MOA_T: Game_Plan_T
 				{
 					text="MOA";
-					sizeEx = 0.65 * TextSize;
+					sizeEx = 0.85 * TextSize;
 					ATAK_POS(1.8,(1 + (0.35/2)),0.4,0.65);
 					tooltip="$STR_BCE_TIP_MOA";
 				};
@@ -459,7 +465,7 @@ PHONE_CLASS
 				{
 					idc = idc_D(2020);
 					ATAK_POS(0.7,(2 + (0.35/2)),1.1,0.65);
-					sizeEx = 0.8 * TextSize;
+					sizeEx = 0.9 * TextSize;
 					onMouseButtonClick = "";
 					onLBSelChanged = "call BCE_fnc_CAS_SelWPN";
 					class Items{};
@@ -501,7 +507,7 @@ PHONE_CLASS
 					ATAK_POS(1.8,(2.65 + (0.35/2)),(1.1/3),0.63);
 					Style = 2;
 					text = "1";
-					sizeEx = 0.8 * TextSize;
+					sizeEx = 0.9 * TextSize;
 					tooltip = "$STR_BCE_tip_Round_Count";
 				};
 				class Attack_Height_Box: Round_Count_Box
@@ -526,6 +532,7 @@ PHONE_CLASS
 					ATAK_POS(0.4,(3.6 + (0.35/2)),2.5,0.7);
 					sizeEx = TextSize;
 					text = "T1 , 360° , 1200m";
+					tooltip="$STR_BCE_TIP_IPBP_Info";
 					
 					//-Style
 					colorBackground[] = {0,0,0,0.5};
@@ -561,6 +568,7 @@ PHONE_CLASS
 					idc = idc_D(2026);
 					ATAK_POS(0.2,(4.6 + (0.35/2)),2.3,0.7);
 					text = "535ft MSL";
+					tooltip="$STR_BCE_TIP_ELEV";
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,4]]]] call cTab_fnc_setSettings;";
 				};
 				class L94_PullBnt: ctrlButton
@@ -570,7 +578,7 @@ PHONE_CLASS
 					
 					style = "0x02 + 0x30 + 0x800";
 					colorBackground[] = {0.1,0.1,0.1,0.75};
-					sizeEx = 0.75 * TextSize;
+					sizeEx = 0.85 * TextSize;
 					
 					tooltip = "Show Info";
 					text = "\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa";
@@ -591,8 +599,9 @@ PHONE_CLASS
 					ATAK_POS(0.2,(5.6 + (0.35/2)),2.3,0.7);
 					
 					wholeHeight = 0.8;
-					sizeEx = 0.8 * TextSize;
+					sizeEx = 0.9 * TextSize;
 					font = "PuristaMedium";
+					tooltip="$STR_BCE_TIP_DESC";
 					
 					style="0x10 + 0x200 + 0x02";
 					colorText[] = {1,1,1,1};
@@ -615,13 +624,7 @@ PHONE_CLASS
 							text = "In the open";
 							textRight = "";
 							value = 1;
-							color[]=
-							{
-								0.75,
-								0.75,
-								0.75,
-								1
-							};
+							color[]={0.65,0.65,0.65,1};
 						};
 						class Cover: Open
 						{
@@ -648,7 +651,7 @@ PHONE_CLASS
 				class L95_EditText: RscEdit
 				{
 					idc = idc_D(2028);
-					sizeEx = 0.8*TextSize;
+					sizeEx = 0.9 * TextSize;
 					ATAK_POS(0.15,(6.5 + (0.35/2)),2.75,0.9);
 					colorText[] = {0.75,0.75,0.75,1};
 					colorBackground[]={0,0,0,0.5};
@@ -665,9 +668,10 @@ PHONE_CLASS
 				};
 				class L96_EditBnt: IP2TG_EditBnt
 				{
-					idc = 2028;
+					idc = idc_D(2029);
 					ATAK_POS(0.2,(7.6 + (0.35/2)),2.7,0.7);
 					text = "XT 123456";
+					tooltip="$STR_BCE_TIP_GRID";
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,6]]]] call cTab_fnc_setSettings;";
 				};
 				
@@ -681,9 +685,10 @@ PHONE_CLASS
 				};
 				class L97_EditBnt: IP2TG_EditBnt
 				{
-					idc = idc_D(2029);
+					idc = idc_D(2030);
 					ATAK_POS(0.2,(8.6 + (0.35/2)),2.7,0.7);
 					text = "NO MARKS";
+					tooltip="$STR_BCE_TIP_MARK";
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,7]]]] call cTab_fnc_setSettings;";
 				};
 				
@@ -697,9 +702,10 @@ PHONE_CLASS
 				};
 				class L98_EditBnt: IP2TG_EditBnt
 				{
-					idc = idc_D(2030);
+					idc = idc_D(2031);
 					ATAK_POS(0.2,(9.6 + (0.35/2)),2.7,0.7);
 					text = "None";
+					tooltip="$STR_BCE_TIP_FRND";
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,8]]]] call cTab_fnc_setSettings;";
 				};
 				//-Line 9
@@ -712,9 +718,10 @@ PHONE_CLASS
 				};
 				class L99_EditBnt: IP2TG_EditBnt
 				{
-					idc = idc_D(2031);
+					idc = idc_D(2032);
 					ATAK_POS(0.2,(10.6 + (0.35/2)),2.7,0.7);
 					text = "Back To IP";
+					tooltip="$STR_BCE_TIP_EGRS";
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,9]]]] call cTab_fnc_setSettings;";
 				};
 
@@ -729,13 +736,13 @@ PHONE_CLASS
 				class L51_EditBnt: RscStructuredText
 				{
 					idc = idc_D(2040);
-					ATAK_POS(0.2,(3.6 + (0.35/2)),2.5,0.7);
-					colorBackground[] = {0,0,0,0.5};
+					ATAK_POS(0.2,(3.6 + (0.35/2)),2.7,0.7);
+					colorBackground[] = {0.2,0.2,0.2,0.5};
 					
-					sizeEx = TextSize;
 					text = "“Alpha 1-1” / “Alpha 1-2”";
+					tooltip="$STR_BCE_TIP_5Line";
 					
-					class Attributes: Attributes
+					class Attributes
 					{
 						align = "center";
 						font = "RobotoCondensedBold_BCE";
@@ -745,7 +752,7 @@ PHONE_CLASS
 				
 				class Line2_T5: CtrlType
 				{
-					idc = 51;
+					idc = 52;
 					text="2";
 					ATAK_POS(0,(4.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_FRND";
@@ -755,56 +762,73 @@ PHONE_CLASS
 					idc = idc_D(2041);
 					ATAK_POS(0.2,(4.6 + (0.35/2)),2.7,0.7);
 					text = "None";
-					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,2]]]] call cTab_fnc_setSettings;";
+					tooltip="$STR_BCE_TIP_FRND";
+					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,1]]]] call cTab_fnc_setSettings;";
 				};
 				
 				class Line3_T5: CtrlType
 				{
-					idc = 51;
+					idc = 52;
 					text="3";
 					ATAK_POS(0,(5.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_GRID";
 				};
 				class L53_EditBnt: IP2TG_EditBnt
 				{
-					idc = idc_D(2041);
+					idc = idc_D(2042);
 					ATAK_POS(0.2,(5.6 + (0.35/2)),2.7,0.7);
 					text = "None";
-					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,3]]]] call cTab_fnc_setSettings;";
+					tooltip="$STR_BCE_TIP_GRID";
+					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,2]]]] call cTab_fnc_setSettings;";
 				};
 				
 				class Line4_T5: CtrlType
 				{
-					idc = 51;
+					idc = 53;
 					text="4";
 					ATAK_POS(0,(6.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_DESC";
 				};
-				class L54_EditBnt: IP2TG_EditBnt
+				class L54_EditBnt: L95_EditBnt
 				{
-					idc = idc_D(2041);
-					ATAK_POS(0.2,(6.6 + (0.35/2)),2.7,0.7);
-					text = "None";
-					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,4]]]] call cTab_fnc_setSettings;";
+					idc = idc_D(2043);
+					ATAK_POS(0.2,(6.6 + (0.35/2)),2.3,0.7);
+					tooltip="$STR_BCE_TIP_DESC";
+				};
+				class L54_PullBnt: L94_PullBnt
+				{
+					idc = idc_D(20430);
+					ATAK_POS(2.55,(6.6 + (0.35/2)),0.35,0.7);
+				};
+				class L54_EditText: RscEdit
+				{
+					idc = idc_D(2044);
+					sizeEx = 0.9 * TextSize;
+					ATAK_POS(0.15,(7.5 + (0.35/2)),2.75,0.9);
+					colorText[] = {0.75,0.75,0.75,1};
+					colorBackground[]={0,0,0,0.5};
+					tooltip="$STR_BCE_TIP_AddDESC";
 				};
 				
 				////// -Separator for Remarks //////
 				class Separator: cTab_RscFrame
 				{
-					idc=-1;
+					idc=3000;
 					ATAK_POS(0.1,(11.65 + (0.35/2)),2.8,0.001);
 				};
 				
 				class Remark: Game_Plan_T
 				{
+					idc=3001;
 					text="Remarks/Restrictions";
 					ATAK_POS(0,(11.7 + (0.35/2)),3,1);
-					sizeEx = 0.85 * TextSize;
+					sizeEx = 0.9 * TextSize;
 					font = "RobotoCondensedBold_BCE";
 					tooltip="$STR_BCE_TIP_Remarks";
 				};
 				class AddRemark: ctrlButton
 				{
+					idc=3002;
 					ATAK_POS((2.4+0.15/2),(11.8 + (0.35/2)),0.4,0.7);
 					
 					style = "0x02 + 0x30 + 0x800";
@@ -821,6 +845,10 @@ PHONE_CLASS
 		class Task_Building: Task_Builder
 		{
 			idc = idc_D(4662);
+			class VScrollbar
+			{
+				scrollSpeed=0;
+			};
 			class controls
 			{
 				//-Description
@@ -830,6 +858,7 @@ PHONE_CLASS
 					text = "Desc :";
 					colorBackground[] = {0,0,0,0};
 					ATAK_POS(0,0,3,1);
+					size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
 					class Attributes
 					{
 						font = "RobotoCondensed_BCE";
@@ -844,7 +873,7 @@ PHONE_CLASS
 				{
 					idc = idc_D(2011);
 					
-					x = 0;
+					x = PhoneBFTContainerW(0.1);
 					y = 0.1 * ((60)) / 2048 * (PhoneW * 4/3);
 					w = PhoneBFTContainerW(3);
 					h = phoneSizeH - 0.75 * (((60)) / 2048 * (PhoneW * 4/3));
@@ -867,7 +896,7 @@ PHONE_CLASS
 					
 					font = "RobotoCondensed_BCE";
 					colorBackground[] = {0,0,0,0.3};
-					sizeEx = 0.8 * TextSize;
+					sizeEx = 0.9 * TextSize;
 					
 					onToolBoxSelChanged = _this + [false,TASK_OFFSET,'cTab_Android_dlg'] call BCE_fnc_ToolBoxChanged;
 				};
@@ -880,7 +909,7 @@ PHONE_CLASS
 					//colorPictureSelected[] = {1,1,1,0};
 					wholeHeight = 0.8;
 					font = "PuristaMedium";
-					sizeEx = 0.75 * TextSize;
+					sizeEx = 0.85 * TextSize;
 					onMouseButtonClick = "(_this # 0) call BCE_fnc_IPMarkers;";
 					class Items
 					{
@@ -898,7 +927,7 @@ PHONE_CLASS
 					ATAK_POS(1.5,(0.65 + 0.35/2),1.3,0.65);
 					text = "";
 					canModify = 0;
-					sizeEx = 0.75 * TextSize;
+					sizeEx = 0.85 * TextSize;
 					colorBackground[] = {0,0,0,0};
 					tooltip = "$STR_BCE_tip_ShowResult";
 				};
@@ -960,7 +989,7 @@ PHONE_CLASS
 					};
 					font = "RobotoCondensed_BCE";
 					colorBackground[] = {0,0,0,0.3};
-					sizeEx = 0.75 * TextSize;
+					sizeEx = 0.85 * TextSize;
 				};
 				class New_Task_EGRS_Bearing: RscEdit
 				{
@@ -979,7 +1008,7 @@ PHONE_CLASS
 						"$STR_BCE_Tit_Map_marker",
 						"$STR_BCE_Tit_OverHead"
 					};
-					sizeEx = 0.75 * TextSize;
+					sizeEx = 0.85 * TextSize;
 				};
 
 				//-Remarks
@@ -1026,7 +1055,7 @@ PHONE_CLASS
 				{
 					idc = 10;
 					text = "Back";
-					sizeEx = 0.9 * TextSize;
+					sizeEx = TextSize;
 					x = 0;
 					y = 0;
 					w = PhoneBFTContainerW(2);

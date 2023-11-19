@@ -146,11 +146,11 @@ switch _curLine do {
     };
 
     //-Description POS
-    _c = 0;
+    private _c = _titlePOS # 3;
     {
       _c = _c + ((ctrlPosition _x) # 3);
     } forEach [_ctrl1,_ctrl2];
-    private _c = (_titlePOS # 3) + _c;
+
     _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
     _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
@@ -187,11 +187,10 @@ switch _curLine do {
       _ctrl2 ctrlSetText localize "STR_BCE_MarkWith";
     };
 
-    _c = 0;
+    private _c = _titlePOS # 3;
     {
       _c = _c + ((ctrlPosition _x) # 3);
     } forEach [_ctrl1,_ctrl2];
-    _c = (_titlePOS # 3) + _c;
 
     _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
     _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
@@ -249,12 +248,11 @@ switch _curLine do {
     };
 
     //-Description POS
-    _c = 0;
+    private _c = _titlePOS # 3;
     {
       _c = _c + ((ctrlPosition _x) # 3);
     } forEach [_ctrl1,_ctrl2,_ctrl3,_ctrl5];
 
-    private _c = (_titlePOS # 3) + _c;
     _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
     _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 

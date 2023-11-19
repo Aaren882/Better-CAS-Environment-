@@ -879,12 +879,11 @@ _settings apply {
 					(_display displayCtrl _x) ctrlShow _show;
 				} count [IDC_CTAB_GROUP_MENU,_show_IDC];
 
-				private _showCtrl = [_display displayCtrl _show_IDC, controlNull] select (isnil {_show_IDC});
-
 				if (_show) then {
-					if !(isnull _showCtrl) then {
-						_showCtrl ctrlshow true;
+					if !(isnil {_show_IDC}) then {
+						(_display displayCtrl _show_IDC) ctrlshow true;
 					};
+					
 					//-ATAK Control Adjustments
 					switch (_page) do {
 						case "mission": {
@@ -893,7 +892,7 @@ _settings apply {
 								_x params ["_idc","_var"];
 								private _ctrl = (_display displayCtrl (17000 + 4661)) controlsGroupCtrl (17000 + _idc);
 								_ctrl lbSetCurSel (uiNamespace getVariable [_var,0]);
-							} count [[2107,"BCE_Current_TaskType"],[2027,"BCE_ATAK_Desc_Type"]];
+							} count [[2027,"BCE_ATAK_Desc_Type"],[2107,"BCE_Current_TaskType"]];
 						};
 					};
 				};

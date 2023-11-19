@@ -6,7 +6,7 @@ _is_Display  = displayNull isEqualType _display;
 _Info_list = switch _curInterface do {
   //-AVT
   case 0: {missionNamespace getVariable "AVT_Task_TaskItems"};
-  //-cTab Rugged Tablet
+  //-cTab
   case 1: {missionNamespace getVariable "cTab_Task_TaskItems"};
 };
 

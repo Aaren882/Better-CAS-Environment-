@@ -38,11 +38,7 @@ _config_path = configOf _vehicle;
 
 _Optic_LODs = [_vehicle,0] call BCE_fnc_Check_Optics;
 
-if ((_player getVariable ["TGP_View_Selected_Optic",[]]) Equal []) then {
-  _player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
-};
-
-if !(_vehicle Equal ((_player getVariable "TGP_View_Selected_Optic") # 1)) then {
+if (((_player getVariable ["TGP_View_Selected_Optic",[]]) Equal []) || !(_vehicle Equal ((_player getVariable "TGP_View_Selected_Optic") # 1))) then {
   _player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 };
 

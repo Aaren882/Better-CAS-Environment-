@@ -26,7 +26,8 @@ class RscTitles
 		
 		#define TextSize (((38)) / 2048 * (PhoneW * 4/3))
 		#define TextTimes 2.537
-		#define TextMenu(MULTI) __EVAL(1.1/TextTimes*MULTI)
+		#define TextTimesH ((safezoneH * 1.2) / PhoneH)
+		#define TextMenu(MULTI) __EVAL(1.1/TextTimesH*MULTI)
 		
 		#define ATAK_APP(APP,TITLE) #<img image=APP/><br/><t size='0.394'>TITLE</t>
 		

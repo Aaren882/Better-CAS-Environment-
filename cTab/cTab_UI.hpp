@@ -1502,8 +1502,9 @@ class cTab_TAD_dlg
 #define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
 #define phoneSizeH ((((626) - (60) - (0))) / 2048 * (PhoneW * 4/3))
 
-#define TextSize (((38)) / 2048 * (PhoneH * 4/3))
+#define TextSize (((38)) / 2048 * (PhoneW * 4/3))
 #define TextTimes 1
+#define TextTimesH ((safezoneH * 1.2) / PhoneH)
 #define TextMenu(MULTI) __EVAL(1.1*MULTI)
 
 #define ATAK_APP(APP,TITLE) #<br/><t size='1'><br/><br/>TITLE</t>

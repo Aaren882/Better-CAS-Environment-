@@ -1,5 +1,5 @@
 //-Check what last page is
-(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["_page","_shown","_curline"];
+(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["_page","","_curline"];
 
 private _return = switch _page do {
 	case "mission_Build": {"mission"};
