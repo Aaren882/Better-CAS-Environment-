@@ -19,8 +19,8 @@ if (_DisplayName == "cTab_Android_dlg") then {
     //-9 line
     default {[controlNull,10]};
   };
+
   _curLine = _showMenu # 2;
-  
 } else {
 
   private _IDCs = [2002,2005] apply {_x + _IDC_offset};
@@ -34,6 +34,9 @@ if (_DisplayName == "cTab_Android_dlg") then {
 };
 
 _ListInfo params ["_taskList","_remarks"];
+
+//-Correcting _curline if it's greater than the Task has counted
+_curLine = _remarks min _curLine;
 _shownCtrls = [_display,_curLine,_curInterface,false,_ismenu] call BCE_fnc_Show_CurTaskCtrls;
 
 _TypeChanged = {

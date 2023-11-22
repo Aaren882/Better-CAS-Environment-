@@ -1,10 +1,12 @@
 params ["_control", "_button", "_xPos", "_yPos", "_shift", "_ctrl", "_alt",["_IDC_offset",0]];
+private ["_display","_mark","_BCE_MapTool","_cTab_show","_IDC_Offset","_type","_task","_ctrlEnter","_curSel","_idc"];
 _display = ctrlparent _control;
 
 _mark = {
   params ["_id",["_color","ColorYellow"]];
-  private _POS = _control ctrlMapScreenToWorld [_xPos, _yPos];
-  private _marker = createMarkerLocal ["BCE_ClickPOS_Marker", _POS];
+  private ["_POS","_marker"];
+  _POS = _control ctrlMapScreenToWorld [_xPos, _yPos];
+  _marker = createMarkerLocal ["BCE_ClickPOS_Marker", _POS];
 
   //-Marker Hint
   _marker setMarkerColorLocal _color;
@@ -13,7 +15,7 @@ _mark = {
   [{
     params ["_marker","_time"];
 
-    _size = _time-time;
+    private _size = _time-time;
     _marker setMarkerSizeLocal [_size*0.8, _size*0.8];
 
     (time >= _time)
@@ -27,22 +29,21 @@ _mark = {
 };
 
 if (_button == 0) then {
-  private _cTab_show = [("cTab_Android_dlg" in cTabIfOpen),false] select (isnil {cTabIfOpen});
-  private _IDC_Offset = [0,17000] select (_cTab_show);
+  _cTab_show = ["cTab_Android_dlg" in cTabIfOpen, false] select (isnil {cTabIfOpen});
+  _IDC_Offset = [0,17000] select (_cTab_show);
 
   //- "AV Terminal" or "Andorid Phone"
   if (!(isnull findDisplay 160) || (_IDC_Offset > 0)) then {
     _ctrlCombo = _display displayctrl (_IDC_Offset + 2013);
 
     _type = _display displayctrl (_IDC_Offset + 2012);
-    _type1 = _display displayctrl (_IDC_Offset + 20121);
 
     if (
         (_alt) &&
         !(ctrlshown _ctrlCombo) &&
         (
           (ctrlshown _type) ||
-          (ctrlshown _type1)
+          (ctrlshown (_display displayctrl (_IDC_Offset + 20121)))
         ) &&
         (
           !(ctrlshown _type) ||
@@ -103,7 +104,7 @@ if (_button == 0) then {
 
   _curSel = [_control,cTabMapCursorPos] call cTab_fnc_findUserMarker;
   if (_curSel isNotEqualTo -1) then {
-    private _idc = switch true do {
+    _idc = switch true do {
       case (_curSel isEqualType 0): {
         uiNameSpace setVariable ["cTab_BFT_CurSel",_curSel];
         17000 + 3301

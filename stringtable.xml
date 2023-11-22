@@ -601,6 +601,11 @@
 			<Chinese>在地圖上使用 “Alt + 左鍵單擊” 來設置標記%1%1 “起始點(IP)” 或 “戰鬥位置(BP)” 。%1%1對於 固定翼 (飛機) 的 起始點 (IP) ，是開始進入目標的位置。%1%1對於 旋翼機 (直升機) 的 戰鬥位置 (BP)，是對目標進行攻擊的 起點及待命位置。</Chinese>
 			<Chinesesimp>在地图上使用 “Alt + 左键单击” 来设置标记%1%1 “起始点(IP)” 或 “战斗位置(BP)” 。%1%1对于 固定翼 (飞机) 的 起始点 (IP) ，是开始进入目标的位置。%1%1对于 旋翼机 (直升机) 的 战斗位置 (BP)，是对目标进行攻击的 起点及待命位置。</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_DECS_IPBP_NoKey">
+			<Original>“Initial Point” or “Battle Position”.%1%1IP for FW aircraft (Planes), the IP is the starting point for the run-in to the target. %1%1BP for RW aircraft (Helis), the BP is where attacks on the target are commenced.</Original>
+			<Chinese>“起始點(IP)” 或 “戰鬥位置(BP)” 。%1%1對於 固定翼 (飛機) 的 起始點 (IP) ，是開始進入目標的位置。%1%1對於 旋翼機 (直升機) 的 戰鬥位置 (BP)，是對目標進行攻擊的 起點及待命位置。</Chinese>
+			<Chinesesimp>“起始点(IP)” 或 “战斗位置(BP)” 。%1%1对于 固定翼 (飞机) 的 起始点 (IP) ，是开始进入目标的位置。%1%1对于 旋翼机 (直升机) 的 战斗位置 (BP)，是对目标进行攻击的 起点及待命位置。</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_DECS_HDG">
 			<Original>Heading and Offset.%1%1The heading is given in degrees magnetic from the “IP to target” or the center of the “BP to the target”. %1%1The offset is the side of the “IP to target” line on which aircrews can maneuver for the attack.</Original>
 			<Chinese>“飛行方向” 和 “偏移”。%1%1飛行方向以指北針角度表示，從 “起始點 (IP) 到目標” 或 “戰鬥位置 (BP) 的中心到目標”。 %1%1“偏移” 是指在 “起始點到目標” 的一側，人員可以在該側 進行攻擊動作。</Chinese>

@@ -15,6 +15,66 @@ class cTab_android_on_screen_hookDst: cTab_android_on_screen_hookGrid
 	y = Android_BR_InfoY(1);
 };
 #undef Android_BR_InfoY
+
+//-ATAK Menu W
+#define PhoneBFTContainerW(AxisX) AxisX*((phoneSizeW * 2/5)/3)
+
+#define ATAK_POS(XPOS,YPOS,WPOS,HPOS) \
+	x = PhoneBFTContainerW(XPOS); \
+	y = YPOS * ((60)) / 2048 * (PhoneW * 4/3); \
+	w = PhoneBFTContainerW(WPOS); \
+	h = HPOS * (((60)) / 2048 * (PhoneW * 4/3))
+
+//-ATAK Remark
+/*class ATAK_Remark_TypeSelect: RscToolbox
+{
+	idc = idc_D(4000);
+	//w = PhoneBFTContainerW(3);
+	w = 0;
+	h = 0.65 * (((60)) / 2048 * (PhoneW * 4/3))
+	rows = 1;
+	columns = 2;
+	strings[] =
+	{
+		"FAD/H",
+		"Danger Close"
+	};
+	font = "RobotoCondensed_BCE";
+};
+class ATAK_Remark_ok: BCE_RscButtonMenu
+{
+	idc = 4001;
+	
+	text = "$STR_DISP_OK";
+	colorBackground[] = {0,0,0,0.4};
+	
+	periodFocus = 0;
+	periodOver = 0;
+	
+	colorBackground[] = {0,0,0,0.5};
+	colorBackground2[] = {0,0,0,0.5};
+
+	colorBackgroundFocused[] = {0,0,0,0.5};
+
+	animTextureOver = "#(argb,8,8,3)color(0,0,0,0.5)";
+	animTextureFocused = "#(argb,8,8,3)color(0,0,0,1)";
+	animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
+	
+	textureNoShortcut="";
+};
+class ATAK_Remark_Cancel: ATAK_Remark_ok
+{
+	text="$STR_DISP_CANCEL";
+};
+class ATAK_Remark_FADH: ATAK_Remark_Select
+{
+	idc = idc_D(4010);
+};
+class ATAK_Remark_DangerClose: RscCheckBox
+{
+	idc = idc_D(4011);
+};*/
+
 PHONE_CLASS
 {
 	#ifdef MOUSE_CLICK_EH
@@ -22,7 +82,7 @@ PHONE_CLASS
 			//- 9 Line
 			{93,94,95,96,97,98,99,idc_D(2025),idc_D(2026),idc_D(20260),idc_D(2027),idc_D(20270),idc_D(2028),idc_D(2029),idc_D(2030),idc_D(2031),idc_D(2032)},
 			//- 5 Line
-			{51,52,53,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2043),idc_D(20430),idc_D(2044)}
+			{51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2043),idc_D(20430),idc_D(2044)}
 		};
 	#endif
 	class controlsBackground
@@ -175,8 +235,6 @@ PHONE_CLASS
 			h = phoneSizeH - 0.75 * (((60)) / 2048 * (PhoneW * 4/3));
 			class controls
 			{
-				#define PhoneBFTContainerW(AxisX) AxisX*((phoneSizeW * 2/5)/3)
-				
 				class actMSGtxt: BCE_RscButtonMenu
 				{
 					idc = 4660 + 100;
@@ -334,11 +392,6 @@ PHONE_CLASS
 		};
 		
 		//-Realistic ATAK
-		#define ATAK_POS(XPOS,YPOS,WPOS,HPOS) \
-			x = PhoneBFTContainerW(XPOS); \
-			y = YPOS * ((60)) / 2048 * (PhoneW * 4/3); \
-			w = PhoneBFTContainerW(WPOS); \
-			h = HPOS * (((60)) / 2048 * (PhoneW * 4/3))
 		class Task_Builder: ATAK_Tools
 		{
 			idc = idc_D(4661);
@@ -436,6 +489,7 @@ PHONE_CLASS
 					colorSelect[]={1,1,1,1};
 					colorSelectBackground[]={0.4,0.4,0.4,1};
 					
+					onLBSelChanged = "";
 					class Items
 					{
 						class BoT
@@ -545,6 +599,8 @@ PHONE_CLASS
 					animTextureFocused = "#(argb,8,8,3)color(0,0,0,0.8)";
 					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
 					
+					size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
+					
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,1]]]] call cTab_fnc_setSettings;";
 					
 					class Attributes: Attributes
@@ -652,7 +708,7 @@ PHONE_CLASS
 				{
 					idc = idc_D(2028);
 					sizeEx = 0.9 * TextSize;
-					ATAK_POS(0.15,(6.5 + (0.35/2)),2.75,0.9);
+					ATAK_POS(0.15,(6.5 + (0.35/2)),2.75,0.7);
 					colorText[] = {0.75,0.75,0.75,1};
 					colorBackground[]={0,0,0,0.5};
 					tooltip="$STR_BCE_TIP_AddDESC";
@@ -768,7 +824,7 @@ PHONE_CLASS
 				
 				class Line3_T5: CtrlType
 				{
-					idc = 52;
+					idc = 53;
 					text="3";
 					ATAK_POS(0,(5.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_GRID";
@@ -784,7 +840,7 @@ PHONE_CLASS
 				
 				class Line4_T5: CtrlType
 				{
-					idc = 53;
+					idc = 54;
 					text="4";
 					ATAK_POS(0,(6.6 + (0.35/2)),1,0.7);
 					tooltip="$STR_BCE_TIP_DESC";
@@ -800,14 +856,10 @@ PHONE_CLASS
 					idc = idc_D(20430);
 					ATAK_POS(2.55,(6.6 + (0.35/2)),0.35,0.7);
 				};
-				class L54_EditText: RscEdit
+				class L54_EditText: L95_EditText
 				{
 					idc = idc_D(2044);
-					sizeEx = 0.9 * TextSize;
-					ATAK_POS(0.15,(7.5 + (0.35/2)),2.75,0.9);
-					colorText[] = {0.75,0.75,0.75,1};
-					colorBackground[]={0,0,0,0.5};
-					tooltip="$STR_BCE_TIP_AddDESC";
+					ATAK_POS(0.15,(7.5 + (0.35/2)),2.75,0.7);
 				};
 				
 				////// -Separator for Remarks //////
@@ -821,12 +873,22 @@ PHONE_CLASS
 				{
 					idc=3001;
 					text="Remarks/Restrictions";
-					ATAK_POS(0,(11.7 + (0.35/2)),3,1);
+					ATAK_POS(0.1,(11.7 + (0.35/2)),2.9,1);
 					sizeEx = 0.9 * TextSize;
 					font = "RobotoCondensedBold_BCE";
 					tooltip="$STR_BCE_TIP_Remarks";
 				};
-				class AddRemark: ctrlButton
+				
+				class Remark_EditBnt: IP2TG_EditBnt
+				{
+					idc = 3002;
+					ATAK_POS(0.1,(12.7 + (0.35/2)),2.8,0.7);
+					text = "No Remarks";
+					tooltip="$STR_BCE_TIP_Remarks";
+					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,10]]]] call cTab_fnc_setSettings;";
+				};
+				
+				/*class AddRemark: ctrlButton
 				{
 					idc=3002;
 					ATAK_POS((2.4+0.15/2),(11.8 + (0.35/2)),0.4,0.7);
@@ -837,7 +899,9 @@ PHONE_CLASS
 					
 					tooltip = "$STR_BCE_TIP_AddRemark";
 					text = "a3\3den\data\displays\display3den\panelleft\entitylist_layer_ca.paa";
-				};
+					
+					onButtonClick = "call BCE_fnc_ATAK_addRemark";
+				};*/
 			};
 		};
 		
@@ -943,7 +1007,7 @@ PHONE_CLASS
 						"$STR_BCE_Tit_Click_Map"
 					};
 				};
-				class New_Task_TG_DESC: RscEditMulti
+				class New_Task_TG_DESC: RscEdit
 				{
 					idc = idc_D(2015);
 					ATAK_POS(0.1,0.35/2,2.8,0.65*3);
@@ -951,7 +1015,7 @@ PHONE_CLASS
 				};
 
 				//-Mark
-				class New_Task_GRID_DESC: RscEdit
+				class New_Task_GRID_DESC: New_Task_IPExpression
 				{
 					idc = idc_D(2016);
 					ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
@@ -991,7 +1055,7 @@ PHONE_CLASS
 					colorBackground[] = {0,0,0,0.3};
 					sizeEx = 0.85 * TextSize;
 				};
-				class New_Task_EGRS_Bearing: RscEdit
+				class New_Task_EGRS_Bearing: New_Task_IPExpression
 				{
 					idc = idc_D(2018);
 					ATAK_POS(0.1,(0.35/2 + 0.65),1.4,0.65);
@@ -1010,9 +1074,9 @@ PHONE_CLASS
 					};
 					sizeEx = 0.85 * TextSize;
 				};
-
+				
 				//-Remarks
-				/*class New_Task_FADH: New_Task_IPtype
+				class New_Task_FADH: New_Task_IPtype
 				{
 					idc = idc_D(2200);
 					columns = 3;
@@ -1026,9 +1090,9 @@ PHONE_CLASS
 				class New_Task_DangerClose_Text: RscText
 				{
 					idc = idc_D(2201);
-					ATAK_POS(0.12,(0.35/2 + 0.65*3),2.8,0.65);
+					ATAK_POS(0.26,(0.3/2 + 0.65*3),2.8,0.65);
 					text = ": Danger Close";
-					sizeEx = 0.7 * TextSize;
+					sizeEx = 0.9 * TextSize;
 				};
 				class New_Task_DangerClose_Box: RscCheckBox
 				{
@@ -1038,11 +1102,15 @@ PHONE_CLASS
 					textureHoverChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
 					texturePressedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
 					textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-					ATAK_POS(0,(0.35/2 + 0.65*3),0.1,0.1);
-				};*/
+					
+					x = PhoneBFTContainerW(0.1);
+					y = (0.35/2 + 0.65*3) * ((60)) / 2048 * (PhoneW * 4/3);
+					w = PhoneBFTContainerW(0.3) * (safezoneH/safezonew);
+					h = PhoneBFTContainerW(0.3);
+				};
 			};
 		};
-			
+		
 		//-Bottons for ATAK Tools
 		class InputButtons: ATAK_MenuBG
 		{

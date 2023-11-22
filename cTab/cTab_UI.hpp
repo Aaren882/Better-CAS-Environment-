@@ -47,6 +47,7 @@ class cTab_MenuItem: RscButtonMenu
 		size = SubMenuText;
 	};
 };
+
 class cTab_MenuExit: cTab_MenuItem
 {
 	color[] = {1,1,1,1};
@@ -58,6 +59,7 @@ class cTab_Tablet_OSD_hookGrid: cTab_RscText_Tablet
 {
 	colorText[] = {0.95,0.95,0.95,1};
 };
+
 #include "cTab_classes.hpp"
 
 //-Main Frame Coordinate
@@ -801,7 +803,7 @@ class cTab_Tablet_dlg
 						class Line1: Game_plan
 						{
 							text = "1: IP/BP :";
-							data = "$STR_BCE_DECS_IPBP";
+							data = "$STR_BCE_DECS_IPBP_NoKey";
 							Expression_idc[] = {2012,2013,2014};
 							multi_options = 0;
 							tooltip = "$STR_BCE_TIP_IPBP";
@@ -1139,7 +1141,7 @@ class cTab_Tablet_dlg
 				//-TG Description
 				class New_Task_TG_DESC: RscEditMulti
 				{
-					idc = idc_D(20121);
+					idc = idc_D(2015);
 					ExpPOS(1,1,8);
 					sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
 					text = "";

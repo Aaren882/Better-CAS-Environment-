@@ -45,7 +45,7 @@ if !(_skip) then {
       _x ctrlshow false;
     };
   };
-
+  
   //-Show ctrls from selected task list
   _shownCtrls apply {
     _x ctrlshow true;

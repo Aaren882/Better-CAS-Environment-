@@ -194,7 +194,7 @@ class RscDisplayAVTerminal
 		{
 			idcMarkerColor = 1090;
 			idcMarkerIcon = 1091;
-			onMouseButtonUp = "call BCE_fnc_GetMapClickPOS";
+			onMouseButtonUp = "call BCE_fnc_GetMap	POS";
 			onDraw = "call BCE_fnc_TAC_Map";
 		};
 	};
@@ -287,7 +287,7 @@ class RscDisplayAVTerminal
 			W = "0.015 * safezoneW";
 			h = "0.9 * (safezoneH / 40)";
 			tooltip = "$STR_BCE_NextTurret";
-			onButtonClick = "call BCE_fnc_NextTurretButton;";
+			onButtonClick = "call BCE_fnc_NextTurretButton";
 			class Attributes: Attributes
 			{
 				font = "TahomaB";
@@ -592,7 +592,7 @@ class RscDisplayAVTerminal
 			show = 0;
 			tooltip = "Show Description";
 			colorBackground[] = {0,0,0,0.8};
-			onButtonClick = "[_this # 0,false] call BCE_fnc_Extended_Desc;";
+			onButtonClick = "[_this # 0,false] call BCE_fnc_Extended_Desc";
 			class TextPos
 			{
 				left = 0;
@@ -626,14 +626,14 @@ class RscDisplayAVTerminal
 			colorPictureRightSelected[] = {0,1,0,1};
 			colorSelectBackground[] = {0.95,0.95,0.95,0.2};
 			colorSelectBackground2[] = {1,1,1,0.4};
-			onLBDblClick = "call BCE_fnc_TaskListDblCLick";
+			onLBDblClick = "call BCE_fnc_TaskListDbl	";
 			class Items
 			{
 				class Game_plan
 				{
 					text = "#: Game Plan :";
 					data = "$STR_BCE_DECS_GAMEPLAN";
-					textRight = "$STR_BCE_clickx2";
+					textRight = "$STR_BCE_	x2";
 					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 					multi_options = 1;
 					default = 1;
@@ -723,7 +723,7 @@ class RscDisplayAVTerminal
 				class Line1: Game_plan
 				{
 					text = "1:  :";
-					textRight = "$STR_BCE_clickx2";
+					textRight = "$STR_BCE_	x2";
 					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 					multi_options = 1;
 					default = 1;
@@ -980,7 +980,7 @@ class RscDisplayAVTerminal
 			wholeHeight = 0.8;
 			font = "PuristaMedium";
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2)";
-			onMouseButtonClick = "(_this # 0) call BCE_fnc_IPMarkers;";
+			onMouseButton = "(_this # 0) call BCE_fnc_IPMarkers";
 			class Items
 			{
 				class NA
@@ -1169,7 +1169,7 @@ class RscDisplayAVTerminal
 			colorBackground[] = {0,0,0,0};
 			sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 			shadow = 0;
-			onLBSelChanged = "uiNameSpace setVariable ['BCE_CAS_MainList_selected', _this # 1];";
+			onLBSelChanged = "uiNameSpace setVariable ['BCE_CAS_MainList_selected', _this # 1]";
 		};
 
 		//-Category

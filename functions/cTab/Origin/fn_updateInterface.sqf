@@ -887,12 +887,10 @@ _settings apply {
 					//-ATAK Control Adjustments
 					switch (_page) do {
 						case "mission": {
+							private ["_curTask","_ctrl"];
 							//-Select Last Type that set
-							{
-								_x params ["_idc","_var"];
-								private _ctrl = (_display displayCtrl (17000 + 4661)) controlsGroupCtrl (17000 + _idc);
-								_ctrl lbSetCurSel (uiNamespace getVariable [_var,0]);
-							} count [[2027,"BCE_ATAK_Desc_Type"],[2107,"BCE_Current_TaskType"]];
+							_ctrl = (_display displayCtrl (17000 + 4661)) controlsGroupCtrl (17000 + 2107);
+							_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
 						};
 					};
 				};
