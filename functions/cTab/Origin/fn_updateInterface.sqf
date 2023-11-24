@@ -165,11 +165,11 @@ _settings apply {
 		""
 		};
 		if (_background != "") then {
-		(_display displayCtrl IDC_CTAB_BACKGROUND) ctrlSetText _background;
-		// call brightness adjustment if this is outside of interface init
-		if (!_interfaceInit) then {
-			_settings pushBack ["brightness",[_displayName,"brightness"] call cTab_fnc_getSettings];
-		};
+			(_display displayCtrl IDC_CTAB_BACKGROUND) ctrlSetText _background;
+			// call brightness adjustment if this is outside of interface init
+			if (!_interfaceInit) then {
+				_settings pushBack ["brightness",[_displayName,"brightness"] call cTab_fnc_getSettings];
+			};
 		};
 	};
 
@@ -297,9 +297,8 @@ _settings apply {
 				//-Tool Menu
 				if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
 					private _showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
-					if (!isNil "_showMenu" && (_showMenu # 1)) then {
+					if (_showMenu # 1) then {
 						_displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
-
 						if !(_interfaceInit) then {
 							_settings pushBack ["showMenu",[_displayName,"showMenu"] call cTab_fnc_getSettings];
 						};
@@ -871,19 +870,18 @@ _settings apply {
 			{
 				(_display displayCtrl _x) ctrlShow false
 			} count [IDC_CTAB_GROUP_MENU, 17000 + 4660, 17000 + 4661, 17000 + 4662];
+
 			if (_mode == "BFT") then {
 				(_x # 1) params ["_page","_show"];
 
 				private _show_IDC = [_display, _page, (_page != "main") && _show] call BCE_fnc_ATAK_openPage;
+				
 				{
+					if (isnil{_x}) then {break};
 					(_display displayCtrl _x) ctrlShow _show;
 				} count [IDC_CTAB_GROUP_MENU,_show_IDC];
 
 				if (_show) then {
-					if !(isnil {_show_IDC}) then {
-						(_display displayCtrl _show_IDC) ctrlshow true;
-					};
-					
 					//-ATAK Control Adjustments
 					switch (_page) do {
 						case "mission": {

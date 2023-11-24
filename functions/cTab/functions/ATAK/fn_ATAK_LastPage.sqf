@@ -8,4 +8,4 @@ private _return = switch _page do {
 	};
 };
 
-['cTab_Android_dlg',[['showMenu',[_return,true,_curline]]]] call cTab_fnc_setSettings;
+["cTab_Android_dlg",[["showMenu",[_return,true,_curline]]]] call cTab_fnc_setSettings;

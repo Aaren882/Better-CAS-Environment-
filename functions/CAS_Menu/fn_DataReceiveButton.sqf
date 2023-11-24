@@ -66,16 +66,7 @@ if ((localize "STR_BCE_Abort_Task") in (tolower _button_text)) exitWith {
 _condition = [[],[0]] select (isNull _vehicle);
 
 if !(_curLine in _condition) then {
-  switch _sel_TaskType do {
-    //-5 line
-    case 1: {
-      call BCE_fnc_DataReceive5line;
-    };
-    //-9 line
-    default {
-      call BCE_fnc_DataReceive9line;
-    };
-  };
+  call ([BCE_fnc_DataReceive9line, BCE_fnc_DataReceive5line] # _sel_TaskType);
 };
 
 //-Update List

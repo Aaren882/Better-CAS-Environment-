@@ -29,7 +29,7 @@ _desc = switch (_curType) do {
 	};
 };
 
-_curLine = [_curLine, (count _desc)-1] select (_curLine > count _desc);
+_curLine = [_curLine, (count _taskVar)-1] select (_curLine > count _taskVar);
 _shownCtrls = [_components,_curLine,1,true] call BCE_fnc_Show_CurTaskCtrls;
 
 //-Formatting

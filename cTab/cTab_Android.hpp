@@ -80,7 +80,7 @@ PHONE_CLASS
 	#ifdef MOUSE_CLICK_EH
 		TaskIDCs_List[] = {
 			//- 9 Line
-			{93,94,95,96,97,98,99,idc_D(2025),idc_D(2026),idc_D(20260),idc_D(2027),idc_D(20270),idc_D(2028),idc_D(2029),idc_D(2030),idc_D(2031),idc_D(2032)},
+			{93,94,95,96,97,98,99,idc_D(2025),idc_D(2026),idc_D(20260),idc_D(2027),idc_D(20270),idc_D(2015),idc_D(2029),idc_D(2030),idc_D(2031),idc_D(2032)},
 			//- 5 Line
 			{51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2043),idc_D(20430),idc_D(2044)}
 		};
@@ -706,7 +706,7 @@ PHONE_CLASS
 				};
 				class L95_EditText: RscEdit
 				{
-					idc = idc_D(2028);
+					idc = idc_D(2015);
 					sizeEx = 0.9 * TextSize;
 					ATAK_POS(0.15,(6.5 + (0.35/2)),2.75,0.7);
 					colorText[] = {0.75,0.75,0.75,1};
@@ -1122,13 +1122,59 @@ PHONE_CLASS
 				class Back: ctrlButton
 				{
 					idc = 10;
-					text = "Back";
-					sizeEx = TextSize;
-					x = 0;
-					y = 0;
-					w = PhoneBFTContainerW(2);
-					h = 0.64 * (((60)) / 2048 * (PhoneW * 4/3));
-					action = "call BCE_fnc_ATAK_LastPage";
+					
+					text = "< Back";
+					
+					style="0x02 + 0x0C";
+					sizeEx = 0.95 * TextSize;
+					font="RobotoCondensed_BCE";
+					
+					colorBackground[] = {0,0,0,0.5};
+					colorBackgroundActive[]={0,0,0,0.5*0.8};
+					colorFocused[]={0,0,0,0.8};
+					
+					ATAK_POS(0,0,0.9,0.64);
+					
+					onButtonClick = "call BCE_fnc_ATAK_LastPage";
+				};
+				class Send: BCE_RscButtonMenu
+				{
+					idc = 11;
+					
+					style="0x02 + 0x0C";
+					text = "$STR_BCE_Enter";
+					textureNoShortcut = "a3\ui_f\data\gui\cfg\communicationmenu\transport_ca.paa";
+					
+					colorBackground[] = {0,0,0,0.5};
+					colorBackground2[] = {0,0,0,0.5};
+
+					colorBackgroundFocused[] = {0,0,0,0.8};
+
+					animTextureOver = "#(argb,8,8,3)color(0,0,0,0.8)";
+					animTextureFocused = "#(argb,8,8,3)color(0,0,0,1)";
+					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.5)";
+					
+					size = 0.95 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
+					
+					ATAK_POS(1,0,0.9,0.64);
+					onButtonClick = "call BCE_fnc_ATAK_DataReceiveButton";
+					
+					class TextPos: TextPos
+					{
+						top = 0.04 * (((60)) / 2048 * (PhoneW * 4/3));
+					};
+					
+					class ShortcutPos: ShortcutPos
+					{
+						left = PhoneBFTContainerW(0.6);
+						w = PhoneBFTContainerW(0.3);
+						h = 0.6 * (((60)) / 2048 * (PhoneW * 4/3));
+					};
+					class Attributes: Attributes
+					{
+						align="center";
+						size = TextMenu(1);
+					};
 				};
 			};
 		};

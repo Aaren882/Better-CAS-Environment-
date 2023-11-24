@@ -689,6 +689,8 @@ class CfgFunctions
 				class ATAK_LastPage;
 				class ATAK_DescType_Changed;
 				class ATAK_TaskTypeChanged;
+				class ATAK_DataReceiveButton;
+				class ATAK_Refresh_TaskInfos;
 			};
 		#endif
 	};
@@ -868,7 +870,11 @@ class RscPictureKeepAspect;
 class RscControlsGroup;
 class RscControlsGroupNoScrollbars;
 class RscAttributeCAS;
-class RscButtonMenu;
+class RscShortcutButton;
+class RscButtonMenu: RscShortcutButton
+{
+	class TextPos;
+};
 class ctrlButton;
 class RscEdit;
 class RscCombo;
