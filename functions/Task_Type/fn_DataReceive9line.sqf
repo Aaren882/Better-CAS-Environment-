@@ -54,7 +54,7 @@ switch _curLine do {
   //-IP/BP
   case 1:{
     _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
-
+    
     if ((lbCurSel _ctrl1 == 0) && !(_isOverwrite)) then {
       _TGPOS = call compile (_ctrl2 lbData (lbCurSel _ctrl2));
 
@@ -112,7 +112,9 @@ switch _curLine do {
   //-DESC
   case 5:{
     _shownCtrls params ["_ctrl"];
-    private _text = ctrlText _ctrl;
+    if (isnil {_text}) then {
+      _text = ctrlText _ctrl;
+    };
     if (_text != "") then {
       _taskVar set [5,["",_text]];
     } else {

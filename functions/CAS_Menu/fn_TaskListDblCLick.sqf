@@ -138,7 +138,7 @@ _title ctrlSetText (_control lbtext _curLine);
 _shownCtrls = [_display,_curLine,0] call BCE_fnc_Show_CurTaskCtrls;
 
 //-Show Needed Controls
-{_x ctrlshow true} forEach [_title,_description];
+{_x ctrlshow true} count [_title,_description];
 
 switch _sel_TaskType do {
   //-5 line

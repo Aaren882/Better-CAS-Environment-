@@ -171,7 +171,7 @@ switch _curLine do {
   //-DESC
   case 3:{
     _shownCtrls params ["_ctrl1","_ctrl2"];
-    private ["_taskVar_3","_InfoText","_isEmptyInfo","_Info","_ctrlPOS","_c"];
+    private ["_taskVar_3","_InfoText","_isEmptyInfo","_Info","_ctrlPOS"];
     _taskVar_3 = _taskVar # 3;
     _InfoText = _taskVar_3 # 2;
 
@@ -187,26 +187,30 @@ switch _curLine do {
       _ctrl2 ctrlSetText localize "STR_BCE_MarkWith";
     };
 
-    private _c = _titlePOS # 3;
-    {
-      _c = _c + ((ctrlPosition _x) # 3);
-    } forEach [_ctrl1,_ctrl2];
+    //-Exit
+    if !(isnil {_description}) then {
+      private ["_c","_ctrl1POS","_ctrl2POS"];
+      _c = _titlePOS # 3;
+      {
+        _c = _c + ((ctrlPosition _x) # 3);
+      } forEach [_ctrl1,_ctrl2];
 
-    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
+      _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
+      _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
-    _ctrl1POS = ctrlPosition _ctrl1;
-    _ctrl2POS = ctrlPosition _ctrl2;
+      _ctrl1POS = ctrlPosition _ctrl1;
+      _ctrl2POS = ctrlPosition _ctrl2;
 
-    //-Expression
-    _ctrl2 ctrlSetPosition
-    [
-      _TaskListPOS # 0,
-      (_ctrl1POS # 1) + (_ctrl1POS # 3),
-      _ctrl2POS # 2,
-      _ctrl2POS # 3
-    ];
-    _ctrl2 ctrlCommit 0;
+      //-Expression
+      _ctrl2 ctrlSetPosition
+      [
+        _TaskListPOS # 0,
+        (_ctrl1POS # 1) + (_ctrl1POS # 3),
+        _ctrl2POS # 2,
+        _ctrl2POS # 3
+      ];
+      _ctrl2 ctrlCommit 0;
+    };
   };
 
   //-Remarks

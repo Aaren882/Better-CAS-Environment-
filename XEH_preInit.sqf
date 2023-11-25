@@ -4,12 +4,12 @@
 //-All Infos from types of task list
 if (hasInterface) exitWith {
   //-Set task default variables
-  [
+  {
+    uiNamespace setVariable _x
+  } count [
     ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]],
     ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]]
-  ] apply {
-    uiNamespace setVariable _x
-  };
+  ];
 
   //-Set All IDCs
   private _set_TaskBuilder_Vars = {

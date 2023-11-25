@@ -194,7 +194,7 @@ class RscDisplayAVTerminal
 		{
 			idcMarkerColor = 1090;
 			idcMarkerIcon = 1091;
-			onMouseButtonUp = "call BCE_fnc_GetMap	POS";
+			onMouseButtonUp = "call BCE_fnc_GetMapClickPOS";
 			onDraw = "call BCE_fnc_TAC_Map";
 		};
 	};
@@ -626,14 +626,14 @@ class RscDisplayAVTerminal
 			colorPictureRightSelected[] = {0,1,0,1};
 			colorSelectBackground[] = {0.95,0.95,0.95,0.2};
 			colorSelectBackground2[] = {1,1,1,0.4};
-			onLBDblClick = "call BCE_fnc_TaskListDbl	";
+			onLBDblClick = "call BCE_fnc_TaskListDblClick";
 			class Items
 			{
 				class Game_plan
 				{
 					text = "#: Game Plan :";
 					data = "$STR_BCE_DECS_GAMEPLAN";
-					textRight = "$STR_BCE_	x2";
+					textRight = "$STR_BCE_clickx2";
 					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 					multi_options = 1;
 					default = 1;
@@ -723,7 +723,7 @@ class RscDisplayAVTerminal
 				class Line1: Game_plan
 				{
 					text = "1:  :";
-					textRight = "$STR_BCE_	x2";
+					textRight = "$STR_BCE_clickx2";
 					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 					multi_options = 1;
 					default = 1;

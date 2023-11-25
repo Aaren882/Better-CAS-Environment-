@@ -142,7 +142,6 @@ _ctrl drawIcon [
 };
 
 //- CAS
-_Task_Type = _display displayCtrl 2107;
 _sel_TaskType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
 _taskVars = switch _sel_TaskType do {
   //-5 line

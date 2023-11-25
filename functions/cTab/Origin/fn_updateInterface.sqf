@@ -871,25 +871,21 @@ _settings apply {
 				(_display displayCtrl _x) ctrlShow false
 			} count [IDC_CTAB_GROUP_MENU, 17000 + 4660, 17000 + 4661, 17000 + 4662];
 
-			if (_mode == "BFT") then {
-				(_x # 1) params ["_page","_show"];
+			(_x # 1) params ["_page","_show"];
 
-				private _show_IDC = [_display, _page, (_page != "main") && _show] call BCE_fnc_ATAK_openPage;
-				
-				{
-					if (isnil{_x}) then {break};
-					(_display displayCtrl _x) ctrlShow _show;
-				} count [IDC_CTAB_GROUP_MENU,_show_IDC];
-
-				if (_show) then {
-					//-ATAK Control Adjustments
-					switch (_page) do {
-						case "mission": {
-							private ["_curTask","_ctrl"];
-							//-Select Last Type that set
-							_ctrl = (_display displayCtrl (17000 + 4661)) controlsGroupCtrl (17000 + 2107);
-							_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
-						};
+			private _show_IDC = [_display, _page, (_page != "main") && _show] call BCE_fnc_ATAK_openPage;
+			{
+				if (isnil{_x}) exitwith {};
+				(_display displayCtrl _x) ctrlShow _show;
+			} count [IDC_CTAB_GROUP_MENU,_show_IDC];
+			
+			if (_show) then {
+				//-ATAK Control Adjustments
+				switch (_page) do {
+					case "mission": {
+						//-Select Last Type that set
+						private _ctrl = (_display displayCtrl (17000 + 4661)) controlsGroupCtrl (17000 + 2107);
+						_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
 					};
 				};
 			};

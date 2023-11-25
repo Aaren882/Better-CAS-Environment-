@@ -89,10 +89,9 @@ if !(isnull _veh) then {
 };
 
 //-Exit if it's not cTab or TAD
-if !((cTabIfOpen # 1) in ["cTab_Tablet_dlg"]) exitWith {};
+if !((cTabIfOpen # 1) in ["cTab_Tablet_dlg","cTab_Android_dlg","cTab_Android_dsp"]) exitWith {};
 
 //- CAS
-private _Task_Type = _display displayCtrl 2107;
 private _sel_TaskType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
 private _taskVars = switch _sel_TaskType do {
   //-5 line

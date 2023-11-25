@@ -20,7 +20,7 @@ switch _curLine do {
     _setCount = call compile (ctrlText _CTcount);
     _height = call compile (ctrlText _CTHeight);
 
-    if (isnil{_setCount} or isnil{_height}) exitWith {};
+    if (isnil{_setCount} || isnil{_height}) exitWith {};
 
     if (_setCount > _Count) then {
       _setCount = _Count;
@@ -60,7 +60,7 @@ switch _curLine do {
     _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
 
     private _text = ctrlText _ctrl4;
-    private _isEmptyInfo = ((_text == localize "STR_BCE_MarkWith") or (_text == ""));
+    private _isEmptyInfo = ((_text == localize "STR_BCE_MarkWith") || (_text == ""));
     private _info = format ["%1 :[%2]", localize "STR_BCE_With", [toUpper _text, "NA"] select _isEmptyInfo];
 
     if _isEmptyInfo then {
@@ -87,7 +87,7 @@ switch _curLine do {
         _taskVar set [1,["NA","",[],[0,0],""]];
       };
     } else {
-      if ((lbCurSel _ctrl1 == 1) or (_isOverwrite)) then {
+      if ((lbCurSel _ctrl1 == 1) || (_isOverwrite)) then {
         _TGPOS = uinamespace getVariable [["BCE_MAP_ClickPOS","BCE_FRND"] select _isOverwrite,[]];
 
         //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:CurSel, 5: Mark Info]
@@ -173,11 +173,14 @@ switch _curLine do {
   //-DESC
   case 3:{
     _shownCtrls params ["_ctrl1","_ctrl2"];
-    private ["_text","_InfoText","_isEmptyInfo","_Info"];
-    _text = ctrlText _ctrl1;
-    _InfoText = ctrlText _ctrl2;
+    private ["_InfoText","_isEmptyInfo","_Info"];
 
-    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
+    if (isnil {_text}) then {
+      _text = ctrlText _ctrl1;
+    };
+    _InfoText = ctrlText _ctrl2;
+    
+    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") || (_InfoText == ""));
     _Info = [_InfoText,""] select _isEmptyInfo;
 
     if (_text != "") then {
@@ -205,7 +208,7 @@ switch _curLine do {
         _TextInfo = ctrlText _ctrl2;
 
         //-Debug
-        if ((_TextInfo == "") or (_TextInfo == localize "STR_BCE_Bearing_ENT") or isnil{(call compile _TextInfo)}) exitWith {
+        if ((_TextInfo == "") || (_TextInfo == localize "STR_BCE_Bearing_ENT") || isnil{(call compile _TextInfo)}) exitWith {
           hint localize "STR_BCE_Error_InputVal";
           _ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
         };
@@ -231,10 +234,12 @@ switch _curLine do {
 
 //-Automatically Generate
 //-Line 1
-(_taskVar # 0) pushBackUnique ((_display displayCtrl (_IDC_offset + 2005)) lbText 0);
+if (([!("Andorid" in (cTabIfOpen # 1)), false] select isnil {cTabIfOpen}) || _IDC_offset == 0) then {
+  (_taskVar # 0) pushBackUnique ((_display displayCtrl (_IDC_offset + 2005)) lbText 0);
+};
 
 //-2 Friendly
-if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && (!((localize "STR_BCE_With") in (_taskVar # 8 # 0)) || (_isOverwrite))) then {
+if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && (!((localize "STR_BCE_With") in (_taskVar # 1 # 0)) || (_isOverwrite))) then {
   private ["_taskVar_1","_taskVar_2","_HDG","_dist","_cardinaldir","_InfoText","_info","_isEmptyInfo"];
   _taskVar_1 = _taskVar # 1;
   _taskVar_2 = _taskVar # 2;
@@ -245,12 +250,12 @@ if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && (!((localize
   _dist = round (((_taskVar_2 # 2) distance2D _TGPOS) / 10) * 10;
   _cardinaldir = _HDG call BCE_fnc_getAzimuth;
   _InfoText = _taskVar_1 # 4;
-  _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
+  _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") || (_InfoText == ""));
 
-  _info = [
-    format ["“%1” %2m [%3] %4: [%5]", _cardinaldir, _dist, GetGRID(_TGPOS,8), localize "STR_BCE_With", toUpper _InfoText],
-    format ["“%1” %2m [%3]", _cardinaldir, _dist, GetGRID(_TGPOS,8)]
-  ] select _isEmptyInfo;
+  _info = format ([
+    ["“%1” %2m [%3] %4: [%5]", _cardinaldir, _dist, GetGRID(_TGPOS,8), localize "STR_BCE_With", toUpper _InfoText],
+    ["“%1” %2m [%3]", _cardinaldir, _dist, GetGRID(_TGPOS,8)]
+  ] select _isEmptyInfo);
 
   _taskVar set [1, [_info,_taskVar_1 # 1,_taskVar_1 # 2,_taskVar_1 # 3,_taskVar_1 # 4]];
 };

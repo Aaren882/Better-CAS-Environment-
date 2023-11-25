@@ -1,5 +1,5 @@
 params ["_control","_lbCurSel"];
-private ["_display","_group","_vehicle","_ctrls","_last_CtrlPOS","_idc"];
+private ["_display","_group","_vehicle","_ctrls","_last_CtrlPOS","_idc","_ctrlDESC","_ctrl"];
 
 _display = ctrlParent _control;
 _group = _display displayCtrl (17000 + 4661);
@@ -33,5 +33,13 @@ _last_CtrlPOS = ctrlPosition (_ctrls # _lbCurSel # -1);
 
 //-Update DESC Selection
 _idc = [2027,2043] # _lbCurSel;
-private _ctrl = (_display displayCtrl (17000 + 4661)) controlsGroupCtrl (17000 + _idc);
-_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_ATAK_Desc_Type",0]);
+_ctrlDESC = _group controlsGroupCtrl (17000 + _idc);
+_ctrlDESC_POS = ctrlPosition _ctrlDESC;
+_ctrlDESC lbSetCurSel (uiNamespace getVariable ["BCE_ATAK_Desc_Type",0]);
+
+//-Setup DESC POS
+_ctrl = _group controlsGroupCtrl (17000 + 2015);
+_ctrl ctrlSetPositionY ((_ctrlDESC_POS # 1) + ((_ctrlDESC_POS # 3) * 9 / 7));
+_ctrl ctrlcommit 0;
+
+call BCE_fnc_ATAK_Refresh_TaskInfos;

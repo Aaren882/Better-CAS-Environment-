@@ -82,7 +82,7 @@ PHONE_CLASS
 			//- 9 Line
 			{93,94,95,96,97,98,99,idc_D(2025),idc_D(2026),idc_D(20260),idc_D(2027),idc_D(20270),idc_D(2015),idc_D(2029),idc_D(2030),idc_D(2031),idc_D(2032)},
 			//- 5 Line
-			{51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2043),idc_D(20430),idc_D(2044)}
+			{51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2043),idc_D(20430),idc_D(2015),idc_D(2016)}
 		};
 	#endif
 	class controlsBackground
@@ -348,7 +348,7 @@ PHONE_CLASS
 					action = "";
 					
 					#if TextTimes == 1
-					textureNoShortcut="a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa";
+						textureNoShortcut="a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa";
 					#endif
 				};
 				
@@ -704,15 +704,6 @@ PHONE_CLASS
 					idc = idc_D(20270);
 					ATAK_POS(2.55,(5.6 + (0.35/2)),0.35,0.7);
 				};
-				class L95_EditText: RscEdit
-				{
-					idc = idc_D(2015);
-					sizeEx = 0.9 * TextSize;
-					ATAK_POS(0.15,(6.5 + (0.35/2)),2.75,0.7);
-					colorText[] = {0.75,0.75,0.75,1};
-					colorBackground[]={0,0,0,0.5};
-					tooltip="$STR_BCE_TIP_AddDESC";
-				};
 				
 				//-Line 6
 				class Line6_T9: CtrlType
@@ -856,10 +847,25 @@ PHONE_CLASS
 					idc = idc_D(20430);
 					ATAK_POS(2.55,(6.6 + (0.35/2)),0.35,0.7);
 				};
-				class L54_EditText: L95_EditText
+				
+				//-Text EditBox
+				class New_Task_TG_DESC: RscEdit
 				{
-					idc = idc_D(2044);
-					ATAK_POS(0.15,(7.5 + (0.35/2)),2.75,0.7);
+					idc = idc_D(2015);
+					sizeEx = 0.9 * TextSize;
+					ATAK_POS(0.15,(6.5 + (0.35/2)),2.75,0.7);
+					//- 6.5
+					colorText[] = {0.75,0.75,0.75,1};
+					colorBackground[]={0,0,0,0.5};
+					tooltip="$STR_BCE_TIP_AddDESC";
+				};
+				class New_Task_GRID_DESC: New_Task_TG_DESC
+				{
+					idc = idc_D(2016);
+					ATAK_POS(0.15,(8.2 + (0.35/2)),2.75,0.7);
+					//- 7.5
+					text = "$STR_BCE_MarkWith";
+					tooltip="";
 				};
 				
 				////// -Separator for Remarks //////
@@ -1007,18 +1013,13 @@ PHONE_CLASS
 						"$STR_BCE_Tit_Click_Map"
 					};
 				};
-				class New_Task_TG_DESC: RscEdit
-				{
-					idc = idc_D(2015);
-					ATAK_POS(0.1,0.35/2,2.8,0.65*3);
-					text = "";
-				};
 
 				//-Mark
 				class New_Task_GRID_DESC: New_Task_IPExpression
 				{
 					idc = idc_D(2016);
 					ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
+					canModify = 1;
 					text = "$STR_BCE_MarkWith";
 				};
 
@@ -1055,7 +1056,7 @@ PHONE_CLASS
 					colorBackground[] = {0,0,0,0.3};
 					sizeEx = 0.85 * TextSize;
 				};
-				class New_Task_EGRS_Bearing: New_Task_IPExpression
+				class New_Task_EGRS_Bearing: New_Task_GRID_DESC
 				{
 					idc = idc_D(2018);
 					ATAK_POS(0.1,(0.35/2 + 0.65),1.4,0.65);
@@ -1119,35 +1120,14 @@ PHONE_CLASS
 			h = 0.75 * (((60)) / 2048 * (PhoneW * 4/3));
 			class controls
 			{
-				class Back: ctrlButton
+				class Back: BCE_RscButtonMenu
 				{
 					idc = 10;
 					
-					text = "< Back";
-					
-					style="0x02 + 0x0C";
-					sizeEx = 0.95 * TextSize;
-					font="RobotoCondensed_BCE";
-					
-					colorBackground[] = {0,0,0,0.5};
-					colorBackgroundActive[]={0,0,0,0.5*0.8};
-					colorFocused[]={0,0,0,0.8};
-					
-					ATAK_POS(0,0,0.9,0.64);
-					
-					onButtonClick = "call BCE_fnc_ATAK_LastPage";
-				};
-				class Send: BCE_RscButtonMenu
-				{
-					idc = 11;
-					
-					style="0x02 + 0x0C";
-					text = "$STR_BCE_Enter";
-					textureNoShortcut = "a3\ui_f\data\gui\cfg\communicationmenu\transport_ca.paa";
+					text = "$STR_disp_Back";
 					
 					colorBackground[] = {0,0,0,0.5};
 					colorBackground2[] = {0,0,0,0.5};
-
 					colorBackgroundFocused[] = {0,0,0,0.8};
 
 					animTextureOver = "#(argb,8,8,3)color(0,0,0,0.8)";
@@ -1156,25 +1136,39 @@ PHONE_CLASS
 					
 					size = 0.95 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
 					
-					ATAK_POS(1,0,0.9,0.64);
+					ATAK_POS(0,0,0.745,0.64);
+					
+					onButtonClick = "call BCE_fnc_ATAK_LastPage";
+					
+					class Attributes: Attributes
+					{
+						align="center";
+						size = TextMenu(1);
+					};
+				};
+				class Send: Back
+				{
+					idc = 11;
+					
+					style="0x02 + 0x0C";
+					text = "$STR_BCE_Enter";
+					//textureNoShortcut = "a3\ui_f\data\gui\cfg\communicationmenu\transport_ca.paa";
+					
+					ATAK_POS(0.755,0,0.745,0.64);
 					onButtonClick = "call BCE_fnc_ATAK_DataReceiveButton";
 					
-					class TextPos: TextPos
+					/*class TextPos: TextPos
 					{
 						top = 0.04 * (((60)) / 2048 * (PhoneW * 4/3));
 					};
 					
 					class ShortcutPos: ShortcutPos
 					{
-						left = PhoneBFTContainerW(0.6);
+						left = PhoneBFTContainerW(0.45);
 						w = PhoneBFTContainerW(0.3);
 						h = 0.6 * (((60)) / 2048 * (PhoneW * 4/3));
-					};
-					class Attributes: Attributes
-					{
-						align="center";
-						size = TextMenu(1);
-					};
+					};*/
+					
 				};
 			};
 		};

@@ -122,11 +122,18 @@ switch _curLine do {
   //-DESC
   case 5:{
     _shownCtrls params ["_ctrl"];
-    private _ctrlPOS = ctrlPosition _ctrl;
-    private _c = (_ctrlPOS # 3) + (_titlePOS # 3);
+    private _content = _taskVar # 5 # 1;
+    if (_content isEqualType "") then {
+      _ctrl ctrlSetText _content;
+    };
 
-    _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-    _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
+    //-Exit
+    if !(isnil {_description}) then {
+      private _ctrlPOS = ctrlPosition _ctrl;
+      private _c = (_ctrlPOS # 3) + (_titlePOS # 3);
+      _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
+      _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
+    };
   };
 
   //-GRID
