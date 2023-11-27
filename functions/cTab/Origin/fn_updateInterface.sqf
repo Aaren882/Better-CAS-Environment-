@@ -62,8 +62,8 @@ if (isNil "_mode") then {
 } else {
 	// show "Loading" control to hide all the action while its going on
 	if (!isNull _loadingCtrl) then {
-	_loadingCtrl ctrlShow true;
-	while {!ctrlShown _loadingCtrl} do {};
+		_loadingCtrl ctrlShow true;
+		while {!ctrlShown _loadingCtrl} do {};
 	};
 };
 
@@ -616,22 +616,22 @@ _settings apply {
 		if ((_x # 0) == "markerColor") exitWith {
 			private _markerColor = _display displayCtrl (17000 + 1090);
 			if (lbSize _markerColor == 0) then {
-			private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkerColors");
-			{
-				private ["_name","_color","_index"];
-				_name = getText (_x >> "name");
-				_color = (getArray (_x >> "color")) apply {
-				if (_x isEqualType "") then {call compile _x} else {_x};
-				};
-				_index = _markerColor lbAdd _name;
-				_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
+				private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkerColors");
+				{
+					private ["_name","_color","_index"];
+					_name = getText (_x >> "name");
+					_color = (getArray (_x >> "color")) apply {
+					if (_x isEqualType "") then {call compile _x} else {_x};
+					};
+					_index = _markerColor lbAdd _name;
+					_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
 
-				_markerColor lbSetPictureColorSelected [_index, _color];
-				_markerColor lbSetPictureColor [_index, _color];
-				_markerColor lbSetData [_index, str [configName _x, _color]];
-			} count _cfg;
-		};
-		_markerColor lbSetCurSel (_x # 1);
+					_markerColor lbSetPictureColorSelected [_index, _color];
+					_markerColor lbSetPictureColor [_index, _color];
+					_markerColor lbSetData [_index, str [configName _x, _color]];
+				} count _cfg;
+			};
+			_markerColor lbSetCurSel (_x # 1);
 		};
 
 		// ------------ UAV CAM ------------
@@ -872,7 +872,7 @@ _settings apply {
 			} count [IDC_CTAB_GROUP_MENU, 17000 + 4660, 17000 + 4661, 17000 + 4662];
 
 			(_x # 1) params ["_page","_show"];
-
+		
 			private _show_IDC = [_display, _page, (_page != "main") && _show] call BCE_fnc_ATAK_openPage;
 			{
 				if (isnil{_x}) exitwith {};
@@ -883,7 +883,7 @@ _settings apply {
 				//-ATAK Control Adjustments
 				switch (_page) do {
 					case "mission": {
-						//-Select Last Type that set
+						//-restore Task Type
 						private _ctrl = (_display displayCtrl (17000 + 4661)) controlsGroupCtrl (17000 + 2107);
 						_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
 					};

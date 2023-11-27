@@ -28,35 +28,37 @@ switch _curLine do {
       _weap lbSetCurSel (lbCurSel _checklist);
     };
 
-    _ctrlPOS = ctrlPosition _ctrl;
-    _weapPOS = ctrlPosition _weap;
-    _modePOS = ctrlPosition _mode;
-    _rangePOS = ctrlPosition _range;
+    if !(isnil {_description}) then {
+      _ctrlPOS = ctrlPosition _ctrl;
+      _weapPOS = ctrlPosition _weap;
+      _modePOS = ctrlPosition _mode;
+      _rangePOS = ctrlPosition _range;
 
-    //-Expression
-    _mode ctrlSetPosition
-    [
-      (_weapPOS # 0) + (_modePOS # 2),
-      _weapPOS # 1,
-      _weapPOS # 2,
-      _weapPOS # 3
-    ];
-    _count ctrlSetPosition
-    [
-      (_weapPOS # 0) + 2 * (_rangePOS # 2),
-      _rangePOS # 1,
-      _rangePOS # 2,
-      _rangePOS # 3
-    ];
-    _height ctrlSetPosition
-    [
-      (_weapPOS # 0) + (_rangePOS # 2),
-      _rangePOS # 1,
-      _rangePOS # 2,
-      _rangePOS # 3
-    ];
+      //-Expression
+      _mode ctrlSetPosition
+      [
+        (_weapPOS # 0) + (_modePOS # 2),
+        _weapPOS # 1,
+        _weapPOS # 2,
+        _weapPOS # 3
+      ];
+      _count ctrlSetPosition
+      [
+        (_weapPOS # 0) + 2 * (_rangePOS # 2),
+        _rangePOS # 1,
+        _rangePOS # 2,
+        _rangePOS # 3
+      ];
+      _height ctrlSetPosition
+      [
+        (_weapPOS # 0) + (_rangePOS # 2),
+        _rangePOS # 1,
+        _rangePOS # 2,
+        _rangePOS # 3
+      ];
 
-    [_mode,_count,_height] apply {_x ctrlCommit 0};
+      [_mode,_count,_height] apply {_x ctrlCommit 0};
+    };
   };
 
   //-Friendly
@@ -177,13 +179,14 @@ switch _curLine do {
 
     _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
 
-    _Info = [_InfoText,localize "STR_BCE_MarkWith"] select _isEmptyInfo;
-
+    _Info = [_InfoText, localize "STR_BCE_MarkWith"] select _isEmptyInfo;
+    
     //-Back to previous status
     if ((_taskVar_3 # 0) != "NA") then {
       _ctrl1 ctrlSetText (_taskVar_3 # 1);
       _ctrl2 ctrlSetText _Info;
     } else {
+      _ctrl1 ctrlSetText "";
       _ctrl2 ctrlSetText localize "STR_BCE_MarkWith";
     };
 
@@ -202,13 +205,7 @@ switch _curLine do {
       _ctrl2POS = ctrlPosition _ctrl2;
 
       //-Expression
-      _ctrl2 ctrlSetPosition
-      [
-        _TaskListPOS # 0,
-        (_ctrl1POS # 1) + (_ctrl1POS # 3),
-        _ctrl2POS # 2,
-        _ctrl2POS # 3
-      ];
+      _ctrl2 ctrlSetPositionY ((_ctrl1POS # 1) + (_ctrl1POS # 3));
       _ctrl2 ctrlCommit 0;
     };
   };

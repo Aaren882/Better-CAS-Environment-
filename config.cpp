@@ -618,7 +618,6 @@ class CfgFunctions
 			class unitList_info;
 			class getUnitParams;
 			class Show_CurTaskCtrls;
-			class get_TaskCtrls;
 			class TaskList_Changed;
 			class Reset_TaskList;
 			class SetTaskReceiver;
@@ -690,7 +689,9 @@ class CfgFunctions
 				class ATAK_DescType_Changed;
 				class ATAK_TaskTypeChanged;
 				class ATAK_DataReceiveButton;
+				class ATAK_AutoSaveTask;
 				class ATAK_Refresh_TaskInfos;
+				class ATAK_Refresh_Weapons;
 			};
 		#endif
 	};

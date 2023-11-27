@@ -469,6 +469,7 @@ PHONE_CLASS
 						"T2",
 						"T3"
 					};
+					onToolBoxSelChanged = "call BCE_fnc_ATAK_AutoSaveTask";
 					font = "RobotoCondensed_BCE";
 					colorBackground[] = {0,0,0,0.3};
 					sizeEx = 0.9 * TextSize;
@@ -489,7 +490,7 @@ PHONE_CLASS
 					colorSelect[]={1,1,1,1};
 					colorSelectBackground[]={0.4,0.4,0.4,1};
 					
-					onLBSelChanged = "";
+					onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask";
 					class Items
 					{
 						class BoT
@@ -518,17 +519,16 @@ PHONE_CLASS
 				class AI_Remark_WeaponCombo: MOA_Combo
 				{
 					idc = idc_D(2020);
-					ATAK_POS(0.7,(2 + (0.35/2)),1.1,0.65);
+					ATAK_POS(0.7,(2 + (0.35/2)),1.5,0.65);
 					sizeEx = 0.9 * TextSize;
-					onMouseButtonClick = "";
-					onLBSelChanged = "call BCE_fnc_CAS_SelWPN";
+					onLBSelChanged = "(_this + [17000]) call BCE_fnc_CAS_SelWPN; call BCE_fnc_ATAK_AutoSaveTask;";
 					class Items{};
 				};
 				class AI_Remark_ModeCombo: AI_Remark_WeaponCombo
 				{
 					idc = idc_D(2021);
-					ATAK_POS(1.8,(2 + (0.35/2)),1.1,0.63);
-					onLBSelChanged = "";
+					ATAK_POS(2.2,(2 + (0.35/2)),0.7,0.63);
+					onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask";
 				};
 				class Attack_Range_Combo: AI_Remark_ModeCombo
 				{
@@ -563,6 +563,7 @@ PHONE_CLASS
 					text = "1";
 					sizeEx = 0.9 * TextSize;
 					tooltip = "$STR_BCE_tip_Round_Count";
+					onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
 				};
 				class Attack_Height_Box: Round_Count_Box
 				{
@@ -858,6 +859,7 @@ PHONE_CLASS
 					colorText[] = {0.75,0.75,0.75,1};
 					colorBackground[]={0,0,0,0.5};
 					tooltip="$STR_BCE_TIP_AddDESC";
+					onEditChanged = "(_this + [0]) call BCE_fnc_ATAK_AutoSaveTask";
 				};
 				class New_Task_GRID_DESC: New_Task_TG_DESC
 				{
@@ -866,6 +868,7 @@ PHONE_CLASS
 					//- 7.5
 					text = "$STR_BCE_MarkWith";
 					tooltip="";
+					onEditChanged = "(_this + [1]) call BCE_fnc_ATAK_AutoSaveTask";
 				};
 				
 				////// -Separator for Remarks //////

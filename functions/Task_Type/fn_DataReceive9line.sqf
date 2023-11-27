@@ -26,7 +26,7 @@ switch _curLine do {
       _setCount = _Count;
       _CTcount ctrlSetText (str _Count);
     };
-
+    
     //-so you can set it to whatever you want
     _lowest = 0;
 
@@ -115,11 +115,14 @@ switch _curLine do {
     if (isnil {_text}) then {
       _text = ctrlText _ctrl;
     };
-    if (_text != "") then {
-      _taskVar set [5,["",_text]];
-    } else {
-      _taskVar set [5,["NA",[]]];
-    };
+    _isEmptyInfo = ((_text == "--") || (_text == ""));
+
+    _taskVar set [5,
+      [
+        ["",_text],
+        ["NA","--"]
+      ] select _isEmptyInfo
+    ];
   };
 
   //-GRID

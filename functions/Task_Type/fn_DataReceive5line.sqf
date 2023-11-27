@@ -180,14 +180,22 @@ switch _curLine do {
     };
     _InfoText = ctrlText _ctrl2;
     
-    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") || (_InfoText == ""));
-    _Info = [_InfoText,""] select _isEmptyInfo;
-
-    if (_text != "") then {
-      _taskVar set [3,["",_text,_Info]];
-    } else {
-      _taskVar set [3,["NA","--",""]];
+    _isEmptyInfo = {
+      params ["_txt","_empty"];
+      if ((_txt == _empty) || (_txt == "")) then {
+        _empty
+      } else {
+        _txt
+      };
     };
+    
+    _Info = flatten [
+      ["","NA"] select (_text == ""), 
+      [[_text, "--"],[_InfoText, localize "STR_BCE_MarkWith"]] apply {
+        _x call _isEmptyInfo;
+      }
+    ];
+    _taskVar set [3, _Info];
   };
 
   //-Remarks

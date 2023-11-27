@@ -35,8 +35,6 @@ if (
 lbClear _checklist;
 
 //-Weapons
-//private _weapons = weapons _vehicle;
-
 //-Arrange Magazine and correct Weapon
 private _Matched = [_vehicle,magazinesAllTurrets _vehicle] call {
   params ["_vehicle","_magazines"];

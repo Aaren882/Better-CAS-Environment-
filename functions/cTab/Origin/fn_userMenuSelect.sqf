@@ -47,6 +47,7 @@ call {
 
   //-connect to Vehicle
   if (_type == 3) exitWith {
+    private ["_curSel","_reset_Veh","_Selected_Optic"];
     _curSel = uiNameSpace getVariable ["cTab_BFT_CurSel",objNull];
     if !(isnull _curSel) then {
      	if !(isEngineOn _curSel) exitWith {
@@ -58,10 +59,15 @@ call {
 
      	_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
     	if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_curSel isNotEqualTo (_Selected_Optic # 1))) then {
-      		player setVariable ["TGP_View_Selected_Optic",[([_curSel,0] call BCE_fnc_Check_Optics) # 0, _curSel],true];
-      	};
+      	player setVariable ["TGP_View_Selected_Optic",[([_curSel,0] call BCE_fnc_Check_Optics) # 0, _curSel],true];
+        
+        //-ATAK
+        if ("Android" in _displayName) then {
+          _display call BCE_fnc_ATAK_Refresh_Weapons;
+        };
       };
-	};
+    };
+  };
   //-DisConnect Vehicle
   if (_type == -3) exitWith {
     _reset_Veh = true;

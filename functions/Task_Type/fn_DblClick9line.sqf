@@ -22,41 +22,40 @@ switch _curLine do {
       _range lbSetCurSel (_taskVarSel # 4);
       _count ctrlSetText (_taskVarSel # 5);
       _height ctrlSetText (_taskVarSel # 6);
-    } else {
-      _ctrl lbSetCurSel 0;
-      _type lbSetCurSel 0;
-      _weap lbSetCurSel (lbCurSel _checklist);
     };
 
-    _ctrlPOS = ctrlPosition _ctrl;
-    _weapPOS = ctrlPosition _weap;
-    _modePOS = ctrlPosition _mode;
-    _rangePOS = ctrlPosition _range;
+    if !(isnil {_description}) then {
 
-    //-Expression
-    _mode ctrlSetPosition
-    [
-      (_weapPOS # 0) + (_modePOS # 2),
-      _weapPOS # 1,
-      _weapPOS # 2,
-      _weapPOS # 3
-    ];
-    _count ctrlSetPosition
-    [
-      (_weapPOS # 0) + 2 * (_rangePOS # 2),
-      _rangePOS # 1,
-      _rangePOS # 2,
-      _rangePOS # 3
-    ];
-    _height ctrlSetPosition
-    [
-      (_weapPOS # 0) + (_rangePOS # 2),
-      _rangePOS # 1,
-      _rangePOS # 2,
-      _rangePOS # 3
-    ];
+      _ctrlPOS = ctrlPosition _ctrl;
+      _weapPOS = ctrlPosition _weap;
+      _modePOS = ctrlPosition _mode;
+      _rangePOS = ctrlPosition _range;
 
-    [_mode,_count,_height] apply {_x ctrlCommit 0};
+      //-Expression
+      _mode ctrlSetPosition
+      [
+        (_weapPOS # 0) + (_modePOS # 2),
+        _weapPOS # 1,
+        _weapPOS # 2,
+        _weapPOS # 3
+      ];
+      _count ctrlSetPosition
+      [
+        (_weapPOS # 0) + 2 * (_rangePOS # 2),
+        _rangePOS # 1,
+        _rangePOS # 2,
+        _rangePOS # 3
+      ];
+      _height ctrlSetPosition
+      [
+        (_weapPOS # 0) + (_rangePOS # 2),
+        _rangePOS # 1,
+        _rangePOS # 2,
+        _rangePOS # 3
+      ];
+
+      [_mode,_count,_height] apply {_x ctrlCommit 0};
+    };
   };
 
   //-IP/BP
@@ -122,10 +121,9 @@ switch _curLine do {
   //-DESC
   case 5:{
     _shownCtrls params ["_ctrl"];
-    private _content = _taskVar # 5 # 1;
-    if (_content isEqualType "") then {
-      _ctrl ctrlSetText _content;
-    };
+    private _taskVar_5 = _taskVar # 5;
+    
+    _ctrl ctrlSetText (["",(_taskVar_5 # 1)] select ((_taskVar_5 # 0) != "NA"));
 
     //-Exit
     if !(isnil {_description}) then {
@@ -196,13 +194,7 @@ switch _curLine do {
     _description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
     _description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
-    _ctrl ctrlSetPosition
-    [
-      _ctrlPOS # 0,
-      (_titlePOS # 1) + (_titlePOS # 3),
-      _ctrlPOS # 2,
-      _ctrlPOS # 3
-    ];
+    _ctrl ctrlSetPositionY ((_titlePOS # 1) + (_titlePOS # 3));
     _ctrl ctrlCommit 0;
   };
 
