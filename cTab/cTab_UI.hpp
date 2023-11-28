@@ -1405,7 +1405,7 @@ class cTab_Tablet_dlg
 					text = "Mark as IP/BP";
 					colorBackgroundActive[] = {1,1,0,0.3};
 					action = "[41] call cTab_fnc_userMenuSelect;";
-					tooltip = "Initial Point\Battle Position";
+					tooltip = "$STR_BCE_TIP_IPBP";
 				};
 				class GRID: IPBP
 				{
@@ -1413,7 +1413,7 @@ class cTab_Tablet_dlg
 					colorBackgroundActive[] = {1,0,0,0.3};
 					y = SubMenuH;
 					action = "[42] call cTab_fnc_userMenuSelect;";
-					tooltip = "Target Position (GRID)";
+					tooltip = "$STR_BCE_TIP_GRID";
 				};
 				class FRND: IPBP
 				{
@@ -1421,7 +1421,7 @@ class cTab_Tablet_dlg
 					colorBackgroundActive[] = {0,0.5,1,0.3};
 					y = SubMenuH * 2;
 					action = "[43] call cTab_fnc_userMenuSelect;";
-					tooltip = "Friendlies";
+					tooltip = "$STR_BCE_TIP_FRND";
 				};
 				class exit: exit
 				{

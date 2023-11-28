@@ -182,19 +182,20 @@ switch _curLine do {
     
     _isEmptyInfo = {
       params ["_txt","_empty"];
-      if ((_txt == _empty) || (_txt == "")) then {
+      [
+        _txt,
         _empty
-      } else {
-        _txt
-      };
+      ] select ((_txt == _empty) || (_txt == ""));
     };
     
-    _Info = flatten [
-      ["","NA"] select (_text == ""), 
-      [[_text, "--"],[_InfoText, localize "STR_BCE_MarkWith"]] apply {
-        _x call _isEmptyInfo;
-      }
-    ];
+    _Info = [["","NA"] select (_text == "")] + (
+      [
+        [_text, "--"],
+        [_InfoText, localize "STR_BCE_MarkWith"]
+      ] apply {
+      _x call _isEmptyInfo
+    });
+    
     _taskVar set [3, _Info];
   };
 

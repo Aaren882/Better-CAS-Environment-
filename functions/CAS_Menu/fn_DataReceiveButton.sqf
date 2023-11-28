@@ -41,6 +41,7 @@ if ((tolower _button_text) == localize "STR_BCE_SendData") exitWith {
 //-Abort Mission
 if ((localize "STR_BCE_Abort_Task") in (tolower _button_text)) exitWith {
   _vehicle setVariable ["BCE_Task_Receiver", [], true];
+  _vehicle setVariable ["Module_CAS_Sound",false,true];
 
   //-Clear Waypoints
   _grp = group _vehicle;

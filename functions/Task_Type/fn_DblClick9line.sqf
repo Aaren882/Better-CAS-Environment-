@@ -124,7 +124,7 @@ switch _curLine do {
     private _taskVar_5 = _taskVar # 5;
     
     _ctrl ctrlSetText (["",(_taskVar_5 # 1)] select ((_taskVar_5 # 0) != "NA"));
-
+    
     //-Exit
     if !(isnil {_description}) then {
       private _ctrlPOS = ctrlPosition _ctrl;

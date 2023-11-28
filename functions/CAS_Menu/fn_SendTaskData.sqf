@@ -1,4 +1,5 @@
 #define CHECK_TASK(TASK) ((TASK select 0) != "NA")
+private ["_drawT"];
 _drawT = {
   _HDG = _FRPOS getDirVisual _TGPOS;
   _POSs = [-90,90] apply {

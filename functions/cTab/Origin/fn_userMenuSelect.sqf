@@ -78,6 +78,12 @@ call {
 		if (cTabActUav != cTab_player) then {
 		  call cTab_fnc_deleteUAVcam;
 		};
+
+    //-ATAK
+    if ("Android" in _displayName) then {
+      private _group = _display displayCtrl (17000 + 4661);
+      {lbClear (_group controlsGroupCtrl (17000 + 2020 + _x))} count [0,1];
+    };
 	};
 
 	if (_type == -4) exitWith {

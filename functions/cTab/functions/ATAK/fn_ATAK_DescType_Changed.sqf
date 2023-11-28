@@ -16,4 +16,6 @@ _EditBox ctrlShow _show;
 call BCE_fnc_ATAK_Refresh_TaskInfos;
 
 //- Set DESC Text
-_EditBox ctrlSetText ([_control lbText _lbCurSel,""] select _show);
+if !(_show) then {
+	_EditBox ctrlSetText (_control lbText _lbCurSel);
+};

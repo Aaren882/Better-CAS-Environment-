@@ -7,6 +7,8 @@ _IDCs = getArray (configFile >> "cTab_Android_dlg" >> "TaskIDCs_List");
 _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
 uiNameSpace setVariable ["BCE_Current_TaskType",_lbCurSel];
 
+_display call BCE_fnc_ATAK_Refresh_Weapons;
+
 // - ["_9line","_5line"]
 // - Output all + hide them all
 _ctrls = [];
@@ -41,13 +43,3 @@ _ctrl ctrlcommit 0;
 
 //-Update DESC Selection
 _ctrlDESC lbSetCurSel (uiNamespace getVariable ["BCE_ATAK_Desc_Type",0]);
-
-//-Update Weapons selection
-// TEMP_EHID = [2023,2024,[2016,1]] apply {
-//   _x params ["_idc",["_type",-1]];
-//   (_TaskList controlsGroupCtrl (17000 + _idc)) ctrlAddEventHandler ["EditChanged", [{
-//     call BCE_fnc_ATAK_AutoSaveTask;
-//   }, {
-//     [1] call BCE_fnc_ATAK_AutoSaveTask;
-//   }] select (_type > 0)];
-// };

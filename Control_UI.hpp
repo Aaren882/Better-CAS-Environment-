@@ -590,7 +590,7 @@ class RscDisplayAVTerminal
 			font = "RobotoCondensed_BCE";
 			sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 15)";
 			show = 0;
-			tooltip = "Show Description";
+			tooltip = "$STR_BCE_more_Details";
 			colorBackground[] = {0,0,0,0.8};
 			onButtonClick = "[_this # 0,false] call BCE_fnc_Extended_Desc";
 			class TextPos
@@ -599,13 +599,6 @@ class RscDisplayAVTerminal
 				top = "safezoneH / 2";
 				right = 0.005;
 				bottom = 0;
-			};
-			class Attributes
-			{
-				font = "RobotoCondensed_BCE";
-				color = "#E5E5E5";
-				align = "center";
-				shadow = "false";
 			};
 		};
 

@@ -1133,13 +1133,13 @@ PHONE_CLASS
 					colorBackground2[] = {0,0,0,0.5};
 					colorBackgroundFocused[] = {0,0,0,0.8};
 
-					animTextureOver = "#(argb,8,8,3)color(0,0,0,0.8)";
-					animTextureFocused = "#(argb,8,8,3)color(0,0,0,1)";
-					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.5)";
+					animTextureOver = "#(argb,8,8,3)color(1,1,1,0.5)";
+					animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+					animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.35)";
 					
 					size = 0.95 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
 					
-					ATAK_POS(0,0,0.745,0.64);
+					ATAK_POS(0,0,0.75,0.64);
 					
 					onButtonClick = "call BCE_fnc_ATAK_LastPage";
 					
@@ -1155,23 +1155,9 @@ PHONE_CLASS
 					
 					style="0x02 + 0x0C";
 					text = "$STR_BCE_Enter";
-					//textureNoShortcut = "a3\ui_f\data\gui\cfg\communicationmenu\transport_ca.paa";
 					
-					ATAK_POS(0.755,0,0.745,0.64);
+					ATAK_POS(0.75,0,0.75,0.64);
 					onButtonClick = "call BCE_fnc_ATAK_DataReceiveButton";
-					
-					/*class TextPos: TextPos
-					{
-						top = 0.04 * (((60)) / 2048 * (PhoneW * 4/3));
-					};
-					
-					class ShortcutPos: ShortcutPos
-					{
-						left = PhoneBFTContainerW(0.45);
-						w = PhoneBFTContainerW(0.3);
-						h = 0.6 * (((60)) / 2048 * (PhoneW * 4/3));
-					};*/
-					
 				};
 			};
 		};

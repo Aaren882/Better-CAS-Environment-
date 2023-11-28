@@ -883,9 +883,19 @@ _settings apply {
 				//-ATAK Control Adjustments
 				switch (_page) do {
 					case "mission": {
+						private ["_group","_ctrl","_weap"];
 						//-restore Task Type
-						private _ctrl = (_display displayCtrl (17000 + 4661)) controlsGroupCtrl (17000 + 2107);
+						_group = _display displayCtrl (17000 + 4661);
+
+						_ctrl = _group controlsGroupCtrl (17000 + 2107);
 						_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
+						// _weap = _group controlsGroupCtrl (17000 + 2020);
+						// [
+						// 	ctrlParent _weap,
+						// 	_weap,
+						// 	player getVariable ['TGP_View_Selected_Vehicle',objNull],
+						// 	false,false,false
+						// ] call BCE_fnc_checkList;
 					};
 				};
 			};
