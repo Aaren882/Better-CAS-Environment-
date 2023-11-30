@@ -39,7 +39,8 @@ if (_info isNotEqualTo "") exitWith {
 };
 
 ////////////////////////////////////////////////////////////////////////////
-private _mode = [cTabIfOpen # 1,"mode"] call cTab_fnc_getSettings;
+private _displayName = cTabIfOpen # 1;
+private _mode = [_displayName,"mode"] call cTab_fnc_getSettings;
 
 //-Live Feed
 private _View_Cam = {
@@ -57,6 +58,16 @@ private _View_Cam = {
     }, [_vehicle], 0.1] call CBA_fnc_WaitAndExecute;
   } else {
     ["UAV",localize "STR_BCE_Error_Vehicle",5] call cTab_fnc_addNotification;
+  };
+};
+
+//-ATAK
+if ("Android" in _displayName) exitWith {
+  _mode = ([_displayName, "showMenu"] call cTab_fnc_getSettings) # 0;
+  switch _mode do {
+    default {
+      call _View_Cam;
+    };
   };
 };
 

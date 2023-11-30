@@ -264,8 +264,9 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
   call BCE_fnc_Cam_Layout;
 
+  //-Only can show Display instead dialog
   #ifdef cTAB_Installed
-  	#define exitCdt (!(isnull curatorcamera) or !(isnil{cTabIfOpen}))
+  	#define exitCdt (!(isnull curatorcamera) || (isnil{if (isnil {cTabIfOpen}) then {""} else {["",nil] select ([cTabIfOpen select 1] call cTab_fnc_isDialog);};}))
   #else
   	#define exitCdt !(isnull curatorcamera)
   #endif
@@ -274,6 +275,13 @@ _idEH = addMissionEventHandler ["Draw3D", {
   if (exitCdt) then {
     if !(TGP_View_Camera Equal []) then {
       camUseNVG false;
+
+      //-Except for Zeus camera
+      if (isnull curatorcamera) then {
+        _cam = TGP_View_Camera # 0;
+        _cam cameraeffect ["Terminate", "back"];
+        camDestroy _cam;
+      };
 
   		ppEffectDestroy (TGP_View_Camera # 1);
 

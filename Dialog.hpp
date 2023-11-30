@@ -16,38 +16,38 @@ class RscTitles
 	#include "Task_Receiver.hpp"
 	
 	#ifdef cTAB_Installed
-		#include "cTab\cTab_classes.hpp"
 		#define PHONE_CLASS class cTab_Android_dsp
 		
 		#undef MOUSE_CLICK_EH
 		
 		#define PhoneH (safezoneH * 0.8)
-		#define PhoneW (0.86)
+		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(0.86)])
 		
-		#define TextSize (((38)) / 2048 * (PhoneW * 4/3))
+		//-Custom Layout
+		#define CustomPhoneH (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_H',(PhoneW * 4/3)])
+		#define CustomPhoneX (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_X',(safezoneX - PhoneW * 0.17)])
+		#define CustomPhoneY (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_Y',(safezoneY + safezoneH * 0.88 - CustomPhoneH * 0.72)])
+		
+		#define TextSize (((38)) / 2048 * CustomPhoneH)
 		#define TextTimes 2.537
-		#define TextTimesH ((safezoneH * 1.2) / PhoneH)
-		#define TextMenu(MULTI) __EVAL(1.1/TextTimesH*MULTI)
+		#define TextTimesH ((safezoneW * 0.8) / PhoneW)
 		
-		#define ATAK_APP(APP,TITLE) #<img image=APP/><br/><t size='0.394'>TITLE</t>
-		
-		#define phoneSizeX (((452)) / 2048 * PhoneW + (safezoneX - PhoneW * 0.17))
-		#define phoneSizeY ((((713) + (60))) / 2048 * (PhoneW * 4/3) + (safezoneY + safezoneH * 0.88 - (PhoneW * 4/3) * 0.72))
+		#define phoneSizeX (((452)) / 2048 * PhoneW + CustomPhoneX)
+		#define phoneSizeY ((((713) + (60))) / 2048 * CustomPhoneH + CustomPhoneY)
 		#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
-		#define phoneSizeH ((((626) - (60) - (0))) / 2048 * (PhoneW * 4/3))
+		#define phoneSizeH ((((626) - (60) - (0))) / 2048 * CustomPhoneH)
 		
 		#define PhoneMarkerColor \
-			x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048 * (0.86) + (safezoneX - (0.86) * 0.17) + 0.92 * (((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW); \
-			y = #((713) + ((60) - (42)) / 2) / 2048 * (	PhoneW * 4/3) + (safezoneY + safezoneH * 0.88 - (PhoneW * 4/3) * 0.72); \
+			x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048 * PhoneW + CustomPhoneX + 0.92 * (((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW); \
+			y = #((713) + ((60) - (42)) / 2) / 2048 * CustomPhoneH + CustomPhoneY; \
 			w = #2.5 * (((42)) / 2048 * PhoneW); \
-			h = #((42)) / 2048 * (PhoneW * 4/3)
+			h = #((42)) / 2048 * CustomPhoneH
 		
-		
-		#if MAP_MODE > 0
+		/*#if MAP_MODE > 0
 			class cTab_android_RscMapControl: RscMapControl{};
 			class cTab_microDAGR_RscMapControl: RscMapControl{};
 			class cTab_TAD_RscMapControl: RscMapControl{};
-		#endif
+		#endif*/
 		
 		#if MAP_MODE > 2
 			class cTab_TAD_dsp
@@ -73,6 +73,11 @@ class RscTitles
 				};
 			};
 		#endif
+		
+		//-Phone Layout
+		#include "cTab\cTab_classes.hpp"
+		#include "cTab\cTab_Android_Widgets.hpp"
+		#include "cTab\cTab_Android_Layout.hpp"
 		
 		//-Phone display
 		#include "cTab\cTab_Android.hpp"

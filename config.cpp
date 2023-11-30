@@ -82,9 +82,29 @@ class CfgUIGrids
 						"(((safezoneW / safezoneH) min 1.2) / 40)",
 						"((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)"
 					};
+					#ifdef cTAB_Installed
+						grid_cTab_ATAK_dsp[] = 
+						{
+							{
+								"(safezoneX - 	(0.86) * 0.17)",
+								"(safezoneY + safezoneH * 0.88 - 	(	(0.86) * 4/3) * 0.72)",
+								"(0.86)",
+								"((0.86) * 4/3)"
+							},
+							"(0.86) / 4",
+							"((0.86) * 4/3) / 4"
+						};
+					#endif
                 };
             };
         };
+		
+		#if __has_include("\z\ctab\addons\core\config.bin")
+			#define PHONE_BG "\cTab\img\android_s7_ca.paa"
+		#else
+			#define PHONE_BG "\cTab\img\android_background_ca.paa"
+		#endif
+
 		class Variables
 		{
             class grid_BCE_TaskList
@@ -95,6 +115,16 @@ class CfgUIGrids
 				saveToProfile[] = {0,1,2,3};
 				canResize = 1;
 			};
+			#ifdef cTAB_Installed
+				class grid_cTab_ATAK_dsp
+				{
+					displayName = "cTab Android";
+					description = "Android display from cTab";
+					preview = PHONE_BG;
+					saveToProfile[] = {0,1,2,3};
+					canResize = 1;
+				};
+			#endif
         };
 	};
 };
@@ -692,6 +722,7 @@ class CfgFunctions
 				class ATAK_AutoSaveTask;
 				class ATAK_Refresh_TaskInfos;
 				class ATAK_Refresh_Weapons;
+				class ATAK_getScrollValue;
 			};
 		#endif
 	};

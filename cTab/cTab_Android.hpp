@@ -1,19 +1,22 @@
 #define Android_BR_InfoY(HEIGHT) ((-(0) + (713) + (626)) - (20) - ((60) - (20))) / 2048  * (PhoneW * 4/3) + (safezoneY + (safezoneH - (PhoneW * 4/3)) / 2) - (HEIGHT * (((32)) / 2048 * PhoneW))
-class cTab_android_on_screen_hookGrid: cTab_RscText_Android
-{
-	y = Android_BR_InfoY(3);
-	h = (((42) - (10))) / 2048 * PhoneW;
-	colorText[] = {0.95,0.95,0.95,1};
-	sizeEx = ((27)) / 2048 * PhoneW;
-};
-class cTab_android_on_screen_hookElevation: cTab_android_on_screen_hookGrid
-{
-	y = Android_BR_InfoY(2);
-};
-class cTab_android_on_screen_hookDst: cTab_android_on_screen_hookGrid
-{
-	y = Android_BR_InfoY(1);
-};
+#ifdef MOUSE_CLICK_EH
+	class cTab_android_on_screen_hookGrid: cTab_RscText_Android
+	{
+		x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (1 - 1))) / 2048  * 	PhoneW + 	CustomPhoneX;
+		y = Android_BR_InfoY(3);
+		h = (((42) - (10))) / 2048 * PhoneW;
+		colorText[] = {0.95,0.95,0.95,1};
+		sizeEx = ((27)) / 2048 * PhoneW;
+	};
+	class cTab_android_on_screen_hookElevation: cTab_android_on_screen_hookGrid
+	{
+		y = Android_BR_InfoY(2);
+	};
+	class cTab_android_on_screen_hookDst: cTab_android_on_screen_hookGrid
+	{
+		y = Android_BR_InfoY(1);
+	};
+#endif
 #undef Android_BR_InfoY
 
 //-ATAK Menu W
@@ -21,59 +24,9 @@ class cTab_android_on_screen_hookDst: cTab_android_on_screen_hookGrid
 
 #define ATAK_POS(XPOS,YPOS,WPOS,HPOS) \
 	x = PhoneBFTContainerW(XPOS); \
-	y = YPOS * ((60)) / 2048 * (PhoneW * 4/3); \
+	y = YPOS * ((60)) / 2048 * CustomPhoneH; \
 	w = PhoneBFTContainerW(WPOS); \
-	h = HPOS * (((60)) / 2048 * (PhoneW * 4/3))
-
-//-ATAK Remark
-/*class ATAK_Remark_TypeSelect: RscToolbox
-{
-	idc = idc_D(4000);
-	//w = PhoneBFTContainerW(3);
-	w = 0;
-	h = 0.65 * (((60)) / 2048 * (PhoneW * 4/3))
-	rows = 1;
-	columns = 2;
-	strings[] =
-	{
-		"FAD/H",
-		"Danger Close"
-	};
-	font = "RobotoCondensed_BCE";
-};
-class ATAK_Remark_ok: BCE_RscButtonMenu
-{
-	idc = 4001;
-	
-	text = "$STR_DISP_OK";
-	colorBackground[] = {0,0,0,0.4};
-	
-	periodFocus = 0;
-	periodOver = 0;
-	
-	colorBackground[] = {0,0,0,0.5};
-	colorBackground2[] = {0,0,0,0.5};
-
-	colorBackgroundFocused[] = {0,0,0,0.5};
-
-	animTextureOver = "#(argb,8,8,3)color(0,0,0,0.5)";
-	animTextureFocused = "#(argb,8,8,3)color(0,0,0,1)";
-	animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
-	
-	textureNoShortcut="";
-};
-class ATAK_Remark_Cancel: ATAK_Remark_ok
-{
-	text="$STR_DISP_CANCEL";
-};
-class ATAK_Remark_FADH: ATAK_Remark_Select
-{
-	idc = idc_D(4010);
-};
-class ATAK_Remark_DangerClose: RscCheckBox
-{
-	idc = idc_D(4011);
-};*/
+	h = HPOS * (((60)) / 2048 * CustomPhoneH)
 
 PHONE_CLASS
 {
@@ -84,6 +37,7 @@ PHONE_CLASS
 			//- 5 Line
 			{51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2043),idc_D(20430),idc_D(2015),idc_D(2016)}
 		};
+		onMouseZChanged = "call BCE_fnc_ATAK_getScrollValue";
 	#endif
 	class controlsBackground
 	{
@@ -112,9 +66,9 @@ PHONE_CLASS
 		{
 			idc = idc_D(4631);
 			x = phoneSizeX + (((((((452) + (20)) + (10)) + ((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) + (10))) - ((452))) / 2048 * PhoneW);
-			y = phoneSizeY + (((((((713) + (60) + (10)) + (20)))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+			y = phoneSizeY + (((((((713) + (60) + (10)) + (20)))) - ((713) + (60))) / 2048 * CustomPhoneH);
 			w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2)) / 2048 * PhoneW;
-			h = ((((626) - (60) - (10) * 2) - (20) -(10))) / 2048 * (PhoneW * 4/3);
+			h = ((((626) - (60) - (10) * 2) - (20) -(10))) / 2048 * CustomPhoneH;
 		};
 		class Vic_PIP_Display: RscPicture
 		{
@@ -122,9 +76,9 @@ PHONE_CLASS
 			text = "#(argb,512,512,1)r2t(rendertarget9,1.1896551724)";
 
 			x = phoneSizeX + (((((((452) + (20)) + (10)) + ((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) + (10))) - ((452))) / 2048 * PhoneW);
-			y = phoneSizeY + (((((((713) + (60) + (10)) + (20)))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+			y = phoneSizeY + (((((((713) + (60) + (10)) + (20)))) - ((713) + (60))) / 2048 * CustomPhoneH);
 			w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2)) / 2048 * PhoneW;
-			h = ((((626) - (60) - (10) * 2) - (20) -(10))) / 2048 * (PhoneW * 4/3);
+			h = ((((626) - (60) - (10) * 2) - (20) -(10))) / 2048 * CustomPhoneH;
 		};
 	};
 	class controls
@@ -232,7 +186,7 @@ PHONE_CLASS
 		class ATAK_Tools: ATAK_MenuBG
 		{
 			idc = idc_D(4660);
-			h = phoneSizeH - 0.75 * (((60)) / 2048 * (PhoneW * 4/3));
+			h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH);
 			class controls
 			{
 				class actMSGtxt: BCE_RscButtonMenu
@@ -257,27 +211,28 @@ PHONE_CLASS
 					animTextureOver = "#(argb,8,8,3)color(0,0,0,0.5)";
 					animTextureFocused = "#(argb,8,8,3)color(0,0,0,0)";
 					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
+					
+					size = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
 	
 					action = "['cTab_Android_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
 					
-					#if TextTimes == 1
-						textureNoShortcut=APP_MSG;
-						class ShortcutPos
-						{
-							left = 0.85 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimes;
-							top = (phoneSizeW * 3/5)/3/20;
-							w = (phoneSizeW * 2/5)/5*1.1;
-							h = (phoneSizeW * 3/5)/5;
-						};
-					#endif
+					textureNoShortcut=APP_MSG;
+					class ShortcutPos
+					{
+						left = 0.75 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
+						top = (phoneSizeW * 3/5)/3/20;
+						w = (phoneSizeW * 2/5)/5*1.1;
+						h = (phoneSizeW * 3/5)/5;
+					};
 					
 					class TextPos
 					{
-						left = "0.25 * (((safezoneW / safezoneH) min 1.2) / 40)";
+						left = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40);
 						top = (phoneSizeW * 3/5)/3/20;
-						right = 0.0049999999;
+						right = 0;
 						bottom = 0;
 					};
+					
 					
 					class Attributes
 					{
@@ -296,9 +251,7 @@ PHONE_CLASS
 					x = PhoneBFTContainerW(1);
 					action = "['cTab_Android_dlg',[['showMenu',['mission',true,-1]]]] call cTab_fnc_setSettings;";
 					
-					#if TextTimes == 1
-						textureNoShortcut="\a3\characters_f\data\ui\icon_expl_specialist_ca.paa";
-					#endif
+					textureNoShortcut="\a3\characters_f\data\ui\icon_expl_specialist_ca.paa";
 				};
 				class actUAVtxt: actMSGtxt
 				{
@@ -307,16 +260,14 @@ PHONE_CLASS
 					text = ATAK_APP("a3\weapons_f_orange\reticle\data\camera_ca.paa",AV Camera);
 					action = "['cTab_Android_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
 					
-					#if TextTimes == 1
-						textureNoShortcut="a3\weapons_f_orange\reticle\data\camera_ca.paa";
-						class ShortcutPos: ShortcutPos
-						{
-							left = 1.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimes;
-							top = 2.5 * (phoneSizeW * 3/5)/3/20;
-							w = (phoneSizeW * 2/5)/5*0.9;
-							h = (phoneSizeW * 3/5)/5*0.8;
-						};
-					#endif
+					textureNoShortcut="a3\weapons_f_orange\reticle\data\camera_ca.paa";
+					class ShortcutPos
+					{
+						left = 0.95 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
+						top = 2.5 * (phoneSizeW * 3/5)/3/20;
+						w = (phoneSizeW * 2/5)/5*0.9;
+						h = (phoneSizeW * 3/5)/5*0.8;
+					};
 				};
 				//-Second Line
 				class actHCamtxt: actMSGtxt
@@ -326,9 +277,7 @@ PHONE_CLASS
 					y = (phoneSizeW * 3/5)/3;
 					action = "";
 					
-					#if TextTimes == 1
-						textureNoShortcut="a3\3den\data\displays\display3den\entitymenu\movecamera_ca.paa";
-					#endif
+					textureNoShortcut="a3\3den\data\displays\display3den\entitymenu\movecamera_ca.paa";
 				};
 				class actGrouptxt: actHCamtxt
 				{
@@ -336,9 +285,7 @@ PHONE_CLASS
 					x = PhoneBFTContainerW(1);
 					text = ATAK_APP("a3\3den\data\displays\display3den\panelright\modegroups_ca.paa",Groups);
 					action = "";
-					#if TextTimes == 1
-						textureNoShortcut="a3\3den\data\displays\display3den\panelright\modegroups_ca.paa";
-					#endif
+					textureNoShortcut="a3\3den\data\displays\display3den\panelright\modegroups_ca.paa";
 				};
 				class actDashBoardtxt: actHCamtxt
 				{
@@ -347,9 +294,7 @@ PHONE_CLASS
 					text = ATAK_APP("a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa",CheckList);
 					action = "";
 					
-					#if TextTimes == 1
-						textureNoShortcut="a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa";
-					#endif
+					textureNoShortcut="a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa";
 				};
 				
 				//-Thired Line
@@ -360,9 +305,7 @@ PHONE_CLASS
 					text = ATAK_APP("a3\3den\data\displays\display3den\toolbar\intel_ca.paa",Weather);
 					action = "";
 					
-					#if TextTimes == 1
-						textureNoShortcut="a3\3den\data\displays\display3den\toolbar\intel_ca.paa";
-					#endif
+					textureNoShortcut="a3\3den\data\displays\display3den\toolbar\intel_ca.paa";
 				};
 				class actBDAtxt: actWeathertxt
 				{
@@ -371,9 +314,7 @@ PHONE_CLASS
 					text = ATAK_APP("a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa",Damage Assessment);
 					action = "";
 					
-					#if TextTimes == 1
-						textureNoShortcut="a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa";
-					#endif
+					textureNoShortcut="a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa";
 				};
 				
 				class actSettingtxt: actUAVtxt
@@ -384,9 +325,7 @@ PHONE_CLASS
 					text = ATAK_APP("a3\weapons_f_orange\reticle\data\settings_ca.paa",Settings);
 					action = "";
 					
-					#if TextTimes == 1
-						textureNoShortcut="a3\weapons_f_orange\reticle\data\settings_ca.paa";
-					#endif
+					textureNoShortcut="a3\weapons_f_orange\reticle\data\settings_ca.paa";
 				};
 			};
 		};
@@ -787,6 +726,7 @@ PHONE_CLASS
 					ATAK_POS(0.2,(3.6 + (0.35/2)),2.7,0.7);
 					colorBackground[] = {0.2,0.2,0.2,0.5};
 					
+					size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
 					text = "“Alpha 1-1” / “Alpha 1-2”";
 					tooltip="$STR_BCE_TIP_5Line";
 					
@@ -855,7 +795,7 @@ PHONE_CLASS
 					idc = idc_D(2015);
 					sizeEx = 0.9 * TextSize;
 					ATAK_POS(0.15,(6.5 + (0.35/2)),2.75,0.7);
-					//- 6.5
+					
 					colorText[] = {0.75,0.75,0.75,1};
 					colorBackground[]={0,0,0,0.5};
 					tooltip="$STR_BCE_TIP_AddDESC";
@@ -865,7 +805,7 @@ PHONE_CLASS
 				{
 					idc = idc_D(2016);
 					ATAK_POS(0.15,(8.2 + (0.35/2)),2.75,0.7);
-					//- 7.5
+					
 					text = "$STR_BCE_MarkWith";
 					tooltip="";
 					onEditChanged = "(_this + [1]) call BCE_fnc_ATAK_AutoSaveTask";
@@ -922,6 +862,7 @@ PHONE_CLASS
 			{
 				scrollSpeed=0;
 			};
+			
 			class controls
 			{
 				//-Description
@@ -947,9 +888,9 @@ PHONE_CLASS
 					idc = idc_D(2011);
 					
 					x = PhoneBFTContainerW(0.1);
-					y = 0.1 * ((60)) / 2048 * (PhoneW * 4/3);
+					y = 0.1 * ((60)) / 2048 * CustomPhoneH;
 					w = PhoneBFTContainerW(3);
-					h = phoneSizeH - 0.75 * (((60)) / 2048 * (PhoneW * 4/3));
+					h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH);
 				};
 				
 				//-IP
@@ -1108,7 +1049,7 @@ PHONE_CLASS
 					textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
 					
 					x = PhoneBFTContainerW(0.1);
-					y = (0.35/2 + 0.65*3) * ((60)) / 2048 * (PhoneW * 4/3);
+					y = (0.35/2 + 0.65*3) * ((60)) / 2048 * CustomPhoneH;
 					w = PhoneBFTContainerW(0.3) * (safezoneH/safezonew);
 					h = PhoneBFTContainerW(0.3);
 				};
@@ -1119,8 +1060,8 @@ PHONE_CLASS
 		class InputButtons: ATAK_MenuBG
 		{
 			idc = 46600;
-			y = phoneSizeY + phoneSizeH - (0.75 * (((60)) / 2048 * (PhoneW * 4/3)));
-			h = 0.75 * (((60)) / 2048 * (PhoneW * 4/3));
+			y = phoneSizeY + phoneSizeH - (0.75 * (((60)) / 2048 * CustomPhoneH));
+			h = 0.75 * (((60)) / 2048 * CustomPhoneH);
 			class controls
 			{
 				class Back: BCE_RscButtonMenu
@@ -1153,11 +1094,53 @@ PHONE_CLASS
 				{
 					idc = 11;
 					
-					style="0x02 + 0x0C";
 					text = "$STR_BCE_Enter";
 					
 					ATAK_POS(0.75,0,0.75,0.64);
 					onButtonClick = "call BCE_fnc_ATAK_DataReceiveButton";
+				};
+				
+				class Live_Feed: Back
+				{
+					idc = 12;
+					
+					text = "$STR_BCE_Live_Feed";
+					
+					ATAK_POS(1.5,0,0.75,0.64);
+					
+					action = "call cTab_Tablet_btnACT";
+					onButtonClick = "";
+				};
+				class Show_Result: Back
+				{
+					idc = 13;
+					
+					text = "<img image='a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa' />";
+					
+					colorBackground[] = 
+					{
+						"1 - (profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+						"1 - (profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+						"1 - (profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+						0.5
+					};
+					colorBackground2[] = 
+					{
+						"1 - (profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+						"1 - (profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+						"1 - (profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+						0.5
+					};
+					colorBackgroundFocused[] = 
+					{
+						"1 - (profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+						"1 - (profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+						"1 - (profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+						0.8
+					};
+					
+					ATAK_POS(2.25,0,0.75,0.64);
+					onButtonClick = "";
 				};
 			};
 		};
@@ -1234,9 +1217,9 @@ PHONE_CLASS
 					colorBackground[] = {0.25,0.25,0.25,0.5};
 
 					x = (((((((452) + (20)) + (10)) + ((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) + (10))) - ((452))) / 2048 * PhoneW);
-					y = (((((((713) + (60) + (10)) + (20)))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+					y = (((((((713) + (60) + (10)) + (20)))) - ((713) + (60))) / 2048 * CustomPhoneH);
 					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2)) / 2048 * PhoneW;
-					h = ((30)) / 2048 * (PhoneW * 4/3);
+					h = ((30)) / 2048 * CustomPhoneH;
 					sizeEx = TextSize;
 				};
 				class cTabAVlist: cTab_RscListbox_Tablet
@@ -1251,9 +1234,9 @@ PHONE_CLASS
 					colorSelectBackground2[] = {0,0,0,0};
 
 					x = ((((((452) + (20)) + (10))) - ((452))) / 2048 * PhoneW);
-					y = ((((((713) + (60) + (10)) + (20))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+					y = ((((((713) + (60) + (10)) + (20))) - ((713) + (60))) / 2048 * CustomPhoneH);
 					w = (((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3)) / 2048 * PhoneW;
-					h = ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) / 2048 * (PhoneW * 4/3);
+					h = ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) / 2048 * CustomPhoneH;
 
 					onLBSelChanged = "if (_this # 1 != -1) then {['cTab_Android_dlg',[['uavCam',(_this # 0) lbData (_this # 1)]]] call cTab_fnc_setSettings;};";
 				};
@@ -1272,9 +1255,9 @@ PHONE_CLASS
 					soundSelect[] = {"",0,1};
 
 					x = ((((((452) + (20)) + (10))) - ((452))) / 2048 * PhoneW);
-					y = ((((((713) + (60) + (10)) + (20))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+					y = ((((((713) + (60) + (10)) + (20))) - ((713) + (60))) / 2048 * CustomPhoneH);
 					w = (((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3)) / 2048 * PhoneW;
-					h = ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) / 2048 * (PhoneW * 4/3);
+					h = ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) / 2048 * CustomPhoneH;
 				};
 
 				class Info_Vic: cTab_RscButton
@@ -1289,9 +1272,9 @@ PHONE_CLASS
 					offsetPressedY = "pixelH";
 
 					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW);
-					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)))) - ((713) + (60))) / 2048 * CustomPhoneH);
 					w = (0.75 * (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW));
-					h = ((60)) / 2048 * (PhoneW * 4/3);
+					h = ((60)) / 2048 * CustomPhoneH;
 					action = "['cTab_Android_dlg'] call cTab_fnc_AVInfoMenu_toggle;";
 				};
 				class SwitchTurret: Info_Vic
@@ -1320,9 +1303,9 @@ PHONE_CLASS
 					text = "$STR_BCE_Live_Feed";
 					sizeEx = TextSize;
 					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW);
-					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)) + (10) + (60))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)) + (10) + (60))) - ((713) + (60))) / 2048 * CustomPhoneH);
 					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW;
-					h = ((60)) / 2048 * (PhoneW * 4/3);
+					h = ((60)) / 2048 * CustomPhoneH;
 					action = "call cTab_Tablet_btnACT;";
 				};
 			};
@@ -1347,9 +1330,9 @@ PHONE_CLASS
 					style = 32;
 					sizeEx = TextSize;
 					x = ((((((452) + (20)) + (10))) - ((452))) / 2048 * PhoneW);
-					y = ((((((713) + (60) + (10)) + (20))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+					y = ((((((713) + (60) + (10)) + (20))) - ((713) + (60))) / 2048 * CustomPhoneH);
 					w = (((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3)) / 2048 * PhoneW;
-					h = ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) / 2048 * (PhoneW * 4/3);
+					h = ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) / 2048 * CustomPhoneH;
 					onLBSelChanged = "_this call cTab_msg_get_mailTxt;";
 				};
 				class msgframe: cTab_RscFrame
@@ -1357,9 +1340,9 @@ PHONE_CLASS
 					idc = 16;
 					text = "Read Message";
 					x = (((((452) + (20))) - ((452))) / 2048 * PhoneW);
-					y = (((((713) + (60) + (10))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+					y = (((((713) + (60) + (10))) - ((713) + (60))) / 2048 * CustomPhoneH);
 					w = (((PHONE_MOD) - (20) * 2)) / 2048 * PhoneW;
-					h = (((626) - (60) - (10) * 2)) / 2048 * (PhoneW * 4/3);
+					h = (((626) - (60) - (10) * 2)) / 2048 * CustomPhoneH;
 				};
 				class msgTxt: cTab_RscEdit
 				{
@@ -1372,7 +1355,7 @@ PHONE_CLASS
 					x = (((((((452) + (20)) + (10)) + ((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) + (10))) - ((452))) / 2048  * 	PhoneW);
 					y = (((((((713) + (60) + (10)) + (20)))) - ((713) + (60))) / 2048  * 	(	PhoneW * 4/3));
 					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2)) / 2048  * PhoneW;
-					h = ((((626) - (60) - (10) * 2) - (20) -(10))) / 2048 * (PhoneW * 4/3);
+					h = ((((626) - (60) - (10) * 2) - (20) -(10))) / 2048 * CustomPhoneH;
 					canModify = 0;
 				};
 				class deletebtn: cTab_RscButton
@@ -1382,9 +1365,9 @@ PHONE_CLASS
 					tooltip = "Delete Selected Message(s)";
 					sizeEx = TextSize;
 					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW);
-					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)))) - ((713) + (60))) / 2048 * CustomPhoneH);
 					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW;
-					h = ((60)) / 2048 * (PhoneW * 4/3);
+					h = ((60)) / 2048 * CustomPhoneH;
 					action = "['cTab_Android_dlg'] call cTab_fnc_onMsgBtnDelete;";
 				};
 				class toCompose: cTab_RscButton
@@ -1394,9 +1377,9 @@ PHONE_CLASS
 					tooltip = "Compose Messages";
 					sizeEx = TextSize;
 					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW);
-					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)) + (10) + (60))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)) + (10) + (60))) - ((713) + (60))) / 2048 * CustomPhoneH);
 					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW;
-					h = ((60)) / 2048 * (PhoneW * 4/3);
+					h = ((60)) / 2048 * CustomPhoneH;
 					action = "['cTab_Android_dlg',[['mode','COMPOSE']]] call cTab_fnc_setSettings;";
 				};
 			};
@@ -1418,9 +1401,9 @@ PHONE_CLASS
 					idc = 18;
 					text = "Compose Message";
 					x = ((((((452) + (20)))) - ((452))) / 2048 * PhoneW);
-					y = ((((((713) + (60) + (10)))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+					y = ((((((713) + (60) + (10)))) - ((713) + (60))) / 2048 * CustomPhoneH);
 					w = ((((PHONE_MOD) - (20) * 2))) / 2048 * PhoneW;
-					h = ((((626) - (60) - (10) * 2))) / 2048 * (PhoneW * 4/3);
+					h = ((((626) - (60) - (10) * 2))) / 2048 * CustomPhoneH;
 				};
 				class playerlistbox: cTab_RscListBox
 				{
@@ -1438,9 +1421,9 @@ PHONE_CLASS
 					text = "Send";
 					sizeEx = TextSize;
 					x = (((((((452) + (20))) + (10))) - ((452))) / 2048 * PhoneW);
-					y = ((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+					y = ((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10))) - ((713) + (60))) / 2048 * CustomPhoneH);
 					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW;
-					h = ((60)) / 2048 * (PhoneW * 4/3);
+					h = ((60)) / 2048 * CustomPhoneH;
 					action = "call cTab_msg_Send;";
 				};
 				class edittxtbox: cTab_RscEdit
@@ -1452,9 +1435,9 @@ PHONE_CLASS
 					text = "";
 					sizeEx = TextSize;
 					x = ((((((((452) + (20)) + (10)) + ((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) + (10)))) - ((452))) / 2048  * 	PhoneW);
-					y = ((((((((713) + (60) + (10))) + (20)))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
+					y = ((((((((713) + (60) + (10))) + (20)))) - ((713) + (60))) / 2048 * CustomPhoneH);
 					w = (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2))) / 2048 * PhoneW;
-					h = (((((626) - (60) - (10) * 2) - (20) -(10)))) / 2048 * (PhoneW * 4/3);
+					h = (((((626) - (60) - (10) * 2) - (20) -(10)))) / 2048 * CustomPhoneH;
 				};
 				class toRead: cTab_RscButton
 				{
@@ -1465,7 +1448,7 @@ PHONE_CLASS
 					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW);
 					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)) + (10) + (60))) - ((713) + (60))) / 2048  * 	(	PhoneW * 4/3));
 					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW;
-					h = ((60)) / 2048 * (PhoneW * 4/3);
+					h = ((60)) / 2048 * CustomPhoneH;
 					action = "['cTab_Android_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
 				};
 			};

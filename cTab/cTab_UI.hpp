@@ -5,6 +5,8 @@ class cTab_RscControlsGroup
 	class VScrollbar;
 	class HScrollbar;
 };
+class cTab_RscText;
+class cTab_RscButtonInv;
 class cTab_ActiveText;
 class cTab_RscListBox;
 class cTab_RscListbox_Tablet;
@@ -1499,23 +1501,32 @@ class cTab_TAD_dlg
 #define PhoneH (safezoneH * 1.2)
 #define PhoneW (safezoneW * 0.8)
 
-#define phoneSizeX ((((452))) / 2048 * PhoneW + (safezoneX + (safezoneW - PhoneW) / 2))
-#define phoneSizeY ((((713) + (60))) / 2048 * (PhoneW * 4/3) + (safezoneY + (safezoneH - (PhoneW * 4/3)) / 2))
-#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
-#define phoneSizeH ((((626) - (60) - (0))) / 2048 * (PhoneW * 4/3))
+//-Default Layout
+#define CustomPhoneH (PhoneW * 4/3)
+#define CustomPhoneX (safezoneX + (safezoneW - 	PhoneW) / 2)
+#define CustomPhoneY (safezoneY + (safezoneH - 	CustomPhoneH) / 2)
 
-#define TextSize (((38)) / 2048 * (PhoneW * 4/3))
+#define phoneSizeX ((((452))) / 2048 * PhoneW + CustomPhoneX)
+#define phoneSizeY ((((713) + (60))) / 2048 * CustomPhoneH + CustomPhoneY)
+#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
+#define phoneSizeH ((((626) - (60) - (0))) / 2048 * CustomPhoneH)
+
+#define TextSize (((38)) / 2048 * CustomPhoneH)
 #define TextTimes 1
-#define TextTimesH ((safezoneH * 1.2) / PhoneH)
+#define TextTimesH (PhoneH / PhoneH)
 #define TextMenu(MULTI) __EVAL(1.1*MULTI)
 
 #define ATAK_APP(APP,TITLE) #<br/><t size='1'><br/><br/>TITLE</t>
 
 #define PhoneMarkerColor \
-	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048 * PhoneW + (safezoneX + (safezoneW - PhoneW) / 2) + ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW; \
-	y = #((713) + ((60) - (38)) / 2) / 2048 * (PhoneW * 4/3) + (safezoneY + (safezoneH - (PhoneW * 4/3)) / 2); \
+	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048 * PhoneW + CustomPhoneX + ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW; \
+	y = #((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY; \
 	w = #2.5*(((42)) / 2048 * PhoneW); \
-	h = #(((60) - (20))) / 2048 * (PhoneW * 4/3)
+	h = #(((60) - (20))) / 2048 * CustomPhoneH
 
+//-ATAK Map
+#include "cTab_Android_Widgets.hpp"
+
+class cTab_android_btnHome;
 //-Phone display
 #include "cTab_Android.hpp"

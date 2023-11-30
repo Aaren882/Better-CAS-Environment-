@@ -74,24 +74,24 @@ _settings apply {
 		_dspIfPosition = _x # 1;
 
 		if !(_isDialog) then {
-		// get the current position of the background control
-		_backgroundPosition = [_displayName] call cTab_fnc_getBackgroundPosition;
-		_backgroundPositionX = _backgroundPosition # 0 # 0;
-		_backgroundPositionW = _backgroundPosition # 0 # 2;
+			// get the current position of the background control
+			_backgroundPosition = [_displayName] call cTab_fnc_getBackgroundPosition;
+			_backgroundPositionX = _backgroundPosition # 0 # 0;
+			_backgroundPositionW = _backgroundPosition # 0 # 2;
 
-		// get the original position of the background control
-		_backgroundConfigPositionX = _backgroundPosition # 1 # 0;
+			// get the original position of the background control
+			_backgroundConfigPositionX = _backgroundPosition # 1 # 0;
 
-		// figure out if we need to do anything
-		if !((_backgroundPositionX != _backgroundConfigPositionX) isEqualTo _dspIfPosition) then {
-			// calculate offset required to shift position to the opposite
-			_xOffset = if (_backgroundPositionX == _backgroundConfigPositionX) then {
-				2 * safeZoneX + safeZoneW - _backgroundPositionW - 2 * _backgroundPositionX
-			} else {
-				_backgroundConfigPositionX - _backgroundPositionX
+			// figure out if we need to do anything
+			if !((_backgroundPositionX != _backgroundConfigPositionX) isEqualTo _dspIfPosition) then {
+				// calculate offset required to shift position to the opposite
+				_xOffset = if (_backgroundPositionX == _backgroundConfigPositionX) then {
+					2 * safeZoneX + safeZoneW - _backgroundPositionW - 2 * _backgroundPositionX
+				} else {
+					_backgroundConfigPositionX - _backgroundPositionX
+				};
+				[_displayName,[_xOffset,0]] call cTab_fnc_setInterfacePosition;
 			};
-			[_displayName,[_xOffset,0]] call cTab_fnc_setInterfacePosition;
-		};
 		};
 	};
 	// ------------ DIALOG POSITION ------------
@@ -99,19 +99,19 @@ _settings apply {
 		_backgroundOffset = _x # 1;
 
 		if (_isDialog) then {
-		if (_backgroundOffset isEqualTo []) then {
-			_backgroundOffset = if (_interfaceInit) then {
-				[0,0]
-			} else {
-				// reset to defaults
-				_backgroundPosition = [_displayName] call cTab_fnc_getBackgroundPosition;
-				[(_backgroundPosition # 1 # 0) - (_backgroundPosition # 0 # 0),(_backgroundPosition # 1 # 1) - (_backgroundPosition # 0 # 1)]
+			if (_backgroundOffset isEqualTo []) then {
+				_backgroundOffset = if (_interfaceInit) then {
+					[0,0]
+				} else {
+					// reset to defaults
+					_backgroundPosition = [_displayName] call cTab_fnc_getBackgroundPosition;
+					[(_backgroundPosition # 1 # 0) - (_backgroundPosition # 0 # 0),(_backgroundPosition # 1 # 1) - (_backgroundPosition # 0 # 1)]
+				};
 			};
-		};
-		if !(_backgroundOffset isEqualTo [0,0]) then {
-			// move by offset
-			[_displayName,_backgroundOffset] call cTab_fnc_setInterfacePosition;
-		};
+			if !(_backgroundOffset isEqualTo [0,0]) then {
+				// move by offset
+				[_displayName,_backgroundOffset] call cTab_fnc_setInterfacePosition;
+			};
 		};
 	};
 	// ------------ BRIGHTNESS ------------
@@ -119,13 +119,13 @@ _settings apply {
 	if (_x # 0 == "brightness") exitWith {
 		_osdCtrl = _display displayCtrl IDC_CTAB_BRIGHTNESS;
 		if (!isNull _osdCtrl) then {
-		_brightness = _x # 1;
-		_nightMode = [_displayName,"nightMode"] call cTab_fnc_getSettings;
-		// if we are running night mode, lower the brightness proportionally
-		if (!isNil "_nightMode") then {
-			if (_nightMode == 1 || {_nightMode == 2 && (sunOrMoon < 0.2)}) then {_brightness = _brightness * 0.7};
-		};
-		_osdCtrl ctrlSetBackgroundColor [0,0,0,1 - _brightness];
+			_brightness = _x # 1;
+			_nightMode = [_displayName,"nightMode"] call cTab_fnc_getSettings;
+			// if we are running night mode, lower the brightness proportionally
+			if (!isNil "_nightMode") then {
+				if (_nightMode == 1 || {_nightMode == 2 && (sunOrMoon < 0.2)}) then {_brightness = _brightness * 0.7};
+			};
+			_osdCtrl ctrlSetBackgroundColor [0,0,0,1 - _brightness];
 		};
 	};
 
@@ -866,7 +866,7 @@ _settings apply {
 		};
 
 		// ---------- ATAK Tools -----------
-		if ((_x # 0) == "showMenu") exitWith {
+		if (((_x # 0) == "showMenu") && (_mode == "BFT")) exitWith {
 			{
 				(_display displayCtrl _x) ctrlShow false
 			} count [IDC_CTAB_GROUP_MENU, 17000 + 4660, 17000 + 4661, 17000 + 4662];
@@ -886,16 +886,10 @@ _settings apply {
 						private ["_group","_ctrl","_weap"];
 						//-restore Task Type
 						_group = _display displayCtrl (17000 + 4661);
+						_group ctrlSetScrollValues [uiNamespace getVariable ["BCE_ATAK_Scroll_Value",0], -1];
 
 						_ctrl = _group controlsGroupCtrl (17000 + 2107);
 						_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
-						// _weap = _group controlsGroupCtrl (17000 + 2020);
-						// [
-						// 	ctrlParent _weap,
-						// 	_weap,
-						// 	player getVariable ['TGP_View_Selected_Vehicle',objNull],
-						// 	false,false,false
-						// ] call BCE_fnc_checkList;
 					};
 				};
 			};
