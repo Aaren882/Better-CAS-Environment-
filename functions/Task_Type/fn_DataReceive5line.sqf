@@ -9,11 +9,12 @@ switch _curLine do {
       "_ord_title",
       "_CTweap","_CTmode","_CTrange","_CTcount","_CTHeight"
     ];
-    private ["_typeCAS","_typeATK","_ordnanceInfo","_setCount","_height","_lowest","_rangeIndex","_ATK_range","_text"];
+    private ["_typeCAS","_typeATK","_ordance","_ordnanceInfo","_setCount","_height","_lowest","_rangeIndex","_ATK_range","_text","_isnil","_text","_result"];
     _typeCAS = ["T1","T2","T3"] # (lbCurSel _ctrl);
     _typeATK = ["BoT","BoC"] # (lbCurSel _type);
 
-    _ordnanceInfo = call compile (_CTmode lbdata (lbcursel _CTmode));
+    _ordance = _CTmode lbdata (lbcursel _CTmode);
+    _ordnanceInfo = call compile _ordance;
     _ordnanceInfo params ["_WeapName","_ModeName","_class","_Mode","_turret",["_Count",1,[0]]];
 
     //-Ammo Count
@@ -26,7 +27,7 @@ switch _curLine do {
       _setCount = _Count;
       _CTcount ctrlSetText (str _Count);
     };
-
+    
     //-so you can set it to whatever you want
     _lowest = 0;
 
@@ -40,19 +41,28 @@ switch _curLine do {
       _CTHeight ctrlSetText (str _lowest);
     };
 
-    //-dont write down on the right of the list
-    _writeDown = "Y";
-
     //-Attack Range
     _rangeIndex = lbCurSel _CTrange;
     _ATK_range = _CTrange lbValue _rangeIndex;
 
-    _ordnanceInfo set [5,_setCount];
-    _text = format ["%1 %2 %3 %4m",_typeCAS,_typeATK,_WeapName,_height];
+    _Count = _setCount;
+
+    _isnil = isnil _ordance;
+    _text = format ["%1 %2 %3 %4m",_typeCAS,_typeATK,[_WeapName,"NA"] select _isnil,_height];
+
+    _result = [
+      _text,
+      _typeCAS,
+      _typeATK,
+      [],
+      [lbCurSel _ctrl,lbCurSel _type,lbCurSel _CTweap,lbCurSel _CTmode,_rangeIndex,str _setCount,str _height]
+    ];
 
     if (isnil _WeapName) then {
-      _taskVar set [0,[_text,_typeCAS,_typeATK,_ordnanceInfo + [_ATK_range,_height],[lbCurSel _ctrl,lbCurSel _type,lbCurSel _CTweap,lbCurSel _CTmode,_rangeIndex,str _setCount, str _height]]];
+      _result set [3,_ordnanceInfo + [_ATK_range,_height]];
     };
+    
+    _taskVar set [0,_result];
   };
 
   //-Friendly

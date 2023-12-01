@@ -229,6 +229,7 @@ _settings apply {
 				17000 + 4660,
 				17000 + 4661,
 				17000 + 4662,
+				17000 + 4663,
 				46600,
 
 				//-BG
@@ -869,7 +870,7 @@ _settings apply {
 		if (((_x # 0) == "showMenu") && (_mode == "BFT")) exitWith {
 			{
 				(_display displayCtrl _x) ctrlShow false
-			} count [IDC_CTAB_GROUP_MENU, 17000 + 4660, 17000 + 4661, 17000 + 4662];
+			} count [IDC_CTAB_GROUP_MENU, 17000 + 4660, 17000 + 4661, 17000 + 4662, 17000 + 4663];
 
 			(_x # 1) params ["_page","_show"];
 		
@@ -880,16 +881,23 @@ _settings apply {
 			} count [IDC_CTAB_GROUP_MENU,_show_IDC];
 			
 			if (_show) then {
+				private ["_group","_ctrl"];
 				//-ATAK Control Adjustments
 				switch (_page) do {
 					case "mission": {
-						private ["_group","_ctrl","_weap"];
 						//-restore Task Type
 						_group = _display displayCtrl (17000 + 4661);
 						_group ctrlSetScrollValues [uiNamespace getVariable ["BCE_ATAK_Scroll_Value",0], -1];
 
 						_ctrl = _group controlsGroupCtrl (17000 + 2107);
 						_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
+					};
+					case "Task_Result": {
+						_group = _display displayCtrl (17000 + 4663);
+						_ctrl = _group controlsGroupCtrl 11;
+						private _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+						private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
+						[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
 					};
 				};
 			};

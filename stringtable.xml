@@ -160,6 +160,18 @@
 			<Chinese>這架飛機無法執行新任務。</Chinese>
 			<Chinesesimp>这架飞机无法执行新任务。</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_ATAK_No_Info_Error">
+			<Original>Check Target Position is being filed.</Original>
+			<Chinese>檢查是否填寫目標位置。</Chinese>
+			<Chinesesimp>检查是否填写目标位置。</Chinesesimp>
+		</Key>
+		
+		
+		<Key ID="STR_BCE_ATAK_Show_Info">
+			<Original>Show Info</Original>
+			<Chinese>顯示資訊</Chinese>
+			<Chinesesimp>显示信息</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_Task_Type">
 			<Original>Task Type</Original>
 			<Chinese>任務類型</Chinese>
@@ -175,6 +187,24 @@
 			<Chinese>描述</Chinese>
 			<Chinesesimp>描述</Chinesesimp>
 		</Key>
+		
+		<Key ID="STR_BCE_Toggle_FOV">
+			<Original>Toggle FOV of vehicle turrets</Original>
+			<Chinese>開關車輛炮塔FOV</Chinese>
+			<Chinesesimp>开关车辆炮塔FOV</Chinesesimp>
+		</Key>
+		
+		<Key ID="STR_BCE_CAS_Task">
+			<Original>CAS Task</Original>
+			<Chinese>CAS 任務</Chinese>
+			<Chinesesimp>CAS 任务</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Toggle_Task">
+			<Original>Toggle current Task infos</Original>
+			<Chinese>開關目前任務信息</Chinese>
+			<Chinesesimp>开关当前任务信息</Chinesesimp>
+		</Key>
+
 		
 		
 		<Key ID="STR_BCE_Type">
@@ -324,11 +354,49 @@
 			<Chinese>已收到新任務</Chinese>
 			<Chinesesimp>您收到了新任务</Chinesesimp>
 		</Key>
+		
+		<Key ID="STR_BCE_Map_Tit_illumination">
+			<Original>&lt;img image='\a3\3den\data\displays\display3den\toolbar\flashlight_off_ca.paa' align='left' size='0.8' /&gt; Map Illumination</Original>
+			<Chinese>&lt;img image='\a3\3den\data\displays\display3den\toolbar\flashlight_off_ca.paa' align='left' size='0.8' /&gt; 地圖照明</Chinese>
+			<Chinesesimp>&lt;img image='\a3\3den\data\displays\display3den\toolbar\flashlight_off_ca.paa' align='left' size='0.8' /&gt; 地图照明</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_Map_illumination">
 			<Original>Toggle Map Flash Light</Original>
 			<Chinese>開關地圖照明</Chinese>
-			<Chinesesimp>切换地图闪光灯</Chinesesimp>
+			<Chinesesimp>开关地图照明</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Map_No_FlashLight">
+			<Original>No FlashLight Available, Check your inventory.</Original>
+			<Chinese>沒有手電筒可用，檢查您的裝備。</Chinese>
+			<Chinesesimp>没有手电筒可用，检查您的装备。</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Ctrl_R_Click">
+			<Original>"Ctrl + R Click"</Original>
+			<Chinese>"Ctrl + 右鍵"</Chinese>
+			<Chinesesimp>"Ctrl + 右键"</Chinesesimp>
+		</Key>
+		
+		<Key ID="STR_BCE_Widget_WP">
+			<Original>Waypoints of Selected Vehicle</Original>
+			<Chinese>所選載具的路徑點</Chinese>
+			<Chinesesimp>所选载具的路径点</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Widget_AV">
+			<Original>Icon of Other Vehicles</Original>
+			<Chinese>其他載具的圖標</Chinese>
+			<Chinesesimp>其他载具的图标</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Widget_TG">
+			<Original>POS of TGP Pointing</Original>
+			<Chinese>TGP 指向的位置</Chinese>
+			<Chinesesimp>TGP 指向的位置</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Widget_COR">
+			<Original>Map Brightness</Original>
+			<Chinese>地圖亮度</Chinese>
+			<Chinesesimp>地图亮度</Chinesesimp>
+		</Key>
+
 		
 		
 		<Key ID="STR_BCE_ControlType_BNT">

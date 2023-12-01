@@ -6,6 +6,10 @@ private _return = switch _page do {
 		_curline = -1;
 		"mission"
 	};
+	case "Task_Result": {
+		_curline = -1;
+		"mission"
+	};
 	default {
 		_curline = -1;
 		"main"

@@ -723,6 +723,8 @@ class CfgFunctions
 				class ATAK_Refresh_TaskInfos;
 				class ATAK_Refresh_Weapons;
 				class ATAK_getScrollValue;
+				class ATAK_PullData;
+				class ATAK_ShowTaskResult;
 			};
 		#endif
 	};

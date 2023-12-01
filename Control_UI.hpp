@@ -58,7 +58,7 @@ class RscDisplayMainMap
 			idc = 1606;
 			style="0x02";
 			text = "FOV";
-			tooltip = "FOV of vehicle turrets";
+			tooltip = "$STR_BCE_Toggle_FOV";
 			font = "RobotoCondensed_BCE";
 			x = MAP_TOGGLE_X(1,1);
 			y = MAP_TOGGLE_Y(0,0);
@@ -81,8 +81,8 @@ class RscDisplayMainMap
 		class BCE_Task_toggle: BCE_FOV_toggle
 		{
 			idc = 1607;
-			text = "Task";
-			tooltip = "Toggle current Task infos";
+			text = "$STR_BCE_CAS_Task";
+			tooltip = "$STR_BCE_Toggle_Task";
 			x = MAP_TOGGLE_X(2,1.5);
 			onButtonClick = "[_this # 0,1] call BCE_fnc_Update_MapCtrls";
 		};
@@ -92,7 +92,7 @@ class RscDisplayMainMap
 			class BCE_MapLight_toggle: BCE_Task_toggle
 			{	
 				idc = 1608;
-				text = "<img image='\a3\3den\data\displays\display3den\toolbar\flashlight_off_ca.paa' align='left' size='0.8' /> Map Illumination";
+				text = "$STR_BCE_Map_Tit_illumination";
 				tooltip = "$STR_BCE_Map_illumination";
 				onButtonClick = "[_this # 0,2] call BCE_fnc_Update_MapCtrls";
 				y = MAP_TOGGLE_Y(1,1);
@@ -346,7 +346,7 @@ class RscDisplayAVTerminal
 			size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.75)";
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1) min 0.04";
 			animTexturePressed = "#(argb,8,8,3)color(0.36,0.36,0.36,0.5)";
-			tooltip = "Waypoints of Selected Vehicle";
+			tooltip = "$STR_BCE_Widget_WP";
 			shadow = 0;
 			class Attributes: Attributes
 			{
@@ -360,7 +360,7 @@ class RscDisplayAVTerminal
 			idc = 1607;
 			x = "0.188 * safezoneW + safezoneX";
 			text = "AV";
-			tooltip = "Icon of Other Vehicles";
+			tooltip = "$STR_BCE_Widget_AV";
 			onButtonClick = "if (uinamespace getVariable ['BCE_Terminal_Veh',true]) then {(_this # 0) ctrlSetTextColor [1, 0, 0, 0.5]; uinamespace setVariable ['BCE_Terminal_Veh',false];} else {uinamespace setVariable ['BCE_Terminal_Veh',true]; (_this # 0) ctrlSetTextColor [1, 1, 1, 1];};";
 		};
 		class BCE_Targeting_AV: BCE_Waypoint_AV
@@ -368,7 +368,7 @@ class RscDisplayAVTerminal
 			idc = 1608;
 			y = "0.78 * safezoneH + safezoneY";
 			text = "TG";
-			tooltip = "POS of TGP Pointing";
+			tooltip = "$STR_BCE_Widget_AV";
 			onButtonClick = "if (uinamespace getVariable ['BCE_Terminal_Targeting',true]) then {(_this # 0) ctrlSetTextColor [1, 0, 0, 0.5]; uinamespace setVariable ['BCE_Terminal_Targeting',false];} else {uinamespace setVariable ['BCE_Terminal_Targeting',true]; (_this # 0) ctrlSetTextColor [1, 1, 1, 1];};";
 		};
 		class BCE_SelColor_AV: BCE_Vehicles_AV
@@ -377,7 +377,7 @@ class RscDisplayAVTerminal
 			y = "0.78 * safezoneH + safezoneY";
 			text = "COR";
 			color[] = {1, 1, 0.3, 0.8};
-			tooltip = "Color of Selected Vehicle";
+			tooltip = "$STR_BCE_Widget_COR";
 			size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.65)";
 			onButtonClick = "if (uinamespace getVariable ['BCE_Terminal_SelColor',true]) then {(_this # 0) ctrlSetTextColor [0,1,0.3,0.8]; uinamespace setVariable ['BCE_Terminal_SelColor',false];} else {uinamespace setVariable ['BCE_Terminal_SelColor',true]; (_this # 0) ctrlSetTextColor [1,1,0.3,0.8];};";
 		};
@@ -388,7 +388,7 @@ class RscDisplayAVTerminal
 			y = "0.805 * safezoneH + safezoneY";
 			text = "BG";
 			color[] = {0.969,0.957,0.949,0.8};
-			tooltip = "Map Brightness";
+			tooltip = "$STR_BCE_Widget_BG";
 			size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.7)";
 			onButtonClick = "_map = ((ctrlparent (_this # 0)) displayctrl 51); _color = getArray (configfile >> 'RscMapControl' >> 'colorBackground'); if (uinamespace getVariable ['BCE_Map_BGColor',true]) then {(_this # 0) ctrlSetTextColor [0,1,0,0.8]; uinamespace setVariable ['BCE_Map_BGColor',false]; _map ctrlSetBackgroundColor [0.075,0.075,0.075,0.5];} else {(_this # 0) ctrlSetTextColor [0.969,0.957,0.949,0.8]; uinamespace setVariable ['BCE_Map_BGColor',true]; _map ctrlSetBackgroundColor _color;};";
 		};

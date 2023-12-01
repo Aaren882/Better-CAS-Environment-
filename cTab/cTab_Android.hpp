@@ -562,12 +562,12 @@ PHONE_CLASS
 				class L94_EditBnt: IP2TG_EditBnt
 				{
 					idc = idc_D(2026);
-					ATAK_POS(0.2,(4.6 + (0.35/2)),2.3,0.7);
+					ATAK_POS(0.2,(4.6 + (0.35/2)),2.7,0.7);
 					text = "535ft MSL";
 					tooltip="$STR_BCE_TIP_ELEV";
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,4]]]] call cTab_fnc_setSettings;";
 				};
-				class L94_PullBnt: ctrlButton
+				/*class L94_PullBnt: ctrlButton
 				{
 					idc = idc_D(20260);
 					ATAK_POS(2.55,(4.6 + (0.35/2)),0.35,0.7);
@@ -578,7 +578,8 @@ PHONE_CLASS
 					
 					tooltip = "Show Info";
 					text = "\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa";
-				};
+					action = "4 call BCE_fnc_ATAK_PullData";
+				};*/
 
 				//-Line 5
 				class Line5_T9: CtrlType
@@ -639,10 +640,18 @@ PHONE_CLASS
 						};
 					};
 				};
-				class L95_PullBnt: L94_PullBnt
+				class L95_PullBnt: ctrlButton
 				{
-					idc = idc_D(20270);
+					idc = idc_D(20260);
 					ATAK_POS(2.55,(5.6 + (0.35/2)),0.35,0.7);
+					
+					style = "0x02 + 0x30 + 0x800";
+					colorBackground[] = {0.1,0.1,0.1,0.75};
+					sizeEx = 0.85 * TextSize;
+					
+					tooltip = "$STR_BCE_ATAK_Show_Info";
+					text = "\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa";
+					action = "6 call BCE_fnc_ATAK_PullData";
 				};
 				
 				//-Line 6
@@ -783,10 +792,11 @@ PHONE_CLASS
 					ATAK_POS(0.2,(6.6 + (0.35/2)),2.3,0.7);
 					tooltip="$STR_BCE_TIP_DESC";
 				};
-				class L54_PullBnt: L94_PullBnt
+				class L54_PullBnt: L95_PullBnt
 				{
 					idc = idc_D(20430);
 					ATAK_POS(2.55,(6.6 + (0.35/2)),0.35,0.7);
+					action = "2 call BCE_fnc_ATAK_PullData";
 				};
 				
 				//-Text EditBox
@@ -1056,6 +1066,39 @@ PHONE_CLASS
 			};
 		};
 		
+		//-Task Result
+		class Task_Result: Task_Building
+		{
+			idc = idc_D(4663);
+			class controls
+			{
+				class taskDesc: RscListBox
+				{
+					idc = 11;
+					shadow = 2;
+					
+					colorBackground[] = {0,0,0,0};
+					period = 0;
+					colorSelect[] = {1,1,1,1};
+					colorSelect2[] = {1,1,1,1};
+					colorSelectRight[] = {1,1,1,1};
+					colorSelect2Right[] = {1,1,1,1};
+					colorSelectBackground[] = {0,0,0,0};
+					colorSelectBackground2[] = {0,0,0,0};
+					
+					font = "RobotoCondensed_BCE";
+					sizeEx = TextSize;
+					soundSelect[]={"\A3\ui_f\data\sound\RscListbox\soundSelect",0,1};
+					rowHeight = 0.1 * TextSize;
+					
+					x = 0;
+					y = 0;
+					w = PhoneBFTContainerW(3);
+					h = "SafezoneH";
+				};
+			};
+		};
+		
 		//-Bottons for ATAK Tools
 		class InputButtons: ATAK_MenuBG
 		{
@@ -1140,7 +1183,7 @@ PHONE_CLASS
 					};
 					
 					ATAK_POS(2.25,0,0.75,0.64);
-					onButtonClick = "";
+					onButtonClick = "call BCE_fnc_ATAK_ShowTaskResult";
 				};
 			};
 		};
@@ -1304,9 +1347,17 @@ PHONE_CLASS
 					sizeEx = TextSize;
 					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW);
 					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)) + (10) + (60))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW;
+					w = (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW) * 0.49;
 					h = ((60)) / 2048 * CustomPhoneH;
 					action = "call cTab_Tablet_btnACT;";
+				};
+				class Control_turret: Connect_Vic
+				{
+					idc = idc_D(18);
+					text = "$STR_BCE_Control_Turret";
+					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW) + ((((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW) * 0.51);
+					w = (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW) * 0.49;
+					action = "0 call cTab_Tablet_btnACT;";
 				};
 			};
 		};
