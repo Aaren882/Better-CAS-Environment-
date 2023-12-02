@@ -4,19 +4,18 @@
 //-All Infos from types of task list
 if (hasInterface) exitWith {
   //-Set task default variables
-  [
+  {
+    uiNamespace setVariable _x
+  } count [
     ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]],
     ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]]
-  ] apply {
-    uiNamespace setVariable _x
-  };
+  ];
 
   //-Set All IDCs
-  _set_TaskBuilder_Vars = {
-  	private ["_config","_offset"];
+  private _set_TaskBuilder_Vars = {
   	params ["_config",["_offset",0]];
 
-  	_classes = ["CAS_TaskList_9","CAS_TaskList_5"] apply {
+  	private _classes = ["CAS_TaskList_9","CAS_TaskList_5"] apply {
   		"true" configClasses (_config >> "controls" >> _x >> "items");
   	};
 
@@ -39,7 +38,7 @@ if (hasInterface) exitWith {
 
   #ifdef cTAB_Installed
     cTab_Task_TaskItems = [configFile >> "cTab_Tablet_dlg" >> "controls" >> "Task_Builder",17000] call _set_TaskBuilder_Vars;
-
+    
     //- Set Default Devices
     ctab_core_personneldevices = ["ItemcTab","ItemAndroid","ItemMicroDAGR"];
     ctab_core_leaderDevices = ["ItemcTab","ItemAndroid"];

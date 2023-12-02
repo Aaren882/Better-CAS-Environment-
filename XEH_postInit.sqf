@@ -11,6 +11,11 @@ IR_LaserLight_UnitList = [];
 IR_LaserLight_UnitList_LastUpdate = 0;
 BCE_TGP_LastUpdate = 0;
 
+if (isnil {BCE_SYSTEM_Handler}) then {
+  BCE_SYSTEM_Handler = "";
+};
+
+
 private _mapCenter = worldSize / 2;
 private _landmarks = ["NameVillage", "NameCity", "NameCityCapital", "NameLocal", "NameMarine", "Hill"];
 BCE_LandMarks = (nearestLocations [
@@ -38,10 +43,10 @@ BCE_LandMarks = (nearestLocations [
   ]
 };
 
-BCE_have_ACE_earPlugs = false;
-if !(isClass(configFile >> "CfgPatches" >> "ace_hearing")) then {
-  ace_hearing_enableCombatDeafness = false;
-};
+#if __has_include("\z\ace\addons\hearing\config.bin")
+	BCE_have_ACE_earPlugs = false;
+#endif
+//ace_hearing_enableCombatDeafness = false;
 
 ["BCE_Init",BCE_fnc_init] call CBA_fnc_addEventHandler;
 
@@ -56,6 +61,7 @@ addMissionEventHandler ["Map", {
 	};
 }];
 
+#define SetTitle(A,B) (localize A) + (localize B)
 #define IsPilot_CAM_ON ((player getVariable ["AHUD_Actived",-1]) != -1)
 #define getTurret (call BCE_fnc_getTurret)
 #define SwitchSound playSound (format ["switch_mod_0%1",(selectRandom [1,2,3,4,5])])
@@ -64,14 +70,12 @@ addMissionEventHandler ["Map", {
 
 #ifdef cTAB_Installed
 	[BCE_fnc_cTab_postInit, [], 1] call CBA_fnc_WaitAndExecute;
-
-	//#define IsTGP_CAM_ON (((player getVariable ["TGP_View_EHs", -1]) != -1) or ((player getVariable ["cTab_TGP_View_EH",-1]) != -1))
 #endif
 
 //- Optic Mode
 [
-  "TGP Cam Settings","OpticMode",
-  "Optic Mode",
+  "Better CAS Environment (TGP)","OpticMode",
+  localize "STR_BCE_Optic_Mode",
   {
     if (IsTGP_CAM_ON) then {
       SwitchSound;
@@ -92,8 +96,8 @@ addMissionEventHandler ["Map", {
 
 //- Exit
 [
-  "TGP Cam Settings","Exit",
-  "Exit Camera",
+  "Better CAS Environment (TGP)","Exit",
+  localize "STR_BCE_Exit_Camera",
   {
     if (IsTGP_CAM_ON) then {
       camUseNVG false;
@@ -114,8 +118,8 @@ addMissionEventHandler ["Map", {
 
 //- Zoom
 [
-  "TGP Cam Settings","ZoomIn",
-  "Zoom In",
+  "Better CAS Environment (TGP)","ZoomIn",
+  localize "STR_BCE_Zoom_In",
   {
     if (IsTGP_CAM_ON) then {
       _cam = TGP_View_Camera # 0;
@@ -133,8 +137,8 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-  "TGP Cam Settings","ZoomOut",
-  "Zoom Out",
+  "Better CAS Environment (TGP)","ZoomOut",
+  localize "STR_BCE_Zoom_Out",
   {
     if (IsTGP_CAM_ON) then {
       _cam = TGP_View_Camera # 0;
@@ -153,26 +157,28 @@ addMissionEventHandler ["Map", {
 
 //- Swich Turret
 [
-  "TGP Cam Settings","SwichView_L",
-  "Swich View Left",
+  "Better CAS Environment (TGP)","SwichView_L",
+  localize "STR_BCE_Swich_View_Left",
   {
     if (IsTGP_CAM_ON) then {
-      if !(count (getTurret # 2) > 1) exitWith {};
-      getTurret params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
+			getTurret params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
+      if (count _Optic_LODs < 1) exitWith {};
       SwitchSound;
       if (count _Optic_LODs == 1) exitWith {};
 
       _current_turret = [_current_turret - 1,(count _Optic_LODs) - 1] select (_current_turret < 1);
       _turret_select = _Optic_LODs # _current_turret;
-			_turret_Unit = _vehicle turretUnit _turret_select # 1;
+			_turret = _turret_select # 1;
+			_turret_Unit = _vehicle turretUnit _turret;
 
-			if ((isCtrlTurret) && ((_turret_select # 1 # 0) < 0)) exitWith {};
+			if ((isCtrlTurret) && ((_turret # 0) < 0)) exitWith {};
 
+			//call BCE_fnc_UpdateCameraUI;
       _cam attachTo [_vehicle, [0,0,0],_turret_select # 0,!(_turret_select # 2)];
       player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
 
       //UI
-      _gunner = [name _turret_Unit,"--"] select ((_turret_Unit isEqualTo objNull) or (name (driver _vehicle) == name _turret_Unit));
+      _gunner = [name _turret_Unit,"--"] select ((_turret_Unit isEqualTo objNull) || (name (driver _vehicle) == name _turret_Unit));
       ((uiNameSpace getVariable "BCE_TGP") displayCtrl 1029) ctrlSetText (format ["Gunner: %1", _gunner]);
     };
   },
@@ -182,25 +188,28 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-  "TGP Cam Settings","SwichView_R",
-  "Swich View Right",
+  "Better CAS Environment (TGP)","SwichView_R",
+  localize "STR_BCE_Swich_View_Right",
   {
     if (IsTGP_CAM_ON) then {
       getTurret params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
-      if !(count (getTurret # 2) > 1) exitWith {};
+      if (count _Optic_LODs < 1) exitWith {};
       SwitchSound;
       if (count _Optic_LODs == 1) exitWith {};
+
       _current_turret = [_current_turret + 1,0] select (_current_turret >= ((count _Optic_LODs) - 1));
       _turret_select = _Optic_LODs # _current_turret;
-			_turret_Unit = _vehicle turretUnit _turret_select # 1;
+			_turret = _turret_select # 1;
+			_turret_Unit = _vehicle turretUnit _turret;
 
-			if ((isCtrlTurret) && ((_turret_select # 1 # 0) < 0)) exitWith {};
+			if ((isCtrlTurret) && ((_turret # 0) < 0)) exitWith {};
 
+			//call BCE_fnc_UpdateCameraUI;
       _cam attachTo [_vehicle, [0,0,0],_turret_select # 0,!(_turret_select # 2)];
       player setVariable ["TGP_View_Selected_Optic",[_turret_select,_vehicle],true];
 
       //UI
-      _gunner = [name _turret_Unit,"--"] select ((_turret_Unit isEqualTo objNull) or (name (driver _vehicle) == name _turret_Unit));
+      _gunner = [name _turret_Unit,"--"] select ((_turret_Unit isEqualTo objNull) || (name (driver _vehicle) == name _turret_Unit));
       ((uiNameSpace getVariable "BCE_TGP") displayCtrl 1029) ctrlSetText (format ["Gunner: %1", _gunner]);
     };
   },
@@ -211,10 +220,10 @@ addMissionEventHandler ["Map", {
 
 //Optional
 [
-  "TGP Cam Settings","Unit_Tracker_Box",
-  "Toggle Unit Tracker Box",
+  "Better CAS Environment (TGP)","Unit_Tracker_Box",
+  SetTitle("STR_BCE_Toggle","STR_BCE_Tracker_Box"),
   {
-    if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
+    if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
       SwitchSound;
       if (player getVariable ["TGP_view_Unit_Tracker_Box",true]) then {
         player setVariable ["TGP_view_Unit_Tracker_Box",false];
@@ -228,10 +237,10 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-  "TGP Cam Settings","Unit_Tracker",
-  "Toggle Unit Tracker",
+  "Better CAS Environment (TGP)","Unit_Tracker",
+  SetTitle("STR_BCE_Toggle","STR_BCE_Unit_Tracker"),
   {
-    if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
+    if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
       SwitchSound;
       if (player getVariable ["TGP_view_Unit_Tracker",true]) then {
         player setVariable ["TGP_view_Unit_Tracker",false];
@@ -245,10 +254,10 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-  "TGP Cam Settings","Compass",
-  "Toggle 3D Compass",
+  "Better CAS Environment (TGP)","Compass",
+  SetTitle("STR_BCE_Toggle","STR_BCE_3D_Compass"),
   {
-    if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
+    if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
       SwitchSound;
       if (player getVariable ["TGP_view_3D_Compass",true]) then {
         player setVariable ["TGP_view_3D_Compass",false];
@@ -262,8 +271,8 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-  "TGP Cam Settings","Unit_MapIcon",
-  "Toggle Map Icons",
+  "Better CAS Environment (TGP)","Unit_MapIcon",
+  SetTitle("STR_BCE_Toggle","STR_BCE_Map_Icon"),
   {
     if (IsTGP_CAM_ON) then {
       SwitchSound;
@@ -279,8 +288,8 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-  "TGP Cam Settings","Unit_MapIcon_Aircraft",
-  "Toggle Map Icons (Aircraft)",
+  "Better CAS Environment (TGP)","Unit_MapIcon_Aircraft",
+  format ["%1 (%2)",SetTitle("STR_BCE_Toggle","STR_BCE_Map_Icon"),localize "str_dn_aircrafts"],
   {
     if (IsPilot_CAM_ON && ((player getVariable ["TGP_View_MapIcons_last",-1]) == -1)) then {
       _end = time + 3;
@@ -304,10 +313,10 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-  "TGP Cam Settings","LandMark_Icon",
-  "Toggle LandMark Icons",
+  "Better CAS Environment (TGP)","LandMark_Icon",
+  SetTitle("STR_BCE_Toggle","STR_BCE_LandMark_Icon"),
   {
-    if (IsTGP_CAM_ON or IsPilot_CAM_ON) then {
+    if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
       SwitchSound;
       if (player getVariable ["TGP_view_LandMark_Icon",true]) then {
         player setVariable ["TGP_view_LandMark_Icon",false];
@@ -321,8 +330,8 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-  "TGP Cam Settings","NextWeapon",
-  "Next Weapon Setup",
+  "Better CAS Environment (TGP)","NextWeapon",
+  localize "STR_BCE_Next_Weapon_Setup",
   {
     if !(IsTGP_CAM_ON) exitWith {};
     _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;
@@ -353,7 +362,7 @@ addMissionEventHandler ["Map", {
         _Weapon_Index = _weapons find _selectWeapon;
 
         //Dont Have other muzzle
-        if ((_selectMuzzle == "this") or (_selectMuzzle == _selectWeapon)) then {
+        if ((_selectMuzzle == "this") || (_selectMuzzle == _selectWeapon)) then {
 
           //-Select Weapon
           if (_Weapon_Index >= ((count _weapons) - 1)) then {
@@ -396,7 +405,7 @@ addMissionEventHandler ["Map", {
 
       // - Debug
       _Muzzles = getarray (configFile >> "CfgWeapons" >> _selectWeapon >> "muzzles");
-      if ((_selectMuzzle == "this") or (_selectMuzzle == _selectWeapon)) then {
+      if ((_selectMuzzle == "this") || (_selectMuzzle == _selectWeapon)) then {
         _selectMuzzle = _selectWeapon;
       };
       if (isnil{_selectMode}) then {
@@ -412,12 +421,12 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-  "TGP Cam Settings","TouchMark",
-  "Set Touch Marker",
+  "Better CAS Environment (TGP)","TouchMark",
+  localize "STR_BCE_Set_Touch_Marker",
   {
-    if (!(IsTGP_CAM_ON) or (isNull findDisplay 1022553)) exitWith {};
+    if (!(IsTGP_CAM_ON) || (isNull findDisplay 1022553)) exitWith {};
     _list = allUnits select {
-      ((_x getVariable ["AHUD_Actived",-1]) != -1) or ((_x getVariable ["TGP_View_EHs",-1]) != -1)
+      ((_x getVariable ["AHUD_Actived",-1]) != -1) || ((_x getVariable ["TGP_View_EHs",-1]) != -1)
     };
     [selectRandom ["TacticalPing2","TacticalPing3","TacticalPing4"]] remoteExecCall ["playSound",_list,true];
 
@@ -434,11 +443,10 @@ addMissionEventHandler ["Map", {
         params ["_end","_pos_old","_unit"];
         _last_time = _end - time;
         _unit setVariable ["TGP_View_Marker_last",_last_time,true];
-        ((time >= _end) or !(_pos_old isEqualTo (_unit getVariable "TGP_View_Mark")))
+        ((time >= _end) || !(_pos_old isEqualTo (_unit getVariable "TGP_View_Mark")))
         }, {
           params ["_end","_pos_old","_unit"];
           /* if (time >= _end) then {
-            _unit setVariable ["TGP_View_Mark",[],true];
             _unit setVariable ["TGP_View_Marker_last",-1,true];
           }; */
         }, [_end,_pos_old,player]
@@ -450,8 +458,8 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-  "TGP Cam Settings","ToggleCursor",
-  "Toggle Mouse Cursor",
+  "Better CAS Environment (TGP)","ToggleCursor",
+  SetTitle("STR_BCE_Toggle","STR_BCE_Mouse_Cursor"),
   {
     if !(IsTGP_CAM_ON) exitWith {};
     _vehicle = (player getVariable "TGP_View_Selected_Optic") # 1;

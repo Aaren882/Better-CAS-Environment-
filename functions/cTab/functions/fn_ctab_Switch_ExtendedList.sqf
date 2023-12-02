@@ -33,7 +33,7 @@ if !(isNull _veh) then {
 
   //-Vic Info
   if (_lbCurSel == 0) then {
-    [_veh,[[1,"rendertarget8"]],unitIsUAV _veh,false] call cTab_fnc_createUavCam;
+    [_veh,[[1,"rendertarget8"]],false] call cTab_fnc_createUavCam;
     #if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
       (_display displayctrl (17000 + 17850)) call BCE_fnc_setRacks_ACRE;
     #endif

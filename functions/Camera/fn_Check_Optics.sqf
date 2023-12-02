@@ -171,7 +171,7 @@ if (count _turret_Weapons > 0) then {
 };
 
 //-Return
-_return = [BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode;
+private _return = [BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode;
 [
   [],
   _return get _class_veh

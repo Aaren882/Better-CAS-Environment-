@@ -1,43 +1,42 @@
-// - [_list,_veh] call BCE_fnc_ctab_List_AV_Info;
-
 params ["_list","_vehicle"];
+private ["_config","_List_index"];
 
 //-Make sure list is clean
 lbclear _list;
 
 _config = configFile >> "CfgWeapons";
 _List_index = [
-	["Driver :",{
+	["STR_DRIVER",{
 		[name (driver _veh),"-"] select (isnull (driver _veh))
 	}],
-	["Gunner :",{
+	["STR_GUNNER",{
 		if (isNil {_current_turret}) exitWith {"-"};
 		[name _turret_Unit,"-"] select (isnull (_turret_Unit) or (_turret_Unit isEqualTo (driver _veh)))
 	}],
-	["Weapon :",{
+	["STR_A3_RscDisplayAVTerminal_AVT_Text_WPN",{
 		if (isNil {_current_turret}) exitWith {"-"};
 		[
 			getText (_config >> _veh currentWeaponTurret _current_turret >> "DisplayName"),
 			"-"
 		] select (getText (_config >> _veh currentWeaponTurret _current_turret >> "DisplayName") == "");
 	}],
-	["Fuel :",{
+	["STR_A3_RscDisplayAVTerminal_AVT_Text_FUEL",{
 		format ["%1%2",round ((fuel _veh) * 100) , "%"];
 	}],
-	["Grid :",{
+	["STR_A3_RscDisplayAVTerminal_AVT_Text_POS",{
 		format ["%1 %2",localize "$str_a3_rscdisplayartillery_artillerygridtext",mapGridPosition _veh]
 	}],
-	["Heading :",{
+	["STR_A3_RscDisplayAVTerminal_AVT_Text_AZT",{
 		format ["%1°",round (getdir _veh)]
 	}],
-	["Speed :",{
+	["STR_A3_RscDisplayAVTerminal_AVT_Text_SPD",{
 		format ["%1 km/h",round (speed _veh)]
 	}],
-	["ASL :",{
+	["STR_A3_RscDisplayAVTerminal_AVT_Text_ALT",{
 		format ["%1 m",round ((getPosASL _veh) # 2)]
 	}]
 ] apply {
-	[_list lbAdd _x # 0, _x # 1]
+	[_list lbAdd (localize (_x # 0)), _x # 1]
 };
 
 [{

@@ -51,7 +51,7 @@ _ctrl drawIcon [
     "",
     1,
     0.03,
-    "EtelkaNarrowMediumPro",
+    "RobotoCondensed_BCE",
     "right"
   ];
 
@@ -67,7 +67,7 @@ _ctrl drawIcon [
       format ["%1 || ASL: %2m Speed: %3km/h",name (driver _x),round(_pos # 2), round(Speed _x)],
       1,
       0.06,
-      "EtelkaNarrowMediumPro",
+      "RobotoCondensed_BCE",
       "right"
     ];
 
@@ -142,7 +142,6 @@ _ctrl drawIcon [
 };
 
 //- CAS
-_Task_Type = _display displayCtrl 2107;
 _sel_TaskType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
 _taskVars = switch _sel_TaskType do {
   //-5 line
@@ -178,7 +177,7 @@ if (((_IPBP # 0) != "NA") && !("Marker" in (_IPBP # 0))) then {
     _IPBP # 0,
     1,
     0.075,
-    "EtelkaNarrowMediumPro",
+    "RobotoCondensed_BCE",
     "right"
   ];
 };
@@ -217,7 +216,7 @@ if ((_Target # 0) != "NA") then {
       _remarks # 0,
       1,
       0.075,
-      "EtelkaNarrowMediumPro",
+      "RobotoCondensed_BCE",
       ["right","left"] select (_HDG > 180)
     ];
   };
@@ -238,7 +237,7 @@ if ((_Target # 0) != "NA") then {
     _Target # 0,
     1,
     0.075,
-    "EtelkaNarrowMediumPro",
+    "RobotoCondensed_BCE",
     "right"
   ];
 };
@@ -272,7 +271,7 @@ if ((_FRD # 0) != "NA") then {
     _FRD # 0,
     1,
     0.075,
-    "EtelkaNarrowMediumPro",
+    "RobotoCondensed_BCE",
     "right"
   ];
 };
@@ -303,7 +302,7 @@ if (
     format ["EGRS: %1",_EGRS # 0],
     1,
     0.075,
-    "EtelkaNarrowMediumPro",
+    "RobotoCondensed_BCE",
     "left"
   ];
 };

@@ -18,7 +18,7 @@ _modes apply {
   _mode = if ((count _modes > 1) && (_x != "this") && (_mode_name != _weapon_name)) then {
     [_mode_name,_x] select (_mode_name == "");
   } else {
-    "Default"
+    localize "STR_BCE_Default"
   };
 
   //-Add LB

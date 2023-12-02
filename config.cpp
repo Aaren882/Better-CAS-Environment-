@@ -21,6 +21,12 @@ class CfgPatches
 			#if __has_include("\z\ctab\addons\core\config.bin")
 				"ctab_core",
 			#endif
+			//-POLPOX map tools
+			#define PLP_TOOL 0
+			#if __has_include("\plp\plp_mapToolsRemastered\config.bin")
+				#define PLP_TOOL 1
+				"PLP_mapToolsRemastered",
+			#endif
 			"A3_Ui_F",
 			"A3_Weapons_F",
 			"A3_Air_F_Heli_Light_01",
@@ -76,9 +82,29 @@ class CfgUIGrids
 						"(((safezoneW / safezoneH) min 1.2) / 40)",
 						"((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)"
 					};
+					#ifdef cTAB_Installed
+						grid_cTab_ATAK_dsp[] = 
+						{
+							{
+								"(safezoneX - 	(0.86) * 0.17)",
+								"(safezoneY + safezoneH * 0.88 - 	(	(0.86) * 4/3) * 0.72)",
+								"(0.86)",
+								"((0.86) * 4/3)"
+							},
+							"(0.86) / 4",
+							"((0.86) * 4/3) / 4"
+						};
+					#endif
                 };
             };
         };
+		
+		#if __has_include("\z\ctab\addons\core\config.bin")
+			#define PHONE_BG "\cTab\img\android_s7_ca.paa"
+		#else
+			#define PHONE_BG "\cTab\img\android_background_ca.paa"
+		#endif
+
 		class Variables
 		{
             class grid_BCE_TaskList
@@ -89,6 +115,16 @@ class CfgUIGrids
 				saveToProfile[] = {0,1,2,3};
 				canResize = 1;
 			};
+			#ifdef cTAB_Installed
+				class grid_cTab_ATAK_dsp
+				{
+					displayName = "cTab Android";
+					description = "Android display from cTab";
+					preview = PHONE_BG;
+					saveToProfile[] = {0,1,2,3};
+					canResize = 1;
+				};
+			#endif
         };
 	};
 };
@@ -100,16 +136,16 @@ class CfgHints
 		logicalOrder = 22;
 		class Task_Received
 		{
-			displayName = "Task Received";
-			description = "You have received a New Task";
+			displayName = "$STR_BCE_ReceivedHint_Title";
+			description = "$STR_BCE_ReceivedHint_DESC";
 			tip = "";
 			arguments[] = {};
 			image = "";
 			logicalOrder = 1;
 			class ActionMenu_sub
 			{
-				displayName = "Task Received";
-				description = "You have received a New Task";
+				displayName = "$STR_BCE_ReceivedHint_Title";
+				description = "$STR_BCE_ReceivedHint_DESC";
 				tip = "";
 				image = "";
 				arguments[] = {{{""}}};
@@ -124,10 +160,10 @@ class RscSubmenu;
 class RscTeam: RscSubmenu
 {
 	//-Sort
-	items[] = {"AssignRed","AssignGreen","AssignBlue","AssignYellow","AssignMain","Separator","SelectTeam","AssignJTAC","UnAssignJTAC","Back"};
+	items[] = {"AssignRed","AssignGreen","AssignBlue","AssignYellow","AssignMain","AssignJTAC","UnAssignJTAC","Separator","SelectTeam","Back"};
 	class AssignJTAC
 	{
-		title = "Assign JTAC";
+		title = "$STR_BCE_AsJTAC";
 		enable = "NotEmpty";
 		shortcuts[] = {7};
 		shortcutsAction = "CommandingMenu6";
@@ -140,7 +176,7 @@ class RscTeam: RscSubmenu
 	};
 	class UnAssignJTAC
 	{
-		title = "UnAssign JTAC";
+		title = "$STR_BCE_UnAsJTAC";
 		enable = "NotEmpty";
 		shortcuts[] = {8};
 		shortcutsAction = "CommandingMenu7";
@@ -167,17 +203,17 @@ class CfgVehicles
 				{
 					class ACE_BCE_Assign_JTAC
 					{
-						displayName="Assign as JTAC";
-						condition="!(_target getVariable ['BCE_is_JTAC',false]) && (isFormationLeader _player)";
+						displayName="$STR_BCE_AsJTAC";
+						condition="!(_target getVariable ['BCE_is_JTAC',false]) && (_player == leader _player)";
 						icon="\a3\Ui_f\data\GUI\Cfg\CommunicationMenu\call_ca.paa";
 						exceptions[]={};
 						statement="_target setVariable ['BCE_is_JTAC',true,true]";
 					};
 					class ACE_BCE_Unassign_JTAC
 					{
-						displayName="Unssign as JTAC";
+						displayName="$STR_BCE_UnAsJTAC";
 						exceptions[]={};
-						condition="(_target getVariable ['BCE_is_JTAC',false]) && (isFormationLeader _player)";
+						condition="(_target getVariable ['BCE_is_JTAC',false]) && (_player == leader _player)";
 						statement="_target setVariable ['BCE_is_JTAC',false,true]";
 					};
 				};
@@ -507,7 +543,7 @@ class CfgVehicles
 			};
 		};
 	};
-
+	
 	class Plane;
 	class Plane_Base_F: Plane
 	{
@@ -593,6 +629,7 @@ class CfgFunctions
 		class CAS_Menu
 		{
 			file="MG8\AVFEVFX\functions\CAS_Menu";
+			class formatLanguage;
 			class checkList;
 			class DataReceiveButton;
 			class ListSwitch;
@@ -611,7 +648,6 @@ class CfgFunctions
 			class unitList_info;
 			class getUnitParams;
 			class Show_CurTaskCtrls;
-			class get_TaskCtrls;
 			class TaskList_Changed;
 			class Reset_TaskList;
 			class SetTaskReceiver;
@@ -673,6 +709,23 @@ class CfgFunctions
 				file="MG8\AVFEVFX\functions\cTab\Task_Type";
 				class cTab_9_TaskChanged;
 				class cTab_5_TaskChanged;
+			};
+			class ATAK
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK";
+				class ATAK_openPage;
+				class ATAK_TaskCreate;
+				class ATAK_LastPage;
+				class ATAK_DescType_Changed;
+				class ATAK_TaskTypeChanged;
+				class ATAK_DataReceiveButton;
+				class ATAK_AutoSaveTask;
+				class ATAK_Refresh_TaskInfos;
+				class ATAK_Refresh_Weapons;
+				class ATAK_getScrollValue;
+				class ATAK_PullData;
+				class ATAK_ShowTaskResult;
+				class ATAK_onVehicleChanged;
 			};
 		#endif
 	};
@@ -783,6 +836,43 @@ class CfgFunctions
 			};
 		};
 	#endif
+	
+	#if cTAB_Installed == PLP_TOOL
+		class PLP
+		{
+			class PLP_SMT
+			{
+				class SMT_distance
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_distance.sqf";
+				};
+				class SMT_markHouses
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_markHouses.sqf";
+				};
+				class SMT_height
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_height.sqf";
+				};
+				class SMT_compass
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_compass.sqf";
+				};
+				class SMT_placeGrid
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_placeGrid.sqf";
+				};
+				class SMT_findFlat
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_findFlat.sqf";
+				};
+				class SMT_Description
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_Description.sqf";
+				};
+			};
+		};
+	#endif
 };
 
 #define set_Switch_Sound(NUM) \
@@ -799,11 +889,8 @@ class CfgSounds
 	set_Switch_Sound(4);
 	set_Switch_Sound(5);
 };
-class CfgScriptPaths
-{
-	BCE_Function = "MG8\AVFEVFX\Functions\UI\";
-};
 
+class ScrollBar;
 class RscLine;
 class RscInfoBack;
 class RscText;
@@ -818,7 +905,11 @@ class RscPictureKeepAspect;
 class RscControlsGroup;
 class RscControlsGroupNoScrollbars;
 class RscAttributeCAS;
-class RscButtonMenu;
+class RscShortcutButton;
+class RscButtonMenu: RscShortcutButton
+{
+	class TextPos;
+};
 class ctrlButton;
 class RscEdit;
 class RscCombo;
@@ -849,6 +940,7 @@ class RscMapControl
 	class transmitter;
 	class viewtower;
 	class watertower;
+	showCountourInterval = 2;
 };
 class RscCheckBox;
 class RscBackground;
@@ -871,6 +963,13 @@ class BCE_RscButtonMenu: RscButtonMenu
 	periodFocus = 0;
 	periodOver = 0;
 	
+	class ShortcutPos
+	{
+		left = 0;
+		top = 0.005;
+		w = 0.0175;
+		h = 0.025;
+	};
 	class Attributes
 	{
 		font = "RobotoCondensed_BCE";
@@ -879,6 +978,59 @@ class BCE_RscButtonMenu: RscButtonMenu
 		shadow = "false";
 	};
 };
+
+//-POLPOX Map Tools Control
+#if cTAB_Installed == PLP_TOOL
+	class PLP_SMT_Description;
+	class PLP_SMT_Data
+	{
+		class RadialMenu
+		{
+			class Distance
+			{
+				displayName = "$STR_BCE_PLP_Title_Distance";
+				function = "PLP_fnc_SMT_distance";
+				controls = "$STR_BCE_PLP_Ctrl_Distance";
+				description = "$STR_BCE_PLP_Tip_Distance";
+			};
+			class MarkHouses
+			{
+				displayName = "$STR_BCE_PLP_Title_Mark_House";
+				function = "PLP_fnc_SMT_markHouses";
+				controls = "$STR_BCE_PLP_Ctrl_Mark_House";
+				description = "$STR_BCE_PLP_Tip_Mark_House";
+			};
+			class Height
+			{
+				displayName = "$STR_BCE_PLP_Title_Height";
+				function = "PLP_fnc_SMT_height";
+				controls = "$STR_BCE_PLP_Ctrl_Height";
+				description = "$STR_BCE_PLP_Tip_Height";
+			};
+			class Compass
+			{
+				displayName = "$STR_BCE_PLP_Title_Compass";
+				function = "PLP_fnc_SMT_compass";
+				controls = "$STR_BCE_PLP_Ctrl_Compass";
+				description = "$STR_BCE_PLP_Tip_Compass";
+			};
+			class EditGrid
+			{
+				displayName = "$STR_BCE_PLP_Title_Edit_Grid";
+				function = "PLP_fnc_SMT_placeGrid";
+				controls = "$STR_BCE_PLP_Ctrl_Edit_Grid";
+				description = "$STR_BCE_PLP_Tip_Edit_Grid";
+			};
+			class FindFlat
+			{
+				displayName = "$STR_BCE_PLP_Title_Find_Flat";
+				function = "PLP_fnc_SMT_findFlat";
+				controls = "$STR_BCE_PLP_Ctrl_Find_Flat";
+				description = "$STR_BCE_PLP_Tip_Find_Flat";
+			};
+		};
+	};
+#endif
 
 #include "cTab\cTab_Macros.hpp"
 
@@ -903,3 +1055,8 @@ class CfgFontFamilies
 //UI
 #include "Control_UI.hpp"
 #include "Dialog.hpp"
+
+class CfgScriptPaths
+{
+	BCE_Function = "MG8\AVFEVFX\Functions\UI\";
+};

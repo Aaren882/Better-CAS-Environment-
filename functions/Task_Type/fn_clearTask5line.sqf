@@ -4,13 +4,13 @@ if ((ctrlShown _description) or (_Veh_Changed) or (_isOverwrite)) then {
       _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
       _taskVar set [1,["NA","",[],[0,0],""]];
       _ctrl3 ctrlSetText "NA";
-      _ctrl4 ctrlSetText "Mark with...";
+      _ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
     };
     //-DESC
     case 3:{
       _shownCtrls params ["_ctrl1","_ctrl2"];
       _ctrl1 ctrlSetText "";
-      _ctrl2 ctrlSetText "Mark with...";
+      _ctrl2 ctrlSetText localize "STR_BCE_MarkWith";
       _taskVar set [3,["NA","--",""]];
     };
     default {

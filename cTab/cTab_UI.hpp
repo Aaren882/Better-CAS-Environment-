@@ -5,6 +5,8 @@ class cTab_RscControlsGroup
 	class VScrollbar;
 	class HScrollbar;
 };
+class cTab_RscText;
+class cTab_RscButtonInv;
 class cTab_ActiveText;
 class cTab_RscListBox;
 class cTab_RscListbox_Tablet;
@@ -47,6 +49,7 @@ class cTab_MenuItem: RscButtonMenu
 		size = SubMenuText;
 	};
 };
+
 class cTab_MenuExit: cTab_MenuItem
 {
 	color[] = {1,1,1,1};
@@ -58,6 +61,7 @@ class cTab_Tablet_OSD_hookGrid: cTab_RscText_Tablet
 {
 	colorText[] = {0.95,0.95,0.95,1};
 };
+
 #include "cTab_classes.hpp"
 
 //-Main Frame Coordinate
@@ -88,35 +92,35 @@ class cTab_Tablet_dlg
 	//BCE_TASK_Offset = TASK_OFFSET;
 	Brevity_Code[] =
 	{
-		"Weapon :",
-		{"Guns x3","Firing cannon."},
-		{"Rifle","Launch of A/G missile."},
-		{"Pickle","Release of (Cluster/General-Purpose)bomb."},
-		{"Paveway","Release of Laser-Guided bomb."},
-		{"Ripple","Release multiple munitions in close succession."},
-		{"Winchester","No ordnance remaining, can be used to against the specific target."},
-		{"Splash(ed)","Ammunition impact/target destroyed."},
-		{"Shack","Oradance impact on ground, (Unofficial)."},
-		"Task :",
-		{"Playtime","How long the aircraft can be on station."},
-		{"Contact","Sighting of a specified reference point."},
-		{"Visual","Sighting of the friendly.opposite “Blind”."},
-		{"Tally","Sighting of the target.opposite “No Joy”."},
-		{"Clear(ed) Hot","Give the plane clearance to attack."},
+		"$STR_BCE_BVTITLE_Weapon",
+		{"Guns x3","$STR_BCE_BVT_Guns"},
+		{"Rifle","$STR_BCE_BVT_Rifle"},
+		{"Pickle","$STR_BCE_BVT_Pickle"},
+		{"Paveway","$STR_BCE_BVT_Paveway"},
+		{"Ripple","$STR_BCE_BVT_Ripple"},
+		{"Winchester","$STR_BCE_BVT_Winchester"},
+		{"Splash(ed)","$STR_BCE_BVT_Splash"},
+		{"Shack","$STR_BCE_BVT_Shack"},
+		"$STR_BCE_BVTITLE_Task",
+		{"Playtime","$STR_BCE_BVT_Playtime"},
+		{"Contact","$STR_BCE_BVT_Contact"},
+		{"Visual","$STR_BCE_BVT_Visual"},
+		{"Tally","$STR_BCE_BVT_Tally"},
+		{"Clear(ed) Hot","$STR_BCE_BVT_ClearHot"},
 		"-", //Next Page
-		{"Abort","Terminate the weapon release or mission."},
-		{"What Luck","Request for task result. “BDA”"},
-		{"IP Inbound","Aircraft has reached IP begin to attack."},
-		{"Bingo","Aircraft has no fuel but return to base."},
-		{"Continue","Continue present maneuver; does NOT imply clearance to engage."},
-		"Laser :",
-		{"Laser On","Call to begin Lasing at the target."},
-		{"Sparkle","Marks target by Laser."},
-		{"Lasing","You have begun Lasing the target."},
-		{"Snake/Pulse","Jiggle/Pulse Laser on the target."},
-		{"Steady","Steady the beam (Snake/Pulse)."},
-		{"Spot","When you spot the Laser designation."},
-		{"Rope","Circling Laser around an aircraft."},
+		{"Abort","$STR_BCE_BVT_Abort"},
+		{"What Luck","$STR_BCE_BVT_What_Luck"},
+		{"IP Inbound","$STR_BCE_BVT_IP_Inbound"},
+		{"Bingo","$STR_BCE_BVT_Bingo"},
+		{"Continue","$STR_BCE_BVT_Continue"},
+		"$STR_BCE_BVTITLE_Laser",
+		{"Laser On","$STR_BCE_BVT_Laser_On"},
+		{"Sparkle","$STR_BCE_BVT_Sparkle"},
+		{"Lasing","$STR_BCE_BVT_Lasing"},
+		{"Snake/Pulse","$STR_BCE_BVT_SnakePulse"},
+		{"Steady","$STR_BCE_BVT_Steady"},
+		{"Spot","$STR_BCE_BVT_Spot"},
+		{"Rope","$STR_BCE_BVT_Rope"},
 		"",
 		"<a href='https://wiki.hoggitworld.com/view/Brevity_List'>Hoggitworld</a>",
 		"<a href='https://en.wikipedia.org/wiki/Multiservice_tactical_brevity_code'>Wikipedia</a>"
@@ -171,6 +175,23 @@ class cTab_Tablet_dlg
 	};
 	class controls
 	{
+		//-Color Select
+		class MarkerColor: RscCombo
+		{
+			idc=idc_D(1090);
+			x = "((((10) + ((257))) + ((10) + ((((1341)) - (10) * 8) / 7)) * (6 - 1))) / 2048  * 	(	(safezoneH * 1.2) * 3/4) + 	(safezoneX + (safezoneW - 	(	(safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048)) + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4))";
+			y = "((491) + ((42) - (35)) / 2) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2)";
+			w = "2.5 * (((35)) / 2048 * ((safezoneH * 1.2) * 3/4))";
+			h = "((35)) / 2048 * (safezoneH * 1.2)";
+			
+			colorBackground[]={0.3,0.3,0.3,1};
+			
+			colorSelect[]={1,1,1,1};
+			colorSelectBackground[]={0.2,0.2,0.2,1};
+			
+			onLBSelChanged = "['cTab_Tablet_dlg',[['markerColor',_this # 1]]] call cTab_fnc_setSettings;";
+		};
+		
 		#define sizeX ((((-(10) + ((257)) + ((1341))) - ((((1341)) - (10) * 8) / 7))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048)))
 		#define sizeY(SIZE) (((-(0) + (491) + (993)) - (10) - ((42) - (10)) * SIZE) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2))
 		#define sizeW (64 / 2048)
@@ -179,7 +200,7 @@ class cTab_Tablet_dlg
 		{
 			idc = idc_D(1200);
 			style = "0x02 + 0x30 + 0x800";
-			text = "a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa";
+			text = "\a3\3den\data\displays\display3den\toolbar\map_off_ca.paa";
 			colorBackground[] = {0,0,0,0.3};
 			x = sizeX + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4)) - (sizeW * ((safezoneH * 1.2) * 3/4));
 			Y = sizeY(0) - (sizeW * (safezoneH * 1.2));
@@ -188,19 +209,21 @@ class cTab_Tablet_dlg
 			tooltip = "Toggle Map Tools";
 			action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleMapTools;";
 		};
+		
+		//-BCE Widgets
 		class Map_Tool_Show_BCE_widgets: Map_Tool_Show
 		{
 			idc = idc_D(1201);
-			text = "a3\3den\data\displays\display3den\toolbar\vision_normal_ca.paa";
-			toolTip = "Set BCE POS (Hold 'Alt' and Click)";
-			Y = sizeY(2.25) - (sizeW * (safezoneH * 1.2));
+			text = "\a3\3den\data\displays\display3den\toolbar\vision_normal_ca.paa";
+			toolTip = "$STR_BCE_Tip_Click_Map";
+			Y = sizeY(4.5) - (sizeW * (safezoneH * 1.2));
 			action = "['cTab_Tablet_dlg','BCE_mapTools'] call cTab_fnc_toggleMapTools;";
 		};
 		class Map_Tool_BCE_widgets: RscToolbox
 		{
 			idc = idc_D(12010);
 
-			Y = sizeY(5.25) - (sizeW * (safezoneH * 1.2));
+			Y = sizeY(5.25 + 2.25) - (sizeW * (safezoneH * 1.2));
 			w = sizeW * ((safezoneH * 1.2) * 3/4);
 			h = 1.5 * (sizeW * (safezoneH * 1.2));
 
@@ -214,9 +237,9 @@ class cTab_Tablet_dlg
 			};
 			tooltips[] =
 			{
-				"Initial Point\Battle Position",
-				"Target Position (GRID)",
-				"Friendly Position"
+				"$STR_BCE_TIP_IPBP",
+				"$STR_BCE_TIP_GRID",
+				"$STR_BCE_TIP_FRND"
 			};
 			colorBackground[] = {0,0,0,0.25};
 			onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";
@@ -226,7 +249,7 @@ class cTab_Tablet_dlg
 			idc = idc_D(12011);
 			style = 2;
 			x = sizeX + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4)) - (sizeW * ((safezoneH * 1.2) * 3/4));
-			Y = sizeY(6.25) - (sizeW * (safezoneH * 1.2));
+			Y = sizeY(6.25 + 2.25) - (sizeW * (safezoneH * 1.2));
 			w = sizeW * ((safezoneH * 1.2) * 3/4);
 			h = (sizeW * (safezoneH * 1.2)) / 2;
 
@@ -237,6 +260,53 @@ class cTab_Tablet_dlg
 			tooltip = "Delete Task Marker";
 			action = "[-4] call cTab_fnc_userMenuSelect;";
 		};
+		
+		//-POLPOX Map Tools Widgets
+		#if PLP_TOOL == 1
+			class Map_Tool_Show_PLP_widgets: Map_Tool_Show
+			{
+				idc = idc_D(1202);
+				//text = "\a3\3den\data\displays\display3den\panelright\customcomposition_editentities_ca.paa";
+				text = "\a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa";
+				toolTip = "MapTools Remastered";
+				Y = sizeY(2.25) - (sizeW * (safezoneH * 1.2));
+				action = "['cTab_Tablet_dlg','PLP_mapTools'] call cTab_fnc_toggleMapTools;";
+			};
+			class Map_Tool_PLP_widgets: RscToolbox
+			{
+				idc = idc_D(12012);
+	
+				Y = sizeY(5.25 + 2.25) - (sizeW * (safezoneH * 1.2));
+				w = sizeW * ((safezoneH * 1.2) * 3/4);
+				h = 3 * (sizeW * (safezoneH * 1.2));
+	
+				rows = 6;
+				columns = 1;
+				strings[] =
+				{
+					"$STR_BCE_PLP_Title_Distance",
+					"$STR_BCE_PLP_Title_Mark_House",
+					"$STR_BCE_PLP_Title_Height",
+					"$STR_BCE_PLP_Title_Compass",
+					"$STR_BCE_PLP_Title_Edit_Grid",
+					"$STR_BCE_PLP_Title_Find_Flat"
+				};
+				tooltips[] =
+				{
+					"$STR_BCE_PLP_Tip_Distance",
+					"$STR_BCE_PLP_Tip_Mark_House",
+					"$STR_BCE_PLP_Tip_Height",
+					"$STR_BCE_PLP_Tip_Compass",
+					"$STR_BCE_PLP_Tip_Edit_Grid",
+					"$STR_BCE_PLP_Tip_Find_Flat"
+				};
+				colorBackground[] = {0,0,0,0.25};
+				onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";
+			};
+			
+			//-Tool Description
+			class BCE_MapTools_Tooltip: PLP_SMT_Description{};
+		#endif
 
 		//---- Groups ----//
 		class Desktop: cTab_RscControlsGroup
@@ -253,7 +323,7 @@ class cTab_Tablet_dlg
 				class actTKBtxt: actBFTtxt
 				{
 					idc = 10041;
-					text = "a3\characters_f\data\ui\icon_expl_specialist_ca.paa";
+					text = "\a3\characters_f\data\ui\icon_expl_specialist_ca.paa";
 					//text = "\a3\3den\Data\Displays\Display3DEN\PanelRight\customcomposition_edit_ca.paa";
 					y = "(((((491) + (42)) + (25) * 5 + (100) * 4) - ((491) + (42))) / 2048  * 	(safezoneH * 1.2))";
 					action = "['cTab_Tablet_dlg',[['mode','TASK_Builder']]] call cTab_fnc_setSettings;";
@@ -278,7 +348,7 @@ class cTab_Tablet_dlg
 				class cTab_CameraConnect: RscButtonMenu
 				{
 					idc = 2100;
-					text = "View Camera";
+					text = "$STR_BCE_Live_Feed";
 					x = TabletRX;
 					y = TabletDY + (TabletH - (safezoneH / 40));
 
@@ -305,7 +375,7 @@ class cTab_Tablet_dlg
 				class cTab_CameraControl: cTab_CameraConnect
 				{
 					idc = 2101;
-					text = "Control Turret";
+					text = "$STR_BCE_Control_Turret";
 					x = TabletRX + (TabletW / 2);
 					colorBackground[] = {0.5,0.5,0.5,0.5};
 					action = "0 call cTab_Tablet_btnACT;";
@@ -442,7 +512,7 @@ class cTab_Tablet_dlg
 				class cTab_CameraConnect: RscButtonMenu
 				{
 					idc = idc_D(2100);
-					text = "View Camera";
+					text = "$STR_BCE_Live_Feed";
 					x = FrameLX;
 					y = FrameUY + (smalFmH - (2 * ContH));
 					w = 0.5 * smalFmW;
@@ -464,13 +534,13 @@ class cTab_Tablet_dlg
 						align = "center";
 						valign = "middle";
 						shadow = "true";
-						size = 0.91;
+						size = 0.9;
 					};
 				};
 				class cTab_CameraControl: cTab_CameraConnect
 				{
 					idc = idc_D(2101);
-					text = "Control Turret";
+					text = "$STR_BCE_Control_Turret";
 					x = FrameLX + (0.5 * smalFmW);
 					colorBackground[] = {0.5,0.5,0.5,0.5};
 					action = "0 call cTab_Tablet_btnACT;";
@@ -496,12 +566,12 @@ class cTab_Tablet_dlg
 					w = smalFmW;
 					h = 1.15 * ContH;
 
-					strings[] = {"VIC","WPN","TASK"};
+					strings[] = {"$STR_BCE_Widgets_VIC","$STR_BCE_Widgets_WPN","$STR_BCE_Widgets_TASK"};
 					tooltips[] =
 					{
-						"Vic Info",
-						"Weapon Info",
-						"Current Task Info"
+						"$STR_BCE_Widgets_TIP_VIC",
+						"$STR_BCE_Widgets_TIP_WPN",
+						"$STR_BCE_Widgets_TIP_TASK"
 					};
 					rows = 1;
 					columns = 3;
@@ -675,7 +745,7 @@ class cTab_Tablet_dlg
 				class Descframe: cTab_RscFrame
 				{
 					sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8";
-					text = "Description : ";
+					text = "$STR_BCE_Description";
 					x = FrameLX;
 					y = 0;
 					w = smalFmW;
@@ -696,7 +766,6 @@ class cTab_Tablet_dlg
 						color = "#ffffff";
 						align = "left";
 						shadow = 1;
-						size = 0.68;
 					};
 				};
 				// -List
@@ -723,12 +792,12 @@ class cTab_Tablet_dlg
 						class Game_plan
 						{
 							text = "#: Game Plan :";
-							data = "Provide a short summary of how the attack is going to be performed.<br/><br/>1. Type of the control (1,2 or 3)<br/>2. Kind of the Attack (BOT/BOC)<br/>3. Ordnance requested on target";
+							data = "$STR_BCE_DECS_GAMEPLAN";
 							textRight = "NA";
 							Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 							multi_options = 1;
 							default = 1;
-							tooltip = "Game Plan";
+							tooltip = "$STR_BCE_TIP_GAMEPLAN";
 
 							//-dont write down on the right of the list
 							Task_writeDown = "Y";
@@ -736,76 +805,76 @@ class cTab_Tablet_dlg
 						class Line1: Game_plan
 						{
 							text = "1: IP/BP :";
-							data = "“Alt + LMB” on the map to set marker<br/><br/>“Initial Point” or “Battle Position”.<br/><br/>IP for FW aircraft (Planes), the IP is the starting point for the run-in to the target. <br/><br/>BP for RW aircraft (Helis), the BP is where attacks on the target are commenced.";
+							data = "$STR_BCE_DECS_IPBP_NoKey";
 							Expression_idc[] = {2012,2013,2014};
 							multi_options = 0;
-							tooltip = "Initial Point\Battle Position";
+							tooltip = "$STR_BCE_TIP_IPBP";
 							Task_writeDown = "";
 						};
 						class Line2: Line1
 						{
 							text = "2: HDG :";
-							data = "Heading and Offset.<br/><br/>The heading is given in degrees magnetic from the “IP to target” or from the center of the BP to the target. <br/><br/>The offset is the side of the “IP to target” line on which aircrews can maneuver for the attack.";
+							data = "$STR_BCE_DECS_HDG";
 							textRight = "--";
 							Expression_idc[] = {};
-							tooltip = "Heading between IP/BP and Target";
+							tooltip = "$STR_BCE_TIP_HDG";
 						};
 						class Line3: Line1
 						{
 							text = "3: DIST :";
-							data = "Distance.<br/><br/>The distance “IP/BP to target”.";
+							data = "$STR_BCE_DECS_DIST";
 							textRight = "--";
 							Expression_idc[] = {};
-							tooltip = "Distance between IP/BP and Target";
+							tooltip = "$STR_BCE_TIP_DIST";
 						};
 						class Line4: Line1
 						{
 							text = "4: ELEV :";
-							data = "Target Elevation.<br/><br/>The target elevation is given in <t underline='true'>Feet</t> Mean Sea Level (MSL) unless otherwise specified.";
+							data = "$STR_BCE_DECS_ELEV";
 							textRight = "--";
 							Expression_idc[] = {};
-							tooltip = "Target elevation (in Feet)";
+							tooltip = "$STR_BCE_TIP_ELEV";
 						};
 						class Line5: Line1
 						{
 							text = "5: DESC :";
-							data = "Target Description.<br/><br/>The description should be specific enough for the aircrew to recognize the target.";
-							tooltip = "Target description";
+							data = "$STR_BCE_DECS_DESC";
+							tooltip = "$STR_BCE_TIP_DESC";
 							Expression_idc[] = {2015};
 						};
 						class Line6: Line1
 						{
 							text = "6: GRID :";
-							data = "The target location.";
-							tooltip = "Target Position (GRID)";
+							data = "$STR_BCE_DECS_GRID";
+							tooltip = "$STR_BCE_TIP_GRID";
 							Expression_idc[] = {20121,2013,2014};
 						};
 						class Line7: Line1
 						{
 							text = "7: MARK :";
-							data = "Mark Type/Terminal Guidance.<br/><br/>The type of mark the JTAC/FAC(A) will use (for example, smoke(WP), laser, or IR). <br/><br/>If using a laser, the JTAC/FAC(A) will also pass the call sign of the platform/ individual that will provide terminal guidance for the weapon and laser code.";
-							tooltip = "Mark method";
+							data = "$STR_BCE_DECS_MARK";
+							tooltip = "$STR_BCE_TIP_MARK";
 							Expression_idc[] = {2016};
 						};
 						class Line8: Line1
 						{
 							text = "8: FRND :";
-							data = "Friendlies bearing from the target.<br/><br/>Cardinal/sub-cardinal bearing from the target (N, NE, E, SE, S, SW, W, or NW) and distance of <t underline='true'>closest friendlies</t> from the target in meters (e.g., “South 300”). ";
-							tooltip = "Friendlies";
+							data = "$STR_BCE_DECS_FRND";
+							tooltip = "$STR_BCE_TIP_FRND";
 							Expression_idc[] = {2012,2013,2014,2016};
 						};
 						class Line9: Line1
 						{
 							text = "9: EGRS :";
-							data = "Egress.<br/><br/>These are the instructions the aircrews use to exit the target area.";
-							tooltip = "Egress";
+							data = "$STR_BCE_DECS_EGRS";
+							tooltip = "$STR_BCE_TIP_EGRS";
 							Expression_idc[] = {2019,2018,2014,2017,2013};
 						};
 						class Remark: Line1
 						{
 							text = "Remarks :";
-							data = "Supplies additional important information.<br/><br/>1.<t underline='true'>Troops in Contact</t> or <t underline='true'>Danger Close</t><br/>2.Final Attack Heading (FAH) or altitude restrictions <br/>3.Threat <br/>5.Active gun target lines <br/>etc";
-							tooltip = "Remarks/Restrictions";
+							data = "$STR_BCE_DECS_Remarks";
+							tooltip = "$STR_BCE_TIP_Remarks";
 							Expression_idc[] = {2200,2018,2014,2017,2201,2202};
 						};
 					};
@@ -823,13 +892,13 @@ class cTab_Tablet_dlg
 							Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
 							multi_options = 1;
 							default = 1;
-							tooltip = "“Aircraft call sign” / “Yours”";
+							tooltip = "$STR_BCE_TIP_5Line";
 						};
 						class Line2: Line1
 						{
 							text = "2: FRND/Mark :";
-							data = "Friendly position (The closest one to the Target).<br/>GRID/TRP/bearing and range etc<br/><br/>Marked by (smoke/VS-17 panel/beacon/GLINT/IR strobe etc.)";
-							tooltip = "Friendly";
+							data = "$STR_BCE_DECS_FRNDMark";
+							tooltip = "$STR_BCE_TIP_FRND";
 							textRight = "NA";
 							multi_options = 0;
 							Task_writeDown = "";
@@ -838,22 +907,22 @@ class cTab_Tablet_dlg
 						class Line3: Line2
 						{
 							text = "3: TGT :";
-							data = "Target location. (GRID/TRP/bearing and range etc)";
-							tooltip = "The target location";
+							data = "$STR_BCE_DECS_TGT";
+							tooltip = "$STR_BCE_TIP_GRID";
 							Expression_idc[] = {20121,2013,2014};
 						};
 						class Line4: Line2
 						{
 							text = "4: DESC/Mark :";
-							data = "Description of target<br/>Method used to mark ENY position. (IR, tracer etc)";
-							tooltip = "Target Description/Mark method";
+							data = "$STR_BCE_DECS_DESCMark";
+							tooltip = "$STR_BCE_TIP_DESC";
 							Expression_idc[] = {2015,2016};
 						};
-						class Remark: Line2
+						class Remark: Remark
 						{
 							text = "Remarks :";
-							data = "Supplies additional important information.<br/><br/>1.<t underline='true'>Troops in Contact</t> or <t underline='true'>Danger Close</t><br/>2.Final Attack Heading (FAH) or altitude restrictions <br/>3.Threat <br/>5.Active gun target lines <br/>etc";
-							tooltip = "Remarks/Restrictions";
+							data = "$STR_BCE_DECS_Remarks";
+							tooltip = "$STR_BCE_TIP_Remarks";
 							Expression_idc[] = {2200,2018,2014,2017,2201,2202};
 						};
 					};
@@ -897,8 +966,9 @@ class cTab_Tablet_dlg
 					y = ContH + (ContH / 3);
 					w = 0.5 * ContW;
 					h = "safezoneH / 53";
-					text = "Clear Task Info <img image='\a3\3den\data\cfg3den\history\deleteitems_ca.paa' align='Right' size='0.8' />";
-					tooltip = "Clear Task Info";
+					text = "$STR_BCE_ClearTaskInfo";
+					textureNoShortcut = "\a3\3den\data\cfg3den\history\deleteitems_ca.paa";
+					//tooltip = "Clear Task Info";
 					onButtonClick = "(_this + [false,'cTab_Tablet_dlg',17000]) call BCE_fnc_clearTaskInfo";
 
 					colorBackground[] = {1,0,0,0.5};
@@ -909,6 +979,11 @@ class cTab_Tablet_dlg
 					animTextureOver = "#(argb,8,8,3)color(1,0.25,0.25,0.5)";
 					animTextureFocused = "#(argb,8,8,3)color(1,0,0,1)";
 					animTexturePressed = "#(argb,8,8,3)color(1,0.25,0.25,0.3)";
+					
+					class ShortcutPos: ShortcutPos
+					{
+						left = 0.5 * ContW - (1.5 * 0.0175);
+					};
 				};
 
 				class CAS_UI_SendData: ctrlButton
@@ -918,7 +993,7 @@ class cTab_Tablet_dlg
 					y = smalFmH - (safezoneH / 40);
 					w = ContW;
 					h = "safezoneH / 40";
-					text = "Send Data";
+					text = "$STR_BCE_SendData";
 					font = "RobotoCondensed_BCE";
 					sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					colorBackground[] = {0.5,0.5,0.5,0.5};
@@ -931,7 +1006,7 @@ class cTab_Tablet_dlg
 					y = smalFmH - ((safezoneH / 40) + (safezoneH / 52));
 					w = 0.5 * ContW;
 					h = "safezoneH / 53";
-					text = "Abort Task";
+					text = "$STR_BCE_Abort_Task";
 					font = "PuristaMedium";
 					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					colorBackground[] = {1,0.25,0.25,0.5};
@@ -941,7 +1016,7 @@ class cTab_Tablet_dlg
 				{
 					idc = idc_D(21051);
 					x = FrameLX + smalFmW + smalSpc + (0.5 * ContW);
-					text = "Enter";
+					text = "$STR_BCE_Enter";
 					colorBackground[] = {0.5,0.5,0.5,0.5};
 				};
 
@@ -965,20 +1040,21 @@ class cTab_Tablet_dlg
 				class New_Task_Ctrl_Title: Clear_TaskInfo
 				{
 					idc = idc_D(20110);
-					text = "Control Type: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
+					text = "$STR_BCE_ControlType_BNT";
 					colorBackground[] = {0,0,0,0.4};
-					tooltip = "more details";
+					tooltip = "$STR_BCE_more_Details";
 					onButtonClick = (_this + [17000+2004,'"cTab_Tablet_dlg" >> "controls" >> "Task_Builder" >> "controls"']) call BCE_fnc_ctab_ChangeTask_Desc;
-					BCE_Desc = "Type 1 : <br/>JTAC can see target and Aircraft, and is for individual attacks.<br/><br/>Type 2 : <br/>JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.<br/><br/>Type 3 : <br/>Multiple attacks within a single engagement, JTAC can't see the aircraft but <t font='RobotoCondensedBold_BCE'>must have real time data</t> from FO/Scout.";
+					BCE_Desc = "$STR_BCE_DECS_sm_CtrlType";
 					ExpPOS(1,0.5,1);
 					periodFocus = 0;
 					periodOver = 0;
+					textureNoShortcut="\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa";
 				};
 				class New_Task_AttackType_Title: New_Task_Ctrl_Title
 				{
 					idc = idc_D(20111);
-					text = "Attack Type: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
-					BCE_Desc = "What kind of the attack will be performed.<br/><br/>BOT (Bomb on Target) : <br/>Guns ,rockets and Laser guided ammunitions. <br/>Ex. Hydra70 GBU-12<br/><br/>BOC (Bomb on Coordinate) : <br/>GPS guided ammunitions. <br/>Ex. GBU-31 GBU-32 GBU-35";
+					text = "$STR_BCE_AttackType_BNT";
+					BCE_Desc = "$STR_BCE_DECS_sm_AttackType";
 					ExpPOS(3.25,0.5,1);
 				};
 				class New_Task_AttackType: New_Task_CtrlType
@@ -995,9 +1071,14 @@ class cTab_Tablet_dlg
 				class New_Task_Ordnance_Title: New_Task_Ctrl_Title
 				{
 					idc = idc_D(20113);
-					text = "Request Ordnance: <img image='\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa' align='Right' size='0.8' />";
-					BCE_Desc = "What ammunition will be droped. <br/>How many. <br/>How far. <br/>etc";
+					text = "$STR_BCE_OrdnanceREQ_BNT";
+					BCE_Desc = "$STR_BCE_DECS_sm_Ordnance";
 					ExpPOS(5.5,0.575,1);
+					
+					class ShortcutPos: ShortcutPos
+					{
+						left = 0.575 * ContW - (1.5 * 0.0175);
+					};
 				};
 
 				//-IP
@@ -1009,9 +1090,9 @@ class cTab_Tablet_dlg
 					columns = 3;
 					strings[] =
 					{
-						"Map Marker",
-						"“BFT” Marker",
-						"OverHead"
+						"$STR_BCE_Tit_Map_marker",
+						"$STR_BCE_Tit_BFT_marker",
+						"$STR_BCE_Tit_OverHead"
 					};
 					onToolBoxSelChanged = _this + [false,TASK_OFFSET] call BCE_fnc_ToolBoxChanged;
 				};
@@ -1021,8 +1102,8 @@ class cTab_Tablet_dlg
 					columns = 2;
 					strings[] =
 					{
-						"Map Marker",
-						"“BFT” Marker"
+						"$STR_BCE_Tit_Map_marker",
+						"$STR_BCE_Tit_BFT_marker"
 					};
 				};
 				class New_Task_MarkerCombo: RscCombo
@@ -1041,7 +1122,7 @@ class cTab_Tablet_dlg
 					{
 						class NA
 						{
-							text = "Select Marker";
+							text = "$STR_BCE_SelectMarker";
 							data = "[]";
 							default = 1;
 						};
@@ -1056,7 +1137,7 @@ class cTab_Tablet_dlg
 					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					show = 0;
 					colorBackground[] = {0,0,0,0};
-					tooltip = "This shows the input result";
+					tooltip = "$STR_BCE_tip_ShowResult";
 				};
 
 				//-TG Description
@@ -1064,6 +1145,7 @@ class cTab_Tablet_dlg
 				{
 					idc = idc_D(2015);
 					ExpPOS(1,1,8);
+					sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
 					text = "";
 					show = 0;
 				};
@@ -1073,7 +1155,7 @@ class cTab_Tablet_dlg
 				{
 					idc = idc_D(2016);
 					ExpPOS(1,1,1);
-					text = "Mark with...";
+					text = "$STR_BCE_MarkWith";
 					show = 0;
 				};
 
@@ -1113,7 +1195,7 @@ class cTab_Tablet_dlg
 				{
 					idc = idc_D(2018);
 					ExpPOS(2,0.5,1);
-					text = "Bearing...";
+					text = "$STR_BCE_Bearing_ENT";
 					show = 0;
 				};
 				class New_Task_EGRS: New_Task_IPtype
@@ -1122,10 +1204,10 @@ class cTab_Tablet_dlg
 					columns = 4;
 					strings[] =
 					{
-						"Azimuth",
-						"Bearing",
-						"Map Marker",
-						"OverHead"
+						"$STR_BCE_Tit_Azimuth",
+						"$STR_BCE_Tit_Bearing",
+						"$STR_BCE_Tit_Map_marker",
+						"$STR_BCE_Tit_OverHead"
 					};
 					sizeEx = "0.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 				};
@@ -1139,7 +1221,7 @@ class cTab_Tablet_dlg
 					{
 						"FAD",
 						"FAH",
-						"Default"
+						"$STR_BCE_Default"
 					};
 				};
 				class New_Task_DangerClose_Text: RscText
@@ -1153,6 +1235,11 @@ class cTab_Tablet_dlg
 				class New_Task_DangerClose_Box: RscCheckBox
 				{
 					idc = idc_D(2202);
+					textureChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					textureFocusedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					textureHoverChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					texturePressedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+					textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
 					ExpBOX(4,1,1,0);
 					show = 0;
 				};
@@ -1177,6 +1264,7 @@ class cTab_Tablet_dlg
 					idc = idc_D(2022);
 					ExpPOS(7.65,1/3,1);
 					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+					tooltip = "$STR_BCE_tip_Attack_Range";
 					class Items
 					{
 						class 2000m
@@ -1203,13 +1291,13 @@ class cTab_Tablet_dlg
 					Style = 2;
 					show = 0;
 					text = "1";
-					tooltip = "Round Count";
+					tooltip = "$STR_BCE_tip_Round_Count";
 					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 				};
-				class Attack_Height_Combo: Round_Count_Box
+				class Attack_Height_Box: Round_Count_Box
 				{
 					idc = idc_D(2024);
-					tooltip = "Attack Height ASL (m)";
+					tooltip = "$STR_BCE_tip_Attack_Height";
 					text = "2000";
 				};
 			};
@@ -1235,11 +1323,13 @@ class cTab_Tablet_dlg
 		{
 			h = E_SUB3 * SubMenuH;
 			REMOVE_SCROLL;
-			SubMenuNEbnt;
+			#ifdef SubMenuNEbnt
+				SubMenuNEbnt;
+			#endif
 		};
 		SetSubMenu(EnemySub4,E_SUB4,SubMenuH);
 		SetSubMenu(CasulSub1,C_SUB1,SubMenuH);
-		SetSubMenu(GenSub1,G_SUB1,SubMenuH);
+		SubMenuID_FIX(SubMenuH);
 
 		#if PHONE_MOD == 1134
 			lerGTD_SUB(MenuCustomText,btn8,8,SubMenuH);
@@ -1317,7 +1407,7 @@ class cTab_Tablet_dlg
 					text = "Mark as IP/BP";
 					colorBackgroundActive[] = {1,1,0,0.3};
 					action = "[41] call cTab_fnc_userMenuSelect;";
-					tooltip = "Initial Point\Battle Position";
+					tooltip = "$STR_BCE_TIP_IPBP";
 				};
 				class GRID: IPBP
 				{
@@ -1325,7 +1415,7 @@ class cTab_Tablet_dlg
 					colorBackgroundActive[] = {1,0,0,0.3};
 					y = SubMenuH;
 					action = "[42] call cTab_fnc_userMenuSelect;";
-					tooltip = "Target Position (GRID)";
+					tooltip = "$STR_BCE_TIP_GRID";
 				};
 				class FRND: IPBP
 				{
@@ -1333,7 +1423,7 @@ class cTab_Tablet_dlg
 					colorBackgroundActive[] = {0,0.5,1,0.3};
 					y = SubMenuH * 2;
 					action = "[43] call cTab_fnc_userMenuSelect;";
-					tooltip = "Friendlies";
+					tooltip = "$STR_BCE_TIP_FRND";
 				};
 				class exit: exit
 				{
@@ -1408,15 +1498,35 @@ class cTab_TAD_dlg
 #define PHONE_CLASS class cTab_Android_dlg
 #define MOUSE_CLICK_EH "(_this + [17000]) call BCE_fnc_GetMapClickPOS"
 
-#define phoneSizeX ((((452))) / 2048 * (safezoneW * 0.8) + (safezoneX + (safezoneW - (safezoneW * 0.8)) / 2))
-#define phoneSizeY ((((713) + (60))) / 2048 * ((safezoneW * 0.8) * 4/3) + (safezoneY + (safezoneH - ((safezoneW * 0.8) * 4/3)) / 2))
-#define phoneSizeW ((((PHONE_MOD))) / 2048 * (safezoneW * 0.8))
-#define phoneSizeH ((((626) - (60) - (0))) / 2048 * ((safezoneW * 0.8) * 4/3))
-
 #define PhoneH (safezoneH * 1.2)
 #define PhoneW (safezoneW * 0.8)
 
-#define TextSize (((38)) / 2048 * (PhoneH * 4/3))
+//-Default Layout
+#define CustomPhoneH (PhoneW * 4/3)
+#define CustomPhoneX (safezoneX + (safezoneW - 	PhoneW) / 2)
+#define CustomPhoneY (safezoneY + (safezoneH - 	CustomPhoneH) / 2)
 
+#define phoneSizeX ((((452))) / 2048 * PhoneW + CustomPhoneX)
+#define phoneSizeY ((((713) + (60))) / 2048 * CustomPhoneH + CustomPhoneY)
+#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
+#define phoneSizeH ((((626) - (60) - (0))) / 2048 * CustomPhoneH)
+
+#define TextSize (((38)) / 2048 * CustomPhoneH)
+#define TextTimes 1
+#define TextTimesH (PhoneH / PhoneH)
+#define TextMenu(MULTI) __EVAL(1.1*MULTI)
+
+#define ATAK_APP(APP,TITLE) #<br/><t size='1'><br/><br/>TITLE</t>
+
+#define PhoneMarkerColor \
+	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048 * PhoneW + CustomPhoneX + ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW; \
+	y = #((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY; \
+	w = #2.5*(((42)) / 2048 * PhoneW); \
+	h = #(((60) - (20))) / 2048 * CustomPhoneH
+
+//-ATAK Map
+#include "cTab_Android_Widgets.hpp"
+
+class cTab_android_btnHome;
 //-Phone display
 #include "cTab_Android.hpp"

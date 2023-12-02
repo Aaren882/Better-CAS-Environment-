@@ -1,5 +1,3 @@
-//-Dummy class
-#define DUMMY_CLASS class Dummy
 #define SubMenuText 0.8
 
 //-17000 + SET
@@ -85,7 +83,27 @@
 	#define SubMenuH_FB (24 / 2048 * ( (safezoneW) * 4/3) / 0.8)
 	#define SubMenuH_TAD ((42 / 2048  *  (safezoneH * 0.8)) / 0.8)
 #endif
+
+#define SubMenuID_FIX(SIZE_H) \
+	SetSubMenu(GenSub1,G_SUB1,SIZE_H)
+
+
 //-Check if the cTab is "Devastator Edition"
+#if __has_include("\cTab\img\rp_ca.paa")
+	#define SubMenuID_FIX(SIZE_H) \
+		class GenSub1: cTab_RscControlsGroup \
+		{ \
+			h = G_SUB1 * SIZE_H; \
+			REMOVE_SCROLL; \
+			class Controls \
+			{ \
+				class aopbtn: cTab_MenuItem \
+				{ \
+					action = "cTabUserSelIcon set [1,40];[1] call cTab_fnc_userMenuSelect;"; \
+				}; \
+			}; \
+		}
+#endif
 
 //-Submenu btn
 #define SubMenuNEbnt \
@@ -108,7 +126,7 @@
 	}; \
 	SetSubMenu(EnemySub4,E_SUB4_P,SIZE_H); \
 	SetSubMenu(CasulSub1,C_SUB1_P,SIZE_H); \
-	SetSubMenu(GenSub1,G_SUB1_P,SIZE_H); \
+	SubMenuID_FIX(SIZE_H); \
 	class Connect_Veh_Submenu: MainSubmenu \
 	{ \
 		idc = idc_D(3300); \
@@ -206,8 +224,6 @@
 	#define SubMenuH_FB (((24)) / 2048 * ((safezoneW) * 4/3) / 0.8)
 	#define SubMenuH_TAD ((((42)) / 2048 * (safezoneH * 0.8)) / 0.8)
 	
-	#define SubMenuNEbnt DUMMY_CLASS
-	
 	//-Set SubMenu
 	#define lerGTD_SUB(CLASS1,CLASS2,LINE,SIZE_H) \
 		class CLASS1: cTab_RscControlsGroup \
@@ -229,6 +245,8 @@
 			Shadow = 2; \
 		}
 	
+	#undef SubMenuNEbnt
+	
 	// - lerGTD SubMenu
 	// - SubMenu + lerGTD SubMenu + BCE Submenu
 	#define cTab_Set_SubMenu(SIZE_H) \
@@ -239,7 +257,6 @@
 		{ \
 			h = E_SUB3_P * SIZE_H; \
 			REMOVE_SCROLL; \
-			SubMenuNEbnt; \
 		}; \
 		SetSubMenu(EnemySub4,E_SUB4_P,SIZE_H); \
 		SetSubMenu(CasulSub1,C_SUB1_P,SIZE_H); \
@@ -327,17 +344,4 @@
 	#define MAP_MODE 3
 #endif
 
-//-Clean up
-#if MAP_MODE > 0
-	class cTab_Tablet_RscMapControl: RscMapControl{};
-	class cTab_android_RscMapControl: RscMapControl{};
-	class cTab_microDAGR_RscMapControl: RscMapControl{};
-	class cTab_TAD_RscMapControl: RscMapControl{};
-#else
-	class cTab_Tablet_RscMapControl;
-	class cTab_android_RscMapControl;
-	class cTab_microDAGR_RscMapControl;
-	class cTab_TAD_RscMapControl;
-#endif
-
-//-Change TOPO -> Enhanced GPS
+class cTab_RscMapControl;

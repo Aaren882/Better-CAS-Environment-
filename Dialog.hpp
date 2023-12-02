@@ -16,28 +16,38 @@ class RscTitles
 	#include "Task_Receiver.hpp"
 	
 	#ifdef cTAB_Installed
-		#include "cTab\cTab_classes.hpp"
 		#define PHONE_CLASS class cTab_Android_dsp
 		
-		#define phoneSizeX (((452)) / 2048 * (0.86) + (safezoneX - (0.86) * 0.17))
-		#define phoneSizeY ((((713) + (60))) / 2048 * ((0.86) * 4/3) + (safezoneY + safezoneH * 0.88 - ((0.86) * 4/3) * 0.72))
-		#define phoneSizeW ((((PHONE_MOD))) / 2048 * (0.86))
-		#define phoneSizeH ((((626) - (60) - (0))) / 2048 * ((0.86) * 4/3))
-		
-		#define MOUSE_CLICK_EH ""
+		#undef MOUSE_CLICK_EH
 		
 		#define PhoneH (safezoneH * 0.8)
-		#define PhoneW (0.86)
-		#define TextSize (((38)) / 2048 * (PhoneW * 4/3))
+		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(0.86)])
 		
-		#define cTab_Set_SubMenu \
-			DUMMY_CLASS
+		//-Custom Layout
+		#define CustomPhoneH (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_H',(PhoneW * 4/3)])
+		#define CustomPhoneX (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_X',(safezoneX - PhoneW * 0.17)])
+		#define CustomPhoneY (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_Y',(safezoneY + safezoneH * 0.88 - CustomPhoneH * 0.72)])
 		
-		#if MAP_MODE > 0
+		#define TextSize (((38)) / 2048 * CustomPhoneH)
+		#define TextTimes 2.537
+		#define TextTimesH ((safezoneW * 0.8) / PhoneW)
+		
+		#define phoneSizeX (((452)) / 2048 * PhoneW + CustomPhoneX)
+		#define phoneSizeY ((((713) + (60))) / 2048 * CustomPhoneH + CustomPhoneY)
+		#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
+		#define phoneSizeH ((((626) - (60) - (0))) / 2048 * CustomPhoneH)
+		
+		#define PhoneMarkerColor \
+			x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048 * PhoneW + CustomPhoneX + 0.92 * (((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW); \
+			y = #((713) + ((60) - (42)) / 2) / 2048 * CustomPhoneH + CustomPhoneY; \
+			w = #2.5 * (((42)) / 2048 * PhoneW); \
+			h = #((42)) / 2048 * CustomPhoneH
+		
+		/*#if MAP_MODE > 0
 			class cTab_android_RscMapControl: RscMapControl{};
 			class cTab_microDAGR_RscMapControl: RscMapControl{};
 			class cTab_TAD_RscMapControl: RscMapControl{};
-		#endif
+		#endif*/
 		
 		#if MAP_MODE > 2
 			class cTab_TAD_dsp
@@ -63,6 +73,11 @@ class RscTitles
 				};
 			};
 		#endif
+		
+		//-Phone Layout
+		#include "cTab\cTab_classes.hpp"
+		#include "cTab\cTab_Android_Widgets.hpp"
+		#include "cTab\cTab_Android_Layout.hpp"
 		
 		//-Phone display
 		#include "cTab\cTab_Android.hpp"
@@ -254,10 +269,11 @@ class RscTitles
 			class Laseron: RscText
 			{
 				idc = 1023;
+				style = 2;
 				shadow = 0;
-				x = 0.472413 * safezoneW + safezoneX;
+				x = safezoneX;
 				y = 0.242 * safezoneH + safezoneY;
-				w = 0.0557045 * safezoneW;
+				w = safezoneW;
 				h = 0.044 * safezoneH;
 				colorText[] = {1,0,0,1};
 				text = "L T D / R";
@@ -351,6 +367,7 @@ class RscTitles
 				h = 0.0356667 * safezoneH;
 				colorText[] = {1,1,1,1};
 				colorBackground[] = {0,0,0,0.4};
+				font = "RobotoCondensed_BCE";
 				SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5)";
 			};
 			
@@ -409,25 +426,25 @@ class RscTitles
 				{
 					class temp
 					{
-						text = "Temperature :";
+						text = "$STR_BCE_Env_temp";
 						data = "['%1°C', round (ambientTemperature # 0)]";
 					};
 					class humidity
 					{
-						text = "Humidity :";
+						text = "$STR_BCE_Env_humidity";
 						data = "['%1%2', round (humidity * 10) * 10, '%']";
 					};
 					class wind
 					{
-						text = "Wind :";
+						text = "$STR_BCE_Env_wind";
 					};
 					class fog
 					{
-						text = "Fog :";
+						text = "$STR_BCE_Env_fog";
 					};
 					class visibility
 					{
-						text = "Visibility";
+						text = "$STR_BCE_Env_visibility";
 						textright = "Good";
 					};
 				};

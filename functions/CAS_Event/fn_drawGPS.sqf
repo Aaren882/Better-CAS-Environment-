@@ -99,10 +99,10 @@ if ((_taskVar isNotEqualto []) && (_widgets # 1)) then {
           30,
           30,
           0,
-          format ["%1 - %2 with: [%3]", _Target # 0, trim(_desc # 1), trim(_desc # 2)],
+          format ["%1 - %2 %3: [%4]", _Target # 0, trim(_desc # 1),localize "STR_BCE_With", trim(_desc # 2)],
           1,
           0.075,
-          "EtelkaNarrowMediumPro",
+          "RobotoCondensed_BCE",
           "right"
         ];
 
@@ -128,7 +128,7 @@ if ((_taskVar isNotEqualto []) && (_widgets # 1)) then {
             _remarks # 0,
             1,
             0.075,
-            "EtelkaNarrowMediumPro",
+            "RobotoCondensed_BCE",
             ["right","left"] select (_HDG > 180)
           ];
         };
@@ -163,7 +163,7 @@ if ((_taskVar isNotEqualto []) && (_widgets # 1)) then {
           _FRD # 0,
           1,
           0.075,
-          "EtelkaNarrowMediumPro",
+          "RobotoCondensed_BCE",
           "right"
         ];
       };
@@ -187,7 +187,7 @@ if ((_taskVar isNotEqualto []) && (_widgets # 1)) then {
           _IPBP # 0,
           1,
           0.075,
-          "EtelkaNarrowMediumPro",
+          "RobotoCondensed_BCE",
           "right"
         ];
       };
@@ -223,7 +223,7 @@ if ((_taskVar isNotEqualto []) && (_widgets # 1)) then {
             _taskVar # 3 # 0,
             1,
             0.075,
-            "EtelkaNarrowMediumPro",
+            "RobotoCondensed_BCE",
             "right"
           ];
 
@@ -258,7 +258,7 @@ if ((_taskVar isNotEqualto []) && (_widgets # 1)) then {
             _remarks # 0,
             1,
             0.075,
-            "EtelkaNarrowMediumPro",
+            "RobotoCondensed_BCE",
             ["right","left"] select (_HDG > 180)
           ];
         };
@@ -279,7 +279,7 @@ if ((_taskVar isNotEqualto []) && (_widgets # 1)) then {
           _Target # 0,
           1,
           0.075,
-          "EtelkaNarrowMediumPro",
+          "RobotoCondensed_BCE",
           "right"
         ];
       };
@@ -313,7 +313,7 @@ if ((_taskVar isNotEqualto []) && (_widgets # 1)) then {
           _FRD # 0,
           1,
           0.075,
-          "EtelkaNarrowMediumPro",
+          "RobotoCondensed_BCE",
           "right"
         ];
       };
@@ -346,7 +346,7 @@ if ((_taskVar isNotEqualto []) && (_widgets # 1)) then {
           _EGRS # 0,
           1,
           0.075,
-          "EtelkaNarrowMediumPro",
+          "RobotoCondensed_BCE",
           "left"
         ];
       };

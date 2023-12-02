@@ -48,4 +48,4 @@ switch (_type) do
   };
 };
 
-((uiNameSpace getVariable "BCE_TGP") displayCtrl 1005) ctrlSetText (format ["CMODE %1",_text]);
+((uiNameSpace getVariable "BCE_TGP") displayCtrl 1005) ctrlSetText (format ["%1 %2", localize "STR_BCE_CMODE", _text]);

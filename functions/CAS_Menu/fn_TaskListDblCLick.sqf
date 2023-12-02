@@ -1,4 +1,5 @@
 params ["_control", "_curLine"];
+private ["_display","_title","_Task_Type","_sel_TaskType","_list_result","_Expression_class","_desc_show","_extend_desc","_description","_sendData","_clearbut","_checklist","_desc","_descriptionPOS","_TaskListPOS","_titlePOS","_Expression_Ctrls","_shownCtrls"];
 
 _display = ctrlParent _control;
 _title = _display displayctrl 2003;
@@ -98,7 +99,7 @@ if (_extend_desc) then {
   } forEach flatten ((crew _vehicle) select {(_vehicle unitTurret _x) in ([[-1]] + allTurrets _vehicle)});
 
   //-set selected Turret Unit
-  _isEmpty = ((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_vehicle isNotEqualTo (_Selected_Optic # 1));
+  private _isEmpty = ((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_vehicle isNotEqualTo (_Selected_Optic # 1));
   if (_isEmpty or ((lbCurSel _squad_list) < 0)) then {
     if (lbsize _squad_list > 0) then {
       _squad_list lbSetCurSel ([0,_current_optic] select (count _turrets > 0));
@@ -106,7 +107,7 @@ if (_extend_desc) then {
       (_display displayctrl 20114) ctrlSetStructuredText parseText "NA";
     };
   } else {
-    _unit = (call compile (_squad_list lbData (lbCurSel _squad_list))) # 1;
+    private _unit = (call compile (_squad_list lbData (lbCurSel _squad_list))) # 1;
     (_display displayctrl 20114) ctrlSetStructuredText parseText format ["[%1]",_unit];
   };
 
@@ -119,13 +120,13 @@ if (_extend_desc) then {
 
 _sendData = _display displayCtrl 2105;
 _clearbut = _display displayCtrl 2106;
-_TaskList ctrlshow false;
 _checklist = _display displayCtrl 2100;
+_TaskList ctrlshow false;
 
 //-Write down description
-_desc = format ["Description : <br/>%1", _TaskList lbData _curLine];
+_desc = format ["%1<br/>%2", localize "STR_BCE_Description", (_TaskList lbData _curLine) call BCE_fnc_formatLanguage];
 _description ctrlSetStructuredText parseText _desc;
-_sendData ctrlSetText "Enter";
+_sendData ctrlSetText localize "STR_BCE_Enter";
 
 _descriptionPOS = ctrlPosition _description;
 _TaskListPOS = ctrlPosition _TaskList;
@@ -134,18 +135,10 @@ _titlePOS = ctrlPosition _title;
 _title ctrlSetText (_control lbtext _curLine);
 
 //-check current Control
-_Expression_Ctrls = (_Expression_class apply {
-    getArray (_x >> "Expression_idc")
-  }) apply {
-  [
-    _x apply {_display displayctrl _x},[]
-  ] select (_x isEqualTo []);
-};
-
-_shownCtrls = _Expression_Ctrls # _curLine;
+_shownCtrls = [_display,_curLine,0] call BCE_fnc_Show_CurTaskCtrls;
 
 //-Show Needed Controls
-{_x ctrlshow true} forEach ([_title,_description] + _shownCtrls);
+{_x ctrlshow true} count [_title,_description];
 
 switch _sel_TaskType do {
   //-5 line
@@ -154,6 +147,7 @@ switch _sel_TaskType do {
   };
   //-9 line
   default {
+    if (_curLine in [2,3,4]) then {_clearbut ctrlShow false};
     call BCE_fnc_DblClick9line;
   };
 };

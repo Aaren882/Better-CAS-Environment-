@@ -27,11 +27,11 @@ _curLine = [lbCurSel _taskList,_overwrite] select _isOverwrite;
 _vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
 
 //-Send Data
-if ((tolower _button_text) == "send data") exitWith {
+if ((tolower _button_text) == localize "STR_BCE_SendData") exitWith {
   call BCE_fnc_SendTaskData;
 
   if !(_NotAVT) then {
-    _control ctrlSetText "Abort Mission";
+    _control ctrlSetText localize "STR_BCE_Abort_Task";
   };
 
   //-Abort button
@@ -39,8 +39,9 @@ if ((tolower _button_text) == "send data") exitWith {
 };
 
 //-Abort Mission
-if ("abort" in (tolower _button_text)) exitWith {
+if ((localize "STR_BCE_Abort_Task") in (tolower _button_text)) exitWith {
   _vehicle setVariable ["BCE_Task_Receiver", [], true];
+  _vehicle setVariable ["Module_CAS_Sound",false,true];
 
   //-Clear Waypoints
   _grp = group _vehicle;
@@ -52,7 +53,7 @@ if ("abort" in (tolower _button_text)) exitWith {
   //-Abort button
   switch _IDC_offset do {
     case 0: {
-      _control ctrlSetText "Send Data";
+      _control ctrlSetText localize "STR_BCE_SendData";
     };
     case 17000: {
       (_display displayCtrl (_IDC_offset + 21050)) ctrlEnable false;
@@ -66,16 +67,7 @@ if ("abort" in (tolower _button_text)) exitWith {
 _condition = [[],[0]] select (isNull _vehicle);
 
 if !(_curLine in _condition) then {
-  switch _sel_TaskType do {
-    //-5 line
-    case 1: {
-      call BCE_fnc_DataReceive5line;
-    };
-    //-9 line
-    default {
-      call BCE_fnc_DataReceive9line;
-    };
-  };
+  call ([BCE_fnc_DataReceive9line, BCE_fnc_DataReceive5line] # _sel_TaskType);
 };
 
 //-Update List
@@ -90,14 +82,14 @@ if (_NotAVT) then {
   if (_IDC_offset == 17000) then {
     private _msg = switch true do {
       case (_curLine in _condition): {
-        "Fail...  Check selected Aircraft."
+        "STR_BCE_Error_InputVal"
       };
       case (_taskVar # _curLine # 0 == "NA"): {
-        "Fail...  Check the input values."
+        "STR_BCE_Error_Vehicle"
       };
     };
     if (_msg isEqualType "") then {
-      ["Task_Builder",_msg,5] call cTab_fnc_addNotification;
+      ["Task_Builder",localize _msg,5] call cTab_fnc_addNotification;
     };
   };
   (_display displayCtrl (_IDC_offset + 2106)) ctrlSetBackgroundColor ([[1,0,0,0.5],[0,0,0,0.8]] select ((_taskVar # _curLine # 0) == "NA"));

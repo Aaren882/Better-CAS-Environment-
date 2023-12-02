@@ -31,7 +31,8 @@ _taskVar = switch _curType do {
 
 //-Write down Description
 _description = _display displayctrl (_IDC_offset + 2004);
-_description ctrlSetStructuredText parseText (_Tasklist lbdata _curLine);
+_text = format ["<t size='%1'>%2</t>",[0.6,0.8] select ("chinese" in language),_TaskList lbData _curLine];
+_description ctrlSetStructuredText parseText (_text call BCE_fnc_formatLanguage);
 
 //-hide "Clear" + "Abort Mission" + "Enter" buttons
 {(_display displayCtrl (_IDC_offset + _x)) ctrlshow (count _shownCtrls > 0)} forEach [2106,21050,21051];

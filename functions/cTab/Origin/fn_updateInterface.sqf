@@ -1,30 +1,35 @@
 /*
- 	Name: cTab_fnc_updateInterface
+	 Name: cTab_fnc_updateInterface
 
- 	Author(s):
-		Gundy
+	 Author(s):
+	Gundy
 
 	Edit:
-		Aaren
+	Aaren
 
- 	Description:
-		Update current interface (display or dialog) to match current settings.
-		If no parameters are specified, all interface elements are updated
+	 Description:
+	Update current interface (display or dialog) to match current settings.
+	If no parameters are specified, all interface elements are updated
 
 	Parameters:
 	(Optional)
-		0: ARRAY - Property pairs in the form of [["propertyName",propertyValue],[...]]
+	0: ARRAY - Property pairs in the form of [["propertyName",propertyValue],[...]]
 
- 	Returns:
-		BOOLEAN - Always true
+	 Returns:
+	BOOLEAN - Always true
 
- 	Example:
-		[[["mapType","SAT"],["mapScaleDsp","4"]]] call cTab_fnc_updateInterface;
+	 Example:
+	[[["mapType","SAT"],["mapScaleDsp","4"]]] call cTab_fnc_updateInterface;
 */
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-private ["_interfaceInit","_TAC_Vis","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_backgroundOffset","_ctrlPos","_mousePos"];
+//-POLPOX Map Tools
+#if __has_include("\plp\plp_mapToolsRemastered\config.bin")
+	#define PLP_TOOL 1
+#endif
+
+private ["_interfaceInit","_maptoolsInit","_TAC_Vis","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_backgroundOffset","_ctrlPos","_mousePos"];
 disableSerialization;
 
 if (isNil "cTabIfOpen") exitWith {false};
@@ -33,8 +38,8 @@ _displayName = cTabIfOpen # 1;
 _display = uiNamespace getVariable _displayName;
 uiNameSpace setVariable ["cTab_BFT_CurSel",objNull];
 
-
 _interfaceInit = false;
+_maptoolsInit = false;
 _TAC_Vis = false;
 _loadingCtrl = _display displayCtrl IDC_CTAB_LOADINGTXT;
 _targetMapCtrl = controlNull;
@@ -64,330 +69,373 @@ if (isNil "_mode") then {
 
 _settings apply {
 	call {
-		// ------------ DISPLAY POSITION ------------
-		if (_x # 0 == "dspIfPosition") exitWith {
-			_dspIfPosition = _x # 1;
+	// ------------ DISPLAY POSITION ------------
+	if (_x # 0 == "dspIfPosition") exitWith {
+		_dspIfPosition = _x # 1;
 
-			if !(_isDialog) then {
-				// get the current position of the background control
-				_backgroundPosition = [_displayName] call cTab_fnc_getBackgroundPosition;
-				_backgroundPositionX = _backgroundPosition # 0 # 0;
-				_backgroundPositionW = _backgroundPosition # 0 # 2;
+		if !(_isDialog) then {
+			// get the current position of the background control
+			_backgroundPosition = [_displayName] call cTab_fnc_getBackgroundPosition;
+			_backgroundPositionX = _backgroundPosition # 0 # 0;
+			_backgroundPositionW = _backgroundPosition # 0 # 2;
 
-				// get the original position of the background control
-				_backgroundConfigPositionX = _backgroundPosition # 1 # 0;
+			// get the original position of the background control
+			_backgroundConfigPositionX = _backgroundPosition # 1 # 0;
 
-				// figure out if we need to do anything
-				if !((_backgroundPositionX != _backgroundConfigPositionX) isEqualTo _dspIfPosition) then {
-					// calculate offset required to shift position to the opposite
-					_xOffset = if (_backgroundPositionX == _backgroundConfigPositionX) then {
-							2 * safeZoneX + safeZoneW - _backgroundPositionW - 2 * _backgroundPositionX
-						} else {
-							_backgroundConfigPositionX - _backgroundPositionX
+			// figure out if we need to do anything
+			if !((_backgroundPositionX != _backgroundConfigPositionX) isEqualTo _dspIfPosition) then {
+				// calculate offset required to shift position to the opposite
+				_xOffset = if (_backgroundPositionX == _backgroundConfigPositionX) then {
+					2 * safeZoneX + safeZoneW - _backgroundPositionW - 2 * _backgroundPositionX
+				} else {
+					_backgroundConfigPositionX - _backgroundPositionX
+				};
+				[_displayName,[_xOffset,0]] call cTab_fnc_setInterfacePosition;
+			};
+		};
+	};
+	// ------------ DIALOG POSITION ------------
+	if (_x # 0 == "dlgIfPosition") exitWith {
+		_backgroundOffset = _x # 1;
+
+		if (_isDialog) then {
+			if (_backgroundOffset isEqualTo []) then {
+				_backgroundOffset = if (_interfaceInit) then {
+					[0,0]
+				} else {
+					// reset to defaults
+					_backgroundPosition = [_displayName] call cTab_fnc_getBackgroundPosition;
+					[(_backgroundPosition # 1 # 0) - (_backgroundPosition # 0 # 0),(_backgroundPosition # 1 # 1) - (_backgroundPosition # 0 # 1)]
+				};
+			};
+			if !(_backgroundOffset isEqualTo [0,0]) then {
+				// move by offset
+				[_displayName,_backgroundOffset] call cTab_fnc_setInterfacePosition;
+			};
+		};
+	};
+	// ------------ BRIGHTNESS ------------
+	// Value ranges from 0 to 1, 0 being off and 1 being full brightness
+	if (_x # 0 == "brightness") exitWith {
+		_osdCtrl = _display displayCtrl IDC_CTAB_BRIGHTNESS;
+		if (!isNull _osdCtrl) then {
+			_brightness = _x # 1;
+			_nightMode = [_displayName,"nightMode"] call cTab_fnc_getSettings;
+			// if we are running night mode, lower the brightness proportionally
+			if (!isNil "_nightMode") then {
+				if (_nightMode == 1 || {_nightMode == 2 && (sunOrMoon < 0.2)}) then {_brightness = _brightness * 0.7};
+			};
+			_osdCtrl ctrlSetBackgroundColor [0,0,0,1 - _brightness];
+		};
+	};
+
+
+	//-Check if it's "1erGTD"
+	#if __has_include("\z\ctab\addons\core\config.bin")
+		#define TAD_BG ["\cTab\img\TAD_background_ca.paa","\cTab\img\TAD_background_night_ca.paa"]
+		#define PHONE_BG ["\cTab\img\android_s7_ca.paa","\cTab\img\android_s7_night_ca.paa"]
+		#define DAGR_BG ["\cTab\img\microDAGR_background_ca.paa","\cTab\img\microDAGR_background_night_ca.paa"]
+		#define TAB_BG ["\cTab\img\Tablet_background_ca.paa","\cTab\img\tablet_background_night_ca.paa"]
+	#else
+		#define TAD_BG ["\cTab\img\TAD_background_ca.paa","\cTab\img\TAD_background_night_ca.paa"]
+		#define PHONE_BG ["\cTab\img\android_background_ca.paa","\cTab\img\android_background_night_ca.paa"]
+		#define DAGR_BG ["\cTab\img\microDAGR_background_ca.paa","\cTab\img\microDAGR_background_night_ca.paa"]
+		#define TAB_BG ["\cTab\img\tablet_background_ca.paa","\cTab\img\tablet_background_night_ca.paa"]
+	#endif
+
+	// ------------ NIGHT MODE ------------
+	// 0 = day mode, 1 = night mode, 2 = automatic
+	if (_x # 0 == "nightMode") exitWith {
+		_nightMode = _x # 1;
+		// transform nightMode into boolean
+		_nightMode = (_nightMode == 1) || (_nightMode == 2 && (sunOrMoon < 0.2));
+		_background = call {
+		if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) exitWith {
+			TAD_BG select _nightMode
+		};
+		if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) exitWith {
+			PHONE_BG select _nightMode
+		};
+		if (_displayName in ["cTab_microDAGR_dsp","cTab_microDAGR_dlg"]) exitWith {
+			DAGR_BG select _nightMode
+		};
+		if (_displayName in ["cTab_Tablet_dlg"]) exitWith {
+			TAB_BG select _nightMode
+		};
+		""
+		};
+		if (_background != "") then {
+			(_display displayCtrl IDC_CTAB_BACKGROUND) ctrlSetText _background;
+			// call brightness adjustment if this is outside of interface init
+			if (!_interfaceInit) then {
+				_settings pushBack ["brightness",[_displayName,"brightness"] call cTab_fnc_getSettings];
+			};
+		};
+	};
+
+	// ------------ MODE ------------
+	if (_x # 0 == "mode") exitWith {
+		cTabUserPos = [];
+
+		_displayItems = call {
+			if (_displayName == "cTab_Tablet_dlg") exitWith {
+				[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
+
+				17000 + 3300,
+				17000 + 33000,
+				17000 + 3301,
+				IDC_CTAB_GROUP_DESKTOP,
+				IDC_CTAB_GROUP_UAV,
+				IDC_CTAB_GROUP_HCAM,
+				IDC_CTAB_GROUP_MESSAGE,
+				4651,
+				4652,
+				4653,
+				17000 + 4651,
+				17000 + 4652,
+				17000 + 4653,
+				IDC_CTAB_CTABHCAMMAP,
+				IDC_CTAB_CTABUAVMAP,
+				17000 + 1200,
+				17000 + 1201,
+				17000 + 12010,
+				17000 + 12011,
+
+				//-POLPOX Map Tools
+				#ifdef PLP_TOOL
+				73454,
+				17000 + 1202,
+				17000 + 12012,
+				#endif
+				IDC_CTAB_SCREEN,
+				IDC_CTAB_SCREEN_TOPO,
+				IDC_CTAB_HCAM_FULL,
+				IDC_CTAB_OSD_HOOK_GRID,
+				IDC_CTAB_OSD_HOOK_ELEVATION,
+				IDC_CTAB_OSD_HOOK_DST,
+				IDC_CTAB_OSD_HOOK_DIR,
+				IDC_CTAB_NOTIFICATION]
+			};
+			if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) exitWith {
+				[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
+				4630,
+				17000 + 3300,
+				17000 + 33000,
+				1775,
+				1776,
+				17000 + 46320,
+
+				//-ATAK
+				17000 + 4660,
+				17000 + 4661,
+				17000 + 4662,
+				17000 + 4663,
+				46600,
+
+				//-BG
+				17000 + 4630,
+				17000 + 4631,
+				17000 + 4632,
+				17000 + 4650,
+
+				//-BTF Widgets
+				17000 + 1200,
+				//-POLPOX Map Tools
+				#ifdef PLP_TOOL
+				73454,
+				17000 + 1202,
+				17000 + 12012,
+				#endif
+				IDC_CTAB_GROUP_DESKTOP,
+				IDC_CTAB_GROUP_MENU,
+				IDC_CTAB_GROUP_MESSAGE,
+				IDC_CTAB_GROUP_COMPOSE,
+				IDC_CTAB_SCREEN,
+				IDC_CTAB_SCREEN_TOPO,
+				IDC_CTAB_OSD_HOOK_GRID,
+				IDC_CTAB_OSD_HOOK_ELEVATION,
+				IDC_CTAB_OSD_HOOK_DST,
+				IDC_CTAB_OSD_HOOK_DIR,
+				IDC_CTAB_NOTIFICATION]
+			};
+			if (_displayName in ["cTab_FBCB2_dlg","cTab_TAD_dlg"]) exitWith {
+				[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
+				IDC_CTAB_NOTIFICATION]
+			};
+			[IDC_CTAB_NOTIFICATION] // default
+		};
+
+		//-Setup show Controls on INIT
+		if !(_displayItems isEqualTo []) then {
+		_btnActCtrl = _display displayCtrl IDC_CTAB_BTNACT;
+		_displayItemsToShow = [];
+
+		call {
+			// ---------- DESKTOP -----------
+			if (_mode == "DESKTOP") exitWith {
+				_displayItemsToShow pushback IDC_CTAB_GROUP_DESKTOP;
+				_btnActCtrl ctrlSetText "";
+				_btnActCtrl ctrlSetTooltip "";
+			};
+			// ---------- BFT -----------
+			if (_mode == "BFT") exitWith {
+				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+				_mapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
+				_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
+				_TAC_Vis = true;
+
+				_displayItemsToShow = [
+					_mapIDC,
+					17000 + 1200,
+					17000 + 1201,
+					17000 + 1202,
+					IDC_CTAB_OSD_HOOK_GRID,
+					IDC_CTAB_OSD_HOOK_ELEVATION,
+					IDC_CTAB_OSD_HOOK_DST,
+					IDC_CTAB_OSD_HOOK_DIR
+				];
+
+				//-Tool Menu
+				if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
+					private _showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
+					if (_showMenu # 1) then {
+						_displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
+						if !(_interfaceInit) then {
+							_settings pushBack ["showMenu",[_displayName,"showMenu"] call cTab_fnc_getSettings];
 						};
-					[_displayName,[_xOffset,0]] call cTab_fnc_setInterfacePosition;
+					};
 				};
-			};
-		};
-		// ------------ DIALOG POSITION ------------
-		if (_x # 0 == "dlgIfPosition") exitWith {
-			_backgroundOffset = _x # 1;
 
-			if (_isDialog) then {
-				if (_backgroundOffset isEqualTo []) then {
-					_backgroundOffset = if (_interfaceInit) then {
-							[0,0]
-						} else {
-							// reset to defaults
-							_backgroundPosition = [_displayName] call cTab_fnc_getBackgroundPosition;
-							[(_backgroundPosition # 1 # 0) - (_backgroundPosition # 0 # 0),(_backgroundPosition # 1 # 1) - (_backgroundPosition # 0 # 1)]
-						};
-				};
-				if !(_backgroundOffset isEqualTo [0,0]) then {
-					// move by offset
-					[_displayName,_backgroundOffset] call cTab_fnc_setInterfacePosition;
-				};
-			};
-		};
-		// ------------ BRIGHTNESS ------------
-		// Value ranges from 0 to 1, 0 being off and 1 being full brightness
-		if (_x # 0 == "brightness") exitWith {
-			_osdCtrl = _display displayCtrl IDC_CTAB_BRIGHTNESS;
-			if (!isNull _osdCtrl) then {
-				_brightness = _x # 1;
-				_nightMode = [_displayName,"nightMode"] call cTab_fnc_getSettings;
-				// if we are running night mode, lower the brightness proportionally
-				if (!isNil "_nightMode") then {
-					if (_nightMode == 1 || {_nightMode == 2 && (sunOrMoon < 0.2)}) then {_brightness = _brightness * 0.7};
-				};
-				_osdCtrl ctrlSetBackgroundColor [0,0,0,1 - _brightness];
-			};
-		};
+				_btnActCtrl ctrlSetTooltip "";
+				_maptoolsInit = true;
 
+				private _widgets = [
+					[
+						#ifdef PLP_TOOL
+							"PLP_mapTools",
+						#endif
+						"BCE_mapTools"
+					],
+					[]
+				] select (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]);
 
-		//-Check if it's "1erGTD"
-		#if __has_include("\z\ctab\addons\core\config.bin")
-			#define TAD_BG ["\cTab\img\TAD_background_ca.paa","\cTab\img\TAD_background_night_ca.paa"]
-			#define PHONE_BG ["\cTab\img\android_s7_ca.paa","\cTab\img\android_s7_night_ca.paa"]
-			#define DAGR_BG ["\cTab\img\microDAGR_background_ca.paa","\cTab\img\microDAGR_background_night_ca.paa"]
-			#define TAB_BG ["\cTab\img\Tablet_background_ca.paa","\cTab\img\tablet_background_night_ca.paa"]
-		#else
-			#define TAD_BG ["\cTab\img\TAD_background_ca.paa","\cTab\img\TAD_background_night_ca.paa"]
-			#define PHONE_BG ["\cTab\img\android_background_ca.paa","\cTab\img\android_background_night_ca.paa"]
-			#define DAGR_BG ["\cTab\img\microDAGR_background_ca.paa","\cTab\img\microDAGR_background_night_ca.paa"]
-			#define TAB_BG ["\cTab\img\tablet_background_ca.paa","\cTab\img\tablet_background_night_ca.paa"]
-		#endif
-
-		// ------------ NIGHT MODE ------------
-		// 0 = day mode, 1 = night mode, 2 = automatic
-		if (_x # 0 == "nightMode") exitWith {
-			_nightMode = _x # 1;
-			// transform nightMode into boolean
-			_nightMode = (_nightMode == 1) || (_nightMode == 2 && (sunOrMoon < 0.2));
-			_background = call {
-				if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) exitWith {
-					TAD_BG select _nightMode
+				(["mapTools"] + _widgets) apply {
+					_settings pushBack [_x,[_displayName,_x] call cTab_fnc_getSettings];
 				};
-				if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) exitWith {
-					PHONE_BG select _nightMode
-				};
-				if (_displayName in ["cTab_microDAGR_dsp","cTab_microDAGR_dlg"]) exitWith {
-					DAGR_BG select _nightMode
-				};
-				if (_displayName in ["cTab_Tablet_dlg"]) exitWith {
-					TAB_BG select _nightMode
-				};
-				""
-			};
-			if (_background != "") then {
-				(_display displayCtrl IDC_CTAB_BACKGROUND) ctrlSetText _background;
-				// call brightness adjustment if this is outside of interface init
+				// update scale and world position when not on interface init
 				if (!_interfaceInit) then {
-					_settings pushBack ["brightness",[_displayName,"brightness"] call cTab_fnc_getSettings];
+					if (_isDialog) then {
+						["mapScaleDlg","mapWorldPos"] apply {
+							_settings pushBack [_x,[_displayName,_x] call cTab_fnc_getSettings];
+						};
+					};
 				};
 			};
-		};
+			// ---------- _NOT_ BFT -----------
+			if (_isDialog) then {
+				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+				if (count _mapTypes > 1) then {
+					_targetMapName = [_displayName,"mapType"] call cTab_fnc_getSettings;
+					_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
+					_targetMapCtrl = _display displayCtrl _targetMapIDC;
 
-		// ------------ MODE ------------
-		if (_x # 0 == "mode") exitWith {
-			cTabUserPos = [];
+					// If we find the map to be shown, we are switching away from BFT. Lets save map scale and position
+					if (ctrlShown _targetMapCtrl) then {
+						_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
+						[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScaleDlg",_mapScale]],false] call cTab_fnc_setSettings;
+					};
+				};
+			};
+			// ---------- UAV -----------
+			if (_mode in "UAV") exitWith {
+			_displayItemsToShow = [
+				IDC_CTAB_GROUP_UAV,
+				IDC_CTAB_CTABUAVMAP
+			];
 
-			_displayItems = call {
-				if (_displayName == "cTab_Tablet_dlg") exitWith {
-					[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
-					17000 + 3300,
-					17000 + 33000,
-					17000 + 3301,
-					IDC_CTAB_GROUP_DESKTOP,
-					IDC_CTAB_GROUP_UAV,
+			if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
+				private ["_showMenu","_Showlist"];
+				_showMenu = [_displayName,"uavInfo"] call cTab_fnc_getSettings;
+				_Showlist = [17000 + 4630,17000 + 4631,17000 + 4632,17000 + 46320] + [([1776,1775] select (_showMenu))];
+				_displayItemsToShow append _Showlist;
+			} else {
+				_btnActCtrl ctrlSetTooltip "View Gunner Optics";
+			};
+
+			_settings pushBack ["uavListUpdate",true];
+			if (!_interfaceInit) then {
+				_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
+			};
+			};
+			// ---------- HELMET CAM -----------
+			if (_mode == "HCAM") exitWith {
+				_displayItemsToShow = [
 					IDC_CTAB_GROUP_HCAM,
-					IDC_CTAB_GROUP_MESSAGE,
+					IDC_CTAB_CTABHCAMMAP
+				];
+				_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
+				_settings pushBack ["hCamListUpdate",true];
+				if (!_interfaceInit) then {
+					_settings pushBack ["hCam",[_displayName,"hCam"] call cTab_fnc_getSettings];
+				};
+			};
+			// ---------- MESSAGING -----------
+			if (_mode == "MESSAGE") exitWith {
+				_displayItemsToShow = [IDC_CTAB_GROUP_MESSAGE];
+				call cTab_msg_gui_load;
+				cTabRscLayerMailNotification cutText ["", "PLAIN"];
+				_btnActCtrl ctrlSetTooltip "";
+			};
+			// ---------- MESSAGING COMPOSE -----------
+			if (_mode == "COMPOSE") exitWith {
+				_displayItemsToShow pushBack IDC_CTAB_GROUP_COMPOSE;
+				call cTab_msg_gui_load;
+			};
+
+			// ---------- Task Builder -----------
+			if (_mode == "TASK_Builder") exitWith {
+				_displayItemsToShow = [
 					4651,
 					4652,
 					4653,
 					17000 + 4651,
 					17000 + 4652,
-					17000 + 4653,
-					IDC_CTAB_CTABHCAMMAP,
-					IDC_CTAB_CTABUAVMAP,
-					17000 + 1200,
-					17000 + 1201,
-					17000 + 12010,
-					17000 + 12011,
-					IDC_CTAB_SCREEN,
-					IDC_CTAB_SCREEN_TOPO,
-					IDC_CTAB_HCAM_FULL,
-					IDC_CTAB_OSD_HOOK_GRID,
-					IDC_CTAB_OSD_HOOK_ELEVATION,
-					IDC_CTAB_OSD_HOOK_DST,
-					IDC_CTAB_OSD_HOOK_DIR,
-					IDC_CTAB_NOTIFICATION]
-				};
-				if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) exitWith {
-					[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
-					4630,
-					17000 + 3300,
-					17000 + 33000,
-					1775,
-					1776,
-					17000 + 46320,
-
-					//-BG
-					17000 + 4630,
-					17000 + 4631,
-					17000 + 4632,
-					17000 + 4650,
-					IDC_CTAB_GROUP_DESKTOP,
-					IDC_CTAB_GROUP_MENU,
-					IDC_CTAB_GROUP_MESSAGE,
-					IDC_CTAB_GROUP_COMPOSE,
-					IDC_CTAB_SCREEN,
-					IDC_CTAB_SCREEN_TOPO,
-					IDC_CTAB_OSD_HOOK_GRID,
-					IDC_CTAB_OSD_HOOK_ELEVATION,
-					IDC_CTAB_OSD_HOOK_DST,
-					IDC_CTAB_OSD_HOOK_DIR,
-					IDC_CTAB_NOTIFICATION]
-				};
-				if (_displayName in ["cTab_FBCB2_dlg","cTab_TAD_dlg"]) exitWith {
-					[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
-					IDC_CTAB_NOTIFICATION]
-				};
-				[IDC_CTAB_NOTIFICATION] // default
-			};
-			if !(_displayItems isEqualTo []) then {
-				_btnActCtrl = _display displayCtrl IDC_CTAB_BTNACT;
-				_displayItemsToShow = [];
-
-				call {
-					// ---------- DESKTOP -----------
-					if (_mode == "DESKTOP") exitWith {
-						_displayItemsToShow pushback IDC_CTAB_GROUP_DESKTOP;
-						_btnActCtrl ctrlSetText "";
-						_btnActCtrl ctrlSetTooltip "";
-					};
-					// ---------- BFT -----------
-					if (_mode == "BFT") exitWith {
-						_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-						_mapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
-						_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
-						_TAC_Vis = true;
-
-						_displayItemsToShow = [
-							_mapIDC,
-							17000 + 1200,
-							17000 + 1201,
-							IDC_CTAB_OSD_HOOK_GRID,
-							IDC_CTAB_OSD_HOOK_ELEVATION,
-							IDC_CTAB_OSD_HOOK_DST,
-							IDC_CTAB_OSD_HOOK_DIR
-						];
-
-						//-Tool Menu
-						if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
-							_showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
-							if (!isNil "_showMenu" && _showMenu) then	{
-								_displayItemsToShow pushBack IDC_CTAB_GROUP_MENU;
-							};
-						};
-
-						_btnActCtrl ctrlSetTooltip "";
-
-						// update scale and world position when not on interface init
-						if (!_interfaceInit) then {
-							if (_isDialog) then {
-								private _widgets = [["BCE_mapTools"], []] select (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]);
-
-								(["mapScaleDlg","mapWorldPos","mapTools"] + _widgets) apply {
-									_settings pushBack [_x,[_displayName,_x] call cTab_fnc_getSettings];
-								};
-							};
-						};
-					};
-					// ---------- _NOT_ BFT -----------
-					if (_isDialog) then {
-						_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-						if (count _mapTypes > 1) then {
-							_targetMapName = [_displayName,"mapType"] call cTab_fnc_getSettings;
-							_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
-							_targetMapCtrl = _display displayCtrl _targetMapIDC;
-
-							// If we find the map to be shown, we are switching away from BFT. Lets save map scale and position
-							if (ctrlShown _targetMapCtrl) then {
-								_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
-								[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScaleDlg",_mapScale]],false] call cTab_fnc_setSettings;
-							};
-						};
-					};
-					// ---------- UAV -----------
-					if (_mode in "UAV") exitWith {
-						_displayItemsToShow = [
-							IDC_CTAB_GROUP_UAV,
-							IDC_CTAB_CTABUAVMAP
-						];
-
-
-						if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
-							private ["_showMenu","_Showlist"];
-							_showMenu = [_displayName,"uavInfo"] call cTab_fnc_getSettings;
-							_Showlist = [17000 + 4630,17000 + 4631,17000 + 4632,17000 + 46320] + [([1776,1775] select (_showMenu))];
-						  _displayItemsToShow append _Showlist;
-						} else {
-							_btnActCtrl ctrlSetTooltip "View Gunner Optics";
-						};
-
-						_settings pushBack ["uavListUpdate",true];
-						if (!_interfaceInit) then {
-							_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
-						};
-					};
-					// ---------- HELMET CAM -----------
-					if (_mode == "HCAM") exitWith {
-						_displayItemsToShow = [
-							IDC_CTAB_GROUP_HCAM,
-							IDC_CTAB_CTABHCAMMAP
-						];
-						_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
-						_settings pushBack ["hCamListUpdate",true];
-						if (!_interfaceInit) then {
-							_settings pushBack ["hCam",[_displayName,"hCam"] call cTab_fnc_getSettings];
-						};
-					};
-					// ---------- MESSAGING -----------
-					if (_mode == "MESSAGE") exitWith {
-						_displayItemsToShow = [IDC_CTAB_GROUP_MESSAGE];
-						call cTab_msg_gui_load;
-						cTabRscLayerMailNotification cutText ["", "PLAIN"];
-						_btnActCtrl ctrlSetTooltip "";
-					};
-					// ---------- MESSAGING COMPOSE -----------
-					if (_mode == "COMPOSE") exitWith {
-						_displayItemsToShow pushBack IDC_CTAB_GROUP_COMPOSE;
-						call cTab_msg_gui_load;
-					};
-
-          // ---------- Task Builder -----------
-          if (_mode == "TASK_Builder") exitWith {
-						_displayItemsToShow = [
-							4651,
-							4652,
-							4653,
-							17000 + 4651,
-							17000 + 4652,
-							17000 + 4653
-						];
-						_btnActCtrl ctrlSetTooltip "";
-					};
-
-					// ---------- FULLSCREEN HELMET CAM -----------
-					if (_mode == "HCAM_FULL") exitWith {
-						_displayItemsToShow = [IDC_CTAB_HCAM_FULL];
-						_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
-						_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
-						['rendertarget13',_data] spawn cTab_fnc_createHelmetCam;
-					};
-				};
-
-				// hide every _displayItems not in _displayItemsToShow
-				{(_display displayCtrl _x) ctrlShow (_x in _displayItemsToShow)} count _displayItems;
-
-				// ---------- Task Builder -----------
-				if (_mode == "TASK_Builder") then {
-					[_display,17000] call BCE_fnc_Reset_TaskList;
-
-					//-Show and Hide Switcable Lists
-					[_display displayCtrl (17000 + 3101),(uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0,0] call BCE_fnc_ctab_Switch_ExtendedList;
-
-					_settings pushBack ["uavListUpdate",true];
-
-					if (!_interfaceInit) then {
-						_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
-					};
-				};
-				// ----------------------------------
+					17000 + 4653
+				];
+				_btnActCtrl ctrlSetTooltip "";
 			};
 
-			//-Check Visibility of BFT
+			// ---------- FULLSCREEN HELMET CAM -----------
+			if (_mode == "HCAM_FULL") exitWith {
+				_displayItemsToShow = [IDC_CTAB_HCAM_FULL];
+				_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
+				_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
+				['rendertarget13',_data] spawn cTab_fnc_createHelmetCam;
+			};
+		};
+
+		// hide every _displayItems not in _displayItemsToShow
+		{(_display displayCtrl _x) ctrlShow (_x in _displayItemsToShow)} count _displayItems;
+
+
+/////////////////////////////////////////////////////////////////////////////////
+			// ---------- Task Builder -----------
+			if (_mode == "TASK_Builder") then {
+				[_display,17000] call BCE_fnc_Reset_TaskList;
+
+				//-Show and Hide Switcable Lists
+				[_display displayCtrl (17000 + 3101),(uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0,0] call BCE_fnc_ctab_Switch_ExtendedList;
+
+				_settings pushBack ["uavListUpdate",true];
+
+				if (!_interfaceInit) then {
+					_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
+				};
+			};
+			// ----------------------------------
+		};
+
+		//-Check Visibility of BFT
 			cTab_player setVariable ["BCE_TACMap_Visiable",_TAC_Vis,true];
 		};
 
@@ -423,7 +471,7 @@ _settings apply {
 				if (!isNull _osdCtrl) then {
 					// divide by 2 because we want to display the radius, not the diameter
 					_mapScaleTxt = if (_mapScaleKm > 1) then {
-							_mapScaleKm / 2
+						_mapScaleKm / 2
 					} else {
 						[_mapScaleKm / 2,0,1] call CBA_fnc_formatNumber
 					};
@@ -465,6 +513,7 @@ _settings apply {
 						if (ctrlShown _previousMapCtrl) exitWith {};
 						_previousMapCtrl = controlNull;
 					} count _mapTypes;
+
 					// See if _targetMapCtrl is already being shown
 					if ((!ctrlShown _targetMapCtrl) && (_targetMapCtrl != _previousMapCtrl)) then {
 						// Update _targetMapCtrl to scale and position of _previousMapCtrl
@@ -555,12 +604,35 @@ _settings apply {
 							};
 						};
 					};
+
 					// If no hCam could be selected, clear last selected hCam
 					if (lbCurSel _hcamListCtrl == -1) then {
 						[_displayName,[["hCam",""]]] call cTab_fnc_setSettings;
 					};
 				};
 			};
+		};
+
+		// ---------- Marker Color -----------
+		if ((_x # 0) == "markerColor") exitWith {
+			private _markerColor = _display displayCtrl (17000 + 1090);
+			if (lbSize _markerColor == 0) then {
+				private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkerColors");
+				{
+					private ["_name","_color","_index"];
+					_name = getText (_x >> "name");
+					_color = (getArray (_x >> "color")) apply {
+					if (_x isEqualType "") then {call compile _x} else {_x};
+					};
+					_index = _markerColor lbAdd _name;
+					_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
+
+					_markerColor lbSetPictureColorSelected [_index, _color];
+					_markerColor lbSetPictureColor [_index, _color];
+					_markerColor lbSetData [_index, str [configName _x, _color]];
+				} count _cfg;
+			};
+			_markerColor lbSetCurSel (_x # 1);
 		};
 
 		// ------------ UAV CAM ------------
@@ -585,7 +657,7 @@ _settings apply {
 
 				//-Create PIP camera if mode is "UAV"
 				if !(isNull _veh) then {
-					[_veh,[[1,["rendertarget8","rendertarget9"] select _UAV_Interface]],unitIsUAV _veh,_UAV_Interface] call cTab_fnc_createUavCam;
+					[_veh,[[1,["rendertarget8","rendertarget9"] select _UAV_Interface]],_UAV_Interface] call cTab_fnc_createUavCam;
 				} else {
 					//-Clean Up if the vehicle is null
 					call cTab_fnc_deleteUAVcam;
@@ -601,7 +673,7 @@ _settings apply {
 				//-Task Builder
 				if !(_UAV_Interface) then {
 					if (_veh_changed) then {
-					  [_display,17000,0] call BCE_fnc_Reset_TaskList;
+						[_display,17000,0] call BCE_fnc_Reset_TaskList;
 					};
 					[_display,_display displayCtrl (17000 + 1787),_veh,true] call BCE_fnc_checkList;
 				};
@@ -626,34 +698,40 @@ _settings apply {
 			};
 		};
 		// ------------ MAP TOOLS ------------
-		if ((_x # 0) in ["mapTools","BCE_mapTools"]) exitWith {
+		if ((_x # 0) in ["mapTools","BCE_mapTools","PLP_mapTools"]) exitWith {
 
 			if ((_x # 0) == "mapTools") then {
-			  cTabDrawMapTools = _x # 1;
+				cTabDrawMapTools = _x # 1;
 			};
 
 			if (_mode == "BFT") then {
 				if !(_displayName in ["cTab_TAD_dlg","cTab_TAD_dsp"]) then {
-					private ["_Tool_toggle","_BCE_toggle","_ToolCtrl","_toggleW","_period","_cal_H","_ToolPOS","_index","_sort"];
+					private ["_Tool_toggle","_BCE_toggle","_PLP_toggle","_ToolCtrl","_toggleW","_period","_MoveDir","_cal_H","_Tool_statment","_toggled_ctrl","_sort"];
+
 					_Tool_toggle = _display displayCtrl (17000 + 1200);
 					_BCE_toggle = _display displayCtrl (17000 + 1201);
+
+					#ifdef PLP_TOOL
+					_PLP_toggle = _display displayCtrl (17000 + 1202);
+					#endif
+
 					_ToolCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_DIR;
 
-					(ctrlPosition _Tool_toggle) params ["","_toggleY","_toggleW","_toggleH"];
+					(ctrlPosition _Tool_toggle) params ["","","_toggleW","_toggleH"];
 					(ctrlPosition _ToolCtrl) params ["_CTRLX","_CTRLY","_CTRLW","_CTRLH"];
 
-					_period = [0.2,0] select _interfaceInit;
+					_period = [0.2,0] select (_interfaceInit || _maptoolsInit);
+					_MoveDir = [1,-1] select ("Android" in _displayName);
 
 					//-Get Y axis and H
 					_cal_H = _CTRLH / 2;
+					_Tool_statment = [
+						[[_CTRLW - _toggleW, 0] select (_MoveDir < 0) , [_CTRLX + (_CTRLW * _MoveDir) ,0]],
+						[[(-_toggleW), _CTRLW] select (_MoveDir < 0), [_CTRLX ,_CTRLW]]
+					];
 
-					_ToolPOS = [
-						[_CTRLW - _toggleW , [_CTRLX + _CTRLW ,0]],
-						[-_toggleW , [_CTRLX ,_CTRLW]]
-					] select (_x # 1);
-
-					_index = switch (_x # 0) do {
-					  case "mapTools": {
+					_toggled_ctrl = switch (_x # 0) do {
+						case "mapTools": {
 							[
 								IDC_CTAB_OSD_HOOK_GRID,
 								IDC_CTAB_OSD_HOOK_DIR,
@@ -664,53 +742,88 @@ _settings apply {
 								if (!isNull _ctrl) then {
 									_ctrl ctrlShow cTabDrawMapTools;
 								};
-								/* (_ToolPOS # 1) params ["_x","_w"];
-								_ctrl ctrlSetPositionX _x;
-								_ctrl ctrlSetPositionW _w;
-								_ctrl ctrlCommit _period; */
 							};
 
-							_Tool_toggle ctrlSetPositionX (_CTRLX + (_ToolPOS # 0));
+							_Tool_toggle
+						};
 
-							0
-					  };
+						#ifdef PLP_TOOL
+							case "PLP_mapTools": {
+							private _status = _x # 1;
+							private _ctrl = _display displayCtrl (17000 + 12012);
+							(_display displayCtrl 73454) ctrlshow _status;
+
+							if (_status) then {
+								[_ctrl,lbCurSel _ctrl] call BCE_fnc_ctab_BFT_ToolBox;
+							} else {
+								private _PLP_EH = uiNamespace getVariable ["PLP_SMT_EH",-1];
+								private _PLP_Tool = _display displayCtrl 73453;
+
+								if !(isNull _PLP_Tool) then {
+									ctrlDelete _PLP_Tool;
+								};
+
+								if (_PLP_EH > 0) then {
+									private ["_mapTypes","_currentMapType","_currentMapTypeIndex","_mapIDC"];
+									_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+									_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
+									_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
+									_mapIDC = _mapTypes # _currentMapTypeIndex # 1;
+									(_display displayCtrl _mapIDC) ctrlRemoveEventHandler ["Draw",_PLP_EH];
+								};
+							};
+
+							_PLP_toggle
+							};
+						#endif
 
 						case "BCE_mapTools": {
 							private _status = _x # 1;
-
-							[12010, 12011] apply {
-								private _ctrl = _display displayCtrl (17000 + _x);
-
-								(_ToolPOS # 1) params ["_Cx","_Cw"];
-								_ctrl ctrlSetPositionX _Cx;
-								_ctrl ctrlSetPositionW _Cw;
-
-								_ctrl ctrlshow _status;
-								_ctrl ctrlCommit _period;
-							};
-
-						  _BCE_toggle ctrlSetPositionX (_CTRLX + (_ToolPOS # 0));
-
 							private _list = _display displayCtrl (17000 + 12010);
 							[_list, lbCurSel _list, _status] call BCE_fnc_ctab_BFT_ToolBox;
 
-							1
+							_BCE_toggle
 						};
 					};
 
-					_sort = [
-						[[], 4, "mapTools"],
-						[[17000 + 1201, 17000 + 12011, 17000 + 12010], 4, "BCE_mapTools"]
-					] apply {
-						_x params ["_idc","_size","_id"];
+					_sort = [];
+					{
+					if (isnull (_x # 0)) then {continue};
+					_x params ["_toggle","_idc","_size","_id"];
 
-						private _ctrl = _idc apply {
-							[controlNull,_display displayctrl _x] select (_x > 0);
+					private _status = [_displayName,_id] call cTab_fnc_getSettings;
+					private _POS = _Tool_statment select _status;
+
+					private _ctrls = [_toggle] + (_idc apply {
+						_x params ["_IDC",["_showOnInit",true]];
+						private _c = _display displayctrl (17000 + _IDC);
+						if (_showOnInit) then {
+						 _c ctrlshow _status;
 						};
 
-						//-Output
-						[_ctrl, _size * _CTRLH, [_displayName,_id] call cTab_fnc_getSettings]
-					};
+						//-Preset of List Content
+						if (_MoveDir < 0) then {
+							_c ctrlSetPositionX _CTRLX;
+							_c ctrlCommit 0;
+						};
+
+						(_POS # 1) params ["_Cx","_Cw"];
+						_c ctrlSetPositionX _Cx;
+						_c ctrlSetPositionW _Cw;
+						_c
+					});
+
+					_toggle ctrlSetPositionX (_CTRLX + (_POS # 0));
+
+					//-Output
+					_sort pushBack [_ctrls, _size * _CTRLH, _status];
+					} forEach [
+						[_Tool_toggle,[], 4, "mapTools"],
+						#ifdef PLP_TOOL
+							[_PLP_toggle,[12012], 6, "PLP_mapTools"],
+						#endif
+						[_BCE_toggle,[[12011,false], 12010], 4, "BCE_mapTools"]
+					];
 
 					//- Set Y axis of current selected ctrl
 					private _i = _CTRLY + _CTRLH;
@@ -719,30 +832,24 @@ _settings apply {
 					{
 						_x params ["_ctrls","_H",["_Open",false]];
 
-						if (_forEachIndex > 0) then {
-							private _j = 0;
-							{
-								if (isnull _x) then {continue};
-								private ["_Start","_Cy"];
+						private _j = 0;
+						{
+							private ["_Start","_Cy"];
 
-								_Start = _forEachIndex == 0;
-								_Cy = [_i - _H + _j, _i - _toggleH] select _Start;
+							_Start = _forEachIndex == 0;
+							_Cy = [_i - _H + _j, _i - _toggleH] select _Start;
 
-								_x ctrlSetPositionY _Cy;
-								_x ctrlCommit _period;
+							_x ctrlSetPositionY _Cy;
+							_x ctrlCommit _period;
 
-								if !(_Start) then {
-								  _j = _j + ((ctrlPosition _x) # 3);
-								};
-							} forEach _ctrls;
-						};
+							if !(_Start) then {
+								_j = _j + ((ctrlPosition _x) # 3);
+							};
+						} forEach _ctrls;
 
 						_i = _i - (_cal_H / 4) - ([_toggleH, _H] select _Open);
-					} forEach _sort;
+					} count _sort;
 
-					//-Commit
-					_Tool_toggle ctrlCommit _period;
-					_BCE_toggle ctrlCommit _period;
 				};
 
 				//--------------------------------//
@@ -759,13 +866,39 @@ _settings apply {
 			};
 		};
 
-		// ------------ MENU ------------
-		if (_x # 0 == "showMenu") exitWith {
-			_osdCtrl = _display displayCtrl IDC_CTAB_GROUP_MENU;
-			if (!isNull _osdCtrl) then {
-				if (_mode == "BFT") then {
-					_osdCtrl ctrlShow (_x # 1);
-					//ctrlSetFocus _osdCtrl;
+		// ---------- ATAK Tools -----------
+		if (((_x # 0) == "showMenu") && (_mode == "BFT")) exitWith {
+			{
+				(_display displayCtrl _x) ctrlShow false
+			} count [IDC_CTAB_GROUP_MENU, 17000 + 4660, 17000 + 4661, 17000 + 4662, 17000 + 4663];
+
+			(_x # 1) params ["_page","_show"];
+		
+			private _show_IDC = [_display, _page, (_page != "main") && _show] call BCE_fnc_ATAK_openPage;
+			{
+				if (isnil{_x}) exitwith {};
+				(_display displayCtrl _x) ctrlShow _show;
+			} count [IDC_CTAB_GROUP_MENU,_show_IDC];
+			
+			if (_show) then {
+				private ["_group","_ctrl"];
+				//-ATAK Control Adjustments
+				switch (_page) do {
+					case "mission": {
+						//-restore Task Type
+						_group = _display displayCtrl (17000 + 4661);
+						_group ctrlSetScrollValues [uiNamespace getVariable ["BCE_ATAK_Scroll_Value",0], -1];
+
+						_ctrl = _group controlsGroupCtrl (17000 + 2107);
+						_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
+					};
+					case "Task_Result": {
+						_group = _display displayCtrl (17000 + 4663);
+						_ctrl = _group controlsGroupCtrl 11;
+						private _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+						private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
+						[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
+					};
 				};
 			};
 		};

@@ -45,9 +45,9 @@ if (_index < 0) exitWith {
         #if PLP_TOOL == 1
           _h = 2.3 * (0.85 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25));
           _text = format [
-            '%1POLPOX Tools <br/><t align="left">Simple :<t align="right" color="#edff24">%2</t></t>',
+            '%1POLPOX Tools <br/><t align="left">Simple :<t align="right" color="#edff24">“%3”</t></t>',
             _image,
-            """Ctrl + R Click"""
+            localize "STR_BCE_Ctrl_R_Click"
           ];
         #endif
         #if PLP_TOOL == 2
@@ -61,10 +61,10 @@ if (_index < 0) exitWith {
         #if PLP_TOOL == 3
           _h = 3.3 * (0.85 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25));
           _text = format [
-            '%1POLPOX Tools <br/><t align="left">Remastered :<t align="right" color="#edff24">%2</t><br/>Simple :<t align="right" color="#edff24">%3</t></t>',
+            '%1POLPOX Tools <br/><t align="left">Remastered :<t align="right" color="#edff24">%2</t><br/>Simple :<t align="right" color="#edff24">“%3”</t></t>',
             _image,
             keyImage ((actionKeys "PLP_SMT_OpenTools") # 0),
-            """Ctrl + R Click"""
+            localize "STR_BCE_Ctrl_R_Click"
           ];
         #endif
         _ctrl ctrlSetPositionH _h;
@@ -92,7 +92,7 @@ if (_index < 0) exitWith {
 
   //-Exit if there map illumination is disabled or no flashlight available
   if ((_index == 2) && ((count ([ace_player] call ace_map_fnc_getUnitFlashlights) == 0) || !(ace_map_mapillumination))) exitWith {
-    systemchat "No FlashLight Available, Check your inventory.";
+    systemchat localize "STR_BCE_Map_No_FlashLight";
   };
 
   if (_index == 2) then {

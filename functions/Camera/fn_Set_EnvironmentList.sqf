@@ -5,7 +5,7 @@ if (isnull _ctrl) exitWith {};
 _colors = [[1,0,0,1],[1,1,0,1],[0,1,0,1]];
 _exclude = {
   params ["_factor","_titles",["_color",true],["_custom_Txt",""]];
-  private ["_index","_result"];
+  private ["_index","_text","_result"];
   _index = switch true do {
     case (_factor > 0.5): {
       0
@@ -17,10 +17,13 @@ _exclude = {
       2
     };
   };
+
+  _text = localize ("STR_BCE_Env_" + (_titles # _index));
   _result = [[
-    format["%1 “%2”",_titles # _index,_custom_Txt],
-    _titles # _index
+    format["%1 “%2”",_text,_custom_Txt],
+    _text
   ] select (_custom_Txt == "")];
+
   if (_color) then {
     _result pushBack (_colors # _index);
   };
@@ -34,13 +37,13 @@ for "_i" from 0 to _end step 1 do {
   } else {
     private _var = switch _i do {
       case 2: {
-        [windStr,["Strong","Gentle","Calm"],false,(windDir - 180) call BCE_fnc_getAzimuth]
+        [windStr,["wind_Strong","wind_Gentle","wind_Calm"],false,(windDir - 180) call BCE_fnc_getAzimuth]
       };
       case 3: {
-        [fog,["Haze","Mist","Clear"]]
+        [fog,["fog_Haze","fog_Mist","fog_Clear"]]
       };
       default {
-        [(fog + (getLighting # 3)) / 2,["Very Bad","Bad","Good"]]
+        [(fog + (getLighting # 3)) / 2,["vis_Very_Bad","vis_Bad","vis_Good"]]
       };
     };
 

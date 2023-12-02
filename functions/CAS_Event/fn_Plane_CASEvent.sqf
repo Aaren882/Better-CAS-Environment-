@@ -2,20 +2,40 @@ params ["_vehicle",["_IP_POS",[]],"_FAD_POS","_posTarget","_EGRS","_weaponInfo",
 _weaponInfo params ["_WPNclass","_WPN_Mode","_WPN_turret","_WPN_count","_muzzle","_ATK_range","_ATK_height"];
 
 if (
-  !canMove _vehicle or
-  !alive driver _vehicle or
-  fuel _vehicle == 0 or
+  !canMove _vehicle ||
+  !alive driver _vehicle ||
+  fuel _vehicle == 0 ||
   unitIsUAV _vehicle
 ) exitWith {};
 
+private ["_isAVT","_isGunShip","_has_IP","_remarks","_task_info","_grp"];
+
+_isAVT = !isnull (finddisplay 160);
 if ((_vehicle getVariable ["BCE_Task_Receiver", []]) isNotEqualTo []) exitWith {
-  hint str "This Aircraft is Unavailable for a New Task";
+  if (_isAVT) then {
+    hint localize "STR_BCE_Error_Unavailable";
+  } else {
+    [
+      "TASK_Builder",
+      localize "STR_BCE_Error_Unavailable",
+      5
+    ] call cTab_fnc_addNotification;
+  };
 };
 
-hint "Data Sent.";
+if (_isAVT) then {
+  hint localize "STR_BCE_DataSent";
+} else {
+  [
+    "TASK_Builder",
+    localize "STR_BCE_DataSent",
+    5
+  ] call cTab_fnc_addNotification;
+};
 
+//-is Player
 if ((isMultiplayer) && (isplayer _vehicle)) then {
-  [["BCE", "Task_Received"],15,"",35,"",false,false,true] remoteExec ["BIS_fnc_advHint",_vehicle,true];
+  [["BCE", "Task_Received"],15,"",35,"",true,false,true] remoteExec ["BIS_fnc_advHint",_vehicle,true];
 };
 
 _isGunShip = (typeof _vehicle) in ["B_T_VTOL_01_armed_F","USAF_AC130U"];
@@ -43,15 +63,15 @@ if (((_remarks # 0) == "NA") && !(_has_IP)) then {
   _remarks set [0,_text];
   _remarks set [1,_HDG];
 };
-private _task_info = [player,group player,_type,_taskVar,call BCE_fnc_UpdateTime];
+_task_info = [player,group player,_type,_taskVar,call BCE_fnc_UpdateTime];
 _vehicle setVariable ["BCE_Task_Receiver", _task_info, true];
 
-if ((_vehicle isKindOf "Helicopter") or !(BCE_AI_CAS_Support_fn) or (isplayer _vehicle) or (_isGunShip)) exitWith {};
+if ((_vehicle isKindOf "Helicopter") || !(BCE_AI_CAS_Support_fn) || (isplayer _vehicle) || (_isGunShip)) exitWith {};
 
 _vehicle disableAI "TARGET";
 _vehicle disableAI "AUTOTARGET";
 
-private _grp = group _vehicle;
+_grp = group _vehicle;
 
 //-Clear Waypoints
 for "_i" from count waypoints _grp - 1 to 1 step -1 do {
@@ -118,7 +138,7 @@ if ((_vehicle distance2D _posTarget) <= (_vehicle distance2D _IP)) then {
           [{
               params ["_ActWP","_grp","_vehicle"];
 
-              ((currentWaypoint _grp) > _ActWP) or !(alive _vehicle) or (isplayer _vehicle) or ((_vehicle getVariable ["BCE_Task_Receiver", []]) isEqualTo [])
+              ((currentWaypoint _grp) > _ActWP) || !(alive _vehicle) || (isplayer _vehicle) || ((_vehicle getVariable ["BCE_Task_Receiver", []]) isEqualTo [])
             }, {
               params ["_ActWP","_grp","_vehicle"];
 
@@ -176,7 +196,7 @@ if ((_vehicle distance2D _posTarget) <= (_vehicle distance2D _IP)) then {
           [{
               params ["_ActWP","_grp","_vehicle"];
 
-              ((currentWaypoint _grp) > _ActWP) or !(alive _vehicle) or (isplayer _vehicle) or ((_vehicle getVariable ["BCE_Task_Receiver", []]) isEqualTo [])
+              ((currentWaypoint _grp) > _ActWP) || !(alive _vehicle) || (isplayer _vehicle) || ((_vehicle getVariable ["BCE_Task_Receiver", []]) isEqualTo [])
             }, {
               params ["_ActWP","_grp","_vehicle"];
 
