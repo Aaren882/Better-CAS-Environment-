@@ -47,7 +47,7 @@ switch _curLine do {
 
     _Count = _setCount;
 
-    _isnil = isnil _ordance;
+    _isnil = isnil {_ordnanceInfo};
     _text = format ["%1 %2 %3 %4m",_typeCAS,_typeATK,[_WeapName,"NA"] select _isnil,_height];
 
     _result = [
@@ -58,7 +58,7 @@ switch _curLine do {
       [lbCurSel _ctrl,lbCurSel _type,lbCurSel _CTweap,lbCurSel _CTmode,_rangeIndex,str _setCount,str _height]
     ];
 
-    if (isnil _WeapName) then {
+    if !(isnil {_WeapName}) then {
       _result set [3,_ordnanceInfo + [_ATK_range,_height]];
     };
     
