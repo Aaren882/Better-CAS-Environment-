@@ -267,9 +267,9 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
   //-Only can show Display instead dialog
   #ifdef cTAB_Installed
-  	#define exitCdt (!(isnull curatorcamera) || (isnil{if (isnil {cTabIfOpen}) then {""} else {["",nil] select ([cTabIfOpen select 1] call cTab_fnc_isDialog);};}))
+    #define exitCdt (!(isnull curatorcamera) || (isnil{if (isnil {cTabIfOpen}) then {""} else {["",nil] select ([cTabIfOpen select 1] call cTab_fnc_isDialog);};}))
   #else
-  	#define exitCdt !(isnull curatorcamera)
+    #define exitCdt !(isnull curatorcamera)
   #endif
 
   //-Exit
@@ -284,10 +284,10 @@ _idEH = addMissionEventHandler ["Draw3D", {
         camDestroy _cam;
       };
 
-  		ppEffectDestroy (TGP_View_Camera # 1);
+      ppEffectDestroy (TGP_View_Camera # 1);
 
-  		556 cutRsc ["default","PLAIN"];
-  		cutText ["", "BLACK IN",0.5];
+      556 cutRsc ["default","PLAIN"];
+      cutText ["", "BLACK IN",0.5];
 
       #ifdef have_ACE
         if !(BCE_have_ACE_earPlugs) then {
@@ -304,10 +304,10 @@ _idEH = addMissionEventHandler ["Draw3D", {
       [2] call BCE_fnc_OpticMode;
     };
 
-		private _current_EH = _player getVariable ["TGP_View_EHs",-1];
+    private _current_EH = _player getVariable ["TGP_View_EHs",-1];
     if (_current_EH != -1) then {
       removeMissionEventHandler ["Draw3D", _thisEventHandler];
-  		_player setVariable ["TGP_View_EHs",-1,true];
+      _player setVariable ["TGP_View_EHs",-1,true];
     };
   };
 },[
