@@ -725,6 +725,7 @@ class CfgFunctions
 				class ATAK_getScrollValue;
 				class ATAK_PullData;
 				class ATAK_ShowTaskResult;
+				class ATAK_onVehicleChanged;
 			};
 		#endif
 	};

@@ -37,20 +37,25 @@ if (_ctrlTitle == localize "STR_BCE_Enter") exitWith {
 
 //-Send Data
 if (_ctrlTitle == localize "STR_BCE_SendData") exitWith {
-	private ["_sel_TaskType","_vehicle"];
-	_sel_TaskType = _curType;
+	private ["_vehicle","_sel_TaskType","_NotAVT"];
+
 	_vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
-	if ((isnull _vehicle) || (count (_vehicle getVariable ["BCE_Task_Receiver",[]])) > 0) exitWith {
+	if (
+		(isnull _vehicle) || 
+		(count (_vehicle getVariable ["BCE_Task_Receiver",[]])) > 0
+	) exitWith {
 		[
 			"BFT",
 			localize ("STR_BCE_Error_" + (["Unavailable","Vehicle"] select (isnull _vehicle))),
 			5
 		] call cTab_fnc_addNotification;
 	};
-	call BCE_fnc_SendTaskData;
-
-	_bnt ctrlSetText localize "STR_BCE_Abort_Task";
-	_bnt ctrlSetBackgroundColor [1,0,0,0.5];
+	_sel_TaskType = _curType;
+	_NotAVT = true;
+	if (call BCE_fnc_SendTaskData) then {
+		_bnt ctrlSetText localize "STR_BCE_Abort_Task";
+		_bnt ctrlSetBackgroundColor [1,0,0,0.5];
+	};
 };
 
 //-Abort Mission

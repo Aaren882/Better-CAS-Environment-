@@ -8,12 +8,32 @@ if (
   unitIsUAV _vehicle
 ) exitWith {};
 
+private ["_isAVT","_isGunShip","_has_IP","_remarks","_task_info","_grp"];
+
+_isAVT = !isnull (finddisplay 160);
 if ((_vehicle getVariable ["BCE_Task_Receiver", []]) isNotEqualTo []) exitWith {
-  hint str localize "STR_BCE_Error_Unavailable";
+  if (_isAVT) then {
+    hint localize "STR_BCE_Error_Unavailable";
+  } else {
+    [
+      "TASK_Builder",
+      localize "STR_BCE_Error_Unavailable",
+      5
+    ] call cTab_fnc_addNotification;
+  };
 };
 
-hint localize "STR_BCE_DataSent";
+if (_isAVT) then {
+  hint localize "STR_BCE_DataSent";
+} else {
+  [
+    "TASK_Builder",
+    localize "STR_BCE_DataSent",
+    5
+  ] call cTab_fnc_addNotification;
+};
 
+//-is Player
 if ((isMultiplayer) && (isplayer _vehicle)) then {
   [["BCE", "Task_Received"],15,"",35,"",true,false,true] remoteExec ["BIS_fnc_advHint",_vehicle,true];
 };
@@ -43,7 +63,7 @@ if (((_remarks # 0) == "NA") && !(_has_IP)) then {
   _remarks set [0,_text];
   _remarks set [1,_HDG];
 };
-private _task_info = [player,group player,_type,_taskVar,call BCE_fnc_UpdateTime];
+_task_info = [player,group player,_type,_taskVar,call BCE_fnc_UpdateTime];
 _vehicle setVariable ["BCE_Task_Receiver", _task_info, true];
 
 if ((_vehicle isKindOf "Helicopter") || !(BCE_AI_CAS_Support_fn) || (isplayer _vehicle) || (_isGunShip)) exitWith {};
@@ -51,7 +71,7 @@ if ((_vehicle isKindOf "Helicopter") || !(BCE_AI_CAS_Support_fn) || (isplayer _v
 _vehicle disableAI "TARGET";
 _vehicle disableAI "AUTOTARGET";
 
-private _grp = group _vehicle;
+_grp = group _vehicle;
 
 //-Clear Waypoints
 for "_i" from count waypoints _grp - 1 to 1 step -1 do {

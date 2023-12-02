@@ -141,9 +141,9 @@
 		</Key>
 		
 		<Key ID="STR_BCE_Error_ControlTurret">
-			<Original>Unable to Control the Turret.</Original>
-			<Chinese>無法控制砲塔。</Chinese>
-			<Chinesesimp>无法控制炮塔。</Chinesesimp>
+			<Original>Unable to Control this Turret.</Original>
+			<Chinese>無法控制此砲塔。</Chinese>
+			<Chinesesimp>无法控制此炮塔。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Error_TaskSupport">
 			<Original>Current task is not supported.</Original>
@@ -164,6 +164,32 @@
 			<Original>Check Target Position is being filed.</Original>
 			<Chinese>檢查是否填寫目標位置。</Chinese>
 			<Chinesesimp>检查是否填写目标位置。</Chinesesimp>
+		</Key>
+		
+		<Key ID="STR_BCE_DESC_Custom">
+			<Original>Custom Description</Original>
+			<Chinese>自定義描述</Chinese>
+			<Chinesesimp>自定义描述</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_DESC_Open">
+			<Original>In the open</Original>
+			<Chinese>位於空曠處</Chinese>
+			<Chinesesimp>位于空旷处</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_DESC_Cover">
+			<Original>Under Cover</Original>
+			<Chinese>掩體中</Chinese>
+			<Chinesesimp>掩体中</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_DESC_treeline">
+			<Original>In treeline</Original>
+			<Chinese>在樹林線中</Chinese>
+			<Chinesesimp>在树林线中</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_DESC_Hardstructure">
+			<Original>Hardstructure</Original>
+			<Chinese>堅固建築</Chinese>
+			<Chinesesimp>坚固建筑</Chinesesimp>
 		</Key>
 		
 		

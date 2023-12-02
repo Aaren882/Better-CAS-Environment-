@@ -611,31 +611,31 @@ PHONE_CLASS
 					{
 						class Custom
 						{
-							text = "Custom Description";
+							text = "$STR_BCE_DESC_Custom";
 							textRight = "";
 							value = 0;
 							default = 1;
 						};
 						class Open
 						{
-							text = "In the open";
+							text = "$STR_BCE_DESC_Open";
 							textRight = "";
 							value = 1;
 							color[]={0.65,0.65,0.65,1};
 						};
 						class Cover: Open
 						{
-							text = "Under Cover";
+							text = "$STR_BCE_DESC_Cover";
 							value = 2;
 						};
 						class treeline: Open
 						{
-							text = "In treeline";
+							text = "$STR_BCE_DESC_treeline";
 							value = 3;
 						};
 						class Hardstructure: Open
 						{
-							text = "Hardstructure";
+							text = "$STR_BCE_DESC_Hardstructure";
 							value = 4;
 						};
 					};

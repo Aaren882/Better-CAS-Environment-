@@ -63,7 +63,7 @@ call {
         
         //-ATAK
         if ("Android" in _displayName) then {
-          _display call BCE_fnc_ATAK_Refresh_Weapons;
+          [true,_display] call BCE_fnc_ATAK_onVehicleChanged;
         };
       };
     };
@@ -81,8 +81,7 @@ call {
 
     //-ATAK
     if ("Android" in _displayName) then {
-      private _group = _display displayCtrl (17000 + 4661);
-      {lbClear (_group controlsGroupCtrl (17000 + 2020 + _x))} count [0,1];
+      [false,_display] call BCE_fnc_ATAK_onVehicleChanged;
     };
 	};
 
