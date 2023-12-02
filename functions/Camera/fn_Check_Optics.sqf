@@ -1,5 +1,5 @@
 params ["_vehicle",["_mode",-1]];
-private ["_class_veh","_allTurrets","_config_path","_pilot_cam_LOD","_Turrets_Optics","_Optic_LODs","_turret_Weapons"];
+private ["_class_veh","_allTurrets","_config_path","_pilot_cam_LOD","_Turrets_Optics","_Optic_LODs","_turret_Weapons","_return"];
 
 //-exit if _vehicle is not Vehicle
 if !(_vehicle in vehicles) exitWith {[]};

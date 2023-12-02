@@ -118,6 +118,7 @@ _widgets_01 = [
 
   _key = (["Better CAS Environment (TGP)", _action] call CBA_fnc_getKeybind) # 8 # 0 # 0;
   _index = _widget_01_ctrl lbAdd format ["%1 %2", localize _text, keyImage _key];
+
   _widget_01_ctrl lbSetPicture [_index,"\a3\ui_f\data\Map\Markers\Military\dot_CA.paa"];
 
   _color = [
