@@ -41,12 +41,14 @@ PHONE_CLASS
 	#endif
 	class controlsBackground
 	{
-		#ifdef MOUSE_CLICK_EH
-			class screen: cTab_android_RscMapControl
-			{
+		
+		class screen: cTab_android_RscMapControl
+		{
+			#ifdef MOUSE_CLICK_EH
 				onMouseButtonClick = MOUSE_CLICK_EH;
-			};
-		#endif
+			#endif
+		};
+		
 		#if MAP_MODE > 2
 			class screenTopo: screen
 			{

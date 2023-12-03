@@ -29,22 +29,20 @@ _mark = {
 };
 
 if (_button == 0) then {
-  _cTab_show = ["cTab_Android_dlg" in cTabIfOpen, false] select (isnil {cTabIfOpen});
-  _IDC_Offset = [0,17000] select (_cTab_show);
+  _cTab_show = ["cTab_Android_dlg" in cTabIfOpen, true] select (isnil {cTabIfOpen});
+  
+  //- "AV Terminal" or "Andorid Phone" or "cTab Tablet"
+  if ((!(isnull findDisplay 160) || (_IDC_Offset > 0)) && _cTab_show) then {
 
-  //- "AV Terminal" or "Andorid Phone"
-  if (!(isnull findDisplay 160) || (_IDC_Offset > 0)) then {
     _ctrlCombo = _display displayctrl (_IDC_Offset + 2013);
-
     _type = _display displayctrl (_IDC_Offset + 2012);
-
     if (
         (_alt) &&
         !(ctrlshown _ctrlCombo) &&
-        (
+        ([(
           (ctrlshown _type) ||
           (ctrlshown (_display displayctrl (_IDC_Offset + 20121)))
-        ) &&
+        ), true] select (17000 == _IDC_Offset)) &&
         (
           !(ctrlshown _type) ||
           !(_type lbText (lbCurSel _type) == (localize "STR_BCE_Tit_OverHead"))
