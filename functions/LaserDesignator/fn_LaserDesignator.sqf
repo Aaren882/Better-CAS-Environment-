@@ -1,32 +1,31 @@
 params ["_unit"];
 
-private _is_Server = BCE_SYSTEM_Handler == str player;
+private _is_Server = [BCE_SYSTEM_Handler == str player, true] select (!isMultiplayer || isMultiplayerSolo);
 
 //Air Vehicles
 if (_unit isKindOf "Air") then {
   private ["_lightL","_light_object","_Attach","_wRot"];
 
+  //-remove object from AIs (Server Side) 
+  if (!(BCE_veh_IR_S_fn) || ((BCE_AIAir_IR_fn) && !(isplayer _unit))) exitWith {
+    if !((_unit getVariable ["IR_LaserLight_Source_Air",[]]) isEqualTo []) then {
+      {deleteVehicle _x} count (_unit getVariable "IR_LaserLight_Source_Air");
+      _unit setVariable ["IR_LaserLight_Source_Air",[],true];
+    };
+  };
+
+  //-Apply
   ([_unit, 1] call BCE_fnc_Check_Optics) apply {
-    _x params [["_isTurret",false],["_vars_turret",["","",""]]];
+    _x params [["_isTurret",false],["_vars_turret",["",[0,0,0],"",""]]];
 
-    if (((_unit getVariable ["IR_LaserLight_Source_Air",[]]) isEqualTo []) && (BCE_veh_IR_S_fn) && (_is_Server)) then {
-
-      //-remove object from AIs (Server Side)
-      if ((BCE_AIAir_IR_fn) && !(isplayer _unit)) exitWith {
-        if !((_unit getVariable ["IR_LaserLight_Source_Air",[]]) isEqualTo []) then {
-          {deleteVehicle _x} forEach (_unit getVariable "IR_LaserLight_Source_Air");
-          _unit setVariable ["IR_LaserLight_Source_Air",[],true];
-        };
-      };
+    if (((_unit getVariable ["IR_LaserLight_Source_Air",[]]) isEqualTo []) && (_is_Server)) then {
 
       _lightL = "Reflector_Cone_IR_Laser_F" createVehicle [0,0,0];
       _light_object = createSimpleObject [["A3\data_f\VolumeLight_searchLight.p3d","A3\data_f\VolumeLight_searchLightSmall.p3d"] select (_unit iskindOf "Helicopter"),[0,0,0]];
-      [_lightL,_light_object] apply {_x hideObject true};
-
-      _Attach = [_unit, _vars_turret # 1, _vars_turret # 0];
-
-      _lightL attachTo _Attach;
-      _light_object attachTo _Attach;
+      [_lightL,_light_object] apply {
+        _x attachTo [_unit, _vars_turret # 1, _vars_turret # 0];
+        _x hideObject true;
+      };
 
       _unit setVariable ["IR_LaserLight_Source_Air",[_lightL,_light_object],true];
       _unit setVariable ["IR_LaserLight_Source_hide",true,true];
@@ -43,7 +42,6 @@ if (_unit isKindOf "Air") then {
 
       _wRot = if (_isTurret) then {
         (_unit selectionVectorDirAndUp [(_vars_turret # 0), "Memory"]) # 0
-        //[_unit,_vars_turret # 2] call BCE_fnc_getTurretDir
       } else {
         [
           (_unit getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1,

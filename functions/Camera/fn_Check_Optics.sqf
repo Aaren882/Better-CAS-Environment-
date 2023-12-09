@@ -140,7 +140,7 @@ if (count _turret_Weapons > 0) then {
 
   private _result = _turret_Weapons apply {
     _x params ["_turret"];
-    private ["_is_turret","_gunBeg","_config","_turret_pos_mem","_offset"];
+    private ["_is_turret","_config","_turret_pos_mem","_gunBeg","_offset"];
 
     _is_turret = (_turret # 0) >= 0;
 
