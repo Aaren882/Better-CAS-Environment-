@@ -1,9 +1,8 @@
 #include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 
 addMissionEventHandler ["EachFrame", {
-  _LaserLight_UnitList = missionNamespace getVariable ["IR_LaserLight_UnitList", []];
-  if (count _LaserLight_UnitList > 0) then {
-    _LaserLight_UnitList apply {
+  if (count IR_LaserLight_UnitList > 0) then {
+    IR_LaserLight_UnitList apply {
       if (_x call BCE_fnc_isLaserOn) then {
         _x call BCE_fnc_LaserDesignator;
       } else {

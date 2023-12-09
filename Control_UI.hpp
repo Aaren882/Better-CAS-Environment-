@@ -133,7 +133,7 @@ class RscDisplay_TGP_Control_UI: RscDisplayAttributesModuleCAS
 		class Background: Background{};
 		class Title: Title
 		{
-			text = "Select TGP View";
+			text = "$STR_BCE_Select_AV_Camera";
 		};
 		class Content: Content
 		{
@@ -220,7 +220,6 @@ class RscDisplayAVTerminal
 			idc = 1700;
 			sizeEx = "0.023*SafezoneH";
 			y = "0.6 * safezoneH + safezoneY";
-			tooltip = "TGP View";
 			class Items
 			{
 				class Empty
@@ -368,7 +367,7 @@ class RscDisplayAVTerminal
 			idc = 1608;
 			y = "0.78 * safezoneH + safezoneY";
 			text = "TG";
-			tooltip = "$STR_BCE_Widget_AV";
+			tooltip = "$STR_BCE_Widget_TG";
 			onButtonClick = "if (uinamespace getVariable ['BCE_Terminal_Targeting',true]) then {(_this # 0) ctrlSetTextColor [1, 0, 0, 0.5]; uinamespace setVariable ['BCE_Terminal_Targeting',false];} else {uinamespace setVariable ['BCE_Terminal_Targeting',true]; (_this # 0) ctrlSetTextColor [1, 1, 1, 1];};";
 		};
 		class BCE_SelColor_AV: BCE_Vehicles_AV

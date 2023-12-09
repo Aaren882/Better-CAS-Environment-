@@ -1,5 +1,6 @@
 params["_light","_wRot","_isTurret"];
-
+private ["_offset","_offset2","_wVec","_vDirUp"];
+//hintsilent str [_light,isSimpleObject _light,time];
 _offset = [1,-1] select (isSimpleObject _light);
 _offset2 = [1,-1] select (_isTurret);
 _wVec = _wRot apply {(linearConversion [-1,1,_x,-65,65,true])};
