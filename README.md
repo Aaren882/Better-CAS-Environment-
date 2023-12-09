@@ -1,4 +1,4 @@
-# Better-CAS-Environmen
+# Better CAS Environment
 
 ### What Does It Do?
 This mod is to provide better communication for Close Air Support or Air Support missions
