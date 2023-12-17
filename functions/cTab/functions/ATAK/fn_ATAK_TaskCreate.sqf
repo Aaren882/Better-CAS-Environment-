@@ -36,4 +36,4 @@ _shownCtrls = [_components,_curLine,1,true] call BCE_fnc_Show_CurTaskCtrls;
 call ([BCE_fnc_DblClick9line, BCE_fnc_DblClick5line] # _curType);
 
 _description ctrlCommit 0;
-_description ctrlSetStructuredText parseText format ["%1<br/>%2", localize "STR_BCE_Description", (localize (_desc # _curLine)) call BCE_fnc_formatLanguage];
+_description ctrlSetStructuredText parseText format ["%1<br/>%2", localize "STR_BCE_Description", localize (_desc # _curLine)];

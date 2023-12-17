@@ -82,7 +82,7 @@ switch _curLine do {
 
       //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5: Mark Info]
       if !(_TGPOS isEqualTo []) then {
-        _markerInfo = format ["Marker: %1 [%2] %3", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8), _info];
+        _markerInfo = format ["FRND: %1 [%2] %3", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8), _info];
         _TGPOS resize [3, 0];
         _taskVar set [1,
           [
@@ -119,7 +119,7 @@ switch _curLine do {
       } else {
         _TGPOS = getpos cameraOn;
         _TGPOS set [2,0];
-        _markerInfo = format ["GRID: [%1]",mapGridPosition _TGPOS];
+        _markerInfo = format ["FRND: [%1] %2",mapGridPosition _TGPOS, _info];
         _taskVar set [1,
           [
             _markerInfo,
@@ -143,7 +143,7 @@ switch _curLine do {
 
       //-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5:Elevation(ASL), 6:RAM]
       if !(_TGPOS isEqualTo []) then {
-        _markerInfo = format ["Marker: %1 [%2]", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8)];
+        _markerInfo = format ["%1 [%2]", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8)];
         _TGPOS resize [3, 0];
         _taskVar set [2,
           [

@@ -418,6 +418,11 @@
 			<Chinesesimp>TGP 指向的位置</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Widget_COR">
+			<Original>Icon Color</Original>
+			<Chinese>圖示顏色</Chinese>
+			<Chinesesimp>图示颜色</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Widget_BG">
 			<Original>Map Brightness</Original>
 			<Chinese>地圖亮度</Chinese>
 			<Chinesesimp>地图亮度</Chinesesimp>
@@ -686,39 +691,39 @@
 		
 		
 		<Key ID="STR_BCE_DECS_GAMEPLAN">
-			<Original>Provide a short summary of how the attack is going to be performed.%1%1 1. Type of the control (1,2 or 3)%1 2. Kind of the Attack (BOT/BOC)%1 3. Ordnance requested on target</Original>
-			<Chinese>提供攻擊方式的簡要摘要。%1%1 1. 控制類型 (1、2或3) %1 2. 攻擊方式 (BOT/BOC) %1 3. 對目標的武器選項</Chinese>
-			<Chinesesimp>提供攻击方式的简要摘要。%1%1 1. 控制类型 (1、2或3) %1 2. 攻击方式 (BOT/BOC) %1 3. 对目标的武器选项</Chinesesimp>
+			<Original>Provide a short summary of how the attack is going to be performed.&lt;br/&gt;&lt;br/&gt; 1. Type of the control (1,2 or 3)&lt;br/&gt; 2. Kind of the Attack (BOT/BOC)&lt;br/&gt; 3. Ordnance requested on target</Original>
+			<Chinese>提供攻擊方式的簡要摘要。&lt;br/&gt;&lt;br/&gt; 1. 控制類型 (1、2或3) &lt;br/&gt; 2. 攻擊方式 (BOT/BOC) &lt;br/&gt; 3. 對目標的武器選項</Chinese>
+			<Chinesesimp>提供攻击方式的简要摘要。&lt;br/&gt;&lt;br/&gt; 1. 控制类型 (1、2或3) &lt;br/&gt; 2. 攻击方式 (BOT/BOC) &lt;br/&gt; 3. 对目标的武器选项</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_IPBP">
-			<Original>“Alt + LMB” on the map to set marker%1%1“Initial Point” or “Battle Position”.%1%1IP for FW aircraft (Planes), the IP is the starting point for the run-in to the target. %1%1BP for RW aircraft (Helis), the BP is where attacks on the target are commenced.</Original>
-			<Chinese>在地圖上使用 “Alt + 左鍵單擊” 來設置標記%1%1 “起始點(IP)” 或 “戰鬥位置(BP)” 。%1%1對於 固定翼 (飛機) 的 起始點 (IP) ，是開始進入目標的位置。%1%1對於 旋翼機 (直升機) 的 戰鬥位置 (BP)，是對目標進行攻擊的 起點及待命位置。</Chinese>
-			<Chinesesimp>在地图上使用 “Alt + 左键单击” 来设置标记%1%1 “起始点(IP)” 或 “战斗位置(BP)” 。%1%1对于 固定翼 (飞机) 的 起始点 (IP) ，是开始进入目标的位置。%1%1对于 旋翼机 (直升机) 的 战斗位置 (BP)，是对目标进行攻击的 起点及待命位置。</Chinesesimp>
+			<Original>“Alt + LMB” on the map to set marker&lt;br/&gt;&lt;br/&gt;“Initial Point” or “Battle Position”.&lt;br/&gt;&lt;br/&gt;IP for FW aircraft (Planes), the IP is the starting point for the run-in to the target. &lt;br/&gt;&lt;br/&gt;BP for RW aircraft (Helis), the BP is where attacks on the target are commenced.</Original>
+			<Chinese>在地圖上使用 “Alt + 左鍵單擊” 來設置標記&lt;br/&gt;&lt;br/&gt; “起始點(IP)” 或 “戰鬥位置(BP)” 。&lt;br/&gt;&lt;br/&gt;對於 固定翼 (飛機) 的 起始點 (IP) ，是開始進入目標的位置。&lt;br/&gt;&lt;br/&gt;對於 旋翼機 (直升機) 的 戰鬥位置 (BP)，是對目標進行攻擊的 起點及待命位置。</Chinese>
+			<Chinesesimp>在地图上使用 “Alt + 左键单击” 来设置标记&lt;br/&gt;&lt;br/&gt; “起始点(IP)” 或 “战斗位置(BP)” 。&lt;br/&gt;&lt;br/&gt;对于 固定翼 (飞机) 的 起始点 (IP) ，是开始进入目标的位置。&lt;br/&gt;&lt;br/&gt;对于 旋翼机 (直升机) 的 战斗位置 (BP)，是对目标进行攻击的 起点及待命位置。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_IPBP_NoKey">
-			<Original>“Initial Point” or “Battle Position”.%1%1IP for FW aircraft (Planes), the IP is the starting point for the run-in to the target. %1%1BP for RW aircraft (Helis), the BP is where attacks on the target are commenced.</Original>
-			<Chinese>“起始點(IP)” 或 “戰鬥位置(BP)” 。%1%1對於 固定翼 (飛機) 的 起始點 (IP) ，是開始進入目標的位置。%1%1對於 旋翼機 (直升機) 的 戰鬥位置 (BP)，是對目標進行攻擊的 起點及待命位置。</Chinese>
-			<Chinesesimp>“起始点(IP)” 或 “战斗位置(BP)” 。%1%1对于 固定翼 (飞机) 的 起始点 (IP) ，是开始进入目标的位置。%1%1对于 旋翼机 (直升机) 的 战斗位置 (BP)，是对目标进行攻击的 起点及待命位置。</Chinesesimp>
+			<Original>“Initial Point” or “Battle Position”.&lt;br/&gt;&lt;br/&gt;IP for FW aircraft (Planes), the IP is the starting point for the run-in to the target. &lt;br/&gt;&lt;br/&gt;BP for RW aircraft (Helis), the BP is where attacks on the target are commenced.</Original>
+			<Chinese>“起始點(IP)” 或 “戰鬥位置(BP)” 。&lt;br/&gt;&lt;br/&gt;對於 固定翼 (飛機) 的 起始點 (IP) ，是開始進入目標的位置。&lt;br/&gt;&lt;br/&gt;對於 旋翼機 (直升機) 的 戰鬥位置 (BP)，是對目標進行攻擊的 起點及待命位置。</Chinese>
+			<Chinesesimp>“起始点(IP)” 或 “战斗位置(BP)” 。&lt;br/&gt;&lt;br/&gt;对于 固定翼 (飞机) 的 起始点 (IP) ，是开始进入目标的位置。&lt;br/&gt;&lt;br/&gt;对于 旋翼机 (直升机) 的 战斗位置 (BP)，是对目标进行攻击的 起点及待命位置。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_HDG">
-			<Original>Heading and Offset.%1%1The heading is given in degrees magnetic from the “IP to target” or the center of the “BP to the target”. %1%1The offset is the side of the “IP to target” line on which aircrews can maneuver for the attack.</Original>
-			<Chinese>“飛行方向” 和 “偏移”。%1%1飛行方向以指北針角度表示，從 “起始點 (IP) 到目標” 或 “戰鬥位置 (BP) 的中心到目標”。 %1%1“偏移” 是指在 “起始點到目標” 的一側，人員可以在該側 進行攻擊動作。</Chinese>
-			<Chinesesimp>“飞行方向” 和 “偏移”。%1%1飞行方向以指北针角度表示，从 “起始点 (IP) 到目标” 或 “战斗位置 (BP) 的中心到目标”。 %1%1“偏移” 是指在 “起始点到目标” 的一侧，人员可以在该侧 进行攻击动作。</Chinesesimp>
+			<Original>Heading and Offset.&lt;br/&gt;&lt;br/&gt;The heading is given in degrees magnetic from the “IP to target” or the center of the “BP to the target”. &lt;br/&gt;&lt;br/&gt;The offset is the side of the “IP to target” line on which aircrews can maneuver for the attack.</Original>
+			<Chinese>“飛行方向” 和 “偏移”。&lt;br/&gt;&lt;br/&gt;飛行方向以指北針角度表示，從 “起始點 (IP) 到目標” 或 “戰鬥位置 (BP) 的中心到目標”。 &lt;br/&gt;&lt;br/&gt;“偏移” 是指在 “起始點到目標” 的一側，人員可以在該側 進行攻擊動作。</Chinese>
+			<Chinesesimp>“飞行方向” 和 “偏移”。&lt;br/&gt;&lt;br/&gt;飞行方向以指北针角度表示，从 “起始点 (IP) 到目标” 或 “战斗位置 (BP) 的中心到目标”。 &lt;br/&gt;&lt;br/&gt;“偏移” 是指在 “起始点到目标” 的一侧，人员可以在该侧 进行攻击动作。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_DIST">
-			<Original>Distance.%1%1The distance “IP/BP to target”.</Original>
-			<Chinese>距離。%1%1“IP/BP -> 目標” 的距離。</Chinese>
-			<Chinesesimp>距离。%1%1“IP/BP -> 目标” 的距离。</Chinesesimp>
+			<Original>Distance.&lt;br/&gt;&lt;br/&gt;The distance “IP/BP to target”.</Original>
+			<Chinese>距離。&lt;br/&gt;&lt;br/&gt;“IP/BP -> 目標” 的距離。</Chinese>
+			<Chinesesimp>距离。&lt;br/&gt;&lt;br/&gt;“IP/BP -> 目标” 的距离。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_ELEV">
-			<Original>Target Elevation.%1%1The target elevation is given in %2t %5%3Feet%4 Mean Sea Level (MSL) unless otherwise specified.</Original>
-			<Chinese>目標高度。%1%1目標高度以 海平面 (MSL) 計算，除非另有指定，以%2t %5%3英尺%4為單位。</Chinese>
-			<Chinesesimp>目标高度。%1%1目标高度以 海平面 (MSL) 计算，除非另有指定，以%2t %5%3英尺%4为单位。</Chinesesimp>
+			<Original>Target Elevation.&lt;br/&gt;&lt;br/&gt;The target elevation is given in &lt;t underline='true'&gt;Feet&lt;/t&gt; Mean Sea Level (MSL) unless otherwise specified.</Original>
+			<Chinese>目標高度。&lt;br/&gt;&lt;br/&gt;目標高度以 海平面 (MSL) 計算，除非另有指定，以&lt;t underline='true'&gt;英尺&lt;/t&gt;為單位。</Chinese>
+			<Chinesesimp>目标高度。&lt;br/&gt;&lt;br/&gt;目标高度以 海平面 (MSL) 计算，除非另有指定，以&lt;t underline='true'&gt;英尺&lt;/t&gt;为单位。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_DESC">
-			<Original>Target Description.%1%1The description should be specific enough for the aircrew to recognize the target.</Original>
-			<Chinese>目標描述。%1%1描述應該要足夠具體，以便人員能夠識別目標。</Chinese>
-			<Chinesesimp>目标描述。%1%1描述应该要足够具体，以便人员能够识别目标。</Chinesesimp>
+			<Original>Target Description.&lt;br/&gt;&lt;br/&gt;The description should be specific enough for the aircrew to recognize the target.</Original>
+			<Chinese>目標描述。&lt;br/&gt;&lt;br/&gt;描述應該要足夠具體，以便人員能夠識別目標。</Chinese>
+			<Chinesesimp>目标描述。&lt;br/&gt;&lt;br/&gt;描述应该要足够具体，以便人员能够识别目标。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_GRID">
 			<Original>The target location.</Original>
@@ -726,32 +731,32 @@
 			<Chinesesimp>目标位置。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_MARK">
-			<Original>Mark Type/Terminal Guidance.%1%1The type of mark the JTAC/FAC(A) will use (for example, smoke(WP), laser, or IR). %1%1If using a laser, the JTAC/FAC(A) will also pass the call sign of the platform/ individual that will provide terminal guidance for the weapon and laser code.</Original>
-			<Chinese>標記方式/終端引導。%1%1JTAC/FAC(A)將使用的標記類型 (例如，煙霧 (WP) 、雷射 或 紅外線) 。 %1%1如果使用雷射，JTAC/FAC(A)還要提供 個人呼號/使用平台/武器終端引導 和 雷射代碼。</Chinese>
-			<Chinesesimp>标记方式/终端引导。%1%1JTAC/FAC(A)将使用的标记类型 (例如，烟雾 (WP) 、激光 或 红外线) 。 %1%1如果使用激光，JTAC/FAC(A)还要提供 个人呼号/使用平台/武器终端引导 和 激光代码。</Chinesesimp>
+			<Original>Mark Type/Terminal Guidance.&lt;br/&gt;&lt;br/&gt;The type of mark the JTAC/FAC(A) will use (for example, smoke(WP), laser, or IR). &lt;br/&gt;&lt;br/&gt;If using a laser, the JTAC/FAC(A) will also pass the call sign of the platform/ individual that will provide terminal guidance for the weapon and laser code.</Original>
+			<Chinese>標記方式/終端引導。&lt;br/&gt;&lt;br/&gt;JTAC/FAC(A)將使用的標記類型 (例如，煙霧 (WP) 、雷射 或 紅外線) 。 &lt;br/&gt;&lt;br/&gt;如果使用雷射，JTAC/FAC(A)還要提供 個人呼號/使用平台/武器終端引導 和 雷射代碼。</Chinese>
+			<Chinesesimp>标记方式/终端引导。&lt;br/&gt;&lt;br/&gt;JTAC/FAC(A)将使用的标记类型 (例如，烟雾 (WP) 、激光 或 红外线) 。 &lt;br/&gt;&lt;br/&gt;如果使用激光，JTAC/FAC(A)还要提供 个人呼号/使用平台/武器终端引导 和 激光代码。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_FRND">
-			<Original>Friendlies bearing from the target.%1%1Cardinal/sub-cardinal bearing from the target (N, NE, E, SE, S, SW, W, or NW) and distance of %2t %5%3closest friendlies%4 from the target in meters (e.g., “South 300”).</Original>
-			<Chinese>友軍位置根據目標的方位。%1%1從目標的 基本/次基本 方位 (北、東北、東、東南、南、西南、西、西北) 和最近友軍離目標的距離，以公尺表示 (例如，“南方 300”) 以%2t %5%3最近的友軍%4為例。</Chinese>
-			<Chinesesimp>友军位置根据目标的方位。%1%1从目标的 基本/次基本 方位 (北、东北、东、东南、南、西南、西、西北) 和最近友军离目标的距离，以公尺表示 (例如，“南方 300”) 以%2t %5%3最近的友军%4为例。</Chinesesimp>
+			<Original>Friendlies bearing from the target.&lt;br/&gt;&lt;br/&gt;Cardinal/sub-cardinal bearing from the target (N, NE, E, SE, S, SW, W, or NW) and distance of &lt;t underline='true'&gt;closest friendlies&lt;/t&gt; from the target in meters (e.g., “South 300”).</Original>
+			<Chinese>友軍位置根據目標的方位。&lt;br/&gt;&lt;br/&gt;從目標的 基本/次基本 方位 (北、東北、東、東南、南、西南、西、西北) 和最近友軍離目標的距離，以公尺表示 (例如，“南方 300”) 以&lt;t underline='true'&gt;最近的友軍&lt;/t&gt;為例。</Chinese>
+			<Chinesesimp>友军位置根据目标的方位。&lt;br/&gt;&lt;br/&gt;从目标的 基本/次基本 方位 (北、东北、东、东南、南、西南、西、西北) 和最近友军离目标的距离，以公尺表示 (例如，“南方 300”) 以&lt;t underline='true'&gt;最近的友军&lt;/t&gt;为例。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_EGRS">
-			<Original>Egress.%1%1These are the instructions the aircrews use to exit the target area.</Original>
-			<Chinese>Egress (撤離) 。%1%1這些是空中單位用來離開目標區域的指示。</Chinese>
-			<Chinesesimp>Egress (撤离)。%1%1这些是空中机组使用的指示，用于离开目标区域。</Chinesesimp>
+			<Original>Egress.&lt;br/&gt;&lt;br/&gt;These are the instructions the aircrews use to exit the target area.</Original>
+			<Chinese>Egress (撤離) 。&lt;br/&gt;&lt;br/&gt;這些是空中單位用來離開目標區域的指示。</Chinese>
+			<Chinesesimp>Egress (撤离)。&lt;br/&gt;&lt;br/&gt;这些是空中机组使用的指示，用于离开目标区域。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_Remarks">
-			<Original>Supplies additional important information.%1%1 1.%2t %5%3Troops in Contact%4 or %2t %5%3Danger Close%4%1 2.Final Attack Heading (FAH) or altitude restrictions %1 3.Threat %1 5.Active gun target lines %1etc</Original>
-			<Chinese>提供額外重要資訊。%1%1 1. %2t %5%3處於交戰%4 或 %2t %5%3Danger Close%4%1 2. 最終攻擊方向 (FAH) 或 高度限制 %1 3. 區域威脅 %1 4. 正在使用的射擊槍線 %1等等</Chinese>
-			<Chinesesimp>提供额外重要信息。%1%1 1. %2t %5%3处于交战%4 或 %2t %5%3Danger Close%4%1 2. 最终攻击方向 (FAH) 或 高度限制 %1 3. 区域威胁 %1 4. 正在使用的射击枪线 %1等等</Chinesesimp>
+			<Original>Supplies additional important information.&lt;br/&gt;&lt;br/&gt; 1.&lt;t underline='true'&gt;Troops in Contact&lt;/t&gt; or &lt;t underline='true'&gt;Danger Close&lt;/t&gt;&lt;br/&gt; 2.Final Attack Heading (FAH) or altitude restrictions &lt;br/&gt; 3.Threat &lt;br/&gt; 5.Active gun target lines &lt;br/&gt;etc</Original>
+			<Chinese>提供額外重要資訊。&lt;br/&gt;&lt;br/&gt; 1. &lt;t underline='true'&gt;處於交戰&lt;/t&gt; 或 &lt;t underline='true'&gt;Danger Close&lt;/t&gt;&lt;br/&gt; 2. 最終攻擊方向 (FAH) 或 高度限制 &lt;br/&gt; 3. 區域威脅 &lt;br/&gt; 4. 正在使用的射擊槍線 &lt;br/&gt;等等</Chinese>
+			<Chinesesimp>提供额外重要信息。&lt;br/&gt;&lt;br/&gt; 1. &lt;t underline='true'&gt;处于交战&lt;/t&gt; 或 &lt;t underline='true'&gt;Danger Close&lt;/t&gt;&lt;br/&gt; 2. 最终攻击方向 (FAH) 或 高度限制 &lt;br/&gt; 3. 区域威胁 &lt;br/&gt; 4. 正在使用的射击枪线 &lt;br/&gt;等等</Chinesesimp>
 		</Key>
 		
 		
 		
 		<Key ID="STR_BCE_DECS_FRNDMark">
-			<Original>Friendly position (The closest one to the Target).%1GRID/TRP/bearing and range etc%1%1Marked by (smoke/VS-17 panel/beacon/GLINT/IR strobe etc.)</Original>
-			<Chinese>友軍位置 (最接近目標的) 。%1GRID/TRP/方位和距離 等等%1%1由 (煙霧/VS-17面板/信標/GLINT/紅外線頻閃器 等等) 標記。</Chinese>
-			<Chinesesimp>友军位置（最接近目标的）。%1GRID/TRP/方位和距离等%1%1由（烟雾/VS-17面板/信标/GLINT/红外闪光灯 等等）标记。</Chinesesimp>
+			<Original>Friendly position (The closest one to the Target).&lt;br/&gt;GRID/TRP/bearing and range etc&lt;br/&gt;&lt;br/&gt;Marked by (smoke/VS-17 panel/beacon/GLINT/IR strobe etc.)</Original>
+			<Chinese>友軍位置 (最接近目標的) 。&lt;br/&gt;GRID/TRP/方位和距離 等等&lt;br/&gt;&lt;br/&gt;由 (煙霧/VS-17面板/信標/GLINT/紅外線頻閃器 等等) 標記。</Chinese>
+			<Chinesesimp>友军位置（最接近目标的）。&lt;br/&gt;GRID/TRP/方位和距离等&lt;br/&gt;&lt;br/&gt;由（烟雾/VS-17面板/信标/GLINT/红外闪光灯 等等）标记。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_TGT">
 			<Original>Target location. (GRID/TRP/bearing and range etc)</Original>
@@ -759,27 +764,27 @@
 			<Chinesesimp>目标位置（GRID/TRP/方位和距离 等等）。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_DESCMark">
-			<Original>Description of target%1Method used to mark ENY position. (IR, tracer etc)</Original>
-			<Chinese>目標描述%1標記敵人位置的方法（紅外線、曳光彈等等）</Chinese>
-			<Chinesesimp>目标描述%1标记敌人位置的方法（红外线、曳光弹等等）</Chinesesimp>
+			<Original>Description of target&lt;br/&gt;Method used to mark ENY position. (IR, tracer etc)</Original>
+			<Chinese>目標描述&lt;br/&gt;標記敵人位置的方法（紅外線、曳光彈等等）</Chinese>
+			<Chinesesimp>目标描述&lt;br/&gt;标记敌人位置的方法（红外线、曳光弹等等）</Chinesesimp>
 		</Key>
 		
 		
 		<Key ID="STR_BCE_DECS_sm_CtrlType">
-			<Original>Type 1 : %1JTAC can see target and Aircraft, and is for individual attacks.%1%1Type 2 : %1JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.%1%1Type 3 : %1Multiple attacks within a single engagement, JTAC can't see the aircraft but %2t %6'RobotoCondensedBold_BCE'%3must have real time data%4 from FO/Scout.</Original>
-			<Chinese>Type 1:%1JTAC能看到目標和飛機，並且用於個別攻擊。%1%1Type 2:%1JTAC可以看到目標或飛機(其中之一，而不是兩者兼具)，用於個別攻擊，他必須從FO(前線觀察員)/偵察兵那裡獲得實時目標數據。%1%1Type 3:%1在單一攻擊中進行多次攻擊，JTAC無法看到飛機，但%2t %5%3必須從FO(前線觀測員)/偵察兵%4那裡獲得實時數據。</Chinese>
-			<Chinesesimp>Type 1:%1JTAC能看到目标和飞机，并且用于个别攻击。%1%1Type 2:%1JTAC可以看到目标或飞机(其中之一，而不是两者兼具)，用于个别攻击，他必须从FO(前线观察员)/侦察兵那里获得实时目标数据。%1%1Type 3:%1在单一攻击中进行多次攻击，JTAC无法看到飞机，但%2t %5%3必须从FO(前线观测员)/侦察兵%4那里获得实时数据。</Chinesesimp>
+			<Original>Type 1 : &lt;br/&gt;JTAC can see target and Aircraft, and is for individual attacks.&lt;br/&gt;&lt;br/&gt;Type 2 : &lt;br/&gt;JTAC can see either the target or the aircraft (one or the other, not both) and is for individual attacks he must have real time data for the target from FO (Forward Observer)/Scout.&lt;br/&gt;&lt;br/&gt;Type 3 : &lt;br/&gt;Multiple attacks within a single engagement, JTAC can't see the aircraft but &lt;t font='RobotoCondensedBold_BCE'&gt;must have real time data&lt;/t&gt; from FO/Scout.</Original>
+			<Chinese>Type 1:&lt;br/&gt;JTAC能看到目標和飛機，並且用於個別攻擊。&lt;br/&gt;&lt;br/&gt;Type 2:&lt;br/&gt;JTAC可以看到目標或飛機(其中之一，而不是兩者兼具)，用於個別攻擊，他必須從FO(前線觀察員)/偵察兵那裡獲得實時目標數據。&lt;br/&gt;&lt;br/&gt;Type 3:&lt;br/&gt;在單一攻擊中進行多次攻擊，JTAC無法看到飛機，但&lt;t underline='true'&gt;必須從FO(前線觀測員)/偵察兵&lt;/t&gt;那裡獲得實時數據。</Chinese>
+			<Chinesesimp>Type 1:&lt;br/&gt;JTAC能看到目标和飞机，并且用于个别攻击。&lt;br/&gt;&lt;br/&gt;Type 2:&lt;br/&gt;JTAC可以看到目标或飞机(其中之一，而不是两者兼具)，用于个别攻击，他必须从FO(前线观察员)/侦察兵那里获得实时目标数据。&lt;br/&gt;&lt;br/&gt;Type 3:&lt;br/&gt;在单一攻击中进行多次攻击，JTAC无法看到飞机，但&lt;t underline='true'&gt;必须从FO(前线观测员)/侦察兵&lt;/t&gt;那里获得实时数据。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_sm_AttackType">
-			<Original>What kind of the attack will be performed.%1%1BOT (Bomb on Target): %1Guns, rockets, and Laser guided ammunitions. %1Ex. Hydra70 GBU-12%1%1BOC (Bomb on Coordinate): %1GPS guided ammunitions. %1Ex. GBU-31 GBU-32 GBU-35</Original>
-			<Chinese>將執行何種攻擊。%1%1BOT (Bomb on Target): %1機槍、火箭和雷射制導彈藥。%1例如：Hydra70、GBU-12%1%1BOC (Bomb on Coordinate): %1GPS制導彈藥。%1例如：GBU-31、GBU-32、GBU-35</Chinese>
-			<Chinesesimp>将执行何种攻击。%1%1BOT (Bomb on Target): %1机枪、火箭和雷射制导弹药。%1例如：Hydra70、GBU-12%1%1BOC (Bomb on Coordinate): %1GPS制导弹药。%1例如：GBU-31、GBU-32、GBU-35</Chinesesimp>
+			<Original>What kind of the attack will be performed.&lt;br/&gt;&lt;br/&gt;BOT (Bomb on Target): &lt;br/&gt;Guns, rockets, and Laser guided ammunitions. &lt;br/&gt;Ex. Hydra70 GBU-12&lt;br/&gt;&lt;br/&gt;BOC (Bomb on Coordinate): &lt;br/&gt;GPS guided ammunitions. &lt;br/&gt;Ex. GBU-31 GBU-32 GBU-35</Original>
+			<Chinese>將執行何種攻擊。&lt;br/&gt;&lt;br/&gt;BOT (Bomb on Target): &lt;br/&gt;機槍、火箭和雷射制導彈藥。&lt;br/&gt;例如：Hydra70、GBU-12&lt;br/&gt;&lt;br/&gt;BOC (Bomb on Coordinate): &lt;br/&gt;GPS制導彈藥。&lt;br/&gt;例如：GBU-31、GBU-32、GBU-35</Chinese>
+			<Chinesesimp>将执行何种攻击。&lt;br/&gt;&lt;br/&gt;BOT (Bomb on Target): &lt;br/&gt;机枪、火箭和雷射制导弹药。&lt;br/&gt;例如：Hydra70、GBU-12&lt;br/&gt;&lt;br/&gt;BOC (Bomb on Coordinate): &lt;br/&gt;GPS制导弹药。&lt;br/&gt;例如：GBU-31、GBU-32、GBU-35</Chinesesimp>
 		</Key>
 		
 		<Key ID="STR_BCE_DECS_sm_Ordnance">
-			<Original>What ammunition will be dropped. %1How many. %1How far. %1etc</Original>
-			<Chinese>將投放何種彈藥。%1用多少。%1多遠投放。%1等等</Chinese>
-			<Chinesesimp>将投放何种弹药。%1用多少。%1多远投放。%1等等</Chinesesimp>
+			<Original>What ammunition will be dropped. &lt;br/&gt;How many. &lt;br/&gt;How far. &lt;br/&gt;etc</Original>
+			<Chinese>將投放何種彈藥。&lt;br/&gt;用多少。&lt;br/&gt;多遠投放。&lt;br/&gt;等等</Chinese>
+			<Chinesesimp>将投放何种弹药。&lt;br/&gt;用多少。&lt;br/&gt;多远投放。&lt;br/&gt;等等</Chinesesimp>
 		</Key>
 		
 		

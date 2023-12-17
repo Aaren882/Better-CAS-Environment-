@@ -124,7 +124,7 @@ _checklist = _display displayCtrl 2100;
 _TaskList ctrlshow false;
 
 //-Write down description
-_desc = format ["%1<br/>%2", localize "STR_BCE_Description", (_TaskList lbData _curLine) call BCE_fnc_formatLanguage];
+_desc = format ["%1<br/>%2", localize "STR_BCE_Description", (_TaskList lbData _curLine)];
 _description ctrlSetStructuredText parseText _desc;
 _sendData ctrlSetText localize "STR_BCE_Enter";
 

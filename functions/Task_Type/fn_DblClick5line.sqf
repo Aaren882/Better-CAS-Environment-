@@ -68,10 +68,10 @@ switch _curLine do {
     _taskVar_1 = _taskVar # 1;
     _ctrl4POS = ctrlPosition _ctrl4;
     _InfoText = _taskVar_1 # 4;
-    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
+    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") || (_InfoText == ""));
 
     _Info = [
-      format ["%1 :[%2]", localize "STR_BCE_With", _taskVar_1 # 4],
+      _InfoText,
       localize "STR_BCE_MarkWith"
     ] select _isEmptyInfo;
 
@@ -177,7 +177,7 @@ switch _curLine do {
     _taskVar_3 = _taskVar # 3;
     _InfoText = _taskVar_3 # 2;
 
-    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
+    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") || (_InfoText == ""));
 
     _Info = [_InfoText, localize "STR_BCE_MarkWith"] select _isEmptyInfo;
     

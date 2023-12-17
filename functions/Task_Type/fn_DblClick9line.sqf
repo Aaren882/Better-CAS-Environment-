@@ -205,13 +205,12 @@ switch _curLine do {
     _taskVar_8 = _taskVar # 8;
     
     _InfoText = _taskVar_8 # 4;
-    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
+    _isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") || (_InfoText == ""));
 
-    _Info = if _isEmptyInfo then {
+    _Info = [
+      _InfoText,
       localize "STR_BCE_MarkWith"
-    } else {
-      format ["%1 :[%2]", localize "STR_BCE_With",_taskVar_8 # 4]
-    };
+    ] select _isEmptyInfo;
 
     //-Back to previous status
     if ((_taskVar_8 # 0) != "NA") then {

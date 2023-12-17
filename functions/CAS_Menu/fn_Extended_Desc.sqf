@@ -30,7 +30,7 @@ if (_write or (ctrlText _description_show == "<")) then {
 
   private _text = getText(_cfg >> ctrlClassName _control >> "BCE_Desc");
   if (_write && (_text != "")) then {
-    private _desc = format ["%1<br/>%2", localize "STR_BCE_Description", _text call BCE_fnc_formatLanguage];
+    private _desc = format ["%1<br/>%2", localize "STR_BCE_Description", _text];
     _description ctrlSetStructuredText parseText _desc;
   };
 
