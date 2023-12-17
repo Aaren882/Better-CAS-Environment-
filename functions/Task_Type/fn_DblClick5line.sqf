@@ -74,6 +74,10 @@ switch _curLine do {
 			_InfoText,
 			localize "STR_BCE_MarkWith"
 		] select _isEmptyInfo;
+		_Info = [
+			_InfoText,
+			localize "STR_BCE_MarkWith"
+		] select _isEmptyInfo;
 
 		//-Back to previous status
 		if ((_taskVar_1 # 0) != "NA") then {
@@ -177,7 +181,7 @@ switch _curLine do {
 		_taskVar_3 = _taskVar # 3;
 		_InfoText = _taskVar_3 # 2;
 
-		_isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") || (_InfoText == ""));
+		_isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
 
 		_Info = [_InfoText, localize "STR_BCE_MarkWith"] select _isEmptyInfo;
 		

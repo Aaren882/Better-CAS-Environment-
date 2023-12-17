@@ -45,7 +45,7 @@ if ((localize "STR_BCE_Abort_Task") in (tolower _button_text)) exitWith {
 	_vehicle setVariable ["Module_CAS_Sound",false,true];
 
 	//-Clear Waypoints
-	private _grp = group _vehicle;
+	_grp = group _vehicle;
 	for "_i" from count waypoints _grp to 0 step -1 do {
 		deleteWaypoint [_grp, _i];
 	};
