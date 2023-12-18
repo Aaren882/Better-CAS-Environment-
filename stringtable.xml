@@ -917,6 +917,11 @@
 			<Chinese>尋找平地</Chinese>
 			<Chinesesimp>寻找平地</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_PLP_Title_Line_of_Sight">
+			<Original>Line of Sight</Original>
+			<Chinese>查看視線</Chinese>
+			<Chinesesimp>查看视线</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_PLP_Ctrl_Distance">
 			<Original>- L. Click to add point\n- L. Drag to move point\n- R. Click to remove point</Original>
 			<Chinese>- 左鍵 新增位置點\n- 左鍵 + 拖移 移動位置點\n- 右鍵移除位置點</Chinese>
@@ -946,6 +951,11 @@
 			<Original>- Mouse to move the scan area.</Original>
 			<Chinese>- 移動鼠標來掃描區域</Chinese>
 			<Chinesesimp>- 移动鼠标来扫描区域</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_PLP_Ctrl_Line_of_Sight">
+			<Original>- L. Click to place point</Original>
+			<Chinese>- 左鍵 放置位置點</Chinese>
+			<Chinesesimp>- 左键 放置位置点</Chinesesimp>
 		</Key>
 		
 		
@@ -978,6 +988,11 @@
 			<Original>A quick way to check if the area is flat enough. Green means almost same height with the cursor position, red means higher, blue means lower.</Original>
 			<Chinese>快速檢查地形是否足夠平坦的方法。綠色表示與鼠標位置幾乎相同的高度，紅色表示較高，藍色表示較低。</Chinese>
 			<Chinesesimp>快速检查地形是否足够平坦的方法。绿色表示与鼠标位置几乎相同的高度，红色表示较高，蓝色表示较低。</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_PLP_Tip_Line_of_Sight">
+			<Original>Detect Line of Sight between the point you set and the area around the direction of the mouse. The LOS is calculated on 1.5 m over the surface and only terrain can block the calculation, no objects do.</Original>
+			<Chinese>偵測您設定的點和滑鼠方向周圍區域之間的視線。 “視線” 是在地表上方 1.5m 處計算的，只有計算地形，任何物件都無法計算。</Chinese>
+			<Chinesesimp>侦测您设定的点和滑鼠方向周围区域之间的视线。 “视线” 是在地表上方 1.5m 处计算的，只有计算地形，任何物件都无法计算。</Chinesesimp>
 		</Key>
 		
 		

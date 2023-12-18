@@ -749,31 +749,31 @@ _settings apply {
 
 						#ifdef PLP_TOOL
 							case "PLP_mapTools": {
-							private _status = _x # 1;
-							private _ctrl = _display displayCtrl (17000 + 12012);
-							(_display displayCtrl 73454) ctrlshow _status;
+								private _status = _x # 1;
+								private _ctrl = _display displayCtrl (17000 + 12012);
+								(_display displayCtrl 73454) ctrlshow _status;
 
-							if (_status) then {
-								[_ctrl,lbCurSel _ctrl] call BCE_fnc_ctab_BFT_ToolBox;
-							} else {
-								private _PLP_EH = uiNamespace getVariable ["PLP_SMT_EH",-1];
-								private _PLP_Tool = _display displayCtrl 73453;
+								if (_status) then {
+									[_ctrl,lbCurSel _ctrl] call BCE_fnc_ctab_BFT_ToolBox;
+								} else {
+									private _PLP_EH = uiNamespace getVariable ["PLP_SMT_EH",-1];
+									private _PLP_Tool = _display displayCtrl 73453;
 
-								if !(isNull _PLP_Tool) then {
-									ctrlDelete _PLP_Tool;
+									if !(isNull _PLP_Tool) then {
+										ctrlDelete _PLP_Tool;
+									};
+
+									if (_PLP_EH > 0) then {
+										private ["_mapTypes","_currentMapType","_currentMapTypeIndex","_mapIDC"];
+										_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+										_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
+										_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
+										_mapIDC = _mapTypes # _currentMapTypeIndex # 1;
+										(_display displayCtrl _mapIDC) ctrlRemoveEventHandler ["Draw",_PLP_EH];
+									};
 								};
 
-								if (_PLP_EH > 0) then {
-									private ["_mapTypes","_currentMapType","_currentMapTypeIndex","_mapIDC"];
-									_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-									_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
-									_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
-									_mapIDC = _mapTypes # _currentMapTypeIndex # 1;
-									(_display displayCtrl _mapIDC) ctrlRemoveEventHandler ["Draw",_PLP_EH];
-								};
-							};
-
-							_PLP_toggle
+								_PLP_toggle
 							};
 						#endif
 
@@ -820,7 +820,7 @@ _settings apply {
 					} forEach [
 						[_Tool_toggle,[], 4, "mapTools"],
 						#ifdef PLP_TOOL
-							[_PLP_toggle,[12012], 6, "PLP_mapTools"],
+							[_PLP_toggle,[12012], 7, "PLP_mapTools"],
 						#endif
 						[_BCE_toggle,[[12011,false], 12010], 4, "BCE_mapTools"]
 					];

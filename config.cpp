@@ -869,6 +869,10 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_Description.sqf";
 				};
+				class SMT_LineOfSight
+				{
+					file="MG8\AVFEVFX\functions\PLP_Tools\fn_SMT_LineOfSight.sqf";
+				};
 			};
 		};
 	#endif
@@ -1026,6 +1030,13 @@ class BCE_RscButtonMenu: RscButtonMenu
 				function = "PLP_fnc_SMT_findFlat";
 				controls = "$STR_BCE_PLP_Ctrl_Find_Flat";
 				description = "$STR_BCE_PLP_Tip_Find_Flat";
+			};
+			class LineOfSight
+			{
+				displayName = "$STR_BCE_PLP_Title_Line_of_Sight";
+				function = "PLP_fnc_SMT_lineOfSight";
+				controls = "$STR_BCE_PLP_Ctrl_Line_of_Sight";
+				description = "$STR_BCE_PLP_Tip_Line_of_Sight";
 			};
 		};
 	};
