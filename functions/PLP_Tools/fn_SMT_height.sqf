@@ -3,7 +3,7 @@ params ["_display","_map_IDC"];
 
 if (isnil{_map_IDC}) then {
 	_display = findDisplay 12;
-  _map_IDC = 51;
+	_map_IDC = 51;
 };
 private _map = _display displayCtrl _map_IDC;
 

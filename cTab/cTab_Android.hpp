@@ -123,9 +123,9 @@ PHONE_CLASS
 		
 					Y = sizeY(5.25 + 2.25) - (sizeW * PhoneW);
 					w = sizeW * (PhoneW * 3/4);
-					h = 3 * (sizeW * PhoneW);
+					h = 3.5 * (sizeW * PhoneW);
 		
-					rows = 6;
+					rows = 7;
 					columns = 1;
 					strings[] =
 					{
@@ -134,7 +134,8 @@ PHONE_CLASS
 						"$STR_BCE_PLP_Title_Height",
 						"$STR_BCE_PLP_Title_Compass",
 						"$STR_BCE_PLP_Title_Edit_Grid",
-						"$STR_BCE_PLP_Title_Find_Flat"
+						"$STR_BCE_PLP_Title_Find_Flat",
+						"$STR_BCE_PLP_Title_Line_of_Sight"
 					};
 					tooltips[] =
 					{
@@ -143,7 +144,8 @@ PHONE_CLASS
 						"$STR_BCE_PLP_Tip_Height",
 						"$STR_BCE_PLP_Tip_Compass",
 						"$STR_BCE_PLP_Tip_Edit_Grid",
-						"$STR_BCE_PLP_Tip_Find_Flat"
+						"$STR_BCE_PLP_Tip_Find_Flat",
+						"$STR_BCE_PLP_Tip_Line_of_Sight"
 					};
 					colorBackground[] = {0,0,0,0.25};
 					onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";

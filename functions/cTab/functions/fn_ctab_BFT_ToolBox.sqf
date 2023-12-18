@@ -64,6 +64,9 @@ if (_control isEqualTo (_display displayCtrl (17000 + 12010))) then {
     case 5: {
       "FindFlat"
     };
+    case 6: {
+      "lineOfSight"
+    };
   };
   _cfg = configFile >> "PLP_SMT_Data" >> "RadialMenu" >> _SelTool;
   [_display, _mapIDC] call (missionNamespace getVariable getText (_cfg >> "function"));
