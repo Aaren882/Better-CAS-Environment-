@@ -1,4 +1,5 @@
 params ["_control",["_IDC_offset",0],["_updateList",false],["_overwrite",-1]];
+private ["_display","_button_text","_NotAVT","_sel_TaskType","_list_result","_isOverwrite","_curLine","_vehicle","_condition","_text"];
 
 _display = ctrlParent _control;
 _button_text = ctrlText _control;
@@ -44,7 +45,7 @@ if ((localize "STR_BCE_Abort_Task") in (tolower _button_text)) exitWith {
   _vehicle setVariable ["Module_CAS_Sound",false,true];
 
   //-Clear Waypoints
-  _grp = group _vehicle;
+  private _grp = group _vehicle;
   for "_i" from count waypoints _grp to 0 step -1 do {
     deleteWaypoint [_grp, _i];
   };
@@ -65,6 +66,7 @@ if ((localize "STR_BCE_Abort_Task") in (tolower _button_text)) exitWith {
 ([_display,_curLine,[0,1] select _NotAVT,false,true,true] call BCE_fnc_Show_CurTaskCtrls) params ["_shownCtrls","_TextR"];
 
 _condition = [[],[0]] select (isNull _vehicle);
+_text = nil;
 
 if !(_curLine in _condition) then {
   call ([BCE_fnc_DataReceive9line, BCE_fnc_DataReceive5line] # _sel_TaskType);

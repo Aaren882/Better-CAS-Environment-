@@ -174,7 +174,7 @@ switch _mode do
 
 			//-Set UI Game Plan UI BNTs
 			{
-				(_display displayctrl (20110 + (_x # 0))) ctrlSetStructuredText parseText ((localize (_x # 1)) call BCE_fnc_formatLanguage)
+				(_display displayctrl (20110 + (_x # 0))) ctrlSetStructuredText parseText localize (_x # 1)
 			} count [
 				[0,"STR_BCE_ControlType_BNT"],
 				[1,"STR_BCE_AttackType_BNT"],

@@ -34,7 +34,7 @@ if (_clear_index > -1) then {
   private _text = format ["<t size='%1'>%2</t>",[0.6,0.8] select ("chinese" in language),_Tasklist lbdata (lbCurSel _Tasklist)];
 
   //-Set Description
-  _description ctrlSetStructuredText parseText (_text call BCE_fnc_formatLanguage);
+  _description ctrlSetStructuredText parseText _text;
 };
 
 //-Update Contents for all lists

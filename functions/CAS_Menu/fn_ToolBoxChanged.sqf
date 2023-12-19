@@ -217,7 +217,7 @@ _MenuChanged = {
         _x params [["_title",""],["_sub",""]];
         [
           format ["<t size='1.1' align='center' font='PuristaSemibold'>%1</t>",_title],
-          format ["<t size='1.1' font='RobotoCondensedBold_BCE'>%1</t> : <t size='1.1' color='#FFD9D9D9'>%2</t>",_title,_sub call BCE_fnc_formatLanguage]
+          format ["<t size='1.1' font='RobotoCondensedBold_BCE'>%1</t> : <t size='1.1' color='#FFD9D9D9'>%2</t>",_title,_sub]
         ] select (_x isEqualType []);
       };
 

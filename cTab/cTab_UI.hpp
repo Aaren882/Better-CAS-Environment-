@@ -278,9 +278,9 @@ class cTab_Tablet_dlg
 	
 				Y = sizeY(5.25 + 2.25) - (sizeW * (safezoneH * 1.2));
 				w = sizeW * ((safezoneH * 1.2) * 3/4);
-				h = 3 * (sizeW * (safezoneH * 1.2));
+				h = 3.5 * (sizeW * (safezoneH * 1.2));
 	
-				rows = 6;
+				rows = 7;
 				columns = 1;
 				strings[] =
 				{
@@ -289,7 +289,8 @@ class cTab_Tablet_dlg
 					"$STR_BCE_PLP_Title_Height",
 					"$STR_BCE_PLP_Title_Compass",
 					"$STR_BCE_PLP_Title_Edit_Grid",
-					"$STR_BCE_PLP_Title_Find_Flat"
+					"$STR_BCE_PLP_Title_Find_Flat",
+					"$STR_BCE_PLP_Title_Line_of_Sight"
 				};
 				tooltips[] =
 				{
@@ -298,7 +299,8 @@ class cTab_Tablet_dlg
 					"$STR_BCE_PLP_Tip_Height",
 					"$STR_BCE_PLP_Tip_Compass",
 					"$STR_BCE_PLP_Tip_Edit_Grid",
-					"$STR_BCE_PLP_Tip_Find_Flat"
+					"$STR_BCE_PLP_Tip_Find_Flat",
+					"$STR_BCE_PLP_Tip_Line_of_Sight"
 				};
 				colorBackground[] = {0,0,0,0.25};
 				onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";
@@ -1519,7 +1521,7 @@ class cTab_TAD_dlg
 #define ATAK_APP(APP,TITLE) #<br/><t size='1'><br/><br/>TITLE</t>
 
 #define PhoneMarkerColor \
-	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048 * PhoneW + CustomPhoneX + ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW; \
+	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (5 - 1)) + (((PHONE_MOD) - (20) * 6) / 5) - (42) * 4.75) / 2048 * PhoneW + CustomPhoneX; \
 	y = #((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY; \
 	w = #2.5*(((42)) / 2048 * PhoneW); \
 	h = #(((60) - (20))) / 2048 * CustomPhoneH
