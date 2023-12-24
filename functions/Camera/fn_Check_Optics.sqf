@@ -32,7 +32,7 @@ _turret_Weapons = ([[-1]] + _allTurrets apply {
   {"laserdesignator" in tolower _x} count (_x # 1) > 0
 };
 
-if ((_mode == 1) && ((_class_veh in BCE_IRLaser_Cache) or (count _turret_Weapons < 1))) exitWith {};
+if ((_mode == 1) && ((_class_veh in BCE_IRLaser_Cache) || (count _turret_Weapons < 1))) exitWith {};
 
 //-Available Optics
 _pilot_cam_LOD = if (
@@ -72,7 +72,7 @@ if (count _Optic_LODs > 0) then {
 };
 
 //-FOV handler
-if (((count _allTurrets > 0) or (hasPilotCamera _vehicle)) && (_vehicle isKindOf "Air")) then {
+if (((count _allTurrets > 0) || (hasPilotCamera _vehicle)) && (_vehicle isKindOf "Air")) then {
 
   //-Apply default Turret FOV
   (BCE_Camera_Cache get _class_veh) apply {
@@ -113,7 +113,7 @@ if (((count _allTurrets > 0) or (hasPilotCamera _vehicle)) && (_vehicle isKindOf
         if (
           (_vehicle isKindOf "Air") &&
           (
-            (count (allTurrets _vehicle) > 0) or
+            (count (allTurrets _vehicle) > 0) ||
             (hasPilotCamera _vehicle)
           )
         ) then {
