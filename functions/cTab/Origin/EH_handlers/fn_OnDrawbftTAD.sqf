@@ -23,7 +23,7 @@ _cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_playerP
 
 // update hook information
 if (cTabDrawMapTools) then {
-  _cntrlScreen call BCE_fnc_drawGPS;
+	_cntrlScreen call BCE_fnc_drawGPS;
 };
 
 true

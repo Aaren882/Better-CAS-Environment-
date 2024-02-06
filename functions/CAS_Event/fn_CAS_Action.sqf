@@ -2,11 +2,11 @@ params ["_ActWP","_grp","_vehicle","_IP_POS","_FAD_POS","_posTarget","_EGRS","_w
 _weaponInfo params ["_WPNclass","_WPN_Mode","_WPN_turret","_WPN_count","_muzzle","_ATK_range","_ATK_height"];
 
 if (_IP_POS isEqualTo []) then {
-  _IP_POS = _FAD_POS;
+	_IP_POS = _FAD_POS;
 };
 
 _Set_PitchBank = {
-  //-Ripple Bombing
+	//-Ripple Bombing
 	if (_casType == 2) then {
 		//[_vehicle,0,0] call bis_fnc_setpitchbank;
 		_vectorDir = [_planePos,[_pos # 0, _pos # 1, _planePos # 2]] call bis_fnc_vectorFromXtoY;
@@ -30,7 +30,7 @@ _fireNull = true;
 //Approach
 _cfgweapon_path = configFile >> "CfgWeapons";
 _Cfg = {
-  true in (_this apply {_WPNclass isKindOf [_x, configFile >> "CfgWeapons"]})
+	true in (_this apply {_WPNclass isKindOf [_x, configFile >> "CfgWeapons"]})
 };
 _Is_GunRun = ["machinegun","CannonCore"] call _Cfg;
 _Is_Bombing = ["bomblauncher","weapon_lgblauncherbase","mk82bomblauncher","USAF_BombLauncherBase"] call _Cfg;
@@ -40,8 +40,8 @@ _offset_Cfg = 0;
 
 //-Gun run
 if (_Is_GunRun) then {
-  _casType = 1;
-  _offset_Cfg = linearConversion [500, 2000, _ATK_height, -60, 0];
+	_casType = 1;
+	_offset_Cfg = linearConversion [500, 2000, _ATK_height, -60, 0];
 };
 
 //-Bombing
@@ -49,7 +49,7 @@ if (_Is_Bombing) then {
 	_offset_Cfg = (linearConversion [1000, 2000, _trigger_range, 200, 600]) + (linearConversion [500, 2000, _ATK_height, 300, 0]);
 	if (getNumber (_cfgweapon_path >> _WPNclass >> "USAF_ripple") > 0) then {
 		_casType = 2;
-	  _offset_Cfg = 100 + (linearConversion [1000, 2000, _trigger_range, 0, 100]) + (linearConversion [500, 2000, _ATK_height, 40, 0]);
+		_offset_Cfg = 100 + (linearConversion [1000, 2000, _trigger_range, 0, 100]) + (linearConversion [500, 2000, _ATK_height, 40, 0]);
 	};
 };
 
@@ -78,14 +78,14 @@ _vehicle setVectorDir _vectorDir;
 
 //CM
 if ((_vehicle getVariable ["CAS_CounterMeasure",[]]) isEqualTo []) then {
-  {
-  	private _weapon = _x;
-   if (("counter" in toLower(_weapon)) or ("cmlauncher" in toLower (_weapon)) or ("flare" in toLower (_weapon)) or ("cmdispenser" in toLower (_weapon))) then {
-  	 private _modes = getArray (_cfgweapon_path >> _weapon >> "modes");
-  	 private _mode = _modes # 0;
-  	 _vehicle setVariable ["CAS_CounterMeasure",[_weapon,_mode]];
-   };
-  } forEach ((typeOf _vehicle) call bis_fnc_weaponsEntityType);
+	{
+		private _weapon = _x;
+	 if (("counter" in toLower(_weapon)) or ("cmlauncher" in toLower (_weapon)) or ("flare" in toLower (_weapon)) or ("cmdispenser" in toLower (_weapon))) then {
+		 private _modes = getArray (_cfgweapon_path >> _weapon >> "modes");
+		 private _mode = _modes # 0;
+		 _vehicle setVariable ["CAS_CounterMeasure",[_weapon,_mode]];
+	 };
+	} forEach ((typeOf _vehicle) call bis_fnc_weaponsEntityType);
 };
 
 //Radio
@@ -126,27 +126,27 @@ if ((_vehicle getVariable ["CAS_CounterMeasure",[]]) isEqualTo []) then {
 				params ["_vehicle","_target","_casType","_weaponInfo"];
 				_weaponInfo params ["_WPNclass","_WPN_Mode","_WPN_turret","_WPN_count","_muzzle","_ATK_range"];
 				private _shooter = _vehicle turretUnit _WPN_turret;
-        private _non_mode = _WPN_Mode == "this";
+				private _non_mode = _WPN_Mode == "this";
 
 				//-Reload Time
-        private _muzzleCfg = [
-          configFile >> "CfgWeapons" >> _WPNclass >> _muzzle,
-          configFile >> "CfgWeapons" >> _WPNclass
-        ] select (_muzzle == "this");
+				private _muzzleCfg = [
+					configFile >> "CfgWeapons" >> _WPNclass >> _muzzle,
+					configFile >> "CfgWeapons" >> _WPNclass
+				] select (_muzzle == "this");
 
 				private _sleep = [
-          getNumber (_muzzleCfg >> _WPN_Mode >> "reloadTime"),
-          getNumber (_muzzleCfg >> "reloadTime")
-        ] select _non_mode;
+					getNumber (_muzzleCfg >> _WPN_Mode >> "reloadTime"),
+					getNumber (_muzzleCfg >> "reloadTime")
+				] select _non_mode;
 
 				private _burst = [
-          getNumber (_muzzleCfg >> _WPN_Mode >> "burst"),
-          getNumber (_muzzleCfg >> "burst")
-        ] select _non_mode;
+					getNumber (_muzzleCfg >> _WPN_Mode >> "burst"),
+					getNumber (_muzzleCfg >> "burst")
+				] select _non_mode;
 
-        if (_non_mode) then {
-          _WPN_Mode = _WPNclass;
-        };
+				if (_non_mode) then {
+					_WPN_Mode = _WPNclass;
+				};
 
 				//Burst Mode - A-10-tastic (Compatibility)
 				private _Burst_Mode = _burst >= 20;
@@ -184,8 +184,8 @@ if ((_vehicle getVariable ["CAS_CounterMeasure",[]]) isEqualTo []) then {
 					_vehicle spawn {
 						uisleep 0.1;
 						_this setVariable ["BCE_Fire_Progress_Done",true];
-            uisleep 0.1;
-            _this setVariable ["BCE_Fire_Progress_Done",false];
+						uisleep 0.1;
+						_this setVariable ["BCE_Fire_Progress_Done",false];
 					};
 				}, [_vehicle,_fire]
 			] call CBA_fnc_waitUntilAndExecute;
@@ -200,37 +200,37 @@ if ((_vehicle getVariable ["CAS_CounterMeasure",[]]) isEqualTo []) then {
 			"_vehicle","_planePos","_vectorDir","_vectorUp","_velocity","_offset",
 			"_trigger_range","_IP_POS","_EGRS","_weaponInfo","_fireNull","_Set_PitchBank"
 		];
-    private _grp = group _vehicle;
+		private _grp = group _vehicle;
 
-    //-Clear Waypoints
+		//-Clear Waypoints
 		for "_i" from count waypoints _grp - 1 to 1 step -1 do {
-	  	deleteWaypoint [_grp, _i];
-	  };
+			deleteWaypoint [_grp, _i];
+		};
 
-    for "_i" from 1 to 2 do {
-      switch (_i) do {
-        //-Egress
-        case 1:{
-          private _pos = _vehicle getPos [2000, _EGRS];
-          private _wp = _grp addWaypoint [_pos, 0, _i];
+		for "_i" from 1 to 2 do {
+			switch (_i) do {
+				//-Egress
+				case 1:{
+					private _pos = _vehicle getPos [2000, _EGRS];
+					private _wp = _grp addWaypoint [_pos, 0, _i];
 
 					_wp setWaypointStatements ["true", format ["vehicle this flyInHeight %1;",_alt]];
-        };
+				};
 
-        //-Back IP
-        //-Get Back
-        case 2:{
-          private _IP_dir = _posTarget getDir _IP_POS;
-          private _pos = _posTarget getPos [(_posTarget distance2D _IP_POS) + 1500, _IP_dir];
+				//-Back IP
+				//-Get Back
+				case 2:{
+					private _IP_dir = _posTarget getDir _IP_POS;
+					private _pos = _posTarget getPos [(_posTarget distance2D _IP_POS) + 1500, _IP_dir];
 
-          _pos set [2, _alt];
-          private _wp = _grp addWaypoint [_pos, 0, _i];
-        };
-      };
-    };
+					_pos set [2, _alt];
+					private _wp = _grp addWaypoint [_pos, 0, _i];
+				};
+			};
+		};
 
-    /* _vehicle enableAI "TARGET";
-  	_vehicle enableAI "AUTOTARGET"; */
+		/* _vehicle enableAI "TARGET";
+		_vehicle enableAI "AUTOTARGET"; */
 
 		//--- Fire CM
 		_vehicle spawn {
@@ -242,7 +242,7 @@ if ((_vehicle getVariable ["CAS_CounterMeasure",[]]) isEqualTo []) then {
 
 		//-Egress
 		_vehicle flyInHeight ((_alt/3) max 800);
-    _vehicle setVariable ["BCE_Task_Receiver", [], true];
+		_vehicle setVariable ["BCE_Task_Receiver", [], true];
 
 		//Sound Handler
 		_vehicle setVariable ["Module_CAS_Sound",false,true];

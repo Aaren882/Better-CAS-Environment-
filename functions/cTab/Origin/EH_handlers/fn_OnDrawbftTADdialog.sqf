@@ -16,10 +16,10 @@ _cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTA
 
 // update hook information
 if (cTabDrawMapTools) then {
-  [_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,true] call cTab_fnc_drawHook;
-  _cntrlScreen call BCE_fnc_drawGPS;
+	[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,true] call cTab_fnc_drawHook;
+	_cntrlScreen call BCE_fnc_drawGPS;
 } else {
-  [_display,_cntrlScreen,_playerPos,cTabMapCursorPos,1,true] call cTab_fnc_drawHook;
+	[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,1,true] call cTab_fnc_drawHook;
 };
 
 true

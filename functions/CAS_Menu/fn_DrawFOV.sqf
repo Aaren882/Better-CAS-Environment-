@@ -14,20 +14,20 @@ if (_angle < 0) exitWith {};
 
 //-Drawing
 _vertices = [_veh_POS] + ([_angle,-_angle] apply {
-  _veh_POS getPos [_dis*1.2, _dir + (_x / 2)]
+	_veh_POS getPos [_dis*1.2, _dir + (_x / 2)]
 });
 
 _ctrl drawPolygon [_vertices, _color];
 _ctrl drawIcon [
-  ["\a3\ui_f\data\IGUI\Cfg\Cursors\attack_ca.paa","\a3\ui_f\data\IGUI\Cfg\Cursors\board_ca.paa"] select visibleMap,
-  _color,
-  _FocusPos,
-  35,
-  35,
-  0,
-  _text,
-  1,
-  0.075,
-  'PuristaMedium',
-  'right'
+	["\a3\ui_f\data\IGUI\Cfg\Cursors\attack_ca.paa","\a3\ui_f\data\IGUI\Cfg\Cursors\board_ca.paa"] select visibleMap,
+	_color,
+	_FocusPos,
+	35,
+	35,
+	0,
+	_text,
+	1,
+	0.075,
+	'PuristaMedium',
+	'right'
 ];

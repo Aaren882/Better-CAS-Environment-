@@ -4,15 +4,15 @@
  	Author(s):
 		Gundy, Riouken
 
-    Edit:
-      Aaren
+		Edit:
+			Aaren
 
  	Description:
 		Find user placed marker at provided position
 
 	Parameters:
 		0: OBJECT - Map control we took the position from
-		1: ARRAY  - Position to look for marker
+		1: ARRAY	- Position to look for marker
 
  	Returns:
 		INTEGER - Index of user marker, if not found -1
@@ -30,14 +30,14 @@ _maxDistance = _searchPos distanceSqr [(_searchPos # 0) + _targetRadius,(_search
 
 // find closest user marker within _maxDistance
 {
-  _pos = getPos (_x # 0);
-  _pos resize 2;
+	_pos = getPos (_x # 0);
+	_pos resize 2;
 	_distance = _searchPos distanceSqr _pos;
 	if ((_distance <= _maxDistance) && ((_x # 0) isKindOf "Air")) exitWith {
 		_maxDistance = _distance;
 		_return = _x # 0;
 
-    _return
+		_return
 	};
 } count cTabBFTvehicles;
 
@@ -47,7 +47,7 @@ _maxDistance = _searchPos distanceSqr [(_searchPos # 0) + _targetRadius,(_search
 		_maxDistance = _distance;
 		_return = _x # 0;
 
-    _return
+		_return
 	};
 } count cTabUserMarkerList;
 

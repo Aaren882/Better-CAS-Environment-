@@ -14,7 +14,7 @@ ctrlMapAnimCommit _cntrlScreen;
 [_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
 
 if (cTabDrawMapTools) then {
-  [_display,_cntrlScreen] call BCE_fnc_cTabMap;
+	[_display,_cntrlScreen] call BCE_fnc_cTabMap;
 };
 
 // draw directional arrow at own location

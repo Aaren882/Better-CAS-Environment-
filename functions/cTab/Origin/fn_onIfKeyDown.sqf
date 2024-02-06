@@ -9,7 +9,7 @@
 
 
 	Parameters:
-		0: OBJECT  - Display that called the onKeyDown event
+		0: OBJECT	- Display that called the onKeyDown event
 		1: INTEGER - DIK code of onKeyDown event
 		2: BOOLEAN - Shift key pressed
 		3: BOOLEAN - Ctrl key pressed
