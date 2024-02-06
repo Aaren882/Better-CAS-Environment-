@@ -4,23 +4,23 @@
 	Author(s):
 		Gundy, Riouken
 
-  Edit:
-    Aaren
+	Edit:
+		Aaren
 
 	Description:
 		Draw userMarkers held in cTabUserMarkerList to map control
 
 		List format:
-			Index 0: ARRAY  - marker position
+			Index 0: ARRAY	- marker position
 			Index 1: STRING - path to marker icon
 			Index 2: STRING - path to marker size icon
 			Index 3: STRING - direction of reported movement
-			Index 4: ARRAY  - marker color
+			Index 4: ARRAY	- marker color
 			Index 5: STRING - marker time
 			Index 6: STRING - text alignment
 
 	Parameters:
-		0: OBJECT  - Map control to draw BFT icons on
+		0: OBJECT	- Map control to draw BFT icons on
 		1: BOOLEAN - Highlight marker under cursor
 
 	Returns:
@@ -37,7 +37,7 @@ _cursorMarkerIndex = [-1,[_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMa
 
 {
 	_markerData = _x # 1;
-  _markerData params ["_pos","_texture1","_texture2","_dir","_color"];
+	_markerData params ["_pos","_texture1","_texture2","_dir","_color"];
 	
 	if ((_x # 0) isEqualTo _cursorMarkerIndex) then {_color = cTabTADhighlightColour};
 

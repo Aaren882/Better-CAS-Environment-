@@ -5,9 +5,9 @@ params ["_display"];
 if !(_show) exitWith {};
 
 private _idc = switch _page do {
-  case "mission": {4661};
-  case "mission_Build": {nil};
-  default {4660};
+	case "mission": {4661};
+	case "mission_Build": {nil};
+	default {4660};
 };
 
 if (_show && !isnil{_idc}) then {

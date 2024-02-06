@@ -4,7 +4,7 @@
  	Author(s):
 		Gundy, Riouken
 
-    Edit: Aaren
+		Edit: Aaren
 
  	Description:
 		Draw BFT markers
@@ -18,7 +18,7 @@
 
 
 	Parameters:
-		0: OBJECT  - Map control to draw BFT icons on
+		0: OBJECT	- Map control to draw BFT icons on
 		1: INTEGER - Mode, 0 = draw normal, 1 = draw for TAD, 2 = draw for MicroDAGR
 
  	Returns:
@@ -43,10 +43,10 @@ if (_mode != 2) then {
 	// ------------------ VEHICLES ------------------
 	_i = 0;
 	cTabBFTvehicles apply {
-    _x params ["_veh","_iconA","_iconB","_text","_groupID"];
+		_x params ["_veh","_iconA","_iconB","_text","_groupID"];
 
 		_pos = getPosASLVisual _veh;
-    if !(_drawText) then {_text = ""};
+		if !(_drawText) then {_text = ""};
 
 		call {
 			if (_mode == 1 && {_iconB != "" && {_veh != _playerVehicle}}) exitWith {
@@ -152,7 +152,7 @@ cTabBFTmembers apply {
 				_mountedLabels set [_mountedIndex + 1,(_mountedLabels # (_mountedIndex + 1)) + "/" + (_x # 4)];
 			} else {
 				0 = _mountedLabels pushBack _veh;
-				if  (_drawText) then {
+				if	(_drawText) then {
 					0 = _mountedLabels pushBack (_x # 4);
 				};
 				if (_veh != _playerVehicle) then {

@@ -16,19 +16,19 @@ _ctrlUnit ctrlSetText (format ["%1 [%2]",_callerGrp, name _caller]);
 
 //-Set UI POS
 {
-  _x params ["_idc",["_BG",0]];
-  private _ctrl = _display displayCtrl _idc;
-  private _class = configFile >> "RscTitles" >> "BCE_Task_Receiver" >> ["controls","controlsBackground"] select (_BG > 0) >> ctrlClassName _ctrl;
-  private _pos = ["x","y","w","h"] apply {
-    call compile getText (_class >> _x)
-  };
+	_x params ["_idc",["_BG",0]];
+	private _ctrl = _display displayCtrl _idc;
+	private _class = configFile >> "RscTitles" >> "BCE_Task_Receiver" >> ["controls","controlsBackground"] select (_BG > 0) >> ctrlClassName _ctrl;
+	private _pos = ["x","y","w","h"] apply {
+		call compile getText (_class >> _x)
+	};
 
-  _ctrl ctrlSetPosition _pos;
-  _ctrl ctrlCommit 0;
+	_ctrl ctrlSetPosition _pos;
+	_ctrl ctrlCommit 0;
 } forEach [
-  [15110,1],
-  [15111,1],
-  15112,
-  101,
-  102
+	[15110,1],
+	[15111,1],
+	15112,
+	101,
+	102
 ];

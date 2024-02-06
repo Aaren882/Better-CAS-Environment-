@@ -64,19 +64,19 @@ if (_ctrlTitle == localize "STR_BCE_Abort_Task") exitWith {
 	_vehicle setVariable ["BCE_Task_Receiver", [], true];
 	_vehicle setVariable ["Module_CAS_Sound",false,true];
 
-  //-Clear Waypoints
-  _grp = group _vehicle;
-  for "_i" from count waypoints _grp to 0 step -1 do {
-    deleteWaypoint [_grp, _i];
-  };
-  _grp addWaypoint [getpos _vehicle, 0];
+	//-Clear Waypoints
+	_grp = group _vehicle;
+	for "_i" from count waypoints _grp to 0 step -1 do {
+		deleteWaypoint [_grp, _i];
+	};
+	_grp addWaypoint [getpos _vehicle, 0];
 	
 
 	_bnt ctrlSetText localize "STR_BCE_SendData";
 	_bnt ctrlSetBackgroundColor ([
-    (profilenamespace getvariable ['GUI_BCG_RGB_R',0.77]),
-    (profilenamespace getvariable ['GUI_BCG_RGB_G',0.51]),
-    (profilenamespace getvariable ['GUI_BCG_RGB_B',0.08]),
-    0.8
-  ]);
+		(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77]),
+		(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51]),
+		(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08]),
+		0.8
+	]);
 };

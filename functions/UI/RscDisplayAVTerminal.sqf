@@ -14,37 +14,37 @@ _fnc_onLBSelChanged = {
 
 	//-cTab Compat
 	#ifdef cTAB_Installed
-	  ['cTab_Tablet_dlg',[['uavCam',_vehicle_str]]] call cTab_fnc_setSettings;
+		['cTab_Tablet_dlg',[['uavCam',_vehicle_str]]] call cTab_fnc_setSettings;
 	#endif
 
 	//-CAS Layout
 	_createTask = _display displayCtrl 2103;
 
 	if (_vehicle_str == "") exitwith {
-	  lbClear _checklist;
+		lbClear _checklist;
 
-	  [1501,1502,1503,1504,1505,1506,1507] apply {
-	  	(_display displayCtrl _x) ctrlSetText "-";
-	  };
-	  player setVariable ["TGP_View_Selected_Vehicle",objNull];
-	  player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
-	  (_display displayctrl 1600) ctrlEnable false;
-	  (_display displayctrl 1601) ctrlEnable false;
-	  (_display displayctrl 1602) ctrlEnable false;
+		[1501,1502,1503,1504,1505,1506,1507] apply {
+			(_display displayCtrl _x) ctrlSetText "-";
+		};
+		player setVariable ["TGP_View_Selected_Vehicle",objNull];
+		player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
+		(_display displayctrl 1600) ctrlEnable false;
+		(_display displayctrl 1601) ctrlEnable false;
+		(_display displayctrl 1602) ctrlEnable false;
 
-	  //-CAS Menu
-	  uiNameSpace setVariable ["BCE_CAS_ListSwtich", false];
-	  [(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
-	  [_display,1,true] call BCE_fnc_ListSwitch;
-	  _createTask ctrlEnable false;
+		//-CAS Menu
+		uiNameSpace setVariable ["BCE_CAS_ListSwtich", false];
+		[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
+		[_display,1,true] call BCE_fnc_ListSwitch;
+		_createTask ctrlEnable false;
 	};
 	_vehicle = (vehicles Select {(_x isKindOf "Air") && (isEngineOn _x)}) apply {
-	  if (_vehicle_str == str _x) exitwith {_x};
+		if (_vehicle_str == str _x) exitwith {_x};
 	};
 
 	if !(_vehicle isEqualTo (player getVariable "TGP_View_Selected_Vehicle")) then {
-	  uiNameSpace setVariable ["BCE_CAS_ListSwtich", false];
-	  [(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
+		uiNameSpace setVariable ["BCE_CAS_ListSwtich", false];
+		[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
 	};
 
 	_Optic_LODs = [_vehicle,0] call BCE_fnc_Check_Optics;
@@ -58,7 +58,7 @@ _fnc_onLBSelChanged = {
 
 	_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
 	if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) || (_vehicle isNotEqualTo (_Selected_Optic # 1))) then {
-	  player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
+		player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 	};
 
 	[{
@@ -78,9 +78,9 @@ _fnc_onLBSelChanged = {
 			_pilot = [name (driver _vehicle),"-"] select ((driver _vehicle) isEqualTo objNull);
 
 			_Cond_CtrlVeh = [
-		      false,
-		      (isUAVConnected _vehicle) && (((UAVControl _vehicle) # 0) isNotEqualTo player)
-		    ] select (unitIsUAV _vehicle);
+					false,
+					(isUAVConnected _vehicle) && (((UAVControl _vehicle) # 0) isNotEqualTo player)
+				] select (unitIsUAV _vehicle);
 
 			(_display displayCtrl 1501) ctrlSetText _pilot;
 			(_display displayCtrl 1502) ctrlSetText _gunner;
@@ -91,31 +91,31 @@ _fnc_onLBSelChanged = {
 				(_gunner == "-") ||
 				(_turret_Unit in _turret_List) ||
 				(({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle)) > 0) ||
-			  ((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"])
+				((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"])
 			) then {
-			  (_display displayctrl 1601) ctrlEnable false;
+				(_display displayctrl 1601) ctrlEnable false;
 			} else {
-			  (_display displayctrl 1601) ctrlEnable true;
+				(_display displayctrl 1601) ctrlEnable true;
 			};
 
 			if (isnull _vehicle) then {
-			  {
-			  	(_display displayCtrl (1500 + _x)) ctrlSetText "-";
-			  } count [3,4,5,6,7,8];
+				{
+					(_display displayCtrl (1500 + _x)) ctrlSetText "-";
+				} count [3,4,5,6,7,8];
 			} else {
-			  private ["_config","_weapon"];
-			  _config = configFile >> "CfgWeapons";
-			  _weapon = [
-			  	getText (_config >> _vehicle currentWeaponTurret _current_turret >> "DisplayName"),
-			  	"-"
-			  ] select (getText (_config >> _vehicle currentWeaponTurret _current_turret >> "DisplayName") == "");
+				private ["_config","_weapon"];
+				_config = configFile >> "CfgWeapons";
+				_weapon = [
+					getText (_config >> _vehicle currentWeaponTurret _current_turret >> "DisplayName"),
+					"-"
+				] select (getText (_config >> _vehicle currentWeaponTurret _current_turret >> "DisplayName") == "");
 
-			  (_display displayCtrl 1503) ctrlSetText format ["%1",_weapon];
-			  (_display displayCtrl 1504) ctrlSetText format ["%1%2",round ((fuel _vehicle) * 100) , "%"];
-			  (_display displayCtrl 1505) ctrlSetText format ["%1 %2",localize "$str_a3_rscdisplayartillery_artillerygridtext",mapGridPosition _vehicle];
-			  (_display displayCtrl 1506) ctrlSetText format ["%1°",round (getdir _vehicle)];
-			  (_display displayCtrl 1507) ctrlSetText format ["%1 km/h",round (speed _vehicle)];
-			  (_display displayCtrl 1508) ctrlSetText format ["%1 m",round ((getPosASL _vehicle) # 2)];
+				(_display displayCtrl 1503) ctrlSetText format ["%1",_weapon];
+				(_display displayCtrl 1504) ctrlSetText format ["%1%2",round ((fuel _vehicle) * 100) , "%"];
+				(_display displayCtrl 1505) ctrlSetText format ["%1 %2",localize "$str_a3_rscdisplayartillery_artillerygridtext",mapGridPosition _vehicle];
+				(_display displayCtrl 1506) ctrlSetText format ["%1°",round (getdir _vehicle)];
+				(_display displayCtrl 1507) ctrlSetText format ["%1 km/h",round (speed _vehicle)];
+				(_display displayCtrl 1508) ctrlSetText format ["%1 m",round ((getPosASL _vehicle) # 2)];
 			};
 		};
 
@@ -123,7 +123,7 @@ _fnc_onLBSelChanged = {
 	}, {
 		params ["_display"];
 		if (isNull _display) then {
-		  player setVariable ['BCE_TACMap_Visiable',false,true];
+			player setVariable ['BCE_TACMap_Visiable',false,true];
 		};
 		}, [_display,_ctrlValue,_Selected,_vehicle]
 	] call CBA_fnc_waitUntilAndExecute;
@@ -165,7 +165,7 @@ switch _mode do
 				(_display displayctrl _x) ctrlEnable false
 			};
 			(_display displayctrl 20116) ctrlSetPositionH 0;
-		  (_display displayctrl 20116) ctrlCommit 0;
+			(_display displayctrl 20116) ctrlCommit 0;
 
 			(_display displayctrl 2107) lbSetCurSel (uiNameSpace getVariable ["BCE_Current_TaskType",0]);
 
@@ -189,7 +189,7 @@ switch _mode do
 			_selected = player getvariable ["TGP_View_Selected_Vehicle",objNull];
 
 			_UnitList = vehicles Select {
-			  (_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
+				(_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
 			};
 
 			//-Exit Task Builder if Nil {_vehicle}
@@ -201,10 +201,10 @@ switch _mode do
 			};
 
 			{
-			  _vehicle = _x;
-			  _cfg = configOf _vehicle;
+				_vehicle = _x;
+				_cfg = configOf _vehicle;
 
-				_lbAdd = _control lbAdd format ["%1   %2",Name _vehicle,gettext (_cfg >> "displayName")];
+				_lbAdd = _control lbAdd format ["%1	 %2",Name _vehicle,gettext (_cfg >> "displayName")];
 				_control lbSetData [_lbAdd, str _vehicle];
 			} foreach _UnitList;
 
@@ -269,7 +269,7 @@ switch _mode do
 		_control ctrlAddEventHandler ["ButtonClick",{
 			private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
 			if !(isnull _vehicle) then {
-			  [_vehicle,cameraview] call BCE_fnc_onButtonClick_Gunner;
+				[_vehicle,cameraview] call BCE_fnc_onButtonClick_Gunner;
 				_vehicle call BCE_fnc_TGP_Select_Confirm;
 			};
 		}];

@@ -29,12 +29,12 @@ _action = ["BCE_Task_Slew",localize "STR_BCE_Slew_TG","",{
 	(_vehicle getVariable ['BCE_Task_Receiver',[]]) params ["","","_type","_task"];
 
 	_POS = switch _type do {
-	  case 5: {
-	    _task # 2 # 2
-	  };
-	  default {
-	    _task # 6 # 2
-	  };
+		case 5: {
+			_task # 2 # 2
+		};
+		default {
+			_task # 6 # 2
+		};
 	};
 
 	if (_turret isEqualTo []) then {
@@ -85,10 +85,10 @@ _action = ["BCE_Select_TGP",localize "STR_BCE_Select_AV_Camera","",{
 ["CAManBase", 1, ["ACE_SelfActions", "ACE_Equipment"], _action, true] call aceActionClass;
 
 _action = ["BCE_Use_Selected_TGP",localize "STR_BCE_AV_Camera","",{
-  	params ["_unit"];
+		params ["_unit"];
 		(_unit getVariable "TGP_View_Selected_Vehicle") call BCE_fnc_TGP_Select_Confirm;
 	},{
-  params ["_unit"];
+	params ["_unit"];
 	private ["_selected","_condition"];
 	_selected = _unit getVariable ["TGP_View_Selected_Vehicle",objNull];
 	_condition = [
@@ -106,44 +106,44 @@ _action = ["BCE_Use_Selected_TGP",localize "STR_BCE_AV_Camera","",{
 //-Door Gunners
 // - Light
 _action = ["BCE_Use_Heli_SpotLight",SetTitle("STR_BCE_Toggle","STR_BCE_Spot_Light"),"",{
-  params ["_unit"];
+	params ["_unit"];
 
-  _sources = _unit getVariable ["BCE_turret_Gunner_Lights",[]];
+	_sources = _unit getVariable ["BCE_turret_Gunner_Lights",[]];
 	_mode = "Light";
-  if (_sources isEqualTo []) then {
-    [vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
-  } else {
+	if (_sources isEqualTo []) then {
+		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
+	} else {
 	_unit call BCE_fnc_deleteGunnerLightSources;
 	if !((_sources # 1) == _mode) then {
-	  [vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
+		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
 	};
-  };
+	};
 
 },{
 	params ["_unit"];
 	_condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Light_fn] select ((vehicle _unit) isKindOf "LandVehicle");
-    SpotLight_Condition
+		SpotLight_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
 
 _action = ["BCE_Use_Heli_SpotLight_IR",SetTitle("STR_BCE_Toggle","STR_BCE_Spot_Light_IR"),"",{
-  params ["_unit"];
+	params ["_unit"];
 
-  _sources = _unit getVariable ["BCE_turret_Gunner_Lights",[]];
-  _mode = "LightIR";
-  if (_sources isEqualTo []) then {
-    [vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
-  } else {
+	_sources = _unit getVariable ["BCE_turret_Gunner_Lights",[]];
+	_mode = "LightIR";
+	if (_sources isEqualTo []) then {
+		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
+	} else {
 	_unit call BCE_fnc_deleteGunnerLightSources;
 	if !((_sources # 1) == _mode) then {
 	 [vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
 	};
-  };
+	};
 
-  },{
-    params ["_unit"];
+	},{
+		params ["_unit"];
 	_condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Light_fn] select ((vehicle _unit) isKindOf "LandVehicle");
-    SpotLight_Condition
+		SpotLight_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
 
@@ -151,67 +151,67 @@ _action = ["BCE_Use_Heli_SpotLight_IR",SetTitle("STR_BCE_Toggle","STR_BCE_Spot_L
 
 // -Laser Red
 _action = ["BCE_Use_Heli_LaserR",SetTitle("STR_BCE_Toggle","STR_BCE_Laser_Red"),"",{
-  params ["_unit"];
+	params ["_unit"];
 	private ["_sources","_mode"];
-  _sources = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
+	_sources = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
 	_mode = "LaserR";
-  if (_sources isEqualTo []) then {
-    [vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
-  } else {
+	if (_sources isEqualTo []) then {
+		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
+	} else {
 	_unit call BCE_fnc_deleteGunnerLaserSources;
 	if !((_sources # 2) isEqualTo [1000,0,0]) then {
-	  [vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
+		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
 	};
-  };
+	};
 
 },{
-    params ["_unit"];
-	  _condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
-	  Laser_Condition
+		params ["_unit"];
+		_condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
+		Laser_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
 
 // -Laser Red
 _action = ["BCE_Use_Heli_LaserG",SetTitle("STR_BCE_Toggle","STR_BCE_Laser_Green"),"",{
-  params ["_unit"];
-  private ["_sources","_mode"];
+	params ["_unit"];
+	private ["_sources","_mode"];
 
-  _sources = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
-  _mode = "LaserG";
-  
-  if (_sources isEqualTo []) then {
-    [vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
-  } else {
+	_sources = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
+	_mode = "LaserG";
+	
+	if (_sources isEqualTo []) then {
+		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
+	} else {
 	_unit call BCE_fnc_deleteGunnerLaserSources;
 	if !((_sources # 2) isEqualTo [0,1000,0]) then {
-	  [vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
+		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
 	};
-  };
+	};
 
 },{
-    params ["_unit"];
-	  _condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
-	  Laser_Condition
+		params ["_unit"];
+		_condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
+		Laser_Condition
 }] call aceAction;
 ["CAManBase", 1, ["ACE_SelfActions"], _action, true] call aceActionClass;
 
 // -Laser IR
 _action = ["BCE_Use_Heli_LaserIR",SetTitle("STR_BCE_Toggle","STR_BCE_Laser_IR"),"",{
-  params ["_unit"];
+	params ["_unit"];
 	private ["_sources","_mode"];
-  _sources = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
+	_sources = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
 	_mode = "LaserIR";
-  if (_sources isEqualTo []) then {
-    [vehicle _unit, "LaserIR",_unit] call BCE_fnc_CreateLaser;
-  } else {
+	if (_sources isEqualTo []) then {
+		[vehicle _unit, "LaserIR",_unit] call BCE_fnc_CreateLaser;
+	} else {
 	_unit call BCE_fnc_deleteGunnerLaserSources;
 	if !((_sources # 2) isEqualTo [1000,1000,1000]) then {
-	  [vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
+		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
 	};
-  };
+	};
 
 },{
-    params ["_unit"];
+		params ["_unit"];
 	_condition = [_unit isNotEqualTo driver (vehicle _unit),BCE_LandVeh_Laser_fn] select ((vehicle _unit) isKindOf "LandVehicle");
 	Laser_Condition
 }] call aceAction;
