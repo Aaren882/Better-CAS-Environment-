@@ -16,6 +16,7 @@
 	["PLP_mapTools",false],
 	["mapTools",true],
 	["nightMode",2],
+	["Weather_Condition",[false,""]],
 	["brightness",0.9]
 ]] call BIS_fnc_setToPairs;
 
@@ -37,6 +38,7 @@
 	["mapTools",true],
 	["PLP_mapTools",false],
 	["nightMode",2],
+	["Weather_Condition",[false,""]],
 	["brightness",0.9]
 ]] call BIS_fnc_setToPairs;
 

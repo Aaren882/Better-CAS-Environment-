@@ -42,7 +42,7 @@ call BCE_fnc_ClientSide;
 ["featureCamera", {
 	params ["_unit","_mode"];
 	if (!(_mode isEqualTo "") && !(TGP_View_Camera isEqualTo [])) then {
-			camUseNVG false;
+		camUseNVG false;
 		ppEffectDestroy (TGP_View_Camera # 1);
 
 		556 cutRsc ["default","PLAIN"];
@@ -61,7 +61,7 @@ call BCE_fnc_ClientSide;
 		removeMissionEventHandler [_thisEvent, _thisEventHandler];
 
 		player setVariable ["TGP_View_EHs",-1,true];
-	 		[2] call BCE_fnc_OpticMode;
+	 	[2] call BCE_fnc_OpticMode;
 
 	};
 },true] call CBA_fnc_addPlayerEventHandler;

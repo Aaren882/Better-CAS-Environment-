@@ -38,7 +38,7 @@ class RscTitles
 		#define phoneSizeH ((((626) - (60) - (0))) / 2048 * CustomPhoneH)
 		
 		#define PhoneMarkerColor \
-			x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (5 - 1)) + (((PHONE_MOD) - (20) * 6) / 5) - (42) * 4.5) / 2048 * PhoneW + CustomPhoneX; \
+			x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX; \
 			y = #((713) + ((60) - (42)) / 2) / 2048 * CustomPhoneH + CustomPhoneY; \
 			w = #2.5 * (((42)) / 2048 * PhoneW); \
 			h = #((42)) / 2048 * CustomPhoneH

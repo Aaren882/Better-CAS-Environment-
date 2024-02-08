@@ -25,7 +25,17 @@ private ["_displayName","_mapScale","_ifType","_player","_playerKilledEhId","_ve
 
 if !(isNil "cTabIfOpen") then {
 	// [_ifType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]
-	cTabIfOpen params ["_ifType","_displayName","_player","_playerKilledEhId","_vehicle","_vehicleGetOutEhId","_draw3dEhId","_aceUnconciousEhId","_acePlayerInventoryChangedEhId"];
+	cTabIfOpen params [
+		"_ifType",
+		"_displayName",
+		"_player",
+		"_playerKilledEhId",
+		"_vehicle",
+		"_vehicleGetOutEhId",
+		"_draw3dEhId",
+		"_aceUnconciousEhId",
+		"_acePlayerInventoryChangedEhId"
+	];
 
 	if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
 	if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
