@@ -68,10 +68,6 @@ class cTab_android_on_screen_grid: cTab_android_on_screen_dirDegree
 {
 	x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048  * 	PhoneW + 	CustomPhoneX;
 };
-class cTab_android_on_screen_dirOctant: cTab_android_on_screen_dirDegree
-{
-	x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (1 - 1))) / 2048  * 	PhoneW + 	CustomPhoneX;
-};
 
 class cTab_android_loadingtxt: cTab_RscText_Android
 {

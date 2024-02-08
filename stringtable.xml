@@ -1040,8 +1040,8 @@
 		
 		<Key ID="STR_BCE_Env_wind_strong">
 			<Original>Strong</Original>
-			<Chinese>強烈</Chinese>
-			<Chinesesimp>强烈</Chinesesimp>
+			<Chinese>強風</Chinese>
+			<Chinesesimp>强风</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Env_wind_gentle">
 			<Original>Gentle</Original>
@@ -1060,14 +1060,14 @@
 			<Chinesesimp>迷雾</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Env_fog_Mist">
-			<Original>Mist</Original>
-			<Chinese>薄霧</Chinese>
-			<Chinesesimp>薄雾</Chinesesimp>
+			<Original>Fog</Original>
+			<Chinese>霧</Chinese>
+			<Chinesesimp>雾</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Env_fog_Clear">
-			<Original>Clear</Original>
-			<Chinese>清楚</Chinese>
-			<Chinesesimp>清楚</Chinesesimp>
+			<Original>Mist</Original>
+			<Chinese>薄霧</Chinese>
+			<Chinesesimp>輕雾</Chinesesimp>
 		</Key>
 		
 		<Key ID="STR_BCE_Env_vis_Very_Bad">
@@ -1087,12 +1087,45 @@
 		</Key>
 		
 		
+		<Key ID="STR_BCE_Env_Slight_rain">
+				<Original>Slight Rain</Original>
+				<Chinese>小雨</Chinese>
+				<Chinesesimp>小雨</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Env_Moderate_rain">
+				<Original>Moderate Rain</Original>
+				<Chinese>中雨</Chinese>
+				<Chinesesimp>中雨</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Env_Heavy_rain">
+				<Original>Heavy Rain</Original>
+				<Chinese>豪雨</Chinese>
+				<Chinesesimp>豪雨</Chinesesimp>
+		</Key>
+		
+		<Key ID="STR_BCE_Env_overcast_Over">
+				<Original>Overcast</Original>
+				<Chinese>陰天</Chinese>
+				<Chinesesimp>阴天</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Env_overcast_Cloudy">
+				<Original>Cloudy</Original>
+				<Chinese>多雲</Chinese>
+				<Chinesesimp>多云</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Env_overcast_Clear">
+				<Original>Clear Sky</Original>
+				<Chinese>晴朗</Chinese>
+				<Chinesesimp>晴朗</Chinesesimp>
+		</Key>
+
+
 		<Key ID="STR_BCE_Cam_Altitude">
 			<Original>Altitude: %1</Original>
 			<Chinese>高度: %1</Chinese>
 			<Chinesesimp>高度: %1</Chinesesimp>
 		</Key>
-		
+
 		<Key ID="STR_BCE_Cam_Time">
 			<Original>Time: %1</Original>
 			<Chinese>時間: %1</Chinese>

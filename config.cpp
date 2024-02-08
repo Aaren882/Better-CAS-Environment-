@@ -700,6 +700,7 @@ class CfgFunctions
 				class ctab_List_AV_Info;
 				class ctab_Switch_ExtendedList;
 				class ctab_BFT_ToolBox;
+				class cTab_getWeather_Infos;
 				class Extended_WeaponDESC;
 				class Extended_TaskDESC;
 			};
@@ -780,6 +781,10 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_onIfKeyDown.sqf";
 				};
+				class open
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_open.sqf";
+				};
 				class drawBftMarkers
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_drawBftMarkers.sqf";
@@ -819,6 +824,12 @@ class CfgFunctions
 				class onIfClose
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_onIfClose.sqf";
+				};
+				
+				//- Add
+				class toggleWeather
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\fn_toggleWeather.sqf";
 				};
 			};
 		};
