@@ -176,16 +176,16 @@ _settings apply {
 		_ctrl = _display displayCtrl 26160;
 		_posH = (ctrlPosition _bnt) # 3;
 
-		(_x # 1) params ["_show","_loopName"];
+		(_x # 1) params ["_show","_loopName",["_size",3.2]];
 
 		_loop = _displayName != _loopName;
 		[_displayName, _loop] call BCE_fnc_cTab_getWeather_Infos;
 
 		if (_loop) then {
-			[_displayName,[["Weather_Condition",[_show,_displayName]]],false] call cTab_fnc_setSettings;
+			[_displayName,[["Weather_Condition",[_show,_displayName,_size]]],false] call cTab_fnc_setSettings;
 		};
-
-		_ctrl ctrlSetPositionH ([0, 3.1 * _posH] select _show);
+		
+		_ctrl ctrlSetPositionH ([0, _size * _posH] select _show);
 		_ctrl ctrlCommit ([0.2, 0] select _interfaceInit);
 	};
 

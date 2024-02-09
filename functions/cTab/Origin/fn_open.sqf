@@ -104,9 +104,9 @@ if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) then {
 		}]
 	];
 } else {
-	cTabIfOpen set [6,
+	private _EH = if ("microDAGR" in _displayName) then {
 		addMissionEventHandler ["Draw3D",{
-      _displayName = cTabIfOpen # 1;
+			_displayName = cTabIfOpen # 1;
 			_display = uiNamespace getVariable _displayName;
 			_veh = vehicle cTab_player;
 			_heading = direction _veh;
@@ -117,30 +117,26 @@ if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) then {
 			(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition getPosASL _veh];
 			
 			// update current heading
-      _texts = if ("microDAGR" in _displayName) then {
-        [
-          format ["%1°", [_heading,3] call CBA_fnc_formatNumber],
-          format ["%1", [_heading] call cTab_fnc_degreeToOctant]
-        ]
-      } else {
-        [
-          format ["%1 %2°", [_heading] call cTab_fnc_degreeToOctant,[_heading,3] call CBA_fnc_formatNumber],
-          nil
-        ]
-      };
-
-      //- Set User Bearing Infos
-      {
-        private _txt = _texts # _forEachIndex;
-
-        if (isnil{_txt}) then {continue};
-        (_display displayCtrl _x) ctrlSetText _txt;
-      } forEach [
-        IDC_CTAB_OSD_DIR_DEGREE,
-        IDC_CTAB_OSD_DIR_OCTANT
-      ];
-		}]
-	];
+			(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°", [_heading,3] call CBA_fnc_formatNumber];
+			(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1", [_heading] call cTab_fnc_degreeToOctant];
+		}];
+	} else {
+		addMissionEventHandler ["Draw3D",{
+			_displayName = cTabIfOpen # 1;
+			_display = uiNamespace getVariable _displayName;
+			_veh = vehicle cTab_player;
+			_heading = direction _veh;
+			// update time
+			(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
+			
+			// update grid position
+			(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition getPosASL _veh];
+			
+			// update current heading
+			(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1 %2°", [_heading] call cTab_fnc_degreeToOctant,[_heading,3] call CBA_fnc_formatNumber];
+		}];
+	};
+	cTabIfOpen set [6,_EH];
 };
 
 

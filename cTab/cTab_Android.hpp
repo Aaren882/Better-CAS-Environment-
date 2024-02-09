@@ -20,12 +20,8 @@
 #undef Android_BR_InfoY
 
 //-Edited Origins
-class cTab_android_on_screen_dirOctant: BCE_RscButtonMenu
+class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 {
-	style = 2;
-	
-	text = "Weather Text";
-	
 	x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (0.35))) / 2048 * PhoneW + CustomPhoneX;
 	y = ((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY;
 	w = ((((1167) - (20) * 6) / 5)) / 2048 * PhoneW;
@@ -34,33 +30,6 @@ class cTab_android_on_screen_dirOctant: BCE_RscButtonMenu
 	action = "['cTab_Android_dlg'] call cTab_fnc_toggleWeather";
 	
 	sizeEx = ((27)) / 2048 * PhoneW;
-	
-	animTextureOver = "#(argb,8,8,3)color(1,1,1,0.8)";
-	animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
-	animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
-	
-	colorBackground[] = 
-	{
-		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
-		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
-		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
-		0.8
-	};
-	colorBackground2[] = 
-	{
-		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
-		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
-		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
-		0.8
-	};
-	colorBackgroundFocused[] = 
-	{
-		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
-		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
-		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
-		0.5
-	};
-	
 	size = 0.95 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
 	
 	class TextPos
@@ -73,8 +42,6 @@ class cTab_android_on_screen_dirOctant: BCE_RscButtonMenu
 	
 	class Attributes: Attributes
 	{
-		align="center";
-		valign="middle";
 		size = TextMenu(0.9);
 	};
 };
@@ -258,7 +225,7 @@ PHONE_CLASS
 					idc = 4660 + 100;
 					style = "0x02 + 0x0C + 0x0100";
 					shadow = 1;
-					text = ATAK_APP(APP_MSG,Messages);
+					text = ATAK_APP("MG8\AVFEVFX\data\mail.paa",Messages);
 	
 					x = 0;
 					y = 0;
@@ -311,11 +278,11 @@ PHONE_CLASS
 				class actTKBtxt: actMSGtxt
 				{
 					idc = 4660 + 101;
-					text = ATAK_APP("\a3\characters_f\data\ui\icon_expl_specialist_ca.paa",Missions);
+					text = ATAK_APP("MG8\AVFEVFX\data\missions.paa",Missions);
 					x = PhoneBFTContainerW(1);
 					action = "['cTab_Android_dlg',[['showMenu',['mission',true,-1]]]] call cTab_fnc_setSettings;";
 					
-					textureNoShortcut="\a3\characters_f\data\ui\icon_expl_specialist_ca.paa";
+					textureNoShortcut="MG8\AVFEVFX\data\missions.paa";
 				};
 				class actUAVtxt: actMSGtxt
 				{
@@ -337,11 +304,11 @@ PHONE_CLASS
 				class actHCamtxt: actMSGtxt
 				{
 					idc = 4660 + 103;
-					text = ATAK_APP("a3\3den\data\displays\display3den\entitymenu\movecamera_ca.paa",Helmet Cam);
+					text = ATAK_APP("MG8\AVFEVFX\data\Hcam.paa",Helmet Cam);
 					y = (phoneSizeW * 3/5)/3;
 					action = "";
 					
-					textureNoShortcut="a3\3den\data\displays\display3den\entitymenu\movecamera_ca.paa";
+					textureNoShortcut="MG8\AVFEVFX\data\Hcam.paa";
 				};
 				class actGrouptxt: actHCamtxt
 				{
@@ -1267,26 +1234,14 @@ PHONE_CLASS
 		};
 		
 		//-Weather Condition
-		class cTab_android_on_Weather_condition_Box: RscStructuredText
+		class cTab_android_on_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box
 		{
-			idc = 26160;
-			colorBackground[] = {0.2,0.2,0.2,0.5};
 			
 			x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (0.35))) / 2048 * PhoneW + CustomPhoneX;
 			y = (((713)) / 2048  * 	CustomPhoneH + 	CustomPhoneY) + (((60)) / 2048  * CustomPhoneH);
-			w = ((((1167) - (20) * 6) / 5)) / 2048 * PhoneW;
-			h = 0;
+			w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
 			
-			size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
-			text = "";
-			tooltip="";
-			
-			class Attributes
-			{
-				align = "Left";
-				font = "RobotoCondensedBold_BCE";
-				size = TextMenu(0.9);
-			};
+			size = 1.05 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
 		};
 		
 		//-App Menu

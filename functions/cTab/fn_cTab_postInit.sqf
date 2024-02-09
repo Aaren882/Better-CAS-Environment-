@@ -42,6 +42,20 @@
 	["brightness",0.9]
 ]] call BIS_fnc_setToPairs;
 
+[cTabSettings,"FBCB2",[
+	["dlgIfPosition",[]],
+	["mapWorldPos",[]],
+	["showIconText",true],
+	["mapScaleDsp",2],
+	["mapScaleDlg",2],
+	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
+	["mapType","SAT"],
+	["mapTools",true],
+	["nightMode",0],
+	["brightness",0.9],
+	["Weather_Condition",[false,"",2.8]]
+]] call BIS_fnc_setToPairs;
+
 ["cTab_checkForPlayerChange", "onEachFrame"] call BIS_fnc_removeStackedEventHandler;
 
 cTabOnDrawbft = ctab_fnc_onDrawbft;
