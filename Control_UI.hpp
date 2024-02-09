@@ -1178,7 +1178,7 @@ class RscDisplayAVTerminal
 			strings[] =
 			{
 				"\a3\modules_f\data\iconTaskCreate_ca.paa",
-				"\a3\modules_f\data\iconTaskSetDescription_ca.paa"
+				"\MG8\AVFEVFX\data\terms.paa"
 			};
 			tooltips[] =
 			{

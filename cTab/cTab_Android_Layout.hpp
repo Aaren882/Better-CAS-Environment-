@@ -62,10 +62,12 @@ class cTab_android_on_screen_satellite: cTab_android_on_screen_battery
 
 class cTab_android_on_screen_dirDegree: cTab_android_on_screen_time
 {
-	x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (2 - 1))) / 2048  * 	PhoneW + 	CustomPhoneX;
+	style = 1;
+	x = ((((20) + (452)) + ((20) + (((1134) - (20) * 6) / 5)) * (2 - 1))) / 2048 * PhoneW + CustomPhoneX;
 };
 class cTab_android_on_screen_grid: cTab_android_on_screen_dirDegree
 {
+	style = 0;
 	x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (4 - 1))) / 2048  * 	PhoneW + 	CustomPhoneX;
 };
 
