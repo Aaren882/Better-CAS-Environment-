@@ -73,6 +73,7 @@ PHONE_CLASS
 		{
 			#ifdef MOUSE_CLICK_EH
 				onMouseButtonClick = MOUSE_CLICK_EH;
+				onMouseButtonDblClick = "call cTab_fnc_Interaction_Menu";
 			#endif
 		};
 		
@@ -1232,6 +1233,7 @@ PHONE_CLASS
 			
 			onLBSelChanged = "['cTab_Android_dlg',[['markerColor',_this # 1]]] call cTab_fnc_setSettings;";
 		};
+		class CGrp: CGrp{};
 		
 		//-Weather Condition
 		class cTab_android_on_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box
