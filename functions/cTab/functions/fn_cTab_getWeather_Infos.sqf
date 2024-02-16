@@ -123,5 +123,5 @@ if (([_displayName,"Weather_Condition"] call cTab_fnc_getSettings) # 0) then {
 ];
 
 if (_loop) then {
-  [BCE_fnc_cTab_getWeather_Infos, _this, 2] call CBA_fnc_waitAndExecute;
+  [BCE_fnc_cTab_getWeather_Infos, _this, 5] call CBA_fnc_waitAndExecute;
 };

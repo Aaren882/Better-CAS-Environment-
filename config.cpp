@@ -831,6 +831,15 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\functions\fn_toggleWeather.sqf";
 				};
+				//- Action Menu
+				class Interaction_Menu
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\menu\fn_Interaction_Menu.sqf";
+				};
+				class Menu_Correction
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\menu\fn_Menu_Correction.sqf";
+				};
 			};
 		};
 	#endif
