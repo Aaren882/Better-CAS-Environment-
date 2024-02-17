@@ -1,5 +1,5 @@
 params ["_vehicle",["_mode",-1]];
-private ["_class_veh","_allTurrets","_config_path","_pilot_cam_LOD","_Turrets_Optics","_Optic_LODs","_turret_Weapons","_return"];
+private ["_class_veh","_allTurrets","_config_path","_pilot_cam_LOD","_Turrets_Optics","_Optic_LODs","_turret_Weapons"];
 
 //-exit if _vehicle is not Vehicle
 if !(_vehicle in vehicles) exitWith {[]};
@@ -171,8 +171,7 @@ if (count _turret_Weapons > 0) then {
 };
 
 //-Return
-_return = [BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode;
 [
 	[],
-	_return get _class_veh
+	([BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode) get _class_veh
 ] select ((_mode > -1) && (_class_veh in _return));
