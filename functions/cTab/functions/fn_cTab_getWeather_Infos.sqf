@@ -97,10 +97,10 @@ if (([_displayName,"Weather_Condition"] call cTab_fnc_getSettings) # 0) then {
     _result,
     _temperature,
     format [
-      "%1 %2 %3 <t align='right' size='0.8'>”%4“</t>",
+      "%1 %2 %3 <t align='right' size='0.7'>”%4“</t>",
       _windIcon,
       _wind,
-      format ["<t size='0.8'>- %1m/s</t>", floor _windSpeed],
+      format ["<t size='0.7'>- %1m/s</t>", floor _windSpeed],
       _windDir
     ],
     format [
@@ -115,10 +115,10 @@ if (([_displayName,"Weather_Condition"] call cTab_fnc_getSettings) # 0) then {
 
 //- Button
 (_display displayCtrl 2616) ctrlSetStructuredText parseText format [
-  "<t align='center'>%1 %2°C   %3 ”%4“</t>",
+  "%1 %2°C   <t align='right'>%3 ”%4“</t>",
   _icon,
   _temperature,
-  "<img size='0.7' image='MG8\AVFEVFX\data\wind_Estimator.paa' />",
+  "<img size='0.7' image='MG8\AVFEVFX\data\wind.paa' />",
   _windDir
 ];
 

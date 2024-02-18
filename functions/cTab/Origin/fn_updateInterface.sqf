@@ -170,13 +170,14 @@ _settings apply {
 		};
 	};
 
+	//- Weather Condition
 	if ((_x # 0) == "Weather_Condition") exitWith {
 		private ["_bnt","_ctrl","_posH","_loop"];
 		_bnt = _display displayCtrl 2616;
 		_ctrl = _display displayCtrl 26160;
 		_posH = (ctrlPosition _bnt) # 3;
 
-		(_x # 1) params ["_show","_loopName",["_size",3.2]];
+		(_x # 1) params ["_show","_loopName",["_size",3.5]];
 
 		_loop = _displayName != _loopName;
 		[_displayName, _loop] call BCE_fnc_cTab_getWeather_Infos;
@@ -185,8 +186,22 @@ _settings apply {
 			[_displayName,[["Weather_Condition",[_show,_displayName,_size]]],false] call cTab_fnc_setSettings;
 		};
 		
-		_ctrl ctrlSetPositionH ([0, _size * _posH] select _show);
+		//- Define Size
+		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.27)])
+		#define CustomPhoneH (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_H',(PhoneW * 4/3)])
+
+		_ctrl ctrlSetPositionH ([
+			0,
+			_size * 1.2 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / ([
+				(((safezoneW * 0.8) * 4/3) / CustomPhoneH),
+				1
+			] select _isDialog))
+		] select _show);
+
 		_ctrl ctrlCommit ([0.2, 0] select _interfaceInit);
+
+		#undef PhoneW
+		#undef CustomPhoneH
 	};
 
 	// ------------ MODE ------------
