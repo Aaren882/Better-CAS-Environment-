@@ -117,10 +117,17 @@ class cTab_android_notification: cTab_RscText_Android
 class CGrp: RscControlsGroupNoScrollBars
 {
 	idc = 3510;
-	x = phoneSizeX + (phoneSizeW / 2) - ((((safezoneW / safezoneH) min 1.2) / 40)*15*0.7/2);
-	y = phoneSizeY + (phoneSizeH / 2) - (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)*15*0.7/2);
+	x = phoneSizeX + (phoneSizeW / 2) - ((((safezoneW / safezoneH) min 1.2) / 40)*15*0.7 / 2);
+	y = phoneSizeY + (phoneSizeH / 2) - (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)*15*0.7 / 2);
 	w = "(((safezoneW / safezoneH) min 1.2) / 40)*15*0.7";
 	h = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)*15*0.7";
+	
+	/*
+		x = phoneSizeX + (phoneSizeW / 2) - ((((safezoneW / safezoneH) min 1.2) / 40)*15*0.7/2);
+		y = phoneSizeY + (phoneSizeH / 2) - (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)*15*0.7/2);
+		w = "(((safezoneW / safezoneH) min 1.2) / 40)*15*0.7";
+		h = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)*15*0.7";
+	*/
 	class controls
 	{
 		class Radial: RscPictureKeepAspect

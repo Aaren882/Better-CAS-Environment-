@@ -1573,7 +1573,7 @@ class cTab_FBCB2_dlg
 			h = 0;
 			
 			
-			size = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.9";
+			size = "(((safezoneW / safezoneH) min 1.2) / 1.2) / 25";
 			sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 			
 			class Attributes
@@ -1636,7 +1636,7 @@ class cTab_TAD_dlg
 
 #define TextSize (((38)) / 2048 * CustomPhoneH)
 #define TextTimes 1
-#define TextTimesH (PhoneH / PhoneH)
+#define TextTimesH 1
 #define TextMenu(MULTI) __EVAL(1.1*MULTI)
 
 #define ATAK_APP(APP,TITLE) #<br/><t size='1'><br/><br/>TITLE</t>

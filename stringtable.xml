@@ -47,9 +47,9 @@
 			<Chinesesimp>清除全部</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_ClearTaskInfo">
-			<Original>Clear Task Info</Original>
-			<Chinese>清除任務資訊</Chinese>
-			<Chinesesimp>清除任务信息</Chinesesimp>
+			<Original>Clear</Original>
+			<Chinese>清除</Chinese>
+			<Chinesesimp>清除</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_New_Task">
 			<Original>New Task</Original>

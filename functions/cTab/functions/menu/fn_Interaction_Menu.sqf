@@ -1,7 +1,7 @@
 //params [""];
 
 //- These codes are Base on "MapTools Remastered" by "POLPOX"              
-//- Link https://steamcommunity.com/sharedfiles/filedetails/?id=3032131959 
+//- link: https://steamcommunity.com/sharedfiles/filedetails/?id=3032131959 
 
 #define SCALE 0.7
 

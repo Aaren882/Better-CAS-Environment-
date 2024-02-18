@@ -88,11 +88,11 @@ class CfgUIGrids
 							{
 								"(safezoneX - 	(0.86) * 0.17)",
 								"(safezoneY + safezoneH * 0.88 - 	(	(0.86) * 4/3) * 0.72)",
-								"(0.86)",
-								"((0.86) * 4/3)"
+								"(safezoneW * 0.27)",
+								"((safezoneW * 0.27) * 4/3)"
 							},
-							"(0.86) / 4",
-							"((0.86) * 4/3) / 4"
+							"(safezoneW * 0.27) / 4",
+							"((safezoneW * 0.27) * 4/3) / 4"
 						};
 					#endif
                 };

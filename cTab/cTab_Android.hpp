@@ -24,19 +24,19 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 {
 	x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (0.35))) / 2048 * PhoneW + CustomPhoneX;
 	y = ((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY;
-	w = ((((1167) - (20) * 6) / 5)) / 2048 * PhoneW;
+	w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
 	h = (((60) - (20))) / 2048 * CustomPhoneH;
 	
 	action = "['cTab_Android_dlg'] call cTab_fnc_toggleWeather";
 	
 	sizeEx = ((27)) / 2048 * PhoneW;
-	size = 0.95 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
+	size = 0.8 * (((60) - (20))) / 2048 * CustomPhoneH;
 	
 	class TextPos
 	{
-		left = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40);
-		top = (phoneSizeW * 3/5)/4/20;
-		right = 0.0049999999;
+		left = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimesH;
+		top = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimesH;
+		right = 0;
 		bottom = 0;
 	};
 	
@@ -244,23 +244,22 @@ PHONE_CLASS
 					animTextureFocused = "#(argb,8,8,3)color(0,0,0,0)";
 					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
 					
-					size = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
-	
+					size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
 					action = "['cTab_Android_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
 					
 					textureNoShortcut=APP_MSG;
 					class ShortcutPos
 					{
 						left = 0.75 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
-						top = (phoneSizeW * 3/5)/3/20;
+						top = (phoneSizeW * 3/5)/3*0.18;
 						w = (phoneSizeW * 2/5)/5*1.1;
 						h = (phoneSizeW * 3/5)/5;
 					};
-					
+
 					class TextPos
 					{
-						left = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40);
-						top = (phoneSizeW * 3/5)/3/20;
+						left = "0.25 * (((safezoneW / safezoneH) min 1.2) / 40)";
+						top = (phoneSizeW * 3/5)/5/2;
 						right = 0;
 						bottom = 0;
 					};
@@ -268,7 +267,6 @@ PHONE_CLASS
 					
 					class Attributes
 					{
-						valign = "bottom";
 						font = "RobotoCondensed_BCE";
 						color = "#E5E5E5";
 						align = "center";
@@ -289,17 +287,17 @@ PHONE_CLASS
 				{
 					idc = 4660 + 102;
 					x = PhoneBFTContainerW(2);
-					text = ATAK_APP("a3\weapons_f_orange\reticle\data\camera_ca.paa",AV Camera);
+					text = ATAK_APP("MG8\AVFEVFX\data\AV_Cam.paa",AV Camera);
 					action = "['cTab_Android_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
 					
-					textureNoShortcut="a3\weapons_f_orange\reticle\data\camera_ca.paa";
-					class ShortcutPos
+					textureNoShortcut="MG8\AVFEVFX\data\AV_Cam.paa";
+					/*class ShortcutPos: ShortcutPos
 					{
-						left = 0.95 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
-						top = 2.5 * (phoneSizeW * 3/5)/3/20;
+						left = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
+						//top = 2.5 * (phoneSizeW * 3/5)/3*0.18;
 						w = (phoneSizeW * 2/5)/5*0.9;
 						h = (phoneSizeW * 3/5)/5*0.8;
-					};
+					};*/
 				};
 				//-Second Line
 				class actHCamtxt: actMSGtxt
@@ -343,7 +341,7 @@ PHONE_CLASS
 				{
 					idc = 4660 + 107;
 					x = PhoneBFTContainerW(1);
-					text = ATAK_APP("a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa",Damage Assessment);
+					text = ATAK_APP("a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa",BDA Report);
 					action = "";
 					
 					textureNoShortcut="a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa";
@@ -354,10 +352,10 @@ PHONE_CLASS
 					idc = 4660 + 108;
 					y = 2*((phoneSizeW * 3/5)/3);
 					x = PhoneBFTContainerW(2);
-					text = ATAK_APP("a3\weapons_f_orange\reticle\data\settings_ca.paa",Settings);
+					text = ATAK_APP("MG8\AVFEVFX\data\settings.paa",Settings);
 					action = "";
 					
-					textureNoShortcut="a3\weapons_f_orange\reticle\data\settings_ca.paa";
+					textureNoShortcut="MG8\AVFEVFX\data\settings.paa";
 				};
 			};
 		};
@@ -570,8 +568,8 @@ PHONE_CLASS
 					animTextureOver = "#(argb,8,8,3)color(0,0,0,0.5)";
 					animTextureFocused = "#(argb,8,8,3)color(0,0,0,0.8)";
 					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
-					
-					size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
+
+					size = 0.7 * (((60) - (20))) / 2048 * CustomPhoneH;
 					
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,1]]]] call cTab_fnc_setSettings;";
 					
@@ -580,6 +578,13 @@ PHONE_CLASS
 						align = "center";
 						font = "RobotoCondensedBold_BCE";
 						size = TextMenu(1);
+					};
+					class TextPos
+					{
+						left = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimesH;
+						top = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimesH;
+						right = 0;
+						bottom = 0;
 					};
 				};
 
@@ -1153,12 +1158,20 @@ PHONE_CLASS
 					animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
 					animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.35)";
 					
-					size = 0.95 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
+					size = 0.64 * (((60) - (20))) / 2048 * CustomPhoneH;
 					
 					ATAK_POS(0,0,0.75,0.64);
 					
 					onButtonClick = "call BCE_fnc_ATAK_LastPage";
 					
+					class TextPos
+					{
+						left = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimesH;
+						top = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimesH;
+						right = 0;
+						bottom = 0;
+					};
+	
 					class Attributes: Attributes
 					{
 						align="center";
@@ -1243,7 +1256,7 @@ PHONE_CLASS
 			y = (((713)) / 2048  * 	CustomPhoneH + 	CustomPhoneY) + (((60)) / 2048  * CustomPhoneH);
 			w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
 			
-			size = 1.05 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
+			size = 1.2 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
 		};
 		
 		//-App Menu
