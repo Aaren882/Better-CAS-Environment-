@@ -3,14 +3,17 @@ params ["_vehicle","_ctrl","_FocusPos","_turret","_color","_text",["_condition",
 //-Draw condition
 if !(_condition) exitWith {};
 
-private ["_veh_POS","_dis","_dir","_angle","_vertices"];
-//-drawing
+private ["_angle","_veh_POS","_dis","_dir","_vertices"];
+
+_angle = _vehicle getVariable "BCE_Cam_FOV_Angle";
+
+if (isnil{_angle}) exitWith {};
+
+//-Vars
+_angle = _angle get (str _turret);
 _veh_POS = getPosASLVisual _vehicle;
 _dis = _vehicle distance2D _FocusPos;
 _dir = _veh_POS getDirVisual _FocusPos;
-_angle = (_vehicle turretUnit _turret) getVariable ["BCE_Cam_FOV_Angle",-1];
-
-if (_angle < 0) exitWith {};
 
 //-Drawing
 _vertices = [_veh_POS] + ([_angle,-_angle] apply {
