@@ -1,6 +1,14 @@
 #include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 if (!hasInterface) exitWith {};
 
+//- Init cache holder
+private _map = createHashMap;
+{
+	_map set [_x , createHashMap];
+} foreach ["BCE_Camera_Cache","BCE_IRLaser_Cache"];
+localNamespace setVariable ["BCE_System_Caches", _map];
+_map = nil;
+
 TGP_View_Unit_List = [];
 TGP_View_Marker_List = [];
 TGP_View_TouchMark_List = [];
@@ -14,7 +22,6 @@ BCE_TGP_LastUpdate = 0;
 if (isnil {BCE_SYSTEM_Handler}) then {
 	BCE_SYSTEM_Handler = "";
 };
-
 
 private _mapCenter = worldSize / 2;
 private _landmarks = ["NameVillage", "NameCity", "NameCityCapital", "NameLocal", "NameMarine", "Hill"];
