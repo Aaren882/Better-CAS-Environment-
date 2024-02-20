@@ -25,7 +25,7 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 	x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (0.35))) / 2048 * PhoneW + CustomPhoneX;
 	y = ((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY;
 	w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
-	h = (((60) - (20))) / 2048 * CustomPhoneH;
+	h = ((40)) / 2048 * CustomPhoneH;
 	
 	action = "['cTab_Android_dlg'] call cTab_fnc_toggleWeather";
 	
@@ -259,7 +259,7 @@ PHONE_CLASS
 					class TextPos
 					{
 						left = "0.25 * (((safezoneW / safezoneH) min 1.2) / 40)";
-						top = (phoneSizeW * 3/5)/5/2;
+						top = ((phoneSizeW * 3/5)/3*0.18) + ((phoneSizeW * 3/5)/5);
 						right = 0;
 						bottom = 0;
 					};
@@ -1246,7 +1246,7 @@ PHONE_CLASS
 			
 			onLBSelChanged = "['cTab_Android_dlg',[['markerColor',_this # 1]]] call cTab_fnc_setSettings;";
 		};
-		class CGrp: CGrp{};
+		//class CGrp: CGrp{};
 		
 		//-Weather Condition
 		class cTab_android_on_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box
@@ -1256,7 +1256,7 @@ PHONE_CLASS
 			y = (((713)) / 2048  * 	CustomPhoneH + 	CustomPhoneY) + (((60)) / 2048  * CustomPhoneH);
 			w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
 			
-			size = 1.2 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
+			size = 1.15 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
 		};
 		
 		//-App Menu

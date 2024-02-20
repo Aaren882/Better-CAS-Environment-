@@ -11,7 +11,7 @@ if (
 private ["_isAVT","_isGunShip","_has_IP","_remarks","_task_info","_grp"];
 
 _isAVT = !isnull (finddisplay 160);
-if ((_vehicle getVariable ["BCE_Task_Receiver", []]) isNotEqualTo []) exitWith {
+if ((_vehicle getVariable ["BCE_Task_Receiver", ""]) != "") exitWith {
 	if (_isAVT) then {
 		hint localize "STR_BCE_Error_Unavailable";
 	} else {
@@ -46,7 +46,7 @@ if (_isGunShip) then {
 };
 
 //-have IP/BP
-_has_IP = !(_IP_POS isEqualTo []);
+_has_IP = IP_POS isNotEqualTo [];
 
 _remarks = switch _type do {
 	case 5: {_taskVar # 4};
@@ -63,7 +63,14 @@ if (((_remarks # 0) == "NA") && !(_has_IP)) then {
 	_remarks set [0,_text];
 	_remarks set [1,_HDG];
 };
-_task_info = [player,group player,_type,_taskVar,call BCE_fnc_UpdateTime];
+
+//- Send over Task
+_task_info = str [
+	format ["%2 [%3]", localize "STR_BCE_Caller", name player, groupId group player],
+	_type,
+	_taskVar,
+	call BCE_fnc_UpdateTime
+];
 _vehicle setVariable ["BCE_Task_Receiver", _task_info, true];
 
 if ((_vehicle isKindOf "Helicopter") || !(BCE_AI_CAS_Support_fn) || (isplayer _vehicle) || (_isGunShip)) exitWith {};
@@ -138,12 +145,12 @@ if ((_vehicle distance2D _posTarget) <= (_vehicle distance2D _IP)) then {
 					[{
 							params ["_ActWP","_grp","_vehicle"];
 
-							((currentWaypoint _grp) > _ActWP) || !(alive _vehicle) || (isplayer _vehicle) || ((_vehicle getVariable ["BCE_Task_Receiver", []]) isEqualTo [])
+							((currentWaypoint _grp) > _ActWP) || !(alive _vehicle) || (isplayer _vehicle) || ((_vehicle getVariable ["BCE_Task_Receiver", ""]) == "")
 						}, {
 							params ["_ActWP","_grp","_vehicle"];
 
 							//Call Event
-							if ((alive _vehicle) && !(isplayer _vehicle) && (count (_vehicle getVariable ["BCE_Task_Receiver", []]) > 0)) then {
+							if ((alive _vehicle) && !(isplayer _vehicle) && ((_vehicle getVariable ["BCE_Task_Receiver", ""]) != "")) then {
 								_this call BCE_fnc_CAS_Action;
 							};
 						}, [_ActWP,_grp]+_this
@@ -196,12 +203,12 @@ if ((_vehicle distance2D _posTarget) <= (_vehicle distance2D _IP)) then {
 					[{
 							params ["_ActWP","_grp","_vehicle"];
 
-							((currentWaypoint _grp) > _ActWP) || !(alive _vehicle) || (isplayer _vehicle) || ((_vehicle getVariable ["BCE_Task_Receiver", []]) isEqualTo [])
+							((currentWaypoint _grp) > _ActWP) || !(alive _vehicle) || (isplayer _vehicle) || ((_vehicle getVariable ["BCE_Task_Receiver", ""]) == "")
 						}, {
 							params ["_ActWP","_grp","_vehicle"];
 
 							//Call Event
-							if ((alive _vehicle) && !(isplayer _vehicle) && (count (_vehicle getVariable ["BCE_Task_Receiver", []]) > 0)) then {
+							if ((alive _vehicle) && !(isplayer _vehicle) && ((_vehicle getVariable ["BCE_Task_Receiver", ""]) != "")) then {
 								_this call BCE_fnc_CAS_Action;
 							};
 						}, [_ActWP,_grp]+_this

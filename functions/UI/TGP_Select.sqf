@@ -16,11 +16,18 @@ _fnc_onConfirm = {
 		if (_vehicle_str == str _x) exitWith {_vehicle = _x};
 	} count (vehicles select {(_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)});
 	if !(isnull _vehicle) then {
+		_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
+
+		//-Setup Connected Turret
+		if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) || (_vehicle isNotEqualTo (_Selected_Optic # 1))) then {
+			private _Optic_LODs = [_vehicle,0] call BCE_fnc_Check_Optics;
+			player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
+		};
+
 		player setVariable ["TGP_View_Selected_Vehicle",_vehicle];
 		_vehicle call BCE_fnc_TGP_Select_Confirm;
 	};
 };
-
 //-Init
 _display = _params # 0;
 _ctrlValue = _display displayctrl IDC_RSCATTRIBUTECAS_VALUE;
@@ -38,8 +45,9 @@ switch _mode do {
 		_ctrlButtonOK ctrlAddEventHandler ["ButtonClick", _fnc_onConfirm];
 
 		{
+			private ["_vehicle","_cfg","_lnbAdd"];
 			_vehicle = _x;
-			_cfg = configfile >> "cfgvehicles" >> typeOf _vehicle;
+			_cfg = configOf _vehicle;
 
 			_lnbAdd = if (_selected isEqualTo _vehicle) then {
 				_ctrlValue lnbaddrow ["","",format ["* %1		 %2",Name _vehicle,gettext (_cfg >> "displayName")]];

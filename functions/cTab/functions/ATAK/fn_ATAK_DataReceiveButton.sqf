@@ -42,7 +42,7 @@ if (_ctrlTitle == localize "STR_BCE_SendData") exitWith {
 	_vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
 	if (
 		(isnull _vehicle) || 
-		(count (_vehicle getVariable ["BCE_Task_Receiver",[]])) > 0
+		((_vehicle getVariable ["BCE_Task_Receiver",""])) != ""
 	) exitWith {
 		[
 			"BFT",
@@ -61,7 +61,7 @@ if (_ctrlTitle == localize "STR_BCE_SendData") exitWith {
 //-Abort Mission
 if (_ctrlTitle == localize "STR_BCE_Abort_Task") exitWith {
 	private _vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
-	_vehicle setVariable ["BCE_Task_Receiver", [], true];
+	_vehicle setVariable ["BCE_Task_Receiver","", true];
 	_vehicle setVariable ["Module_CAS_Sound",false,true];
 
 	//-Clear Waypoints

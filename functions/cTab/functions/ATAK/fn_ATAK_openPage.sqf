@@ -11,7 +11,7 @@ private _return = switch _page do {
 		private ["_vehicle","_condition"];
 
 		_vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
-		_condition = (count (_vehicle getVariable ["BCE_Task_Receiver",[]])) > 0;
+		_condition = (_vehicle getVariable ["BCE_Task_Receiver",""]) != "";
 
 
 		//-Style Switching

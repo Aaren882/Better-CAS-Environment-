@@ -78,7 +78,7 @@ class cTab_Tablet_OSD_dirOctant: BCE_RscButtonMenu
 	text = "";
 	action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleWeather";
 	
-	size = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8";
+	size = "0.8 * (((42) - (10))) / 2048 * (safezoneH * 1.2)";
 	sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 	
 	animTextureOver = "#(argb,8,8,3)color(1,1,1,0.8)";
@@ -128,7 +128,7 @@ class cTab_Tablet_OSD_Weather_condition_Box: RscStructuredText
 	text = "";
 	tooltip="";
 	
-	size = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8";
+	size = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 	sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 	
 	class Attributes
@@ -404,8 +404,7 @@ class cTab_Tablet_dlg
 				class actTKBtxt: actBFTtxt
 				{
 					idc = 10041;
-					text = "\a3\characters_f\data\ui\icon_expl_specialist_ca.paa";
-					//text = "\a3\3den\Data\Displays\Display3DEN\PanelRight\customcomposition_edit_ca.paa";
+					text = "\MG8\AVFEVFX\data\missions.paa";
 					y = "(((((491) + (42)) + (25) * 5 + (100) * 4) - ((491) + (42))) / 2048  * 	(safezoneH * 1.2))";
 					action = "['cTab_Tablet_dlg',[['mode','TASK_Builder']]] call cTab_fnc_setSettings;";
 					toolTip = "Task Builder";
@@ -1538,6 +1537,7 @@ class cTab_FBCB2_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 	w = "1.05 * ((((((810)) - (15) * 6) / 5)) / 2048 * (safezoneW))";
 	h = "(((44) - (15))) / 2048 * ((safezoneW) * 4/3)";
 	
+	size = "(((safezoneW / safezoneH) min 1.2) / 1.2) / 25";
 	action = "['cTab_FBCB2_dlg'] call cTab_fnc_toggleWeather";
 	
 	class TextPos
@@ -1572,9 +1572,7 @@ class cTab_FBCB2_dlg
 			w = "1.05 * ((((((810)) - (15) * 6) / 5)) / 2048 * (safezoneW))";
 			h = 0;
 			
-			
 			size = "(((safezoneW / safezoneH) min 1.2) / 1.2) / 25";
-			sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 			
 			class Attributes
 			{
@@ -1639,7 +1637,7 @@ class cTab_TAD_dlg
 #define TextTimesH 1
 #define TextMenu(MULTI) __EVAL(1.1*MULTI)
 
-#define ATAK_APP(APP,TITLE) #<br/><t size='1'><br/><br/>TITLE</t>
+#define ATAK_APP(APP,TITLE) #<t size='1'>TITLE</t>
 
 #define PhoneMarkerColor \
 	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX; \

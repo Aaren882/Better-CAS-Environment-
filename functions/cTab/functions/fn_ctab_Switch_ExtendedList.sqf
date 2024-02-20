@@ -50,8 +50,8 @@ if !(isNull _veh) then {
 
 	//-Task List
 	if (_lbCurSel == 2) then {
-		private _var = _veh getVariable ["BCE_Task_Receiver",[]];
-		_var params ["","","_type","_taskVar",""];
+		private _var = call compile (_veh getVariable ["BCE_Task_Receiver",""]);
+		_var params ["","_type","_taskVar",""];
 
 		//-Set LB
 		[_taskList,_type,_taskVar] call BCE_fnc_SetTaskReceiver;

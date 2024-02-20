@@ -2,7 +2,7 @@ params ["_ctrl"];
 
 //- CAS
 private _vehicle = vehicle cameraOn;
-private _taskVar = _vehicle getVariable ["BCE_Task_Receiver",[]];
+private _taskVar = _vehicle getVariable ["BCE_Task_Receiver",""];
 private _widgets = uiNameSpace getVariable ["BCE_MainMap_Widget",[true,true]];
 private _veh_POS = getPosASLVisual _vehicle;
 
@@ -51,7 +51,7 @@ if ((_vehicle isKindOf "Air") && (_widgets # 0)) then {
 	};
 };
 
-if ((_taskVar isNotEqualto []) && (_widgets # 1)) then {
+if ((_taskVar != "") && (_widgets # 1)) then {
 	private _dir = getDirVisual _vehicle;
 
 	//-Aircraft
@@ -67,7 +67,7 @@ if ((_taskVar isNotEqualto []) && (_widgets # 1)) then {
 		0.075
 	];
 
-	_taskVar params ["_caller","_callerGrp","_type","_taskVar"];
+	(call compile _taskVar) params ["","_type","_taskVar"];
 
 	switch _type do {
 		case 5: {

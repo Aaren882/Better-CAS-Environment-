@@ -208,6 +208,11 @@
 			<Chinese>呼叫者</Chinese>
 			<Chinesesimp>呼叫者</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_To_AC">
+			<Original>To</Original>
+			<Chinese>給</Chinese>
+			<Chinesesimp>给</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_Detail">
 			<Original>Detail</Original>
 			<Chinese>描述</Chinese>
@@ -379,6 +384,12 @@
 			<Original>You have received a New Task</Original>
 			<Chinese>已收到新任務</Chinese>
 			<Chinesesimp>您收到了新任务</Chinesesimp>
+		</Key>
+
+		<Key ID="STR_BCE_Task_Receiver">
+			<Original>Task Receiver</Original>
+			<Chinese>任務接收器</Chinese>
+			<Chinesesimp>任务接收器</Chinesesimp>
 		</Key>
 		
 		<Key ID="STR_BCE_Map_Tit_illumination">

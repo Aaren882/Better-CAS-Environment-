@@ -172,36 +172,28 @@ _settings apply {
 
 	//- Weather Condition
 	if ((_x # 0) == "Weather_Condition") exitWith {
-		private ["_bnt","_ctrl","_posH","_loop"];
-		_bnt = _display displayCtrl 2616;
+		private ["_ctrl","_loop"];
 		_ctrl = _display displayCtrl 26160;
-		_posH = (ctrlPosition _bnt) # 3;
 
-		(_x # 1) params ["_show","_loopName",["_size",3.5]];
+		(_x # 1) params ["_show","_loopName",["_Size","[1,1]"]];
+		(call compile _Size) params ["_DspSize","_dlgSize"];
 
 		_loop = _displayName != _loopName;
 		[_displayName, _loop] call BCE_fnc_cTab_getWeather_Infos;
-
+		
 		if (_loop) then {
-			[_displayName,[["Weather_Condition",[_show,_displayName,_size]]],false] call cTab_fnc_setSettings;
+			[_displayName,[["Weather_Condition",[_show,_displayName,_Size]]],false] call cTab_fnc_setSettings;
 		};
 		
-		//- Define Size
-		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.27)])
-		#define CustomPhoneH (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_H',(PhoneW * 4/3)])
-
 		_ctrl ctrlSetPositionH ([
 			0,
-			_size * 1.2 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / ([
-				(((safezoneW * 0.8) * 4/3) / CustomPhoneH),
+			3.5 * _dlgSize * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / ([
+				_DspSize,
 				1
 			] select _isDialog))
 		] select _show);
 
 		_ctrl ctrlCommit ([0.2, 0] select _interfaceInit);
-
-		#undef PhoneW
-		#undef CustomPhoneH
 	};
 
 	// ------------ MODE ------------

@@ -7,7 +7,7 @@ _group = _display displayCtrl 46600;
 _bnt_Ent = _group controlsGroupCtrl 11;
 
 _vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
-_condition = (count (_vehicle getVariable ["BCE_Task_Receiver",[]])) > 0;
+_condition = (_vehicle getVariable ["BCE_Task_Receiver",""]) != "";
 
 _bnt_Ent ctrlSetText localize (["STR_BCE_SendData","STR_BCE_Abort_Task"] select _condition);
 _bnt_Ent ctrlSetBackgroundColor ([
