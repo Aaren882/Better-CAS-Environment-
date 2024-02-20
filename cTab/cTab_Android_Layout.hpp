@@ -62,8 +62,8 @@ class cTab_android_on_screen_satellite: cTab_android_on_screen_battery
 
 class cTab_android_on_screen_dirDegree: cTab_android_on_screen_time
 {
-	style = 1;
-	x = ((((20) + (452)) + ((20) + (((1134) - (20) * 6) / 5)) * (2 - 1))) / 2048 * PhoneW + CustomPhoneX;
+	style = 0;
+	x = (((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (0.35))) / 2048 * PhoneW + CustomPhoneX) + (((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW);
 };
 class cTab_android_on_screen_grid: cTab_android_on_screen_dirDegree
 {
@@ -114,7 +114,7 @@ class cTab_android_notification: cTab_RscText_Android
 };
 
 //- Interation Menu
-class CGrp: RscControlsGroupNoScrollBars
+/*class CGrp: RscControlsGroupNoScrollBars
 {
 	idc = 3510;
 	x = phoneSizeX + (phoneSizeW / 2) - ((((safezoneW / safezoneH) min 1.2) / 40)*15*0.7 / 2);
@@ -122,12 +122,6 @@ class CGrp: RscControlsGroupNoScrollBars
 	w = "(((safezoneW / safezoneH) min 1.2) / 40)*15*0.7";
 	h = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)*15*0.7";
 	
-	/*
-		x = phoneSizeX + (phoneSizeW / 2) - ((((safezoneW / safezoneH) min 1.2) / 40)*15*0.7/2);
-		y = phoneSizeY + (phoneSizeH / 2) - (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)*15*0.7/2);
-		w = "(((safezoneW / safezoneH) min 1.2) / 40)*15*0.7";
-		h = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)*15*0.7";
-	*/
 	class controls
 	{
 		class Radial: RscPictureKeepAspect
@@ -169,4 +163,4 @@ class CGrp: RscControlsGroupNoScrollBars
 			font = "PuristaLight";
 		};
 	};
-};
+};*/

@@ -23,6 +23,7 @@ for "_i" from -_angle to _angle step (_angle/2) do {
 	_points pushBack _i;
 };
 _vertices insert [1, _points];
+_points = nil;
 
 //-Drawing
 _vertices = [_veh_POS] + (_vertices apply {
@@ -30,7 +31,7 @@ _vertices = [_veh_POS] + (_vertices apply {
 	_pos set [2 ,0];
 	_pos
 });
-_points = nil;
+
 _ctrl drawPolygon [_vertices, _color];
 
 _ctrl drawIcon [

@@ -2,7 +2,7 @@ class cTab_RscText_Android: cTab_RscText
 {
 	sizeEx = ((38)) / 2048 * CustomPhoneH;
 	
-	w = ((((1167) - (20) * 6) / 5)) / 2048 * PhoneW;
+	w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
 	h = (((60) - (20))) / 2048 * CustomPhoneH;
 };
 

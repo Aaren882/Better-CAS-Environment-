@@ -97,7 +97,7 @@ if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) then {
 			(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
 			
 			// update current heading
-			(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText ["%1°",[direction _veh,3] call CBA_fnc_formatNumber];
+			(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[direction _veh,3] call CBA_fnc_formatNumber];
 			
 			// update current elevation (ASL) on TAD
 			(_display displayCtrl IDC_CTAB_OSD_ELEVATION) ctrlSetText format ["%1m",[round (_playerPos # 2),4] call CBA_fnc_formatNumber];

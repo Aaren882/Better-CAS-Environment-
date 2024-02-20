@@ -16,7 +16,7 @@
 	["PLP_mapTools",false],
 	["mapTools",true],
 	["nightMode",2],
-	["Weather_Condition",[false,""]],
+	["Weather_Condition",[false,"","[1,0.8]"]],
 	["brightness",0.9]
 ]] call BIS_fnc_setToPairs;
 
@@ -38,7 +38,11 @@
 	["mapTools",true],
 	["PLP_mapTools",false],
 	["nightMode",2],
-	["Weather_Condition",[false,""]],
+	//- Define Size
+	#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.27)])
+	#define CustomPhoneH (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_H',(PhoneW * 4/3)])
+	["Weather_Condition",[false,"", str [((safezoneW * 0.8) * 4/3) / CustomPhoneH, 1.15]]],
+
 	["brightness",0.9]
 ]] call BIS_fnc_setToPairs;
 
@@ -53,7 +57,7 @@
 	["mapTools",true],
 	["nightMode",0],
 	["brightness",0.9],
-	["Weather_Condition",[false,"",2.8]]
+	["Weather_Condition",[false,""]]
 ]] call BIS_fnc_setToPairs;
 
 ["cTab_checkForPlayerChange", "onEachFrame"] call BIS_fnc_removeStackedEventHandler;

@@ -109,10 +109,10 @@ _MainList_POS = ctrlPosition _MainList;
 _createTask_POS = ctrlPosition _createTask;
 _sendData_POS = ctrlPosition _sendData;
 
-_list_Title ctrlSetText ([localize "STR_BCE_TL_Check_List",format["%1 (%2)",localize "STR_BCE_TL_Create_Task", localize "STR_BCE_DoubleClick"]] select (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]));
+_list_Title ctrlSetText ([localize "STR_BCE_TL_Check_List", format["%1 (%2)",localize "STR_BCE_TL_Create_Task", localize "STR_BCE_DoubleClick"]] select (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]));
 
 
-_sendData ctrlSetText localize (["STR_BCE_SendData","STR_BCE_Abort_Task"] select (count (_vehicle getVariable ["BCE_Task_Receiver",[]]) > 0));
+_sendData ctrlSetText localize (["STR_BCE_SendData","STR_BCE_Abort_Task"] select ((_vehicle getVariable ["BCE_Task_Receiver",""]) != ""));
 
 if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
 	private _To_BottomH = 1 - (((_MainList_POS # 1) - safezoneY) / safezoneH);

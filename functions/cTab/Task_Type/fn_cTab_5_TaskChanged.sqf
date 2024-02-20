@@ -15,7 +15,7 @@ switch _curLine do {
 		[ctrlParent _weap,_weap,_vehicle,false,false,false] call BCE_fnc_checkList;
 
 		//-Abort button
-		_abort ctrlEnable ((_vehicle getVariable ["BCE_Task_Receiver",[]]) isNotEqualTo []);
+		_abort ctrlEnable ((_vehicle getVariable ["BCE_Task_Receiver",""]) != "");
 
 		//-Default
 		if ((_taskVar_0 # 0) != "NA") then {

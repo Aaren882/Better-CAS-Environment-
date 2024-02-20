@@ -1,15 +1,29 @@
-private ["_display","_vehicle","_var","_ctrlUnit","_ctrlList","_Cfg"];
+params [["_mode", -1]];
+private ["_display","_var","_ctrlUnit","_ctrlList"];
 
 _display = uiNamespace getVariable "BCE_Task_Receiver";
-_vehicle = vehicle cameraOn;
-_var = _vehicle getVariable "BCE_Task_Receiver";
+
+_var = switch (_mode) do {
+	case 0: {
+		private ["_vehicle","_type","_taskVar"];
+		_vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
+		_type = [9, 5] # (uiNameSpace getVariable ["BCE_Current_TaskType",0]);
+		_taskVar = uiNamespace getVariable format ["BCE_CAS_%1Line_Var", _type];
+		(_display displayCtrl 15112) ctrlSetText localize "STR_BCE_Widgets_TIP_TASK";
+		
+		[format ["%1 [%2]",name _vehicle, groupId group _vehicle], _type, _taskVar]
+	};
+	default {
+		call compile ((vehicle cameraOn) getVariable "BCE_Task_Receiver")
+	};
+};
+
+_var params ["_caller_info","_type","_taskVar"];
 
 _ctrlUnit = _display displayCtrl 101;
 _ctrlList = _display displayCtrl 102;
 
-_var params ["_caller","_callerGrp","_type","_taskVar","_time"];
-
-_ctrlUnit ctrlSetText (format ["%1 [%2]",_callerGrp, name _caller]);
+_ctrlUnit ctrlSetText format ["%1: %2", localize (["STR_BCE_To_AC", "STR_BCE_Caller"] select (_mode < 0)), _caller_info];
 
 //-Set LB
 [_ctrlList,_type,_taskVar] call BCE_fnc_SetTaskReceiver;
