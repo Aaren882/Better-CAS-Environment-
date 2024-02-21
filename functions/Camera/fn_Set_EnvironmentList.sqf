@@ -2,7 +2,6 @@ params ["_ctrl","_end"];
 
 if (isnull _ctrl) exitWith {};
 
-_colors = [[1,0,0,1],[1,1,0,1],[0,1,0,1]];
 _exclude = {
 	params ["_factor","_titles",["_color",true],["_custom_Txt",""]];
 	private ["_index","_text","_result"];
@@ -25,7 +24,7 @@ _exclude = {
 	] select (_custom_Txt == "")];
 
 	if (_color) then {
-		_result pushBack (_colors # _index);
+		_result pushBack ([[1,0,0,1],[1,1,0,1],[0,1,0,1]] # _index);
 	};
 	_result
 };
@@ -40,7 +39,7 @@ for "_i" from 0 to _end step 1 do {
 				[windStr,["wind_Strong","wind_Gentle","wind_Calm"],false,(windDir - 180) call BCE_fnc_getAzimuth]
 			};
 			case 3: {
-				[fog,["fog_Haze","fog_Mist","fog_Clear"]]
+				[fog,["fog_Haze","fog_Fog","fog_Mist"]]
 			};
 			default {
 				[(fog + (getLighting # 3)) / 2,["vis_Very_Bad","vis_Bad","vis_Good"]]

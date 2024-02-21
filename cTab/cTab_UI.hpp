@@ -61,6 +61,83 @@ class cTab_Tablet_OSD_hookGrid: cTab_RscText_Tablet
 {
 	colorText[] = {0.95,0.95,0.95,1};
 };
+class cTab_Tablet_OSD_time;
+class cTab_Tablet_OSD_dirDegree: cTab_Tablet_OSD_time
+{
+	style = 1;
+};
+class cTab_Tablet_OSD_dirOctant: BCE_RscButtonMenu
+{
+	style = 2;
+	
+	x = "((((10) + ((257))) + ((10) + ((((1341)) - (10) * 8) / 7)) * (2))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048))";
+	y = "((491) + ((42) - (27)) / 2) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2)";
+	w = "1.05 * ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4))";
+	h = "(((42) - (10))) / 2048 * (safezoneH * 1.2)";
+	
+	text = "";
+	action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleWeather";
+	
+	size = "0.8 * (((42) - (10))) / 2048 * (safezoneH * 1.2)";
+	sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+	
+	animTextureOver = "#(argb,8,8,3)color(1,1,1,0.8)";
+	animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+	animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
+	
+	colorBackground[] = 
+	{
+		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+		0.8
+	};
+	colorBackground2[] = 
+	{
+		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+		0.8
+	};
+	colorBackgroundFocused[] = 
+	{
+		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+		0.5
+	};
+	
+	class Attributes: Attributes
+	{
+		align="center";
+		valign="middle";
+	};
+};
+
+//-Weather Condition
+class cTab_Tablet_OSD_Weather_condition_Box: RscStructuredText
+{
+	idc = 26160;
+	colorBackground[] = {0.2,0.2,0.2,0.5};
+	
+	x = "((((10) + ((257))) + ((10) + ((((1341)) - (10) * 8) / 7)) * (2))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048))";
+	y = "((491) + ((42) - (27)) / 2) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2) + ((((42) - (10))) / 2048 * (safezoneH * 1.2))";
+	w = "1.05 * ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4))";
+	h = 0;
+	
+	text = "";
+	tooltip="";
+	
+	size = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+	sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+	
+	class Attributes
+	{
+		align = "Left";
+		font = "RobotoCondensedBold_BCE";
+		size = 0.9;
+	};
+};
 
 #include "cTab_classes.hpp"
 
@@ -191,6 +268,8 @@ class cTab_Tablet_dlg
 			
 			onLBSelChanged = "['cTab_Tablet_dlg',[['markerColor',_this # 1]]] call cTab_fnc_setSettings;";
 		};
+		//-Weather Widget
+		class cTab_Tablet_OSD_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box{};
 		
 		#define sizeX ((((-(10) + ((257)) + ((1341))) - ((((1341)) - (10) * 8) / 7))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048)))
 		#define sizeY(SIZE) (((-(0) + (491) + (993)) - (10) - ((42) - (10)) * SIZE) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2))
@@ -325,8 +404,7 @@ class cTab_Tablet_dlg
 				class actTKBtxt: actBFTtxt
 				{
 					idc = 10041;
-					text = "\a3\characters_f\data\ui\icon_expl_specialist_ca.paa";
-					//text = "\a3\3den\Data\Displays\Display3DEN\PanelRight\customcomposition_edit_ca.paa";
+					text = "\MG8\AVFEVFX\data\missions.paa";
 					y = "(((((491) + (42)) + (25) * 5 + (100) * 4) - ((491) + (42))) / 2048  * 	(safezoneH * 1.2))";
 					action = "['cTab_Tablet_dlg',[['mode','TASK_Builder']]] call cTab_fnc_setSettings;";
 					toolTip = "Task Builder";
@@ -1446,6 +1524,31 @@ class cTab_Tablet_dlg
 	};
 };
 
+class cTab_FBCB2_on_screen_time;
+class cTab_FBCB2_on_screen_dirDegree: cTab_FBCB2_on_screen_time
+{
+	style = 1;
+};
+//-Weather Condition
+class cTab_FBCB2_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
+{
+	x = "((((15) + ((685))) + ((15) + ((((810)) - (15) * 6) / 5)) * (0.3))) / 2048 * (safezoneW) + (safezoneX + (safezoneW - 	(safezoneW)) / 2)";
+	y = "((608) + ((44) - (24)) / 2) / 2048  * ((safezoneW) * 4/3) + (safezoneY + (safezoneH - ((safezoneW) * 4/3)) / 2)";
+	w = "1.05 * ((((((810)) - (15) * 6) / 5)) / 2048 * (safezoneW))";
+	h = "(((44) - (15))) / 2048 * ((safezoneW) * 4/3)";
+	
+	size = "(((safezoneW / safezoneH) min 1.2) / 1.2) / 25";
+	action = "['cTab_FBCB2_dlg'] call cTab_fnc_toggleWeather";
+	
+	class TextPos
+	{
+		left = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40);
+		top = (((((1341))) / 2048 * (safezoneH * 0.8)) * 3/5)/4/20;
+		right = 0.0049999999;
+		bottom = 0;
+	};
+};
+
 //-SubMenu + lerGTD SubMenu + BCE Submenu
 class cTab_FBCB2_dlg
 {
@@ -1462,6 +1565,22 @@ class cTab_FBCB2_dlg
 	class controls
 	{
 		cTab_Set_SubMenu(SubMenuH_FB);
+		class cTab_FBCB2_on_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box
+		{
+			x = "((((15) + ((685))) + ((15) + ((((810)) - (15) * 6) / 5)) * (0.3))) / 2048 * (safezoneW) + (safezoneX + (safezoneW - 	(safezoneW)) / 2)";
+			y = "((608) + ((44) - (24)) / 2) / 2048  * ((safezoneW) * 4/3) + (safezoneY + (safezoneH - ((safezoneW) * 4/3)) / 2) + ((((44) - (15))) / 2048 * ((safezoneW) * 4/3))";
+			w = "1.05 * ((((((810)) - (15) * 6) / 5)) / 2048 * (safezoneW))";
+			h = 0;
+			
+			size = "(((safezoneW / safezoneH) min 1.2) / 1.2) / 25";
+			
+			class Attributes
+			{
+				align = "Left";
+				font = "RobotoCondensedBold_BCE";
+				size = 0.9;
+			};
+		};
 	};
 };
 class cTab_TAD_dlg
@@ -1515,20 +1634,20 @@ class cTab_TAD_dlg
 
 #define TextSize (((38)) / 2048 * CustomPhoneH)
 #define TextTimes 1
-#define TextTimesH (PhoneH / PhoneH)
+#define TextTimesH 1
 #define TextMenu(MULTI) __EVAL(1.1*MULTI)
 
-#define ATAK_APP(APP,TITLE) #<br/><t size='1'><br/><br/>TITLE</t>
+#define ATAK_APP(APP,TITLE) #<t size='1'>TITLE</t>
 
 #define PhoneMarkerColor \
-	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (5 - 1)) + (((PHONE_MOD) - (20) * 6) / 5) - (42) * 4.75) / 2048 * PhoneW + CustomPhoneX; \
+	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX; \
 	y = #((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY; \
 	w = #2.5*(((42)) / 2048 * PhoneW); \
 	h = #(((60) - (20))) / 2048 * CustomPhoneH
 
 //-ATAK Map
 #include "cTab_Android_Widgets.hpp"
+#include "cTab_Android_Layout.hpp"
 
-class cTab_android_btnHome;
 //-Phone display
 #include "cTab_Android.hpp"

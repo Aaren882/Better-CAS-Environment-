@@ -129,18 +129,15 @@ _settings apply {
 		};
 	};
 
+	#define TAD_BG ["\cTab\img\TAD_background_ca.paa","\cTab\img\TAD_background_night_ca.paa"]
+	#define DAGR_BG ["\cTab\img\microDAGR_background_ca.paa","\cTab\img\microDAGR_background_night_ca.paa"]
+	#define TAB_BG ["\cTab\img\tablet_background_ca.paa","\cTab\img\tablet_background_night_ca.paa"]
 
 	//-Check if it's "1erGTD"
 	#if __has_include("\z\ctab\addons\core\config.bin")
-		#define TAD_BG ["\cTab\img\TAD_background_ca.paa","\cTab\img\TAD_background_night_ca.paa"]
 		#define PHONE_BG ["\cTab\img\android_s7_ca.paa","\cTab\img\android_s7_night_ca.paa"]
-		#define DAGR_BG ["\cTab\img\microDAGR_background_ca.paa","\cTab\img\microDAGR_background_night_ca.paa"]
-		#define TAB_BG ["\cTab\img\Tablet_background_ca.paa","\cTab\img\tablet_background_night_ca.paa"]
 	#else
-		#define TAD_BG ["\cTab\img\TAD_background_ca.paa","\cTab\img\TAD_background_night_ca.paa"]
 		#define PHONE_BG ["\cTab\img\android_background_ca.paa","\cTab\img\android_background_night_ca.paa"]
-		#define DAGR_BG ["\cTab\img\microDAGR_background_ca.paa","\cTab\img\microDAGR_background_night_ca.paa"]
-		#define TAB_BG ["\cTab\img\tablet_background_ca.paa","\cTab\img\tablet_background_night_ca.paa"]
 	#endif
 
 	// ------------ NIGHT MODE ------------
@@ -150,19 +147,19 @@ _settings apply {
 		// transform nightMode into boolean
 		_nightMode = (_nightMode == 1) || (_nightMode == 2 && (sunOrMoon < 0.2));
 		_background = call {
-		if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) exitWith {
-			TAD_BG select _nightMode
-		};
-		if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) exitWith {
-			PHONE_BG select _nightMode
-		};
-		if (_displayName in ["cTab_microDAGR_dsp","cTab_microDAGR_dlg"]) exitWith {
-			DAGR_BG select _nightMode
-		};
-		if (_displayName in ["cTab_Tablet_dlg"]) exitWith {
-			TAB_BG select _nightMode
-		};
-		""
+			if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) exitWith {
+				TAD_BG select _nightMode
+			};
+			if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) exitWith {
+				PHONE_BG select _nightMode
+			};
+			if (_displayName in ["cTab_microDAGR_dsp","cTab_microDAGR_dlg"]) exitWith {
+				DAGR_BG select _nightMode
+			};
+			if (_displayName in ["cTab_Tablet_dlg"]) exitWith {
+				TAB_BG select _nightMode
+			};
+			""
 		};
 		if (_background != "") then {
 			(_display displayCtrl IDC_CTAB_BACKGROUND) ctrlSetText _background;
@@ -171,6 +168,32 @@ _settings apply {
 				_settings pushBack ["brightness",[_displayName,"brightness"] call cTab_fnc_getSettings];
 			};
 		};
+	};
+
+	//- Weather Condition
+	if ((_x # 0) == "Weather_Condition") exitWith {
+		private ["_ctrl","_loop"];
+		_ctrl = _display displayCtrl 26160;
+
+		(_x # 1) params ["_show","_loopName",["_Size","[1,1]"]];
+		(call compile _Size) params ["_DspSize","_dlgSize"];
+
+		_loop = _displayName != _loopName;
+		[_displayName, _loop] call BCE_fnc_cTab_getWeather_Infos;
+		
+		if (_loop) then {
+			[_displayName,[["Weather_Condition",[_show,_displayName,_Size]]],false] call cTab_fnc_setSettings;
+		};
+		
+		_ctrl ctrlSetPositionH ([
+			0,
+			3.5 * _dlgSize * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / ([
+				_DspSize,
+				1
+			] select _isDialog))
+		] select _show);
+
+		_ctrl ctrlCommit ([0.2, 0] select _interfaceInit);
 	};
 
 	// ------------ MODE ------------
@@ -226,6 +249,7 @@ _settings apply {
 				17000 + 46320,
 
 				//-ATAK
+				3510,
 				17000 + 4660,
 				17000 + 4661,
 				17000 + 4662,
@@ -286,6 +310,7 @@ _settings apply {
 
 				_displayItemsToShow = [
 					_mapIDC,
+					3510,
 					17000 + 1200,
 					17000 + 1201,
 					17000 + 1202,

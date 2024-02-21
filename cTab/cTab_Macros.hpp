@@ -6,8 +6,8 @@
 
 //-desktop icons
 #define APP_BFT "\cTab\img\cTab_BFT_ico.paa"
-#define APP_UAV "\cTab\img\cTab_UAV_ico.paa"
-#define APP_MSG "\cTab\img\Mail_Main_Icon_ico.paa"
+#define APP_UAV "\MG8\AVFEVFX\data\AV_Cam.paa"
+#define APP_MSG "\MG8\AVFEVFX\data\mail.paa"
 
 //-SubMenus
 #define MAINSUB 5
@@ -186,8 +186,6 @@
 	#define PHONE_MOD 1134
 	
 	#define APP_BFT "\cTab\img\icon_bft_ca.paa"
-	#define APP_UAV "\cTab\img\icon_uav_ca.paa"
-	#define APP_MSG "\cTab\img\icon_mail_ca.paa"
 	
 	//-Tablet POS
 	#define TabletLX ((((((257)) + (((1341)) - 2 * ((560) / (408) * ((((993) - (42) - (0)) - (((1341)) / (1335) * (50))) * 0.49))) / 3)) - ((257))) / 2048  * ((safezoneH * 1.2) * 3/4))

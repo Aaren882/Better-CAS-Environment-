@@ -47,9 +47,9 @@
 			<Chinesesimp>清除全部</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_ClearTaskInfo">
-			<Original>Clear Task Info</Original>
-			<Chinese>清除任務資訊</Chinese>
-			<Chinesesimp>清除任务信息</Chinesesimp>
+			<Original>Clear</Original>
+			<Chinese>清除</Chinese>
+			<Chinesesimp>清除</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_New_Task">
 			<Original>New Task</Original>
@@ -207,6 +207,11 @@
 			<Original>Caller</Original>
 			<Chinese>呼叫者</Chinese>
 			<Chinesesimp>呼叫者</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_To_AC">
+			<Original>To</Original>
+			<Chinese>給</Chinese>
+			<Chinesesimp>给</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Detail">
 			<Original>Detail</Original>
@@ -379,6 +384,12 @@
 			<Original>You have received a New Task</Original>
 			<Chinese>已收到新任務</Chinese>
 			<Chinesesimp>您收到了新任务</Chinesesimp>
+		</Key>
+
+		<Key ID="STR_BCE_Task_Receiver">
+			<Original>Task Receiver</Original>
+			<Chinese>任務接收器</Chinese>
+			<Chinesesimp>任务接收器</Chinesesimp>
 		</Key>
 		
 		<Key ID="STR_BCE_Map_Tit_illumination">
@@ -1040,8 +1051,8 @@
 		
 		<Key ID="STR_BCE_Env_wind_strong">
 			<Original>Strong</Original>
-			<Chinese>強烈</Chinese>
-			<Chinesesimp>强烈</Chinesesimp>
+			<Chinese>強風</Chinese>
+			<Chinesesimp>强风</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Env_wind_gentle">
 			<Original>Gentle</Original>
@@ -1060,14 +1071,14 @@
 			<Chinesesimp>迷雾</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Env_fog_Mist">
-			<Original>Mist</Original>
-			<Chinese>薄霧</Chinese>
-			<Chinesesimp>薄雾</Chinesesimp>
+			<Original>Fog</Original>
+			<Chinese>霧</Chinese>
+			<Chinesesimp>雾</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Env_fog_Clear">
-			<Original>Clear</Original>
-			<Chinese>清楚</Chinese>
-			<Chinesesimp>清楚</Chinesesimp>
+			<Original>Mist</Original>
+			<Chinese>薄霧</Chinese>
+			<Chinesesimp>輕雾</Chinesesimp>
 		</Key>
 		
 		<Key ID="STR_BCE_Env_vis_Very_Bad">
@@ -1087,12 +1098,45 @@
 		</Key>
 		
 		
+		<Key ID="STR_BCE_Env_Slight_rain">
+				<Original>Slight Rain</Original>
+				<Chinese>小雨</Chinese>
+				<Chinesesimp>小雨</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Env_Moderate_rain">
+				<Original>Moderate Rain</Original>
+				<Chinese>中雨</Chinese>
+				<Chinesesimp>中雨</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Env_Heavy_rain">
+				<Original>Heavy Rain</Original>
+				<Chinese>豪雨</Chinese>
+				<Chinesesimp>豪雨</Chinesesimp>
+		</Key>
+		
+		<Key ID="STR_BCE_Env_overcast_Over">
+				<Original>Overcast</Original>
+				<Chinese>陰天</Chinese>
+				<Chinesesimp>阴天</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Env_overcast_Cloudy">
+				<Original>Cloudy</Original>
+				<Chinese>多雲</Chinese>
+				<Chinesesimp>多云</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Env_overcast_Clear">
+				<Original>Clear Sky</Original>
+				<Chinese>晴朗</Chinese>
+				<Chinesesimp>晴朗</Chinesesimp>
+		</Key>
+
+
 		<Key ID="STR_BCE_Cam_Altitude">
 			<Original>Altitude: %1</Original>
 			<Chinese>高度: %1</Chinese>
 			<Chinesesimp>高度: %1</Chinesesimp>
 		</Key>
-		
+
 		<Key ID="STR_BCE_Cam_Time">
 			<Original>Time: %1</Original>
 			<Chinese>時間: %1</Chinese>

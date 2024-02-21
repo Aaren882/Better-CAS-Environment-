@@ -15,7 +15,7 @@ switch _type do {
 			if (_forEachIndex == 0) then {
 				private _text = if (isnil{_vehicle}) then {
 					(_x # -1)
-				} else {
+				} else { 
 					format ["“%1” / “%2”", [groupId group _vehicle, "None"] select isnull _vehicle, groupId group player]
 				};
 				private _index = _ctrlList lbAdd _text;
@@ -25,7 +25,7 @@ switch _type do {
 				_index = _ctrlList lbAdd (_classes # _forEachIndex);
 
 				_text = if (_index == 3) then {
-					format ["%1 %2: [%3]", trim(_x # 1),localize "STR_BCE_With", trim(_x # 2)]
+					format ["%1 %2: [%3]", trim(_x # 1),localize "STR_BCE_With", trim (_x # 2)]
 				} else {
 					_x # 0
 				};

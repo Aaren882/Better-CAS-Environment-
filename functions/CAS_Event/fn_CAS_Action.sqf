@@ -192,7 +192,7 @@ if ((_vehicle getVariable ["CAS_CounterMeasure",[]]) isEqualTo []) then {
 		};
 	};
 
-	(_vehicle getVariable ["BCE_Fire_Progress_Done",false]) or ((_vehicle getVariable ["BCE_Task_Receiver", []]) isEqualTo []) or !(alive _vehicle)
+	(_vehicle getVariable ["BCE_Fire_Progress_Done",false]) || ((_vehicle getVariable ["BCE_Task_Receiver", ""]) == "") || !(alive _vehicle)
 }, {
 	params [
 			"_posTarget","_casType","_pos","_posATL","_dis","_dir","_alt","_speed","_target_offset",
@@ -242,7 +242,7 @@ if ((_vehicle getVariable ["CAS_CounterMeasure",[]]) isEqualTo []) then {
 
 		//-Egress
 		_vehicle flyInHeight ((_alt/3) max 800);
-		_vehicle setVariable ["BCE_Task_Receiver", [], true];
+		_vehicle setVariable ["BCE_Task_Receiver", "", true];
 
 		//Sound Handler
 		_vehicle setVariable ["Module_CAS_Sound",false,true];

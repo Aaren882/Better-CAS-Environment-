@@ -19,6 +19,33 @@
 #endif
 #undef Android_BR_InfoY
 
+//-Edited Origins
+class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
+{
+	x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (0.35))) / 2048 * PhoneW + CustomPhoneX;
+	y = ((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY;
+	w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
+	h = ((40)) / 2048 * CustomPhoneH;
+	
+	action = "['cTab_Android_dlg'] call cTab_fnc_toggleWeather";
+	
+	sizeEx = ((27)) / 2048 * PhoneW;
+	size = 0.8 * (((60) - (20))) / 2048 * CustomPhoneH;
+	
+	class TextPos
+	{
+		left = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimesH;
+		top = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimesH;
+		right = 0;
+		bottom = 0;
+	};
+	
+	class Attributes: Attributes
+	{
+		size = TextMenu(0.9);
+	};
+};
+
 //-ATAK Menu W
 #define PhoneBFTContainerW(AxisX) AxisX*((phoneSizeW * 2/5)/3)
 
@@ -46,6 +73,7 @@ PHONE_CLASS
 		{
 			#ifdef MOUSE_CLICK_EH
 				onMouseButtonClick = MOUSE_CLICK_EH;
+				//onMouseButtonDblClick = "call cTab_fnc_Interaction_Menu";
 			#endif
 		};
 		
@@ -103,7 +131,7 @@ PHONE_CLASS
 				w = sizeW * (PhoneW * 3/4);
 				h = sizeW * PhoneW;
 				tooltip = "Toggle Map Tools";
-				action = "['cTab_Android_dlg'] call cTab_fnc_toggleMapTools;";
+				action = "['cTab_Android_dlg'] call cTab_fnc_toggleMapTools";
 			};
 			
 			//-POLPOX Map Tools Widgets
@@ -198,7 +226,7 @@ PHONE_CLASS
 					idc = 4660 + 100;
 					style = "0x02 + 0x0C + 0x0100";
 					shadow = 1;
-					text = ATAK_APP(APP_MSG,Messages);
+					text = ATAK_APP("MG8\AVFEVFX\data\mail.paa",Messages);
 	
 					x = 0;
 					y = 0;
@@ -216,23 +244,22 @@ PHONE_CLASS
 					animTextureFocused = "#(argb,8,8,3)color(0,0,0,0)";
 					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
 					
-					size = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
-	
+					size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
 					action = "['cTab_Android_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
 					
 					textureNoShortcut=APP_MSG;
 					class ShortcutPos
 					{
 						left = 0.75 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
-						top = (phoneSizeW * 3/5)/3/20;
+						top = (phoneSizeW * 3/5)/3*0.18;
 						w = (phoneSizeW * 2/5)/5*1.1;
 						h = (phoneSizeW * 3/5)/5;
 					};
-					
+
 					class TextPos
 					{
-						left = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40);
-						top = (phoneSizeW * 3/5)/3/20;
+						left = "0.25 * (((safezoneW / safezoneH) min 1.2) / 40)";
+						top = ((phoneSizeW * 3/5)/3*0.18) + ((phoneSizeW * 3/5)/5);
 						right = 0;
 						bottom = 0;
 					};
@@ -240,7 +267,6 @@ PHONE_CLASS
 					
 					class Attributes
 					{
-						valign = "bottom";
 						font = "RobotoCondensed_BCE";
 						color = "#E5E5E5";
 						align = "center";
@@ -251,37 +277,37 @@ PHONE_CLASS
 				class actTKBtxt: actMSGtxt
 				{
 					idc = 4660 + 101;
-					text = ATAK_APP("\a3\characters_f\data\ui\icon_expl_specialist_ca.paa",Missions);
+					text = ATAK_APP("MG8\AVFEVFX\data\missions.paa",Missions);
 					x = PhoneBFTContainerW(1);
 					action = "['cTab_Android_dlg',[['showMenu',['mission',true,-1]]]] call cTab_fnc_setSettings;";
 					
-					textureNoShortcut="\a3\characters_f\data\ui\icon_expl_specialist_ca.paa";
+					textureNoShortcut="MG8\AVFEVFX\data\missions.paa";
 				};
 				class actUAVtxt: actMSGtxt
 				{
 					idc = 4660 + 102;
 					x = PhoneBFTContainerW(2);
-					text = ATAK_APP("a3\weapons_f_orange\reticle\data\camera_ca.paa",AV Camera);
+					text = ATAK_APP("MG8\AVFEVFX\data\AV_Cam.paa",AV Camera);
 					action = "['cTab_Android_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
 					
-					textureNoShortcut="a3\weapons_f_orange\reticle\data\camera_ca.paa";
-					class ShortcutPos
+					textureNoShortcut="MG8\AVFEVFX\data\AV_Cam.paa";
+					/*class ShortcutPos: ShortcutPos
 					{
-						left = 0.95 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
-						top = 2.5 * (phoneSizeW * 3/5)/3/20;
+						left = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
+						//top = 2.5 * (phoneSizeW * 3/5)/3*0.18;
 						w = (phoneSizeW * 2/5)/5*0.9;
 						h = (phoneSizeW * 3/5)/5*0.8;
-					};
+					};*/
 				};
 				//-Second Line
 				class actHCamtxt: actMSGtxt
 				{
 					idc = 4660 + 103;
-					text = ATAK_APP("a3\3den\data\displays\display3den\entitymenu\movecamera_ca.paa",Helmet Cam);
+					text = ATAK_APP("MG8\AVFEVFX\data\Hcam.paa",Helmet Cam);
 					y = (phoneSizeW * 3/5)/3;
 					action = "";
 					
-					textureNoShortcut="a3\3den\data\displays\display3den\entitymenu\movecamera_ca.paa";
+					textureNoShortcut="MG8\AVFEVFX\data\Hcam.paa";
 				};
 				class actGrouptxt: actHCamtxt
 				{
@@ -315,7 +341,7 @@ PHONE_CLASS
 				{
 					idc = 4660 + 107;
 					x = PhoneBFTContainerW(1);
-					text = ATAK_APP("a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa",Damage Assessment);
+					text = ATAK_APP("a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa",BDA Report);
 					action = "";
 					
 					textureNoShortcut="a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa";
@@ -326,10 +352,10 @@ PHONE_CLASS
 					idc = 4660 + 108;
 					y = 2*((phoneSizeW * 3/5)/3);
 					x = PhoneBFTContainerW(2);
-					text = ATAK_APP("a3\weapons_f_orange\reticle\data\settings_ca.paa",Settings);
+					text = ATAK_APP("MG8\AVFEVFX\data\settings.paa",Settings);
 					action = "";
 					
-					textureNoShortcut="a3\weapons_f_orange\reticle\data\settings_ca.paa";
+					textureNoShortcut="MG8\AVFEVFX\data\settings.paa";
 				};
 			};
 		};
@@ -542,8 +568,8 @@ PHONE_CLASS
 					animTextureOver = "#(argb,8,8,3)color(0,0,0,0.5)";
 					animTextureFocused = "#(argb,8,8,3)color(0,0,0,0.8)";
 					animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
-					
-					size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
+
+					size = 0.7 * (((60) - (20))) / 2048 * CustomPhoneH;
 					
 					action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,1]]]] call cTab_fnc_setSettings;";
 					
@@ -552,6 +578,13 @@ PHONE_CLASS
 						align = "center";
 						font = "RobotoCondensedBold_BCE";
 						size = TextMenu(1);
+					};
+					class TextPos
+					{
+						left = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimesH;
+						top = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimesH;
+						right = 0;
+						bottom = 0;
 					};
 				};
 
@@ -1125,12 +1158,20 @@ PHONE_CLASS
 					animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
 					animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.35)";
 					
-					size = 0.95 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
+					size = 0.64 * (((60) - (20))) / 2048 * CustomPhoneH;
 					
 					ATAK_POS(0,0,0.75,0.64);
 					
 					onButtonClick = "call BCE_fnc_ATAK_LastPage";
 					
+					class TextPos
+					{
+						left = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimesH;
+						top = 0.25 * (((safezoneW / safezoneH) min 1.2) / 40) / TextTimesH;
+						right = 0;
+						bottom = 0;
+					};
+	
 					class Attributes: Attributes
 					{
 						align="center";
@@ -1204,6 +1245,18 @@ PHONE_CLASS
 			colorSelectBackground[]={0.2,0.2,0.2,1};
 			
 			onLBSelChanged = "['cTab_Android_dlg',[['markerColor',_this # 1]]] call cTab_fnc_setSettings;";
+		};
+		//class CGrp: CGrp{};
+		
+		//-Weather Condition
+		class cTab_android_on_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box
+		{
+			
+			x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (0.35))) / 2048 * PhoneW + CustomPhoneX;
+			y = (((713)) / 2048  * 	CustomPhoneH + 	CustomPhoneY) + (((60)) / 2048  * CustomPhoneH);
+			w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
+			
+			size = 1.15 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
 		};
 		
 		//-App Menu

@@ -1,5 +1,5 @@
 params ["_vehicle",["_mode",-1]];
-private ["_class_veh","_allTurrets","_config_path","_pilot_cam_LOD","_Turrets_Optics","_Optic_LODs","_turret_Weapons","_return"];
+private ["_class_veh","_allTurrets","_config_path","_cache","_Camera_Cache","_IRLaser_Cache","_pilot_cam_LOD","_Turrets_Optics","_Optic_LODs","_turret_Weapons","_return"];
 
 //-exit if _vehicle is not Vehicle
 if !(_vehicle in vehicles) exitWith {[]};
@@ -8,17 +8,23 @@ _class_veh = typeOf _vehicle;
 _allTurrets = allTurrets _vehicle;
 _config_path = configOf _vehicle;
 
+_cache = localNamespace getVariable ["BCE_System_Caches", createHashMap];
+
 //-Check caches
-if (isnil "BCE_Camera_Cache") then {
-	BCE_Camera_Cache = createHashMap;
+if !("BCE_Camera_Cache" in _cache) then {
+	_cache set ["BCE_Camera_Cache", createHashMap];
 };
-if (isnil "BCE_IRLaser_Cache") then {
-	BCE_IRLaser_Cache = createHashMap;
+if !("BCE_IRLaser_Cache" in _cache) then {
+	_cache set ["BCE_IRLaser_Cache", createHashMap];;
 };
 
+//- Get caches
+_Camera_Cache = _cache get "BCE_Camera_Cache";
+_IRLaser_Cache = _cache get "BCE_IRLaser_Cache";
+
 //-Exit with Return
-if ((_mode > -1) && (_class_veh in ([BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode))) exitWith {
-	private _result = ([BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode) get _class_veh;
+if ((_mode > -1) && (_class_veh in ([_Camera_Cache, _IRLaser_Cache] # _mode))) exitWith {
+	private _result = ([_Camera_Cache, _IRLaser_Cache] # _mode) get _class_veh;
 	[_result, []] select (isNil {_result});
 };
 
@@ -29,10 +35,10 @@ _turret_Weapons = ([[-1]] + _allTurrets apply {
 		[_x, getArray (_config_path >> "Weapons")]
 	] select ((_x # 0) < 0);
 }) select {
-	{"laserdesignator" in tolower _x} count (_x # 1) > 0
+	((_x # 1) findIf {"laserdesignator" in tolower _x}) > 0
 };
 
-if ((_mode == 1) && ((_class_veh in BCE_IRLaser_Cache) || (count _turret_Weapons < 1))) exitWith {};
+if ((_mode == 1) && ((_class_veh in _IRLaser_Cache) || (count _turret_Weapons < 1))) exitWith {};
 
 //-Available Optics
 _pilot_cam_LOD = if (
@@ -68,20 +74,21 @@ _Optic_LODs = _Turrets_Optics select {
 };
 
 if (count _Optic_LODs > 0) then {
-	BCE_Camera_Cache set [_class_veh, _Optic_LODs];
+	_Camera_Cache set [_class_veh, _Optic_LODs];
 };
 
 //-FOV handler
 if (((count _allTurrets > 0) || (hasPilotCamera _vehicle)) && (_vehicle isKindOf "Air")) then {
 
 	//-Apply default Turret FOV
-	(BCE_Camera_Cache get _class_veh) apply {
+	
+	if (isNil{_vehicle getVariable "BCE_Cam_FOV_Angle"}) then {
+		private _map = createHashMap;
+		(_Camera_Cache get _class_veh) apply {
+			private ["_turret","_config","_optic","_class","_fov"];
 
-		private _turret = _x # 1;
-		private _crew = _vehicle turretUnit _turret;
-
-		if ((_crew getVariable ["BCE_Cam_FOV_Angle",-1]) == -1) then {
-			private ["_config","_optic","_class","_fov"];
+			_turret = _x # 1;
+			
 			//-if is a pilot Cam (TGP)
 			_config = [
 				[_vehicle, _turret] call BIS_fnc_turretConfig,
@@ -101,26 +108,38 @@ if (((count _allTurrets > 0) || (hasPilotCamera _vehicle)) && (_vehicle isKindOf
 			] select (isText _class);
 
 			//-Set FOV
-			_crew setVariable ["BCE_Cam_FOV_Angle",deg _fov,true];
+			_map set [str _turret, deg _fov];
 		};
+
+		_vehicle setVariable ["BCE_Cam_FOV_Angle",_map,true];
+		_map = nil;
 	};
+	
 
 	if (isnil "BCE_FOV_actEHs") then {
 		BCE_FOV_actEHs = ["zoomIn","zoomOut"] apply {
 			addUserActionEventHandler [_x, "Analog", {
 				//-Get FOV is all turrets and TGP (if curretly in an Aircraft)
-				private _vehicle = cameraOn;
+				private ["_vehicle","_var","_unit","_turret"];
+				_vehicle = cameraOn;
+				_var = _vehicle getVariable "BCE_Cam_FOV_Angle";
+
 				if (
 					(_vehicle isKindOf "Air") &&
+					!(isNil{_var}) &&
 					(
 						(count (allTurrets _vehicle) > 0) ||
 						(hasPilotCamera _vehicle)
 					)
 				) then {
 					if (cameraview == "GUNNER") then {
-						//-is an UAV
+						//-check is an UAV
 						_unit = [player, getConnectedUAVUnit player] select (unitIsUAV cameraOn);
-						_unit setVariable ["BCE_Cam_FOV_Angle",deg (getObjectFOV _vehicle),true];
+						_turret = _vehicle unitTurret _unit;
+
+						//-Set Variable + Send to Network
+						_var set [str _turret, round (deg (getObjectFOV _vehicle))];
+						_vehicle setVariable ["BCE_Cam_FOV_Angle",_var,true];
 					};
 				} else {
 					{
@@ -128,7 +147,6 @@ if (((count _allTurrets > 0) || (hasPilotCamera _vehicle)) && (_vehicle isKindOf
 					} forEach ["zoomIn","zoomOut"];
 
 					BCE_FOV_actEHs = nil;
-					player setVariable ["BCE_Cam_FOV_Angle",-1,true];
 				};
 			}];
 		};
@@ -139,9 +157,8 @@ if (((count _allTurrets > 0) || (hasPilotCamera _vehicle)) && (_vehicle isKindOf
 if (count _turret_Weapons > 0) then {
 
 	private _result = _turret_Weapons apply {
-		_x params ["_turret"];
-		private ["_is_turret","_config","_turret_pos_mem","_gunBeg","_offset"];
-
+		private ["_turret","_is_turret","_config","_turret_pos_mem","_gunBeg","_offset"];
+		_turret = _x # 0;
 		_is_turret = (_turret # 0) >= 0;
 
 		if (_is_turret) then {
@@ -155,24 +172,21 @@ if (count _turret_Weapons > 0) then {
 		_gunBeg = [
 			getText (_config >> "gunBeg"),
 			nil
-		] select ((_unit isKindOf "Air") && (_is_turret));
+		] select ((_vehicle isKindOf "Air") && (_is_turret));
 
 		_offset = [
 			[0,0,0],
 			getArray (_config >> "LaserDesignator_Offset")
 		] select (isArray (_config >> "LaserDesignator_Offset"));
 
-		[_is_turret,[_turret_pos_mem,_offset,_turret,_gunBeg]]
+		[_is_turret,[_turret_pos_mem,_offset,_turret,_gunBeg] select {!isnil {_x}}]
 	};
-
-	if (count _result > 0) then {
-		BCE_IRLaser_Cache set [_class_veh, _result];
-	};
+	_IRLaser_Cache set [_class_veh, _result];
 };
 
+localNamespace setVariable ["BCE_System_Caches", _cache];
+
+_return = ([_Camera_Cache, _IRLaser_Cache] # _mode) get _class_veh;
+
 //-Return
-_return = [BCE_Camera_Cache, BCE_IRLaser_Cache] # _mode;
-[
-	[],
-	_return get _class_veh
-] select ((_mode > -1) && (_class_veh in _return));
+[[],_return] select ((_mode > -1) && (_class_veh in _return));

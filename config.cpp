@@ -76,8 +76,8 @@ class CfgUIGrids
 						{
 							"safezoneX",
 							"((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)",
-							"(10 * (((safezoneW / safezoneH) min 1.2) / 40))",
-							"(10 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))"
+							"(12 * (((safezoneW / safezoneH) min 1.2) / 40))",
+							"(12 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))"
 						},
 						"(((safezoneW / safezoneH) min 1.2) / 40)",
 						"((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)"
@@ -88,11 +88,11 @@ class CfgUIGrids
 							{
 								"(safezoneX - 	(0.86) * 0.17)",
 								"(safezoneY + safezoneH * 0.88 - 	(	(0.86) * 4/3) * 0.72)",
-								"(0.86)",
-								"((0.86) * 4/3)"
+								"(safezoneW * 0.27)",
+								"((safezoneW * 0.27) * 4/3)"
 							},
-							"(0.86) / 4",
-							"((0.86) * 4/3) / 4"
+							"(safezoneW * 0.27) / 4",
+							"((safezoneW * 0.27) * 4/3) / 4"
 						};
 					#endif
                 };
@@ -223,10 +223,10 @@ class CfgVehicles
 		{
 			class BCE_Task_Receiver
 			{
-				displayName = "Task Receiver";
-				condition = "(((vehicle _player) getVariable ['BCE_Task_Receiver',[]]) isNotEqualto []) or !(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull]))";
+				displayName = "$STR_BCE_CAS_Task";
+				condition = "(((vehicle _player) getVariable ['BCE_Task_Receiver','']) != '') || !(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) || !(isNull (_player getVariable ['TGP_View_Selected_Vehicle',objNull]))";
 				exceptions[] = {"isNotInside","isNotSitting"};
-				icon = "\a3\modules_f\data\iconTaskCreate_ca.paa";
+				icon = "\MG8\AVFEVFX\data\missions.paa";
 			};
 		};
 	};
@@ -270,7 +270,7 @@ class CfgVehicles
 		{
 			class HUD
 			{
-				engine="if (((_this select 0) animationPhase 'Addcrosshair') != 0) then{(_this select 0) animate ['Addcrosshair', 0];};";
+				getin="if (((_this # 0) animationPhase 'Addcrosshair') != 0) then{(_this # 0) animate ['Addcrosshair', 0];};";
 			};
 		};
 	};
@@ -301,7 +301,7 @@ class CfgVehicles
 			{
 				class HUD
 				{
-					engine="if (((_this select 0) animationPhase 'Addcrosshair') != 0) then{(_this select 0) animate ['Addcrosshair', 0];};";
+					getin="if (((_this # 0) animationPhase 'Addcrosshair') != 0) then{(_this # 0) animate ['Addcrosshair', 0];};";
 				};
 			};
 		};
@@ -329,7 +329,7 @@ class CfgVehicles
 			{
 				class HUD
 				{
-					engine="if (((_this select 0) animationPhase 'Addcrosshair') != 0) then{(_this select 0) animate ['Addcrosshair', 0];};";
+					getin="if (((_this # 0) animationPhase 'Addcrosshair') != 0) then{(_this # 0) animate ['Addcrosshair', 0];};";
 				};
 			};
 		};
@@ -649,7 +649,6 @@ class CfgFunctions
 			class Show_CurTaskCtrls;
 			class TaskList_Changed;
 			class Reset_TaskList;
-			class SetTaskReceiver;
 			class DrawFOV;
 			class NextTurretButton;
 		};
@@ -657,6 +656,7 @@ class CfgFunctions
 		{
 			file="MG8\AVFEVFX\functions\Task_Receiver";
 			class UpdateTaskInfo;
+			class SetTaskReceiver;
 		};
 		class UI
 		{
@@ -700,6 +700,7 @@ class CfgFunctions
 				class ctab_List_AV_Info;
 				class ctab_Switch_ExtendedList;
 				class ctab_BFT_ToolBox;
+				class cTab_getWeather_Infos;
 				class Extended_WeaponDESC;
 				class Extended_TaskDESC;
 			};
@@ -780,6 +781,10 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_onIfKeyDown.sqf";
 				};
+				class open
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_open.sqf";
+				};
 				class drawBftMarkers
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_drawBftMarkers.sqf";
@@ -819,6 +824,21 @@ class CfgFunctions
 				class onIfClose
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_onIfClose.sqf";
+				};
+				
+				//- Add
+				class toggleWeather
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\fn_toggleWeather.sqf";
+				};
+				//- Action Menu
+				class Interaction_Menu
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\menu\fn_Interaction_Menu.sqf";
+				};
+				class Menu_Correction
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\menu\fn_Menu_Correction.sqf";
 				};
 			};
 		};

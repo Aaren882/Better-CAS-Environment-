@@ -1,3 +1,8 @@
+#define RECEIVERX (profilenamespace getvariable ["IGUI_GRID_BCE_TASKLIST_X", safezoneX])
+#define RECEIVERY (profilenamespace getvariable ["IGUI_GRID_BCE_TASKLIST_Y", ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)])
+#define RECEIVERW (profilenamespace getvariable ["IGUI_GRID_BCE_TASKLIST_W", (12 * (((safezoneW / safezoneH) min 1.2) / 40))])
+#define RECEIVERH (profilenamespace getvariable ["IGUI_GRID_BCE_TASKLIST_H", (12.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])
+
 //-IGUI_GRID_BCE_TASKLIST
 class BCE_Task_Receiver
 {
@@ -15,19 +20,19 @@ class BCE_Task_Receiver
 		{
 			IDC = 15110;
 			text = "A3\Ui_f\data\IGUI\RscCustomInfo\background_ca.paa";
-			x = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_X"", safezoneX])";
-			y = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_Y"", ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)])";
-			w = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_W"", (10 * (((safezoneW / safezoneH) min 1.2) / 40))])";
-			h = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_H"", (10 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))]) - (1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))";
+			x = RECEIVERX;
+			y = RECEIVERY;
+			w = RECEIVERW;
+			h = RECEIVERH - (1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25));
 			colorText[] = {0.2,0.2,0.2,0.8};
 		};
 		class BackgroundGroup: RscControlsGroupNoScrollbars
 		{
 			IDC = 15111;
-			x = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_X"", safezoneX])";
-			y = "1.125 * (profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_Y"", ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)])";
-			w = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_W"", (10 * (((safezoneW / safezoneH) min 1.2) / 40))])";
-			h = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_H"", (10 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))]) - 1.25 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			x = RECEIVERX;
+			y = 1.125 * RECEIVERY;
+			w = RECEIVERW;
+			h = RECEIVERH;
 			class controls{};
 		};
 	};
@@ -37,11 +42,11 @@ class BCE_Task_Receiver
 		{
 			colorBackground[] = {"(profilenamespace getvariable ['IGUI_BCG_RGB_R',0])","(profilenamespace getvariable ['IGUI_BCG_RGB_G',1])","(profilenamespace getvariable ['IGUI_BCG_RGB_B',1])","(profilenamespace getvariable ['IGUI_BCG_RGB_A',0.8])"};
 			idc = 15112;
-			text = "Task Receiver";
-			x = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_X"", safezoneX])";
-			y = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_Y"", ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)]) - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
-			w = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_W"", (10 * (((safezoneW / safezoneH) min 1.2) / 40))])";
-			h = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			text = "$STR_BCE_Task_Receiver";
+			x = RECEIVERX;
+			y = RECEIVERY - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25);
+			w = RECEIVERW;
+			h = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25);
 			sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 		};
 		class JTAC_Unit: RscIGUIText
@@ -49,19 +54,19 @@ class BCE_Task_Receiver
 			IDC = 101;
 			text = "From";
 			style = 1;
-			x = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_X"", safezoneX]) + (0.25 * (profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_W"", (10 * (((safezoneW / safezoneH) min 1.2) / 40))]))";
-			y = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_Y"", ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)]) - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
-			w = "0.75 * (profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_W"", (10 * (((safezoneW / safezoneH) min 1.2) / 40))])";
-			h = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			x = RECEIVERX + (0.25 * RECEIVERW);
+			y = RECEIVERY - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25);
+			w = 0.75 * RECEIVERW;
+			h = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25);
 			sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 		};
 		class TaskList: RscListBox
 		{
 			IDC = 102;
-			x = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_X"", safezoneX])";
-			y = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_Y"", ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) - ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)])";
-			w = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_W"", (10 * (((safezoneW / safezoneH) min 1.2) / 40))])";
-			h = "(profilenamespace getvariable [""IGUI_GRID_BCE_TASKLIST_H"", (10 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))]) - (1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))";
+			x = RECEIVERX;
+			y = RECEIVERY;
+			w = RECEIVERW;
+			h = RECEIVERH;
 			text = "";
 			colorBackground[] = {0,0,0,0};
 			shadow = 2;

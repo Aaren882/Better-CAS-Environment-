@@ -9,13 +9,13 @@
 private ["_action"];
 
 //-Clear
-_action = ["BCE_Task_Clear",localize "str_disp_arcmap_clear","\a3\ui_f\data\Map\Diary\Icons\diaryUnassignTask_ca.paa",{
+_action = ["BCE_Task_Clear",localize "str_disp_arcmap_clear","\MG8\AVFEVFX\data\ClearTask.paa",{
 	params ["_unit"];
 	557 cutRsc ["default","PLAIN"];
-	(vehicle _unit) setVariable ["BCE_Task_Receiver",[],true];
-	},{
+	(vehicle _unit) setVariable ["BCE_Task_Receiver","",true];
+},{
 	params ["_unit"];
-	!(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) or (((vehicle _unit) getVariable ['BCE_Task_Receiver',[]]) isNotEqualto [])
+	(((vehicle _unit) getVariable ['BCE_Task_Receiver',""]) != "")
 }] call aceAction;
 
 ["CAManBase", 1, ["ACE_SelfActions","BCE_Task_Receiver"], _action, true] call aceActionClass;
@@ -26,7 +26,7 @@ _action = ["BCE_Task_Slew",localize "STR_BCE_Slew_TG","",{
 	private ["_vehicle","_type","_task","_turret"];
 	_vehicle = vehicle _unit;
 	_turret = _unit call CBA_fnc_turretPath;
-	(_vehicle getVariable ['BCE_Task_Receiver',[]]) params ["","","_type","_task"];
+	(call compile (_vehicle getVariable 'BCE_Task_Receiver')) params ["","_type","_task"];
 
 	_POS = switch _type do {
 		case 5: {
@@ -45,7 +45,7 @@ _action = ["BCE_Task_Slew",localize "STR_BCE_Slew_TG","",{
 
 },{
 	params ["_unit"];
-	(((vehicle _unit) getVariable ['BCE_Task_Receiver',[]]) isNotEqualto [])
+	(((vehicle _unit) getVariable ['BCE_Task_Receiver',""]) != "")
 }] call aceAction;
 
 ["CAManBase", 1, ["ACE_SelfActions","BCE_Task_Receiver"], _action, true] call aceActionClass;
@@ -54,10 +54,15 @@ _action = ["BCE_Task_Slew",localize "STR_BCE_Slew_TG","",{
 _action = ["BCE_Task_Show",localize "str_ca_show","\a3\ui_f\data\Map\Diary\Icons\diaryLocateTask_ca.paa",{
 	params ["_unit"];
 	557 cutRsc ["BCE_Task_Receiver","PLAIN",0.3,false];
-	call BCE_fnc_UpdateTaskInfo;
+	private _mode = [-1, 0] select (((vehicle _unit) getVariable ['BCE_Task_Receiver',""]) == "");
+	_mode call BCE_fnc_UpdateTaskInfo;
 },{
 	params ["_unit"];
-	(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) && (((vehicle _unit) getVariable ['BCE_Task_Receiver',[]]) isNotEqualto [])
+	(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) && 
+	(
+		(((vehicle _unit) getVariable ['BCE_Task_Receiver',""]) != "") ||
+		!isNull (_unit getVariable ['TGP_View_Selected_Vehicle',objNull])
+	)
 }] call aceAction;
 
 ["CAManBase", 1, ["ACE_SelfActions","BCE_Task_Receiver"], _action, true] call aceActionClass;
@@ -69,7 +74,7 @@ _action = ["BCE_Task_Hide",localize "str_ca_hide","",{
 
 },{
 	params ["_unit"];
-	!(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) && (((vehicle _unit) getVariable ['BCE_Task_Receiver',[]]) isNotEqualto [])
+	!(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull]))
 }] call aceAction;
 
 ["CAManBase", 1, ["ACE_SelfActions","BCE_Task_Receiver"], _action, true] call aceActionClass;
@@ -84,7 +89,7 @@ _action = ["BCE_Select_TGP",localize "STR_BCE_Select_AV_Camera","",{
 
 ["CAManBase", 1, ["ACE_SelfActions", "ACE_Equipment"], _action, true] call aceActionClass;
 
-_action = ["BCE_Use_Selected_TGP",localize "STR_BCE_AV_Camera","",{
+_action = ["BCE_Use_Selected_TGP",localize "STR_BCE_AV_Camera","\MG8\AVFEVFX\data\AV_Cam.paa",{
 		params ["_unit"];
 		(_unit getVariable "TGP_View_Selected_Vehicle") call BCE_fnc_TGP_Select_Confirm;
 	},{
