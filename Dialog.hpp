@@ -360,10 +360,11 @@ class RscTitles
 			{
 				idc = 1024;
 				shadow = 0;
+				style = 2;
 				text = "180";
 				x = 0.48 * safezoneW + safezoneX;
 				y = 0.12963 * safezoneH + safezoneY;
-				w = 0.03 * safezoneW;
+				w = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5) * safezoneH;
 				h = 0.0356667 * safezoneH;
 				colorText[] = {1,1,1,1};
 				colorBackground[] = {0,0,0,0.4};

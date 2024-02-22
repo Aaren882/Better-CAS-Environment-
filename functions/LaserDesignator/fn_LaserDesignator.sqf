@@ -44,7 +44,7 @@ if (_unit isKindOf "Air") then {
 				(_unit selectionVectorDirAndUp [(_vars_turret # 0), "Memory"]) # 0
 			} else {
 				[
-					(_unit getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1,
+					call compile ((_unit getVariable ["BCE_Camera_Info_Air",["[]","[0,0,0]"]]) # 1),
 					getPilotCameraDirection _unit
 				] select (local _unit);
 			};

@@ -180,7 +180,7 @@ if (count cTabUAVcams > 0) exitWith {
 						if (_is_Detached) then {
 							private _dir = [
 							 [_veh,_turret] call BCE_fnc_getTurretDir,
-							 (_veh getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1
+							 call compile ((_veh getVariable ["BCE_Camera_Info_Air",["[]","[0,0,0]"]]) # 1)
 							] select ((_turret # 0) < 0);
 							[_cam, _dir, false] call BCE_fnc_VecRot;
 						};
