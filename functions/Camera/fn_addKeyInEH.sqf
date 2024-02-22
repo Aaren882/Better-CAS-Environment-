@@ -51,12 +51,21 @@ _keyEH_3 = addUserActionEventHandler ["vehLockTurretView", "Activate", {
 	(player getVariable "TGP_View_Selected_Optic") params ["_turretInfo","_vehicle"];
 
 	_current_turret = _turretInfo # 1;
-	_POS = [_vehicle,_current_turret] call BCE_fnc_Turret_InterSurface;
+	_pos = AGLToASL screenToWorld [0.5, 0.5];
 
+	//- Exit _pos if further than view distance
+	if (viewDistance < (_vehicle distance _pos)) exitWith {};
+
+	_obj = (lineIntersectsWith [_pos vectorAdd [0,0,0.1], _pos, _vehicle]) # 0;
+	
+	if !(isNil{_obj}) then {
+		_pos = _obj;
+	};
+	
 	_target = [
 		objNull,
-		AGLToASL _POS
-	] select (isnil{(_vehicle lockedCameraTo _current_turret)} && !isnil {_POS});
+		_pos
+	] select (isnil{(_vehicle lockedCameraTo _current_turret)});
 
 	_vehicle lockCameraTo [_target, _current_turret];
 }];

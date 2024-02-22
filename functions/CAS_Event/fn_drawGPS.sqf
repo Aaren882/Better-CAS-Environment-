@@ -20,8 +20,9 @@ if ((_vehicle isKindOf "Air") && (_widgets # 0)) then {
 			[nil,_info # 1] select (_info # 0);
 		} else {
 			if (_isPilot) then {
-				private _var = _vehicle getVariable ["BCE_Camera_Info_Air",[[false,[]],[]]];
-				[nil,_var # 0 # 1] select (_var # 0 # 0);
+				private _var = _vehicle getVariable ["BCE_Camera_Info_Air",["[false,[]]", "[]", objNull]];
+				_var = call compile (_var # 0);
+				[nil,_var # 1] select (_var # 0);
 			} else {
 				[_vehicle,_turret] call BCE_fnc_Turret_InterSurface;
 			};

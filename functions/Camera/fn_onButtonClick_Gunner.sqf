@@ -19,11 +19,11 @@ _turret_Unit setVariable ["TGP_View_Turret_Control",_keyEHs,true];
 	_turret_Unit_Now = _vehicle turretUnit _current_turret;
 
 	(
-		!(isNull findDisplay 1775154) or
-		!(isnull curatorCamera) or
-		(_turret_Unit_Now != _turret_Unit) or
-		!(alive _turret_Unit) or
-		!(alive player) or
+		!(isNull findDisplay 1775154) ||
+		!(isnull curatorCamera) ||
+		(_turret_Unit_Now != _turret_Unit) ||
+		!(alive _turret_Unit) ||
+		!(alive player) ||
 		(player getVariable ["TGP_View_EHs",-1] == -1)
 	)
 }, {
