@@ -17,5 +17,5 @@ if (
 	) then {
 	BCE_TGP_LastUpdate = time;
 	private _info = getPilotCameraTarget cameraOn;
-	cameraOn setVariable ["BCE_Camera_Info_Air",[[_info # 0, _info # 1], getPilotCameraDirection cameraOn],true];
+	cameraOn setVariable ["BCE_Camera_Info_Air",[str [_info # 0, _info # 1], str getPilotCameraDirection cameraOn,_info # 2],true];
 };

@@ -42,12 +42,12 @@ if (((_player getVariable ["TGP_View_Selected_Optic",[]]) Equal []) || !(_vehicl
 	_player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 };
 
-_Selected_Optic = _player getVariable "TGP_View_Selected_Optic";
-_turret = (_Selected_Optic # 0) # 1;
-_is_Detached = (_Selected_Optic # 0) # 2;
+_Selected_Optic = (_player getVariable "TGP_View_Selected_Optic") # 0;
+_turret = _Selected_Optic # 1;
+_is_Detached = _Selected_Optic # 2;
 
 //call BCE_fnc_UpdateCameraUI;
-_cam attachTo [_vehicle, [0,0,0],(_Selected_Optic # 0) # 0,!_is_Detached];
+_cam attachTo [_vehicle, [0,0,0],_Selected_Optic # 0,!_is_Detached];
 _cam camSetFov 0.75;
 
 TGP_View_Camera = [_cam,_pphandle];
@@ -64,7 +64,7 @@ _player setVariable ["TGP_View_laser_update", [time,""]];
 //Crews
 _turret_Unit = _vehicle turretUnit _turret;
 
-_gunner = [name _turret_Unit,"--"] select (((_turret_Unit Equal objNull) or (_turret_Unit Equal (driver _vehicle))));
+_gunner = [name _turret_Unit,"--"] select (((_turret_Unit Equal objNull) || (_turret_Unit Equal (driver _vehicle))));
 _pilot = [name (driver _vehicle),"--"] select ((driver _vehicle) Equal objNull);
 
 //-Controls
@@ -133,26 +133,42 @@ _widgets_01 = [
 //-Set Exit Hint
 _Exit_ctrl ctrlSetText format [localize "STR_BCE_Press_key" + " " + localize "STR_BCE_Exit_Camera",keyImage ((["Better CAS Environment (TGP)", "Exit"] call CBA_fnc_getKeybind) # 8 # 0 # 0)];
 
+//-Set Environment condition List
 [BCE_fnc_Set_EnvironmentList, [_env_ctrl,lbSize _env_ctrl - 1], 0] call CBA_fnc_waitAndExecute;
+
+
+//- If is on Pilot seat + Has PilotCamera
+_getTargetVeh = [{
+	private _return = _vehicle lockedCameraTo (_vehicle unitTurret _player);
+	[objNull, _return] select (_return isEqualType objNull);
+}, {
+	(getPilotCameraTarget _vehicle) # 2
+}] select ((_turret # 0) < 0);
 
 //Draw Icons And Set DirUp
 _idEH = addMissionEventHandler ["Draw3D", {
-	_cam = _thisArgs # 0;
-	_vehicle = _thisArgs # 1;
-	_Optic_LODs = _thisArgs # 2;
-	_player = _thisArgs # 3;
-	(_thisArgs # 4) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_vision_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_Ammo_ctrl","_Mode_ctrl","_ENG_W_ctrl","_widget_01_ctrl","_widgets_01"];
+	_thisArgs params ["_cam","_vehicle","_Optic_LODs","_player","_getTargetVeh"];
+	(_thisArgs # 5) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_vision_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_Ammo_ctrl","_Mode_ctrl","_ENG_W_ctrl","_widget_01_ctrl","_widgets_01"];
 
-	_Selected_Optic = (_player getVariable "TGP_View_Selected_Optic") # 0;
-	_Selected_Optic params ["_TGP","_turret","_is_Detached"];
+	((_player getVariable "TGP_View_Selected_Optic") # 0) params ["_TGP","_turret","_is_Detached"];
 
-	//-Output TGP Dir (For current controlling vehicle only)
+	//-Output TGP Dir || Current Tracking Target (For current controlling vehicle only)
 	if (_is_Detached) then {
-		private _wRot = [
-			[_vehicle,_turret] call BCE_fnc_getTurretDir,
-			(_vehicle getVariable ["BCE_Camera_Info_Air",[[],[0,0,0]]]) # 1
-		] select ((_turret # 0) < 0);
-		[_cam, _wRot, false] call BCE_fnc_VecRot;
+		private _wRot = [{
+			{[_vehicle,_turret] call BCE_fnc_getTurretDir}
+		}, {
+			private _var = (_vehicle getVariable ["BCE_Camera_Info_Air",["[]","[0,0,0]",objNull]]);
+
+			//-Check if is point track
+			[
+				_var # 2,
+				call compile (_var # 1)
+			] select isNull (_var # 2);
+
+		}] select ((_turret # 0) < 0);
+
+		//- Rotate the Camera
+		[_cam, call _wRot, false] call BCE_fnc_VecRot;
 	};
 
 	//-A3TI
@@ -168,7 +184,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 	_time_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Time",call BCE_fnc_UpdateTime]);
 	_Altitude_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Altitude",Round ((getPosASL _vehicle) # 2)]);
 	_Grid_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Grid",mapGridPosition (screenToWorld [0.5,0.5])]);
-	_camDir_ctrl ctrlSetText (format ["%1°", round (getDir _cam)]);
+	_camDir_ctrl ctrlSetText (format ["%1°", [getDir _cam,3] call CBA_fnc_formatNumber]);
 	_Fuel_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Fuel", round ((fuel _vehicle) * 100),"%"]);
 	_Engine_damage = _vehicle getHitPointDamage "hitEngine";
 
@@ -211,7 +227,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 	_ammoCount = _count * _ammoCount;
 
 	_Weapon_ctrl ctrlSetText getText (configFile >> "CfgWeapons" >> _infoWeapon >> "DisplayName");
-	if ((getText (configFile >> "CfgWeapons" >> _infoWeapon >> "DisplayName") == "") or ("laserdesignator" in (tolower _infoWeapon))) then {
+	if ((getText (configFile >> "CfgWeapons" >> _infoWeapon >> "DisplayName") == "") || ("laserdesignator" in (tolower _infoWeapon))) then {
 		_Mode_ctrl ctrlSetText "";
 		_Ammo_ctrl ctrlSetText "";
 	} else {
@@ -219,7 +235,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 		_Ammo_ctrl ctrlSetText (format ["%1: %2	%3",localize "STR_DISP_ARCUNIT_AMMO", getText (configFile >> "CfgMagazines" >> _infomagazine >> "displayNameShort"), _ammoCount]);
 	};
 
-	_Weapon_ctrl ctrlSetTextColor ([[1,1,1,1],[0.76,0.71,0.215,1]] select ((_roundReloadPhase > 0) or (_magazineReloadPhase > 0)));
+	_Weapon_ctrl ctrlSetTextColor ([[1,1,1,1],[0.76,0.71,0.215,1]] select ((_roundReloadPhase > 0) || (_magazineReloadPhase > 0)));
 
 	//Laser
 	if (_vehicle isLaserOn _turret) then {
@@ -243,6 +259,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 	};
 
 	if (_player getVariable ["TGP_view_3D_Compass",true]) then {
+		private _objVeh = call _getTargetVeh;
 		call BCE_fnc_3DCompass;
 	};
 
@@ -311,7 +328,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 		};
 	};
 },[
-	_cam,_vehicle,_Optic_LODs,_player,
+	_cam,_vehicle,_Optic_LODs,_player,_getTargetVeh,
 	[_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_vision_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_Ammo_ctrl,_Mode_ctrl,_ENG_W_ctrl,_widget_01_ctrl,_widgets_01]
 ]];
 
