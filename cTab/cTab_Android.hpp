@@ -73,7 +73,7 @@ PHONE_CLASS
 		{
 			#ifdef MOUSE_CLICK_EH
 				onMouseButtonClick = MOUSE_CLICK_EH;
-				onMouseButtonDblClick = "call cTab_fnc_Interaction_Menu";
+				//onMouseButtonDblClick = "call cTab_fnc_Interaction_Menu";
 			#endif
 		};
 		
