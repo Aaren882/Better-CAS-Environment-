@@ -1018,7 +1018,7 @@ class cTab_Tablet_dlg
 
 				#define ExpBOX(MULTIY,MULTIH,MULTIW,OFFSETX) \
 					x = (FrameLX + smalFmW + smalSpc) + (OFFSETX * (safezoneH/safezonew) * (safezoneH / 70));\
-					y = ((MULTIY + 1.2) * ContH) +(ContH / 3);\
+					y = ((MULTIY + 1.2) * ContH) + (ContH / 3);\
 					w = MULTIW * (safezoneH/safezonew) * (safezoneH / 55);\
 					h = MULTIH * (safezoneH / 55)
 

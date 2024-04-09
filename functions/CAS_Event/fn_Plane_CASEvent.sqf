@@ -46,7 +46,7 @@ if (_isGunShip) then {
 };
 
 //-have IP/BP
-_has_IP = IP_POS isNotEqualTo [];
+_has_IP = _IP_POS isNotEqualTo [];
 
 _remarks = switch _type do {
 	case 5: {_taskVar # 4};

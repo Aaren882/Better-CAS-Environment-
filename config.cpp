@@ -556,13 +556,34 @@ class CfgFunctions
 {
 	class BCE
 	{
-		class Componets
+		class Initiation
 		{
 			file="MG8\AVFEVFX\Functions";
 			class Init;
+		};
+		class Componets
+		{
+			file="MG8\AVFEVFX\Functions\Componets";
 			class ServerClientSide;
 			class ClientSide;
+
 			class ACE_actions;
+			class canUseTurret;
+
+			class trueZoom;
+			class Check_Optics;
+			class Set_EnvironmentList;
+			class Turret_interSurface;
+
+			class POS2Grid;
+			class Grid2POS;
+
+			class VecRot;
+
+			class getAzimuth;
+			class getTurretDir;
+			class getUnitParams;
+			class getCompatibleAVs;
 		};
 		class HUD
 		{
@@ -570,7 +591,6 @@ class CfgFunctions
 			class setMFDValue;
 			class filtered_compass;
 			class call_Compass;
-			class trueZoom;
 		};
 		class Gunner_Action
 		{
@@ -586,15 +606,13 @@ class CfgFunctions
 		{
 			file="MG8\AVFEVFX\Functions\LaserDesignator";
 			class LaserDesignator;
-			class delete;
-			class VecRot;
+			class deleteLaserDesignator;
 			class isLaserOn;
 		};
 		class Camera
 		{
 			file="MG8\AVFEVFX\Functions\Camera";
 			class 3DCompass;
-			class Check_Optics;
 			class Unit_Icon;
 			class map_Icon;
 			class UpdateTime;
@@ -605,12 +623,8 @@ class CfgFunctions
 			class onButtonClick_Gunner;
 			class addKeyInEH;
 			class touchMark;
-			class canUseTurret;
 			class UpdateCameraInfo;
-			class getTurretDir;
 			class LandMarks_icon;
-			class Turret_interSurface;
-			class Set_EnvironmentList;
 		};
 		class Lists
 		{
@@ -638,14 +652,10 @@ class CfgFunctions
 			class GetMapClickPOS;
 			class clearTaskInfo;
 			class TAC_Map;
-			class POS2Grid;
-			class Grid2POS;
 			class SendTaskData;
-			class getAzimuth;
 			class CAS_SelWPN;
 			class Extended_Desc;
 			class unitList_info;
-			class getUnitParams;
 			class Show_CurTaskCtrls;
 			class TaskList_Changed;
 			class Reset_TaskList;

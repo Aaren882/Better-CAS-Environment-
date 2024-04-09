@@ -1,4 +1,5 @@
-#define A_OPTICS ["","RscWeaponZeroing","RscOptics_Offroad_01","RscOptics_crows","RHS_RscWeaponZeroing_TurretAdjust"]
+#include "\MG8\AVFEVFX\macro.hpp"
+
 params ["_player", "_cameraView"];
 _Unit_veh = cameraon;
 
@@ -7,7 +8,7 @@ _condition = if ((count (allTurrets _Unit_veh) > 0) && !((_Unit_veh isKindOf "UA
 	if ((_turret # 0) < 0) then {
 		true
 	} else {
-		!((getText ([_Unit_veh, _turret] call BIS_fnc_turretConfig >> "turretInfoType")) in A_OPTICS)
+		!((getText ([_Unit_veh, _turret] call BIS_fnc_turretConfig >> "turretInfoType")) in GUNNER_OPTICS)
 	};
 } else {
 	true

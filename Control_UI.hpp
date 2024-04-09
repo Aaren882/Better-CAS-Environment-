@@ -946,7 +946,7 @@ class RscDisplayAVTerminal
 			strings[] =
 			{
 				"$STR_BCE_Tit_Map_marker",
-				"$STR_BCE_Tit_Click_Map",
+				"$STR_BCE_Tip_Click_Map",
 				"$STR_BCE_Tit_OverHead"
 			};
 			onToolBoxSelChanged = "_this call BCE_fnc_ToolBoxChanged";
@@ -958,7 +958,7 @@ class RscDisplayAVTerminal
 			strings[] =
 			{
 				"$STR_BCE_Tit_Map_marker",
-				"$STR_BCE_Tit_Click_Map"
+				"$STR_BCE_Tip_Click_Map"
 			};
 		};
 		class New_Task_MarkerCombo: RscCombo
