@@ -169,9 +169,7 @@ cTabBFTvehicles = (vehicles apply {
 }) select {!isnil {_x}};
 
 /*cTabUAVlist --- UAVs*/
-_cTabUAVlist = vehicles select {
-	(_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
-};
+_cTabUAVlist = call BCE_fnc_getCompatibleAVs;
 
 _cTabHcamlist = allUnits select {
 	if (side _x in _validSides) then {

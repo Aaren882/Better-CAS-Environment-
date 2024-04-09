@@ -6,7 +6,7 @@ addMissionEventHandler ["EachFrame", {
 			if (_x call BCE_fnc_isLaserOn) then {
 				_x call BCE_fnc_LaserDesignator;
 			} else {
-				call BCE_fnc_delete;
+				call BCE_fnc_deleteLaserDesignator;
 			}
 		};
 	};

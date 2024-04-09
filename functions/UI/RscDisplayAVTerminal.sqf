@@ -1,6 +1,8 @@
 #include "\A3\ui_f\hpp\defineResincl.inc"
 #include "\A3\ui_f\hpp\defineResinclDesign.inc"
 #include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
+#include "\MG8\AVFEVFX\macro.hpp"
+
 params["_mode","_params","_class"];
 
 _fnc_onLBSelChanged = {
@@ -38,9 +40,9 @@ _fnc_onLBSelChanged = {
 		[_display,1,true] call BCE_fnc_ListSwitch;
 		_createTask ctrlEnable false;
 	};
-	_vehicle = (vehicles Select {(_x isKindOf "Air") && (isEngineOn _x)}) apply {
+	_vehicle = {
 		if (_vehicle_str == str _x) exitwith {_x};
-	};
+	} count (vehicles Select {(_x isKindOf "Air") && (isEngineOn _x)});
 
 	if !(_vehicle isEqualTo (player getVariable "TGP_View_Selected_Vehicle")) then {
 		uiNameSpace setVariable ["BCE_CAS_ListSwtich", false];
@@ -78,9 +80,9 @@ _fnc_onLBSelChanged = {
 			_pilot = [name (driver _vehicle),"-"] select ((driver _vehicle) isEqualTo objNull);
 
 			_Cond_CtrlVeh = [
-					false,
-					(isUAVConnected _vehicle) && (((UAVControl _vehicle) # 0) isNotEqualTo player)
-				] select (unitIsUAV _vehicle);
+				false,
+				(isUAVConnected _vehicle) && (((UAVControl _vehicle) # 0) isNotEqualTo player)
+			] select (unitIsUAV _vehicle);
 
 			(_display displayCtrl 1501) ctrlSetText _pilot;
 			(_display displayCtrl 1502) ctrlSetText _gunner;
@@ -91,7 +93,7 @@ _fnc_onLBSelChanged = {
 				(_gunner == "-") ||
 				(_turret_Unit in _turret_List) ||
 				(({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle)) > 0) ||
-				((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"])
+				((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in GUNNER_OPTICS)
 			) then {
 				(_display displayctrl 1601) ctrlEnable false;
 			} else {
@@ -188,9 +190,7 @@ switch _mode do
 
 			_selected = player getvariable ["TGP_View_Selected_Vehicle",objNull];
 
-			_UnitList = vehicles Select {
-				(_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
-			};
+			_UnitList = call BCE_fnc_getCompatibleAVs;
 
 			//-Exit Task Builder if Nil {_vehicle}
 			if (_selected isEqualTo objNull) then {

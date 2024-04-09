@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\macro.hpp"
+
 params [["_info",""]];
 
 //-Control Turret
@@ -13,7 +15,15 @@ if (_info isNotEqualTo "") exitWith {
 
 	_condition = [
 		false,
-		(isUAVConnected _vehicle) && (((UAVControl _vehicle) # 0) isNotEqualTo cTab_player)
+		call {
+			private ["_return","_index"];
+			_return = UAVControl _vehicle;
+			_index = _return find "GUNNER";
+
+			if (_index < 0) exitWith {false};
+
+			(_return # (_index - 1)) isNotEqualTo cTab_player
+		}
 	] select (unitIsUAV _vehicle);
 
 	if (
@@ -21,7 +31,7 @@ if (_info isNotEqualTo "") exitWith {
 		!(_condition) &&
 		((_current_turret # 0) > -1) &&
 		({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle) == 0) &&
-		!((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in ["","RscWeaponZeroing"])
+		!((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in GUNNER_OPTICS)
 	) then {
 		//-delete PIP Cam && close TAD UI
 		call cTab_fnc_deleteUAVcam;

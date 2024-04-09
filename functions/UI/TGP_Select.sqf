@@ -14,7 +14,7 @@ _fnc_onConfirm = {
 	_vehicle_str = _ctrlValue lnbdata [lnbcurselrow _ctrlValue,0];
 	{
 		if (_vehicle_str == str _x) exitWith {_vehicle = _x};
-	} count (vehicles select {(_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)});
+	} count (call BCE_fnc_getCompatibleAVs);
 	if !(isnull _vehicle) then {
 		_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
 
@@ -32,9 +32,7 @@ _fnc_onConfirm = {
 _display = _params # 0;
 _ctrlValue = _display displayctrl IDC_RSCATTRIBUTECAS_VALUE;
 
-_UnitList = vehicles select {
-	(_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
-};
+_UnitList = call BCE_fnc_getCompatibleAVs;
 
 switch _mode do {
 	case "onLoad": {

@@ -1,8 +1,6 @@
 params ["_display","_checklist","_vehicle","_skip",["_loop",true],["_include0",true]];
 
-private _list = vehicles Select {
-	(_x isKindOf "Air") && (isEngineOn _x) && (playerSide == side _x)
-};
+private _list = call BCE_fnc_getCompatibleAVs;
 
 private _Task_Type = _display displayCtrl 2107;
 private _TaskList = switch (_Task_Type lbValue (lbCurSel _Task_Type)) do {
@@ -17,15 +15,15 @@ private _TaskList = switch (_Task_Type lbValue (lbCurSel _Task_Type)) do {
 };
 
 if (
-	!(_vehicle in _list) or
-	 (isnull _checklist) or
-	!(ctrlShown _checklist) or
-	!(ctrlEnabled _checklist) or
-	 ((_display displayCtrl 1700) lbIsSelected 0) or
+	!(_vehicle in _list) ||
+	 (isnull _checklist) ||
+	!(ctrlShown _checklist) ||
+	!(ctrlEnabled _checklist) ||
+	 ((_display displayCtrl 1700) lbIsSelected 0) ||
 	(
 		(ctrlShown _TaskList) &&
 		(_loop)
-	) or (
+	) || (
 		!(_vehicle isEqualTo (player getVariable ["TGP_View_Selected_Vehicle",objNull])) &&
 		(_skip)
 	)
