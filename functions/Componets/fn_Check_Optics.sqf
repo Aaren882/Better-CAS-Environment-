@@ -35,22 +35,21 @@ _allTurrets = (allTurrets _vehicle) select {
 //-Exit if "_allTurrets" is empty
 if ((_allTurrets findif {true} < 0) && !(hasPilotCamera _vehicle)) exitWith {[]};
 
-//- on cache generation
+//- on cache generating
 	_config_path = configOf _vehicle;
+	
+	_turret_Weapons = ([[-1]] + _allTurrets apply {
+		[
+			[_x, flatten getArray ([_vehicle, _x] call BIS_fnc_turretConfig >> "Weapons")],
+			[_x, getArray (_config_path >> "Weapons")]
+		] select ((_x # 0) < 0);
+	}) select {
+		((_x # 1) findIf {"laserdesignator" in tolower _x}) > -1
+	};
 
-	//-IR Laser
-		_turret_Weapons = ([[-1]] + _allTurrets apply {
-			[
-				[_x, flatten getArray ([_vehicle, _x] call BIS_fnc_turretConfig >> "Weapons")],
-				[_x, getArray (_config_path >> "Weapons")]
-			] select ((_x # 0) < 0);
-		}) select {
-			((_x # 1) findIf {"laserdesignator" in tolower _x}) > 0
-		};
+	if ((_mode == 1) && ((_class_veh in _IRLaser_Cache) || (count _turret_Weapons < 1))) exitWith {[]};
 
-		if ((_mode == 1) && ((_class_veh in _IRLaser_Cache) || (count _turret_Weapons < 1))) exitWith {};
-
-		//-Available Optics
+	//-Available Optics
 		_pilot_cam_LOD = if (
 			(isClass (_config_path >> "pilotCamera")) &&
 			(getNumber (_config_path >> "pilotCamera" >> "controllable") == 1) &&
@@ -61,7 +60,7 @@ if ((_allTurrets findif {true} < 0) && !(hasPilotCamera _vehicle)) exitWith {[]}
 			["",[]]
 		};
 
-		_Turrets_Optics = if (count _allTurrets > 0) then {
+		_Turrets_Optics = if ((_allTurrets findif {true}) > -1) then {
 			_allTurrets apply {
 				private ["_cfg","_text","_is_Detached"];
 				_cfg = [_vehicle, _x] call BIS_fnc_turretConfig;
@@ -198,5 +197,7 @@ localNamespace setVariable ["BCE_System_Caches", _cache];
 
 _return = ([_Camera_Cache, _IRLaser_Cache] # _mode) get _class_veh;
 
+if (isNil {_return}) exitWith {[]};
+
 //-Return
-[[],_return] select ((_mode > -1) && (_class_veh in _return));
+[[],_return] select (_mode > -1);
