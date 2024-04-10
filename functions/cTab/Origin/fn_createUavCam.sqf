@@ -51,7 +51,7 @@ if (_isEmpty) then {
 _Selected_Optic = cTab_player getVariable "TGP_View_Selected_Optic";
 
 _uavCams apply {
-	private ["_cam","_camPosMemPt","_is_Detached","_turret","_vision","_A3TI"];
+	private ["_cam","_camPosMemPt","_is_Detached","_turret","_vision","_FOVs","_FOV","_A3TI"];
 	_x params ["_seat","_renderTarget"];
 
 	if !(isNil {_seat}) then {
@@ -91,8 +91,28 @@ _uavCams apply {
 			};
 
 			_renderTarget setPiPEffect [_vision];
-			_cam camSetFov (cTab_player getVariable "TGP_View_Camera_FOV");
 
+			//- Setup camera FOV
+			_config = if ((_turret # 0) < 0) then {
+				configOf _veh >> "PilotCamera" >> "OpticsIn"
+			} else {
+				[_veh, _turret] call BIS_fnc_turretConfig >> "OpticsIn"
+			};
+			_FOVs = ("true" configClasses _config) apply {
+				if (isText (_x >> "initFov")) then {
+					call compile getText(_x >> "initFov")
+				} else {
+					getNumber(_x >> "initFov")
+				};
+			};
+			_FOVs sort false;
+
+			_FOV = _FOVs find (localNamespace getVariable ["TGP_View_Camera_FOV",_FOVs # 0]);
+			_FOV = _FOVs # ([_FOV,0] select (_FOV < 0));
+
+			_cam camSetFov _FOV;
+			
+			// -Store Cameras
 			cTabUAVcams pushBack [_renderTarget,_cam,_camPosMemPt,_turret,_is_Detached];
 		};
 

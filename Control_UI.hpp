@@ -949,7 +949,7 @@ class RscDisplayAVTerminal
 				"$STR_BCE_Tip_Click_Map",
 				"$STR_BCE_Tit_OverHead"
 			};
-			onToolBoxSelChanged = "_this call BCE_fnc_ToolBoxChanged";
+			onToolBoxSelChanged = "call BCE_fnc_ToolBoxChanged";
 		};
 		class New_Task_TGT: New_Task_IPtype
 		{
