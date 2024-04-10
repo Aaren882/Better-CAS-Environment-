@@ -1008,9 +1008,9 @@
 		
 		
 		<Key ID="STR_BCE_Press_key">
-			<Original>Press %1</Original>
-			<Chinese>按 %1</Chinese>
-			<Chinesesimp>按 %1</Chinesesimp>
+			<Original>Press "%1"</Original>
+			<Chinese>按 "%1"</Chinese>
+			<Chinesesimp>按 "%1"</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Exit_Camera">
 			<Original>Exit Camera</Original>

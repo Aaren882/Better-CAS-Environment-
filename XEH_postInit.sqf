@@ -128,15 +128,7 @@ addMissionEventHandler ["Map", {
 	"Better CAS Environment (TGP)","ZoomIn",
 	localize "STR_BCE_Zoom_In",
 	{
-		if (IsTGP_CAM_ON) then {
-			_cam = TGP_View_Camera # 0;
-			_FOV = player getVariable "TGP_View_Camera_FOV";
-			if (_FOV > 0.05) then {
-				_FOV = _FOV - 0.05;
-				_cam camSetFov _FOV;
-				player setVariable ["TGP_View_Camera_FOV", _FOV];
-			};
-		};
+		1 call BCE_fnc_Switch_Zoom;
 	},
 	"",
 	[0x4E, [false, false, false]],
@@ -147,15 +139,7 @@ addMissionEventHandler ["Map", {
 	"Better CAS Environment (TGP)","ZoomOut",
 	localize "STR_BCE_Zoom_Out",
 	{
-		if (IsTGP_CAM_ON) then {
-			_cam = TGP_View_Camera # 0;
-			_FOV = player getVariable "TGP_View_Camera_FOV";
-			if (_FOV < 0.75) then {
-				_FOV = _FOV + 0.05;
-				_cam camSetFov _FOV;
-				player setVariable ["TGP_View_Camera_FOV", _FOV];
-			};
-		};
+		-1 call BCE_fnc_Switch_Zoom;
 	},
 	"",
 	[0x4A, [false, false, false]],

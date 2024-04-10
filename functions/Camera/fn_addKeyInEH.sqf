@@ -56,7 +56,7 @@ _keyEH_3 = addUserActionEventHandler ["vehLockTurretView", "Activate", {
 	//- Exit _pos if further than view distance
 	if (viewDistance < (_vehicle distance _pos)) exitWith {};
 
-	_obj = (lineIntersectsWith [_pos vectorAdd [0,0,0.1], _pos, _vehicle]) # 0;
+	_obj = (nearestObjects [_pos, [], 5]) # 0;
 	
 	if !(isNil{_obj}) then {
 		_pos = _obj;
