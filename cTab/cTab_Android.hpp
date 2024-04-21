@@ -29,8 +29,7 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 	
 	action = "['cTab_Android_dlg'] call cTab_fnc_toggleWeather";
 	
-	sizeEx = ((27)) / 2048 * PhoneW;
-	size = 0.8 * (((60) - (20))) / 2048 * CustomPhoneH;
+	size = 0.8 * ((((60) - (20))) / 2048 * CustomPhoneH);
 	
 	class TextPos
 	{
@@ -1257,6 +1256,10 @@ PHONE_CLASS
 			w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
 			
 			size = 1.15 * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
+			class Attributes: Attributes
+			{
+				size = 0.9;
+			};
 		};
 		
 		//-App Menu

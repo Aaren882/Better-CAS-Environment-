@@ -1,5 +1,5 @@
 params ["_displayName",["_loop",false]];
-private ["_cur_displayName","_display","_windDir","_temperature","_windSpeed","_text"];
+private ["_cur_displayName","_display","_getWeather","_windDir","_temperature","_windSpeed","_text"];
 
 _cur_displayName = [cTabIfOpen # 1,""] select isnil{cTabIfOpen};
 
@@ -88,7 +88,7 @@ if (([_displayName,"Weather_Condition"] call cTab_fnc_getSettings) # 0) then {
 
   _text = trim format [
     "
-    <t align='center' size='0.75'>%3</t>%1%2 %4<t align='right'>%5°C</t>%1%6%1%7
+    <t align='center' size='0.78'>%3</t>%1%2 %4<t align='right'>%5°C</t>%1%6%1%7
     ",
     
     "<br/>",
