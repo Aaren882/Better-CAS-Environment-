@@ -70,16 +70,16 @@ class cTab_Tablet_OSD_dirOctant: BCE_RscButtonMenu
 {
 	style = 2;
 	
-	x = "((((10) + ((257))) + ((10) + ((((1341)) - (10) * 8) / 7)) * (2))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048))";
+	//x = "((((10) + ((257))) + ((10) + ((((1341)) - (10) * 8) / 7)) * (2))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048))";
+	x = "((((10) + ((257))) + ((10) + ((((1341)) - (10) * 8) / 7)) * (4 - 1))) / 2048  * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048)) + ((((((1341)) - (10) * 8) / 7)) / 2048  * ((safezoneH * 1.2) * 3/4))";
 	y = "((491) + ((42) - (27)) / 2) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2)";
-	w = "1.05 * ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4))";
+	w = "1.3 * ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4))";
 	h = "(((42) - (10))) / 2048 * (safezoneH * 1.2)";
 	
 	text = "";
 	action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleWeather";
 	
-	size = "0.8 * (((42) - (10))) / 2048 * (safezoneH * 1.2)";
-	sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+	size = "(((42) - (10))) / 2048 * (safezoneH * 1.2)";
 	
 	animTextureOver = "#(argb,8,8,3)color(1,1,1,0.8)";
 	animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
@@ -109,7 +109,7 @@ class cTab_Tablet_OSD_dirOctant: BCE_RscButtonMenu
 	
 	class Attributes: Attributes
 	{
-		align="center";
+		align="left";
 		valign="middle";
 	};
 };
@@ -120,22 +120,19 @@ class cTab_Tablet_OSD_Weather_condition_Box: RscStructuredText
 	idc = 26160;
 	colorBackground[] = {0.2,0.2,0.2,0.5};
 	
-	x = "((((10) + ((257))) + ((10) + ((((1341)) - (10) * 8) / 7)) * (2))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048))";
 	y = "((491) + ((42) - (27)) / 2) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2) + ((((42) - (10))) / 2048 * (safezoneH * 1.2))";
-	w = "1.05 * ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4))";
+	w = "1.3 * ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4))";
 	h = 0;
 	
 	text = "";
 	tooltip="";
 	
-	size = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
-	sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+	size = "(((42) - (10))) / 2048 * (safezoneH * 1.2)";
 	
 	class Attributes
 	{
 		align = "Left";
 		font = "RobotoCondensedBold_BCE";
-		size = 0.9;
 	};
 };
 
@@ -1537,7 +1534,7 @@ class cTab_FBCB2_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 	w = "1.05 * ((((((810)) - (15) * 6) / 5)) / 2048 * (safezoneW))";
 	h = "(((44) - (15))) / 2048 * ((safezoneW) * 4/3)";
 	
-	size = "(((safezoneW / safezoneH) min 1.2) / 1.2) / 25";
+	size = "(((44) - (15))) / 2048 * ((safezoneW) * 4/3)";
 	action = "['cTab_FBCB2_dlg'] call cTab_fnc_toggleWeather";
 	
 	class TextPos
@@ -1546,6 +1543,10 @@ class cTab_FBCB2_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 		top = (((((1341))) / 2048 * (safezoneH * 0.8)) * 3/5)/4/20;
 		right = 0.0049999999;
 		bottom = 0;
+	};
+	class Attributes: Attributes
+	{
+		size = 0.8;
 	};
 };
 
@@ -1574,10 +1575,8 @@ class cTab_FBCB2_dlg
 			
 			size = "(((safezoneW / safezoneH) min 1.2) / 1.2) / 25";
 			
-			class Attributes
+			class Attributes: Attributes
 			{
-				align = "Left";
-				font = "RobotoCondensedBold_BCE";
 				size = 0.9;
 			};
 		};

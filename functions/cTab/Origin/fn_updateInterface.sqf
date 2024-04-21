@@ -185,6 +185,7 @@ _settings apply {
 			[_displayName,[["Weather_Condition",[_show,_displayName,_Size]]],false] call cTab_fnc_setSettings;
 		};
 		
+		_ctrl ctrlSetPositionX ((ctrlPosition (_display displayCtrl 2616)) # 0);
 		_ctrl ctrlSetPositionH ([
 			0,
 			3.5 * _dlgSize * (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / ([
