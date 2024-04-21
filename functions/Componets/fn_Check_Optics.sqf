@@ -147,7 +147,7 @@ if ((_allTurrets findif {true} < 0) && !(hasPilotCamera _vehicle)) exitWith {[]}
 								_turret = _vehicle unitTurret _unit;
 
 								//-Set Variable + Send to Network
-								_var set [str _turret, round (deg (getObjectFOV _vehicle))];
+								_var set [str _turret, (round (deg (getObjectFOV _vehicle))) max 1];
 								_vehicle setVariable ["BCE_Cam_FOV_Angle",_var,true];
 							};
 						} else {

@@ -63,15 +63,15 @@ class Extended_PostInit_EventHandlers
 };
 class CfgUIGrids
 {
-    class IGUI
+	class IGUI
 	{
-        class Presets
+		class Presets
 		{
-            class Arma3
+			class Arma3
 			{
-                class Variables
+				class Variables
 				{
-                    grid_BCE_TaskList[] =
+					grid_BCE_TaskList[] =
 					{
 						{
 							"safezoneX",
@@ -95,9 +95,9 @@ class CfgUIGrids
 							"((safezoneW * 0.27) * 4/3) / 4"
 						};
 					#endif
-                };
-            };
-        };
+				};
+			};
+		};
 		
 		#if __has_include("\z\ctab\addons\core\config.bin")
 			#define PHONE_BG "\cTab\img\android_s7_ca.paa"
@@ -107,7 +107,7 @@ class CfgUIGrids
 
 		class Variables
 		{
-            class grid_BCE_TaskList
+			class grid_BCE_TaskList
 			{
 				displayName = "BCE Task Receiver";
 				description = "TaskList from BCE";
@@ -125,7 +125,7 @@ class CfgUIGrids
 					canResize = 1;
 				};
 			#endif
-        };
+		};
 	};
 };
 class CfgHints
@@ -633,11 +633,17 @@ class CfgFunctions
 			class IR_UnitList;
 			class TGP_UnitList;
 		};
+		class DrawMap
+		{
+			file="MG8\AVFEVFX\functions\DrawMap";
+			class DrawGPS;
+			class DrawFOV;
+			class TAC_Map;
+		};
 		class CAS_Event
 		{
 			file="MG8\AVFEVFX\functions\CAS_Event";
 			class CAS_Action;
-			class drawGPS;
 			class GunShip_Loiter;
 			class Plane_CASEvent;
 		};
@@ -652,7 +658,6 @@ class CfgFunctions
 			class IPMarkers;
 			class GetMapClickPOS;
 			class clearTaskInfo;
-			class TAC_Map;
 			class SendTaskData;
 			class CAS_SelWPN;
 			class Extended_Desc;
@@ -660,7 +665,6 @@ class CfgFunctions
 			class Show_CurTaskCtrls;
 			class TaskList_Changed;
 			class Reset_TaskList;
-			class DrawFOV;
 			class NextTurretButton;
 		};
 		class Task_Receiver

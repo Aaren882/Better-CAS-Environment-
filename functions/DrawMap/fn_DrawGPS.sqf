@@ -9,13 +9,18 @@ private _veh_POS = getPosASLVisual _vehicle;
 //- Angle of View https://www.sr-research.com/eye-tracking-blog/background/visual-angle/
 if ((_vehicle isKindOf "Air") && (_widgets # 0)) then {
 	//-draw FOV for every turrets (except FFV)
-	([_vehicle,0] call BCE_fnc_Check_Optics) apply {
-		private _turret = _x # 1;
-		private _isPilot = (_turret # 0) == -1;
+	{
+		private ["_turret","_isPilot","_FocusPos"];
+		_turret = _x # 1;
+
+		//- if isnull unit then exit
+		if (isNull (_vehicle turretUnit _turret)) then {continue};
+
+		_isPilot = (_turret # 0) < 0;
 
 		//-tell what pos for the turret
 		//--Get pilot cam info if vehicle is local (Faster and no Net traffic needed)
-		private _FocusPos = if ((local _vehicle) && _isPilot) then {
+		_FocusPos = if ((local _vehicle) && _isPilot) then {
 			private _info = getPilotCameraTarget _vehicle;
 			[nil,_info # 1] select (_info # 0);
 		} else {
@@ -28,10 +33,8 @@ if ((_vehicle isKindOf "Air") && (_widgets # 0)) then {
 			};
 		};
 
-		private _crew = _vehicle turretUnit _turret;
-
 		//-Draw
-		if (!(isnil {_FocusPos}) && !(isNull _crew)) then {
+		if !(isnil {_FocusPos}) then {
 			private ["_dis","_turretName","_text"];
 
 			_dis = _vehicle distance _FocusPos;
@@ -42,14 +45,14 @@ if ((_vehicle isKindOf "Air") && (_widgets # 0)) then {
 			] select _isPilot;
 
 			_text = trim format [
-				" %1 : %2 km [%3]",
+				"%1 : %2 km [%3]",
 				_turretName,
 				round(_dis/100) / 10,
 				getText(configFile >> "CfgWeapons" >> (_vehicle currentWeaponTurret _turret) >> "DisplayName")
 			];
 			[_vehicle,_ctrl,_FocusPos,_turret,[1,1,1,1],_text] call BCE_fnc_DrawFOV;
 		};
-	};
+	} foreach ([_vehicle,0] call BCE_fnc_Check_Optics);
 };
 
 if ((_taskVar != "") && (_widgets # 1)) then {

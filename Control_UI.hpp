@@ -45,6 +45,7 @@ class RscDisplayMainMap
 				onDraw="call BCE_fnc_drawGPS; [ctrlParent (_this # 0)] call ace_map_fnc_onDrawMap;";
 			#else
 				onDraw="call BCE_fnc_drawGPS";
+				// onDraw="hintsilent str time";
 			#endif
 		};
 	};
