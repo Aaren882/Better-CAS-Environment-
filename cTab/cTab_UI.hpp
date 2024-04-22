@@ -66,6 +66,8 @@ class cTab_Tablet_OSD_dirDegree: cTab_Tablet_OSD_time
 {
 	style = 1;
 };
+
+//- Weather Widget Toggle
 class cTab_Tablet_OSD_dirOctant: BCE_RscButtonMenu
 {
 	style = 2;

@@ -22,7 +22,7 @@
 //-Edited Origins
 class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 {
-	x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (0.35))) / 2048 * PhoneW + CustomPhoneX;
+	x = ((((10) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (0.35))) / 2048 * PhoneW + CustomPhoneX;
 	y = ((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY;
 	w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
 	h = ((40)) / 2048 * CustomPhoneH;
@@ -71,6 +71,7 @@ PHONE_CLASS
 		class screen: cTab_android_RscMapControl
 		{
 			#ifdef MOUSE_CLICK_EH
+				style = 48 + 512;
 				onMouseButtonClick = MOUSE_CLICK_EH;
 				//onMouseButtonDblClick = "call cTab_fnc_Interaction_Menu";
 			#endif
@@ -1283,18 +1284,203 @@ PHONE_CLASS
 			class HScrollbar{};
 			class Scrollbar{};
 			
+			#define MARKER_WIDGET_W (phoneSizeX + phoneSizeW - ((((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX) - (1.05 * sizeW * (PhoneW * 3/4))))
+			#define MARKER_WIDGET_H (30 / 2048 * CustomPhoneH)
+			#define MAKRER_WIDGET_MULT 3.5
+			#define MARKER_WIDGET_BORDER (0.9 * (MAKRER_WIDGET_MULT - 1) * (40 / 2048 * PhoneW))
+			
+			#define MARKER_WIDGET_WH \
+				w = MARKER_WIDGET_W; \
+				h = MAKRER_WIDGET_MULT * MARKER_WIDGET_H
+			
 			idc = idc_D(12001);
 			x = (((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX) - (1.05 * sizeW * (PhoneW * 3/4));
 			y = ((713)) / 2048  * CustomPhoneH + CustomPhoneY + (((60)) / 2048  * CustomPhoneH);
-			w = 0.3;
-			h = 0.3;
+			MARKER_WIDGET_WH;
 			class controls
 			{
 				class Marker_Widget_BG: RscBackground
 				{
-					colorBackground[] = {0,0,0,0.55};
+					colorBackground[] = {0,0,0,0.3};
+					x = MARKER_WIDGET_BORDER;
+					y = MARKER_WIDGET_H;
+					w = MARKER_WIDGET_W - MARKER_WIDGET_BORDER;
+					h = (MAKRER_WIDGET_MULT - 1) * MARKER_WIDGET_H;
+				};
+				
+				//- Top Buttons
+				class Marker_Widget_Retract: ctrlButton
+				{
+					idc = 1;
+					
+					style = "0x02 + 0x30 + 0x800";
+					colorBackground[]={1,0,0,0.5};
+					colorBackgroundActive[] = {1,0,0,0.2};
+					colorFocused[] = {1,0,0,0.3};
+					text = "MG8\AVFEVFX\data\retract.paa";
+					
+					x = 0;
+					y = 0;
+					w = 40 / 2048 * PhoneW;
+					h = MARKER_WIDGET_H;
+					
+					tooltip = "Toggle Marker Widget";
+					action = "";
+				};
+				class Mode_Switch: BCE_RscButtonMenu
+				{
+					idc = 2;
+					text = "Marker Placer<img align='right' image='\MG8\AVFEVFX\data\swap.paa'/>";
+					
+					x = 40 / 2048 * PhoneW;
+					y = 0;
+					w = MARKER_WIDGET_W - (40 / 2048 * PhoneW);
+					h = MARKER_WIDGET_H;
+					
+					size = 0.8 * (MARKER_WIDGET_H);
+					
+					action = "";
+					
+					animTextureOver = "#(argb,8,8,3)color(1,1,1,0.8)";
+					animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+					animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
+					
+					colorBackground[] = 
+					{
+						"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+						"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+						"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+						0.8
+					};
+					colorBackground2[] = 
+					{
+						"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+						"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+						"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+						0.8
+					};
+					colorBackgroundFocused[] = 
+					{
+						"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+						"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+						"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+						0.5
+					};
+					
+					class Attributes: Attributes
+					{
+						align = "center";
+					};
+				};
+				
+				//- Marker Controls
+				class Icon_Sel: RscCombo
+				{
+					idc = 10;
+					style="0x10 + 0x200";
+					
+					sizeEx = MARKER_WIDGET_H;
+					
+					x = 0;
+					y = MARKER_WIDGET_H;
+					w = MARKER_WIDGET_BORDER;
+					h = (MAKRER_WIDGET_MULT - 1) * MARKER_WIDGET_H;
+					
+					arrowEmpty="";
+					arrowFull="";
+					colorSelect[]={1,1,1,1};
+					colorText[]={1,1,1,1};
+					
+					colorBackground[]={0,0,0,0.5};
+					colorSelectBackground[]={0,0,0,0.5};
+	
+					class Items
+					{
+						class Inf
+						{
+							text = "infantry"
+							picture = "\a3\ui_f\data\Map\Markers\NATO\b_inf.paa";
+							default = 1;
+						};
+						class Armor
+						{
+							text = "Armor";
+							picture = "\a3\ui_f\data\Map\Markers\NATO\b_armor.paa";
+						};
+					};
+				};
+				
+				//- Marker text edittors
+				class PreFix: RscText
+				{
+					text = "Prefix :";
+					x = MARKER_WIDGET_BORDER;
+					y = MARKER_WIDGET_H;
+					w = MARKER_WIDGET_W / 5;
+					h = MARKER_WIDGET_H;
+					
+					sizeEx = 0.8 * MARKER_WIDGET_H;
+				};
+				class Prefix_Edit: RscEdit
+				{
+					idc = 15;
+					
+					x = MARKER_WIDGET_BORDER + MARKER_WIDGET_W / 5;
+					y = 1.1 * MARKER_WIDGET_H;
+					w = 0.95 * MARKER_WIDGET_W / 5;
+					h = 0.8 * MARKER_WIDGET_H;
+					
+					sizeEx = 0.7 * MARKER_WIDGET_H;
+					colorBackground[] = {0,0,0,0};
+				};
+				
+				class Index: PreFix
+				{
+					text = "Index :";
+					x = MARKER_WIDGET_BORDER + MARKER_WIDGET_W * 2/5;
+				};
+				class Index_Edit: Prefix_Edit
+				{
+					idc = 16;
+					
+					x = MARKER_WIDGET_BORDER + MARKER_WIDGET_W * 3/5;
+					w = MARKER_WIDGET_W / 10;
+				};
+				
+				//- DESC Preview
+				class DESC_Preview: RscStructuredText
+				{
+					idc = 17;
+					text = "<t shadow='2'>A1-1<t align='right'>||</t></t>";
+					
+					size = 0.8 * MARKER_WIDGET_H;
+					x = 1.05 * MARKER_WIDGET_BORDER;
+					y = (MAKRER_WIDGET_MULT - 1.1) * MARKER_WIDGET_H;
+					w = 0.95 * 0.5 * (MARKER_WIDGET_W - MARKER_WIDGET_BORDER);
+					h = 0.8 * MARKER_WIDGET_H;
+					
+					colorBackground[] = {1,1,1,0.2};
+					class Attributes
+					{
+						align = "center";
+						valign = "middle";
+					};
+				};
+				//- DESC
+				class DESC_Edit: Prefix_Edit
+				{
+					idc = 18;
+					
+					x = 1.05 * MARKER_WIDGET_BORDER + 0.5 * (MARKER_WIDGET_W * 3/5 + MARKER_WIDGET_W /10);
+					y = (MAKRER_WIDGET_MULT - 1.1) * MARKER_WIDGET_H;
+					w = 0.95 * 0.5 * (MARKER_WIDGET_W - MARKER_WIDGET_BORDER);
 				};
 			};
+			#undef MARKER_WIDGET_W
+			#undef MARKER_WIDGET_H
+			#undef MARKER_WIDGET_BORDER
+			#undef MAKRER_WIDGET_MULT
+			#undef MARKER_WIDGET_WH
 		};
 		//- Color Select
 		class MarkerColor: RscCombo

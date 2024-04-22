@@ -947,6 +947,7 @@ class RscShortcutButton;
 class RscButtonMenu: RscShortcutButton
 {
 	class TextPos;
+	class AttributesImage;
 };
 class ctrlButton;
 class RscEdit;
@@ -1013,6 +1014,7 @@ class BCE_RscButtonMenu: RscButtonMenu
 		font = "RobotoCondensed_BCE";
 		color = "#E5E5E5";
 		align = "left";
+		valign = "middle";
 		shadow = "false";
 	};
 };
