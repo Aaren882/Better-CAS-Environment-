@@ -133,12 +133,43 @@ PHONE_CLASS
 				action = "['cTab_Android_dlg'] call cTab_fnc_toggleMapTools";
 			};
 			
+			//- Marker
+			/*class Marker_Widget_Show: Map_Tool_Show
+			{
+				idc = idc_D(12000);
+				colorBackground[] = {0,0,0,0.55};
+				text = "MG8\AVFEVFX\data\locating.paa";
+				x = (5 + 452) / 2048  * PhoneW + CustomPhoneX;
+				y = ((713)) / 2048  * CustomPhoneH + CustomPhoneY + (((60)) / 2048  * CustomPhoneH);
+				tooltip = "Toggle Marker Widget";
+				action = "";
+				show = 0;
+			};
+			class Marker_Widgets: cTab_RscControlsGroup
+			{
+				class VScrollbar{};
+				class HScrollbar{};
+				class Scrollbar{};
+				
+				idc = idc_D(12001);
+				x = (2 + 452) / 2048  * PhoneW + CustomPhoneX;
+				y = ((713)) / 2048  * CustomPhoneH + CustomPhoneY + (((60)) / 2048  * CustomPhoneH);
+				w = 0.3;
+				h = 0.3;
+				class controls
+				{
+					class Marker_Widget_BG: RscBackground
+					{
+						colorBackground[] = {0,0,0,0.55};
+					};
+				};
+			};*/
+			
 			//-POLPOX Map Tools Widgets
 			#if PLP_TOOL == 1
 				class Map_Tool_Show_PLP_widgets: Map_Tool_Show
 				{
 					idc = idc_D(1202);
-					//text = "a3\3den\data\displays\display3den\panelright\customcomposition_editentities_ca.paa";
 					text = "a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa";
 					toolTip = "MapTools Remastered";
 					Y = sizeY(2.25) - (sizeW * PhoneW);
@@ -203,13 +234,9 @@ PHONE_CLASS
 			class Scrollbar{};
 			class controls
 			{	
-				class menuBackground: cTab_IGUIBack
+				class menuBackground: RscBackground
 				{
 					idc = 9;
-					x = 0;
-					y = 0;
-					w = "safezoneW";
-					h = phoneSizeH;
 					colorBackground[] = {0.2,0.2,0.2,0.5};
 				};
 			};
@@ -1232,7 +1259,44 @@ PHONE_CLASS
 			};
 		};
 		
-		//-Color Select
+		
+		//- Map tools 
+		class Marker_Widget_Show: ctrlButton
+		{
+			idc = idc_D(12000);
+			
+			style = "0x02 + 0x30 + 0x800";
+			colorBackground[]={0.3,0.3,0.3,0.5};
+			text = "MG8\AVFEVFX\data\locating.paa";
+			
+			x = (((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX) - (1.05 * sizeW * (PhoneW * 3/4));
+			y = ((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY;
+			w = (((60) - (20))) / 2048 * PhoneW;
+			h = (((60) - (20))) / 2048 * CustomPhoneH;
+			
+			tooltip = "Toggle Marker Widget";
+			action = "";
+		};
+		class Marker_Widgets: cTab_RscControlsGroup
+		{
+			class VScrollbar{};
+			class HScrollbar{};
+			class Scrollbar{};
+			
+			idc = idc_D(12001);
+			x = (((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX) - (1.05 * sizeW * (PhoneW * 3/4));
+			y = ((713)) / 2048  * CustomPhoneH + CustomPhoneY + (((60)) / 2048  * CustomPhoneH);
+			w = 0.3;
+			h = 0.3;
+			class controls
+			{
+				class Marker_Widget_BG: RscBackground
+				{
+					colorBackground[] = {0,0,0,0.55};
+				};
+			};
+		};
+		//- Color Select
 		class MarkerColor: RscCombo
 		{
 			idc = idc_D(1090);
@@ -1245,8 +1309,7 @@ PHONE_CLASS
 			
 			onLBSelChanged = "['cTab_Android_dlg',[['markerColor',_this # 1]]] call cTab_fnc_setSettings;";
 		};
-		//class CGrp: CGrp{};
-		
+
 		//-Weather Condition
 		class cTab_android_on_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box
 		{

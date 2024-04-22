@@ -738,7 +738,7 @@ _settings apply {
 					_BCE_toggle = _display displayCtrl (17000 + 1201);
 
 					#ifdef PLP_TOOL
-					_PLP_toggle = _display displayCtrl (17000 + 1202);
+						_PLP_toggle = _display displayCtrl (17000 + 1202);
 					#endif
 
 					_ToolCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_DIR;
@@ -814,35 +814,35 @@ _settings apply {
 
 					_sort = [];
 					{
-					if (isnull (_x # 0)) then {continue};
-					_x params ["_toggle","_idc","_size","_id"];
+						if (isnull (_x # 0)) then {continue};
+						_x params ["_toggle","_idc","_size","_id"];
 
-					private _status = [_displayName,_id] call cTab_fnc_getSettings;
-					private _POS = _Tool_statment select _status;
+						private _status = [_displayName,_id] call cTab_fnc_getSettings;
+						private _POS = _Tool_statment select _status;
 
-					private _ctrls = [_toggle] + (_idc apply {
-						_x params ["_IDC",["_showOnInit",true]];
-						private _c = _display displayctrl (17000 + _IDC);
-						if (_showOnInit) then {
-						 _c ctrlshow _status;
-						};
+						private _ctrls = [_toggle] + (_idc apply {
+							_x params ["_IDC",["_showOnInit",true]];
+							private _c = _display displayctrl (17000 + _IDC);
+							if (_showOnInit) then {
+							_c ctrlshow _status;
+							};
 
-						//-Preset of List Content
-						if (_MoveDir < 0) then {
-							_c ctrlSetPositionX _CTRLX;
-							_c ctrlCommit 0;
-						};
+							//-Preset of List Content
+							if (_MoveDir < 0) then {
+								_c ctrlSetPositionX _CTRLX;
+								_c ctrlCommit 0;
+							};
 
-						(_POS # 1) params ["_Cx","_Cw"];
-						_c ctrlSetPositionX _Cx;
-						_c ctrlSetPositionW _Cw;
-						_c
-					});
+							(_POS # 1) params ["_Cx","_Cw"];
+							_c ctrlSetPositionX _Cx;
+							_c ctrlSetPositionW _Cw;
+							_c
+						});
 
-					_toggle ctrlSetPositionX (_CTRLX + (_POS # 0));
+						_toggle ctrlSetPositionX (_CTRLX + (_POS # 0));
 
-					//-Output
-					_sort pushBack [_ctrls, _size * _CTRLH, _status];
+						//-Output
+						_sort pushBack [_ctrls, _size * _CTRLH, _status];
 					} forEach [
 						[_Tool_toggle,[], 4, "mapTools"],
 						#ifdef PLP_TOOL
