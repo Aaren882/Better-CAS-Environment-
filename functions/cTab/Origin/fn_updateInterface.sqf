@@ -199,6 +199,48 @@ _settings apply {
 		_ctrl ctrlCommit ([0.2, 0] select _interfaceInit);
 	};
 
+	/////-------------Widgets---------------\\\\\
+	//-- Marker Placer 
+		if ((_x # 0) == "MarkerWidget") exitWith {
+			(_x # 1) params ["_show","_curSel","_BoxSel","_texts"];
+			(ctrlPosition (_display displayCtrl 1)) params ["","_ctrlY","","_ctrlH"];
+
+			private _group = _display displayCtrl (17000 + 1300);
+			private _TitleMode = _group controlsGroupCtrl 1;
+			
+			_group ctrlEnable _show;
+			
+			if (_show) then {
+				private _dropBox = _group controlsGroupCtrl 10;
+				private _cate = _group controlsGroupCtrl 11;
+				[_cate,_curSel,true] call cTab_fnc_Update_MarkerItems;
+
+				//- DropBox Selection
+				_dropBox lbSetCurSel _BoxSel;
+				_cate lbSetCurSel _curSel;
+			};
+
+			//- Update Marker Text on Init
+			if (_interfaceInit) then {
+				{
+					private _txt = _texts # _forEachIndex;
+					private _ctrl = _group controlsGroupCtrl _x;
+					[_ctrl,_txt] call cTab_fnc_onMarkerTextEditted;
+					_ctrl ctrlSetText _txt;
+				} forEach [15,16,17];
+			};
+
+			//- Set POS
+			_group ctrlSetPositionX (ctrlPosition (_display displayCtrl 1300) # 0);
+			_group ctrlSetPositionY (_ctrlY + _ctrlH);
+			_group ctrlSetPositionH ([
+				0,
+				5 * ((ctrlPosition _TitleMode) # 3)
+			] select _show);
+
+			_group ctrlCommit ([0.2, 0] select _interfaceInit);
+		};
+
 	// ------------ MODE ------------
 	if (_x # 0 == "mode") exitWith {
 		cTabUserPos = [];
@@ -267,6 +309,7 @@ _settings apply {
 
 				//-BTF Widgets
 				17000 + 1200,
+
 				//-POLPOX Map Tools
 				#ifdef PLP_TOOL
 				73454,
@@ -661,6 +704,13 @@ _settings apply {
 				} count _cfg;
 			};
 			_markerColor lbSetCurSel (_x # 1);
+
+			//- Update Marker Appearance
+			([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params [["_show",false],"_index"];
+			if (_show) then {
+				private _ctrl = (_display displayCtrl (17000 + 1300)) controlsGroupCtrl 11;
+				[_ctrl,_index] call cTab_fnc_Update_MarkerItems;
+			};
 		};
 
 		// ------------ UAV CAM ------------

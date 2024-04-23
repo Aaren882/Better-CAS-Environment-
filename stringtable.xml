@@ -218,6 +218,11 @@
 			<Chinese>描述</Chinese>
 			<Chinesesimp>描述</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Generic">
+			<Original>Generic</Original>
+			<Chinese>通用</Chinese>
+			<Chinesesimp>通用</Chinesesimp>
+		</Key>
 		
 		<Key ID="STR_BCE_Toggle_FOV">
 			<Original>Toggle FOV of vehicle turrets</Original>

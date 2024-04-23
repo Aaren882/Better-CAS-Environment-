@@ -1264,7 +1264,7 @@ PHONE_CLASS
 		//- Map tools 
 		class Marker_Widget_Show: ctrlButton
 		{
-			idc = idc_D(12000);
+			idc = 1300;
 			
 			style = "0x02 + 0x30 + 0x800";
 			colorBackground[]={0.3,0.3,0.3,0.5};
@@ -1276,7 +1276,7 @@ PHONE_CLASS
 			h = (((60) - (20))) / 2048 * CustomPhoneH;
 			
 			tooltip = "Toggle Marker Widget";
-			action = "";
+			action = "['cTab_Android_dlg'] call cTab_fnc_toggleMarkerWidget";
 		};
 		class Marker_Widgets: cTab_RscControlsGroup
 		{
@@ -1291,9 +1291,9 @@ PHONE_CLASS
 			
 			#define MARKER_WIDGET_WH \
 				w = MARKER_WIDGET_W; \
-				h = MAKRER_WIDGET_MULT * MARKER_WIDGET_H
+				h = (MAKRER_WIDGET_MULT + 1.5) * MARKER_WIDGET_H
 			
-			idc = idc_D(12001);
+			idc = idc_D(1300);
 			x = (((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX) - (1.05 * sizeW * (PhoneW * 3/4));
 			y = ((713)) / 2048  * CustomPhoneH + CustomPhoneY + (((60)) / 2048  * CustomPhoneH);
 			MARKER_WIDGET_WH;
@@ -1311,8 +1311,6 @@ PHONE_CLASS
 				//- Top Buttons
 				class Marker_Widget_Retract: ctrlButton
 				{
-					idc = 1;
-					
 					style = "0x02 + 0x30 + 0x800";
 					colorBackground[]={1,0,0,0.5};
 					colorBackgroundActive[] = {1,0,0,0.2};
@@ -1325,12 +1323,13 @@ PHONE_CLASS
 					h = MARKER_WIDGET_H;
 					
 					tooltip = "Toggle Marker Widget";
-					action = "";
+					action = "['cTab_Android_dlg'] call cTab_fnc_toggleMarkerWidget";
 				};
-				class Mode_Switch: BCE_RscButtonMenu
+				// class Mode_Switch: BCE_RscButtonMenu
+				class Mode_Switch: RscStructuredText
 				{
-					idc = 2;
-					text = "Marker Placer<img align='right' image='\MG8\AVFEVFX\data\swap.paa'/>";
+					idc = 1;
+					text = "<img image='\a3\3DEN\Data\Displays\Display3DEN\PanelRight\modeMarkers_ca.paa'/> Marker Placer<img align='right' image='\MG8\AVFEVFX\data\swap.paa'/>";
 					
 					x = 40 / 2048 * PhoneW;
 					y = 0;
@@ -1367,9 +1366,13 @@ PHONE_CLASS
 						0.5
 					};
 					
-					class Attributes: Attributes
+					class Attributes
 					{
+						font = "RobotoCondensed_BCE";
+						color = "#E5E5E5";
 						align = "center";
+						valign = "middle";
+						shadow = "false";
 					};
 				};
 				
@@ -1393,21 +1396,8 @@ PHONE_CLASS
 					
 					colorBackground[]={0,0,0,0.5};
 					colorSelectBackground[]={0,0,0,0.5};
-	
-					class Items
-					{
-						class Inf
-						{
-							text = "infantry"
-							picture = "\a3\ui_f\data\Map\Markers\NATO\b_inf.paa";
-							default = 1;
-						};
-						class Armor
-						{
-							text = "Armor";
-							picture = "\a3\ui_f\data\Map\Markers\NATO\b_armor.paa";
-						};
-					};
+
+					onLBSelChanged = "call cTab_fnc_onMarkerSelChanged";
 				};
 				
 				//- Marker text edittors
@@ -1432,6 +1422,8 @@ PHONE_CLASS
 					
 					sizeEx = 0.7 * MARKER_WIDGET_H;
 					colorBackground[] = {0,0,0,0};
+
+					onEditChanged = "call cTab_fnc_onMarkerTextEditted";
 				};
 				
 				class Index: PreFix
@@ -1447,11 +1439,21 @@ PHONE_CLASS
 					w = MARKER_WIDGET_W / 10;
 				};
 				
+				//- DESC
+				class DESC_Edit: Prefix_Edit
+				{
+					idc = 17;
+					
+					x = 1.05 * MARKER_WIDGET_BORDER + 0.5 * (MARKER_WIDGET_W * 3/5 + MARKER_WIDGET_W /10);
+					y = (MAKRER_WIDGET_MULT - 1.1) * MARKER_WIDGET_H;
+					w = 0.95 * 0.5 * (MARKER_WIDGET_W - MARKER_WIDGET_BORDER);
+				};
+
 				//- DESC Preview
 				class DESC_Preview: RscStructuredText
 				{
-					idc = 17;
-					text = "<t shadow='2'>A1-1<t align='right'>||</t></t>";
+					idc = 18;
+					text = "";
 					
 					size = 0.8 * MARKER_WIDGET_H;
 					x = 1.05 * MARKER_WIDGET_BORDER;
@@ -1466,14 +1468,43 @@ PHONE_CLASS
 						valign = "middle";
 					};
 				};
-				//- DESC
-				class DESC_Edit: Prefix_Edit
+				
+				//- Category
+				class category: ctrlToolboxPictureKeepAspect
 				{
-					idc = 18;
+					idc = 11;
+					x = 0;
+					y = MAKRER_WIDGET_MULT * MARKER_WIDGET_H;
+					w = MARKER_WIDGET_W;
+					h = 1.5 * MARKER_WIDGET_H;
 					
-					x = 1.05 * MARKER_WIDGET_BORDER + 0.5 * (MARKER_WIDGET_W * 3/5 + MARKER_WIDGET_W /10);
-					y = (MAKRER_WIDGET_MULT - 1.1) * MARKER_WIDGET_H;
-					w = 0.95 * 0.5 * (MARKER_WIDGET_W - MARKER_WIDGET_BORDER);
+					onToolBoxSelChanged = "call cTab_fnc_Update_MarkerItems";
+					rows=1;
+					columns=4;
+					strings[]=
+					{
+						"\a3\3DEN\Data\Displays\Display3DEN\PanelRight\side_east_ca.paa",
+						"\a3\3DEN\Data\Displays\Display3DEN\PanelRight\side_west_ca.paa",
+						"\a3\3DEN\Data\Displays\Display3DEN\PanelRight\side_civ_ca.paa",
+						"\a3\3DEN\Data\Displays\Display3DEN\PanelRight\side_empty_ca.paa"
+					};
+					tooltips[]=
+					{
+						"$STR_EAST",
+						"$STR_WEST",
+						"$STR_Civilian",
+						"$STR_BCE_Generic"
+					};
+					colorBackground[]={0,0,0,0.3};
+					colorText[]={1,1,1,0.4};
+					colorTextSelect[]={1,1,1,1};
+					colorSelectedBg[]=
+					{
+						"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+						"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+						"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+						0.5
+					};
 				};
 			};
 			#undef MARKER_WIDGET_W

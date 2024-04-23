@@ -189,6 +189,9 @@ class RscTeam: RscSubmenu
 	};
 };
 
+#ifdef cTAB_Installed
+	#include "cTab\cTab_MarkersClasses.hpp"
+#endif
 class CfgVehicles
 {
 	//-ACE Actions
@@ -840,21 +843,25 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_onIfClose.sqf";
 				};
+			};
+
+			//- Add
+			/*class BCE_Menu
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions";
 				
-				//- Add
-				class toggleWeather
-				{
-					file="MG8\AVFEVFX\functions\cTab\functions\fn_toggleWeather.sqf";
-				};
 				//- Action Menu
-				class Interaction_Menu
-				{
-					file="MG8\AVFEVFX\functions\cTab\functions\menu\fn_Interaction_Menu.sqf";
-				};
-				class Menu_Correction
-				{
-					file="MG8\AVFEVFX\functions\cTab\functions\menu\fn_Menu_Correction.sqf";
-				};
+				class Interaction_Menu;
+				class Menu_Correction;
+			};*/
+			class BCE_Widget
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\Menu_Widget";
+				class onMarkerSelChanged;
+				class onMarkerTextEditted;
+				class Update_MarkerItems;
+				class toggleWeather;
+				class toggleMarkerWidget;
 			};
 		};
 	#endif
@@ -954,6 +961,7 @@ class RscEdit;
 class RscCombo;
 class RscEditMulti;
 class RscStructuredText;
+class ctrlToolboxPictureKeepAspect;
 class RscMapControl
 {
 	class Bunker;
