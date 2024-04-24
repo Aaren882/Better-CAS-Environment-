@@ -21,13 +21,13 @@ class RscTitles
 		#undef MOUSE_CLICK_EH
 		
 		#define PhoneH (safezoneH * 0.8)
-		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.27)])
+		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.443437)])
 		
 		//-Custom Layout
 		#define CustomPhoneH (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_H',(PhoneW * 4/3)])
 		#define CustomPhoneX (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_X',(safezoneX - PhoneW * 0.17)])
 		#define CustomPhoneY (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_Y',(safezoneY + safezoneH * 0.88 - CustomPhoneH * 0.72)])
-		
+
 		#define TextSize (((38)) / 2048 * CustomPhoneH)
 		#define TextTimes 2.537
 		#define TextTimesH (((safezoneW * 0.8) * 4/3) / CustomPhoneH)
