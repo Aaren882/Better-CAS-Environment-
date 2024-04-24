@@ -205,14 +205,16 @@ _settings apply {
 			(_x # 1) params ["_show","_curSel","_BoxSel","_texts"];
 			(ctrlPosition (_display displayCtrl 1)) params ["","_ctrlY","","_ctrlH"];
 
-			private _group = _display displayCtrl (17000 + 1300);
-			private _TitleMode = _group controlsGroupCtrl 1;
+			private ["_group","_TitleMode"];
+			_group = _display displayCtrl (17000 + 1300);
+			_TitleMode = _group controlsGroupCtrl 1;
 			
 			_group ctrlEnable _show;
 			
 			if (_show) then {
-				private _dropBox = _group controlsGroupCtrl 10;
-				private _cate = _group controlsGroupCtrl 11;
+				private ["_dropBox","_cate"];
+				_dropBox = _group controlsGroupCtrl 10;
+				_cate = _group controlsGroupCtrl 11;
 				[_cate,_curSel,true] call cTab_fnc_Update_MarkerItems;
 
 				//- DropBox Selection
@@ -223,8 +225,9 @@ _settings apply {
 			//- Update Marker Text on Init
 			if (_interfaceInit) then {
 				{
-					private _txt = _texts # _forEachIndex;
-					private _ctrl = _group controlsGroupCtrl _x;
+					private ["_txt","_ctrl"];
+					_txt = _texts # _forEachIndex;
+					_ctrl = _group controlsGroupCtrl _x;
 					[_ctrl,_txt] call cTab_fnc_onMarkerTextEditted;
 					_ctrl ctrlSetText _txt;
 				} forEach [15,16,17];
