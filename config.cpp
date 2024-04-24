@@ -86,13 +86,13 @@ class CfgUIGrids
 						grid_cTab_ATAK_dsp[] = 
 						{
 							{
-								"(safezoneX - 	(0.86) * 0.17)",
-								"(safezoneY + safezoneH * 0.88 - 	(	(0.86) * 4/3) * 0.72)",
-								"(safezoneW * 0.27)",
-								"((safezoneW * 0.27) * 4/3)"
+								"(safezoneX - (safezoneW * 0.443437) * 0.17)",
+								"(safezoneY + safezoneH * 0.88 - ((safezoneW * 0.443437) * 4/3) * 0.72)",
+								"(safezoneW * 0.443437)",
+								"((safezoneW * 0.443437) * 4/3)"
 							},
-							"(safezoneW * 0.27) / 4",
-							"((safezoneW * 0.27) * 4/3) / 4"
+							"(safezoneW * 0.443437) / 4",
+							"((safezoneW * 0.443437) * 4/3) / 4"
 						};
 					#endif
 				};
