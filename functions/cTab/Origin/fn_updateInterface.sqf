@@ -205,17 +205,19 @@ _settings apply {
 			(_x # 1) params ["_show","_curSel","_BoxSel","_texts"];
 			(ctrlPosition (_display displayCtrl 1)) params ["","_ctrlY","","_ctrlH"];
 
-			private ["_group","_TitleMode"];
+			private ["_toggleBnt","_group","_TitleMode"];
+			_toggleBnt = _display displayCtrl 1300;
 			_group = _display displayCtrl (17000 + 1300);
 			_TitleMode = _group controlsGroupCtrl 1;
 			
 			_group ctrlEnable _show;
-			
+			_toggleBnt ctrlEnable !_show;
+
 			if (_show) then {
 				private ["_dropBox","_cate"];
 				_dropBox = _group controlsGroupCtrl 10;
 				_cate = _group controlsGroupCtrl 11;
-				[_cate,_curSel,true] call cTab_fnc_Update_MarkerItems;
+				[_cate,_curSel] call cTab_fnc_Update_MarkerItems;
 
 				//- DropBox Selection
 				_dropBox lbSetCurSel _BoxSel;
@@ -696,7 +698,7 @@ _settings apply {
 					private ["_name","_color","_index"];
 					_name = getText (_x >> "name");
 					_color = (getArray (_x >> "color")) apply {
-					if (_x isEqualType "") then {call compile _x} else {_x};
+						if (_x isEqualType "") then {call compile _x} else {_x};
 					};
 					_index = _markerColor lbAdd _name;
 					_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
@@ -704,13 +706,14 @@ _settings apply {
 					_markerColor lbSetPictureColorSelected [_index, _color];
 					_markerColor lbSetPictureColor [_index, _color];
 					_markerColor lbSetData [_index, str [configName _x, _color]];
+					false
 				} count _cfg;
 			};
 			_markerColor lbSetCurSel (_x # 1);
 
 			//- Update Marker Appearance
 			([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params [["_show",false],"_index"];
-			if (_show) then {
+			if (_show && _index == 3) then {
 				private _ctrl = (_display displayCtrl (17000 + 1300)) controlsGroupCtrl 11;
 				[_ctrl,_index] call cTab_fnc_Update_MarkerItems;
 			};

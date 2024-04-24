@@ -50,6 +50,26 @@ BCE_LandMarks = (nearestLocations [
 	]
 };
 
+//- Set Marker Cache
+private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");
+private _result = _classes apply {
+	private ["_Category","_color"];
+	_Category = getText (_x >> "Category");
+	_color = (getArray (_x >> "color")) apply {
+    if (_x isEqualType "") then {call compile _x} else {_x};
+  };
+
+	_Category = (format [
+		"getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0",_Category
+	]) configClasses (configFile >> "CfgMarkers") apply {
+		configName _x
+	};
+
+	[_Category,_color]
+};
+
+uiNamespace setVariable ["BCE_Marker_Map",(_classes apply {configName _x}) createHashMapFromArray _result];
+
 #if __has_include("\z\ace\addons\hearing\config.bin")
 	BCE_have_ACE_earPlugs = false;
 #endif

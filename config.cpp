@@ -846,14 +846,11 @@ class CfgFunctions
 			};
 
 			//- Add
-			/*class BCE_Menu
+			class BCE_Marker
 			{
-				file="MG8\AVFEVFX\functions\cTab\functions";
-				
-				//- Action Menu
-				class Interaction_Menu;
-				class Menu_Correction;
-			};*/
+				file="MG8\AVFEVFX\functions\cTab\functions\Marker";
+				class PlaceMarker;
+			};
 			class BCE_Widget
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\Menu_Widget";

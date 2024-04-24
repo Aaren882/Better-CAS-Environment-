@@ -35,22 +35,41 @@ params ["_ctrlScreen","_highlight"];
 _arrowLength = cTabUserMarkerArrowSize * ctrlMapScale _ctrlScreen;
 _cursorMarkerIndex = [-1,[_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker] select _highlight;
 
-{
-	_markerData = _x # 1;
-	_markerData params ["_pos","_texture1","_texture2","_dir","_color"];
-	
-	if ((_x # 0) isEqualTo _cursorMarkerIndex) then {_color = cTabTADhighlightColour};
+_markers = if (isMultiplayer) then {
+	allMapMarkers select {markerChannel _x == currentChannel}
+} else {
+	allMapMarkers
+};
 
-	_text = "";
-	if (_dir < 360) then {
+{
+	// _markerData = _x # 1;
+	// _markerData params ["_pos","_texture1","_texture2","_dir","_color"];
+	private ["_config","_icon","_color","_markerData","_text"];
+	_config = configFile >> "CfgMarkers" >> markerType _x;
+
+	_icon = getText (_config >> "icon");
+	_color = (getArray (configFile >> "CfgMarkerColors" >> markerColor _x >> "Color")) apply {
+		if (_x isEqualType "") then {call compile _x} else {_x};
+	};
+	
+	_markerData = [getMarkerPos _x, _icon, markerDir _x, (markerSize _x) apply {cTabIconSize * _x}];
+	_markerData params ["_pos","_texture1","_dir","_size"];
+	
+	//- if the marker having cursor hovering on
+	if (_forEachIndex isEqualTo _cursorMarkerIndex) then {
+		_color = cTabTADhighlightColour;
 		_secondPos = [_pos,_arrowLength,_dir] call BIS_fnc_relPos;
 		_ctrlScreen drawArrow [_pos, _secondPos, _color];
 	};
-	if (cTabBFTtxt) then {_text = _markerData # 5};
-	_ctrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB",_markerData # 6];
-	if (_texture2 != "") then {
-		_ctrlScreen drawIcon [_texture2,_color,_pos, cTabGroupOverlayIconSize, cTabGroupOverlayIconSize, 0, "", 0, cTabTxtSize,"TahomaB","right"];
+
+	_text = if (cTabBFTtxt) then {
+		markerText _x;
+	} else {
+		""
 	};
-} count cTabUserMarkerList;
+	_ctrlScreen drawIcon [_texture1,_color,_pos, _size # 0, _size # 1, 0, _text, 0, cTabTxtSize,"TahomaB"];
+	
+	false
+} forEach _markers;
 
 true
