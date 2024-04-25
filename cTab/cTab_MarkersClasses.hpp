@@ -39,5 +39,6 @@ class cTab_CfgMarkers
     class Generic
     {
         Category = "draw";
+        Hide_Direction = 1; //- Won't Draw Direction on cTab
     };
 };

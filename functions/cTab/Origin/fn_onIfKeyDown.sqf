@@ -58,15 +58,9 @@ if (_dikCode == DIK_F7 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"
 	true
 };
 
+
+
 if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
-	// _mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-	// _currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
-	// _currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
-	// _ctrlScreen = _display displayCtrl (_mapTypes # _currentMapTypeIndex # 1);
-	// _markerIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
-	// if ((_markerIndex isNotEqualTo -1) && (_markerIndex isEqualType 0)) then {
-	// 	[call cTab_fnc_getPlayerEncryptionKey,_markerIndex] call cTab_fnc_deleteUserMarker;
-	// };
 	_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
 	_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
 	_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;

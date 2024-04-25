@@ -95,9 +95,20 @@ if (_button == 0) then {
 			[_list, lbCurSel _list] call BCE_fnc_ctab_BFT_ToolBox;
 		};
 	};
+
+	//- cTab Only
+	// if (_IDC_offset != 17000) exitWith {};
+
+	// //- Get Current Selected Marker
+	// _curSel = [_control,cTabMapCursorPos] call cTab_fnc_findUserMarker;
+	// if (_curSel isNotEqualTo -1) then {
+	// 	uiNameSpace setVariable ["cTab_BFT_CurSel",_curSel];
+	// };
 } else {
 
 	//-Right Click
+
+	//- cTab Only
 	if (_IDC_offset != 17000) exitWith {};
 
 	_curSel = [_control,cTabMapCursorPos] call cTab_fnc_findUserMarker;

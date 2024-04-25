@@ -577,6 +577,7 @@ class CfgFunctions
 			class Check_Optics;
 			class Set_EnvironmentList;
 			class Turret_interSurface;
+			class GetMapClickPOS;
 
 			class POS2Grid;
 			class Grid2POS;
@@ -659,7 +660,6 @@ class CfgFunctions
 			class TaskListDblCLick;
 			class ToolBoxChanged;
 			class IPMarkers;
-			class GetMapClickPOS;
 			class clearTaskInfo;
 			class SendTaskData;
 			class CAS_SelWPN;

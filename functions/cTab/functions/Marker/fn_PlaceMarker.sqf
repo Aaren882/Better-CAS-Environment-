@@ -2,7 +2,7 @@ params ["_control", "_button", "_xPos", "_yPos", "_shift", "_ctrl", "_alt"];
 
 private [
   "_display","_displayName","_markers","_id",
-  "_group","_dropBox","_Color",
+  "_group","_dropBox","_class","_Color",
   "_name","_markerData","_marker"
 ];
 
@@ -31,7 +31,8 @@ if (isNil{_id}) then {
 _group = _display displayCtrl (17000 + 1300);
 _dropBox = _group controlsGroupCtrl 10;
 
-_Color = (("true" configClasses (configFile >> "cTab_CfgMarkers")) apply {getText (_x >> "MarkerColor")}) # _curSel;
+_class = ("true" configClasses (configFile >> "cTab_CfgMarkers")) # _curSel;
+_Color = getText (_class >> "MarkerColor");
 
 if (_color == "") then {
   private ["_colorSel","_markerColor"];
@@ -41,9 +42,9 @@ if (_color == "") then {
 };
 
 
-//- MARKER #<PlayerID>/<MarkerID>/<ChannelID>
-_name = format ["_cTab_DEFINED #%1:%2:%3",clientOwner,_id,currentChannel];
-_markerData = format ["|%1|%2|%3|%4|%5|%6",_dropBox lbData _BoxSel,"ICON","[1,1]","Solid",_color,1];
+//- MARKER #<PlayerID>/<MarkerID>/<ChannelID>/<Hide Direction>
+_name = format ["_cTab_DEFINED #%1:%2:%3:%4", clientOwner, _id, currentChannel, getNumber (_class >> "Hide_Direction")];
+_markerData = format ["|%1|%2|%3|%4|%5|%6|%7",_dropBox lbData _BoxSel,"ICON","[1,1]",0,"Solid",_color,1];
 
 if (_markerData isEqualTo "") exitWith {
   ["Marker data is empty"] call BIS_fnc_error;
@@ -53,6 +54,7 @@ _markerData splitString (_markerData select [0,1]) params [
   "_markerType",
   "_markerShape",
   "_markerSize",
+  "_markerDir",
   "_markerBrush",
   "_markerColor",
   "_markerAlpha"
@@ -63,6 +65,7 @@ _marker = createMarker [_name, _control posScreenToWorld [_xPos,_yPos], currentC
 _marker setMarkerType _markerType;
 _marker setMarkerShape _markerShape;
 _marker setMarkerSize parseSimpleArray _markerSize;
+_marker setmarkerDir parseNumber _markerDir;
 _marker setMarkerBrush _markerBrush;
 _marker setMarkerColor _markerColor;
 _marker setMarkerAlpha parseNumber _markerAlpha;

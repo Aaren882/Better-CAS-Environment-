@@ -25,7 +25,7 @@ if (isnil {BCE_SYSTEM_Handler}) then {
 
 private _mapCenter = worldSize / 2;
 private _landmarks = ["NameVillage", "NameCity", "NameCityCapital", "NameLocal", "NameMarine", "Hill"];
-BCE_LandMarks = (nearestLocations [
+private _BCE_LandMarks = (nearestLocations [
 	[_mapCenter, _mapCenter],
 	_landmarks,
 	worldSize
@@ -49,31 +49,11 @@ BCE_LandMarks = (nearestLocations [
 		(getNumber (_config >> "textSize")) min 0.04
 	]
 };
-
-//- Set Marker Cache
-private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");
-private _result = _classes apply {
-	private ["_Category","_color"];
-	_Category = getText (_x >> "Category");
-	_color = (getArray (_x >> "color")) apply {
-    if (_x isEqualType "") then {call compile _x} else {_x};
-  };
-
-	_Category = (format [
-		"getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0",_Category
-	]) configClasses (configFile >> "CfgMarkers") apply {
-		configName _x
-	};
-
-	[_Category,_color]
-};
-
-uiNamespace setVariable ["BCE_Marker_Map",(_classes apply {configName _x}) createHashMapFromArray _result];
+uiNamespace setVariable ["BCE_LandMarks",_BCE_LandMarks];
 
 #if __has_include("\z\ace\addons\hearing\config.bin")
 	BCE_have_ACE_earPlugs = false;
 #endif
-//ace_hearing_enableCombatDeafness = false;
 
 ["BCE_Init",BCE_fnc_init] call CBA_fnc_addEventHandler;
 
@@ -97,6 +77,26 @@ addMissionEventHandler ["Map", {
 
 #ifdef cTAB_Installed
 	[BCE_fnc_cTab_postInit, [], 1] call CBA_fnc_WaitAndExecute;
+
+	//- Set Marker Cache
+	private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");
+	private _result = _classes apply {
+		private ["_Category","_color"];
+		_Category = getText (_x >> "Category");
+		_color = (getArray (_x >> "color")) apply {
+			if (_x isEqualType "") then {call compile _x} else {_x};
+		};
+
+		_Category = (format [
+			"getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0",_Category
+		]) configClasses (configFile >> "CfgMarkers") apply {
+			configName _x
+		};
+
+		[_Category,_color]
+	};
+
+	uiNamespace setVariable ["BCE_Marker_Map",(_classes apply {configName _x}) createHashMapFromArray _result];
 #endif
 
 //- Optic Mode
@@ -139,8 +139,7 @@ addMissionEventHandler ["Map", {
 		};
 	},
 	"",
-	[0x39, [false, false, false]],
-	true
+	[0x39, [false, false, false]]
 ] call cba_fnc_addKeybind;
 
 //- Zoom
