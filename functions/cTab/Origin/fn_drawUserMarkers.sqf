@@ -32,8 +32,12 @@
 
 params ["_ctrlScreen","_highlight"];
 
-_arrowLength = cTabUserMarkerArrowSize * ctrlMapScale _ctrlScreen;
+private ["_mapScale","_arrowLength","_cursorMarkerIndex","_text","_markers","_holding_LMB","_LMB","_changeDir","_curSelMarker","_getBrush"];
+
+_mapScale = ctrlMapScale _ctrlScreen;
+_arrowLength = cTabUserMarkerArrowSize * _mapScale;
 _cursorMarkerIndex = [-1,[_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker] select _highlight;
+_text = "";
 
 _markers = if (isMultiplayer) then {
 	allMapMarkers select {markerChannel _x == currentChannel}
@@ -41,55 +45,135 @@ _markers = if (isMultiplayer) then {
 	allMapMarkers
 };
 
-//- is holding Left Click
-_holding_LM = 2 == inputMouse 0;
-_curSelMarker = uiNameSpace getVariable ["cTab_BFT_CurSel",-1];
+//- is holding LCtrl + Left Click
+_holding_LMB = inputMouse "487653376";
+_LMB = (inputMouse 0) >= 1;
+
+_changeDir = false;
+_curSelMarker = uiNameSpace getVariable ["cTab_Marker_CurSel",-1];
+
+_getBrush = {
+	private _brush = getText (configFile >> "CfgMarkerBrushes" >> markerBrush _this >> "texture");
+
+	if (_brush == "") then {
+		_brush = "#(rgb,1,1,1)color(1,1,1,0.5)";
+	};
+
+	if ("(0,0,0,0)" in _brush) then {
+		_brush = "";
+	};
+	_brush
+};
 
 {
-	private ["_config","_hide_Direction","_color","_markerData","_changeDir","_text"];
+	private ["_config","_hide_Direction","_Rectangle","_texture","_color","_markerData","_text"];
 
 	_config = configFile >> "CfgMarkers" >> markerType _x;
-  _hide_Direction = 1 > parseNumber (((_x select [15]) splitString ":") # 3);
 
-	_texture1 = getText (_config >> "icon");
-	_color = (getArray (configFile >> "CfgMarkerColors" >> markerColor _x >> "Color")) apply {
-		if (_x isEqualType "") then {call compile _x} else {_x};
-	};
-	
-	_markerData = [getMarkerPos _x, markerDir _x, (markerSize _x) apply {cTabIconSize * _x}];
-	_markerData params ["_pos","_dir","_size"];
-	
-	//- if the marker having cursor hovering on
-	if (_forEachIndex isEqualTo _cursorMarkerIndex) then {
-		private _text = getText (_config >> "name");
-		_ctrlScreen drawIcon ["#(rgb,1,1,1)color(1,1,1,0)",_color, _pos, _size # 0, _size # 1, 0, _text, 0, cTabTxtSize * 1.2,"RobotoCondensed","left"];
-
-		_color = cTabTADhighlightColour;
+	//- Only for cTab Markers
+  _hide_Direction = if ("cTab" in _x) then {
+		0 < parseNumber (((_x select [15]) splitString ":") # 3)
+	} else {
+		false
 	};
 
-	_changeDir = (_forEachIndex isEqualTo _curSelMarker) && _holding_LM;
-	if (_dir != 0 && _hide_Direction) then {
-		private _secondPos = [_pos,_arrowLength * ([1, 2] select _changeDir),_dir] call BIS_fnc_relPos;
-		_ctrlScreen drawArrow [_pos, _secondPos, [_color,cTabTADhighlightColour] select _changeDir];
-	};
+	//- Marker Data
+		_texture = getText (_config >> "icon");
+		_size = markerSize _x;
+
+		_markerData = [getMarkerPos _x, markerDir _x];
+		_markerData params ["_pos","_dir"];
+		
+		_color = (getArray (configFile >> "CfgMarkerColors" >> markerColor _x >> "Color")) apply {
+			if (_x isEqualType "") then {call compile _x} else {_x};
+		};
+		
+		_color set [3, markerAlpha _x];
 	
-	//- Change marker direction
-	if (_changeDir) then {
-		private _dir = _pos getDirVisual cTabMapCursorPos;
-		private _secondPos = [_pos, 2 * _arrowLength, _dir] call BIS_fnc_relPos;
-		_x setMarkerDir _dir;
-		_ctrlScreen drawIcon ["#(rgb,1,1,1)color(1,1,1,0)",cTabTADhighlightColour,_secondPos, 0, 0, 0, format ["%1 %2°",_dir call BCE_fnc_getAzimuth, round _dir], 0, cTabTxtSize * 1.5,"TahomaB"];
-	};
+	//- when the marker having cursor hovering on
+		if (_forEachIndex isEqualTo _cursorMarkerIndex && !("PLP" in _x)) then {
+
+			//- Set Selected Marker
+			if (_curSelMarker < 0) then {
+				switch (true) do {
+					//- Change Marker Direction (Ctrl + LMB)
+					case (_holding_LMB): {
+						uiNameSpace setVariable ["cTab_Marker_CurSel",_forEachIndex];
+						_changeDir = true;
+					};
+
+					case (_LMB): {
+						uiNameSpace setVariable ["cTab_Marker_CurSel",_forEachIndex];
+					};
+				};
+			};
+
+			private _text = getText (_config >> "name");
+			_ctrlScreen drawIcon ["#(rgb,1,1,1)color(1,1,1,0)",_color, _pos, _size # 0, _size # 1, 0, _text, 0, cTabTxtSize,"RobotoCondensed","left"];
+
+			_color = cTabTADhighlightColour;
+		};
+
+		//- Key Actions
+			if (_curSelMarker == _forEachIndex) then {
+				switch (true) do {
+					//- Change Marker Direction (Ctrl + LMB Hold)
+					case (_holding_LMB): {
+						//- Change marker direction
+							private _dir = _pos getDirVisual cTabMapCursorPos;
+							_x setMarkerDir _dir;
+							_ctrlScreen drawIcon ["#(rgb,1,1,1)color(1,1,1,0)",cTabTADhighlightColour,cTabMapCursorPos, 0, 0, 0, format ["%1 %2°",_dir call BCE_fnc_getAzimuth, round _dir], 0, cTabTxtSize * 1.5,"TahomaB"];
+							_ctrlScreen drawArrow [_pos, cTabMapCursorPos, cTabTADhighlightColour];
+					};
+
+					//- Change marker Position (LMB Hold)
+					case (_LMB): {
+						_x setMarkerPos cTabMapCursorPos;
+					};
+				};
+			};
+		
+	//- Draw Direction Arrow
+		if (_dir != 0 && !_hide_Direction && !_changeDir) then {
+			private _secondPos = [_pos,_arrowLength,_dir] call BIS_fnc_relPos;
+			_ctrlScreen drawArrow [_pos, _secondPos, _color];
+		};
 
 	//- draw Marker Icon
-	_text = if (cTabBFTtxt) then {
-		markerText _x
-	} else {
-		""
-	};
-	_ctrlScreen drawIcon [_texture1,_color,_pos, _size # 0, _size # 1, _dir, _text, 0, cTabTxtSize,"RobotoCondensed"];
-	
-	false
+		if (cTabBFTtxt) then {
+			_text = markerText _x;
+		};
+
+		switch (MarkerShape _x) do {
+			case "ICON": {};
+			case "RECTANGLE": {
+				_ctrlScreen drawRectangle [
+					_pos ,(_size # 0),(_size # 1),_dir,_color,(_x call _getBrush)
+				];
+			};
+			case "ELLIPSE": {
+				_ctrlScreen drawEllipse [
+					_pos ,(_size # 0),(_size # 1),_dir,_color,(_x call _getBrush)
+				];
+			};
+			default {continue};
+		};
+
+		_size = _size apply {cTabIconSize * _x};
+		_ctrlScreen drawIcon [
+			_texture,
+			_color,
+			_pos,
+			_size # 0,
+			_size # 1,
+			_dir,
+			_text,
+			0,
+			cTabTxtSize * ([1,1.5] select ("PLP_SMT_Grid" in _x && "_text" in _x)),
+			"RobotoCondensed"
+		];
 } forEach _markers;
 
-true
+if (!_holding_LMB && !_LMB && _curSelMarker > -1) then {
+	uiNameSpace setVariable ["cTab_Marker_CurSel",nil];
+};

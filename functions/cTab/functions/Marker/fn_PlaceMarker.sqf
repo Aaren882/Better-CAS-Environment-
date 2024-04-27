@@ -8,15 +8,15 @@ private [
 
 _display = ctrlParent _control;
 _displayName = cTabIfOpen # 1;
-([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params ["_show","_curSel","_BoxSel","_texts"];
+([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params ["_show","_curSel","_BoxSel","_texts","_widgetMode"];
 
-if !(_show) exitWith {};
+if (!_show || _widgetMode != 0) exitWith {};
 
-_markers = if (isMultiplayer) then {
+_markers = (if (isMultiplayer) then {
 	allMapMarkers select {markerChannel _x == currentChannel}
 } else {
 	allMapMarkers
-};
+}) select {"_cTab_DEFINED" in _x};
 
 _id = (selectMax (_markers apply {
   private _a = _x select [15];
@@ -69,13 +69,14 @@ _marker setmarkerDir parseNumber _markerDir;
 _marker setMarkerBrush _markerBrush;
 _marker setMarkerColor _markerColor;
 _marker setMarkerAlpha parseNumber _markerAlpha;
+_marker setMarkerShadow true;
 
 _texts params [["_prefix",""],["_index",""],["_DESC",""]];
 
 _marker setMarkerText format [
   "%1%2%3",
-  _prefix,
-  ["-" + _index,""] select (_index == ""),
+  _prefix + (["-",""] select (_index == "")),
+  _index,
   [" || " + _DESC, _DESC] select (_DESC == "" || (_prefix == "" && _index == ""))
 ];
 

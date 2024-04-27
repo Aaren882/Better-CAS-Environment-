@@ -25,8 +25,8 @@ private _group = _display displayCtrl (17000 + 1300);
 private _preview = _group controlsGroupCtrl 18;
 _preview ctrlSetStructuredText parseText format [
   "<t shadow='2'>%1%2<t align='right'>||</t></t>",
-  _prefix,
-  ["-" + _index,""] select (_index == "")
+  _prefix + (["-",""] select (_index == "")),
+  _index
 ];
 
 //- Update Varible

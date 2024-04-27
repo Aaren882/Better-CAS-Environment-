@@ -66,9 +66,16 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
 	_ctrlScreen = _display displayCtrl (_mapTypes # _currentMapTypeIndex # 1);
 	private _markerIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
-	if (_markerIndex > -1) then {
-		deleteMarker (allMapMarkers # _markerIndex);
+
+	if (_markerIndex < 0) exitWith {};
+
+	private _marker = allMapMarkers # _markerIndex;
+	
+	//- Can't delete POLPOX's MapTools Markers
+	if !("PLP" in _marker) then {
+		deleteMarker _marker;
 	};
+
 	true
 };
 

@@ -8,7 +8,7 @@
 	["mapWorldPos",[]],
 	["mapScaleDsp",2],
 	["mapScaleDlg",2],
-	["MarkerWidget",[false,0,0,[]]],
+	["MarkerWidget",[false,0,0,[],0,0,100]],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["uavCam",""],
@@ -33,7 +33,7 @@
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["showMenu",["main",false,-1]],
-	["MarkerWidget",[false,0,0,[]]],
+	["MarkerWidget",[false,0,0,[],0,0,100]],
 	["showModeMenu",false],
 	["uavCam",""],
 	["uavInfo",false],
@@ -72,3 +72,5 @@ cTabOnDrawbftAndroid = ctab_fnc_onDrawbftAndroid;
 cTabOnDrawbftAndroidDsp = ctab_fnc_onDrawbftAndroidDsp;
 cTabOnDrawUAV = ctab_fnc_onDrawUAV;
 cTab_Tablet_btnACT = ctab_fnc_Tablet_btnACT;
+
+cTabTxtSize = 0.06;

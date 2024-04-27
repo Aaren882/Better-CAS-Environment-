@@ -850,15 +850,18 @@ class CfgFunctions
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\Marker";
 				class PlaceMarker;
+				class DrawArea;
 			};
 			class BCE_Widget
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\Menu_Widget";
 				class onMarkerSelChanged;
 				class onMarkerTextEditted;
+				class onMarkerOpacityChanged;
 				class Update_MarkerItems;
 				class toggleWeather;
 				class toggleMarkerWidget;
+				class SwitchMarkerWidget;
 			};
 		};
 	#endif
@@ -956,6 +959,7 @@ class RscButtonMenu: RscShortcutButton
 class ctrlButton;
 class RscEdit;
 class RscCombo;
+class RscXSliderH;
 class RscEditMulti;
 class RscStructuredText;
 class ctrlToolboxPictureKeepAspect;

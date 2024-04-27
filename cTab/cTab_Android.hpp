@@ -1325,11 +1325,10 @@ PHONE_CLASS
 					tooltip = "Toggle Marker Widget";
 					action = "['cTab_Android_dlg'] call cTab_fnc_toggleMarkerWidget";
 				};
-				// class Mode_Switch: BCE_RscButtonMenu
-				class Mode_Switch: RscStructuredText
+				class Mode_Switch: BCE_RscButtonMenu
 				{
-					idc = 1;
-					text = "<img image='\a3\3DEN\Data\Displays\Display3DEN\PanelRight\modeMarkers_ca.paa'/> Marker Placer<img align='right' image='\MG8\AVFEVFX\data\swap.paa'/>";
+					idc = 100;
+					text = "";
 					
 					x = 40 / 2048 * PhoneW;
 					y = 0;
@@ -1338,7 +1337,7 @@ PHONE_CLASS
 					
 					size = 0.8 * (MARKER_WIDGET_H);
 					
-					action = "";
+					action = "['cTab_Android_dlg'] call cTab_fnc_SwitchMarkerWidget";
 					
 					animTextureOver = "#(argb,8,8,3)color(1,1,1,0.8)";
 					animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
@@ -1438,7 +1437,7 @@ PHONE_CLASS
 					x = MARKER_WIDGET_BORDER + MARKER_WIDGET_W * 3/5;
 					w = MARKER_WIDGET_W / 10;
 				};
-				
+
 				//- DESC
 				class DESC_Edit: Prefix_Edit
 				{
@@ -1468,6 +1467,57 @@ PHONE_CLASS
 						valign = "middle";
 					};
 				};
+
+				//- for Drawing Tools
+					class Area_Widget_BG: Marker_Widget_BG
+					{
+						idc = 20;
+						y = MAKRER_WIDGET_MULT * MARKER_WIDGET_H;
+						h = 1.4 * MARKER_WIDGET_H;
+					};
+					class Area_Widget_Frame: Area_Widget_BG
+					{
+						idc = 201;
+						style = "0x40";
+						colorText[] = {1,1,1,1};
+					};
+					
+					class AreaBrush: Icon_Sel
+					{
+						idc = 21;
+						
+						style="0x10 + 0x200";
+						y = MAKRER_WIDGET_MULT * MARKER_WIDGET_H;
+						h = 1.5 * MARKER_WIDGET_H;
+						
+						onLBSelChanged = "(_this + [5]) call cTab_fnc_onMarkerSelChanged";
+					};
+					class AreaOpacity_Title: PreFix
+					{
+						idc = 22;
+						text = "$STR_BCE_OPACITY_FORMAT";
+
+						style = "0x02";
+
+						sizeEx = 0.8 * (1.5 / 2) * MARKER_WIDGET_H;
+						y = (MAKRER_WIDGET_MULT - 0.1) * MARKER_WIDGET_H;
+						w = 0.95 * (MARKER_WIDGET_W - MARKER_WIDGET_BORDER);
+						h = 1.5 / 2 * MARKER_WIDGET_H;
+					};
+					class Area_OpacitySlider: RscXSliderH
+					{
+						idc = 23;
+
+						sliderRange[] = {0, 100};
+						sliderStep = 5;
+						
+						x = 1.05 * MARKER_WIDGET_BORDER;
+						y = (MAKRER_WIDGET_MULT + (1.5 / 2) - 0.1) * MARKER_WIDGET_H;
+						w = 0.95 * (MARKER_WIDGET_W - MARKER_WIDGET_BORDER);
+						h = 0.8 * (1.5 / 2) * MARKER_WIDGET_H;
+
+						onSliderPosChanged = "call cTab_fnc_onMarkerOpacityChanged";
+					};
 				
 				//- Category
 				class category: ctrlToolboxPictureKeepAspect

@@ -51,14 +51,18 @@ _markers = if (isMultiplayer) then {
 } count cTabBFTvehicles;
 
 {
-	private _pos = getMarkerPos _x;
-	_pos resize 2;
-	private _distance = _searchPos distanceSqr _pos;
-	if (_distance <= _maxDistance) exitWith {
-		_maxDistance = _distance;
-		_return = _forEachIndex;
-
-		_return
+	if (MarkerShape _x == "ICON") then {
+		private _pos = getMarkerPos _x;
+		_pos resize 2;
+		private _distance = _searchPos distanceSqr _pos;
+		if (_distance <= _maxDistance) exitWith {
+			_maxDistance = _distance;
+			_return = _forEachIndex;
+		};
+	} else {
+		if (_searchPos inArea _x) exitWith {
+			_return = _forEachIndex;
+		};
 	};
 } forEach _markers;
 

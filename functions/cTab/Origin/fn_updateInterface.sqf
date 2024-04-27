@@ -202,26 +202,58 @@ _settings apply {
 	/////-------------Widgets---------------\\\\\
 	//-- Marker Placer 
 		if ((_x # 0) == "MarkerWidget") exitWith {
-			(_x # 1) params ["_show","_curSel","_BoxSel","_texts"];
+			(_x # 1) params ["_show","_curSel","_BoxSel","_texts","_widgetMode"];
 			(ctrlPosition (_display displayCtrl 1)) params ["","_ctrlY","","_ctrlH"];
 
-			private ["_toggleBnt","_group","_TitleMode"];
+			private ["_toggleBnt","_group","_TitleMode","_titleIcon","_Title"];
 			_toggleBnt = _display displayCtrl 1300;
 			_group = _display displayCtrl (17000 + 1300);
-			_TitleMode = _group controlsGroupCtrl 1;
-			
+			_TitleMode = _group controlsGroupCtrl 100;
+
 			_group ctrlEnable _show;
 			_toggleBnt ctrlEnable !_show;
+			
+			_titleIcon = "\a3\3DEN\Data\Displays\Display3DEN\PanelRight\modeMarkers_ca.paa";
+			_Title = "Marker Dropper";
 
 			if (_show) then {
-				private ["_dropBox","_cate"];
+				private ["_dropBox","_cate","_brushes"];
 				_dropBox = _group controlsGroupCtrl 10;
 				_cate = _group controlsGroupCtrl 11;
+				
+				//- Drawing Tools
+				_DrawingTools = [20,201,21,22,23] apply {_group controlsGroupCtrl _x};
+
+				switch _widgetMode do {
+					//- Drawing Marker
+					case 1: {
+						_titleIcon = "a3\3den\data\displays\display3den\panelright\submode_marker_area_ca.paa";
+						_Title = "Drawing Tools";
+
+						_cate ctrlShow false;
+						{_x ctrlshow true} forEach _DrawingTools;
+
+						call cTab_fnc_DrawArea;
+					};
+
+					//- Marker Dropper
+					default {
+						//- DropBox Selection
+						_dropBox lbSetCurSel _BoxSel;
+						_cate lbSetCurSel _curSel;
+						_cate ctrlShow true;
+						{_x ctrlshow false} forEach _DrawingTools;
+					};
+				};
+
+				//- Update Items in ComboBox
 				[_cate,_curSel] call cTab_fnc_Update_MarkerItems;
 
-				//- DropBox Selection
-				_dropBox lbSetCurSel _BoxSel;
-				_cate lbSetCurSel _curSel;
+				_TitleMode ctrlSetStructuredText parseText format [
+					"<img image='%1'/> %2<img align='right' image='\MG8\AVFEVFX\data\swap.paa'/>",
+					_titleIcon,
+					_Title
+				];
 			};
 
 			//- Update Marker Text on Init
@@ -712,8 +744,8 @@ _settings apply {
 			_markerColor lbSetCurSel (_x # 1);
 
 			//- Update Marker Appearance
-			([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params [["_show",false],"_index"];
-			if (_show && _index == 3) then {
+			([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params [["_show",false],"_index","","","_widgetMode"];
+			if (_show && (_index == 3 || _widgetMode == 1)) then {
 				private _ctrl = (_display displayCtrl (17000 + 1300)) controlsGroupCtrl 11;
 				[_ctrl,_index] call cTab_fnc_Update_MarkerItems;
 			};
