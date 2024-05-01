@@ -36,7 +36,8 @@ _EH = _map ctrlAddEventHandler ["Draw", {
   if (
     !cTabCursorOnMap ||
     _MarkerSel ||
-    ([_displayName,"PLP_mapTools"] call cTab_fnc_getSettings)
+    ([_displayName,"PLP_mapTools"] call cTab_fnc_getSettings) ||
+    !isNil{uiNameSpace getVariable "cTab_Marker_CurSel"}
   ) exitWith {
     if (_lastClick > -1 || _Pool findIf {true} > -1) then {
       localNamespace setVariable ["BCE_DrawHold_lastClick",nil];
@@ -122,7 +123,7 @@ _EH = _map ctrlAddEventHandler ["Draw", {
         _id = 0;
       };
 
-      _name = format ["_cTab_DEFINED #%1:%2:%3:%4", clientOwner, _id, currentChannel, 1];
+      _name = format ["_cTab_DEFINED #%1:%2:%3:%4:1", clientOwner, _id, currentChannel, 1];
     //- Place Marker
       _center = _PosA vectorAdd ((_PosB vectorDiff _PosA) vectorMultiply 0.5);
 
@@ -136,15 +137,12 @@ _EH = _map ctrlAddEventHandler ["Draw", {
       _marker setMarkerColor _color;
       _marker setMarkerBrush (_brushes lbData _brush);
       _marker setMarkerAlpha (_opacity / 100);
+      
+      _marker setMarkerDrawPriority -0.5;
 
       _texts params [["_prefix",""],["_index",""],["_DESC",""]];
 
-      _marker setMarkerText format [
-        "%1%2%3",
-        _prefix + (["-",""] select (_index == "")),
-        _index,
-        [" || " + _DESC, _DESC] select (_DESC == "" || (_prefix == "" && _index == ""))
-      ];
+      _marker setMarkerText _DESC;
   };
 }];
 
