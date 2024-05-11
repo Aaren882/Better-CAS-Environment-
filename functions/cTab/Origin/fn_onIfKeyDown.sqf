@@ -58,8 +58,6 @@ if (_dikCode == DIK_F7 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"
 	true
 };
 
-
-
 if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
 	_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
@@ -72,7 +70,7 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	private _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
 	private _marker = allMapMarkers # _markerIndex;
 
-	if ((_toggle # 4) != parseNumber (((_marker select [15]) splitString ":") # 4)) exitWith {false};
+	if !("_cTab_DEFINED" in _marker || "_USER_DEFINED" in _marker) exitWith {false};
 	
 	//- Can't delete POLPOX's MapTools Markers
 	if !("PLP" in _marker) then {

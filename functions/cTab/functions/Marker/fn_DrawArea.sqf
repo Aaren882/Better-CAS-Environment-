@@ -20,14 +20,12 @@ _EH = _map ctrlAddEventHandler ["Draw", {
   _display = ctrlParent _map;
 
   _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
-
+  
   //- Self Remove
-  if ((_toggle # 4) < 1) exitWith {
+  if ((_toggle # 4) < 1 || !(_toggle # 0)) exitWith {
     _map ctrlRemoveEventHandler ["Draw", uiNamespace getVariable ["BCE_DrawingTool_EH",-1]];
     uiNamespace setVariable ["BCE_DrawingTool_EH",nil];
   };
-
-  _MarkerSel = (uiNameSpace getVariable ["cTab_Marker_CurSel",-1]) > -1;
 
   _lastClick = localNamespace getVariable ["BCE_DrawHold_lastClick",-1];
 	_Pool = localNamespace getVariable ["BCE_Draw_Pool",[]];
@@ -35,9 +33,7 @@ _EH = _map ctrlAddEventHandler ["Draw", {
   //- Pause
   if (
     !cTabCursorOnMap ||
-    _MarkerSel ||
-    ([_displayName,"PLP_mapTools"] call cTab_fnc_getSettings) ||
-    !isNil{uiNameSpace getVariable "cTab_Marker_CurSel"}
+    ([_displayName,"PLP_mapTools"] call cTab_fnc_getSettings)
   ) exitWith {
     if (_lastClick > -1 || _Pool findIf {true} > -1) then {
       localNamespace setVariable ["BCE_DrawHold_lastClick",nil];
@@ -46,11 +42,11 @@ _EH = _map ctrlAddEventHandler ["Draw", {
   };
 
   _mPos = _map ctrlMapScreenToWorld getMousePosition;
-  
+
   _LMB = inputMouse 0;
 
   //- Holding LMB
-  if (_LMB >= 1) then {
+  if (_LMB >= 1 && (localNamespace getVariable ["cTab_Marker_CurSel",-1]) < 0) then {
     //- Once on Start
     if (_lastClick == -1) then {
 			_Pool pushBack _mPos;
@@ -84,14 +80,16 @@ _EH = _map ctrlAddEventHandler ["Draw", {
   };
   
   //- on Hold-End
-  if (_LMB == 0 && _lastClick > 0) then {
+  if (_LMB == 0 && _lastClick > -1) then {
     private ["_colorLb","_color","_markers","_id","_name","_center"];
 
     //- Clear Vars
       localNamespace setVariable ["BCE_DrawHold_lastClick",nil];
       localNamespace setVariable ["BCE_Draw_Pool",nil];
 
-    if ((uiNameSpace getVariable ["cTab_Marker_CurSel",-1]) > -1) exitWith {};
+    if (
+      (localNamespace getVariable ["cTab_Marker_CurSel",-1]) > -1
+    ) exitWith {};
 
     _Pool pushBack _mPos;
     _Pool params ["_PosA","_PosB"];

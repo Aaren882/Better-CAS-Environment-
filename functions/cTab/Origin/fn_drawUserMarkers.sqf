@@ -38,7 +38,7 @@ private [
 	"_markers",
 	"_holding_LMB","_LMB",
 	"_changeDir","_changePos","_checkInSameWidget",
-	"_curSelMarker","_getBrush"
+	"_curSelMarker","_isDrawing","_getBrush"
 ];
 
 _mapScale = ctrlMapScale _ctrlScreen;
@@ -61,23 +61,19 @@ _LMB = (inputMouse 0) >= 1;
 _changeDir = false;
 _changePos = false;
 _checkInSameWidget = false;
-_curSelMarker = uiNameSpace getVariable ["cTab_Marker_CurSel",-1];
+_curSelMarker = localNamespace getVariable ["cTab_Marker_CurSel",-1];
+_isDrawing = isnil{localNamespace getVariable ["BCE_DrawHold_lastClick",nil]};
 
 _getBrush = {
 	private _brush = getText (configFile >> "CfgMarkerBrushes" >> markerBrush _this >> "texture");
 
-	if (_brush == "") then {
-		_brush = "#(rgb,1,1,1)color(1,1,1,0.5)";
-	};
-
-	if ("(0,0,0,0)" in _brush) then {
-		_brush = "";
-	};
+	if (_brush == "") exitwith {"#(rgb,1,1,1)color(1,1,1,0.5)"};
+	if ("(0,0,0,0)" in _brush) exitwith {""};
 	_brush
 };
 
 {
-	private ["_config","_hide_Direction","_Rectangle","_texture","_color","_markerData","_text"];
+	private ["_config","_hide_Direction","_Rectangle","_texture","_size","_color","_markerData","_text"];
 
 	_config = configFile >> "CfgMarkers" >> markerType _x;
 
@@ -87,7 +83,7 @@ _getBrush = {
 
 		//- (_toggle # 4) is "Current Widget Mode" 0. Marker Dropper 1. Drawing tools
 			_checkInSameWidget = (_toggle # 4) == (_Data # 4);
-		0 < (_Data # 3);
+		0 < (_Data # 3)
 	} else {
 		false
 	};
@@ -106,21 +102,22 @@ _getBrush = {
 	
 	//- when the marker having cursor hovering on
 		if (
-			_forEachIndex isEqualTo _cursorMarkerIndex && 
-			!("PLP" in _x) && 
-			_checkInSameWidget
+			_forEachIndex isEqualTo _cursorMarkerIndex &&
+			!("PLP" in _x) &&
+			_checkInSameWidget &&
+			(_toggle # 0) &&
+			("_cTab_DEFINED" in _x || "_USER_DEFINED" in _x)
 		) then {
-
 			//- Set Selected Marker
 			if (_curSelMarker < 0) then {
 				switch (true) do {
 					//- Change Marker Direction (Ctrl + LMB)
 					case (_holding_LMB): {
-						uiNameSpace setVariable ["cTab_Marker_CurSel",_forEachIndex];
+						localNamespace setVariable ["cTab_Marker_CurSel",_forEachIndex];
 					};
 
 					case (_LMB): {
-						uiNameSpace setVariable ["cTab_Marker_CurSel",_forEachIndex];
+						localNamespace setVariable ["cTab_Marker_CurSel",_forEachIndex];
 					};
 				};
 			};
@@ -194,5 +191,5 @@ _getBrush = {
 } forEach _markers;
 
 if (!_holding_LMB && !_LMB && _curSelMarker > -1) then {
-	uiNameSpace setVariable ["cTab_Marker_CurSel",nil];
+	localNamespace setVariable ["cTab_Marker_CurSel",nil];
 };
