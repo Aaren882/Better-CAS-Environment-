@@ -5,11 +5,7 @@ _resolution = _display displayCtrl 50;
 _resolution ctrlSetText format ["%1x%2", getResolution # 0, getResolution # 1];
 
 _user = _display displayCtrl 51;
-_name = if (isMultiplayer) then {
-  (getUserInfo getPlayerID _unit) # 4
-} else {
-  name _unit
-};
+_name = profileName;
 _user ctrlSetText _name;
 
 _group = _display displayCtrl 52;
