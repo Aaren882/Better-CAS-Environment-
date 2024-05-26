@@ -898,6 +898,28 @@
 		</Key>
 		
 		
+		<Key ID="STR_BCE_SSE_OPERATION_NAME">
+			<Original>OPERATION : **“%1”**</Original>
+			<Chinese>行動名稱 : **“%1”**</Chinese>
+			<Chinesesimp>行动名称 : **“%1”**</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_SSE_SERVER_NAME">
+			<Original>Server Name :</Original>
+			<Chinese>伺服器名稱 :</Chinese>
+			<Chinesesimp>服务器名称 :</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_SSE_FROM">
+			<Original>From :</Original>
+			<Chinese>寄送者 :</Chinese>
+			<Chinesesimp>寄送者 :</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_SSE_UNIT">
+			<Original>UNIT :</Original>
+			<Chinese>隸屬單位 :</Chinese>
+			<Chinesesimp>隶属单位 :</Chinesesimp>
+		</Key>
+
+
 		<Key ID="STR_BCE_PLP_Title_Distance">
 			<Original>Distance</Original>
 			<Chinese>距離</Chinese>
@@ -1358,6 +1380,11 @@
 			<Original>Select Picture File Save Type</Original>
 			<Chinese>選擇圖片檔案儲存類型</Chinese>
 			<Chinesesimp>选择图片档案储存类型</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Select_Webhook_SSE">
+			<Original>Select Webhook that "SSE Info" Being Sent To</Original>
+			<Chinese>選擇 "SSE訊息" 傳送到的 Webhook</Chinese>
+			<Chinesesimp>选择 "SSE讯息" 传送到的 Webhook</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Select_PIC_FILE_PATH">
 			<Original>Picture File Save Path</Original>

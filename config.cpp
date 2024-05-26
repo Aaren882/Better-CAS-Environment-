@@ -584,6 +584,10 @@ class CfgFunctions
 			class getTurretDir;
 			class getUnitParams;
 			class getCompatibleAVs;
+
+			#if __has_include("\MG8\DiscordMessageAPI\config.bin")
+				class Discord_GetWebhooks;
+			#endif
 		};
 		class HUD
 		{

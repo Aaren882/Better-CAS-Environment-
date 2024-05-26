@@ -129,6 +129,7 @@
  	[[0,1], ["jpg","png"], 0],
 	2
 ] call CBA_fnc_addSetting;
+
 [
 	"BCE_PicFilePath_edit", "EDITBOX",
 	[localize "STR_BCE_Select_PIC_FILE_PATH", localize "STR_BCE_Select_PIC_FILE_ToopTip"],

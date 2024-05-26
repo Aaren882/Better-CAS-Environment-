@@ -1,4 +1,12 @@
 #include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
+
+//- Init Discord Webhook Settings
+#if __has_include("\MG8\DiscordMessageAPI\config.bin")
+	#ifdef cTAB_Installed
+		call BCE_fnc_Discord_GetWebhooks;
+	#endif
+#endif
+
 if (!hasInterface) exitWith {};
 
 //- Init cache holder
@@ -81,7 +89,7 @@ addMissionEventHandler ["Map", {
 
 //- Optic Mode
 [
-	"Better CAS Environment (Camera)","OpticMode",
+	"Better CAS Environment (TGP)","OpticMode",
 	localize "STR_BCE_Optic_Mode",
 	{
 		if (IsTGP_CAM_ON) then {
@@ -103,7 +111,7 @@ addMissionEventHandler ["Map", {
 
 //- Exit
 [
-	"Better CAS Environment (Camera)","Exit",
+	"Better CAS Environment (TGP)","Exit",
 	localize "STR_BCE_Exit_Camera",
 	{
 		if (IsTGP_CAM_ON) exitwith {
@@ -131,7 +139,7 @@ addMissionEventHandler ["Map", {
 
 //- ScreenShot
 	[
-		"Better CAS Environment (Camera)","ScreenShot",
+		"Better CAS Environment (cTab ATAK)","ScreenShot",
 		localize "STR_BCE_Take_ScreenShot",
 		{
 			if (IsPhoneCAM_ON) then {
@@ -144,7 +152,7 @@ addMissionEventHandler ["Map", {
 
 //- Zoom
 [
-	"Better CAS Environment (Camera)","ZoomIn",
+	"Better CAS Environment (TGP)","ZoomIn",
 	localize "STR_BCE_Zoom_In",
 	{
 		//- TGP Camera
@@ -156,7 +164,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (Camera)","ZoomOut",
+	"Better CAS Environment (TGP)","ZoomOut",
 	localize "STR_BCE_Zoom_Out",
 	{
 		//- TGP Camera
@@ -169,7 +177,7 @@ addMissionEventHandler ["Map", {
 
 //- Swich Turret
 [
-	"Better CAS Environment (Camera)","SwichView_L",
+	"Better CAS Environment (TGP)","SwichView_L",
 	localize "STR_BCE_Swich_View_Left",
 	{
 		if (IsTGP_CAM_ON) then {
@@ -200,7 +208,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (Camera)","SwichView_R",
+	"Better CAS Environment (TGP)","SwichView_R",
 	localize "STR_BCE_Swich_View_Right",
 	{
 		if (IsTGP_CAM_ON) then {
@@ -232,7 +240,7 @@ addMissionEventHandler ["Map", {
 
 //Optional
 [
-	"Better CAS Environment (Camera)","Unit_Tracker_Box",
+	"Better CAS Environment (TGP)","Unit_Tracker_Box",
 	SetTitle("STR_BCE_Toggle","STR_BCE_Tracker_Box"),
 	{
 		if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
@@ -249,7 +257,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (Camera)","Unit_Tracker",
+	"Better CAS Environment (TGP)","Unit_Tracker",
 	SetTitle("STR_BCE_Toggle","STR_BCE_Unit_Tracker"),
 	{
 		if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
@@ -266,7 +274,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (Camera)","Compass",
+	"Better CAS Environment (TGP)","Compass",
 	SetTitle("STR_BCE_Toggle","STR_BCE_3D_Compass"),
 	{
 		if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
@@ -283,7 +291,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (Camera)","Unit_MapIcon",
+	"Better CAS Environment (TGP)","Unit_MapIcon",
 	SetTitle("STR_BCE_Toggle","STR_BCE_Map_Icon"),
 	{
 		if (IsTGP_CAM_ON) then {
@@ -300,7 +308,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (Camera)","Unit_MapIcon_Aircraft",
+	"Better CAS Environment (TGP)","Unit_MapIcon_Aircraft",
 	format ["%1 (%2)",SetTitle("STR_BCE_Toggle","STR_BCE_Map_Icon"),localize "str_dn_aircrafts"],
 	{
 		if (IsPilot_CAM_ON && ((player getVariable ["TGP_View_MapIcons_last",-1]) == -1)) then {
@@ -325,7 +333,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (Camera)","LandMark_Icon",
+	"Better CAS Environment (TGP)","LandMark_Icon",
 	SetTitle("STR_BCE_Toggle","STR_BCE_LandMark_Icon"),
 	{
 		if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
@@ -342,7 +350,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (Camera)","NextWeapon",
+	"Better CAS Environment (TGP)","NextWeapon",
 	localize "STR_BCE_Next_Weapon_Setup",
 	{
 		if !(IsTGP_CAM_ON) exitWith {};
@@ -433,7 +441,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (Camera)","TouchMark",
+	"Better CAS Environment (TGP)","TouchMark",
 	localize "STR_BCE_Set_Touch_Marker",
 	{
 		if (!(IsTGP_CAM_ON) || (isNull findDisplay 1022553)) exitWith {};
@@ -470,7 +478,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (Camera)","ToggleCursor",
+	"Better CAS Environment (TGP)","ToggleCursor",
 	SetTitle("STR_BCE_Toggle","STR_BCE_Mouse_Cursor"),
 	{
 		if !(IsTGP_CAM_ON) exitWith {};
