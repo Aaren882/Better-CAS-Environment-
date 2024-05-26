@@ -5,7 +5,7 @@ class RscDisplayEmpty_BCE
 };
 class RscTitles
 {
-	titles[] += {"BCE_Task_Receiver","BCE_TGP_View_GUI","default"};
+	titles[] += {"BCE_Task_Receiver","BCE_TGP_View_GUI","BCE_PhoneCAM_View","default"};
 	class default
 	{
 		idd = -1;
@@ -81,6 +81,7 @@ class RscTitles
 		
 		//-Phone display
 		#include "cTab\cTab_Android.hpp"
+		#include "cTab\ScreenShot_UI.hpp"
 	#endif
 	class BCE_TGP_View_GUI
 	{
@@ -281,42 +282,42 @@ class RscTitles
 			};
 			
 			//frame
-			class frame_left_up_h: RscLine
+			class frame_left_up_h: BCE_RscLine
 			{
 				x = safezoneXAbs + 0.05 * safezoneW;
 				y = safezoneY + 0.05 * safezoneW;
 				w = 0.06 * safezoneW;
 				h = 0.003;
 			};
-			class frame_left_up_v: RscLine
+			class frame_left_up_v: BCE_RscLine
 			{
 				x = safezoneXAbs + 0.05 * safezoneW;
 				y = safezoneY + 0.05 * safezoneW;
 				w = 0.003;
 				h = 0.06 * safezoneW;
 			};
-			class frame_right_down_h: RscLine
+			class frame_right_down_h: BCE_RscLine
 			{
 				x = safezoneXAbs + safezoneWAbs - ((0.05 * safezoneW) + (0.06 * safezoneW));
 				y = safezoneY + safezoneH - ((0.05 * safezoneW) + 0.003);
 				w = 0.06 * safezoneW;
 				h = 0.003;
 			};
-			class frame_right_down_v: RscLine
+			class frame_right_down_v: BCE_RscLine
 			{
 				x = safezoneXAbs + safezoneWAbs - (0.05 * safezoneW);
 				y = safezoneY + safezoneH - ((0.05 * safezoneW) + (0.06 * safezoneW));
 				w = 0.003;
 				h = 0.06 * safezoneW;
 			};
-			class frame_left_down_h: RscLine
+			class frame_left_down_h: BCE_RscLine
 			{
 				x = safezoneXAbs + 0.05 * safezoneW;
 				y = safezoneY + safezoneH - ((0.05 * safezoneW) + 0.003);
 				w = 0.06 * safezoneW;
 				h = 0.003;
 			};
-			class frame_left_down_v: RscLine
+			class frame_left_down_v: BCE_RscLine
 			{
 				x = safezoneXAbs + 0.05 * safezoneW;
 				y = safezoneY + safezoneH - ((0.05 * safezoneW) + (0.06 * safezoneW));
@@ -335,7 +336,7 @@ class RscTitles
 			};
 			
 			//Middle
-			class middle_left: RscLine
+			class middle_left: BCE_RscLine
 			{
 				x = 0.39751 * safezoneW + safezoneX;
 				y = 0.5 * safezoneH + safezoneY;
@@ -347,7 +348,7 @@ class RscTitles
 				x = 0.523078 * safezoneW + safezoneX;
 			};
 			
-			class middle_down: RscLine
+			class middle_down: BCE_RscLine
 			{
 				x = 0.5 * safezoneW + safezoneX;
 				y = 0.540741 * safezoneH + safezoneY;

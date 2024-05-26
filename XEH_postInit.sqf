@@ -74,14 +74,14 @@ addMissionEventHandler ["Map", {
 #define SwitchSound playSound (format ["switch_mod_0%1",(selectRandom [1,2,3,4,5])])
 #define isCtrlTurret ({count (_x getVariable ["TGP_View_Turret_Control",[]]) > 0} count (crew _vehicle)) > 0
 #define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
-
+#define IsPhoneCAM_ON !isnull (uiNamespace getVariable ["BCE_PhoneCAM_View",displayNull])
 #ifdef cTAB_Installed
 	[BCE_fnc_cTab_postInit, [], 1] call CBA_fnc_WaitAndExecute;
 #endif
 
 //- Optic Mode
 [
-	"Better CAS Environment (TGP)","OpticMode",
+	"Better CAS Environment (Camera)","OpticMode",
 	localize "STR_BCE_Optic_Mode",
 	{
 		if (IsTGP_CAM_ON) then {
@@ -103,10 +103,10 @@ addMissionEventHandler ["Map", {
 
 //- Exit
 [
-	"Better CAS Environment (TGP)","Exit",
+	"Better CAS Environment (Camera)","Exit",
 	localize "STR_BCE_Exit_Camera",
 	{
-		if (IsTGP_CAM_ON) then {
+		if (IsTGP_CAM_ON) exitwith {
 			camUseNVG false;
 			call BCE_fnc_Cam_Delete;
 			[2] call BCE_fnc_OpticMode;
@@ -117,17 +117,37 @@ addMissionEventHandler ["Map", {
 				};
 			};
 		};
+
+		//- Exit Phone Camera
+		if (IsPhoneCAM_ON) exitWith {
+			557 cutRsc ["default","PLAIN"];
+			cutText ["", "BLACK IN",0.5];
+		};
 	},
 	"",
 	[0x39, [false, false, false]],
 	true
 ] call cba_fnc_addKeybind;
 
+//- ScreenShot
+	[
+		"Better CAS Environment (Camera)","ScreenShot",
+		localize "STR_BCE_Take_ScreenShot",
+		{
+			if (IsPhoneCAM_ON) then {
+				call BCE_fnc_ATAK_TakePicture;
+			};
+		},
+		"",
+		[0xF0, [false, false, false]]
+	] call cba_fnc_addKeybind;
+
 //- Zoom
 [
-	"Better CAS Environment (TGP)","ZoomIn",
+	"Better CAS Environment (Camera)","ZoomIn",
 	localize "STR_BCE_Zoom_In",
 	{
+		//- TGP Camera
 		1 call BCE_fnc_Switch_Zoom;
 	},
 	"",
@@ -136,9 +156,10 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (TGP)","ZoomOut",
+	"Better CAS Environment (Camera)","ZoomOut",
 	localize "STR_BCE_Zoom_Out",
 	{
+		//- TGP Camera
 		-1 call BCE_fnc_Switch_Zoom;
 	},
 	"",
@@ -148,7 +169,7 @@ addMissionEventHandler ["Map", {
 
 //- Swich Turret
 [
-	"Better CAS Environment (TGP)","SwichView_L",
+	"Better CAS Environment (Camera)","SwichView_L",
 	localize "STR_BCE_Swich_View_Left",
 	{
 		if (IsTGP_CAM_ON) then {
@@ -179,7 +200,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (TGP)","SwichView_R",
+	"Better CAS Environment (Camera)","SwichView_R",
 	localize "STR_BCE_Swich_View_Right",
 	{
 		if (IsTGP_CAM_ON) then {
@@ -211,7 +232,7 @@ addMissionEventHandler ["Map", {
 
 //Optional
 [
-	"Better CAS Environment (TGP)","Unit_Tracker_Box",
+	"Better CAS Environment (Camera)","Unit_Tracker_Box",
 	SetTitle("STR_BCE_Toggle","STR_BCE_Tracker_Box"),
 	{
 		if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
@@ -228,7 +249,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (TGP)","Unit_Tracker",
+	"Better CAS Environment (Camera)","Unit_Tracker",
 	SetTitle("STR_BCE_Toggle","STR_BCE_Unit_Tracker"),
 	{
 		if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
@@ -245,7 +266,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (TGP)","Compass",
+	"Better CAS Environment (Camera)","Compass",
 	SetTitle("STR_BCE_Toggle","STR_BCE_3D_Compass"),
 	{
 		if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
@@ -262,7 +283,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (TGP)","Unit_MapIcon",
+	"Better CAS Environment (Camera)","Unit_MapIcon",
 	SetTitle("STR_BCE_Toggle","STR_BCE_Map_Icon"),
 	{
 		if (IsTGP_CAM_ON) then {
@@ -279,7 +300,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (TGP)","Unit_MapIcon_Aircraft",
+	"Better CAS Environment (Camera)","Unit_MapIcon_Aircraft",
 	format ["%1 (%2)",SetTitle("STR_BCE_Toggle","STR_BCE_Map_Icon"),localize "str_dn_aircrafts"],
 	{
 		if (IsPilot_CAM_ON && ((player getVariable ["TGP_View_MapIcons_last",-1]) == -1)) then {
@@ -304,7 +325,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (TGP)","LandMark_Icon",
+	"Better CAS Environment (Camera)","LandMark_Icon",
 	SetTitle("STR_BCE_Toggle","STR_BCE_LandMark_Icon"),
 	{
 		if (IsTGP_CAM_ON || IsPilot_CAM_ON) then {
@@ -321,7 +342,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (TGP)","NextWeapon",
+	"Better CAS Environment (Camera)","NextWeapon",
 	localize "STR_BCE_Next_Weapon_Setup",
 	{
 		if !(IsTGP_CAM_ON) exitWith {};
@@ -412,7 +433,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (TGP)","TouchMark",
+	"Better CAS Environment (Camera)","TouchMark",
 	localize "STR_BCE_Set_Touch_Marker",
 	{
 		if (!(IsTGP_CAM_ON) || (isNull findDisplay 1022553)) exitWith {};
@@ -449,7 +470,7 @@ addMissionEventHandler ["Map", {
 ] call cba_fnc_addKeybind;
 
 [
-	"Better CAS Environment (TGP)","ToggleCursor",
+	"Better CAS Environment (Camera)","ToggleCursor",
 	SetTitle("STR_BCE_Toggle","STR_BCE_Mouse_Cursor"),
 	{
 		if !(IsTGP_CAM_ON) exitWith {};

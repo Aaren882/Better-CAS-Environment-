@@ -1017,6 +1017,16 @@
 			<Chinese>離開畫面</Chinese>
 			<Chinesesimp>离开画面</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Take_ScreenShot">
+			<Original>Take ScreenShot</Original>
+			<Chinese>截圖畫面</Chinese>
+			<Chinesesimp>截图画面</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_ScreenShot_Taken">
+			<Original>ScreenShot Taken ”%1“</Original>
+			<Chinese>已截圖 ”%1“</Chinese>
+			<Chinesesimp>已截图 ”%1“</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_CMODE">
 			<Original>CMODE</Original>
 			<Chinese>鏡頭模式</Chinese>
@@ -1288,6 +1298,11 @@
 			<Chinese>飛行器鏡頭 設定</Chinese>
 			<Chinesesimp>飞行器镜头 设置</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Title_ATAK_CAM_Settings">
+			<Original>ATAK Settings</Original>
+			<Chinese>ATAK 設定</Chinese>
+			<Chinesesimp>ATAK 设置</Chinesesimp>
+		</Key>
 		
 		<Key ID="STR_BCE_Title_LaserDesign_Settings">
 			<Original>IR Laser Designation</Original>
@@ -1338,6 +1353,21 @@
 			<Original>Select available Trait for Turret Control</Original>
 			<Chinese>選擇可控制砲塔的職位</Chinese>
 			<Chinesesimp>选择可控制炮塔的职位</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Select_PIC_FILE">
+			<Original>Select Picture File Save Type</Original>
+			<Chinese>選擇圖片檔案儲存類型</Chinese>
+			<Chinesesimp>选择图片档案储存类型</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Select_PIC_FILE_PATH">
+			<Original>Picture File Save Path</Original>
+			<Chinese>圖片儲存位置</Chinese>
+			<Chinesesimp>图片储存位置</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Select_PIC_FILE_ToopTip">
+			<Original>if leave it empty that Pic Saves in "ScreenShot" beside BCE "Addons" folder. \n--Example "C:\My_Folder\" (English Only)\n</Original>
+			<Chinese>如果將其保留為 "空白"，則圖片將保存在 "ScreenShot" 中，BCE "Addons" 資料夾旁邊。 \n--範例 "C:\My_Folder\" (只支援英文)\n</Chinese>
+			<Chinesesimp>如果将其保留为 "空白"，则图片将保存在 "ScreenShot" 中，BCE "Addons" 资料夹旁边。 \n--例子 "C:\My_Folder\" (只支持英文 Only)\n</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Laser_for_Air_Vehicles_Laserdesignator">
 			<Original>Laser for Air Vehicles Laserdesignator</Original>

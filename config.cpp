@@ -742,6 +742,12 @@ class CfgFunctions
 				class ATAK_ShowTaskResult;
 				class ATAK_onVehicleChanged;
 			};
+			class ATAK_CAM
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Camera";
+				class ATAK_CamInit;
+				class ATAK_TakePicture;
+			};
 		#endif
 	};
 	#ifdef cTAB_Installed
@@ -928,16 +934,23 @@ class CfgSounds
 	set_Switch_Sound(5);
 };
 
-class ScrollBar;
-class RscLine;
-class RscInfoBack;
 class RscText;
+class RscPicture;
+class ScrollBar;
+//class RscLine;
+class BCE_RscLine: RscPicture
+{
+	text="\MG8\AVFEVFX\data\Element\line.paa";
+	ColorText[]={1,1,1,0.8};
+	background=1;
+	shadow=2;
+};
+class RscInfoBack;
 class RscToolbox;
 class RscListBox
 {
 	class ListScrollBar;
 };
-class RscPicture;
 class RscIGUIText;
 class RscPictureKeepAspect;
 class RscControlsGroup;

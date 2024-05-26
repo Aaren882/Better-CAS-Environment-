@@ -12,6 +12,8 @@ if ((_player getVariable ["TGP_View_EHs", -1]) != -1) exitWith {};
 
 _cam = "camera" camCreate [0,0,0];
 _cam cameraEffect ["Internal", "Back"];
+cameraEffectEnableHUD true;
+showCinemaBorder false;
 
 #ifdef have_ACE
 	if (ace_hearing_enableCombatDeafness) then {
@@ -53,9 +55,6 @@ TGP_View_Camera = [_cam,_pphandle];
 //UI setup
 556 cutRsc ["BCE_TGP_View_GUI","PLAIN",0.3,false];
 cutText ["", "BLACK IN",0.5];
-
-cameraEffectEnableHUD true;
-showCinemaBorder false;
 
 _player setVariable ["TGP_View_laser_update", [time,""]];
 
@@ -114,7 +113,7 @@ _widgets_01 = [
 	_x params ["_action","_var","_text",["_default",true]];
 	private ["_key","_index","_color"];
 
-	_key = (["Better CAS Environment (TGP)", _action] call CBA_fnc_getKeybind) # -1 # 0;
+	_key = (["Better CAS Environment (Camera)", _action] call CBA_fnc_getKeybind) # -1 # 0;
 	_index = _widget_01_ctrl lbAdd format ['%1 "%2"', localize _text, _key call CBA_fnc_localizeKey];
 
 	_widget_01_ctrl lbSetPicture [_index,"\a3\ui_f\data\Map\Markers\Military\dot_CA.paa"];
@@ -129,7 +128,7 @@ _widgets_01 = [
 } foreach _widgets_01;
 
 //-Set Exit Hint
-_Exit_ctrl ctrlSetText format [localize "STR_BCE_Press_key" + " " + localize "STR_BCE_Exit_Camera", ((["Better CAS Environment (TGP)", "Exit"] call CBA_fnc_getKeybind) # -1 # 0) call CBA_fnc_localizeKey];
+_Exit_ctrl ctrlSetText format [localize "STR_BCE_Press_key" + " " + localize "STR_BCE_Exit_Camera", ((["Better CAS Environment (Camera)", "Exit"] call CBA_fnc_getKeybind) # -1 # 0) call CBA_fnc_localizeKey];
 
 //-Set Environment condition List
 [BCE_fnc_Set_EnvironmentList, [_env_ctrl,lbSize _env_ctrl - 1], 0] call CBA_fnc_waitAndExecute;

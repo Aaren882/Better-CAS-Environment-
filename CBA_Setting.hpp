@@ -121,6 +121,22 @@
 	}
 ] call CBA_fnc_addSetting;
 
+//- Set File type (ATAK)
+[
+	"BCE_PicFile_list", "LIST",
+	[localize "STR_BCE_Select_PIC_FILE"],
+ 	["Better CAS Environment (cTab ATAK)", localize "STR_BCE_Title_ATAK_CAM_Settings"],
+ 	[[0,1], ["jpg","png"], 0],
+	2
+] call CBA_fnc_addSetting;
+[
+	"BCE_PicFilePath_edit", "EDITBOX",
+	[localize "STR_BCE_Select_PIC_FILE_PATH", localize "STR_BCE_Select_PIC_FILE_ToopTip"],
+ 	["Better CAS Environment (cTab ATAK)", localize "STR_BCE_Title_ATAK_CAM_Settings"],
+ 	"",
+	2
+] call CBA_fnc_addSetting;
+
 ///////////////////IR Stuffs//////////////////////
 [
 	"BCE_veh_IR_fn","CHECKBOX",
