@@ -1044,10 +1044,10 @@
 			<Chinese>截圖畫面</Chinese>
 			<Chinesesimp>截图画面</Chinesesimp>
 		</Key>
-		<Key ID="STR_BCE_ScreenShot_Taken">
-			<Original>ScreenShot Taken ”%1“</Original>
-			<Chinese>已截圖 ”%1“</Chinese>
-			<Chinesesimp>已截图 ”%1“</Chinesesimp>
+		<Key ID="STR_BCE_ATAK_FlashLight">
+			<Original>Flash Light</Original>
+			<Chinese>手電筒</Chinese>
+			<Chinesesimp>手电筒</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_CMODE">
 			<Original>CMODE</Original>

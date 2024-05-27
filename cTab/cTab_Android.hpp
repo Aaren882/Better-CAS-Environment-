@@ -304,7 +304,7 @@ PHONE_CLASS
 					idc = 4660 + 103;
 					y = (phoneSizeW * 3/5)/3;
 					text = ATAK_APP("MG8\AVFEVFX\data\photo.paa", Take Pictures);
-					action = "call cTab_fnc_close; 557 cutRsc ['BCE_PhoneCAM_View','PLAIN',0.3,false];";
+					action = "call cTab_fnc_close; 558 cutRsc ['BCE_PhoneCAM_View','PLAIN',0.3,false];";
 					
 					textureNoShortcut="MG8\AVFEVFX\data\photo.paa";
 				};

@@ -116,11 +116,19 @@ class BCE_PhoneCAM_View
             idc = 15;
             style = 2;
             x = safezoneX;
-            y = (safezoneY + safezoneH - (0.09 * safezoneW))-(0.8*(0.1));
+            y = (safezoneY + safezoneH - (0.09 * safezoneW)) - (0.8 * (0.1));
             w = safezoneW;
             h = 0.1;
             text = "Press “Space” to Exit Camera";
             SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2)";
+        };
+        class Bnt_hint: Exit_hint
+        {
+            idc = 16;
+            x = safezoneX + (safezoneW / 2) - (safezoneW * 0.15);
+            y = (safezoneY + safezoneH - (0.09 * safezoneW)) - (0.8 * (0.1)) + (0.1 * 1.1);
+            w = safezoneW * 0.3;
+            colorBackground[] = {0,0,0,0.15};
         };
     };
     class controls
