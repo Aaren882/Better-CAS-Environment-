@@ -42,9 +42,8 @@ _Exit_ctrl ctrlSetText format [localize "STR_BCE_Press_key" + " " + localize "ST
   params ["_unit","_cam","_display","_zulu"];
 
   _dir = getCameraViewDirection _unit;
-  _dir apply {(linearConversion [-1,1,_x,-65,65,true])};
-  _Vec = _dir apply {(linearConversion [-1,1,_x,-65,65,true])};
-  _DirUp = [nil, 0, _Vec # 2, 0] call BIS_fnc_transformVectorDirAndUp;
+  _Vec = (_dir apply {(linearConversion [-1,1,_x,-65,65,true])}) # 2;
+  _DirUp = [nil, 0, _Vec, 0] call BIS_fnc_transformVectorDirAndUp;
 
   _cam setVectorDir _dir;
   _cam setVectorDirAndUp _DirUp;
