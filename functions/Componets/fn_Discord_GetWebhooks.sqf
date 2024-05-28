@@ -12,9 +12,18 @@ if !(isMultiplayer) exitWith {};
   };
 
   [
+    "BCE_SSE_Webhook_Send_fn","CHECKBOX",
+    [localize "STR_BCE_Send_SSE_Pic_Send"],
+    ["Better CAS Environment (cTab ATAK Camera)",localize "STR_BCE_Server_Side"],
+    false,
+    1
+  ] call CBA_fnc_addSetting;
+
+  //- Webhook Select
+  [
     "BCE_SSE_Webhook_list", "LIST",
-    [localize "STR_BCE_Select_Webhook_SSE","Server Side Only"],
-    ["Better CAS Environment (cTab ATAK)"],
+    [localize "STR_BCE_Select_Webhook_SSE"],
+    ["Better CAS Environment (cTab ATAK Camera)",localize "STR_BCE_Server_Side"],
     [
       _list,
       _list apply {str _x},

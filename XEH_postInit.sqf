@@ -88,7 +88,7 @@ addMissionEventHandler ["Map", {
 
 	//- Phone Camera
 		[
-			"Better CAS Environment (cTab ATAK)","ScreenShot",
+			"Better CAS Environment (cTab ATAK Camera)","ScreenShot",
 			localize "STR_BCE_Take_ScreenShot",
 			{
 				if (IsPhoneCAM_ON && isnil{ctabifopen}) then {
@@ -100,7 +100,7 @@ addMissionEventHandler ["Map", {
 		] call cba_fnc_addKeybind;
 	//- Flash Light
 		[
-			"Better CAS Environment (cTab ATAK)","FlashLight",
+			"Better CAS Environment (cTab ATAK Camera)","FlashLight",
 			localize "STR_BCE_ATAK_FlashLight",
 			{
 				if (IsPhoneCAM_ON && isnil{ctabifopen}) then {

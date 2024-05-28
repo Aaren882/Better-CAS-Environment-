@@ -21,8 +21,8 @@ private _ctrls = (allControls _display) apply {
 
 [{
   params ["_file","_ctrls", "_grid"];
-  _return = "Arma_ScreenShot_Extension" callExtension _file;
-
+  _return = toString parseSimpleArray ("Arma_ScreenShot_Extension" callExtension str (toArray _file));
+  
   {
     if (isNull _x) then {continue};
     _x ctrlshow true;
@@ -39,6 +39,7 @@ private _ctrls = (allControls _display) apply {
   playSound3D ["\MG8\AVFEVFX\sound\CameraShutter.wss", player, false, getPosASL player, 3, 1, 15];
 
   #if __has_include("\MG8\DiscordMessageAPI\config.bin")
+    if !(BCE_SSE_Webhook_Send_fn) exitWith {};
     [
       {
         params ["_file","_unit","_map"];
@@ -80,5 +81,14 @@ private _ctrls = (allControls _display) apply {
     ] call CBA_fnc_waitAndExecute;
   #endif
 },
-  [format ["%1%2.%3", BCE_PicFilePath_edit, _time joinString "_", ["jpg","png"] # BCE_PicFile_list], _ctrls, _grid], 0.2
+  [
+    format [
+      "%1%2.%3", 
+      [(BCE_PicFilePath_edit trim ["\", 2]) + "\",""] select (BCE_PicFilePath_edit == ""), 
+      _time joinString "_", 
+      ["jpg","png"] # BCE_PicFile_list
+    ], 
+    _ctrls, 
+    _grid
+  ], 0.2
 ] call CBA_fnc_waitAndExecute;
