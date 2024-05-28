@@ -79,7 +79,10 @@ _Exit_ctrl ctrlSetText (_bnt_Hint joinString " | ");
   _date resize 3;
   _dateCtrl ctrlSetText format ["%1", (_date apply {(["","0"] select (_x < 10)) + (str _x)}) joinString "/"];
 
-  (isnull _display) || !(alive _unit) || !(isNull curatorCamera)
+  (isnull _display) || 
+  !(alive _unit) || 
+  !(isNull curatorCamera) || 
+  ((incapacitatedState _unit) == "UNCONSCIOUS")
 }, {
   params ["_unit","_cam","_display"];
 
