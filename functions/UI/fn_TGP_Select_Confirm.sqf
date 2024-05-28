@@ -12,6 +12,8 @@ if ((_player getVariable ["TGP_View_EHs", -1]) != -1) exitWith {};
 
 _cam = "camera" camCreate [0,0,0];
 _cam cameraEffect ["Internal", "Back"];
+cameraEffectEnableHUD true;
+showCinemaBorder false;
 
 #ifdef have_ACE
 	if (ace_hearing_enableCombatDeafness) then {
@@ -53,9 +55,6 @@ TGP_View_Camera = [_cam,_pphandle];
 //UI setup
 556 cutRsc ["BCE_TGP_View_GUI","PLAIN",0.3,false];
 cutText ["", "BLACK IN",0.5];
-
-cameraEffectEnableHUD true;
-showCinemaBorder false;
 
 _player setVariable ["TGP_View_laser_update", [time,""]];
 

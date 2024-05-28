@@ -456,25 +456,26 @@ _settings apply {
 			};
 			// ---------- UAV -----------
 			if (_mode in "UAV") exitWith {
-			_displayItemsToShow = [
-				IDC_CTAB_GROUP_UAV,
-				IDC_CTAB_CTABUAVMAP
-			];
+				_displayItemsToShow = [
+					IDC_CTAB_GROUP_UAV,
+					IDC_CTAB_CTABUAVMAP
+				];
 
-			if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
-				private ["_showMenu","_Showlist"];
-				_showMenu = [_displayName,"uavInfo"] call cTab_fnc_getSettings;
-				_Showlist = [17000 + 4630,17000 + 4631,17000 + 4632,17000 + 46320] + [([1776,1775] select (_showMenu))];
-				_displayItemsToShow append _Showlist;
-			} else {
-				_btnActCtrl ctrlSetTooltip "View Gunner Optics";
+				if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
+					private ["_showMenu","_Showlist"];
+					_showMenu = [_displayName,"uavInfo"] call cTab_fnc_getSettings;
+					_Showlist = [17000 + 4630,17000 + 4631,17000 + 4632,17000 + 46320] + [([1776,1775] select (_showMenu))];
+					_displayItemsToShow append _Showlist;
+				} else {
+					_btnActCtrl ctrlSetTooltip "View Gunner Optics";
+				};
+
+				_settings pushBack ["uavListUpdate",true];
+				if (!_interfaceInit) then {
+					_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
+				};
 			};
 
-			_settings pushBack ["uavListUpdate",true];
-			if (!_interfaceInit) then {
-				_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
-			};
-			};
 			// ---------- HELMET CAM -----------
 			if (_mode == "HCAM") exitWith {
 				_displayItemsToShow = [

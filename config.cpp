@@ -378,6 +378,41 @@ class CfgVehicles
 			class Light_1_Flare;
 		};
 	};
+	//- Phone Flash Light
+	#ifdef cTAB_Installed
+		class Reflector_Cone_Phone_FlashLight_BCE_F: Reflector_Cone_01_long_base_F
+		{
+			scope = 1;
+			scopeCurator = 0;
+			displayName = "Phone FlashLight (BCE)";
+			class Reflectors: Reflectors
+			{
+				class Light_1: Light_1
+				{
+					intensity = 80;
+					innerAngle = 45;
+					outerAngle = 100;
+					useFlare = 0;
+					coneFadeCoef = 4;
+					class Attenuation
+					{
+						start = 0;
+						constant = 0;
+						linear = 0;
+						quadratic = 0.1;
+						hardLimitStart = 8;
+						hardLimitEnd = 22;
+					};
+				};
+				class Light_1_Flare: Light_1_Flare
+				{
+					intensity = 0;
+					useFlare = 0;
+				};
+			};
+		};
+	#endif
+
 	class Reflector_Cone_IR_Laser_F: Reflector_Cone_01_long_base_F
 	{
 		scope = 1;
@@ -588,6 +623,10 @@ class CfgFunctions
 			class getTurretDir;
 			class getUnitParams;
 			class getCompatibleAVs;
+
+			#if __has_include("\MG8\DiscordMessageAPI\config.bin")
+				class Discord_GetWebhooks;
+			#endif
 		};
 		class HUD
 		{
@@ -744,6 +783,12 @@ class CfgFunctions
 				class ATAK_PullData;
 				class ATAK_ShowTaskResult;
 				class ATAK_onVehicleChanged;
+			};
+			class ATAK_CAM
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Camera";
+				class ATAK_CamInit;
+				class ATAK_TakePicture;
 			};
 		#endif
 	};
@@ -935,16 +980,23 @@ class CfgSounds
 	set_Switch_Sound(5);
 };
 
-class ScrollBar;
-class RscLine;
-class RscInfoBack;
 class RscText;
+class RscPicture;
+class ScrollBar;
+//class RscLine;
+class BCE_RscLine: RscPicture
+{
+	text="\MG8\AVFEVFX\data\Element\line.paa";
+	ColorText[]={1,1,1,0.8};
+	background=1;
+	shadow=2;
+};
+class RscInfoBack;
 class RscToolbox;
 class RscListBox
 {
 	class ListScrollBar;
 };
-class RscPicture;
 class RscIGUIText;
 class RscPictureKeepAspect;
 class RscControlsGroup;

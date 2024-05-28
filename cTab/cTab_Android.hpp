@@ -327,16 +327,16 @@ PHONE_CLASS
 					};*/
 				};
 				//-Second Line
-				class actHCamtxt: actMSGtxt
+				class actPhototxt: actMSGtxt
 				{
 					idc = 4660 + 103;
-					text = ATAK_APP("MG8\AVFEVFX\data\Hcam.paa",Helmet Cam);
 					y = (phoneSizeW * 3/5)/3;
-					action = "";
+					text = ATAK_APP("MG8\AVFEVFX\data\photo.paa", Take Pictures);
+					action = "call cTab_fnc_close; 558 cutRsc ['BCE_PhoneCAM_View','PLAIN',0.3,false];";
 					
-					textureNoShortcut="MG8\AVFEVFX\data\Hcam.paa";
+					textureNoShortcut="MG8\AVFEVFX\data\photo.paa";
 				};
-				class actGrouptxt: actHCamtxt
+				class actGrouptxt: actPhototxt
 				{
 					idc = 4660 + 104;
 					x = PhoneBFTContainerW(1);
@@ -344,14 +344,14 @@ PHONE_CLASS
 					action = "";
 					textureNoShortcut="a3\3den\data\displays\display3den\panelright\modegroups_ca.paa";
 				};
-				class actDashBoardtxt: actHCamtxt
+				class actHCamtxt: actPhototxt
 				{
 					idc = 4660 + 105;
+					text = ATAK_APP("MG8\AVFEVFX\data\Hcam.paa",Helmet Cam);
 					x = PhoneBFTContainerW(2);
-					text = ATAK_APP("a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa",CheckList);
 					action = "";
 					
-					textureNoShortcut="a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa";
+					textureNoShortcut="MG8\AVFEVFX\data\Hcam.paa";
 				};
 				
 				//-Thired Line

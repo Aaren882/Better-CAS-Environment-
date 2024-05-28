@@ -1,4 +1,12 @@
 #include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
+
+//- Init Discord Webhook Settings
+#if __has_include("\MG8\DiscordMessageAPI\config.bin")
+	#ifdef cTAB_Installed
+		call BCE_fnc_Discord_GetWebhooks;
+	#endif
+#endif
+
 if (!hasInterface) exitWith {};
 
 //- Init cache holder
@@ -74,10 +82,53 @@ addMissionEventHandler ["Map", {
 #define SwitchSound playSound (format ["switch_mod_0%1",(selectRandom [1,2,3,4,5])])
 #define isCtrlTurret ({count (_x getVariable ["TGP_View_Turret_Control",[]]) > 0} count (crew _vehicle)) > 0
 #define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
-
+#define IsPhoneCAM_ON !isnull (uiNamespace getVariable ["BCE_PhoneCAM_View",displayNull])
 #ifdef cTAB_Installed
 	[BCE_fnc_cTab_postInit, [], 1] call CBA_fnc_WaitAndExecute;
+ 
+	//- Phone Camera
+		[
+			"Better CAS Environment (cTab ATAK Camera)","ScreenShot",
+			localize "STR_BCE_Take_ScreenShot",
+			{
+				if (IsPhoneCAM_ON && isnil{ctabifopen}) then {
+					call BCE_fnc_ATAK_TakePicture;
+				};
+			},
+			"",
+			[0xF0, [false, false, false]]
+		] call cba_fnc_addKeybind;
+	//- Flash Light
+		[
+			"Better CAS Environment (cTab ATAK Camera)","FlashLight",
+			localize "STR_BCE_ATAK_FlashLight",
+			{
+				if (IsPhoneCAM_ON && isnil{ctabifopen}) then {
+					private _light = localNamespace getVariable ["BCE_ATAK_Camera_FlashLight",objNull];
+					if (isnull _light) then {
+						_light = "Reflector_Cone_Phone_FlashLight_BCE_F" createVehicle [0,0,0]; //- As Global object
+						localNamespace setVariable ["BCE_ATAK_Camera_FlashLight",_light];
 
+						//- Attach to player's head
+						private _unit = player;
+						if (vehicle _unit != _unit) then {
+							private _veh = vehicle _unit;
+							private _offset = _veh worldToModelVisual (ASLToAGL (eyePos _unit));
+							_light attachTo [_veh,_offset vectorAdd [0,0.4,0]];
+						} else {
+							_light attachTo [_unit, [0,0.4,0.2], "head"];
+						};
+
+					} else {
+						deleteVehicle _light;
+						localNamespace setVariable ["BCE_ATAK_Camera_FlashLight",nil];
+					};
+				};
+			},
+			"",
+			[0xF1, [false, false, false]]
+		] call cba_fnc_addKeybind;
+    
 	//- Set Marker Cache
 	private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");
 	private _result = _classes apply {
@@ -126,7 +177,7 @@ addMissionEventHandler ["Map", {
 	"Better CAS Environment (TGP)","Exit",
 	localize "STR_BCE_Exit_Camera",
 	{
-		if (IsTGP_CAM_ON) then {
+		if (IsTGP_CAM_ON) exitwith {
 			camUseNVG false;
 			call BCE_fnc_Cam_Delete;
 			[2] call BCE_fnc_OpticMode;
@@ -136,6 +187,12 @@ addMissionEventHandler ["Map", {
 					call A3TI_fnc_ppEffects
 				};
 			};
+		};
+
+		//- Exit Phone Camera
+		if (IsPhoneCAM_ON) exitWith {
+			558 cutRsc ["default","PLAIN"];
+			cutText ["", "BLACK IN",0.5];
 		};
 	},
 	"",
@@ -147,6 +204,7 @@ addMissionEventHandler ["Map", {
 	"Better CAS Environment (TGP)","ZoomIn",
 	localize "STR_BCE_Zoom_In",
 	{
+		//- TGP Camera
 		1 call BCE_fnc_Switch_Zoom;
 	},
 	"",
@@ -158,6 +216,7 @@ addMissionEventHandler ["Map", {
 	"Better CAS Environment (TGP)","ZoomOut",
 	localize "STR_BCE_Zoom_Out",
 	{
+		//- TGP Camera
 		-1 call BCE_fnc_Switch_Zoom;
 	},
 	"",
