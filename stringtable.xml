@@ -218,6 +218,11 @@
 			<Chinese>描述</Chinese>
 			<Chinesesimp>描述</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Generic">
+			<Original>Generic</Original>
+			<Chinese>通用</Chinese>
+			<Chinesesimp>通用</Chinesesimp>
+		</Key>
 		
 		<Key ID="STR_BCE_Toggle_FOV">
 			<Original>Toggle FOV of vehicle turrets</Original>
@@ -898,6 +903,28 @@
 		</Key>
 		
 		
+		<Key ID="STR_BCE_SSE_OPERATION_NAME">
+			<Original>OPERATION : **“%1”**</Original>
+			<Chinese>行動名稱 : **“%1”**</Chinese>
+			<Chinesesimp>行动名称 : **“%1”**</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_SSE_SERVER_NAME">
+			<Original>Server Name :</Original>
+			<Chinese>伺服器名稱 :</Chinese>
+			<Chinesesimp>服务器名称 :</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_SSE_FROM">
+			<Original>From :</Original>
+			<Chinese>寄送者 :</Chinese>
+			<Chinesesimp>寄送者 :</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_SSE_UNIT">
+			<Original>UNIT :</Original>
+			<Chinese>隸屬單位 :</Chinese>
+			<Chinesesimp>隶属单位 :</Chinesesimp>
+		</Key>
+
+
 		<Key ID="STR_BCE_PLP_Title_Distance">
 			<Original>Distance</Original>
 			<Chinese>距離</Chinese>
@@ -1016,6 +1043,16 @@
 			<Original>Exit Camera</Original>
 			<Chinese>離開畫面</Chinese>
 			<Chinesesimp>离开画面</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Take_ScreenShot">
+			<Original>Take ScreenShot</Original>
+			<Chinese>截圖畫面</Chinese>
+			<Chinesesimp>截图画面</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_ATAK_FlashLight">
+			<Original>Flash Light</Original>
+			<Chinese>手電筒</Chinese>
+			<Chinesesimp>手电筒</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_CMODE">
 			<Original>CMODE</Original>
@@ -1288,6 +1325,11 @@
 			<Chinese>飛行器鏡頭 設定</Chinese>
 			<Chinesesimp>飞行器镜头 设置</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Title_ATAK_CAM_Settings">
+			<Original>ATAK Settings</Original>
+			<Chinese>ATAK 設定</Chinese>
+			<Chinesesimp>ATAK 设置</Chinesesimp>
+		</Key>
 		
 		<Key ID="STR_BCE_Title_LaserDesign_Settings">
 			<Original>IR Laser Designation</Original>
@@ -1333,11 +1375,45 @@
 			<Chinesesimp>显示 HUD</Chinesesimp>
 		</Key>
 		
-		
+		<Key ID="STR_BCE_Server_Side">
+			<Original>Server Side</Original>
+			<Chinese>伺服器端</Chinese>
+			<Chinesesimp>伺服器端</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_Select_Turret_Control_Trait">
 			<Original>Select available Trait for Turret Control</Original>
 			<Chinese>選擇可控制砲塔的職位</Chinese>
 			<Chinesesimp>选择可控制炮塔的职位</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Select_PIC_FILE">
+			<Original>Select Picture File Save Type</Original>
+			<Chinese>選擇圖片檔案儲存類型</Chinese>
+			<Chinesesimp>选择图片档案储存类型</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Select_Webhook_SSE">
+			<Original>Select Webhook that "SSE Info" Being Sent To</Original>
+			<Chinese>選擇 "SSE訊息" 傳送到的 Webhook</Chinese>
+			<Chinesesimp>选择 "SSE讯息" 传送到的 Webhook</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Send_SSE_Pic_Send">
+			<Original>Send Pictures to Discord</Original>
+			<Chinese>傳送圖片到 Discord</Chinese>
+			<Chinesesimp>传送图片到 Discord</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Select_PIC_FILE_PATH">
+			<Original>Picture File Save Path</Original>
+			<Chinese>圖片儲存位置</Chinese>
+			<Chinesesimp>图片储存位置</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Select_PIC_FILE_SIZE">
+			<Original>Picture File Max Save Size (MB)</Original>
+			<Chinese>最大圖片保存容量 (MB)</Chinese>
+			<Chinesesimp>最大图片储存容量 (MB)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Select_PIC_FILE_ToopTip">
+			<Original>if leave it empty that Pic Saves in "ScreenShot" beside BCE "Addons" folder. \n--Example "C:\My_Folder\"\n</Original>
+			<Chinese>如果將其保留為 "空白"，則圖片將保存在 "ScreenShot" 中，BCE "Addons" 資料夾旁邊。 \n--範例 "C:\My_Folder\"\n</Chinese>
+			<Chinesesimp>如果将其保留为 "空白"，则图片将保存在 "ScreenShot" 中，BCE "Addons" 资料夹旁边。 \n--例子 "C:\My_Folder\"\n</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_Laser_for_Air_Vehicles_Laserdesignator">
 			<Original>Laser for Air Vehicles Laserdesignator</Original>
@@ -1378,6 +1454,13 @@
 			<Original>Laser on Ground Vehicle Turret</Original>
 			<Chinese>雷射在 地面載具 炮塔上</Chinese>
 			<Chinesesimp>激光在 地面载具 炮塔上</Chinesesimp>
+		</Key>
+		
+		
+		<Key ID="STR_BCE_OPACITY_FORMAT">
+			<Original>Opacity: %1%2</Original>
+			<Chinese>不透明度: %1%2</Chinese>
+			<Chinesesimp>不透明度: %1%2</Chinesesimp>
 		</Key>
 		
 	</Package>
