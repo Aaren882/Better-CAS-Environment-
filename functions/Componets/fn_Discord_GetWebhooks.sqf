@@ -1,5 +1,13 @@
 if !(isMultiplayer) exitWith {};
 
+[
+  "BCE_SSE_Webhook_Send_fn","CHECKBOX",
+  [localize "STR_BCE_Send_SSE_Pic_Send"],
+  ["Better CAS Environment (cTab ATAK Camera)",localize "STR_BCE_Server_Side"],
+  false,
+  1
+] call CBA_fnc_addSetting;
+
 //- initiate for Server and Client
 0 spawn {
   waitUntil {!isNil{DiscordEmbedBuilder_Info}};
@@ -10,14 +18,6 @@ if !(isMultiplayer) exitWith {};
   for "_i" from 0 to (count (_infoVar # 0)) - 1 do {
     _list pushBack _i;
   };
-
-  [
-    "BCE_SSE_Webhook_Send_fn","CHECKBOX",
-    [localize "STR_BCE_Send_SSE_Pic_Send"],
-    ["Better CAS Environment (cTab ATAK Camera)",localize "STR_BCE_Server_Side"],
-    false,
-    1
-  ] call CBA_fnc_addSetting;
 
   //- Webhook Select
   [
