@@ -199,85 +199,6 @@ _settings apply {
 		_ctrl ctrlCommit ([0.2, 0] select _interfaceInit);
 	};
 
-	/////-------------Widgets---------------\\\\\
-	//-- Marker Placer 
-		if ((_x # 0) == "MarkerWidget") exitWith {
-			(_x # 1) params ["_show","_curSel","_BoxSel","_texts","_widgetMode"];
-			(ctrlPosition (_display displayCtrl 1)) params ["","_ctrlY","","_ctrlH"];
-
-			private ["_toggleBnt","_group","_TitleMode","_titleIcon","_Title"];
-			_toggleBnt = _display displayCtrl 1300;
-			_group = _display displayCtrl (17000 + 1300);
-			_TitleMode = _group controlsGroupCtrl 100;
-
-			_group ctrlEnable _show;
-			_toggleBnt ctrlEnable !_show;
-			
-			_titleIcon = "\a3\3DEN\Data\Displays\Display3DEN\PanelRight\modeMarkers_ca.paa";
-			_Title = "Marker Dropper";
-
-			if (_show) then {
-				private ["_dropBox","_cate","_brushes"];
-				_dropBox = _group controlsGroupCtrl 10;
-				_cate = _group controlsGroupCtrl 11;
-				
-				//- Drawing Tools
-				_DrawingTools = [20,201,21,22,23] apply {_group controlsGroupCtrl _x};
-
-				switch _widgetMode do {
-					//- Drawing Marker
-					case 1: {
-						_titleIcon = "a3\3den\data\displays\display3den\panelright\submode_marker_area_ca.paa";
-						_Title = "Drawing Tools";
-
-						_cate ctrlShow false;
-						{_x ctrlshow true} forEach _DrawingTools;
-
-						call cTab_fnc_DrawArea;
-					};
-
-					//- Marker Dropper
-					default {
-						//- DropBox Selection
-						_dropBox lbSetCurSel _BoxSel;
-						_cate lbSetCurSel _curSel;
-						_cate ctrlShow true;
-						{_x ctrlshow false} forEach _DrawingTools;
-					};
-				};
-
-				//- Update Items in ComboBox
-				[_cate,_curSel] call cTab_fnc_Update_MarkerItems;
-
-				_TitleMode ctrlSetStructuredText parseText format [
-					"<img image='%1'/> %2<img align='right' image='\MG8\AVFEVFX\data\swap.paa'/>",
-					_titleIcon,
-					_Title
-				];
-			};
-
-			//- Update Marker Text on Init
-			if (_interfaceInit) then {
-				{
-					private ["_txt","_ctrl"];
-					_txt = _texts # _forEachIndex;
-					_ctrl = _group controlsGroupCtrl _x;
-					[_ctrl,_txt] call cTab_fnc_onMarkerTextEditted;
-					_ctrl ctrlSetText _txt;
-				} forEach [15,16,17];
-			};
-
-			//- Set POS
-			_group ctrlSetPositionX (ctrlPosition (_display displayCtrl 1300) # 0);
-			_group ctrlSetPositionY (_ctrlY + _ctrlH);
-			_group ctrlSetPositionH ([
-				0,
-				5 * ((ctrlPosition _TitleMode) # 3)
-			] select _show);
-
-			_group ctrlCommit ([0.2, 0] select _interfaceInit);
-		};
-
 	// ------------ MODE ------------
 	if (_x # 0 == "mode") exitWith {
 		cTabUserPos = [];
@@ -346,7 +267,6 @@ _settings apply {
 
 				//-BTF Widgets
 				17000 + 1200,
-
 				//-POLPOX Map Tools
 				#ifdef PLP_TOOL
 				73454,
@@ -731,7 +651,7 @@ _settings apply {
 					private ["_name","_color","_index"];
 					_name = getText (_x >> "name");
 					_color = (getArray (_x >> "color")) apply {
-						if (_x isEqualType "") then {call compile _x} else {_x};
+					if (_x isEqualType "") then {call compile _x} else {_x};
 					};
 					_index = _markerColor lbAdd _name;
 					_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
@@ -739,17 +659,9 @@ _settings apply {
 					_markerColor lbSetPictureColorSelected [_index, _color];
 					_markerColor lbSetPictureColor [_index, _color];
 					_markerColor lbSetData [_index, str [configName _x, _color]];
-					false
 				} count _cfg;
 			};
 			_markerColor lbSetCurSel (_x # 1);
-
-			//- Update Marker Appearance
-			([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params [["_show",false],"_index","","","_widgetMode"];
-			if (_show && (_index == 3 || _widgetMode == 1)) then {
-				private _ctrl = (_display displayCtrl (17000 + 1300)) controlsGroupCtrl 11;
-				[_ctrl,_index] call cTab_fnc_Update_MarkerItems;
-			};
 		};
 
 		// ------------ UAV CAM ------------
@@ -829,7 +741,7 @@ _settings apply {
 					_BCE_toggle = _display displayCtrl (17000 + 1201);
 
 					#ifdef PLP_TOOL
-						_PLP_toggle = _display displayCtrl (17000 + 1202);
+					_PLP_toggle = _display displayCtrl (17000 + 1202);
 					#endif
 
 					_ToolCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_DIR;
@@ -905,35 +817,35 @@ _settings apply {
 
 					_sort = [];
 					{
-						if (isnull (_x # 0)) then {continue};
-						_x params ["_toggle","_idc","_size","_id"];
+					if (isnull (_x # 0)) then {continue};
+					_x params ["_toggle","_idc","_size","_id"];
 
-						private _status = [_displayName,_id] call cTab_fnc_getSettings;
-						private _POS = _Tool_statment select _status;
+					private _status = [_displayName,_id] call cTab_fnc_getSettings;
+					private _POS = _Tool_statment select _status;
 
-						private _ctrls = [_toggle] + (_idc apply {
-							_x params ["_IDC",["_showOnInit",true]];
-							private _c = _display displayctrl (17000 + _IDC);
-							if (_showOnInit) then {
-							_c ctrlshow _status;
-							};
+					private _ctrls = [_toggle] + (_idc apply {
+						_x params ["_IDC",["_showOnInit",true]];
+						private _c = _display displayctrl (17000 + _IDC);
+						if (_showOnInit) then {
+						 _c ctrlshow _status;
+						};
 
-							//-Preset of List Content
-							if (_MoveDir < 0) then {
-								_c ctrlSetPositionX _CTRLX;
-								_c ctrlCommit 0;
-							};
+						//-Preset of List Content
+						if (_MoveDir < 0) then {
+							_c ctrlSetPositionX _CTRLX;
+							_c ctrlCommit 0;
+						};
 
-							(_POS # 1) params ["_Cx","_Cw"];
-							_c ctrlSetPositionX _Cx;
-							_c ctrlSetPositionW _Cw;
-							_c
-						});
+						(_POS # 1) params ["_Cx","_Cw"];
+						_c ctrlSetPositionX _Cx;
+						_c ctrlSetPositionW _Cw;
+						_c
+					});
 
-						_toggle ctrlSetPositionX (_CTRLX + (_POS # 0));
+					_toggle ctrlSetPositionX (_CTRLX + (_POS # 0));
 
-						//-Output
-						_sort pushBack [_ctrls, _size * _CTRLH, _status];
+					//-Output
+					_sort pushBack [_ctrls, _size * _CTRLH, _status];
 					} forEach [
 						[_Tool_toggle,[], 4, "mapTools"],
 						#ifdef PLP_TOOL

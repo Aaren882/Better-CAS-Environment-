@@ -218,11 +218,6 @@
 			<Chinese>描述</Chinese>
 			<Chinesesimp>描述</Chinesesimp>
 		</Key>
-		<Key ID="STR_BCE_Generic">
-			<Original>Generic</Original>
-			<Chinese>通用</Chinese>
-			<Chinesesimp>通用</Chinesesimp>
-		</Key>
 		
 		<Key ID="STR_BCE_Toggle_FOV">
 			<Original>Toggle FOV of vehicle turrets</Original>
@@ -1454,13 +1449,6 @@
 			<Original>Laser on Ground Vehicle Turret</Original>
 			<Chinese>雷射在 地面載具 炮塔上</Chinese>
 			<Chinesesimp>激光在 地面载具 炮塔上</Chinesesimp>
-		</Key>
-		
-		
-		<Key ID="STR_BCE_OPACITY_FORMAT">
-			<Original>Opacity: %1%2</Original>
-			<Chinese>不透明度: %1%2</Chinese>
-			<Chinesesimp>不透明度: %1%2</Chinesesimp>
 		</Key>
 		
 	</Package>
