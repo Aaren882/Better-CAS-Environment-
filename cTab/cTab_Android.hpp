@@ -99,16 +99,31 @@ PHONE_CLASS
 			w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2)) / 2048 * PhoneW;
 			h = ((((626) - (60) - (10) * 2) - (20) -(10))) / 2048 * CustomPhoneH;
 		};
-		class Vic_PIP_Display: RscPicture
+		class Vic_PIP_No_Signal: RscText
 		{
-			idc = idc_D(4632);
-			text = "#(argb,512,512,1)r2t(rendertarget9,1.1896551724)";
+			idc = idc_D(46310);
+			style = 2;
+			text = "$STR_BCE_No_Signal";
+			sizeEx = TextSize;
+
+			colorBackground[]={0,0,0,0.8};
 
 			x = phoneSizeX + (((((((452) + (20)) + (10)) + ((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) + (10))) - ((452))) / 2048 * PhoneW);
 			y = phoneSizeY + (((((((713) + (60) + (10)) + (20)))) - ((713) + (60))) / 2048 * CustomPhoneH);
 			w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2)) / 2048 * PhoneW;
 			h = ((((626) - (60) - (10) * 2) - (20) -(10))) / 2048 * CustomPhoneH;
 		};
+		class Vic_PIP_Display: RscPicture
+		{
+			idc = idc_D(4632);
+			text = "#(argb,512,512,1)r2t(rendertarget9,1.1896551724)";
+			x = phoneSizeX + (((((((452) + (20)) + (10)) + ((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) + (10))) - ((452))) / 2048 * PhoneW);
+			y = phoneSizeY + (((((((713) + (60) + (10)) + (20)))) - ((713) + (60))) / 2048 * CustomPhoneH);
+			w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2)) / 2048 * PhoneW;
+			h = ((((626) - (60) - (10) * 2) - (20) -(10))) / 2048 * CustomPhoneH;
+		};
+
+		
 	};
 	class controls
 	{

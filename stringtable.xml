@@ -365,6 +365,11 @@
 			<Chinese>切換列表</Chinese>
 			<Chinesesimp>切换列表</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_No_Signal">
+			<Original>No Signal...</Original>
+			<Chinese>無信號...</Chinese>
+			<Chinesesimp>无信号...</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_AsJTAC">
 			<Original>Assign JTAC</Original>
 			<Chinese>任命JTAC身分</Chinese>
@@ -1425,8 +1430,8 @@
 			<Chinese>雷射指示器的 光源效果</Chinese>
 			<Chinesesimp>雷射指示器的 光源效果</Chinesesimp>
 		</Key>
-		<Key ID="STR_BCE_Unit_Render_Range">
-			<Original>Unit Render Range</Original>
+		<Key ID="STR_BCE_Unit_Render_Distance">
+			<Original>Unit Render Distance</Original>
 			<Chinese>單位顯示距離</Chinese>
 			<Chinesesimp>单位显示距离</Chinesesimp>
 		</Key>

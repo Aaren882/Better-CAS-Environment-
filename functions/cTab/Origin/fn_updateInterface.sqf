@@ -262,6 +262,7 @@ _settings apply {
 				//-BG
 				17000 + 4630,
 				17000 + 4631,
+				17000 + 46310,
 				17000 + 4632,
 				17000 + 4650,
 
@@ -384,7 +385,7 @@ _settings apply {
 				if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
 					private ["_showMenu","_Showlist"];
 					_showMenu = [_displayName,"uavInfo"] call cTab_fnc_getSettings;
-					_Showlist = [17000 + 4630,17000 + 4631,17000 + 4632,17000 + 46320] + [([1776,1775] select (_showMenu))];
+					_Showlist = [17000 + 4630,17000 + 4631,17000 + 46310,17000 + 46320] + [([1776,1775] select (_showMenu))];
 					_displayItemsToShow append _Showlist;
 				} else {
 					_btnActCtrl ctrlSetTooltip "View Gunner Optics";
@@ -693,6 +694,16 @@ _settings apply {
 					player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
 					[1787,2020,2021] apply {lbClear (_display displayCtrl (17000 + _x))};
 					(_display displayCtrl (17000 + 1788)) ctrlSetStructuredText parseText "";
+
+					private _PIP_IDC = if (_UAV_Interface) then {
+						[1773, 17000 + 4632] select ("Android" in _displayName)
+					} else {
+						17000 + 1786
+					};
+					
+					//- hide PIP display
+					private _PIP_Ctrl = _display displayCtrl _PIP_IDC;
+					_PIP_Ctrl ctrlShow false;
 
 					if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
 						(_display displayCtrl (17000 + 46320)) ctrlSetText "--";

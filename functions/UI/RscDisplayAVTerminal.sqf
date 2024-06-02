@@ -49,14 +49,18 @@ _fnc_onLBSelChanged = {
 		[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
 	};
 
-	_Optic_LODs = [_vehicle,0] call BCE_fnc_Check_Optics;
+	//- Filter
+		_Optic_LODs = [_vehicle,0] call BCE_fnc_Check_Optics;
+
+	//-Button Enable
+	_condition = {
+		!((getText ([_vehicle, _x # 1] call BIS_fnc_turretConfig >> "turretInfoType")) in GUNNER_OPTICS)
+	} count _Optic_LODs;
+	(_display displayctrl 1600) ctrlEnable (_condition > 0);
+	(_display displayctrl 1602) ctrlEnable (count _Optic_LODs > 1);
 
 	[_display,1,true,_vehicle] call BCE_fnc_ListSwitch;
 	_createTask ctrlEnable true;
-
-	//-Button Enable
-	(_display displayctrl 1600) ctrlEnable !(_Optic_LODs isEqualTo []);
-	(_display displayctrl 1602) ctrlEnable (count _Optic_LODs > 1);
 
 	_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
 	if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) || (_vehicle isNotEqualTo (_Selected_Optic # 1))) then {
@@ -66,20 +70,19 @@ _fnc_onLBSelChanged = {
 	[{
 		params ["_display","_ctrlValue","_Selected","_vehicle_New"];
 
-		_vehicle = player getvariable ["TGP_View_Selected_Vehicle",objNull];
+		(player getVariable "TGP_View_Selected_Optic") params ["_current_turret","_vehicle"];
 
 		if (!(isnull _vehicle) || (ctrlShown (_display displayCtrl 1700))) then {
+			
+			private _current_turret = _current_turret param [1,[-1]];
 
-			_Selected_Optic = player getVariable "TGP_View_Selected_Optic";
-			_current_turret = (_Selected_Optic # 0) param [1,[0]];
+			private _turret_Unit = _vehicle turretUnit _current_turret;
+			private _turret_List = missionNamespace getVariable ["TGP_View_Turret_List",[]];
 
-			_turret_Unit = _vehicle turretUnit _current_turret;
-			_turret_List = missionNamespace getVariable ["TGP_View_Turret_List",[]];
+			private _gunner = [name _turret_Unit,"-"] select (((isNull _turret_Unit) || (_turret_Unit isEqualTo (driver _vehicle))));
+			private _pilot = [name (driver _vehicle),"-"] select ((driver _vehicle) isEqualTo objNull);
 
-			_gunner = [name _turret_Unit,"-"] select (((isNull _turret_Unit) || (_turret_Unit isEqualTo (driver _vehicle))));
-			_pilot = [name (driver _vehicle),"-"] select ((driver _vehicle) isEqualTo objNull);
-
-			_Cond_CtrlVeh = [
+			private _Cond_CtrlVeh = [
 				false,
 				(isUAVConnected _vehicle) && (((UAVControl _vehicle) # 0) isNotEqualTo player)
 			] select (unitIsUAV _vehicle);
@@ -92,7 +95,7 @@ _fnc_onLBSelChanged = {
 				_Cond_CtrlVeh ||
 				(_gunner == "-") ||
 				(_turret_Unit in _turret_List) ||
-				(({!((_x getVariable ["TGP_View_Turret_Control", []]) isEqualTo [])} count (crew _vehicle)) > 0) ||
+				(((crew _vehicle) findIf {((_x getVariable ["TGP_View_Turret_Control", []]) isNotEqualTo [])}) > -1) ||
 				((getText ([_vehicle, _current_turret] call BIS_fnc_turretConfig >> "turretInfoType")) in GUNNER_OPTICS)
 			) then {
 				(_display displayctrl 1601) ctrlEnable false;
@@ -112,12 +115,18 @@ _fnc_onLBSelChanged = {
 					"-"
 				] select (getText (_config >> _vehicle currentWeaponTurret _current_turret >> "DisplayName") == "");
 
-				(_display displayCtrl 1503) ctrlSetText format ["%1",_weapon];
-				(_display displayCtrl 1504) ctrlSetText format ["%1%2",round ((fuel _vehicle) * 100) , "%"];
-				(_display displayCtrl 1505) ctrlSetText format ["%1 %2",localize "$str_a3_rscdisplayartillery_artillerygridtext",mapGridPosition _vehicle];
-				(_display displayCtrl 1506) ctrlSetText format ["%1°",round (getdir _vehicle)];
-				(_display displayCtrl 1507) ctrlSetText format ["%1 km/h",round (speed _vehicle)];
-				(_display displayCtrl 1508) ctrlSetText format ["%1 m",round ((getPosASL _vehicle) # 2)];
+				{
+					_x params ["_IDC","_format"];
+					(_display displayCtrl (1500 + _IDC)) ctrlSetText (format _format);
+					false
+				} forEach [
+					[3, ["%1",[_weapon, "-"] select isNil{_weapon}]],
+					[4, ["%1%2",round ((fuel _vehicle) * 100) , "%"]],
+					[5, ["%1 %2",localize "$str_a3_rscdisplayartillery_artillerygridtext",mapGridPosition _vehicle]],
+					[6, ["%1°",round (getdir _vehicle)]],
+					[7, ["%1 km/h",round (speed _vehicle)]],
+					[8, ["%1 m",round ((getPosASLVisual _vehicle) # 2)]]
+				];
 			};
 		};
 
@@ -192,7 +201,7 @@ switch _mode do
 
 			_UnitList = call BCE_fnc_getCompatibleAVs;
 
-			//-Exit Task Builder if Nil {_vehicle}
+			//-Exit Task Builder if isNil {_vehicle}
 			if (_selected isEqualTo objNull) then {
 				uiNameSpace setVariable ["BCE_CAS_ListSwtich", false];
 				[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
@@ -201,11 +210,11 @@ switch _mode do
 			};
 
 			{
-				_vehicle = _x;
-				_cfg = configOf _vehicle;
+				private ["_cfg","_lbAdd"];
+				_cfg = configOf _x;
 
-				_lbAdd = _control lbAdd format ["%1	 %2",Name _vehicle,gettext (_cfg >> "displayName")];
-				_control lbSetData [_lbAdd, str _vehicle];
+				_lbAdd = _control lbAdd format ["%1	 %2",Name _x,gettext (_cfg >> "displayName")];
+				_control lbSetData [_lbAdd, str _x];
 			} foreach _UnitList;
 
 			//- Memory
@@ -216,7 +225,6 @@ switch _mode do
 			};
 
 			//-Widgets
-
 			[
 				[0,"BCE_Terminal_WP"],
 				[1,"BCE_Terminal_Veh"],

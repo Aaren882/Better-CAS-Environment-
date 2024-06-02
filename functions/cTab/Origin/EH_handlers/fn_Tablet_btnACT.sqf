@@ -11,7 +11,9 @@ if (_info isNotEqualTo "") exitWith {
 		["UAV",localize "STR_BCE_Error_Vehicle",5] call cTab_fnc_addNotification;
 	};
 
-	_current_turret = ((cTab_player getVariable ["TGP_View_Selected_Optic",[["",[-1]],objNull]]) # 0) # 1;
+	(cTab_player getVariable ["TGP_View_Selected_Optic",[[],objNull]]) params [["_turret_info",["",[-1]]],"_vehicle"];
+
+	_current_turret = _turret_info # 1;
 
 	_condition = [
 		false,
@@ -54,11 +56,14 @@ private _mode = [_displayName,"mode"] call cTab_fnc_getSettings;
 
 //-Live Feed
 private _View_Cam = {
-	private ["_vehicle","_current_turret"];
 
-	_vehicle = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+	(cTab_player getVariable ["TGP_View_Selected_Optic",[[],objNull]]) params [["_turret_info",["",[0]]],"_vehicle"];
 
-	if !(isnull _vehicle) then {
+	if (
+		!(isnull _vehicle) &&
+		(_turret_info # 0 != "") &&
+		!((getText ([_vehicle, _turret_info # 1] call BIS_fnc_turretConfig >> "turretInfoType")) in GUNNER_OPTICS)
+	) then {
 		//-delete PIP Cam && close TAD UI
 		call cTab_fnc_deleteUAVcam;
 		call cTab_fnc_close;

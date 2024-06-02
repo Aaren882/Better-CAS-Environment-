@@ -280,6 +280,7 @@ class RscDisplayAVTerminal
 		{
 			idc = 1602;
 			text = ">";
+			style = 2;
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 			X = "0.195372 * safezoneW + safezoneX";
 			y = "0.66 * safezoneH + safezoneY";

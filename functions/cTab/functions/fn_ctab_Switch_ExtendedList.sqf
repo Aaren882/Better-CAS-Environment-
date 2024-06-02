@@ -19,14 +19,15 @@ _origin params ["_or_sel","_or_ctrls"];
 
 //-hide all Controls and run animation
 {
-	_x apply {
+	{
 		private ["_ctrl","_show"];
 		_ctrl = _display displayCtrl (17000 + _x);
 		_show = _forEachIndex == _lbCurSel;
 		_ctrl ctrlshow _show;
 		_ctrl ctrlSetFade ([1,0] select _show);
 		_ctrl ctrlCommit _period;
-	};
+		false
+	} count _x;
 } forEach _all_lists;
 
 if !(isNull _veh) then {

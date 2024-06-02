@@ -28,9 +28,9 @@ if ((_mode > -1) && (_class_veh in ([_Camera_Cache, _IRLaser_Cache] # _mode))) e
 	[_result, []] select (isNil {_result});
 };
 
-_allTurrets = (allTurrets _vehicle) select {
+_allTurrets = (allTurrets _vehicle)/* select {
 	!((getText ([_vehicle, _x] call BIS_fnc_turretConfig >> "turretInfoType")) in GUNNER_OPTICS)
-};
+}*/;
 
 //-Exit if "_allTurrets" is empty
 if ((_allTurrets findif {true} < 0) && !(hasPilotCamera _vehicle)) exitWith {[]};
