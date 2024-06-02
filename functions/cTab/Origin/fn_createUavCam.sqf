@@ -1,3 +1,4 @@
+#include "\MG8\AVFEVFX\macro.hpp"
 /*
 	Name: cTab_fnc_createUavCam
 
@@ -26,11 +27,19 @@
 		[str _uavVehicle,[[0,"rendertarget8"],[1,"rendertarget9"]]] call cTab_fnc_createUavCam;
 */
 params ["_veh","_uavCams","_UAV_Interface"];
-private ["_veh","_displayName","_display","_squad_list","_Optic_LODs","_Selected_Optic","_turrets","_isEmpty","_renderTarget","_data","_seat","_veh","_uavCams","_seatName","_camPosMemPt","_cam","_turrets"];
+private ["_veh","_displayName","_display","_squad_list","_seat_info","_PIP_IDC","_PIP_Ctrl","_Optic_LODs","_Selected_Optic","_turrets","_isEmpty","_renderTarget","_data","_seat","_veh","_uavCams","_seatName","_camPosMemPt","_cam","_turrets"];
 
 _displayName = cTabIfOpen # 1;
 _display = uiNamespace getVariable _displayName;
 _squad_list = _display displayCtrl ([17000 + 1785,20116] select _UAV_Interface);
+_seat_info = _display displayCtrl (17000 + 46320);
+
+_PIP_IDC = if (_UAV_Interface) then {
+	[1773, 17000 + 4632] select ("Android" in _displayName)
+} else {
+	17000 + 1786
+};
+_PIP_Ctrl = _display displayCtrl _PIP_IDC;
 
 // remove exisitng UAV cameras
 call cTab_fnc_deleteUAVcam;
@@ -42,7 +51,7 @@ _Optic_LODs = [_veh,0] call BCE_fnc_Check_Optics;
 _Selected_Optic = cTab_player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
 _turrets = _Optic_LODs apply {((_x # 1) # 0) + 1};
 
-_isEmpty = ((cTab_player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_veh isNotEqualTo (_Selected_Optic # 1));
+_isEmpty = ((cTab_player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) || (_veh isNotEqualTo (_Selected_Optic # 1));
 
 if (_isEmpty) then {
 	cTab_player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_veh],true];
@@ -50,84 +59,93 @@ if (_isEmpty) then {
 
 _Selected_Optic = cTab_player getVariable "TGP_View_Selected_Optic";
 
+//- Exit if AV have no turret
+if (isNil {_Selected_Optic # 0}) exitWith {
+	_PIP_Ctrl ctrlShow false;
+	_seat_info ctrlSetText "--";
+	false
+};
+
 _uavCams apply {
-	private ["_cam","_camPosMemPt","_is_Detached","_turret","_vision","_FOVs","_FOV","_A3TI"];
+	private ["_cam","_camPosMemPt","_is_Detached","_turret","_vision","_FOVs","_FOV"];
 	_x params ["_seat","_renderTarget"];
 
-	if !(isNil {_seat}) then {
-		// check existing cameras
-		_cam = objNull;
-		_camPosMemPt = "";
-		_is_Detached = false;
-		_turret = [0];
+	(_Selected_Optic # 0) params ["_camPosMemPt","_turret","_is_Detached"];
+	
+	//-Set Turret Name
+	if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
+		private ["_turret_txt"];
+		_turret_txt = getText ([_veh, _turret] call BIS_fnc_turretConfig >> "gunnerName");
+		_turret_txt = if (alive _veh) then {
+			[_turret_txt,localize "STR_DRIVER"] select (_turret_txt == "")
+		} else {
+			"--"
+		};
+		_seat_info ctrlSetText _turret_txt;
+	};
 
-		(_Selected_Optic # 0) params ["_camPosMemPt","_turret","_is_Detached"];
+	//- Set Camera
+	if (
+		!isNil {_seat} &&
+		(_camPosMemPt != "") && // If memory points could be retrieved, create camera
+		[
+			!((getText ([_veh, _turret] call BIS_fnc_turretConfig >> "turretInfoType")) in GUNNER_OPTICS),
+			true
+		] select ((_turret # 0) < 0)
+	) then {
+		_PIP_Ctrl ctrlShow true;
 
-		// If memory points could be retrieved, create camera
-		if (_camPosMemPt != "") then {
-			_cam = "camera" camCreate [0,0,0];
-			_cam attachTo [_veh,[0,0,0],_camPosMemPt,!_is_Detached];
+		_cam = "camera" camCreate [0,0,0];
+		_cam attachTo [_veh,[0,0,0],_camPosMemPt,!_is_Detached];
 
-			// set up cam on render target
-			_cam cameraEffect ["INTERNAL","BACK",_renderTarget];
+		// set up cam on render target
+		_cam cameraEffect ["INTERNAL","BACK",_renderTarget];
 
-			_vision = cTab_player getVariable ["TGP_View_Optic_Mode", 2];
+		_vision = cTab_player getVariable ["TGP_View_Optic_Mode", 2];
+		#if __has_include("\A3TI\config.bin")
+			private _A3TI = A3TI_FLIR_VisionMode;
+		#endif
+
+		//-Set Vision Mode
+		_vision = switch (true) do {
 			#if __has_include("\A3TI\config.bin")
-				_A3TI = A3TI_FLIR_VisionMode;
+				case (_vision == 5 || _A3TI == 0): {2};
+				case (_vision == 4 || _A3TI == 1): {7};
+			#else
+				case (_vision == 5): {2};
+				case (_vision == 4): {7};
 			#endif
 
-			//-Set Vision Mode
-			_vision = switch (true) do {
-				#if __has_include("\A3TI\config.bin")
-					case (_vision == 5 || _A3TI == 0): {2};
-					case (_vision == 4 || _A3TI == 1): {7};
-				#else
-					case (_vision == 5): {2};
-					case (_vision == 4): {7};
-				#endif
-
-				case 3: {1};
-				default {0};
-			};
-
-			_renderTarget setPiPEffect [_vision];
-
-			//- Setup camera FOV
-			_config = if ((_turret # 0) < 0) then {
-				configOf _veh >> "PilotCamera" >> "OpticsIn"
-			} else {
-				[_veh, _turret] call BIS_fnc_turretConfig >> "OpticsIn"
-			};
-			_FOVs = ("true" configClasses _config) apply {
-				if (isText (_x >> "initFov")) then {
-					call compile getText(_x >> "initFov")
-				} else {
-					getNumber(_x >> "initFov")
-				};
-			};
-			_FOVs sort false;
-
-			_FOV = _FOVs find (localNamespace getVariable ["TGP_View_Camera_FOV",_FOVs # 0]);
-			_FOV = _FOVs # ([_FOV,0] select (_FOV < 0));
-
-			_cam camSetFov _FOV;
-			
-			// -Store Cameras
-			cTabUAVcams pushBack [_renderTarget,_cam,_camPosMemPt,_turret,_is_Detached];
+			case 3: {1};
+			default {0};
 		};
 
-		//-Set Turret Name
-		if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
-			private ["_turret_txt"];
-			_turret_txt = getText ([_veh, _turret] call BIS_fnc_turretConfig >> "gunnerName");
-			_turret_txt = if (alive _veh) then {
-				[_turret_txt,localize "STR_DRIVER"] select (_turret_txt == "")
-			} else {
-				"--"
-			};
+		_renderTarget setPiPEffect [_vision];
 
-			(_display displayCtrl (17000 + 46320)) ctrlSetText _turret_txt;
+		//- Setup camera FOV
+		_config = if ((_turret # 0) < 0) then {
+			configOf _veh >> "PilotCamera" >> "OpticsIn"
+		} else {
+			[_veh, _turret] call BIS_fnc_turretConfig >> "OpticsIn"
 		};
+		_FOVs = ("true" configClasses _config) apply {
+			if (isText (_x >> "initFov")) then {
+				call compile getText (_x >> "initFov")
+			} else {
+				getNumber(_x >> "initFov")
+			};
+		};
+		_FOVs sort false;
+
+		_FOV = _FOVs find (localNamespace getVariable ["TGP_View_Camera_FOV",_FOVs # 0]);
+		_FOV = _FOVs # ([_FOV,0] select (_FOV < 0));
+
+		_cam camSetFov _FOV;
+		
+		// -Store Cameras
+		cTabUAVcams pushBack [_renderTarget,_cam,_camPosMemPt,_turret,_is_Detached];
+	} else {
+		_PIP_Ctrl ctrlShow false;
 	};
 
 	nil
@@ -189,7 +207,7 @@ if (count cTabUAVcams > 0) exitWith {
 	//-Only Detach ones need this
 	if ((cTab_player getVariable ["cTab_TGP_View_EH",-1]) == -1) then {
 
-		private _EH = if (({_x # 4} count cTabUAVcams) > 0) then {
+		private _EH = if ((cTabUAVcams findIf {_x # 4}) > -1) then {
 			addMissionEventHandler ["Draw3D",{
 				_veh = _thisArgs # 0;
 

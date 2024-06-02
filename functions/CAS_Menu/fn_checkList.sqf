@@ -37,9 +37,6 @@ lbClear _checklist;
 private _Matched = [_vehicle,magazinesAllTurrets _vehicle] call {
 	params ["_vehicle","_magazines"];
 	private _a = [];
-	private _weapons = flatten (([[-1]] + allTurrets _vehicle) apply {
-		 _vehicle weaponsTurret _x
-	});
 
 	{
 		_x params ["_mag","_turret","_ammo"];
@@ -71,7 +68,7 @@ private _Matched = [_vehicle,magazinesAllTurrets _vehicle] call {
 					_a pushBackUnique [_wpn,_mag,_turret,"this"];
 				};
 			};
-		} forEach _weapons;
+		} forEach (_vehicle weaponsTurret _turret);
 	} forEach _magazines;
 
 	_a
@@ -115,7 +112,7 @@ if !(_include0) then {
 };
 
 //-Check List
-_uniquePylons apply {
+{
 	_x params ["_WeapName","_Count","_class","_mag","_modes","_turret","_muzzle"];
 
 	private _index = _checklist lbAdd (format ["%1",_WeapName]);
@@ -142,7 +139,8 @@ _uniquePylons apply {
 			_checklist lbSetPictureRightColor [_index, [1, 0, 0, 1]];
 		};
 	};
-};
+	false
+} count _uniquePylons;
 
 _checklist lbSetCurSel (uiNameSpace getVariable ["BCE_CAS_MainList_selected", 0]);
 

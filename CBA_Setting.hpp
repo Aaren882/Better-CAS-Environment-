@@ -175,7 +175,7 @@
 ///////////////////TGP//////////////////////
 [
 	"BCE_Tracker_Render_sdr", "SLIDER",
-	[localize "STR_BCE_Unit_Render_Range"],
+	[localize "STR_BCE_Unit_Render_Distance"],
 	["Better CAS Environment", localize "STR_BCE_Title_AV_Cam_Settings"],
 	[500, 20000, 10000, 0]
 ] call CBA_fnc_addSetting;

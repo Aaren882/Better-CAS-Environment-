@@ -8,7 +8,7 @@ if !(isnull _vehicle) then {
 	private ["_current_turret","_turret_select","_squad_list"];
 	(call BCE_fnc_getTurret) params ["_cam","_vehicle","_Optic_LODs","_current_turret"];
 
-	if (count _Optic_LODs == 1) exitWith {};
+	if (count _Optic_LODs <= 1) exitWith {};
 
 	_current_turret = [_current_turret + 1,0] select (_current_turret >= ((count _Optic_LODs) - 1));
 

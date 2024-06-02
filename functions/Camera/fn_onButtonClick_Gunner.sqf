@@ -23,6 +23,7 @@ _turret_Unit setVariable ["TGP_View_Turret_Control",_keyEHs,true];
 		!(isnull curatorCamera) ||
 		(_turret_Unit_Now != _turret_Unit) ||
 		!(alive _turret_Unit) ||
+		!(alive _vehicle) ||
 		!(alive player) ||
 		(player getVariable ["TGP_View_EHs",-1] == -1)
 	)
@@ -33,12 +34,12 @@ _turret_Unit setVariable ["TGP_View_Turret_Control",_keyEHs,true];
 		_turret_Unit_Now = _vehicle turretUnit _current_turret;
 
 		#ifdef cTAB_Installed
-			#define exitCdt ((isnull curatorcamera) && (player getVariable ["TGP_View_EHs",-1] != -1) && (isnil{cTabIfOpen}))
+			#define exitCdt (isnull curatorcamera) && (player getVariable ["TGP_View_EHs",-1] != -1) && (isnil{cTabIfOpen})
 		#else
-			#define exitCdt ((isnull curatorcamera) && (player getVariable ["TGP_View_EHs",-1] != -1))
+			#define exitCdt (isnull curatorcamera) && (player getVariable ["TGP_View_EHs",-1] != -1)
 		#endif
 
-		if (exitCdt) then {
+		if (exitCdt && (alive _vehicle)) then {
 			objnull remotecontrol _turret_Unit;
 			player remotecontrol _turret_Unit_Now;
 			_turret_Unit_Now switchcamera "gunner";

@@ -118,10 +118,10 @@ _action = ["BCE_Use_Heli_SpotLight",SetTitle("STR_BCE_Toggle","STR_BCE_Spot_Ligh
 	if (_sources isEqualTo []) then {
 		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
 	} else {
-	_unit call BCE_fnc_deleteGunnerLightSources;
-	if !((_sources # 1) == _mode) then {
-		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
-	};
+		_unit call BCE_fnc_deleteGunnerLightSources;
+		if !((_sources # 1) == _mode) then {
+			[vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
+		};
 	};
 
 },{
@@ -139,10 +139,10 @@ _action = ["BCE_Use_Heli_SpotLight_IR",SetTitle("STR_BCE_Toggle","STR_BCE_Spot_L
 	if (_sources isEqualTo []) then {
 		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
 	} else {
-	_unit call BCE_fnc_deleteGunnerLightSources;
-	if !((_sources # 1) == _mode) then {
-	 [vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
-	};
+		_unit call BCE_fnc_deleteGunnerLightSources;
+		if !((_sources # 1) == _mode) then {
+		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateSpotLight;
+		};
 	};
 
 	},{
@@ -163,10 +163,10 @@ _action = ["BCE_Use_Heli_LaserR",SetTitle("STR_BCE_Toggle","STR_BCE_Laser_Red"),
 	if (_sources isEqualTo []) then {
 		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
 	} else {
-	_unit call BCE_fnc_deleteGunnerLaserSources;
-	if !((_sources # 2) isEqualTo [1000,0,0]) then {
-		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
-	};
+		_unit call BCE_fnc_deleteGunnerLaserSources;
+		if !((_sources # 2) isEqualTo [1000,0,0]) then {
+			[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
+		};
 	};
 
 },{
@@ -187,10 +187,10 @@ _action = ["BCE_Use_Heli_LaserG",SetTitle("STR_BCE_Toggle","STR_BCE_Laser_Green"
 	if (_sources isEqualTo []) then {
 		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
 	} else {
-	_unit call BCE_fnc_deleteGunnerLaserSources;
-	if !((_sources # 2) isEqualTo [0,1000,0]) then {
-		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
-	};
+		_unit call BCE_fnc_deleteGunnerLaserSources;
+		if !((_sources # 2) isEqualTo [0,1000,0]) then {
+			[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
+		};
 	};
 
 },{
@@ -209,10 +209,10 @@ _action = ["BCE_Use_Heli_LaserIR",SetTitle("STR_BCE_Toggle","STR_BCE_Laser_IR"),
 	if (_sources isEqualTo []) then {
 		[vehicle _unit, "LaserIR",_unit] call BCE_fnc_CreateLaser;
 	} else {
-	_unit call BCE_fnc_deleteGunnerLaserSources;
-	if !((_sources # 2) isEqualTo [1000,1000,1000]) then {
-		[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
-	};
+		_unit call BCE_fnc_deleteGunnerLaserSources;
+		if !((_sources # 2) isEqualTo [1000,1000,1000]) then {
+			[vehicle _unit, _mode, _unit] call BCE_fnc_CreateLaser;
+		};
 	};
 
 },{

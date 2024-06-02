@@ -12,10 +12,10 @@ if !(isMultiplayer) exitWith {};
 0 spawn {
   waitUntil {!isNil{DiscordEmbedBuilder_Info}};
   
-  private _infoVar = DiscordEmbedBuilder_Info;
+  private _infoVar = DiscordEmbedBuilder_Info # 0;
 
   private _list = [];
-  for "_i" from 0 to (count (_infoVar # 0)) - 1 do {
+  for "_i" from 0 to (count _infoVar) - 1 do {
     _list pushBack _i;
   };
 

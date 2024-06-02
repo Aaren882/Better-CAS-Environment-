@@ -64,11 +64,11 @@ private _ctrls = (allControls _display) apply {
           [ //- Fields for each Embed
             [
               [localize "STR_BCE_SSE_SERVER_NAME", format["`%1`",serverName], false],
-              [localize "STR_BCE_SSE_FROM", format ["```%1[%2]```",profileName,_unitName],true],
+              [localize "STR_BCE_SSE_FROM", format ["```%1%2```", profileName, ["[" + _unitName + "]", ""] select (_unitName == "")],true],
               ["", "",true],
               [format["“%1” :",_map], format ["```%1```", _unit call BIS_fnc_locationDescription],true],
               ["","",false],
-              [localize "STR_BCE_SSE_UNIT", format ["```%1```", _title],true]
+              [localize "STR_BCE_SSE_UNIT", format ["```%1```", [_title, localize "str_special_none"] select (_title == "")],true]
             ]
           ]
         ] call DiscordAPI_fnc_sendMessage;

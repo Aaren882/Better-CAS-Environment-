@@ -281,13 +281,13 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
 	//-Only can show Display instead dialog
 	#ifdef cTAB_Installed
-		#define exitCdt (!(isnull curatorcamera) || (isnil{if (isnil {cTabIfOpen}) then {""} else {["",nil] select ([cTabIfOpen select 1] call cTab_fnc_isDialog);};}))
+		#define exitCdt !(isnull curatorcamera) || (isnil{if (isnil {cTabIfOpen}) then {""} else {["",nil] select ([cTabIfOpen select 1] call cTab_fnc_isDialog);};})
 	#else
 		#define exitCdt !(isnull curatorcamera)
 	#endif
 
 	//-Exit
-	if (exitCdt) then {
+	if (!(alive _vehicle) || exitCdt) then {
 		if !(TGP_View_Camera Equal []) then {
 			camUseNVG false;
 
