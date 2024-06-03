@@ -659,7 +659,6 @@ class CfgFunctions
 			class Unit_Icon;
 			class map_Icon;
 			class Switch_Zoom;
-			class UpdateTime;
 			class OpticMode;
 			class Cam_Layout;
 			class getTurret;

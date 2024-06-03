@@ -178,7 +178,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 	#endif
 
 	//UI Update
-	_time_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Time",call BCE_fnc_UpdateTime]);
+	_time_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Time",[daytime] call BIS_fnc_timeToString]);
 	_Altitude_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Altitude",Round ((getPosASL _vehicle) # 2)]);
 	_Grid_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Grid",mapGridPosition (screenToWorld [0.5,0.5])]);
 	_camDir_ctrl ctrlSetText (format ["%1°", [getDir _cam,3] call CBA_fnc_formatNumber]);

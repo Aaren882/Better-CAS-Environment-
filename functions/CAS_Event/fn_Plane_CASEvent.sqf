@@ -69,7 +69,7 @@ _task_info = str [
 	format ["%2 [%3]", localize "STR_BCE_Caller", name player, groupId group player],
 	_type,
 	_taskVar,
-	call BCE_fnc_UpdateTime
+	[daytime] call BIS_fnc_timeToString
 ];
 _vehicle setVariable ["BCE_Task_Receiver", _task_info, true];
 
