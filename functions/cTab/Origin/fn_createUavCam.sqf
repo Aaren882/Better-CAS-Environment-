@@ -88,10 +88,10 @@ _uavCams apply {
 	if (
 		!isNil {_seat} &&
 		(_camPosMemPt != "") && // If memory points could be retrieved, create camera
-		[
-			!((getText ([_veh, _turret] call BIS_fnc_turretConfig >> "turretInfoType")) in GUNNER_OPTICS),
-			true
-		] select ((_turret # 0) < 0)
+		(
+			!((getText ([_veh, _turret] call BIS_fnc_turretConfig >> "turretInfoType")) in GUNNER_OPTICS) ||
+			((_turret # 0) < 0)
+		)
 	) then {
 		_PIP_Ctrl ctrlShow true;
 

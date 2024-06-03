@@ -54,7 +54,8 @@ _fnc_onLBSelChanged = {
 
 	//-Button Enable
 	_condition = {
-		!((getText ([_vehicle, _x # 1] call BIS_fnc_turretConfig >> "turretInfoType")) in GUNNER_OPTICS)
+		!((getText ([_vehicle, _x # 1] call BIS_fnc_turretConfig >> "turretInfoType")) in GUNNER_OPTICS) ||
+		((_x # 1 # 0) < 0)
 	} count _Optic_LODs;
 	(_display displayctrl 1600) ctrlEnable (_condition > 0);
 	(_display displayctrl 1602) ctrlEnable (count _Optic_LODs > 1);
@@ -150,7 +151,7 @@ switch _mode do
 		with uinamespace do
 		{
 			_display = _params # 0;
-			(_display displayCtrl 1500) ctrlSetText format ["%1(TGP)",localize "$STR_A3_RscDisplayAVTerminal_AVT_Text_SelectAV"];
+			(_display displayCtrl 1500) ctrlSetText (localize "$STR_A3_RscDisplayAVTerminal_AVT_Text_SelectAV") + " (TGP)";
 
 			//Set NO CONNECTION texts to upper
 			_control = _display displayctrl 1024;
