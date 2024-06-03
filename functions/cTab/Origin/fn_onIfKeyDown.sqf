@@ -63,10 +63,20 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
 	_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
 	_ctrlScreen = _display displayCtrl (_mapTypes # _currentMapTypeIndex # 1);
-	_markerIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
-	if ((_markerIndex isNotEqualTo -1) && (_markerIndex isEqualType 0)) then {
-		[call cTab_fnc_getPlayerEncryptionKey,_markerIndex] call cTab_fnc_deleteUserMarker;
+	private _markerIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
+
+	if (_markerIndex < 0) exitWith {false};
+
+	private _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
+	private _marker = allMapMarkers # _markerIndex;
+
+	if !("_cTab_DEFINED" in _marker || "_USER_DEFINED" in _marker) exitWith {false};
+	
+	//- Can't delete POLPOX's MapTools Markers
+	if !("PLP" in _marker) then {
+		deleteMarker _marker;
 	};
+
 	true
 };
 

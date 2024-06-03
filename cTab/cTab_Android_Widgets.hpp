@@ -17,6 +17,7 @@ class cTab_RscText_Android: cTab_RscText
 #else
 	class cTab_android_RscMapControl: cTab_RscMapControl
 	{
+		showMarkers = 0;
 		x = (((452))) / 2048  * 	PhoneW + 	CustomPhoneX;
 		y = (((713) + (60))) / 2048  * 	CustomPhoneH + 	CustomPhoneY;
 		w = (((PHONE_MOD))) / 2048  * 	PhoneW;
