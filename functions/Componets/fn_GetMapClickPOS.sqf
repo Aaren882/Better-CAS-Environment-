@@ -95,9 +95,12 @@ if (_button == 0) then {
 			[_list, lbCurSel _list] call BCE_fnc_ctab_BFT_ToolBox;
 		};
 	};
+	
 } else {
 
 	//-Right Click
+
+	//- cTab Only
 	if (_IDC_offset != 17000) exitWith {};
 
 	_curSel = [_control,cTabMapCursorPos] call cTab_fnc_findUserMarker;
