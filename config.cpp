@@ -189,6 +189,9 @@ class RscTeam: RscSubmenu
 	};
 };
 
+#ifdef cTAB_Installed
+	#include "cTab\cTab_MarkersClasses.hpp"
+#endif
 class CfgVehicles
 {
 	//-ACE Actions
@@ -609,6 +612,7 @@ class CfgFunctions
 			class Check_Optics;
 			class Set_EnvironmentList;
 			class Turret_interSurface;
+			class GetMapClickPOS;
 
 			class POS2Grid;
 			class Grid2POS;
@@ -695,7 +699,6 @@ class CfgFunctions
 			class TaskListDblCLick;
 			class ToolBoxChanged;
 			class IPMarkers;
-			class GetMapClickPOS;
 			class clearTaskInfo;
 			class SendTaskData;
 			class CAS_SelWPN;
@@ -885,21 +888,25 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_onIfClose.sqf";
 				};
-				
-				//- Add
-				class toggleWeather
-				{
-					file="MG8\AVFEVFX\functions\cTab\functions\fn_toggleWeather.sqf";
-				};
-				//- Action Menu
-				class Interaction_Menu
-				{
-					file="MG8\AVFEVFX\functions\cTab\functions\menu\fn_Interaction_Menu.sqf";
-				};
-				class Menu_Correction
-				{
-					file="MG8\AVFEVFX\functions\cTab\functions\menu\fn_Menu_Correction.sqf";
-				};
+			};
+
+			//- Add
+			class BCE_Marker
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\Marker";
+				class PlaceMarker;
+				class DrawArea;
+			};
+			class BCE_Widget
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\Menu_Widget";
+				class onMarkerSelChanged;
+				class onMarkerTextEditted;
+				class onMarkerOpacityChanged;
+				class Update_MarkerItems;
+				class toggleWeather;
+				class toggleMarkerWidget;
+				class SwitchMarkerWidget;
 			};
 		};
 	#endif
@@ -999,12 +1006,15 @@ class RscShortcutButton;
 class RscButtonMenu: RscShortcutButton
 {
 	class TextPos;
+	class AttributesImage;
 };
 class ctrlButton;
 class RscEdit;
 class RscCombo;
+class RscXSliderH;
 class RscEditMulti;
 class RscStructuredText;
+class ctrlToolboxPictureKeepAspect;
 class RscMapControl
 {
 	class Bunker;
@@ -1065,6 +1075,7 @@ class BCE_RscButtonMenu: RscButtonMenu
 		font = "RobotoCondensed_BCE";
 		color = "#E5E5E5";
 		align = "left";
+		valign = "middle";
 		shadow = "false";
 	};
 };

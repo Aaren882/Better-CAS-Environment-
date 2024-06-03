@@ -8,6 +8,7 @@
 	["mapWorldPos",[]],
 	["mapScaleDsp",2],
 	["mapScaleDlg",2],
+	["MarkerWidget",[false,0,0,[],0,0,100]],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["uavCam",""],
@@ -32,6 +33,7 @@
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["showMenu",["main",false,-1]],
+	["MarkerWidget",[false,0,0,[],0,0,100]],
 	["showModeMenu",false],
 	["uavCam",""],
 	["uavInfo",false],
@@ -39,7 +41,7 @@
 	["PLP_mapTools",false],
 	["nightMode",2],
 	//- Define Size
-	#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.27)])
+	#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.443437)])
 	#define CustomPhoneH (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_H',(PhoneW * 4/3)])
 	["Weather_Condition",[false,"", str [((safezoneW * 0.8) * 4/3) / CustomPhoneH, 1.15]]],
 
@@ -70,3 +72,5 @@ cTabOnDrawbftAndroid = ctab_fnc_onDrawbftAndroid;
 cTabOnDrawbftAndroidDsp = ctab_fnc_onDrawbftAndroidDsp;
 cTabOnDrawUAV = ctab_fnc_onDrawUAV;
 cTab_Tablet_btnACT = ctab_fnc_Tablet_btnACT;
+
+cTabTxtSize = 0.06;
