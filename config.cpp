@@ -809,6 +809,11 @@ class CfgFunctions
 					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_showMenu_toggle.sqf";
 				};
 				
+				
+				class onMapDoubleClick
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_onMapDoubleClick.sqf";
+				};
 				class OnDrawbft
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawbft.sqf";

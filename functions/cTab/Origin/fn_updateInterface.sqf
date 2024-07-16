@@ -1063,11 +1063,6 @@ if ((!isNil "_targetMapScale") || (!isNil "_targetMapWorldPos")) then {
 		_targetMapWorldPos = [_targetMapCtrl] call cTab_fnc_ctrlMapCenter;
 	};
 
-	// #if __has_include("\z\ace\addons\map_gestures\config.bin")
-	// 	//- Add ACE map pointer
-	// 		_targetMapCtrl call ace_map_gestures_fnc_initDisplayDiary;
-	// #endif
-
 	_targetMapCtrl ctrlMapAnimAdd [0,_targetMapScale,_targetMapWorldPos];
 	ctrlMapAnimCommit _targetMapCtrl;
 	while {!(ctrlMapAnimDone _targetMapCtrl)} do {};

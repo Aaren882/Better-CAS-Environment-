@@ -1,26 +1,20 @@
-params ["_control", "_button", "_xPos", "_yPos", "_shift", "_ctrl", "_alt"];
+params ["_position"];
 
 private [
-  "_display","_displayName","_markers","_id",
+  "_markers","_id",
   "_group","_dropBox","_class","_color",
   "_name","_markerData","_marker"
 ];
-
-_display = ctrlParent _control;
-_displayName = cTabIfOpen # 1;
-([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params ["_show","_curSel","_BoxSel","_texts","_widgetMode"];
-
-if (!_show || _widgetMode != 0) exitWith {};
 
 _markers = (if (isMultiplayer) then {
 	allMapMarkers select {markerChannel _x == currentChannel}
 } else {
 	allMapMarkers
-}) select {"_cTab_DEFINED" in _x};
+}) select {"_USER_DEFINED" in _x};
 
 _id = (selectMax (_markers apply {
   private _a = _x select [15];
-  parseNumber ((_a splitString ":") # 1);
+  parseNumber ((_a splitString "/") # 1);
 })) + 1;
 
 if (isNil{_id}) then {
@@ -42,8 +36,8 @@ if (_color == "") then {
 };
 
 
-//- MARKER #<PlayerID>/<MarkerID>/<ChannelID>/<Hide Direction>
-_name = format ["_cTab_DEFINED #%1:%2:%3:%4:0", clientOwner, _id, currentChannel, getNumber (_class >> "Hide_Direction")];
+//- MARKER #<PlayerID>/<MarkerID>/#<SEPARATOR>#/<Hide Direction> .. /<ChannelID> must Be last
+_name = format ["_USER_DEFINED #%1/%2/-1/%3/0/%4", clientOwner, _id, getNumber (_class >> "Hide_Direction"),currentChannel];
 _markerData = format ["|%1|%2|%3|%4|%5|%6|%7",_dropBox lbData _BoxSel,"ICON","[1,1]",0,"Solid",_color,1];
 
 if (_markerData isEqualTo "") exitWith {
@@ -60,7 +54,7 @@ _markerData splitString (_markerData select [0,1]) params [
   "_markerAlpha"
 ];
 
-_marker = createMarker [_name, _control posScreenToWorld [_xPos,_yPos], currentChannel, cTab_player];
+_marker = createMarker [_name, _position, currentChannel, cTab_player];
 
 _marker setMarkerType _markerType;
 _marker setMarkerShape _markerShape;
@@ -70,7 +64,7 @@ _marker setMarkerBrush _markerBrush;
 _marker setMarkerColor _markerColor;
 _marker setMarkerAlpha parseNumber _markerAlpha;
 _marker setMarkerDrawPriority 0;
-_marker setMarkerShadow true;
+_marker setMarkerShadow (0 < getNumber (configFile >> "CfgMarkers" >> _markerType >> "shadow"));
 
 _texts params [["_prefix",""],["_index",""],["_DESC",""]];
 

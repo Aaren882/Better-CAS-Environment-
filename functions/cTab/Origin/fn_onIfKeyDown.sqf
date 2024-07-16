@@ -69,11 +69,11 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 
 	private _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
 	private _marker = allMapMarkers # _markerIndex;
-	private _Data = (((_marker select [15]) splitString ":") apply {parseNumber _x}) param [4, _toggle # 4];
+	private _Data = (((_marker select [15]) splitString "/") apply {parseNumber _x}) param [4, [-1,_toggle # 4] select (_marker find "_USER" > -1)];
 
 	if (
 		!(_toggle # 0) ||
-		!("_cTab_DEFINED" in _marker || "_USER_DEFINED" in _marker) || 
+		!(_marker find "_cTab" > -1 || _marker find "_USER" > -1) || 
 		"PLP" in _marker ||
 		(_toggle # 4) != _Data
 	) exitWith {false};

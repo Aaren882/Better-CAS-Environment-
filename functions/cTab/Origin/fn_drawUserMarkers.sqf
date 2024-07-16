@@ -37,7 +37,7 @@
 params ["_ctrlScreen","_highlight"];
 
 private [
-	"_mapScale","_arrowLength","_cursorMarkerIndex","_text",
+	"_mapScale","_cursorMarkerIndex","_text",
 	"_toggle",
 	"_markers",
 	"_holding_LMB","_LMB",
@@ -46,7 +46,6 @@ private [
 ];
 
 _mapScale = ctrlMapScale _ctrlScreen;
-_arrowLength = cTabUserMarkerArrowSize * _mapScale;
 _cursorMarkerIndex = [-1,[_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker] select _highlight;
 _text = "";
 
@@ -76,30 +75,35 @@ _getBrush = {
 };
 
 {
-	private ["_config","_hide_Direction","_Rectangle","_texture","_size","_color","_markerData","_text"];
+	private ["_config","_hide_Direction","_texture","_color","_text"];
 
 	_config = configFile >> "CfgMarkers" >> markerType _x;
 
 	//- Only for cTab Markers
   _hide_Direction = if (
-		_x find "cTab" > -1 ||
-		_x find "/" > -1
+		_x find "_cTab" > -1 ||
+		_x find "_USER" > -1
 	) then {
-		(((_x select [15]) splitString ":") apply {parseNumber _x}) params ["","","","_Channel",["_HideDir",0]];
+		// private _is_Gen = "draw" == getText (_config >> "draw");
+
+		(((_x select [15]) splitString "/") apply {parseNumber _x}) params ["","","","_HideDir",["_type",0],""];
+
+		//- Optimize
+			if (isnil{_HideDir}) then {
+				private _is_Gen = -1 < (((uiNamespace getVariable "bce_marker_map") get "Generic") # 0) find markerType _x;
+				_HideDir = [0,1] select _is_Gen;
+			};
 
 		//- (_toggle # 4) is "Current Widget Mode" 0. Marker Dropper 1. Drawing tools
-			_checkInSameWidget = (_toggle # 4) == _HideDir;
-		0 < _Channel
+			_checkInSameWidget = (_toggle # 4) == _type;
+		0 < _HideDir
 	} else {
 		false
 	};
 
 	//- Marker Data
 		_texture = getText (_config >> "icon");
-		_size = markerSize _x;
-
-		_markerData = [getMarkerPos _x, markerDir _x];
-		_markerData params ["_pos","_dir"];
+		[getMarkerPos _x, markerDir _x, markerSize _x] params ["_pos","_dir","_size"];
 		
 		_color = (getArray (configFile >> "CfgMarkerColors" >> markerColor _x >> "Color")) apply {
 			if (_x isEqualType "") then {call compile _x} else {_x};
@@ -107,7 +111,10 @@ _getBrush = {
 		_color set [3, markerAlpha _x];
 	
 	//- Show type of marker
-		if (_cursorMarkerIndex == _forEachIndex) then {
+		if (
+			_cursorMarkerIndex == _forEachIndex &&
+			_x find "BCE_" < 0 //- Skip BCE Click Marker
+		) then {
 			private _text = getText (_config >> "name");
 			_ctrlScreen drawIcon ["#(rgb,1,1,1)color(0,0,0,0)",_color, _pos vectorDiff _size, 20, 20, 0, _text, 0, cTabTxtSize,"RobotoCondensed","left"];
 		};
@@ -119,7 +126,7 @@ _getBrush = {
 			_checkInSameWidget &&
 			(_toggle # 0) &&
 			!(_x find "PLP" > -1) &&
-			(_x find "_cTab_DEFINED" > -1 || _x find "/" > -1)
+			(_x find "_cTab" > -1 || _x find "_USER" > -1)
 		) then {
 			//- Set Selected Marker
 			switch (true) do {
@@ -141,7 +148,7 @@ _getBrush = {
 					case (_holding_LMB && _drawMode == 1): {
 						//- Change marker direction
 							private _dir = _pos getDirVisual cTabMapCursorPos;
-							_x setMarkerDir _dir;
+							_x setMarkerDir ([_dir,360] select (_dir == 0));
 							_ctrlScreen drawIcon ["#(rgb,1,1,1)color(0,0,0,0)",cTabTADhighlightColour,cTabMapCursorPos, 0, 0, 0, format ["%1 %2°",_dir call BCE_fnc_getAzimuth, round _dir], 0, cTabTxtSize * 1.5,"TahomaB"];
 							_ctrlScreen drawArrow [_pos, cTabMapCursorPos, cTabTADhighlightColour];
 					};
@@ -155,6 +162,7 @@ _getBrush = {
 
 	//- Draw Direction Arrow
 		if (_dir != 0 && !_hide_Direction) then {
+			private _arrowLength = cTabUserMarkerArrowSize * _mapScale * selectMax _size;
 			private _secondPos = [_pos,_arrowLength,_dir] call BIS_fnc_relPos;
 			_ctrlScreen drawArrow [_pos, _secondPos, _color];
 		};
@@ -165,34 +173,38 @@ _getBrush = {
 		};
 
 		switch (MarkerShape _x) do {
-			case "ICON": {};
+			case "ICON": {
+				//- Update Marker Size
+					_size = _size vectorMultiply cTabIconSize;
+				_ctrlScreen drawIcon [
+					_texture,
+					_color,
+					_pos,
+					_size # 0,
+					_size # 1,
+					_dir,
+					_text,
+					[0,1] select markerShadow _x,
+					cTabTxtSize * ([1,1.5] select (_x find "PLP_SMT_Grid" > -1 && _x find "_text" > -1)),
+					"RobotoCondensed",
+					"right"
+				];
+				continue
+			};
 			case "RECTANGLE": {
 				_ctrlScreen drawRectangle [
 					_pos ,(_size # 0),(_size # 1),_dir,_color,(_x call _getBrush)
 				];
+				continue
 			};
 			case "ELLIPSE": {
 				_ctrlScreen drawEllipse [
 					_pos ,(_size # 0),(_size # 1),_dir,_color,(_x call _getBrush)
 				];
+				continue
 			};
 			default {continue};
 		};
-
-		_size = _size apply {cTabIconSize * _x};
-		_ctrlScreen drawIcon [
-			_texture,
-			_color,
-			_pos,
-			_size # 0,
-			_size # 1,
-			_dir,
-			_text,
-			1,
-			cTabTxtSize * ([1,1.5] select (_x find "PLP_SMT_Grid" > -1 && _x find "_text" > -1)),
-			"RobotoCondensed",
-			"right"
-		];
 } forEach _markers;
 
 if (!(_holding_LMB || _LMB) && _curSelMarker > -1) then {

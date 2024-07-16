@@ -73,7 +73,7 @@ PHONE_CLASS
 			#ifdef MOUSE_CLICK_EH
 				style = 48 + 512;
 				onMouseButtonClick = MOUSE_CLICK_EH;
-				onMouseButtonDblClick = "call cTab_fnc_PlaceMarker";
+				onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
 			#endif
 		};
 		

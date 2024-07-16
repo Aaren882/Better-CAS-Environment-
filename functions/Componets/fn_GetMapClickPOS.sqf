@@ -37,12 +37,13 @@ if (_button == 0) then {
 		_ctrlCombo = _display displayctrl (_IDC_Offset + 2013);
 		_type = _display displayctrl (_IDC_Offset + 2012);
 		if (
-				(_alt) &&
+				_alt &&
 				!(ctrlshown _ctrlCombo) &&
-				([(
-					(ctrlshown _type) ||
-					(ctrlshown (_display displayctrl (_IDC_Offset + 20121)))
-				), true] select (17000 == _IDC_Offset)) &&
+				(
+					ctrlshown _type ||
+					ctrlshown (_display displayctrl (_IDC_Offset + 20121)) ||
+					ctrlshown (_display displayctrl (_IDC_Offset + 4662))
+				) &&
 				(
 					!(ctrlshown _type) ||
 					!(_type lbText (lbCurSel _type) == (localize "STR_BCE_Tit_OverHead"))

@@ -92,14 +92,16 @@ if (_LMB == 0 && _lastClick > -1) then {
 
     _id = (selectMax (_markers apply {
       private _a = _x select [15];
-      parseNumber ((_a splitString ":") # 1);
+      parseNumber ((_a splitString "/") # 1);
     })) + 1;
 
     if (isNil{_id}) then {
       _id = 0;
     };
 
-    _name = format ["_cTab_DEFINED #%1:%2:%3:%4:1", clientOwner, _id, currentChannel, 1];
+  //- MARKER #<PlayerID>/<MarkerID>/#<SEPARATOR>#/<Hide Direction> .. /<ChannelID> must Be last
+    _name = format ["_cTab_DEFINED #%1/%2/-1/%3/1/%4", clientOwner, _id, 1, currentChannel];
+  
   //- Place Marker
     _center = _PosA vectorAdd ((_PosB vectorDiff _PosA) vectorMultiply 0.5);
 
