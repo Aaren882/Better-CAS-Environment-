@@ -1,17 +1,16 @@
 params ["_cntrlScreen"];
 
-_display = ctrlParent _cntrlScreen;
+private _display = ctrlParent _cntrlScreen;
 
-cTabMapWorldPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
 cTabMapScale = ctrlMapScale _cntrlScreen;
 
 [_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 [_cntrlScreen,1] call cTab_fnc_drawBftMarkers;
 
 // draw vehicle icon at own location
-_veh = vehicle cTab_player;
-_playerPos = getPosASLVisual _veh;
-_heading = getDirVisual _veh;
+private _veh = vehicle cTab_player;
+private _playerPos = getPosASLVisual _veh;
+private _heading = getDirVisual _veh;
 _cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,_heading,"", 1,cTabTxtSize,"TahomaB","right"];
 
 // update hook information

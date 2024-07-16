@@ -69,12 +69,9 @@ uiNamespace setVariable ["BCE_LandMarks",_BCE_LandMarks];
 ["BCE_Init",[]] call CBA_fnc_localEvent;
 
 //-Add map eventhandler
-addMissionEventHandler ["Map", {
-	//- Refesh widgets infos
-	if (_this # 0) then {
-		[findDisplay 12, -1] call BCE_fnc_Update_MapCtrls;
-	};
-}];
+["visibleMap", {
+	[findDisplay 12, -1] call BCE_fnc_Update_MapCtrls;
+}] call CBA_fnc_addPlayerEventHandler;
 
 #define SetTitle(A,B) (localize A) + (localize B)
 #define IsPilot_CAM_ON ((player getVariable ["AHUD_Actived",-1]) != -1)

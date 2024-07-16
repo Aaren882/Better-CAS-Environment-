@@ -69,13 +69,17 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 
 	private _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
 	private _marker = allMapMarkers # _markerIndex;
+	private _Data = (((_marker select [15]) splitString ":") apply {parseNumber _x}) param [4, _toggle # 4];
 
-	if !("_cTab_DEFINED" in _marker || "_USER_DEFINED" in _marker) exitWith {false};
+	if (
+		!(_toggle # 0) ||
+		!("_cTab_DEFINED" in _marker || "_USER_DEFINED" in _marker) || 
+		"PLP" in _marker ||
+		(_toggle # 4) != _Data
+	) exitWith {false};
 	
 	//- Can't delete POLPOX's MapTools Markers
-	if !("PLP" in _marker) then {
-		deleteMarker _marker;
-	};
+	deleteMarker _marker;
 
 	true
 };

@@ -2,7 +2,7 @@ params ["_control", "_button", "_xPos", "_yPos", "_shift", "_ctrl", "_alt"];
 
 private [
   "_display","_displayName","_markers","_id",
-  "_group","_dropBox","_class","_Color",
+  "_group","_dropBox","_class","_color",
   "_name","_markerData","_marker"
 ];
 
@@ -32,7 +32,7 @@ _group = _display displayCtrl (17000 + 1300);
 _dropBox = _group controlsGroupCtrl 10;
 
 _class = ("true" configClasses (configFile >> "cTab_CfgMarkers")) # _curSel;
-_Color = getText (_class >> "MarkerColor");
+_color = getText (_class >> "MarkerColor");
 
 if (_color == "") then {
   private ["_colorSel","_markerColor"];

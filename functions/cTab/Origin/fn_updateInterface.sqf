@@ -233,7 +233,7 @@ _settings apply {
 						_cate ctrlShow false;
 						{_x ctrlshow true} forEach _DrawingTools;
 
-						call cTab_fnc_DrawArea;
+						// call cTab_fnc_DrawArea;
 					};
 
 					//- Marker Dropper
@@ -450,8 +450,8 @@ _settings apply {
 
 					// If we find the map to be shown, we are switching away from BFT. Lets save map scale and position
 					if (ctrlShown _targetMapCtrl) then {
-						_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
-						[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScaleDlg",_mapScale]],false] call cTab_fnc_setSettings;
+						private _mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
+						[_displayName,[["mapWorldPos", [_targetMapCtrl] call cTab_fnc_ctrlMapCenter],["mapScaleDlg",_mapScale]],false] call cTab_fnc_setSettings;
 					};
 				};
 			};
@@ -559,6 +559,50 @@ _settings apply {
 				_osdCtrl ctrlSetText _text;
 			};
 		};
+		// ------------ MAP TYPE ------------
+		if (_x # 0 == "mapType") exitWith {
+			_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+			if ((count _mapTypes > 1) && (_mode == "BFT")) then {
+				_targetMapName = _x # 1;
+				_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
+				_targetMapCtrl = _display displayCtrl _targetMapIDC;
+
+				if (!_interfaceInit && _isDialog) then {
+					_previousMapCtrl = controlNull;
+					{
+						_previousMapIDC = _x # 1;
+						_previousMapCtrl = _display displayCtrl _previousMapIDC;
+						if (ctrlShown _previousMapCtrl) exitWith {};
+						_previousMapCtrl = controlNull;
+					} count _mapTypes;
+
+					// See if _targetMapCtrl is already being shown
+					if ((!ctrlShown _targetMapCtrl) && (_targetMapCtrl != _previousMapCtrl)) then {
+						// Update _targetMapCtrl to scale and position of _previousMapCtrl
+						if (isNil "_targetMapScale") then {_targetMapScale = ctrlMapScale _previousMapCtrl;};
+						if (isNil "_targetMapWorldPos") then {_targetMapWorldPos = [_previousMapCtrl] call cTab_fnc_ctrlMapCenter};
+					};
+				};
+
+				// Hide all unwanted map types
+				_mapTypes apply {
+					if (_x # 0 != _targetMapName) then {
+						(_display displayCtrl (_x # 1)) ctrlShow false;
+					};
+				};
+
+				// Update OSD element if it exists
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
+				if (!isNull _osdCtrl) then {_osdCtrl ctrlSetText _targetMapName;};
+
+				// show correct map contorl
+				if (!ctrlShown _targetMapCtrl) then {
+					_targetMapCtrl ctrlShow true;
+					// wait until map control is shown, otherwise we can get in trouble with ctrlMapAnimCommit later on, depending on timing
+					while {!ctrlShown _targetMapCtrl} do {};
+				};
+			};
+		};
 		// ------------ MAP SCALE DSP------------
 		if (_x # 0 == "mapScaleDsp") exitWith {
 			if (_mode == "BFT" && !_isDialog) then {
@@ -604,50 +648,6 @@ _settings apply {
 					if !(_mapWorldPos isEqualTo []) then {
 						_targetMapWorldPos = _mapWorldPos;
 					};
-				};
-			};
-		};
-		// ------------ MAP TYPE ------------
-		if (_x # 0 == "mapType") exitWith {
-			_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-			if ((count _mapTypes > 1) && (_mode == "BFT")) then {
-				_targetMapName = _x # 1;
-				_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
-				_targetMapCtrl = _display displayCtrl _targetMapIDC;
-
-				if (!_interfaceInit && _isDialog) then {
-					_previousMapCtrl = controlNull;
-					{
-						_previousMapIDC = _x # 1;
-						_previousMapCtrl = _display displayCtrl _previousMapIDC;
-						if (ctrlShown _previousMapCtrl) exitWith {};
-						_previousMapCtrl = controlNull;
-					} count _mapTypes;
-
-					// See if _targetMapCtrl is already being shown
-					if ((!ctrlShown _targetMapCtrl) && (_targetMapCtrl != _previousMapCtrl)) then {
-						// Update _targetMapCtrl to scale and position of _previousMapCtrl
-						if (isNil "_targetMapScale") then {_targetMapScale = ctrlMapScale _previousMapCtrl;};
-						if (isNil "_targetMapWorldPos") then {_targetMapWorldPos = [_previousMapCtrl] call cTab_fnc_ctrlMapCenter};
-					};
-				};
-
-				// Hide all unwanted map types
-				_mapTypes apply {
-					if (_x # 0 != _targetMapName) then {
-						(_display displayCtrl (_x # 1)) ctrlShow false;
-					};
-				};
-
-				// Update OSD element if it exists
-				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
-				if (!isNull _osdCtrl) then {_osdCtrl ctrlSetText _targetMapName;};
-
-				// show correct map contorl
-				if (!ctrlShown _targetMapCtrl) then {
-					_targetMapCtrl ctrlShow true;
-					// wait until map control is shown, otherwise we can get in trouble with ctrlMapAnimCommit later on, depending on timing
-					while {!ctrlShown _targetMapCtrl} do {};
 				};
 			};
 		};
@@ -1062,6 +1062,12 @@ if ((!isNil "_targetMapScale") || (!isNil "_targetMapWorldPos")) then {
 	if (isNil "_targetMapWorldPos") then {
 		_targetMapWorldPos = [_targetMapCtrl] call cTab_fnc_ctrlMapCenter;
 	};
+
+	// #if __has_include("\z\ace\addons\map_gestures\config.bin")
+	// 	//- Add ACE map pointer
+	// 		_targetMapCtrl call ace_map_gestures_fnc_initDisplayDiary;
+	// #endif
+
 	_targetMapCtrl ctrlMapAnimAdd [0,_targetMapScale,_targetMapWorldPos];
 	ctrlMapAnimCommit _targetMapCtrl;
 	while {!(ctrlMapAnimDone _targetMapCtrl)} do {};

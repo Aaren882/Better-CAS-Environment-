@@ -17,7 +17,7 @@
 		[] call cTab_fnc_onIfclose;
 */
 
-private ["_displayName","_mapScale","_ifType","_player","_playerKilledEhId","_vehicle","_vehicleGetOutEhId","_draw3dEhId","_aceUnconciousEhId","_acePlayerInventoryChangedEhId","_backgroundPosition","_backgroundPositionX","_backgroundPositionY","_backgroundConfigPositionX","_backgroundConfigPositionY","_xOffset","_yOffset","_backgroundOffset"];
+private ["_displayName","_mapScale","_ifType","_player","_playerKilledEhId","_vehicle","_vehicleGetOutEhId","_draw3dEhId","_aceUnconciousEhId","_acePlayerInventoryChangedEhId","_backgroundPosition","_backgroundPositionX","_backgroundPositionY","_backgroundConfigPositionX","_backgroundConfigPositionY","_xOffset","_yOffset","_backgroundOffset","_mapTypes","_targetMapName","_targetMapIDC","_targetMapCtrl"];
 
 // remove helmet and UAV cameras
 [] call cTab_fnc_deleteHelmetCam;
@@ -52,6 +52,7 @@ if !(isNil "cTabIfOpen") then {
 	// don't call this part if we are closing down before setup has finished
 	if (!cTabIfOpenStart) then {
 		if ([_displayName] call cTab_fnc_isDialog) then {
+			private [];
 			// convert mapscale to km
 			_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
 
@@ -71,8 +72,14 @@ if !(isNil "cTabIfOpen") then {
 			// figure out if the interface position has changed
 			_backgroundOffset = [[],[_xOffset,_yOffset]] select (_xOffset != 0 || _yOffset != 0);
 
+			// update map state 
+				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+				_targetMapName = [_displayName,"mapType"] call cTab_fnc_getSettings;;
+				_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
+				_targetMapCtrl = (uiNamespace getVariable _displayName) displayCtrl _targetMapIDC;
+
 			// Save mapWorldPos and mapScaleDlg of current dialog so it can be restored later
-			[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScaleDlg",_mapScale],["dlgIfPosition",_backgroundOffset]],false] call cTab_fnc_setSettings;
+			[_displayName,[["mapWorldPos",[_targetMapCtrl] call cTab_fnc_ctrlMapCenter],["mapScaleDlg",_mapScale],["dlgIfPosition",_backgroundOffset]],false] call cTab_fnc_setSettings;
 		};
 	};
 

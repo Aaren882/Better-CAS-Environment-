@@ -150,36 +150,58 @@ PHONE_CLASS
 			};
 			
 			//- Marker
-			/*class Marker_Widget_Show: Map_Tool_Show
+			class Marker_Edit: cTab_RscControlsGroup
 			{
-				idc = idc_D(12000);
-				colorBackground[] = {0,0,0,0.55};
-				text = "MG8\AVFEVFX\data\locating.paa";
-				x = (5 + 452) / 2048  * PhoneW + CustomPhoneX;
-				y = ((713)) / 2048  * CustomPhoneH + CustomPhoneY + (((60)) / 2048  * CustomPhoneH);
-				tooltip = "Toggle Marker Widget";
-				action = "";
-				show = 0;
-			};
-			class Marker_Widgets: cTab_RscControlsGroup
-			{
-				class VScrollbar{};
-				class HScrollbar{};
-				class Scrollbar{};
-				
-				idc = idc_D(12001);
-				x = (2 + 452) / 2048  * PhoneW + CustomPhoneX;
-				y = ((713)) / 2048  * CustomPhoneH + CustomPhoneY + (((60)) / 2048  * CustomPhoneH);
-				w = 0.3;
-				h = 0.3;
+				idc = idc_D(1301);
+				x = "safeZoneXAbs + safeZoneWAbs";
+				y = "safeZoneY + safeZoneH";
+				w = "(20  + 1.5) * (27) / 2048  * ((safezoneW * 0.8) * 4/3) * 3/4 * 0.5";
+				h = 2 * SubMenuH_FB;
+
+				class VScrollbar: VScrollbar
+				{
+					width = 0;
+					scrollSpeed = 0;
+				};
+				class HScrollbar: HScrollbar
+				{
+					height = 0;
+					scrollSpeed = 0;
+				};
 				class controls
 				{
-					class Marker_Widget_BG: RscBackground
+					class mainbg: cTab_IGUIBack
 					{
-						colorBackground[] = {0,0,0,0.55};
+						x = 0;
+						y = 0;
+						w = SubMenuW;
+						h = 2 * SubMenuH_FB;
+					};
+					class connect: cTab_MenuItem
+					{
+						idc = -1;
+						text = "Connect Vehicle";
+						style = 2;
+						x = 0;
+						y = 0;
+						w = SubMenuW;
+						h = SubMenuH_FB;
+						sizeEx = "((27)) / 2048  * 	(safezoneH * 1.2)";
+						// action = "[3] call cTab_fnc_userMenuSelect;";
+					};
+					class exit: cTab_MenuExit
+					{
+						idc = -1;
+						text = "Exit";
+						x = 0;
+						y = SubMenuH_FB;
+						w = SubMenuW;
+						h = SubMenuH_FB;
+						sizeEx = "((27)) / 2048 * (safezoneH * 1.2)";
+						// action = "[0] call cTab_fnc_userMenuSelect;";
 					};
 				};
-			};*/
+			};
 			
 			//-POLPOX Map Tools Widgets
 			#if PLP_TOOL == 1
@@ -1578,6 +1600,7 @@ PHONE_CLASS
 			#undef MAKRER_WIDGET_MULT
 			#undef MARKER_WIDGET_WH
 		};
+
 		//- Color Select
 		class MarkerColor: RscCombo
 		{
