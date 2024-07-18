@@ -3,7 +3,7 @@ class cTab_CfgMarkers
     class OPFOR
     {
         Category = "NATO_OPFOR";
-        MarkerColor = "colorOPFOR";
+        MarkerColor = "ColorEAST";
         color[]=
 		{
 			"(profilenamespace getvariable ['Map_OPFOR_R',0])",
@@ -15,7 +15,7 @@ class cTab_CfgMarkers
     class BLUFOR
     {
         Category = "NATO_BLUFOR";
-        MarkerColor = "colorBLUFOR";
+        MarkerColor = "ColorWEST";
         color[]=
 		{
 			"(profilenamespace getvariable ['Map_BLUFOR_R',0])",

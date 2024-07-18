@@ -17,7 +17,6 @@
 		y = Android_BR_InfoY(1);
 	};
 #endif
-#undef Android_BR_InfoY
 
 //-Edited Origins
 class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
@@ -150,13 +149,16 @@ PHONE_CLASS
 			};
 			
 			//- Marker
+			#define MARKER_HEIGHT 8
+			#define MARKER_W 1.5 * ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW
+			#define MARKER_H (((42) - (10))) / 2048 * PhoneW
 			class Marker_Edit: cTab_RscControlsGroup
 			{
 				idc = idc_D(1301);
-				x = "safeZoneXAbs + safeZoneWAbs";
-				y = "safeZoneY + safeZoneH";
-				w = "(20  + 1.5) * (27) / 2048  * ((safezoneW * 0.8) * 4/3) * 3/4 * 0.5";
-				h = 2 * SubMenuH_FB;
+				x = (452 / 2048 * PhoneW + CustomPhoneX) + ((PHONE_MOD / 2048 * PhoneW) / 2) - (MARKER_W /2);
+				y = Android_BR_InfoY(7);
+				w = MARKER_W;
+				h = MARKER_HEIGHT * MARKER_H;
 
 				class VScrollbar: VScrollbar
 				{
@@ -172,36 +174,181 @@ PHONE_CLASS
 				{
 					class mainbg: cTab_IGUIBack
 					{
+						idc = -1;
 						x = 0;
 						y = 0;
-						w = SubMenuW;
-						h = 2 * SubMenuH_FB;
+						w = MARKER_W;
+						h = MARKER_HEIGHT * MARKER_H;
+						colorbackground[] = {0.2,0.2,0.2,0.4};
 					};
-					class connect: cTab_MenuItem
+					//- Retract Botton
+					class Retract: BCE_RscButtonMenu
 					{
 						idc = -1;
-						text = "Connect Vehicle";
-						style = 2;
+						text = "Retract ↓";
 						x = 0;
 						y = 0;
-						w = SubMenuW;
-						h = SubMenuH_FB;
-						sizeEx = "((27)) / 2048  * 	(safezoneH * 1.2)";
+						w = MARKER_W;
+						h = MARKER_H;
+						colorBackground[] = 
+						{
+							"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+							"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+							"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+							0.5
+						};
+						colorBackground2[] = {0,0,0,0};
+						colorBackgroundFocused[] = {0,0,0,0};
+
+						animTextureDefault="#(argb,8,8,3)color(0,0,0,0)";
+						animTextureNormal="#(argb,8,8,3)color(1,1,1,1)";
+						animTextureOver = "#(argb,8,8,3)color(1,1,1,0.5)";
+						animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+						animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.3)";
+
+						class Attributes: Attributes
+						{
+							align = "center";
+						};
+					};
+					class DESC_Title: RscStructuredText
+					{
+						idc = -1;
+						text = "$STR_LIB_LABEL_DESCRIPTION";
+						x = 0;
+						y = MARKER_H;
+						w = MARKER_W;
+						h = MARKER_H;
+						colorBackground[] = {0,0,0,0};
+						style = 0;
+						shadow = 1;
 						// action = "[3] call cTab_fnc_userMenuSelect;";
+
+						class Attributes
+						{
+							font = "RobotoCondensed_BCE";
+							valign = "middle";
+							shadow = "1";
+						};
 					};
-					class exit: cTab_MenuExit
+					class DESC_Edit: RscEdit
 					{
-						idc = -1;
-						text = "Exit";
-						x = 0;
-						y = SubMenuH_FB;
-						w = SubMenuW;
-						h = SubMenuH_FB;
-						sizeEx = "((27)) / 2048 * (safezoneH * 1.2)";
-						// action = "[0] call cTab_fnc_userMenuSelect;";
+						idc = 10;
+						text = "";
+						x = 0.05 * MARKER_W;
+						y = 2 * MARKER_H;
+						w = 0.9 * MARKER_W;
+						h = MARKER_H;
 					};
+					//- 2 Line Sliders
+						class MarkerType: RscCombo
+						{
+							idc = 50;
+							x = 0.05 * MARKER_W;
+							y = 3 * MARKER_H;
+							w = 0.425 * MARKER_W;
+							h = MARKER_H;
+
+							colorBackground[]={0.3,0.3,0.3,1};
+							colorSelect[]={1,1,1,1};
+							colorSelectBackground[]={0.2,0.2,0.2,1};
+							wholeHeight=0.25;
+						};
+						class MarkerColor: MarkerType
+						{
+							idc = 51;
+							x = 0.525 * MARKER_W;
+						};
+
+					//- from 3 line
+						class Place_Desc: DESC_Title
+						{
+							idc = 100;
+							text = "NW of Something Town";
+							y = 4 * MARKER_H;
+
+							colorBackground[] = {0,0,0,0.2};
+
+							class Attributes: Attributes
+							{
+								size = "0.8";
+								underline= "1";
+								align = "center";
+							};
+						};
+					//- Left Panel
+						class Channel: MarkerType
+						{
+							idc = 110;
+							x = 0;
+							y = 5 * MARKER_H;
+							w = 0.5 * MARKER_W;
+							wholeHeight=0.2;
+							class Items
+							{
+								class NA
+								{
+									text = "System Value";
+									default = 1;
+								};
+							};
+						};
+						class Direction: Place_Desc
+						{
+							idc = 120;
+							text = "$STR_A3_RscDisplayAVTerminal_AVT_Text_AZT";
+							y = 6 * MARKER_H;
+							w = 0.5 * MARKER_W;
+
+							style = 0;
+							class Attributes: Attributes
+							{
+								underline= "0";
+								align = "left";
+							};
+						};
+						class GRID: Direction
+						{
+							idc = 121;
+							text = "$STR_A3_RscDisplayAVTerminal_AVT_Text_POS";
+							y = 7 * MARKER_H;
+						};
+					//- Right Panel
+						class Enter: Retract
+						{
+							idc = -1;
+
+							text = "$STR_DISP_OK";
+
+							x = 0.5 * MARKER_W;
+							y = 5 * MARKER_H;
+							w = 0.5 * MARKER_W;
+							h = 1.5 * MARKER_H;
+
+							colorBackground[] = {0.117647,0.968628,0.286275,0.3};
+							size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+							class TextPos
+							{
+								left = "0.25 * (((safezoneW / safezoneH) min 1.2) / 40)";
+								top = 1.5 * MARKER_H / 2 - (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / 2);
+								right = 0;
+								bottom = 0;
+							};
+						};
+						class Cancel: Enter
+						{
+							idc = -1;
+							y = 6.5 * MARKER_H;
+
+							text = "$STR_DISP_CANCEL";
+
+							colorBackground[] = {1,0.25,0.25,0.3};
+						};
 				};
 			};
+			#undef MARKER_HEIGHT
+			#undef MARKER_W
+			#undef MARKER_H
 			
 			//-POLPOX Map Tools Widgets
 			#if PLP_TOOL == 1
@@ -1611,8 +1758,6 @@ PHONE_CLASS
 			
 			colorSelect[]={1,1,1,1};
 			colorSelectBackground[]={0.2,0.2,0.2,1};
-			
-			onLBSelChanged = "['cTab_Android_dlg',[['markerColor',_this # 1]]] call cTab_fnc_setSettings;";
 		};
 
 		//-Weather Condition
@@ -1934,3 +2079,4 @@ PHONE_CLASS
 		};
 	};
 };
+#undef Android_BR_InfoY

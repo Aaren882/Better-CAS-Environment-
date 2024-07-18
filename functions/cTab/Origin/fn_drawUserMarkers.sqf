@@ -39,7 +39,6 @@ params ["_ctrlScreen","_highlight"];
 private [
 	"_mapScale","_cursorMarkerIndex","_text",
 	"_toggle",
-	"_markers",
 	"_holding_LMB","_LMB",
 	"_checkInSameWidget",
 	"_curSelMarker","_isnt_Drawing","_getBrush"
@@ -51,12 +50,6 @@ _text = "";
 
 _displayName = cTabIfOpen # 1;
 _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
-
-_markers = if (isMultiplayer) then {
-	allMapMarkers select {markerChannel _x == currentChannel}
-} else {
-	allMapMarkers
-};
 
 //- is holding LCtrl + Left Click
 _holding_LMB = inputMouse "487653376";
@@ -75,9 +68,10 @@ _getBrush = {
 };
 
 {
-	private ["_config","_hide_Direction","_texture","_color","_text"];
+	private ["_config","_onSameChannel","_hide_Direction","_texture","_color","_text"];
 
 	_config = configFile >> "CfgMarkers" >> markerType _x;
+	_onSameChannel = markerChannel _x == currentChannel;
 
 	//- Only for cTab Markers
   _hide_Direction = if (
@@ -108,7 +102,7 @@ _getBrush = {
 		_color = (getArray (configFile >> "CfgMarkerColors" >> markerColor _x >> "Color")) apply {
 			if (_x isEqualType "") then {call compile _x} else {_x};
 		};
-		_color set [3, markerAlpha _x];
+		_color set [3, [0.4 , markerAlpha _x] select _onSameChannel];
 	
 	//- Show type of marker
 		if (
@@ -121,6 +115,7 @@ _getBrush = {
 	
 	//- when the marker having cursor hovering on
 		if (
+			_onSameChannel &&
 			_cursorMarkerIndex == _forEachIndex &&
 			_curSelMarker < 0 && _isnt_Drawing &&
 			_checkInSameWidget &&
@@ -191,6 +186,19 @@ _getBrush = {
 				];
 				continue
 			};
+			case "POLYLINE": {
+				private _lines = markerPolyline _x;
+
+				for "_i" from 0 to (count _lines) - 3 step 2 do {
+					_ctrlScreen drawLine [
+						[_lines # _i, _lines # (_i + 1)],
+						[_lines # (_i + 2), _lines # (_i + 3)],
+						_color
+					];
+				};
+
+				continue
+			};
 			case "RECTANGLE": {
 				_ctrlScreen drawRectangle [
 					_pos ,(_size # 0),(_size # 1),_dir,_color,(_x call _getBrush)
@@ -205,7 +213,7 @@ _getBrush = {
 			};
 			default {continue};
 		};
-} forEach _markers;
+} forEach allMapMarkers;
 
 if (!(_holding_LMB || _LMB) && _curSelMarker > -1) then {
 	localNamespace setVariable ["cTab_Marker_CurSel",nil];
@@ -217,9 +225,10 @@ if (!(_holding_LMB || _LMB) && _curSelMarker > -1) then {
 	};
 
 #ifdef ACE_LOADED
+	if !(ace_map_gestures_enabled) exitWith {};
+
 	call {
 		if (
-			!ace_map_gestures_enabled ||
 			_toggle # 0 ||
 			(inputMouse 0) != 2
 		) exitWith {
@@ -241,10 +250,7 @@ if (!(_holding_LMB || _LMB) && _curSelMarker > -1) then {
 			[ACE_player, "ace_map_gestures_pointPosition", ace_map_gestures_cursorPosition, ace_map_gestures_interval] call ace_common_fnc_setVariablePublic;
 		};
 	};
-#endif
 
-#ifdef ACE_LOADED
-	if (!ace_map_gestures_enabled) exitWith {};
 	if (getClientStateNumber < 10) then {
 		[_ctrlScreen, ace_map_gestures_briefingMode] call ace_map_gestures_fnc_drawMapGestures;
 	} else {

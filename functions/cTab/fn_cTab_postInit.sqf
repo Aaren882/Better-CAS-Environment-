@@ -34,6 +34,7 @@
 	["mapType","SAT"],
 	["showMenu",["main",false,-1]],
 	["MarkerWidget",[false,0,0,[],0,0,100]],
+	["MarkerEDIT",""],
 	["showModeMenu",false],
 	["uavCam",""],
 	["uavInfo",false],

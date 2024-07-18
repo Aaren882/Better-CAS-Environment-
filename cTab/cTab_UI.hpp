@@ -264,8 +264,6 @@ class cTab_Tablet_dlg
 			
 			colorSelect[]={1,1,1,1};
 			colorSelectBackground[]={0.2,0.2,0.2,1};
-			
-			onLBSelChanged = "['cTab_Tablet_dlg',[['markerColor',_this # 1]]] call cTab_fnc_setSettings;";
 		};
 		//-Weather Widget
 		class cTab_Tablet_OSD_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box{};

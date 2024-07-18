@@ -726,24 +726,52 @@ _settings apply {
 		// ---------- Marker Color -----------
 		if ((_x # 0) == "markerColor") exitWith {
 			private _markerColor = _display displayCtrl (17000 + 1090);
+			private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkerColors");
 			if (lbSize _markerColor == 0) then {
-				private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkerColors");
-				{
-					private ["_name","_color","_index"];
-					_name = getText (_x >> "name");
-					_color = (getArray (_x >> "color")) apply {
+				if (_isDialog) then {
+					private _EDIT_color = _display displayCtrl (17000 + 1301) controlsGroupCtrl 51;
+
+					{
+						private ["_name","_color","_index"];
+						_name = getText (_x >> "name");
+						_color = (getArray (_x >> "color")) apply {
+							if (_x isEqualType "") then {call compile _x} else {_x};
+						};
+						_index = _markerColor lbAdd _name;
+						_EDIT_color lbAdd _name;
+						_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
+						_EDIT_color lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
+
+						_markerColor lbSetPictureColorSelected [_index, _color];
+						_markerColor lbSetPictureColor [_index, _color];
+						_markerColor lbSetData [_index, str [configName _x, _color]];
+
+						_EDIT_color lbSetPictureColorSelected [_index, _color];
+						_EDIT_color lbSetPictureColor [_index, _color];
+						//- Without "_EDIT_color" Data
+						false
+					} count _cfg;
+					_markerColor lbSetCurSel (_x # 1);
+					
+					//- Set EH only for Dialog
+						_markerColor ctrlAddEventHandler ["LBSelChanged", {[cTabIfOpen # 1,[['markerColor',_this # 1]]] call cTab_fnc_setSettings}];
+				} else {
+					//- is display ,so there's no need to create the entire Color List
+
+					private _cfg = _cfg # (_x # 1);
+					private _name = getText (_cfg >> "name");
+
+					private _color = (getArray (_cfg >> "color")) apply {
 						if (_x isEqualType "") then {call compile _x} else {_x};
 					};
-					_index = _markerColor lbAdd _name;
-					_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
 
-					_markerColor lbSetPictureColorSelected [_index, _color];
+					private _index = _markerColor lbAdd _name;
+					_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
 					_markerColor lbSetPictureColor [_index, _color];
-					_markerColor lbSetData [_index, str [configName _x, _color]];
-					false
-				} count _cfg;
+					_markerColor lbSetCurSel _index;
+				};
 			};
-			_markerColor lbSetCurSel (_x # 1);
+			
 
 			//- Update Marker Appearance
 			([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params [["_show",false],"_index","","","_widgetMode"];

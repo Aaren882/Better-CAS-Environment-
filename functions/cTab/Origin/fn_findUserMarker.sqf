@@ -23,18 +23,12 @@
 params ["_ctrl","_searchPos"];
 
 
-private ["_return","_targetRadius","_maxDistance","_markers"];
+private ["_return","_targetRadius","_maxDistance"];
 _return = -1;
 
 // figure out radius around cursor box based on map zoom and scale
 _targetRadius = cTabIconSize * 2 * (ctrlMapScale _ctrl) * cTabMapScaleFactor;
 _maxDistance = _searchPos distanceSqr [(_searchPos # 0) + _targetRadius, (_searchPos # 1) + _targetRadius];
-
-_markers = if (isMultiplayer) then {
-	allMapMarkers select {markerChannel _x == currentChannel}
-} else {
-	allMapMarkers
-};
 
 // find closest user marker within _maxDistance
 {
@@ -64,6 +58,6 @@ _markers = if (isMultiplayer) then {
 			_return = _forEachIndex;
 		};
 	};
-} forEach _markers;
+} forEach allMapMarkers;
 
 _return

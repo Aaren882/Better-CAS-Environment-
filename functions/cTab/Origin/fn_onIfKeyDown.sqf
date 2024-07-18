@@ -59,24 +59,24 @@ if (_dikCode == DIK_F7 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"
 };
 
 if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
-	_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-	_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
-	_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
-	_ctrlScreen = _display displayCtrl (_mapTypes # _currentMapTypeIndex # 1);
+	private _mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+	private _currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
+	private _currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
+	private _ctrlScreen = _display displayCtrl (_mapTypes # _currentMapTypeIndex # 1);
 	private _markerIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
 
-	if (_markerIndex < 0) exitWith {false};
+	if (_markerIndex < 0) exitWith {true};
 
 	private _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
 	private _marker = allMapMarkers # _markerIndex;
 	private _Data = (((_marker select [15]) splitString "/") apply {parseNumber _x}) param [4, [-1,_toggle # 4] select (_marker find "_USER" > -1)];
-
 	if (
 		!(_toggle # 0) ||
+		markerChannel _marker != currentChannel ||
 		!(_marker find "_cTab" > -1 || _marker find "_USER" > -1) || 
 		"PLP" in _marker ||
 		(_toggle # 4) != _Data
-	) exitWith {false};
+	) exitWith {true};
 	
 	//- Can't delete POLPOX's MapTools Markers
 	deleteMarker _marker;
