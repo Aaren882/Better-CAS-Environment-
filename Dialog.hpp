@@ -43,12 +43,6 @@ class RscTitles
 			w = #2.5 * (((42)) / 2048 * PhoneW); \
 			h = #((42)) / 2048 * CustomPhoneH
 		
-		/*#if MAP_MODE > 0
-			class cTab_android_RscMapControl: RscMapControl{};
-			class cTab_microDAGR_RscMapControl: RscMapControl{};
-			class cTab_TAD_RscMapControl: RscMapControl{};
-		#endif*/
-		
 		#if MAP_MODE > 2
 			class cTab_TAD_dsp
 			{

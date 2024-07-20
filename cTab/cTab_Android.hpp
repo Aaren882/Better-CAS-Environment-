@@ -182,10 +182,10 @@ PHONE_CLASS
 						colorbackground[] = {0.2,0.2,0.2,0.4};
 					};
 					//- Retract Botton
-					class Retract: BCE_RscButtonMenu
+					class Retract: RscStructuredText
 					{
 						idc = -1;
-						text = "Retract ↓";
+						text = "Edit Marker <img image='\a3\3DEN\Data\Displays\Display3DEN\PanelRight\modeMarkers_ca.paa'/>";
 						x = 0;
 						y = 0;
 						w = MARKER_W;
@@ -197,18 +197,13 @@ PHONE_CLASS
 							"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
 							0.5
 						};
-						colorBackground2[] = {0,0,0,0};
-						colorBackgroundFocused[] = {0,0,0,0};
 
-						animTextureDefault="#(argb,8,8,3)color(0,0,0,0)";
-						animTextureNormal="#(argb,8,8,3)color(1,1,1,1)";
-						animTextureOver = "#(argb,8,8,3)color(1,1,1,0.5)";
-						animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
-						animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.3)";
-
-						class Attributes: Attributes
+						class Attributes
 						{
+							font = "RobotoCondensed_BCE";
+							color = "#E5E5E5";
 							align = "center";
+							valign = "middle";
 						};
 					};
 					class DESC_Title: RscStructuredText
@@ -283,7 +278,7 @@ PHONE_CLASS
 							x = 0;
 							y = 5 * MARKER_H;
 							w = 0.5 * MARKER_W;
-							wholeHeight=0.2;
+							wholeHeight=0.15;
 							class Items
 							{
 								class NA
@@ -314,7 +309,7 @@ PHONE_CLASS
 							y = 7 * MARKER_H;
 						};
 					//- Right Panel
-						class Enter: Retract
+						class Enter: BCE_RscButtonMenu
 						{
 							idc = 15;
 
@@ -325,14 +320,29 @@ PHONE_CLASS
 							w = 0.5 * MARKER_W;
 							h = 1.5 * MARKER_H;
 
+							onButtonClick = "call cTab_fnc_FinishEDIT_Marker";
+
 							colorBackground[] = {0.117647,0.968628,0.286275,0.3};
 							size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+
+							colorBackground2[] = {0,0,0,0};
+							colorBackgroundFocused[] = {0,0,0,0};
+
+							animTextureDefault="#(argb,8,8,3)color(0,0,0,0)";
+							animTextureNormal="#(argb,8,8,3)color(1,1,1,1)";
+							animTextureOver = "#(argb,8,8,3)color(1,1,1,0.5)";
+							animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+							animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.3)";
 							class TextPos
 							{
 								left = "0.25 * (((safezoneW / safezoneH) min 1.2) / 40)";
 								top = 1.5 * MARKER_H / 2 - (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / 2);
 								right = 0;
 								bottom = 0;
+							};
+							class Attributes: Attributes
+							{
+								align = "center";
 							};
 						};
 						class Cancel: Enter

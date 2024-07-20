@@ -73,7 +73,6 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	if (
 		!(_toggle # 0) ||
 		(markerChannel _marker != currentChannel && isMultiplayer) ||
-		!(_marker find "_cTab" > -1 || _marker find "_USER" > -1) || 
 		"PLP" in _marker ||
 		(_toggle # 4) != _Data
 	) exitWith {true};

@@ -108,7 +108,7 @@ if (_LMB == 0 && _lastClick > -1) then {
   _toggle params ["","","_BoxSel","_texts","","_brush","_opacity"];
 
   //- Marker
-    _marker = createMarker [_name, _center, currentChannel, cTab_player];
+    _marker = createMarker [_name, _center, currentChannel, player];
 
     _marker setMarkerShape (["Rectangle","ELLIPSE"] select _BoxSel);
     _marker setMarkerSize [_width/2,_height/2];

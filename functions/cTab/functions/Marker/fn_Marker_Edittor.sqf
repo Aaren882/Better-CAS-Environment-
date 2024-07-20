@@ -92,6 +92,7 @@ if (isMultiplayer) then {
 
       private _index = _channel lbAdd _ChannelName;
       _channel lbSetColor [_index,_color];
+      _channel lbSetValue [_index, _Id];
 
       if (_Id == _selectChannel) then {
         _channel lbSetCurSel _index;

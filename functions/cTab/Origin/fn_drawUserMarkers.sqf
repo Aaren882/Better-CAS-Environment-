@@ -39,6 +39,7 @@ params ["_ctrlScreen","_highlight"];
 private [
 	"_mapScale","_cursorMarkerIndex","_text",
 	"_toggle",
+	"_widgetMode",
 	"_reDirecting","_reSizing","_LMB",
 	"_checkInSameWidget",
 	"_curSelMarker","_isnt_Drawing","_getBrush"
@@ -50,14 +51,15 @@ _text = "";
 
 _displayName = cTabIfOpen # 1;
 _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
+_widgetMode = _toggle # 4;
 
 //- is holding LCtrl + Left Click
 _reDirecting = inputMouse "487653376";
 _reSizing = inputMouse "940638208";
 _LMB = (inputMouse 0) > 0;
-	
+
 _checkInSameWidget = false;
-(localNamespace getVariable ["cTab_Marker_CurSel",[]]) params [["_curSelMarker",-1],["_drawMode",-1],"_Marker_Component"];
+(localNamespace getVariable ["cTab_Marker_CurSel",[]]) params [["_curSelMarker",-1],"_EditMarker","_drawMode","_Marker_Component"];
 _isnt_Drawing = isnil{localNamespace getVariable "BCE_DrawHold_lastClick"};
 
 _getBrush = {
@@ -69,26 +71,33 @@ _getBrush = {
 };
 
 {
-	private ["_config","_onSameChannel","_hide_Direction","_texture","_color","_text"];
+	private ["_markerType","_markerShape","_config","_onSameChannel","_hide_Direction","_texture","_color","_text"];
 
-	_config = configFile >> "CfgMarkers" >> markerType _x;
-	_onSameChannel = [true, markerChannel _x == currentChannel] select isMultiplayer;
+	_markerType = markerType _x;
+	_markerShape = MarkerShape _x;
+	_markerChannel = markerChannel _x;
+	_config = configFile >> "CfgMarkers" >> _markerType;
+	
+	//- Skip if it's System Marker
+		if (_markerShape == "ICON" && getNumber (_config >> "size") == 0) then {continue};
+
+	_onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
 
 	//- Only for cTab Markers
   _hide_Direction = if (
-		_x find "_cTab" > -1 ||
-		_x find "_USER" > -1
+		_x find "_cTab" > -1 || _x find "_USER" > -1
 	) then {
 		(((_x select [15]) splitString "/") apply {parseNumber _x}) params ["","","","_HideDir",["_type",0],""];
 
 		//- Optimize
 			if (isnil{_HideDir}) then {
-				private _is_Gen = -1 < (((uiNamespace getVariable "bce_marker_map") get "Generic") # 0) find markerType _x;
-				_HideDir = [0,1] select _is_Gen;
+				private _values = values (uiNamespace getVariable "bce_marker_map");
+				private _find = _values findIf {_markerType in (_x # 0)};
+				_HideDir = (_values # _find) param [2, 0];
 			};
 
-		//- (_toggle # 4) is "Current Widget Mode" 0. Marker Dropper 1. Drawing tools
-			_checkInSameWidget = (_toggle # 4) == _type;
+		//- "_widgetMode" is "Current Widget Mode" 0. Marker Dropper 1. Drawing tools
+			_checkInSameWidget = _widgetMode == _type;
 		0 < _HideDir
 	} else {
 		false
@@ -123,15 +132,15 @@ _getBrush = {
 			(_x find "_cTab" > -1 || _x find "_USER" > -1)
 		) then {
 			//- Set Selected Marker
-			switch (true) do {
-				case (_reDirecting): { //- must before "_LMB" so it wont be skipped
-					localNamespace setVariable ["cTab_Marker_CurSel",[_forEachIndex,1]];
+			switch (true) do { //- must before "_LMB" so it wont be skipped
+				case (_reSizing && _widgetMode == 0): {
+					localNamespace setVariable ["cTab_Marker_CurSel",[_forEachIndex,_x,2,getMousePosition]];
 				};
-				case (_reSizing): {
-					localNamespace setVariable ["cTab_Marker_CurSel",[_forEachIndex,1,getMousePosition]];
+				case (_reDirecting): {
+					localNamespace setVariable ["cTab_Marker_CurSel",[_forEachIndex,_x,1]];
 				};
 				case (_LMB): {
-					localNamespace setVariable ["cTab_Marker_CurSel",[_forEachIndex,0,cTabMapCursorPos vectorDiff (markerPos _x)]];
+					localNamespace setVariable ["cTab_Marker_CurSel",[_forEachIndex,_x,0,cTabMapCursorPos vectorDiff (markerPos _x)]];
 				};
 			};
 
@@ -142,22 +151,22 @@ _getBrush = {
 			if (_curSelMarker == _forEachIndex && _isnt_Drawing) then {
 				switch (true) do {
 					//- Change Marker Size (Ctrl + LMB Hold)
-					case (_reSizing): {
+					case (_reSizing && _widgetMode == 0): {
 						private _s = vectorMagnitude (getMousePosition vectorDiff _Marker_Component);
 						_s = 2 min (1 + _s)^2;
-						_x setMarkerSize [_s,_s];
+						_x setMarkerSizeLocal [_s,_s];
 					};
 					//- Change Marker Direction (Ctrl + LMB Hold)
-					case (_reDirecting && _drawMode == 1): {
+					case (_reDirecting): {
 						//- Change marker direction
 							private _dir = _pos getDirVisual cTabMapCursorPos;
-							_x setMarkerDir ([_dir,360] select (_dir == 0));
+							_x setMarkerDirLocal ([_dir,360] select (_dir == 0));
 							_ctrlScreen drawIcon ["#(rgb,1,1,1)color(0,0,0,0)",cTabTADhighlightColour,cTabMapCursorPos, 0, 0, 0, format ["%1 %2°",_dir call BCE_fnc_getAzimuth, round _dir], 0, cTabTxtSize * 1.5,"TahomaB"];
 							_ctrlScreen drawArrow [_pos, cTabMapCursorPos, cTabTADhighlightColour];
 					};
 					//- Change marker Position (LMB Hold)
-					case (_LMB && _drawMode == 0): {
-						_x setMarkerPos (cTabMapCursorPos vectorDiff _Marker_Component);
+					case (_LMB): {
+						_x setMarkerPosLocal (cTabMapCursorPos vectorDiff _Marker_Component);
 					};
 				};
 			};
@@ -174,7 +183,7 @@ _getBrush = {
 			_text = markerText _x;
 		};
 
-		switch (MarkerShape _x) do {
+		switch (_markerShape) do {
 			case "ICON": {
 				//- Update Marker Size
 					_size = _size vectorMultiply cTabIconSize;
@@ -223,11 +232,22 @@ _getBrush = {
 } forEach allMapMarkers;
 
 if (!(_reDirecting || _reSizing || _LMB) && _curSelMarker > -1) then {
+	switch (_drawMode) do {
+		case 2: {
+			_EditMarker setMarkerSize MarkerSize _EditMarker;
+		};
+		case 1: {
+			_EditMarker setMarkerDir MarkerDir _EditMarker;
+		};
+		case 0: {
+			_EditMarker setMarkerPos MarkerPos _EditMarker;
+		};
+	};
 	localNamespace setVariable ["cTab_Marker_CurSel",nil];
 };
 
 //- Drawing Tools
-	if (1 == _toggle # 4) then {
+	if (_widgetMode == 1) then {
 		call cTab_fnc_DrawArea;
 	};
 

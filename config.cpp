@@ -899,6 +899,7 @@ class CfgFunctions
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\Marker";
 				class Marker_Edittor;
+				class FinishEDIT_Marker;
 				class PlaceMarker;
 				class DrawArea;
 			};
