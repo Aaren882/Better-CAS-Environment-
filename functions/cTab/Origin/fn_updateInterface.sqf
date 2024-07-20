@@ -199,8 +199,85 @@ _settings apply {
 		_ctrl ctrlCommit ([0.2, 0] select _interfaceInit);
 	};
 
-	/////-------------Widgets---------------\\\\\
-	//-- Marker Placer 
+	/////------------- Marker Widgets ---------------\\\\\
+	//-- Marker Edittor
+		if ((_x # 0) == "MarkerEDIT") exitWith {
+			private _group = _display displayCtrl (17000 + 1301);
+			private _show = (_x # 1) != "";
+			_group ctrlShow _show;
+			if (_show) then {
+				[_display, (_x # 1)] call cTab_fnc_Marker_Edittor;
+			};
+
+			//- Add Eventhandler
+				if (_interfaceInit) then {
+					private _ok = _group controlsGroupCtrl 15;
+					_ok ctrlAddEventHandler ["ButtonClick", {
+						params ["_control"];
+						private _display = ctrlParent _control;
+						private _displayName = cTabIfOpen # 1;
+
+						private _group = _display displayCtrl (17000 + 1301);
+						private _markerColor = _display displayCtrl (17000 + 1090);
+
+						private _desc = _group controlsGroupCtrl 10;
+						private _EDIT_Type = _group controlsGroupCtrl 50;
+						private _EDIT_color = _group controlsGroupCtrl 51;
+
+						//- Current Select Marker
+							private _marker = [_displayName,"MarkerEDIT"] call cTab_fnc_getSettings;
+						
+						//- Data
+							private _curSel_TYPE = if (ctrlEnabled _EDIT_Type) then {
+								_EDIT_Type lbData lbCurSel _EDIT_Type
+							} else {
+								markerType _marker
+							};
+							private _curSel_COLOR = (call compile (_markerColor lbData lbCurSel _EDIT_color)) # 0;
+
+						//- if Setup Marker
+							if (_marker != "") then {
+								
+								private _pos = markerPos _marker;
+								private _shape = MarkerShape _marker;
+								private _size = MarkerSize _marker;
+								private _dir = markerDir _marker;
+								private _brush = MarkerBrush _marker;
+								private _alpha = MarkerAlpha _marker;
+								private _priority = MarkerDrawPriority _marker;
+
+								//- Marker
+									deleteMarker _marker;
+								private _split = ((_marker select [15]) splitString "/") apply {parseNumber _x};
+
+								private _is_Gen = -1 < (((uiNamespace getVariable "bce_marker_map") get "Generic") # 0) find _curSel_TYPE;
+								_split set [3, [0,1] select _is_Gen];
+
+								//- Re-Generate marker
+								_marker = createMarker [
+									(_marker select [0,15]) + (_split joinString "/"),
+									_pos
+								];
+
+								_marker setMarkerType _curSel_TYPE;
+								_marker setMarkerShape _shape;
+								_marker setMarkerSize _size;
+								_marker setmarkerDir _dir;
+								_marker setMarkerBrush _brush;
+								_marker setMarkerColor _curSel_COLOR;
+								_marker setMarkerAlpha _alpha;
+								_marker setMarkerDrawPriority _priority;
+								_marker setMarkerShadow (0 < getNumber (configFile >> "CfgMarkers" >> _curSel_TYPE >> "shadow"));
+								_marker setMarkerText ctrlText _desc;
+							};
+						
+						//- Clear Variable
+						[_displayName,[["MarkerEDIT",""]]] call cTab_fnc_setSettings;
+					}];
+				};
+		};
+
+	//-- Marker Dropper 
 		if ((_x # 0) == "MarkerWidget") exitWith {
 			(_x # 1) params ["_show","_curSel","_BoxSel","_texts","_widgetMode"];
 			(ctrlPosition (_display displayCtrl 1)) params ["","_ctrlY","","_ctrlH"];
@@ -347,6 +424,7 @@ _settings apply {
 
 				//-BTF Widgets
 				17000 + 1200,
+				17000 + 1301,
 
 				//-POLPOX Map Tools
 				#ifdef PLP_TOOL
@@ -629,7 +707,7 @@ _settings apply {
 					} else {
 						[_mapScaleKm / 2,0,1] call CBA_fnc_formatNumber
 					};
-					_osdCtrl ctrlSetText format ["%1",_mapScaleTxt];
+					_osdCtrl ctrlSetText _mapScaleTxt;
 				};
 			};
 		};
@@ -772,7 +850,6 @@ _settings apply {
 				};
 			};
 			
-
 			//- Update Marker Appearance
 			([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params [["_show",false],"_index","","","_widgetMode"];
 			if (_show && (_index == 3 || _widgetMode == 1)) then {

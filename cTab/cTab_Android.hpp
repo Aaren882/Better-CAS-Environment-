@@ -316,7 +316,7 @@ PHONE_CLASS
 					//- Right Panel
 						class Enter: Retract
 						{
-							idc = -1;
+							idc = 15;
 
 							text = "$STR_DISP_OK";
 
@@ -343,6 +343,7 @@ PHONE_CLASS
 							text = "$STR_DISP_CANCEL";
 
 							colorBackground[] = {1,0.25,0.25,0.3};
+							onButtonClick = "[cTabIfOpen # 1,[['MarkerEDIT','']]] call cTab_fnc_setSettings;";
 						};
 				};
 			};

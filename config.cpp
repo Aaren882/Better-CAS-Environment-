@@ -898,6 +898,7 @@ class CfgFunctions
 			class BCE_Marker
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\Marker";
+				class Marker_Edittor;
 				class PlaceMarker;
 				class DrawArea;
 			};

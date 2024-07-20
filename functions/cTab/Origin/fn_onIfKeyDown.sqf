@@ -72,7 +72,7 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	private _Data = (((_marker select [15]) splitString "/") apply {parseNumber _x}) param [4, [-1,_toggle # 4] select (_marker find "_USER" > -1)];
 	if (
 		!(_toggle # 0) ||
-		markerChannel _marker != currentChannel ||
+		(markerChannel _marker != currentChannel && isMultiplayer) ||
 		!(_marker find "_cTab" > -1 || _marker find "_USER" > -1) || 
 		"PLP" in _marker ||
 		(_toggle # 4) != _Data
