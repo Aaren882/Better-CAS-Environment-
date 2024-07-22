@@ -242,8 +242,6 @@ _settings apply {
 
 						_cate ctrlShow false;
 						{_x ctrlshow true} forEach _DrawingTools;
-
-						// call cTab_fnc_DrawArea;
 					};
 
 					//- Marker Dropper
@@ -779,6 +777,7 @@ _settings apply {
 					private _index = _markerColor lbAdd _name;
 					_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
 					_markerColor lbSetPictureColor [_index, _color];
+					_markerColor lbSetData [_index, str [configName _cfg, _color]];
 					_markerColor lbSetCurSel _index;
 				};
 			};

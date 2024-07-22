@@ -54,7 +54,7 @@ _markerData splitString (_markerData select [0,1]) params [
   "_markerAlpha"
 ];
 
-_marker = createMarker [_name, _position, currentChannel, player];
+_marker = createMarker [_name, _position, currentChannel, focusOn];
 
 _marker setMarkerType _markerType;
 _marker setMarkerShape _markerShape;

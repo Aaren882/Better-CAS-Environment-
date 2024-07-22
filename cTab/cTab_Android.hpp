@@ -243,7 +243,8 @@ PHONE_CLASS
 							y = 3 * MARKER_H;
 							w = 0.425 * MARKER_W;
 							h = MARKER_H;
-
+							
+							shadow=1;
 							colorBackground[]={0.3,0.3,0.3,1};
 							colorSelect[]={1,1,1,1};
 							colorSelectBackground[]={0.2,0.2,0.2,1};

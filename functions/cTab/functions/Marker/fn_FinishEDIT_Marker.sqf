@@ -49,7 +49,7 @@ private _EDIT_color = _group controlsGroupCtrl 51;
       (_marker select [0,15]) + (_split joinString "/"),
       _pos,
       _channel lbValue lbCurSel _channel,
-      player
+      focusOn
     ];
 
     _marker setMarkerType _curSel_TYPE;

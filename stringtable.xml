@@ -1467,6 +1467,11 @@
 			<Chinese>不透明度: %1%2</Chinese>
 			<Chinesesimp>不透明度: %1%2</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Draw_Polygon">
+			<Original>Polygon</Original>
+			<Chinese>多邊形</Chinese>
+			<Chinesesimp>多边形</Chinesesimp>
+		</Key>
 		
 	</Package>
 </Project>
