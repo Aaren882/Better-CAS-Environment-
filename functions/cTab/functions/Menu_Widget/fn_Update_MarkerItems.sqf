@@ -18,8 +18,7 @@ lbClear _dropBox;
       private ["_Markers","_colorLb","_color","_cfg","_classes","_brushes"];
       _Markers = [
         ["STR_3den_attributes_shapetrigger_rectangle","a3\3den\data\cfg3den\marker\iconrectangle_ca.paa"],
-        ["STR_3den_attributes_shapetrigger_ellipse","a3\3den\data\cfg3den\marker\iconEllipse_ca.paa"],
-        ["STR_BCE_Draw_Polygon","MG8\AVFEVFX\data\draw_polygon.paa"]
+        ["STR_3den_attributes_shapetrigger_ellipse","a3\3den\data\cfg3den\marker\iconEllipse_ca.paa"]
       ];
 
       _colorLb = _display displayCtrl (17000 + 1090);
