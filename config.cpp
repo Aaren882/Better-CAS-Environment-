@@ -1003,6 +1003,7 @@ class RscListBox
 {
 	class ListScrollBar;
 };
+class RscListNBox;
 class RscIGUIText;
 class RscPictureKeepAspect;
 class RscControlsGroup;

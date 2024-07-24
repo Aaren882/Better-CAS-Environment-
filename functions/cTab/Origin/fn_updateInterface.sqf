@@ -329,7 +329,7 @@ _settings apply {
 				IDC_CTAB_OSD_HOOK_DIR,
 				IDC_CTAB_NOTIFICATION]
 			};
-			if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) exitWith {
+			if (_displayName find "Android" > -1) exitWith {
 				[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
 				4630,
 				17000 + 3300,
@@ -366,7 +366,7 @@ _settings apply {
 				IDC_CTAB_GROUP_DESKTOP,
 				IDC_CTAB_GROUP_MENU,
 				IDC_CTAB_GROUP_MESSAGE,
-				IDC_CTAB_GROUP_COMPOSE,
+				// IDC_CTAB_GROUP_COMPOSE,
 				IDC_CTAB_SCREEN,
 				IDC_CTAB_SCREEN_TOPO,
 				IDC_CTAB_OSD_HOOK_GRID,
@@ -500,9 +500,11 @@ _settings apply {
 			};
 			// ---------- MESSAGING -----------
 			if (_mode == "MESSAGE") exitWith {
+
+				//- Other than Andorid phone
+				cTabRscLayerMailNotification cutText ["", "PLAIN"];
 				_displayItemsToShow = [IDC_CTAB_GROUP_MESSAGE];
 				call cTab_msg_gui_load;
-				cTabRscLayerMailNotification cutText ["", "PLAIN"];
 				_btnActCtrl ctrlSetTooltip "";
 			};
 			// ---------- MESSAGING COMPOSE -----------
@@ -1034,36 +1036,43 @@ _settings apply {
 		// ---------- ATAK Tools -----------
 		if (((_x # 0) == "showMenu") && (_mode == "BFT")) exitWith {
 			{
-				(_display displayCtrl _x) ctrlShow false
-			} count [IDC_CTAB_GROUP_MENU, 17000 + 4660, 17000 + 4661, 17000 + 4662, 17000 + 4663];
+				(_display displayCtrl 17000 + _x) ctrlShow false;
+				false
+			} count [
+				4660, 
+				4661, 
+				4662, 
+				4663,
+				4650, 46500
+			];
 
 			(_x # 1) params ["_page","_show"];
 		
-			private _show_IDC = [_display, _page, (_page != "main") && _show] call BCE_fnc_ATAK_openPage;
-			{
-				if (isnil{_x}) exitwith {};
-				(_display displayCtrl _x) ctrlShow _show;
-			} count [IDC_CTAB_GROUP_MENU,_show_IDC];
+			private _group = [_display, _page, (_page != "main") && _show] call BCE_fnc_ATAK_openPage;
 			
-			if (_show) then {
-				private ["_group","_ctrl"];
-				//-ATAK Control Adjustments
-				switch (_page) do {
-					case "mission": {
-						//-restore Task Type
-						_group = _display displayCtrl (17000 + 4661);
-						_group ctrlSetScrollValues [uiNamespace getVariable ["BCE_ATAK_Scroll_Value",0], -1];
+			(_display displayCtrl IDC_CTAB_GROUP_MENU) ctrlShow _show;
+			
+			if (isnil{_group} || !_show) exitWith {};
+			_group ctrlShow _show;
 
-						_ctrl = _group controlsGroupCtrl (17000 + 2107);
-						_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
-					};
-					case "Task_Result": {
-						_group = _display displayCtrl (17000 + 4663);
-						_ctrl = _group controlsGroupCtrl 11;
-						private _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
-						private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
-						[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
-					};
+			//-ATAK Control Adjustments
+			switch (_page) do {
+				case "mission": {
+					//-restore Task Type
+					_group ctrlSetScrollValues [uiNamespace getVariable ["BCE_ATAK_Scroll_Value",0], -1];
+
+					private _ctrl = _group controlsGroupCtrl (17000 + 2107);
+					_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
+				};
+				case "Task_Result": {
+					private _ctrl = _group controlsGroupCtrl 11;
+					private _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+					private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
+					[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
+				};
+				case "message": {
+					private _list  = _group controlsGroupCtrl 10;
+
 				};
 			};
 		};

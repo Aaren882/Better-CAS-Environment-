@@ -37,15 +37,15 @@ if (_dikCode == DIK_F2 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"
 	[_displayName,[["mode","UAV"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == DIK_F3 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith {
+if (_dikCode == DIK_F3 && {_displayName == "cTab_Tablet_dlg"}) exitWith {
 	[_displayName,[["mode","HCAM"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == DIK_F4 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"]}) exitWith {
+if (_dikCode == DIK_F4 && {_displayName == "cTab_Tablet_dlg"}) exitWith {
 	[_displayName,[["mode","MESSAGE"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == DIK_F5 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith {
+if (_dikCode == DIK_F5 && {_displayName == "cTab_Tablet_dlg"}) exitWith {
 	[_displayName,[["mode","TASK_Builder"]]] call cTab_fnc_setSettings;
 	true
 };
