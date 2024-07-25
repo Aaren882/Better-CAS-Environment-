@@ -94,7 +94,7 @@ private _return = switch _page do {
 			_bnt_back ctrlCommit 0;
 			_bnt_Ent ctrlCommit 0;
 
-			//- Set Color
+		//- Set Color
 			_bnt_Ent ctrlSetBackgroundColor [
 				(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77]),
 				(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51]),
@@ -105,6 +105,17 @@ private _return = switch _page do {
 		//- Botton Text
 			_bnt_Ent ctrlSetText localize "STR_BCE_SendData";
 
+		
+				/*_plrList = playableUnits;
+
+				// since playableUnits will return an empty array in single player, add the player if array is empty
+				if (_plrList findIf {true} < 0) then {_plrList pushBack cTab_player};
+				_validSides = call cTab_fnc_getPlayerSides;
+
+				// turn this on for testing, otherwise not really usefull, since sending to an AI controlled, but switchable unit will send the message to the player himself
+				// if (count _plrList < 1) then { _plrList = switchableUnits;};
+
+				uiNamespace setVariable ['cTab_msg_playerList', _plrList];*/
 		4650
 	};
 	default {
@@ -112,6 +123,6 @@ private _return = switch _page do {
 	};
 };
 
-//
+// - Return "nil" or "Control Group"
 if (isnil {_return}) exitWith {};
 _display displayCtrl (17000 + _return)

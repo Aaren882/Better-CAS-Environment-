@@ -845,6 +845,15 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawUAV.sqf";
 				};
+
+				/*class msg_gui_load
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\Message\fn_msg_gui_load.sqf";
+				};*/
+				class ATAK_msg_Line_Create
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\Message\fn_ATAK_msg_Line_Create.sqf";
+				};
 				
 				//-Original Ones
 				class onIfKeyDown

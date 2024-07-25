@@ -1043,7 +1043,7 @@ _settings apply {
 				4661, 
 				4662, 
 				4663,
-				4650, 46500
+				4650
 			];
 
 			(_x # 1) params ["_page","_show"];
@@ -1071,8 +1071,61 @@ _settings apply {
 					[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
 				};
 				case "message": {
-					private _list  = _group controlsGroupCtrl 10;
+					private _list = _group controlsGroupCtrl 10;
+					{ctrlDelete _x} count allControls _list;
 
+					//- Msg Sort
+						private _msgArray = cTab_player getVariable ["cTab_messages_" + call cTab_fnc_getPlayerEncryptionKey,
+							[]
+						];
+						private _index = 0;
+						private _size_H = 0;
+						{
+							_x params ["_title","_msgBody","_msgState"];
+							private _sep = _title find "-";
+
+							//- Skip on empty
+								if (_sep < 0) then {continue};
+							
+							private _time = _title select [0,_sep];
+							private _chatRoom = (_title select [_sep]) trim ["- ", 0];
+							private _name = (_title select [_title find "("]) trim ["() ", 0];
+
+							//- Sent
+							private _size = 1;
+
+							_msgBody = toString Flatten((toArray _msgBody) apply {
+								if (10 == _x) then {
+									_size = _size + 1;
+									toArray "<br/>"
+								} else {
+									_x
+								};
+							});
+
+							private _txt = if (_msgState == 2) then {
+								_msgBody
+							} else {
+								//- Receives
+								_size = _size + 1;
+								_name = format [
+									"<t color='#ffffff'>%1 <t valign='middle' size='0.55'>(%2)</t> :</t>",
+									_name,
+									_time
+								];
+								[_name,_msgBody] joinString "<br/>"
+							};
+
+							private _ctrlMsg = [_list,_msgState,_txt] call ctab_fnc_ATAK_msg_Line_Create;
+							private _ctrl_H = (ctrlPosition _ctrlMsg) # 3;
+
+							_ctrlMsg ctrlSetPositionY _size_H;
+							_ctrlMsg ctrlSetPositionH (_ctrl_H * _size);
+							_ctrlMsg ctrlCommit 0;
+							
+							_size_H = _size_H + (_ctrl_H * _size);
+							_index = _index + 1;
+						} forEach _msgArray;
 				};
 			};
 		};

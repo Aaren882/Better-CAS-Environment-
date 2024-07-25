@@ -53,6 +53,20 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 	w = PhoneBFTContainerW(WPOS); \
 	h = HPOS * (((60)) / 2048 * CustomPhoneH)
 
+//- message Line
+class ATAK_Message: RscStructuredText
+{
+	x = 0;
+	y = 0;
+	w = PhoneBFTContainerW(3);
+	h = 0.7 * (((60)) / 2048 * CustomPhoneH);
+	size = 0.65 * (((60)) / 2048 * CustomPhoneH);
+	class Attributes
+	{
+		color = "#dee0de";
+	};
+};
+
 PHONE_CLASS
 {
 	#ifdef MOUSE_CLICK_EH
@@ -1381,20 +1395,34 @@ PHONE_CLASS
 							valign = "Bottom";
 						};
 					};
-					class messageBox: RscListNBox
+					class messageBox: cTab_RscControlsGroup
 					{
 						idc = 10;
+
+						class VScrollbar: VScrollbar
+						{
+							width = 0;
+						};
+						class HScrollbar: HScrollbar
+						{
+							height = 0;
+						};
 						
 						x = 0;
 						y = 0.8 * (((60)) / 2048 * CustomPhoneH);
 						w = PhoneBFTContainerW(3);
 						h = phoneSizeH - 2.3 * (((60)) / 2048 * CustomPhoneH);
 
+						/*shadow=1;
+						font="RobotoCondensed_BCE";
+						sizeEx = 0.65 * (((60)) / 2048 * CustomPhoneH);
+
 						colorDisabled[]={1,1,1,1};
 						drawSideArrows = 0;
 						tooltipPerColumn = 1;
 						period=0;
 						colorBackground[]={0,0,0,0.5};
+						columns[] = {0};*/
 					};
 					class typing: RscEdit
 					{
@@ -1407,10 +1435,6 @@ PHONE_CLASS
 
 						sizeEx = 0.64 * (((60) - (20))) / 2048 * CustomPhoneH;
 
-						colorDisabled[]={1,1,1,1};
-						drawSideArrows = 0;
-						tooltipPerColumn = 1;
-						period=0;
 						colorBackground[]={0,0,0,0.5};
 					};
 				};
