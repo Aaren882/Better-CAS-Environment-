@@ -45,6 +45,9 @@ class CfgPatches
 #if __has_include("\CTG_HMD_RHSUSAF\config.cpp")
 	#define RHS_HMD_Macro 1
 #endif
+#if __has_include("\CTG_HMD_RHSUSAF\config.cpp")
+	#define RHS_HMD_Macro 1
+#endif
 
 //-CBA Compile
 class Extended_PreInit_EventHandlers
