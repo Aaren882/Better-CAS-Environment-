@@ -15,7 +15,7 @@ switch (_type) do {
   };
   //- Time
   case 4: {
-    _txt setAttributes ["align","center"];
+    _txt setAttributes ["align","center","size","0.8"];
     _txt = composeText [_txt];
   };
 };

@@ -1078,8 +1078,10 @@ _settings apply {
 						private _msgArray = cTab_player getVariable ["cTab_messages_" + call cTab_fnc_getPlayerEncryptionKey,
 							[]
 						];
+
 						private _index = 0;
 						private _size_H = 0;
+						private _time_AC = 0;
 						{
 							_x params ["_title","_msgBody","_msgState"];
 							private _sep = _title find "-";
@@ -1088,20 +1090,40 @@ _settings apply {
 								if (_sep < 0) then {continue};
 							
 							private _time = _title select [0,_sep];
+							private _time_s = (_time splitString ":") apply {parseNumber _x};
 							private _chatRoom = (_title select [_sep]) trim ["- ", 0];
 							private _name = (_title select [_title find "("]) trim ["() ", 0];
 
 							//- Sent
 							private _size = 1;
 
-							_msgBody = toString Flatten((toArray _msgBody) apply {
-								if (10 == _x) then {
-									_size = _size + 1;
-									toArray "<br/>"
-								} else {
-									_x
+							//- on every 30 mins
+								//- on more than (30 mins)
+									_time_s = abs((_time_s # 0) * 60 + (_time_s # 1));
+
+								if ((_time_s - _time_AC) >= 30) then {
+									private _size = 0.8;
+									private _ctrlMsg = [_list,4, ["--",_time,"--"] joinString " "] call ctab_fnc_ATAK_msg_Line_Create;
+									private _ctrl_H = (ctrlPosition _ctrlMsg) # 3;
+
+									_ctrlMsg ctrlSetPositionY _size_H;
+									_ctrlMsg ctrlSetPositionH (_ctrl_H * _size);
+									_ctrlMsg ctrlCommit 0;
+									
+									_size_H = _size_H + (_ctrl_H * _size);
+									_index = _index + 1;
 								};
-							});
+								_time_AC = _time_s;
+								
+							//- get how many "\t" in the message
+								_msgBody = toString Flatten((toArray _msgBody) apply {
+									if (10 == _x) then {
+										_size = _size + 1;
+										toArray "<br/>"
+									} else {
+										_x
+									};
+								});
 
 							private _txt = if (_msgState == 2) then {
 								_msgBody
@@ -1123,8 +1145,9 @@ _settings apply {
 							_ctrlMsg ctrlSetPositionH (_ctrl_H * _size);
 							_ctrlMsg ctrlCommit 0;
 							
-							_size_H = _size_H + (_ctrl_H * _size);
-							_index = _index + 1;
+							//- sorting Data
+								_size_H = _size_H + (_ctrl_H * _size);
+								_index = _index + 1;
 						} forEach _msgArray;
 				};
 			};
