@@ -4,13 +4,20 @@ params ["_display"];
 
 if !(_show) exitWith {};
 
-private _idc = switch _page do {
-	case "mission": {4661};
-	case "mission_Build": {nil};
-	default {4660};
+private _ctrl = switch _page do {
+	case "mission": {
+		_display displayCtrl (17000 + 4660)
+	};
+	case "message": {
+		private _group = _display displayCtrl (17000 + 4650);
+		_group controlsGroupCtrl 10;
+	};
+	case "mission_Build": {controlNull};
+	default {
+		_display displayCtrl (17000 + 4660)
+	};
 };
 
-if (_show && !isnil{_idc}) then {
-	private _ctrl = _display displayCtrl (17000 + _idc);
+if !(isnull _ctrl) then {
 	uiNamespace setVariable ["BCE_ATAK_Scroll_Value",(ctrlScrollValues _ctrl) # 0];
 };

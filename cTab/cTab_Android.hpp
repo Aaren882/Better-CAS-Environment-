@@ -431,6 +431,32 @@ PHONE_CLASS
 				tooltip = "Desktop";
 			};
 		#endif
+		//- Remove the Headers
+			delete grid;
+			delete dirDegree;
+			// delete dirOctant;
+		//- Add Compass
+			class Compass: cTab_android_on_screen_battery
+			{
+				idc = idc_D(2615);
+				style = "0x02 + 0x30 + 0x800";
+				text = "\MG8\AVFEVFX\data\Compass.paa";
+				y = ((713)) / 2048 * CustomPhoneH + CustomPhoneY + (((60)) / 2048 * CustomPhoneH);
+				w = 1.3 * sizeW * (PhoneW * 3/4);
+				h = 1.3 * sizeW * PhoneW;
+			};
+			class compass_Dir: cTab_RscText_Android
+			{
+				idc = idc_D(2616);
+				style = 2;
+				shadow = 1;
+				text = "N";
+				sizeEx = 0.6 * sizeW * PhoneW;
+				x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (1 - 1))) / 2048  * 	PhoneW + 	CustomPhoneX;
+				y = ((713)) / 2048 * CustomPhoneH + CustomPhoneY + (((60)) / 2048 * CustomPhoneH);
+				w = 1.3 * sizeW * (PhoneW * 3/4);
+				h = 1.3 * sizeW * PhoneW;
+			};
 		
 		//- Pages for ATAK
 			//- Back Ground
@@ -1016,6 +1042,7 @@ PHONE_CLASS
 						class Attributes
 						{
 							align = "center";
+							valign = "middle";
 							font = "RobotoCondensedBold_BCE";
 							size = TextMenu(1);
 						};
@@ -1375,7 +1402,7 @@ PHONE_CLASS
 				idc = idc_D(4650);
 				class controls
 				{
-					class Title: RscStructuredText
+					class Title: BCE_RscButtonMenu
 					{
 						idc = 5;
 						x = 0;
@@ -1386,11 +1413,17 @@ PHONE_CLASS
 						size = 0.7 * (((60)) / 2048 * CustomPhoneH);
 						text = "Test Name";
 
-						colorBackground[]={0,0,0,0.5};
+						colorBackground[] = {0,0,0,0.5};
+						colorBackground2[] = {0,0,0,0.5};
+						colorBackgroundFocused[] = {0,0,0,0.8};
 
-						class Attributes
+						animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
+						animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+						animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
+
+						action = "call BCE_fnc_ATAK_toggleMsgContacts";
+						class Attributes: Attributes
 						{
-							font = "RobotoCondensed_BCE";
 							align = "center";
 							valign = "Bottom";
 						};
@@ -1412,17 +1445,17 @@ PHONE_CLASS
 						y = 0.8 * (((60)) / 2048 * CustomPhoneH);
 						w = PhoneBFTContainerW(3);
 						h = phoneSizeH - 2.3 * (((60)) / 2048 * CustomPhoneH);
+					};
+					class Contacts_list: RscListbox
+					{
+						idc = 6;
+						colorBackground[] = {0,0,0,0.3};
+						sizeEx = 0.8 * (((60) - (20))) / 2048 * CustomPhoneH;
 
-						/*shadow=1;
-						font="RobotoCondensed_BCE";
-						sizeEx = 0.65 * (((60)) / 2048 * CustomPhoneH);
-
-						colorDisabled[]={1,1,1,1};
-						drawSideArrows = 0;
-						tooltipPerColumn = 1;
-						period=0;
-						colorBackground[]={0,0,0,0.5};
-						columns[] = {0};*/
+						x = 0;
+						y = 0.8 * (((60)) / 2048 * CustomPhoneH);
+						w = PhoneBFTContainerW(3);
+						h = 0;
 					};
 					class typing: RscEdit
 					{
@@ -1537,6 +1570,13 @@ PHONE_CLASS
 			};
 
 		//- Map tools 
+			#define PhoneMarkerColor(X_OFFSET) \
+				x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX + X_OFFSET; \
+				y = #((713) + ((60) - (42)) / 2) / 2048 * CustomPhoneH + CustomPhoneY; \
+				w = #2.5 * (((42)) / 2048 * PhoneW); \
+				h = #((42)) / 2048 * CustomPhoneH
+			#define PhoneMarkerWidget_X \
+				((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX - (((60) - (20))) / 2048 * CustomPhoneH
 			class Marker_Widget_Show: ctrlButton
 			{
 				idc = 1300;
@@ -1545,7 +1585,7 @@ PHONE_CLASS
 				colorBackground[]={0.3,0.3,0.3,0.5};
 				text = "MG8\AVFEVFX\data\locating.paa";
 				
-				x = (((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX) - (1.05 * sizeW * (PhoneW * 3/4));
+				x = PhoneMarkerWidget_X;
 				y = ((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY;
 				w = (((60) - (20))) / 2048 * PhoneW;
 				h = (((60) - (20))) / 2048 * CustomPhoneH;
@@ -1559,17 +1599,17 @@ PHONE_CLASS
 				class HScrollbar{};
 				class Scrollbar{};
 				
-				#define MARKER_WIDGET_W (phoneSizeX + phoneSizeW - ((((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX) - (1.05 * sizeW * (PhoneW * 3/4))))
+				#define MARKER_WIDGET_W (phoneSizeX + phoneSizeW - (PhoneMarkerWidget_X))
 				#define MARKER_WIDGET_H (30 / 2048 * CustomPhoneH)
 				#define MAKRER_WIDGET_MULT 3.5
 				#define MARKER_WIDGET_BORDER (0.9 * (MAKRER_WIDGET_MULT - 1) * (40 / 2048 * PhoneW))
-				
+
 				#define MARKER_WIDGET_WH \
 					w = MARKER_WIDGET_W; \
 					h = (MAKRER_WIDGET_MULT + 1.5) * MARKER_WIDGET_H
 				
 				idc = idc_D(1300);
-				x = (((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX) - (1.05 * sizeW * (PhoneW * 3/4));
+				x = PhoneMarkerWidget_X;
 				y = ((713)) / 2048  * CustomPhoneH + CustomPhoneY + (((60)) / 2048  * CustomPhoneH);
 				MARKER_WIDGET_WH;
 				class controls
@@ -1843,13 +1883,13 @@ PHONE_CLASS
 			{
 				idc = idc_D(1090);
 				
-				PhoneMarkerColor;
+				PhoneMarkerColor(0);
 				colorBackground[]={0.3,0.3,0.3,1};
 				
 				colorSelect[]={1,1,1,1};
 				colorSelectBackground[]={0.2,0.2,0.2,1};
 			};
-
+			#undef PhoneMarkerColor
 		//-Weather Condition
 			class cTab_android_on_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box
 			{

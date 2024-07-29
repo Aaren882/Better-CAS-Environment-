@@ -37,7 +37,7 @@
 params ["_ctrlScreen","_highlight"];
 
 private [
-	"_mapScale","_cursorMarkerIndex","_text",
+	"_cursorMarkerIndex","_mapScale","_text",
 	"_toggle",
 	"_widgetMode",
 	"_reDirecting","_reSizing","_LMB",
@@ -45,8 +45,13 @@ private [
 	"_curSelMarker","_isnt_Drawing","_getBrush"
 ];
 
-_mapScale = ctrlMapScale _ctrlScreen;
+//- tell the Marker index
 _cursorMarkerIndex = [-1,[_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker] select _highlight;
+if (_cursorMarkerIndex isEqualType objNull) then {
+	_cursorMarkerIndex = -1;
+};
+
+_mapScale = ctrlMapScale _ctrlScreen;
 _text = "";
 
 _displayName = cTabIfOpen # 1;

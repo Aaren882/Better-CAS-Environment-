@@ -4,6 +4,7 @@ private ["_group","_ctrls","_ctrlPOS"];
 _group = _display displayCtrl 46600;
 _ctrls = allControls _group;
 _group ctrlShow _Back;
+_group ctrlEnable true;
 
 _ctrlPOS = ctrlPosition _group;
 _ctrlPOS set [2, (_ctrlPOS # 2) / 4];
@@ -74,7 +75,7 @@ private _return = switch _page do {
 		4663
 	};
 	case "message": {
-
+		(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_line"];
 		//- Arrange Bottons layout
 			{
 				_x ctrlShow false;
@@ -105,7 +106,17 @@ private _return = switch _page do {
 		//- Botton Text
 			_bnt_Ent ctrlSetText localize "STR_BCE_SendData";
 
-		
+		private _commitTime = [0.3, 0] select _interfaceInit;
+		//- Bottons Fade-out "when showing [Contactors]"
+			if !(_line < 1) then {
+				_group ctrlEnable false;
+				_group ctrlSetFade 0.75;
+				_group ctrlCommit _commitTime;
+			} else {
+				_group ctrlSetFade 0;
+				_group ctrlCommit _commitTime;
+			};
+				
 				/*_plrList = playableUnits;
 
 				// since playableUnits will return an empty array in single player, add the player if array is empty
@@ -116,6 +127,7 @@ private _return = switch _page do {
 				// if (count _plrList < 1) then { _plrList = switchableUnits;};
 
 				uiNamespace setVariable ['cTab_msg_playerList', _plrList];*/
+
 		4650
 	};
 	default {

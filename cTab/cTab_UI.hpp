@@ -1638,12 +1638,6 @@ class cTab_TAD_dlg
 
 #define ATAK_APP(APP,TITLE) #<t size='1'>TITLE</t>
 
-#define PhoneMarkerColor \
-	x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX; \
-	y = #((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY; \
-	w = #2.5*(((42)) / 2048 * PhoneW); \
-	h = #(((60) - (20))) / 2048 * CustomPhoneH
-
 //-ATAK Map
 #include "cTab_Android_Widgets.hpp"
 #include "cTab_Android_Layout.hpp"

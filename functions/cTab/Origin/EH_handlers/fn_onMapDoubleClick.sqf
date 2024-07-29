@@ -20,6 +20,11 @@ _displayName = cTabIfOpen # 1;
 //- Get map Clicked Marker
   _cursorMarkerIndex = [_control,_click_POS] call cTab_fnc_findUserMarker;
 
+//- if the is an Aircraft in BFT
+if (_cursorMarkerIndex isEqualType objNull) exitWith {
+  
+};
+
 //- Get Marker Type ("ICON", "RECTANGLE"...)
 _Data = if (_cursorMarkerIndex > -1) then {
   private _marker = allMapMarkers # _cursorMarkerIndex;

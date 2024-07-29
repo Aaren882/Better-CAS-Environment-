@@ -37,11 +37,6 @@ class RscTitles
 		#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
 		#define phoneSizeH ((((626) - (60) - (0))) / 2048 * CustomPhoneH)
 		
-		#define PhoneMarkerColor \
-			x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX; \
-			y = #((713) + ((60) - (42)) / 2) / 2048 * CustomPhoneH + CustomPhoneY; \
-			w = #2.5 * (((42)) / 2048 * PhoneW); \
-			h = #((42)) / 2048 * CustomPhoneH
 		
 		#if MAP_MODE > 2
 			class cTab_TAD_dsp

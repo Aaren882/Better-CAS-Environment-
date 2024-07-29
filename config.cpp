@@ -792,6 +792,12 @@ class CfgFunctions
 				class ATAK_CamInit;
 				class ATAK_TakePicture;
 			};
+			class ATAK_MSG
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Message";
+				class ATAK_msg_Line_Create;
+				class ATAK_toggleMsgContacts;
+			};
 		#endif
 	};
 	#ifdef cTAB_Installed
@@ -811,7 +817,6 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_showMenu_toggle.sqf";
 				};
-				
 				
 				class onMapDoubleClick
 				{
@@ -844,15 +849,6 @@ class CfgFunctions
 				class OnDrawUAV
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawUAV.sqf";
-				};
-
-				/*class msg_gui_load
-				{
-					file="MG8\AVFEVFX\functions\cTab\Origin\Message\fn_msg_gui_load.sqf";
-				};*/
-				class ATAK_msg_Line_Create
-				{
-					file="MG8\AVFEVFX\functions\cTab\Origin\Message\fn_ATAK_msg_Line_Create.sqf";
 				};
 				
 				//-Original Ones
@@ -891,6 +887,10 @@ class CfgFunctions
 				class userMenuSelect
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_userMenuSelect.sqf";
+				};
+				class setInterfacePosition
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_setInterfacePosition.sqf";
 				};
 				class deleteUAVcam
 				{

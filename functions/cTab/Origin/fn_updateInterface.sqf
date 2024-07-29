@@ -1046,7 +1046,7 @@ _settings apply {
 				4650
 			];
 
-			(_x # 1) params ["_page","_show"];
+			(_x # 1) params ["_page","_show","_line"];
 		
 			private _group = [_display, _page, (_page != "main") && _show] call BCE_fnc_ATAK_openPage;
 			
@@ -1071,13 +1071,86 @@ _settings apply {
 					[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
 				};
 				case "message": {
+					private _title = _group controlsGroupCtrl 5;
+					private _contacts = _group controlsGroupCtrl 6;
 					private _list = _group controlsGroupCtrl 10;
-					{ctrlDelete _x} count allControls _list;
+					private _typing = _group controlsGroupCtrl 11;
+					private _commitTime = {[_this, 0] select _interfaceInit};
+
+					//- Get Contactor
+					private _previus = [_displayName, "Contactor"] call cTab_fnc_getSettings;
+					private _contactor = if (_interfaceInit || _previus != "") then {
+						_previus
+					} else {
+						private _c = _contacts lbData (lbCurSel _contacts);
+						[_displayName, [["Contactor",_c]],false] call cTab_fnc_setSettings;
+						_c
+					};
+
+					//- Clear all Lists
+						{ctrlDelete _x} count allControls _list;
+						lbClear _contacts;
+					
+					//- on Showing Contactors (exitWith)
+						if (_line > 0) exitWith {
+							_list ctrlEnable false;
+							_list ctrlSetFade 1;
+							_list ctrlCommit (0.25 call _commitTime);
+							
+							_contacts ctrlEnable true;
+							_contacts ctrlSetFade 0;
+							_contacts ctrlSetPositionH ((ctrlPosition _list) # 3);
+							_contacts ctrlCommit (0.2 call _commitTime);
+
+							//- Get Contactors 
+								private _plrList = playableUnits;
+								private _validSides = call cTab_fnc_getPlayerSides;
+								if (_plrList findIf {true} < 0) then {_plrList pushBack cTab_player};
+								{
+									if ((side _x in _validSides) && {isPlayer _x} && {[_x,ctab_core_leaderDevices] call cTab_fnc_checkGear}) then {
+										private _data = str _x;
+										private _name = format [
+											"%1:%2 (%3)",
+											groupId group _x,
+											[_x] call CBA_fnc_getGroupIndex,
+											name _x
+										];
+										private _index = _contacts lbAdd _name;
+										_contacts lbSetData [_index, _data];
+										if (_previus == _data) then {
+											_contacts lbSetCurSel _index;
+											_title ctrlSetStructuredText parseText _name;
+										};
+									};
+									false
+								} count _plrList;
+								uiNamespace setVariable ['cTab_msg_playerList', _plrList];
+								lbSort _contacts;
+						};
+						_contacts ctrlEnable false;
+						_contacts ctrlSetFade 1;
+						_contacts ctrlSetPositionH 0;
+						_contacts ctrlCommit (0.2 call _commitTime);
+
+					_list ctrlEnable true;
+					_list ctrlSetFade 0;
+					_list ctrlCommit (0.25 call _commitTime);
+
+					//- exit on none "_contactor" Selected
+						if (_contactor == "") exitWith {
+							_title ctrlSetStructuredText parseText '"NONE"';
+						};
+					_title ctrlSetStructuredText parseText _contactor;
+
+					//- sort out the correct "_contactor" name (STRING)
+						{
+							if (str _x == _contactor) exitWith {
+								_contactor = name _x;
+							};
+						} count ([cTab_player] + playableUnits);
 
 					//- Msg Sort
-						private _msgArray = cTab_player getVariable ["cTab_messages_" + call cTab_fnc_getPlayerEncryptionKey,
-							[]
-						];
+						private _msgArray = cTab_player getVariable ["cTab_messages_" + call cTab_fnc_getPlayerEncryptionKey,[]];
 
 						private _index = 0;
 						private _size_H = 0;
@@ -1089,10 +1162,14 @@ _settings apply {
 							//- Skip on empty
 								if (_sep < 0) then {continue};
 							
+							private _name = (_title select [_title find "("]) trim ["() ", 0];
+
+							//- Skip on Diff Contactor
+								if (_contactor != _name) then {continue};
+							
 							private _time = _title select [0,_sep];
 							private _time_s = (_time splitString ":") apply {parseNumber _x};
 							private _chatRoom = (_title select [_sep]) trim ["- ", 0];
-							private _name = (_title select [_title find "("]) trim ["() ", 0];
 
 							//- Sent
 							private _size = 1;
@@ -1103,7 +1180,7 @@ _settings apply {
 
 								if ((_time_s - _time_AC) >= 30) then {
 									private _size = 0.8;
-									private _ctrlMsg = [_list,4, ["--",_time,"--"] joinString " "] call ctab_fnc_ATAK_msg_Line_Create;
+									private _ctrlMsg = [_list,4, ["--",_time,"--"] joinString " "] call BCE_fnc_ATAK_msg_Line_Create;
 									private _ctrl_H = (ctrlPosition _ctrlMsg) # 3;
 
 									_ctrlMsg ctrlSetPositionY _size_H;
@@ -1131,14 +1208,14 @@ _settings apply {
 								//- Receives
 								_size = _size + 1;
 								_name = format [
-									"<t color='#ffffff'>%1 <t valign='middle' size='0.55'>(%2)</t> :</t>",
+									"<t shadow='2' color='#ffffff'>%1 <t valign='middle' size='0.55'>(%2)</t> :</t>",
 									_name,
 									_time
 								];
 								[_name,_msgBody] joinString "<br/>"
 							};
 
-							private _ctrlMsg = [_list,_msgState,_txt] call ctab_fnc_ATAK_msg_Line_Create;
+							private _ctrlMsg = [_list,_msgState,_txt] call BCE_fnc_ATAK_msg_Line_Create;
 							private _ctrl_H = (ctrlPosition _ctrlMsg) # 3;
 
 							_ctrlMsg ctrlSetPositionY _size_H;
@@ -1149,6 +1226,11 @@ _settings apply {
 								_size_H = _size_H + (_ctrl_H * _size);
 								_index = _index + 1;
 						} forEach _msgArray;
+					cTabRscLayerMailNotification cutText ["", "PLAIN"];
+					_list spawn {
+						uiSleep 0.2;
+						_this ctrlSetScrollValues [1, -1];
+					};
 				};
 			};
 		};

@@ -22,7 +22,7 @@ switch (_type) do {
 
 _ctrlMsg ctrlSetStructuredText _txt;
 _ctrlMsg ctrlSetBackgroundColor ([
-  [1,0,0,0.05],
+  [0,0,1,0.1],
   [0,0,1,0.1],
   [0,1,0,0.05],
   [0,0,0,0]

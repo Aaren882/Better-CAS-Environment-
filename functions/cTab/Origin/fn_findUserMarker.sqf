@@ -33,14 +33,12 @@ _maxDistance = _searchPos distanceSqr [(_searchPos # 0) + _targetRadius, (_searc
 // find closest user marker within _maxDistance
 {
 	private ["_pos","_distance"];
-	_pos = getPos (_x # 0);
+	_pos = getPosVisual (_x # 0);
 	_pos resize 2;
 	_distance = _searchPos distanceSqr _pos;
 	if ((_distance <= _maxDistance) && ((_x # 0) isKindOf "Air")) exitWith {
 		_maxDistance = _distance;
 		_return = _x # 0;
-
-		_return
 	};
 } count cTabBFTvehicles;
 
