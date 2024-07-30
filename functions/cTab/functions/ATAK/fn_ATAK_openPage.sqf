@@ -116,17 +116,6 @@ private _return = switch _page do {
 				_group ctrlSetFade 0;
 				_group ctrlCommit _commitTime;
 			};
-				
-				/*_plrList = playableUnits;
-
-				// since playableUnits will return an empty array in single player, add the player if array is empty
-				if (_plrList findIf {true} < 0) then {_plrList pushBack cTab_player};
-				_validSides = call cTab_fnc_getPlayerSides;
-
-				// turn this on for testing, otherwise not really usefull, since sending to an AI controlled, but switchable unit will send the message to the player himself
-				// if (count _plrList < 1) then { _plrList = switchableUnits;};
-
-				uiNamespace setVariable ['cTab_msg_playerList', _plrList];*/
 
 		4650
 	};

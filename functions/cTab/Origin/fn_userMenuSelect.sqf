@@ -32,7 +32,7 @@ private _display = uiNamespace getVariable _displayName;
 private _reset_Veh = false;
 private _idcToShow = 0;
 
-/*call {
+call {
 	// send cTabUserSelIcon to server
 
 	if (_type == 1) exitWith {
@@ -104,8 +104,8 @@ private _idcToShow = 0;
 
 	//-Edit Marker
 	if (_type in [41,42,43]) exitWith {
-
-		_task = switch (uiNameSpace getVariable ["BCE_Current_TaskType",0]) do {
+		private ["_task","_info","_index","_POS","_TG_var","_mode","_condition","_ctrlEnter"];
+		 _task = switch (uiNameSpace getVariable ["BCE_Current_TaskType",0]) do {
 			//- 5 line
 			case 1: {
 				[[-1,2,1],"BCE_CAS_5Line_Var"]
@@ -170,8 +170,8 @@ private _idcToShow = 0;
 		_ctrlEnter = _display displayctrl (17000 + 21051);
 		[_ctrlEnter, 17000, true, _info # 1] call BCE_fnc_DataReceiveButton;
 
-	private _list = _display displayCtrl (17000 + 12010);
-	[_list, lbCurSel _list] call BCE_fnc_ctab_BFT_ToolBox;
+		private _list = _display displayCtrl (17000 + 12010);
+		[_list, lbCurSel _list] call BCE_fnc_ctab_BFT_ToolBox;
 	};
 
 	_idcToShow = switch _type do {
@@ -194,7 +194,7 @@ private _idcToShow = 0;
 
 		default {_type};
 	};
-};*/
+};
 
 // Hide all menu controls
 {ctrlShow [_x,false]} count [3300,3301,3302,3303,3304,3305,3306,3307, 3308,3309,3310,3311 ,17000 + 3300,17000 + 33000,17000 + 3301];

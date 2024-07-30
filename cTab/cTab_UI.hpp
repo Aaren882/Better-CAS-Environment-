@@ -207,7 +207,9 @@ class cTab_Tablet_dlg
 		delete MiniMapBG;
 		class screen: cTab_Tablet_RscMapControl
 		{
+			showMarkers = 0;
 			onMouseButtonClick = "(_this + [17000]) call BCE_fnc_GetMapClickPOS";
+			onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
 		};
 		class cTabUavMap: cTab_Tablet_RscMapControl
 		{
@@ -251,140 +253,659 @@ class cTab_Tablet_dlg
 	};
 	class controls
 	{
-		//-Color Select
-		class MarkerColor: RscCombo
-		{
-			idc=idc_D(1090);
-			x = "((((10) + ((257))) + ((10) + ((((1341)) - (10) * 8) / 7)) * (6 - 1))) / 2048  * 	(	(safezoneH * 1.2) * 3/4) + 	(safezoneX + (safezoneW - 	(	(safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048)) + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4))";
-			y = "((491) + ((42) - (35)) / 2) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2)";
-			w = "2.5 * (((35)) / 2048 * ((safezoneH * 1.2) * 3/4))";
-			h = "((35)) / 2048 * (safezoneH * 1.2)";
-			
-			colorBackground[]={0.3,0.3,0.3,1};
-			
-			colorSelect[]={1,1,1,1};
-			colorSelectBackground[]={0.2,0.2,0.2,1};
-		};
 		//-Weather Widget
 		class cTab_Tablet_OSD_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box{};
 		
 		#define sizeX ((((-(10) + ((257)) + ((1341))) - ((((1341)) - (10) * 8) / 7))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048)))
 		#define sizeY(SIZE) (((-(0) + (491) + (993)) - (10) - ((42) - (10)) * SIZE) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2))
 		#define sizeW (64 / 2048)
+		//- Map tools (Additional Tools)
+			class Marker_Widget_Show: ctrlButton
+			{
+				idc = 1300;
+				
+				style = "0x02 + 0x30 + 0x800";
+				colorBackground[]={0,0,0,0.2};
+				text = "MG8\AVFEVFX\data\locating.paa";
+
+				x = sizeX + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4)) - (sizeW/1.2 * ((safezoneH * 1.2) * 3/4));
+				y = smalSpc + ((491)) / 2048  * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2) + ((42)) / 2048  * (safezoneH * 1.2);
+				w = sizeW/1.2 * ((safezoneH * 1.2) * 3/4);
+				h = sizeW/1.2 * (safezoneH * 1.2);
+
+				tooltip = "Toggle Marker Widget";
+				action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleMarkerWidget";
+			};
+			class Marker_Widgets: cTab_RscControlsGroup
+			{
+				class VScrollbar{};
+				class HScrollbar{};
+				class Scrollbar{};
+				#define MARKER_WIDGET_SCALE 0.8 //- Addressing the Widget Scale
+				#define MARKER_WIDGET_W (MARKER_WIDGET_SCALE * 8 * (sizeW * ((safezoneH * 1.2) * 3/4)))
+				#define MARKER_WIDGET_H (MARKER_WIDGET_SCALE * 0.75 * sizeW * (safezoneH * 1.2))
+				#define MAKRER_WIDGET_MULT 3.5
+				#define MAKRER_WIDGET_CONTENT_W (MARKER_WIDGET_SCALE * sizeW * ((safezoneH * 1.2) * 3/4))
+				#define MARKER_WIDGET_BORDER (0.9 * (MAKRER_WIDGET_MULT - 1) * MAKRER_WIDGET_CONTENT_W)
+
+				#define MARKER_WIDGET_X \
+					sizeX + (sizeW/1.2 * ((safezoneH * 1.2) * 3/4)) + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4)) - (sizeW/1.2 * ((safezoneH * 1.2) * 3/4)) - MARKER_WIDGET_W
+					
+				idc = idc_D(1300);
+
+				x = MARKER_WIDGET_X;
+				y = (sizeW / 1.2 * (safezoneH * 1.2)) + 1.25 * smalSpc + ((491)) / 2048  * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2) + ((42)) / 2048  * (safezoneH * 1.2);
+				w = MARKER_WIDGET_W;
+				h = (MAKRER_WIDGET_MULT + 1.5) * MARKER_WIDGET_H
+				class controls
+				{
+					class Marker_Widget_BG: RscBackground
+					{
+						colorBackground[] = {0,0,0,0.3};
+						x = MARKER_WIDGET_BORDER;
+						y = MARKER_WIDGET_H;
+						w = MARKER_WIDGET_W - MARKER_WIDGET_BORDER;
+						h = (MAKRER_WIDGET_MULT - 1) * MARKER_WIDGET_H;
+					};
+					
+					//- Top Buttons
+					class Marker_Widget_Retract: ctrlButton
+					{
+						style = "0x02 + 0x30 + 0x800";
+						colorBackground[]={1,0,0,0.5};
+						colorBackgroundActive[] = {1,0,0,0.2};
+						colorFocused[] = {1,0,0,0.3};
+						text = "MG8\AVFEVFX\data\retract.paa";
+						
+						x = 0;
+						y = 0;
+						w = MAKRER_WIDGET_CONTENT_W;
+						h = MARKER_WIDGET_H;
+						
+						tooltip = "Toggle Marker Widget";
+						action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleMarkerWidget";
+					};
+					class Mode_Switch: BCE_RscButtonMenu
+					{
+						idc = 100;
+						text = "";
+						
+						x = MAKRER_WIDGET_CONTENT_W;
+						y = 0;
+						w = MARKER_WIDGET_W - MAKRER_WIDGET_CONTENT_W;
+						h = MARKER_WIDGET_H;
+						
+						size = 0.8 * (MARKER_WIDGET_H);
+						
+						action = "['cTab_Tablet_dlg'] call cTab_fnc_SwitchMarkerWidget";
+						
+						animTextureOver = "#(argb,8,8,3)color(1,1,1,0.8)";
+						animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+						animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
+						
+						colorBackground[] = 
+						{
+							"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+							"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+							"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+							0.8
+						};
+						colorBackground2[] = 
+						{
+							"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+							"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+							"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+							0.8
+						};
+						colorBackgroundFocused[] = 
+						{
+							"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+							"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+							"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+							0.5
+						};
+						
+						class Attributes
+						{
+							font = "RobotoCondensed_BCE";
+							color = "#E5E5E5";
+							align = "center";
+							valign = "middle";
+							shadow = "false";
+						};
+					};
+					
+					//- Marker Controls
+					class Icon_Sel: RscCombo
+					{
+						idc = 10;
+						style="0x10 + 0x200";
+						
+						sizeEx = MARKER_WIDGET_H;
+						
+						x = 0;
+						y = MARKER_WIDGET_H;
+						w = MARKER_WIDGET_BORDER;
+						h = (MAKRER_WIDGET_MULT - 1) * MARKER_WIDGET_H;
+						
+						arrowEmpty="";
+						arrowFull="";
+						colorSelect[]={1,1,1,1};
+						colorText[]={1,1,1,1};
+						
+						colorBackground[]={0,0,0,0.5};
+						colorSelectBackground[]={0,0,0,0.5};
+
+						onLBSelChanged = "call cTab_fnc_onMarkerSelChanged";
+					};
+					
+					//- Marker text edittors
+					class PreFix: RscText
+					{
+						text = "Prefix :";
+						x = MARKER_WIDGET_BORDER;
+						y = MARKER_WIDGET_H;
+						w = MARKER_WIDGET_W / 5;
+						h = MARKER_WIDGET_H;
+						
+						sizeEx = 0.8 * MARKER_WIDGET_H;
+					};
+					class Prefix_Edit: RscEdit
+					{
+						idc = 15;
+						
+						x = MARKER_WIDGET_BORDER + MARKER_WIDGET_W / 5;
+						y = 1.1 * MARKER_WIDGET_H;
+						w = 0.95 * MARKER_WIDGET_W / 5;
+						h = 0.8 * MARKER_WIDGET_H;
+						
+						sizeEx = 0.7 * MARKER_WIDGET_H;
+						colorBackground[] = {0,0,0,0};
+
+						onEditChanged = "call cTab_fnc_onMarkerTextEditted";
+					};
+					
+					class Index: PreFix
+					{
+						text = "Index :";
+						x = MARKER_WIDGET_BORDER + MARKER_WIDGET_W * 2/5;
+					};
+					class Index_Edit: Prefix_Edit
+					{
+						idc = 16;
+						
+						x = MARKER_WIDGET_BORDER + MARKER_WIDGET_W * 3/5;
+						w = MARKER_WIDGET_W / 10;
+					};
+
+					//- DESC
+					class DESC_Edit: Prefix_Edit
+					{
+						idc = 17;
+						
+						x = 1.05 * MARKER_WIDGET_BORDER + 0.5 * (MARKER_WIDGET_W * 3/5 + MARKER_WIDGET_W /10);
+						y = (MAKRER_WIDGET_MULT - 1.1) * MARKER_WIDGET_H;
+						w = 0.95 * 0.5 * (MARKER_WIDGET_W - MARKER_WIDGET_BORDER);
+					};
+
+					//- DESC Preview
+					class DESC_Preview: RscStructuredText
+					{
+						idc = 18;
+						text = "";
+						
+						size = 0.8 * MARKER_WIDGET_H;
+						x = 1.05 * MARKER_WIDGET_BORDER;
+						y = (MAKRER_WIDGET_MULT - 1.1) * MARKER_WIDGET_H;
+						w = 0.95 * 0.5 * (MARKER_WIDGET_W - MARKER_WIDGET_BORDER);
+						h = 0.8 * MARKER_WIDGET_H;
+						
+						colorBackground[] = {1,1,1,0.2};
+						class Attributes
+						{
+							align = "center";
+							valign = "middle";
+						};
+					};
+
+					//- for Drawing Tools
+						class Area_Widget_BG: Marker_Widget_BG
+						{
+							idc = 20;
+							y = MAKRER_WIDGET_MULT * MARKER_WIDGET_H;
+							h = 1.4 * MARKER_WIDGET_H;
+						};
+						class Area_Widget_Frame: Area_Widget_BG
+						{
+							idc = 201;
+							style = "0x40";
+							colorText[] = {1,1,1,1};
+						};
+						
+						class AreaBrush: Icon_Sel
+						{
+							idc = 21;
+							
+							style="0x10 + 0x200";
+							y = MAKRER_WIDGET_MULT * MARKER_WIDGET_H;
+							h = 1.5 * MARKER_WIDGET_H;
+							
+							onLBSelChanged = "(_this + [5]) call cTab_fnc_onMarkerSelChanged";
+						};
+						class AreaOpacity_Title: PreFix
+						{
+							idc = 22;
+							text = "$STR_BCE_OPACITY_FORMAT";
+
+							style = "0x02";
+
+							sizeEx = 0.8 * (1.5 / 2) * MARKER_WIDGET_H;
+							y = (MAKRER_WIDGET_MULT - 0.1) * MARKER_WIDGET_H;
+							w = 0.95 * (MARKER_WIDGET_W - MARKER_WIDGET_BORDER);
+							h = 1.5 / 2 * MARKER_WIDGET_H;
+						};
+						class Area_OpacitySlider: RscXSliderH
+						{
+							idc = 23;
+
+							sliderRange[] = {0, 100};
+							sliderStep = 5;
+							
+							x = 1.05 * MARKER_WIDGET_BORDER;
+							y = (MAKRER_WIDGET_MULT + (1.5 / 2) - 0.1) * MARKER_WIDGET_H;
+							w = 0.95 * (MARKER_WIDGET_W - MARKER_WIDGET_BORDER);
+							h = 0.8 * (1.5 / 2) * MARKER_WIDGET_H;
+
+							onSliderPosChanged = "call cTab_fnc_onMarkerOpacityChanged";
+						};
+					
+					//- Category
+					class category: ctrlToolboxPictureKeepAspect
+					{
+						idc = 11;
+						x = 0;
+						y = MAKRER_WIDGET_MULT * MARKER_WIDGET_H;
+						w = MARKER_WIDGET_W;
+						h = 1.5 * MARKER_WIDGET_H;
+						
+						onToolBoxSelChanged = "call cTab_fnc_Update_MarkerItems";
+						rows=1;
+						columns=4;
+						strings[]=
+						{
+							"\a3\3DEN\Data\Displays\Display3DEN\PanelRight\side_east_ca.paa",
+							"\a3\3DEN\Data\Displays\Display3DEN\PanelRight\side_west_ca.paa",
+							"\a3\3DEN\Data\Displays\Display3DEN\PanelRight\side_civ_ca.paa",
+							"\a3\3DEN\Data\Displays\Display3DEN\PanelRight\side_empty_ca.paa"
+						};
+						tooltips[]=
+						{
+							"$STR_EAST",
+							"$STR_WEST",
+							"$STR_Civilian",
+							"$STR_BCE_Generic"
+						};
+						colorBackground[]={0,0,0,0.3};
+						colorText[]={1,1,1,0.4};
+						colorTextSelect[]={1,1,1,1};
+						colorSelectedBg[]=
+						{
+							"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+							"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+							"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+							0.5
+						};
+					};
+				};
+				#undef MARKER_WIDGET_X
+				#undef MARKER_WIDGET_W
+				#undef MARKER_WIDGET_H
+				#undef MAKRER_WIDGET_CONTENT_W
+				#undef MARKER_WIDGET_BORDER
+				#undef MAKRER_WIDGET_MULT
+			};
+			//- Color Select
+			class MarkerColor: RscCombo
+			{
+				idc=idc_D(1090);
+				x = "((((10) + ((257))) + ((10) + ((((1341)) - (10) * 8) / 7)) * (6 - 1))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048)) + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4))";
+				y = "((491) + ((42) - (35)) / 2) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2)";
+				w = "2.5 * (((35)) / 2048 * ((safezoneH * 1.2) * 3/4))";
+				h = "35 / 2048 * (safezoneH * 1.2)";
+				
+				colorBackground[]={0.3,0.3,0.3,1};
+				
+				colorSelect[]={1,1,1,1};
+				colorSelectBackground[]={0.2,0.2,0.2,1};
+			};
+		//- Marker Editor
+			#define MARKER_HEIGHT 8
+			#define MARKER_W (2 * (1.3 * ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4))))
+			#define MARKER_H ((((42) - (10))) / 2048 * (safezoneH * 1.2))
+			class Marker_Edit: cTab_RscControlsGroup
+			{
+				idc = idc_D(1301);
+				x = MainFrameX + (MainFrameW / 2) - (MARKER_W /2);
+				y = ((-(0) + (491) + (993)) - (10) - ((42) - (10)) * 2) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2) - (MARKER_HEIGHT * MARKER_H);
+				w = MARKER_W;
+				h = MARKER_HEIGHT * MARKER_H;
+
+				class VScrollbar: VScrollbar
+				{
+					width = 0;
+					scrollSpeed = 0;
+				};
+				class HScrollbar: HScrollbar
+				{
+					height = 0;
+					scrollSpeed = 0;
+				};
+				class controls
+				{
+					class mainbg: cTab_IGUIBack
+					{
+						idc = -1;
+						x = 0;
+						y = 0;
+						w = MARKER_W;
+						h = MARKER_HEIGHT * MARKER_H;
+						colorbackground[] = {0.2,0.2,0.2,0.4};
+					};
+					class Title: RscStructuredText
+					{
+						idc = -1;
+						text = "Edit Marker <img image='\a3\3DEN\Data\Displays\Display3DEN\PanelRight\modeMarkers_ca.paa'/>";
+						x = 0;
+						y = 0;
+						w = MARKER_W;
+						h = MARKER_H;
+						size = MARKER_H;
+						colorBackground[] = 
+						{
+							"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
+							"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
+							"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
+							0.5
+						};
+
+						class Attributes
+						{
+							font = "RobotoCondensed_BCE";
+							color = "#E5E5E5";
+							align = "center";
+							valign = "middle";
+							size = "0.95";
+						};
+					};
+					class DESC_Title: RscStructuredText
+					{
+						idc = -1;
+						text = "$STR_LIB_LABEL_DESCRIPTION";
+						x = 0;
+						y = MARKER_H;
+						w = MARKER_W;
+						h = MARKER_H;
+						colorBackground[] = {0,0,0,0};
+						style = 0;
+						shadow = 1;
+						// action = "[3] call cTab_fnc_userMenuSelect;";
+
+						class Attributes
+						{
+							font = "RobotoCondensed_BCE";
+							valign = "middle";
+							shadow = "1";
+						};
+					};
+					class DESC_Edit: RscEdit
+					{
+						idc = 10;
+						text = "";
+						x = 0.05 * MARKER_W;
+						y = 2 * MARKER_H;
+						w = 0.9 * MARKER_W;
+						h = MARKER_H;
+					};
+					//- 2 Line Sliders
+						class MarkerType: RscCombo
+						{
+							idc = 50;
+							x = 0.05 * MARKER_W;
+							y = 3 * MARKER_H;
+							w = 0.425 * MARKER_W;
+							h = MARKER_H;
+							
+							shadow=1;
+							colorBackground[]={0.3,0.3,0.3,1};
+							colorSelect[]={1,1,1,1};
+							colorSelectBackground[]={0.2,0.2,0.2,1};
+							wholeHeight=0.25;
+						};
+						class MarkerColor: MarkerType
+						{
+							idc = 51;
+							x = 0.525 * MARKER_W;
+						};
+
+					//- from 3 line
+						class Place_Desc: DESC_Title
+						{
+							idc = 100;
+							text = "NW of Something Town";
+							y = 4 * MARKER_H;
+
+							colorBackground[] = {0,0,0,0.2};
+
+							class Attributes: Attributes
+							{
+								size = "0.8";
+								underline= "1";
+								align = "center";
+							};
+						};
+					//- Left Panel
+						class Channel: MarkerType
+						{
+							idc = 110;
+							x = 0;
+							y = 5 * MARKER_H;
+							w = 0.5 * MARKER_W;
+							wholeHeight=0.15;
+							class Items
+							{
+								class NA
+								{
+									text = "System Value";
+									default = 1;
+								};
+							};
+						};
+						class Direction: Place_Desc
+						{
+							idc = 120;
+							text = "$STR_A3_RscDisplayAVTerminal_AVT_Text_AZT";
+							y = 6 * MARKER_H;
+							w = 0.5 * MARKER_W;
+
+							style = 0;
+							class Attributes: Attributes
+							{
+								underline= "0";
+								align = "left";
+							};
+						};
+						class GRID: Direction
+						{
+							idc = 121;
+							text = "$STR_A3_RscDisplayAVTerminal_AVT_Text_POS";
+							y = 7 * MARKER_H;
+						};
+					//- Right Panel
+						class Enter: BCE_RscButtonMenu
+						{
+							idc = 15;
+
+							text = "$STR_DISP_OK";
+
+							x = 0.5 * MARKER_W;
+							y = 5 * MARKER_H;
+							w = 0.5 * MARKER_W;
+							h = 1.5 * MARKER_H;
+
+							onButtonClick = "call cTab_fnc_FinishEDIT_Marker";
+
+							colorBackground[] = {0.117647,0.968628,0.286275,0.3};
+							size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+
+							colorBackground2[] = {0,0,0,0};
+							colorBackgroundFocused[] = {0,0,0,0};
+
+							animTextureDefault="#(argb,8,8,3)color(0,0,0,0)";
+							animTextureNormal="#(argb,8,8,3)color(1,1,1,1)";
+							animTextureOver = "#(argb,8,8,3)color(1,1,1,0.5)";
+							animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+							animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.3)";
+							class TextPos
+							{
+								left = "0.25 * (((safezoneW / safezoneH) min 1.2) / 40)";
+								top = 1.5 * MARKER_H / 2 - (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / 2);
+								right = 0;
+								bottom = 0;
+							};
+							class Attributes: Attributes
+							{
+								align = "center";
+							};
+						};
+						class Cancel: Enter
+						{
+							idc = -1;
+							y = 6.5 * MARKER_H;
+
+							text = "$STR_DISP_CANCEL";
+
+							colorBackground[] = {1,0.25,0.25,0.3};
+							onButtonClick = "[cTabIfOpen # 1,[['MarkerEDIT','']]] call cTab_fnc_setSettings;";
+						};
+				};
+			};
+			#undef MARKER_HEIGHT
+			#undef MARKER_W
+			#undef MARKER_H
 		//-BFT
-		class Map_Tool_Show: ctrlButton
-		{
-			idc = idc_D(1200);
-			style = "0x02 + 0x30 + 0x800";
-			text = "\a3\3den\data\displays\display3den\toolbar\map_off_ca.paa";
-			colorBackground[] = {0,0,0,0.3};
-			x = sizeX + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4)) - (sizeW * ((safezoneH * 1.2) * 3/4));
-			Y = sizeY(0) - (sizeW * (safezoneH * 1.2));
-			w = sizeW * ((safezoneH * 1.2) * 3/4);
-			h = sizeW * (safezoneH * 1.2);
-			tooltip = "Toggle Map Tools";
-			action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleMapTools;";
-		};
-		
-		//-BCE Widgets
-		class Map_Tool_Show_BCE_widgets: Map_Tool_Show
-		{
-			idc = idc_D(1201);
-			text = "\a3\3den\data\displays\display3den\toolbar\vision_normal_ca.paa";
-			toolTip = "$STR_BCE_Tip_Click_Map";
-			Y = sizeY(4.5) - (sizeW * (safezoneH * 1.2));
-			action = "['cTab_Tablet_dlg','BCE_mapTools'] call cTab_fnc_toggleMapTools;";
-		};
-		class Map_Tool_BCE_widgets: RscToolbox
-		{
-			idc = idc_D(12010);
-
-			Y = sizeY(5.25 + 2.25) - (sizeW * (safezoneH * 1.2));
-			w = sizeW * ((safezoneH * 1.2) * 3/4);
-			h = 1.5 * (sizeW * (safezoneH * 1.2));
-
-			rows = 3;
-			columns = 1;
-			strings[] =
+			class Map_Tool_Show: ctrlButton
 			{
-				"IP/BP",
-				"GRID",
-				"FRND"
+				idc = idc_D(1200);
+				style = "0x02 + 0x30 + 0x800";
+				text = "\a3\3den\data\displays\display3den\toolbar\map_off_ca.paa";
+				colorBackground[] = {0,0,0,0.3};
+				x = sizeX + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4)) - (sizeW * ((safezoneH * 1.2) * 3/4));
+				Y = sizeY(0) - (sizeW * (safezoneH * 1.2));
+				w = sizeW * ((safezoneH * 1.2) * 3/4);
+				h = sizeW * (safezoneH * 1.2);
+				tooltip = "Toggle Map Tools";
+				action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleMapTools;";
 			};
-			tooltips[] =
+			
+			//-BCE Widgets
+			class Map_Tool_Show_BCE_widgets: Map_Tool_Show
 			{
-				"$STR_BCE_TIP_IPBP",
-				"$STR_BCE_TIP_GRID",
-				"$STR_BCE_TIP_FRND"
+				idc = idc_D(1201);
+				text = "\a3\3den\data\displays\display3den\toolbar\vision_normal_ca.paa";
+				toolTip = "$STR_BCE_Tip_Click_Map";
+				Y = sizeY(4.5) - (sizeW * (safezoneH * 1.2));
+				action = "['cTab_Tablet_dlg','BCE_mapTools'] call cTab_fnc_toggleMapTools;";
 			};
-			colorBackground[] = {0,0,0,0.25};
-			onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";
-		};
-		class Map_Tool_BCE_widgets_Del: ctrlButton
-		{
-			idc = idc_D(12011);
-			style = 2;
-			x = sizeX + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4)) - (sizeW * ((safezoneH * 1.2) * 3/4));
-			Y = sizeY(6.25 + 2.25) - (sizeW * (safezoneH * 1.2));
-			w = sizeW * ((safezoneH * 1.2) * 3/4);
-			h = (sizeW * (safezoneH * 1.2)) / 2;
-
-			colorBackground[] = {1,0,0,0.2};
-			colorBackgroundActive[] = {1,0.25,0.25,0.3};
-
-			text = "DEL MARK";
-			tooltip = "Delete Task Marker";
-			action = "[-4] call cTab_fnc_userMenuSelect;";
-		};
-		
-		//-POLPOX Map Tools Widgets
-		#if PLP_TOOL == 1
-			class Map_Tool_Show_PLP_widgets: Map_Tool_Show
+			class Map_Tool_BCE_widgets: RscToolbox
 			{
-				idc = idc_D(1202);
-				//text = "\a3\3den\data\displays\display3den\panelright\customcomposition_editentities_ca.paa";
-				text = "\a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa";
-				toolTip = "MapTools Remastered";
-				Y = sizeY(2.25) - (sizeW * (safezoneH * 1.2));
-				action = "['cTab_Tablet_dlg','PLP_mapTools'] call cTab_fnc_toggleMapTools;";
-			};
-			class Map_Tool_PLP_widgets: RscToolbox
-			{
-				idc = idc_D(12012);
-	
+				idc = idc_D(12010);
+
 				Y = sizeY(5.25 + 2.25) - (sizeW * (safezoneH * 1.2));
 				w = sizeW * ((safezoneH * 1.2) * 3/4);
-				h = 3.5 * (sizeW * (safezoneH * 1.2));
-	
-				rows = 7;
+				h = 1.5 * (sizeW * (safezoneH * 1.2));
+
+				rows = 3;
 				columns = 1;
 				strings[] =
 				{
-					"$STR_BCE_PLP_Title_Distance",
-					"$STR_BCE_PLP_Title_Mark_House",
-					"$STR_BCE_PLP_Title_Height",
-					"$STR_BCE_PLP_Title_Compass",
-					"$STR_BCE_PLP_Title_Edit_Grid",
-					"$STR_BCE_PLP_Title_Find_Flat",
-					"$STR_BCE_PLP_Title_Line_of_Sight"
+					"IP/BP",
+					"GRID",
+					"FRND"
 				};
 				tooltips[] =
 				{
-					"$STR_BCE_PLP_Tip_Distance",
-					"$STR_BCE_PLP_Tip_Mark_House",
-					"$STR_BCE_PLP_Tip_Height",
-					"$STR_BCE_PLP_Tip_Compass",
-					"$STR_BCE_PLP_Tip_Edit_Grid",
-					"$STR_BCE_PLP_Tip_Find_Flat",
-					"$STR_BCE_PLP_Tip_Line_of_Sight"
+					"$STR_BCE_TIP_IPBP",
+					"$STR_BCE_TIP_GRID",
+					"$STR_BCE_TIP_FRND"
 				};
 				colorBackground[] = {0,0,0,0.25};
 				onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";
 			};
+			class Map_Tool_BCE_widgets_Del: ctrlButton
+			{
+				idc = idc_D(12011);
+				style = 2;
+				x = sizeX + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4)) - (sizeW * ((safezoneH * 1.2) * 3/4));
+				Y = sizeY(6.25 + 2.25) - (sizeW * (safezoneH * 1.2));
+				w = sizeW * ((safezoneH * 1.2) * 3/4);
+				h = (sizeW * (safezoneH * 1.2)) / 2;
+
+				colorBackground[] = {1,0,0,0.2};
+				colorBackgroundActive[] = {1,0.25,0.25,0.3};
+
+				text = "DEL MARK";
+				tooltip = "Delete Task Marker";
+				action = "[-4] call cTab_fnc_userMenuSelect;";
+			};
 			
-			//-Tool Description
-			class BCE_MapTools_Tooltip: PLP_SMT_Description{};
-		#endif
+			//-POLPOX Map Tools Widgets
+			#if PLP_TOOL == 1
+				class Map_Tool_Show_PLP_widgets: Map_Tool_Show
+				{
+					idc = idc_D(1202);
+					//text = "\a3\3den\data\displays\display3den\panelright\customcomposition_editentities_ca.paa";
+					text = "\a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa";
+					toolTip = "MapTools Remastered";
+					Y = sizeY(2.25) - (sizeW * (safezoneH * 1.2));
+					action = "['cTab_Tablet_dlg','PLP_mapTools'] call cTab_fnc_toggleMapTools;";
+				};
+				class Map_Tool_PLP_widgets: RscToolbox
+				{
+					idc = idc_D(12012);
+		
+					Y = sizeY(5.25 + 2.25) - (sizeW * (safezoneH * 1.2));
+					w = sizeW * ((safezoneH * 1.2) * 3/4);
+					h = 3.5 * (sizeW * (safezoneH * 1.2));
+		
+					rows = 7;
+					columns = 1;
+					strings[] =
+					{
+						"$STR_BCE_PLP_Title_Distance",
+						"$STR_BCE_PLP_Title_Mark_House",
+						"$STR_BCE_PLP_Title_Height",
+						"$STR_BCE_PLP_Title_Compass",
+						"$STR_BCE_PLP_Title_Edit_Grid",
+						"$STR_BCE_PLP_Title_Find_Flat",
+						"$STR_BCE_PLP_Title_Line_of_Sight"
+					};
+					tooltips[] =
+					{
+						"$STR_BCE_PLP_Tip_Distance",
+						"$STR_BCE_PLP_Tip_Mark_House",
+						"$STR_BCE_PLP_Tip_Height",
+						"$STR_BCE_PLP_Tip_Compass",
+						"$STR_BCE_PLP_Tip_Edit_Grid",
+						"$STR_BCE_PLP_Tip_Find_Flat",
+						"$STR_BCE_PLP_Tip_Line_of_Sight"
+					};
+					colorBackground[] = {0,0,0,0.25};
+					onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";
+				};
+				
+				//-Tool Description
+				class BCE_MapTools_Tooltip: PLP_SMT_Description{};
+			#endif
 
 		//---- Groups ----//
 		class Desktop: cTab_RscControlsGroup

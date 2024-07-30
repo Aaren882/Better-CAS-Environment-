@@ -187,6 +187,7 @@ _settings apply {
 		
 		(ctrlPosition (_display displayCtrl 1)) params ["","_ctrlY","","_ctrlH"];
 		_ctrl ctrlSetPositionX (ctrlPosition (_display displayCtrl 2616) # 0);
+		_ctrl ctrlCommit 0;
 		_ctrl ctrlSetPositionY (_ctrlY + _ctrlH);
 		_ctrl ctrlSetPositionH ([
 			0,
@@ -215,10 +216,11 @@ _settings apply {
 			(_x # 1) params ["_show","_curSel","_BoxSel","_texts","_widgetMode"];
 			(ctrlPosition (_display displayCtrl 1)) params ["","_ctrlY","","_ctrlH"];
 
-			private ["_toggleBnt","_group","_TitleMode","_titleIcon","_Title"];
+			private ["_toggleBnt","_group","_TitleMode","_cate","_titleIcon","_Title"];
 			_toggleBnt = _display displayCtrl 1300;
 			_group = _display displayCtrl (17000 + 1300);
 			_TitleMode = _group controlsGroupCtrl 100;
+			_cate = _group controlsGroupCtrl 11;
 
 			_group ctrlEnable _show;
 			_toggleBnt ctrlEnable !_show;
@@ -227,9 +229,8 @@ _settings apply {
 			_Title = "Marker Dropper";
 
 			if (_show) then {
-				private ["_dropBox","_cate","_brushes"];
+				private ["_dropBox","_brushes"];
 				_dropBox = _group controlsGroupCtrl 10;
-				_cate = _group controlsGroupCtrl 11;
 				
 				//- Drawing Tools
 				_DrawingTools = [20,201,21,22,23] apply {_group controlsGroupCtrl _x};
@@ -276,12 +277,24 @@ _settings apply {
 			};
 
 			//- Set POS
-			_group ctrlSetPositionX (ctrlPosition (_display displayCtrl 1300) # 0);
-			_group ctrlSetPositionY (_ctrlY + _ctrlH);
-			_group ctrlSetPositionH ([
-				0,
-				5 * ((ctrlPosition _TitleMode) # 3)
-			] select _show);
+			if (_displayName find "Android" > -1) then {
+				_group ctrlSetPositionH ([
+					0,
+					5 * ((ctrlPosition _TitleMode) # 3)
+				] select _show);
+			} else {
+				private _posToggle = ctrlPosition _toggleBnt;
+				private _pos = ctrlPosition _cate;
+				_group ctrlSetPositionX ([
+					(_posToggle # 0) + (_posToggle # 2),
+					(_posToggle # 0) + (_posToggle # 2) - (_pos # 2)
+				] select _show);
+				_group ctrlSetPositionW ([
+					0,
+					_pos # 2
+				] select _show);
+			};
+			
 
 			_group ctrlCommit ([0.2, 0] select _interfaceInit);
 		};
@@ -320,6 +333,12 @@ _settings apply {
 				17000 + 1202,
 				17000 + 12012,
 				#endif
+
+				//-BTF Widgets
+				1300,
+				17000 + 1200,
+				17000 + 1301,
+
 				IDC_CTAB_SCREEN,
 				IDC_CTAB_SCREEN_TOPO,
 				IDC_CTAB_HCAM_FULL,
@@ -389,66 +408,67 @@ _settings apply {
 
 		call {
 			// ---------- DESKTOP -----------
-			if (_mode == "DESKTOP") exitWith {
-				_displayItemsToShow pushback IDC_CTAB_GROUP_DESKTOP;
-				_btnActCtrl ctrlSetText "";
-				_btnActCtrl ctrlSetTooltip "";
-			};
+				if (_mode == "DESKTOP") exitWith {
+					_displayItemsToShow pushback IDC_CTAB_GROUP_DESKTOP;
+					_btnActCtrl ctrlSetText "";
+					_btnActCtrl ctrlSetTooltip "";
+				};
 			// ---------- BFT -----------
-			if (_mode == "BFT") exitWith {
-				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-				_mapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
-				_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
-				_TAC_Vis = true;
+				if (_mode == "BFT") exitWith {
+					_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+					_mapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
+					_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
+					_TAC_Vis = true;
 
-				_displayItemsToShow = [
-					_mapIDC,
-					3510,
-					17000 + 1200,
-					17000 + 1201,
-					17000 + 1202,
-					IDC_CTAB_OSD_HOOK_GRID,
-					IDC_CTAB_OSD_HOOK_ELEVATION,
-					IDC_CTAB_OSD_HOOK_DST,
-					IDC_CTAB_OSD_HOOK_DIR
-				];
+					_displayItemsToShow = [
+						_mapIDC,
+						3510,
+						1300, //- Marker Widget
+						17000 + 1200,
+						17000 + 1201,
+						17000 + 1202,
+						IDC_CTAB_OSD_HOOK_GRID,
+						IDC_CTAB_OSD_HOOK_ELEVATION,
+						IDC_CTAB_OSD_HOOK_DST,
+						IDC_CTAB_OSD_HOOK_DIR
+					];
 
-				//-Tool Menu
-				if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
-					private _showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
-					if (_showMenu # 1) then {
-						_displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
-						if !(_interfaceInit) then {
-							_settings pushBack ["showMenu",[_displayName,"showMenu"] call cTab_fnc_getSettings];
+					//-Tool Menu
+					if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
+						private _showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
+						if (_showMenu # 1) then {
+							_displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
+							if !(_interfaceInit) then {
+								_settings pushBack ["showMenu",[_displayName,"showMenu"] call cTab_fnc_getSettings];
+							};
+						};
+					};
+
+					_btnActCtrl ctrlSetTooltip "";
+					_maptoolsInit = true;
+
+					private _widgets = [
+						[
+							#ifdef PLP_TOOL
+								"PLP_mapTools",
+							#endif
+							"BCE_mapTools"
+						],
+						[]
+					] select (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]);
+
+					(["mapTools"] + _widgets) apply {
+						_settings pushBack [_x,[_displayName,_x] call cTab_fnc_getSettings];
+					};
+					// update scale and world position when not on interface init
+					if (!_interfaceInit) then {
+						if (_isDialog) then {
+							["mapScaleDlg","mapWorldPos"] apply {
+								_settings pushBack [_x,[_displayName,_x] call cTab_fnc_getSettings];
+							};
 						};
 					};
 				};
-
-				_btnActCtrl ctrlSetTooltip "";
-				_maptoolsInit = true;
-
-				private _widgets = [
-					[
-						#ifdef PLP_TOOL
-							"PLP_mapTools",
-						#endif
-						"BCE_mapTools"
-					],
-					[]
-				] select (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]);
-
-				(["mapTools"] + _widgets) apply {
-					_settings pushBack [_x,[_displayName,_x] call cTab_fnc_getSettings];
-				};
-				// update scale and world position when not on interface init
-				if (!_interfaceInit) then {
-					if (_isDialog) then {
-						["mapScaleDlg","mapWorldPos"] apply {
-							_settings pushBack [_x,[_displayName,_x] call cTab_fnc_getSettings];
-						};
-					};
-				};
-			};
 			// ---------- _NOT_ BFT -----------
 			if (_isDialog) then {
 				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
@@ -465,74 +485,74 @@ _settings apply {
 				};
 			};
 			// ---------- UAV -----------
-			if (_mode in "UAV") exitWith {
-				_displayItemsToShow = [
-					IDC_CTAB_GROUP_UAV,
-					IDC_CTAB_CTABUAVMAP
-				];
+				if (_mode in "UAV") exitWith {
+					_displayItemsToShow = [
+						IDC_CTAB_GROUP_UAV,
+						IDC_CTAB_CTABUAVMAP
+					];
 
-				if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
-					private ["_showMenu","_Showlist"];
-					_showMenu = [_displayName,"uavInfo"] call cTab_fnc_getSettings;
-					_Showlist = [17000 + 4630,17000 + 4631,17000 + 46310,17000 + 46320] + [([1776,1775] select (_showMenu))];
-					_displayItemsToShow append _Showlist;
-				} else {
-					_btnActCtrl ctrlSetTooltip "View Gunner Optics";
-				};
+					if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
+						private ["_showMenu","_Showlist"];
+						_showMenu = [_displayName,"uavInfo"] call cTab_fnc_getSettings;
+						_Showlist = [17000 + 4630,17000 + 4631,17000 + 46310,17000 + 46320] + [([1776,1775] select (_showMenu))];
+						_displayItemsToShow append _Showlist;
+					} else {
+						_btnActCtrl ctrlSetTooltip "View Gunner Optics";
+					};
 
-				_settings pushBack ["uavListUpdate",true];
-				if (!_interfaceInit) then {
-					_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
+					_settings pushBack ["uavListUpdate",true];
+					if (!_interfaceInit) then {
+						_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
+					};
 				};
-			};
 
 			// ---------- HELMET CAM -----------
-			if (_mode == "HCAM") exitWith {
-				_displayItemsToShow = [
-					IDC_CTAB_GROUP_HCAM,
-					IDC_CTAB_CTABHCAMMAP
-				];
-				_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
-				_settings pushBack ["hCamListUpdate",true];
-				if (!_interfaceInit) then {
-					_settings pushBack ["hCam",[_displayName,"hCam"] call cTab_fnc_getSettings];
+				if (_mode == "HCAM") exitWith {
+					_displayItemsToShow = [
+						IDC_CTAB_GROUP_HCAM,
+						IDC_CTAB_CTABHCAMMAP
+					];
+					_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
+					_settings pushBack ["hCamListUpdate",true];
+					if (!_interfaceInit) then {
+						_settings pushBack ["hCam",[_displayName,"hCam"] call cTab_fnc_getSettings];
+					};
 				};
-			};
 			// ---------- MESSAGING -----------
-			if (_mode == "MESSAGE") exitWith {
+				if (_mode == "MESSAGE") exitWith {
 
-				//- Other than Andorid phone
-				cTabRscLayerMailNotification cutText ["", "PLAIN"];
-				_displayItemsToShow = [IDC_CTAB_GROUP_MESSAGE];
-				call cTab_msg_gui_load;
-				_btnActCtrl ctrlSetTooltip "";
-			};
+					//- Other than Andorid phone
+					cTabRscLayerMailNotification cutText ["", "PLAIN"];
+					_displayItemsToShow = [IDC_CTAB_GROUP_MESSAGE];
+					call cTab_msg_gui_load;
+					_btnActCtrl ctrlSetTooltip "";
+				};
 			// ---------- MESSAGING COMPOSE -----------
-			if (_mode == "COMPOSE") exitWith {
-				_displayItemsToShow pushBack IDC_CTAB_GROUP_COMPOSE;
-				call cTab_msg_gui_load;
-			};
+				if (_mode == "COMPOSE") exitWith {
+					_displayItemsToShow pushBack IDC_CTAB_GROUP_COMPOSE;
+					call cTab_msg_gui_load;
+				};
 
 			// ---------- Task Builder -----------
-			if (_mode == "TASK_Builder") exitWith {
-				_displayItemsToShow = [
-					4651,
-					4652,
-					4653,
-					17000 + 4651,
-					17000 + 4652,
-					17000 + 4653
-				];
-				_btnActCtrl ctrlSetTooltip "";
-			};
+				if (_mode == "TASK_Builder") exitWith {
+					_displayItemsToShow = [
+						4651,
+						4652,
+						4653,
+						17000 + 4651,
+						17000 + 4652,
+						17000 + 4653
+					];
+					_btnActCtrl ctrlSetTooltip "";
+				};
 
 			// ---------- FULLSCREEN HELMET CAM -----------
-			if (_mode == "HCAM_FULL") exitWith {
-				_displayItemsToShow = [IDC_CTAB_HCAM_FULL];
-				_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
-				_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
-				['rendertarget13',_data] spawn cTab_fnc_createHelmetCam;
-			};
+				if (_mode == "HCAM_FULL") exitWith {
+					_displayItemsToShow = [IDC_CTAB_HCAM_FULL];
+					_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
+					_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
+					['rendertarget13',_data] spawn cTab_fnc_createHelmetCam;
+				};
 		};
 
 		// hide every _displayItems not in _displayItemsToShow

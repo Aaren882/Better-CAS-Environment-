@@ -8,6 +8,7 @@
 	["mapWorldPos",[]],
 	["mapScaleDsp",2],
 	["mapScaleDlg",2],
+	["MarkerEDIT",""],
 	["MarkerWidget",[false,0,0,[],0,0,100]],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],

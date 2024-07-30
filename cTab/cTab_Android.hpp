@@ -195,8 +195,7 @@ PHONE_CLASS
 						h = MARKER_HEIGHT * MARKER_H;
 						colorbackground[] = {0.2,0.2,0.2,0.4};
 					};
-					//- Retract Botton
-					class Retract: RscStructuredText
+					class Title: RscStructuredText
 					{
 						idc = -1;
 						text = "Edit Marker <img image='\a3\3DEN\Data\Displays\Display3DEN\PanelRight\modeMarkers_ca.paa'/>";
@@ -204,6 +203,7 @@ PHONE_CLASS
 						y = 0;
 						w = MARKER_W;
 						h = MARKER_H;
+						size = MARKER_H;
 						colorBackground[] = 
 						{
 							"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
@@ -218,6 +218,7 @@ PHONE_CLASS
 							color = "#E5E5E5";
 							align = "center";
 							valign = "middle";
+							size = "0.95";
 						};
 					};
 					class DESC_Title: RscStructuredText
@@ -231,7 +232,6 @@ PHONE_CLASS
 						colorBackground[] = {0,0,0,0};
 						style = 0;
 						shadow = 1;
-						// action = "[3] call cTab_fnc_userMenuSelect;";
 
 						class Attributes
 						{
@@ -1570,8 +1570,8 @@ PHONE_CLASS
 			};
 
 		//- Map tools 
-			#define PhoneMarkerColor(X_OFFSET) \
-				x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX + X_OFFSET; \
+			#define PhoneMarkerColor \
+				x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX; \
 				y = #((713) + ((60) - (42)) / 2) / 2048 * CustomPhoneH + CustomPhoneY; \
 				w = #2.5 * (((42)) / 2048 * PhoneW); \
 				h = #((42)) / 2048 * CustomPhoneH
@@ -1587,8 +1587,8 @@ PHONE_CLASS
 				
 				x = PhoneMarkerWidget_X;
 				y = ((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY;
-				w = (((60) - (20))) / 2048 * PhoneW;
-				h = (((60) - (20))) / 2048 * CustomPhoneH;
+				w = 40 / 2048 * PhoneW;
+				h = 40 / 2048 * CustomPhoneH;
 				
 				tooltip = "Toggle Marker Widget";
 				action = "['cTab_Android_dlg'] call cTab_fnc_toggleMarkerWidget";
@@ -1602,16 +1602,14 @@ PHONE_CLASS
 				#define MARKER_WIDGET_W (phoneSizeX + phoneSizeW - (PhoneMarkerWidget_X))
 				#define MARKER_WIDGET_H (30 / 2048 * CustomPhoneH)
 				#define MAKRER_WIDGET_MULT 3.5
-				#define MARKER_WIDGET_BORDER (0.9 * (MAKRER_WIDGET_MULT - 1) * (40 / 2048 * PhoneW))
+				#define MAKRER_WIDGET_CONTENT_W (40 / 2048 * PhoneW)
+				#define MARKER_WIDGET_BORDER (0.9 * (MAKRER_WIDGET_MULT - 1) * MAKRER_WIDGET_CONTENT_W)
 
-				#define MARKER_WIDGET_WH \
-					w = MARKER_WIDGET_W; \
-					h = (MAKRER_WIDGET_MULT + 1.5) * MARKER_WIDGET_H
-				
 				idc = idc_D(1300);
 				x = PhoneMarkerWidget_X;
 				y = ((713)) / 2048  * CustomPhoneH + CustomPhoneY + (((60)) / 2048  * CustomPhoneH);
-				MARKER_WIDGET_WH;
+				w = MARKER_WIDGET_W;
+				h = (MAKRER_WIDGET_MULT + 1.5) * MARKER_WIDGET_H;
 				class controls
 				{
 					class Marker_Widget_BG: RscBackground
@@ -1634,7 +1632,7 @@ PHONE_CLASS
 						
 						x = 0;
 						y = 0;
-						w = 40 / 2048 * PhoneW;
+						w = MAKRER_WIDGET_CONTENT_W;
 						h = MARKER_WIDGET_H;
 						
 						tooltip = "Toggle Marker Widget";
@@ -1645,9 +1643,9 @@ PHONE_CLASS
 						idc = 100;
 						text = "";
 						
-						x = 40 / 2048 * PhoneW;
+						x = MAKRER_WIDGET_CONTENT_W;
 						y = 0;
-						w = MARKER_WIDGET_W - (40 / 2048 * PhoneW);
+						w = MARKER_WIDGET_W - MAKRER_WIDGET_CONTENT_W;
 						h = MARKER_WIDGET_H;
 						
 						size = 0.8 * (MARKER_WIDGET_H);
@@ -1874,16 +1872,16 @@ PHONE_CLASS
 				};
 				#undef MARKER_WIDGET_W
 				#undef MARKER_WIDGET_H
+				#undef MAKRER_WIDGET_CONTENT_W
 				#undef MARKER_WIDGET_BORDER
 				#undef MAKRER_WIDGET_MULT
-				#undef MARKER_WIDGET_WH
 			};
 			//- Color Select
 			class MarkerColor: RscCombo
 			{
 				idc = idc_D(1090);
 				
-				PhoneMarkerColor(0);
+				PhoneMarkerColor;
 				colorBackground[]={0.3,0.3,0.3,1};
 				
 				colorSelect[]={1,1,1,1};
