@@ -99,7 +99,7 @@ PHONE_CLASS
 		class AVmainFrame: cTab_RscFrame
 		{
 			idc = idc_D(4630);
-			text = "AV Live Feed";
+			text = "$STR_BCE_AV_Camera";
 			x = phoneSizeX + (((((452) + (20))) - ((452))) / 2048 * PhoneW);
 			y = phoneSizeY + (((((713) + (60) + (10))) - ((713) + (60))) / 2048 * (PhoneW * 4/3));
 			w = (((PHONE_MOD) - (20) * 2)) / 2048 * PhoneW;
@@ -298,7 +298,7 @@ PHONE_CLASS
 							{
 								class NA
 								{
-									text = "System Value";
+									text = "$STR_BCE_Widgets_System_Value";
 									default = 1;
 								};
 							};
@@ -1590,7 +1590,7 @@ PHONE_CLASS
 				w = 40 / 2048 * PhoneW;
 				h = 40 / 2048 * CustomPhoneH;
 				
-				tooltip = "Toggle Marker Widget";
+				tooltip = "$STR_BCE_Toggle_Marker_Widget";
 				action = "['cTab_Android_dlg'] call cTab_fnc_toggleMarkerWidget";
 			};
 			class Marker_Widgets: cTab_RscControlsGroup
@@ -1635,7 +1635,7 @@ PHONE_CLASS
 						w = MAKRER_WIDGET_CONTENT_W;
 						h = MARKER_WIDGET_H;
 						
-						tooltip = "Toggle Marker Widget";
+						tooltip = "$STR_BCE_Toggle_Marker_Widget";
 						action = "['cTab_Android_dlg'] call cTab_fnc_toggleMarkerWidget";
 					};
 					class Mode_Switch: BCE_RscButtonMenu

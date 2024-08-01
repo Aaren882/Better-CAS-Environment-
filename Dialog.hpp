@@ -16,9 +16,17 @@ class RscTitles
 	#include "Task_Receiver.hpp"
 	
 	#ifdef cTAB_Installed
-		#define PHONE_CLASS class cTab_Android_dsp
-		
+
 		#undef MOUSE_CLICK_EH
+
+		#define TAD_CLASS class cTab_TAD_dsp
+		#define TAD_SizeH (0.86)
+		#define TAD_SizeW (TAD_SizeH * 3/4)
+		#define TAD_SizeX 2048 * (TAD_SizeH * 3/4) + (safeZoneX + (0.05) * 3/4)
+		#define TAD_SizeY 2048 * TAD_SizeH + (safeZoneY + safeZoneH - TAD_SizeH - (0.2))
+			#include "cTab\cTab_TAD.hpp"
+
+		#define PHONE_CLASS class cTab_Android_dsp
 		
 		#define PhoneH (safezoneH * 0.8)
 		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.443437)])

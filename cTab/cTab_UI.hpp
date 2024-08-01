@@ -208,8 +208,8 @@ class cTab_Tablet_dlg
 		class screen: cTab_Tablet_RscMapControl
 		{
 			showMarkers = 0;
-			onMouseButtonClick = "(_this + [17000]) call BCE_fnc_GetMapClickPOS";
 			onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
+			onMouseButtonClick = "(_this + [17000]) call BCE_fnc_GetMapClickPOS";
 		};
 		class cTabUavMap: cTab_Tablet_RscMapControl
 		{
@@ -273,7 +273,7 @@ class cTab_Tablet_dlg
 				w = sizeW/1.2 * ((safezoneH * 1.2) * 3/4);
 				h = sizeW/1.2 * (safezoneH * 1.2);
 
-				tooltip = "Toggle Marker Widget";
+				tooltip = "$STR_BCE_Toggle_Marker_Widget";
 				action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleMarkerWidget";
 			};
 			class Marker_Widgets: cTab_RscControlsGroup
@@ -322,7 +322,7 @@ class cTab_Tablet_dlg
 						w = MAKRER_WIDGET_CONTENT_W;
 						h = MARKER_WIDGET_H;
 						
-						tooltip = "Toggle Marker Widget";
+						tooltip = "$STR_BCE_Toggle_Marker_Widget";
 						action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleMarkerWidget";
 					};
 					class Mode_Switch: BCE_RscButtonMenu
@@ -715,7 +715,7 @@ class cTab_Tablet_dlg
 							{
 								class NA
 								{
-									text = "System Value";
+									text = "$STR_BCE_Widgets_System_Value";
 									default = 1;
 								};
 							};
@@ -2074,16 +2074,20 @@ class cTab_FBCB2_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 //-SubMenu + lerGTD SubMenu + BCE Submenu
 class cTab_FBCB2_dlg
 {
-	#if MAP_MODE > 2
 		class controlsBackground
 		{
-			class screen: RscMapControl{};
-			class screenTopo: screen
+			class screen: RscMapControl
 			{
-				#include "..\Map_Type\TOPO_GRD.hpp"
+				showMarkers = 0;
+				onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
 			};
+			#if MAP_MODE > 2
+				class screenTopo: screen
+				{
+					#include "..\Map_Type\TOPO_GRD.hpp"
+				};
+			#endif
 		};
-	#endif
 	class controls
 	{
 		cTab_Set_SubMenu(SubMenuH_FB);
@@ -2103,23 +2107,6 @@ class cTab_FBCB2_dlg
 		};
 	};
 };
-class cTab_TAD_dlg
-{
-	#if MAP_MODE > 2
-		class controlsBackground
-		{
-			class screen: cTab_TAD_RscMapControl{};
-			class screenTopo: screen
-			{
-				#include "..\Map_Type\TOPO_AIR.hpp"
-			};
-		};
-	#endif
-	class controls
-	{
-		cTab_Set_SubMenu(SubMenuH_TAD);
-	};
-};
 #if MAP_MODE > 2
 	class cTab_microDAGR_dlg
 	{
@@ -2134,10 +2121,19 @@ class cTab_TAD_dlg
 	};
 #endif
 
+#define MOUSE_CLICK_EH "(_this + [17000]) call BCE_fnc_GetMapClickPOS"
+
+//- TAD
+	#define TAD_SizeH (safezoneH * 0.8)
+	#define TAD_SizeW (TAD_SizeH * 3/4)
+	#define TAD_SizeX 2048  * (TAD_SizeH * 3/4) + (safezoneX + (safezoneW - TAD_SizeH * 3/4) / 2)
+	#define TAD_SizeY 2048  * TAD_SizeH + (safezoneY + safezoneH * 0.1)
+
+	#define TAD_CLASS class cTab_TAD_dlg
+	#include "cTab_TAD.hpp"
 
 //-Phone
 #define PHONE_CLASS class cTab_Android_dlg
-#define MOUSE_CLICK_EH "(_this + [17000]) call BCE_fnc_GetMapClickPOS"
 
 #define PhoneH (safezoneH * 1.2)
 #define PhoneW (safezoneW * 0.8)

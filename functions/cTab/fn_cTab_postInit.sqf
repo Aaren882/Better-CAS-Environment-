@@ -65,6 +65,22 @@
 	["Weather_Condition",[false,""]]
 ]] call BIS_fnc_setToPairs;
 
+[cTabSettings,"TAD",[
+	["dlgIfPosition",[]],
+	["dspIfPosition",false],
+	["mapWorldPos",[]],
+	["showIconText",true],
+	["mapScaleDsp",2],
+	["mapScaleDlg",2],
+	["mapScaleMin",1],
+	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO],["BLK",IDC_CTAB_SCREEN_BLACK]]],
+	["mapType","SAT"],
+	["MarkerDropper",[false,0,0]],
+	["mapTools",true],
+	["nightMode",0],
+	["brightness",0.8]
+]] call BIS_fnc_setToPairs;
+
 ["cTab_checkForPlayerChange", "onEachFrame"] call BIS_fnc_removeStackedEventHandler;
 
 cTabOnDrawbft = ctab_fnc_onDrawbft;
@@ -79,26 +95,26 @@ cTab_Tablet_btnACT = ctab_fnc_Tablet_btnACT;
 cTabTxtSize = 0.06;
 
 //- Set Marker Cache
-private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");
-private _result = _classes apply {
-	private ["_Category","_color","_hide"];
-	_Category = getText (_x >> "Category");
-	_color = (getArray (_x >> "color")) apply {
-		if (_x isEqualType "") then {call compile _x} else {_x};
-	};
-	_hide = getNumber (_x >> "Hide_Direction");
+	private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");
+	private _result = _classes apply {
+		private ["_Category","_color","_hide"];
+		_Category = getText (_x >> "Category");
+		_color = (getArray (_x >> "color")) apply {
+			if (_x isEqualType "") then {call compile _x} else {_x};
+		};
+		_hide = getNumber (_x >> "Hide_Direction");
 
-	_Category = (format [
-		"getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0", _Category
-	]) configClasses (configFile >> "CfgMarkers") apply {
-		configName _x
+		_Category = (format [
+			"getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0", _Category
+		]) configClasses (configFile >> "CfgMarkers") apply {
+			configName _x
+		};
+
+		if (_hide > 0) then {
+			[_Category,_color,1]
+		} else {
+			[_Category,_color]
+		};
 	};
 
-	if (_hide > 0) then {
-		[_Category,_color,1]
-	} else {
-		[_Category,_color]
-	};
-};
-
-uiNamespace setVariable ["BCE_Marker_Map",(_classes apply {configName _x}) createHashMapFromArray _result];
+	uiNamespace setVariable ["BCE_Marker_Map",(_classes apply {configName _x}) createHashMapFromArray _result];

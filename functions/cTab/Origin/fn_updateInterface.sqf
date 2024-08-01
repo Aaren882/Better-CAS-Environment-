@@ -211,7 +211,7 @@ _settings apply {
 			};
 		};
 
-	//-- Marker Dropper 
+	//-- Marker Droppers
 		if ((_x # 0) == "MarkerWidget") exitWith {
 			(_x # 1) params ["_show","_curSel","_BoxSel","_texts","_widgetMode"];
 			(ctrlPosition (_display displayCtrl 1)) params ["","_ctrlY","","_ctrlH"];
@@ -226,7 +226,7 @@ _settings apply {
 			_toggleBnt ctrlEnable !_show;
 			
 			_titleIcon = "\a3\3DEN\Data\Displays\Display3DEN\PanelRight\modeMarkers_ca.paa";
-			_Title = "Marker Dropper";
+			_Title = "STR_BCE_Marker_Dropper";
 
 			if (_show) then {
 				private ["_dropBox","_brushes"];
@@ -239,7 +239,7 @@ _settings apply {
 					//- Drawing Marker
 					case 1: {
 						_titleIcon = "a3\3den\data\displays\display3den\panelright\submode_marker_area_ca.paa";
-						_Title = "Drawing Tools";
+						_Title = "STR_BCE_Drawing_Tool";
 
 						_cate ctrlShow false;
 						{_x ctrlshow true} forEach _DrawingTools;
@@ -261,7 +261,7 @@ _settings apply {
 				_TitleMode ctrlSetStructuredText parseText format [
 					"<img image='%1'/> %2<img align='right' image='\MG8\AVFEVFX\data\swap.paa'/>",
 					_titleIcon,
-					_Title
+					localize _Title
 				];
 			};
 
@@ -298,6 +298,30 @@ _settings apply {
 
 			_group ctrlCommit ([0.2, 0] select _interfaceInit);
 		};
+		// -- TAD -- //
+			if ((_x # 0) == "MarkerDropper") exitWith {
+				(_x # 1) params ["_show","_mode"];
+				
+				_title = _display displayCtrl (17000 + 1600);
+				// - Color 
+					_title ctrlSetBackgroundColor ([ //- Change Background to Green
+						[0,0,0,1],
+						[0.2235,1,0.078,1]
+					] select _show);
+
+					_title ctrlSetTextColor ([ //- Change TEXT to Green
+						[0.2235,1,0.078,1],
+						[0,0,0,1]
+					] select _show);
+
+				_ctrlText = _display displayCtrl (17000 + 1602);
+				_text = ["BLK","EMY","BLU"] # _mode; //- select Current Marker Mode 
+				_ctrlText ctrlSetText _text;
+
+				{
+					(_display displayCtrl (17000 + _x)) ctrlShow _show
+				} count [1601,1602,1603,16030,16011];
+			};
 
 	// ------------ MODE ------------
 	if (_x # 0 == "mode") exitWith {
@@ -363,6 +387,8 @@ _settings apply {
 				17000 + 4661,
 				17000 + 4662,
 				17000 + 4663,
+				17000 + 2615,
+				17000 + 2616,
 				46600,
 
 				//-BG
@@ -396,6 +422,7 @@ _settings apply {
 			};
 			if (_displayName in ["cTab_FBCB2_dlg","cTab_TAD_dlg"]) exitWith {
 				[3300,3301,3302,3303,3304,3305,3306,3307,3308,3309,3310,3311,
+				17000 + 3300, 17000 + 33000,
 				IDC_CTAB_NOTIFICATION]
 			};
 			[IDC_CTAB_NOTIFICATION] // default
@@ -436,6 +463,7 @@ _settings apply {
 					//-Tool Menu
 					if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
 						private _showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
+						_displayItemsToShow append [17000 + 2615,17000 + 2616]; //- Show Compass on Phone
 						if (_showMenu # 1) then {
 							_displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
 							if !(_interfaceInit) then {
@@ -650,16 +678,13 @@ _settings apply {
 				if (_mapScaleKm != (_x # 1)) then {
 					[_displayName,[["mapScaleDsp",_mapScaleKm]],false] call cTab_fnc_setSettings;
 				};
-				cTabMapScale = _mapScaleKm / cTabMapScaleFactor;
 
+				cTabMapScale = _mapScaleKm / cTabMapScaleFactor;
 				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
+
+				// divide by 2 because we want to display the radius, not the diameter
 				if (!isNull _osdCtrl) then {
-					// divide by 2 because we want to display the radius, not the diameter
-					_mapScaleTxt = if (_mapScaleKm > 1) then {
-						_mapScaleKm / 2
-					} else {
-						[_mapScaleKm / 2,0,1] call CBA_fnc_formatNumber
-					};
+					private _mapScaleTxt = [_mapScaleKm / 2,0,1] call CBA_fnc_formatNumber;
 					_osdCtrl ctrlSetText _mapScaleTxt;
 				};
 			};
@@ -884,6 +909,7 @@ _settings apply {
 				}
 			};
 		};
+		
 		// ------------ MAP TOOLS ------------
 		if ((_x # 0) in ["mapTools","BCE_mapTools","PLP_mapTools"]) exitWith {
 
@@ -892,7 +918,7 @@ _settings apply {
 			};
 
 			if (_mode == "BFT") then {
-				if !(_displayName in ["cTab_TAD_dlg","cTab_TAD_dsp"]) then {
+				if (_displayName find "TAD" < 0) then {
 					private ["_Tool_toggle","_BCE_toggle","_PLP_toggle","_ToolCtrl","_toggleW","_period","_MoveDir","_cal_H","_Tool_statment","_toggled_ctrl","_sort"];
 
 					_Tool_toggle = _display displayCtrl (17000 + 1200);
@@ -1037,18 +1063,21 @@ _settings apply {
 						_i = _i - (_cal_H / 4) - ([_toggleH, _H] select _Open);
 					} count _sort;
 
-				};
+				} else {
+					
+					//---------------- TAD ----------------//
+					private [
+						"_osdCtrl","_text","_osdCtrl","_text"
+					];
 
-				//--------------------------------//
-				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL1;
-				if (!isNull _osdCtrl) then {
-					_text = ["CURS","OWN"] select (_x # 1);
-					_osdCtrl ctrlSetText _text;
-				};
-				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL2;
-				if (!isNull _osdCtrl) then {
-					_text = ["OWN","CURS"] select (_x # 1);
-					_osdCtrl ctrlSetText _text;
+					//- Update Text
+						_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL1;
+						_text = ["CURS","OWN"] select (_x # 1);
+						_osdCtrl ctrlSetText _text;
+
+						_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL2;
+						_text = ["OWN","CURS"] select (_x # 1);
+						_osdCtrl ctrlSetText _text;
 				};
 			};
 		};

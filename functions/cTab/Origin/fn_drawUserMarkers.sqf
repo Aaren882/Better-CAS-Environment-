@@ -38,7 +38,7 @@ params ["_ctrlScreen","_highlight"];
 
 private [
 	"_cursorMarkerIndex","_mapScale","_text",
-	"_toggle",
+	"_toggle","_toggle_show",
 	"_widgetMode",
 	"_reDirecting","_reSizing","_LMB",
 	"_checkInSameWidget",
@@ -56,7 +56,14 @@ _text = "";
 
 _displayName = cTabIfOpen # 1;
 _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
-_widgetMode = _toggle # 4;
+if (isNil {_toggle}) then {
+	_toggle_show = false;
+	_widgetMode = -1;
+} else {
+	_toggle_show = _toggle # 0;
+	_widgetMode = _toggle # 4;
+};
+
 
 //- is holding LCtrl + Left Click
 _reDirecting = inputMouse "487653376";
@@ -132,7 +139,7 @@ _getBrush = {
 			_cursorMarkerIndex == _forEachIndex &&
 			_curSelMarker < 0 && _isnt_Drawing &&
 			_checkInSameWidget &&
-			(_toggle # 0) &&
+			(_toggle_show) &&
 			!(_x find "PLP" > -1) &&
 			(_x find "_cTab" > -1 || _x find "_USER" > -1)
 		) then {
@@ -184,8 +191,10 @@ _getBrush = {
 		};
 
 	//- draw Marker Icon
-		if (cTabBFTtxt) then {
-			_text = markerText _x;
+		_text = if (cTabBFTtxt) then {
+			markerText _x;
+		} else {
+			""
 		};
 
 		switch (_markerShape) do {
@@ -261,8 +270,7 @@ if (!(_reDirecting || _reSizing || _LMB) && _curSelMarker > -1) then {
 
 	call {
 		if (
-			_toggle # 0 ||
-			(inputMouse 0) != 2
+			_toggle_show || (inputMouse 0) != 2
 		) exitWith {
 			if (ace_map_gestures_EnableTransmit) then {
 				ace_map_gestures_EnableTransmit = false;
@@ -275,7 +283,6 @@ if (!(_reDirecting || _reSizing || _LMB) && _curSelMarker > -1) then {
 		};
 
 		ace_map_gestures_cursorPosition = _ctrlScreen ctrlMapScreenToWorld getMousePosition;
-
 		if (
 			ace_map_gestures_cursorPosition distance2D (ACE_player getVariable ["ace_map_gestures_pointPosition", [0, 0, 0]]) >= 1
 		) then {
@@ -284,8 +291,8 @@ if (!(_reDirecting || _reSizing || _LMB) && _curSelMarker > -1) then {
 	};
 
 	if (getClientStateNumber < 10) then {
-		[_ctrlScreen, ace_map_gestures_briefingMode] call ace_map_gestures_fnc_drawMapGestures;
+		[_ctrlScreen, ace_map_gestures_briefingMode] call cTab_fnc_DrawMapPointer;
 	} else {
-		[_ctrlScreen, [[ACE_player, ace_map_gestures_maxRange]]] call ace_map_gestures_fnc_drawMapGestures;
+		[_ctrlScreen, [[ACE_player, ace_map_gestures_maxRange]]] call cTab_fnc_DrawMapPointer;
 	};
 #endif

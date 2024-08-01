@@ -61,7 +61,7 @@ if (_LMB >= 1) then {
 
 //- on Hold-End
 if (_LMB == 0 && _lastClick > -1) then {
-  private ["_colorLb","_color","_markers","_id","_name","_center"];
+  private ["_colorLb","_color","_id","_name","_center"];
 
   //- Clear Vars
     localNamespace setVariable ["BCE_DrawHold_lastClick",nil];
@@ -84,20 +84,7 @@ if (_LMB == 0 && _lastClick > -1) then {
   _color = (call compile (_colorLb lbData lbCurSel _colorLb)) # 0;
 
   //- Marker ID
-    _markers = (if (isMultiplayer) then {
-      allMapMarkers select {markerChannel _x == currentChannel}
-    } else {
-      allMapMarkers
-    }) select {"_cTab_DEFINED" in _x};
-
-    _id = (selectMax (_markers apply {
-      private _a = _x select [15];
-      parseNumber ((_a splitString "/") # 1);
-    })) + 1;
-
-    if (isNil{_id}) then {
-      _id = 0;
-    };
+    _id = "cTab" call cTab_fnc_NextMarkerID;
 
   //- MARKER #<PlayerID>/<MarkerID>/#<SEPARATOR>#/<Hide Direction> .. /<ChannelID> must Be last
     _name = format ["_cTab_DEFINED #%1/%2/-1/%3/1/%4", clientOwner, _id, 1, currentChannel];

@@ -65,6 +65,7 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	private _ctrlScreen = _display displayCtrl (_mapTypes # _currentMapTypeIndex # 1);
 	private _markerIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
 
+	if (_markerIndex isEqualType objNull) exitWith {true};
 	if (_markerIndex < 0) exitWith {true};
 
 	private _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;

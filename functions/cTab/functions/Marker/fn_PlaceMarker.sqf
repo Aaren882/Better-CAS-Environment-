@@ -1,25 +1,13 @@
 params ["_position"];
 
 private [
-  "_markers","_id",
+  "_id",
   "_group","_dropBox","_class","_color",
   "_name","_markerData","_marker"
 ];
 
-_markers = (if (isMultiplayer) then {
-	allMapMarkers select {markerChannel _x == currentChannel}
-} else {
-	allMapMarkers
-}) select {"_USER_DEFINED" in _x};
-
-_id = (selectMax (_markers apply {
-  private _a = _x select [15];
-  parseNumber ((_a splitString "/") # 1);
-})) + 1;
-
-if (isNil{_id}) then {
-  _id = 0;
-};
+//- Marker ID
+  _id = "USER" call cTab_fnc_NextMarkerID;
 
 //- From Marker placer
 _group = _display displayCtrl (17000 + 1300);
@@ -34,7 +22,6 @@ if (_color == "") then {
   _markerColor = _display displayCtrl (17000 + 1090);
   _color = (call compile (_markerColor lbData _colorSel)) # 0
 };
-
 
 //- MARKER #<PlayerID>/<MarkerID>/#<SEPARATOR>#/<Hide Direction> .. /<ChannelID> must Be last
 _name = format ["_USER_DEFINED #%1/%2/-1/%3/0/%4", clientOwner, _id, getNumber (_class >> "Hide_Direction"),currentChannel];

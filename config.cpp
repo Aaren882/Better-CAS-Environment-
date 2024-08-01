@@ -755,10 +755,10 @@ class CfgFunctions
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions";
 				class cTabMap;
-				class ctab_ChangeTask_Desc;
-				class ctab_List_AV_Info;
-				class ctab_Switch_ExtendedList;
-				class ctab_BFT_ToolBox;
+				class cTab_ChangeTask_Desc;
+				class cTab_List_AV_Info;
+				class cTab_Switch_ExtendedList;
+				class cTab_BFT_ToolBox;
 				class cTab_getWeather_Infos;
 				class Extended_WeaponDESC;
 				class Extended_TaskDESC;
@@ -911,6 +911,8 @@ class CfgFunctions
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\Marker";
 				class Marker_Edittor;
+				class NextMarkerID;
+				class DrawMapPointer;
 				class FinishEDIT_Marker;
 				class PlaceMarker;
 				class DrawArea;
@@ -924,6 +926,7 @@ class CfgFunctions
 				class Update_MarkerItems;
 				class toggleWeather;
 				class toggleMarkerWidget;
+				class toggleTADMarkerDropper;
 				class SwitchMarkerWidget;
 			};
 		};

@@ -15,15 +15,50 @@ private [
 
 _display = ctrlParent _control;
 _displayName = cTabIfOpen # 1;
-([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params ["_show","_curSel","_BoxSel","_texts","_widgetMode"];
+_toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
 
 //- Get map Clicked Marker
   _cursorMarkerIndex = [_control,_click_POS] call cTab_fnc_findUserMarker;
 
-//- if the is an Aircraft in BFT
-if (_cursorMarkerIndex isEqualType objNull) exitWith {
-  
-};
+//- Exit if the is an Aircraft in BFT
+  if (_cursorMarkerIndex isEqualType objNull) exitWith {};
+
+//- Other Interfaces
+  if (isnil{_toggle}) exitWith {
+    _toggle = [_displayName,"MarkerDropper"] call cTab_fnc_getSettings;
+
+    if !(isnil{_toggle}) then {
+      _toggle params ["_show","_mode","_count"];
+      
+      if (_show) then {
+        //- Needs "_display" and other infoPanelComponents
+        private _name = format [
+          "_USER_DEFINED #%1/%2/-1/1/0/%3",
+          clientOwner,
+          "USER" call cTab_fnc_NextMarkerID,
+          currentChannel
+        ];
+
+        private _marker = createMarker [_name, _click_POS, currentChannel, focusOn]; 
+        _marker setMarkerShape "ICON"; 
+        _marker setMarkerType "hd_dot";
+        _marker setMarkerText ([["M","E","B"] # _mode, _count] joinString "-");
+        _marker setMarkerColor (["colorBlack","colorOPFOR","colorBLUFOR"] # _mode);
+        _marker setMarkerSize [0.8, 0.8];
+
+        //- Update Values
+          _count = _count + 1;
+          if (_count > 20) then {
+            _count = 0;
+            ["BFT",localize "STR_BCE_MK_Limit_Reached_Error",5] call cTab_fnc_addNotification;
+          };
+          _toggle set [2,_count];
+          [_displayName,[["MarkerDropper",_toggle]],false] call cTab_fnc_setSettings;
+      };
+    };
+  };
+
+_toggle params ["_show","_curSel","_BoxSel","_texts","_widgetMode"];
 
 //- Get Marker Type ("ICON", "RECTANGLE"...)
 _Data = if (_cursorMarkerIndex > -1) then {
