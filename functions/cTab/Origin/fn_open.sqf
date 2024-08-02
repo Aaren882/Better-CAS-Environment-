@@ -89,19 +89,23 @@ private _EH = switch (true) do {
 			_displayName = cTabIfOpen # 1;
 			_display = uiNamespace getVariable _displayName;
 			_veh = vehicle cTab_player;
-			_heading = round (direction _veh / 90);
-
+			_heading = direction _veh;
+			_heading_sel = round (_heading / 90);
+			
 			_octant = [
 				"STR_ctab_core_North",
 				"STR_ctab_core_East",
 				"STR_ctab_core_South",
 				"STR_ctab_core_West",
 				"STR_ctab_core_North"
-			] select _heading;
+			] select _heading_sel;
 			
+			_ctrl_heading = _display displayCtrl (17000+2615);
+				_ctrl_heading ctrlSetAngle [360 - _heading, 0.5, 0.5];
+
 			_ctrl_heading = _display displayCtrl (17000+2616);
 				_ctrl_heading ctrlSetText localize _octant;
-				_ctrl_heading ctrlSetTextColor ([[1,1,1,1],[1,0,0,1]] select (_heading == 0 || _heading == 4));
+				_ctrl_heading ctrlSetTextColor ([[1,1,1,1],[1,0,0,1]] select (_heading_sel == 0 || _heading_sel == 4));
 
 			// update time
 			(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;

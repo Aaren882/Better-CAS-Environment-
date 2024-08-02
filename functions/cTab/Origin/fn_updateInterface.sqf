@@ -397,6 +397,7 @@ _settings apply {
 				17000 + 46310,
 				17000 + 4632,
 				17000 + 4650,
+				17000 + 4640,
 
 				//-BTF Widgets
 				17000 + 1200,
@@ -1092,7 +1093,8 @@ _settings apply {
 				4661, 
 				4662, 
 				4663,
-				4650
+				4650,
+				4640
 			];
 
 			(_x # 1) params ["_page","_show","_line"];
@@ -1106,19 +1108,6 @@ _settings apply {
 
 			//-ATAK Control Adjustments
 			switch (_page) do {
-				case "mission": {
-					//-restore Task Type
-					_group ctrlSetScrollValues [uiNamespace getVariable ["BCE_ATAK_Scroll_Value",0], -1];
-
-					private _ctrl = _group controlsGroupCtrl (17000 + 2107);
-					_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
-				};
-				case "Task_Result": {
-					private _ctrl = _group controlsGroupCtrl 11;
-					private _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
-					private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
-					[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
-				};
 				case "message": {
 					private _title = _group controlsGroupCtrl 5;
 					private _contacts = _group controlsGroupCtrl 6;
@@ -1187,7 +1176,7 @@ _settings apply {
 
 					//- exit on none "_contactor" Selected
 						if (_contactor == "") exitWith {
-							_title ctrlSetStructuredText parseText '"NONE"';
+							_title ctrlSetStructuredText parseText format ['"%1"',localize "STR_BCE_None"];
 						};
 					_title ctrlSetStructuredText parseText _contactor;
 
@@ -1277,9 +1266,22 @@ _settings apply {
 						} forEach _msgArray;
 					cTabRscLayerMailNotification cutText ["", "PLAIN"];
 					_list spawn {
-						uiSleep 0.2;
+						uiSleep 0.1;
 						_this ctrlSetScrollValues [1, -1];
 					};
+				};
+				case "mission": {
+					//-restore Task Type
+					_group ctrlSetScrollValues [uiNamespace getVariable ["BCE_ATAK_Scroll_Value",0], -1];
+
+					private _ctrl = _group controlsGroupCtrl (17000 + 2107);
+					_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
+				};
+				case "Task_Result": {
+					private _ctrl = _group controlsGroupCtrl 11;
+					private _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+					private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
+					[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
 				};
 			};
 		};

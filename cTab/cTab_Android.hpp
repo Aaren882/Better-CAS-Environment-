@@ -136,7 +136,6 @@ PHONE_CLASS
 			w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2)) / 2048 * PhoneW;
 			h = ((((626) - (60) - (10) * 2) - (20) -(10))) / 2048 * CustomPhoneH;
 		};
-
 		
 	};
 	class controls
@@ -479,7 +478,7 @@ PHONE_CLASS
 					};
 				};
 			};
-			//- Home page of ATAK
+		//- Home page of ATAK
 			class ATAK_Tools: ATAK_MenuBG
 			{
 				idc = idc_D(4660);
@@ -553,16 +552,11 @@ PHONE_CLASS
 						idc = 4660 + 102;
 						x = PhoneBFTContainerW(2);
 						text = ATAK_APP("MG8\AVFEVFX\data\AV_Cam.paa",AV Camera);
-						action = "['cTab_Android_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
+						// action = "['cTab_Android_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
+						action = "['cTab_Android_dlg',[['showMenu',['VideoFeeds',true,-1]]]] call cTab_fnc_setSettings;";
+						
 						
 						textureNoShortcut="MG8\AVFEVFX\data\AV_Cam.paa";
-						/*class ShortcutPos: ShortcutPos
-						{
-							left = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH);
-							//top = 2.5 * (phoneSizeW * 3/5)/3*0.18;
-							w = (phoneSizeW * 2/5)/5*0.9;
-							h = (phoneSizeW * 3/5)/5*0.8;
-						};*/
 					};
 					//-Second Line
 					class actPhototxt: actMSGtxt
@@ -624,7 +618,7 @@ PHONE_CLASS
 					};
 				};
 			};
-			//- Task Building Page
+		//- Task Building Page
 			class Task_Builder: ATAK_Tools
 			{
 				idc = idc_D(4661);
@@ -1365,7 +1359,7 @@ PHONE_CLASS
 					};
 				};
 			};
-			//-Task Result
+			//- Task Result
 			class Task_Result: Task_Building
 			{
 				idc = idc_D(4663);
@@ -1397,6 +1391,7 @@ PHONE_CLASS
 					};
 				};
 			};
+		//- Message Interface
 			class ATAK_Message: Task_Building
 			{
 				idc = idc_D(4650);
@@ -1411,7 +1406,7 @@ PHONE_CLASS
 						h = 0.8 * (((60)) / 2048 * CustomPhoneH);
 
 						size = 0.7 * (((60)) / 2048 * CustomPhoneH);
-						text = "Test Name";
+						text = "";
 
 						colorBackground[] = {0,0,0,0.5};
 						colorBackground2[] = {0,0,0,0.5};
@@ -1469,6 +1464,92 @@ PHONE_CLASS
 						sizeEx = 0.64 * (((60) - (20))) / 2048 * CustomPhoneH;
 
 						colorBackground[]={0,0,0,0.5};
+					};
+				};
+			};
+		//- Video Feeds Interface
+			class ATAK_Video: ATAK_Message
+			{
+				idc = idc_D(4640);
+				class controls
+				{
+					//- Video Layer
+						class Vic_PIP_No_Signal: ctrlButton
+						{
+							idc = 46310;
+							style = 2;
+							text = "$STR_BCE_No_Signal";
+							
+							sizeEx = TextSize;
+							font = "RobotoCondensed_BCE";
+							colorShadow[] = {0,0,0,0.5};
+
+							colorBackground[]={0,0,0,0.8};
+							colorBackgroundActive[] = {0,0,0,0.8};
+							offsetPressedX = 0;
+							offsetPressedY = 0;
+
+							x = 0;
+							y = (phoneSizeW * 3/5)/3;
+							w = PhoneBFTContainerW(3);
+							h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH) - (phoneSizeW * 3/5)/3;
+							fade = 1;
+
+							onMouseEnter = "(_this # 0) ctrlSetFade 0.8; (_this # 0) ctrlcommit 0.2;";
+							onMouseExit = "(_this # 0) ctrlSetFade 1; (_this # 0) ctrlcommit 0.2;";
+						};
+						class Vic_PIP_Display: RscPicture
+						{
+							idc = 4632;
+							text = "#(argb,512,512,1)r2t(rendertarget9,1.1896551724)";
+							x = 0;
+							y = (phoneSizeW * 3/5)/3;
+							w = PhoneBFTContainerW(3);
+							h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH) - (phoneSizeW * 3/5)/3;
+						};
+					// - Next Turret
+						class TurretTxt: Vic_PIP_No_Signal
+						{
+							idc = 46320;
+							text = "Gunner >>";
+							colorBackground[] = {0.25,0.25,0.25,0.5};
+
+							x = 0;
+							y = (phoneSizeW * 3/5)/3 - (0.85 * TextSize);
+							w = PhoneBFTContainerW(3);
+							h = 0.85 * TextSize;
+							sizeEx = 0.75 * TextSize;
+							fade = 0;
+
+							onMouseEnter = "";
+							onMouseExit = "";
+						};
+						
+					class Title: BCE_RscButtonMenu
+					{
+						idc = 5;
+						x = 0;
+						y = 0;
+						w = PhoneBFTContainerW(3);
+						h = 0.8 * (((60)) / 2048 * CustomPhoneH);
+
+						size = 0.7 * (((60)) / 2048 * CustomPhoneH);
+						text = "Test Name";
+
+						colorBackground[] = {0,0,0,0.5};
+						colorBackground2[] = {0,0,0,0.5};
+						colorBackgroundFocused[] = {0,0,0,0.8};
+
+						animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
+						animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+						animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
+
+						action = "";
+						class Attributes: Attributes
+						{
+							align = "center";
+							valign = "Bottom";
+						};
 					};
 				};
 			};
@@ -2028,7 +2109,7 @@ PHONE_CLASS
 					sizeEx = TextSize;
 
 					action = "";
-					onButtonClick = "(_this + [17000,true]) call BCE_fnc_NextTurretButton;";
+					onButtonClick = "[_this # 0,17000,true] call BCE_fnc_NextTurretButton;";
 
 					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW) + (0.75 * (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW));
 					w = (0.25 * (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW));

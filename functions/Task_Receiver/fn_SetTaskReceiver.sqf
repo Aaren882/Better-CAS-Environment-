@@ -35,6 +35,7 @@ switch _type do {
 				if (_index in [4]) then {
 					private _color = [[0.27,1,0.16,1],[1,0.22,0.17,1]] select _DanClose;
 					_ctrlList lbSetColor [_index, _color];
+					_ctrlList lbSetSelectColor [_index, _color];
 					_ctrlList lbSetColorRight [_index, _color];
 				};
 			};
@@ -53,6 +54,7 @@ switch _type do {
 			if (_index in [4,6,8,10]) then {
 				private _color = [[0.27,1,0.16,1],[1,0.22,0.17,1]] select _Danclose;
 				_ctrlList lbSetColor [_index, _color];
+				_ctrlList lbSetSelectColor [_index, _color];
 				_ctrlList lbSetColorRight [_index, _color];
 			};
 			
