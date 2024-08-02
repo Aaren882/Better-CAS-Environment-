@@ -76,9 +76,8 @@ _isnt_Drawing = isnil{localNamespace getVariable "BCE_DrawHold_lastClick"};
 
 _getBrush = {
 	private _brush = getText (configFile >> "CfgMarkerBrushes" >> markerBrush _this >> "texture");
-
 	if (_brush == "") exitwith {"#(rgb,1,1,1)color(1,1,1,0.5)"};
-	if ("(0,0,0,0)" in _brush) exitwith {""};
+	if (_brush find "(0,0,0,0)" > -1) exitwith {""};
 	_brush
 };
 

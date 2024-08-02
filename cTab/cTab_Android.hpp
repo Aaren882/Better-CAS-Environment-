@@ -1473,6 +1473,33 @@ PHONE_CLASS
 				idc = idc_D(4640);
 				class controls
 				{
+					//- Title
+					class Title: BCE_RscButtonMenu
+					{
+						idc = 5;
+						x = 0;
+						y = 0;
+						w = PhoneBFTContainerW(3);
+						h = 0.8 * (((60)) / 2048 * CustomPhoneH);
+
+						size = 0.7 * (((60)) / 2048 * CustomPhoneH);
+						text = "Test Name";
+
+						colorBackground[] = {0,0,0,0.5};
+						colorBackground2[] = {0,0,0,0.5};
+						colorBackgroundFocused[] = {0,0,0,0.8};
+
+						animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
+						animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+						animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
+
+						action = "";
+						class Attributes: Attributes
+						{
+							align = "center";
+							valign = "Bottom";
+						};
+					};
 					//- Video Layer
 						class Vic_PIP_No_Signal: ctrlButton
 						{
@@ -1507,52 +1534,71 @@ PHONE_CLASS
 							w = PhoneBFTContainerW(3);
 							h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH) - (phoneSizeW * 3/5)/3;
 						};
+					// - Turret Infos + Optional Controls
+						#define EMPT_SPAC (0.15 * ((60)) / 2048 * CustomPhoneH)
+						class Track_TG: Vic_PIP_No_Signal
+						{
+							idc = 10;
+							text = "TRACK TG";
+							
+							colorBackground[]={0,0,0.5,0.3};
+							colorBackgroundActive[] = {0,0,0.5,0.2};
+							fade = 0;
+
+							onMouseEnter = "";
+							onMouseExit = "";
+							sizeEx = 0.8 * TextSize;
+
+							x = PhoneBFTContainerW(0.05);
+							y = 0.8 * (((60)) / 2048 * CustomPhoneH) + EMPT_SPAC;
+							w = PhoneBFTContainerW(1.45);
+							h = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
+						};
+						class TG_INFO: RscText
+						{
+							idc = 11;
+
+							style = 2;
+							text = "120° 1000m";
+							sizeEx = 0.8 * TextSize;
+							colorBackground[]={0,0,0,0.2};
+
+							x = PhoneBFTContainerW(0.05);
+							y = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) + EMPT_SPAC;
+							w = PhoneBFTContainerW(1.45);
+							h = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
+						};
+						class Vision: Track_TG
+						{
+							idc = 12;
+							text = "WHOT";
+							
+							x = PhoneBFTContainerW(1.55);
+						};
+						class Sync_Camera: Vision
+						{
+							idc = 13;
+							text = "Sync CAM";
+							
+							y = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) + EMPT_SPAC;
+						};
 					// - Next Turret
-						class TurretTxt: Vic_PIP_No_Signal
+						class TurretTxt: Track_TG
 						{
 							idc = 46320;
 							text = "Gunner >>";
 							colorBackground[] = {0.25,0.25,0.25,0.5};
+							colorBackgroundActive[] = {0.25,0.25,0.25,0.3};
 
 							x = 0;
 							y = (phoneSizeW * 3/5)/3 - (0.85 * TextSize);
 							w = PhoneBFTContainerW(3);
 							h = 0.85 * TextSize;
 							sizeEx = 0.75 * TextSize;
-							fade = 0;
-
-							onMouseEnter = "";
-							onMouseExit = "";
 						};
-						
-					class Title: BCE_RscButtonMenu
-					{
-						idc = 5;
-						x = 0;
-						y = 0;
-						w = PhoneBFTContainerW(3);
-						h = 0.8 * (((60)) / 2048 * CustomPhoneH);
-
-						size = 0.7 * (((60)) / 2048 * CustomPhoneH);
-						text = "Test Name";
-
-						colorBackground[] = {0,0,0,0.5};
-						colorBackground2[] = {0,0,0,0.5};
-						colorBackgroundFocused[] = {0,0,0,0.8};
-
-						animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
-						animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
-						animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
-
-						action = "";
-						class Attributes: Attributes
-						{
-							align = "center";
-							valign = "Bottom";
-						};
-					};
 				};
 			};
+			#undef EMPT_SPAC
 		//-Bottons for ATAK Tools
 			class InputButtons: ATAK_MenuBG
 			{
