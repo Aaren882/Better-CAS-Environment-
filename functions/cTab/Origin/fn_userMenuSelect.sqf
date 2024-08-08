@@ -58,7 +58,7 @@ call {
 		 	["cTab_Tablet_dlg",[["uavCam",str _curSel]],false] call cTab_fnc_setSettings;
 
 		 	_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
-			if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_curSel isNotEqualTo (_Selected_Optic # 1))) then {
+			if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) || (_curSel isNotEqualTo (_Selected_Optic # 1))) then {
 				player setVariable ["TGP_View_Selected_Optic",[([_curSel,0] call BCE_fnc_Check_Optics) # 0, _curSel],true];
 				
 				//-ATAK

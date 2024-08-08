@@ -52,6 +52,9 @@ private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
 	};
 
 switch (_ctrlTitle) do {
+	case localize "STR_BCE_Control_Turret": {
+		0 call cTab_Tablet_btnACT;
+	};
 	//-Enter Data
 		case localize "STR_BCE_Enter": {
 			//-get curLine

@@ -5,7 +5,7 @@ class RscDisplayEmpty_BCE
 };
 class RscTitles
 {
-	titles[] += {"BCE_Task_Receiver","BCE_TGP_View_GUI","BCE_PhoneCAM_View","default"};
+	titles[] += {"BCE_Task_Receiver","BCE_TGP_View_GUI","BCE_HCAM_View","BCE_PhoneCAM_View","default"};
 	class default
 	{
 		idd = -1;
@@ -47,17 +47,6 @@ class RscTitles
 		
 		
 		#if MAP_MODE > 2
-			class cTab_TAD_dsp
-			{
-				class controlsBackground
-				{
-					class screen: cTab_TAD_RscMapControl{}; 
-					class screenTopo: screen
-					{
-						#include "Map_Type\TOPO_AIR.hpp"
-					};
-				};
-			};
 			class cTab_microDAGR_dsp
 			{
 				class controlsBackground
@@ -79,6 +68,7 @@ class RscTitles
 		//-Phone display
 		#include "cTab\cTab_Android.hpp"
 		#include "cTab\ScreenShot_UI.hpp"
+		#include "cTab\cTab_HCam.hpp"
 	#endif
 	class BCE_TGP_View_GUI
 	{

@@ -2,7 +2,9 @@ params ["_cntrlScreen"];
 
 private _display = ctrlParent _cntrlScreen;
 
-cTabMapScale = ctrlMapScale _cntrlScreen;
+if (isNil{cTabMapScale}) then {
+	cTabMapScale = ctrlMapScale _cntrlScreen;
+};
 
 [_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 [_cntrlScreen,0] call cTab_fnc_drawBftMarkers;

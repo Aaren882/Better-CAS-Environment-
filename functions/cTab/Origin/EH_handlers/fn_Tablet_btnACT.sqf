@@ -52,7 +52,6 @@ if (_info isNotEqualTo "") exitWith {
 
 ////////////////////////////////////////////////////////////////////////////
 private _displayName = cTabIfOpen # 1;
-private _mode = [_displayName,"mode"] call cTab_fnc_getSettings;
 
 //-Live Feed
 private _View_Cam = {
@@ -62,7 +61,7 @@ private _View_Cam = {
 	if (isNil {_Selected_Optic # 0} || isNull (_Selected_Optic # 1)) exitWith {
 		["UAV",localize "STR_BCE_Error_Vehicle",5] call cTab_fnc_addNotification;
 	};
-	
+
 	private _vehicle = _Selected_Optic # 1;
 	(_Selected_Optic # 0) params ["_camPosMemPt","_turret"];
 	
@@ -87,14 +86,23 @@ private _View_Cam = {
 
 //-ATAK
 if ("Android" in _displayName) exitWith {
-	_mode = ([_displayName, "showMenu"] call cTab_fnc_getSettings) # 0;
-	switch _mode do {
+	([_displayName,"showMenu"] call cTab_fnc_getSettings) params ["_mode","","",["_PgComponents",[]]];
+	private _hcam = [_displayName, "hcam"] call cTab_fnc_getSettings;
+	private _c = _PgComponents param [0, [0,1] select (_hcam != "")];
+	switch true do {
+		//- Helmet CAM
+		case (_mode == "VideoFeeds" && _c == 1): {
+			558 cutRsc ['BCE_HCAM_View','PLAIN',0.3,false];
+		};
 		default {
 			call _View_Cam;
 		};
 	};
 };
 
+private _mode = [_displayName,"mode"] call cTab_fnc_getSettings;
+
+//- Other Interfaces
 switch _mode do {
 	case "UAV": {
 		call _View_Cam;

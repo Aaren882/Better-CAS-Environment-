@@ -1,9 +1,9 @@
-private ["_display","_displayName","_toggle","_dropBox"];
+private ["_display","_displayName","_toggle","_widgetMode","_dropBox"];
 
 //-get Widget Vars
   _displayName = cTabIfOpen # 1;
   _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
-
+  _widgetMode = _toggle # 4;
 params ["_ctrl","_selectedIndex"];
 
 _display = ctrlParent _ctrl;
@@ -12,7 +12,7 @@ _dropBox = _group controlsGroupCtrl 10;
 lbClear _dropBox;
 
 //- Arrange items
-  switch (_toggle # 4) do {
+  switch _widgetMode do {
     //- Drawing Tools
     case 1: {
       private ["_Markers","_colorLb","_color","_cfg","_classes","_brushes"];
@@ -99,5 +99,5 @@ lbClear _dropBox;
   };
 
 //- Update Drop Box Selection
-_selectedIndex = _toggle # 2;
+_selectedIndex = _toggle # 2 # _widgetMode;
 _dropBox lbSetCurSel ([_selectedIndex, (lbSize _dropBox) - 1] select (lbSize _dropBox < (_selectedIndex + 1)));

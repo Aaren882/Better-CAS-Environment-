@@ -84,6 +84,9 @@ _getBrush = {
 {
 	private ["_markerType","_markerShape","_config","_onSameChannel","_hide_Direction","_texture","_color","_text"];
 
+	//- Skip on Prefix "-"
+		if (_x select [0,1] == "-") then {continue};
+
 	_markerType = markerType _x;
 	_markerShape = MarkerShape _x;
 	_markerChannel = markerChannel _x;
@@ -191,7 +194,7 @@ _getBrush = {
 
 	//- draw Marker Icon
 		_text = if (cTabBFTtxt) then {
-			markerText _x;
+			markerText _x
 		} else {
 			""
 		};

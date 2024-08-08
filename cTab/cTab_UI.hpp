@@ -395,8 +395,6 @@ class cTab_Tablet_dlg
 						
 						colorBackground[]={0,0,0,0.5};
 						colorSelectBackground[]={0,0,0,0.5};
-
-						onLBSelChanged = "call cTab_fnc_onMarkerSelChanged";
 					};
 					
 					//- Marker text edittors

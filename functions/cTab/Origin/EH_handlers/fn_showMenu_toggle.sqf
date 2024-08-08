@@ -7,5 +7,6 @@ if ([_displayName,"showModeMenu"] call cTab_fnc_getSettings) then {
 };
 
 _showMenu = [_displayName,"showMenu"] call cTab_fnc_getSettings;
-[_displayName,[["showMenu",[_showMenu # 0,!(_showMenu # 1),_showMenu # 2]]]] call cTab_fnc_setSettings;
+_showMenu set [1,!(_showMenu # 1)];
+[_displayName,[["showMenu",_showMenu]],true,true] call cTab_fnc_setSettings;
 true

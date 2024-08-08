@@ -671,6 +671,7 @@ class CfgFunctions
 			class touchMark;
 			class UpdateCameraInfo;
 			class LandMarks_icon;
+			class Next_VisionMode;
 		};
 		class Lists
 		{
@@ -760,6 +761,8 @@ class CfgFunctions
 				class cTab_Switch_ExtendedList;
 				class cTab_BFT_ToolBox;
 				class cTab_getWeather_Infos;
+				class cTab_UpdateInterface;
+				class cTab_CreateCameraList;
 				class Extended_WeaponDESC;
 				class Extended_TaskDESC;
 			};
@@ -772,6 +775,7 @@ class CfgFunctions
 			class ATAK
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK";
+				class ATAK_ChangeTool;
 				class ATAK_openPage;
 				class ATAK_TaskCreate;
 				class ATAK_LastPage;
@@ -785,18 +789,20 @@ class CfgFunctions
 				class ATAK_PullData;
 				class ATAK_ShowTaskResult;
 				class ATAK_onVehicleChanged;
+				class ATAK_toggleSubMenu;
+				class ATAK_Camera_Controls;
 			};
 			class ATAK_CAM
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Camera";
 				class ATAK_CamInit;
 				class ATAK_TakePicture;
+				class ATAK_FullScreenCamera;
 			};
 			class ATAK_MSG
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Message";
 				class ATAK_msg_Line_Create;
-				class ATAK_toggleMsgContacts;
 			};
 		#endif
 	};
@@ -883,6 +889,14 @@ class CfgFunctions
 				class createUavCam
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_createUavCam.sqf";
+				};
+				class createHelmetCam
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_createHelmetCam.sqf";
+				};
+				class deleteHelmetCam
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_deleteHelmetCam.sqf";
 				};
 				class userMenuSelect
 				{

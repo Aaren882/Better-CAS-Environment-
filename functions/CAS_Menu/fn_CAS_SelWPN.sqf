@@ -8,7 +8,7 @@ lbClear _ctrlMode;
 _data = call compile (_control lbdata _lbCurSel);
 _data params ["_WeapName","_class","_modes","_turret","_Count","_muzzle"];
 
-_ctrlCount ctrlShow !((_class isKindOf ["CannonCore", configFile >> "CfgWeapons"]) or (_class isKindOf ["MGunCore", configFile >> "CfgWeapons"]));
+_ctrlCount ctrlShow !((_class isKindOf ["CannonCore", configFile >> "CfgWeapons"]) || (_class isKindOf ["MGunCore", configFile >> "CfgWeapons"]));
 
 //-Modes Combo List
 _modes apply {

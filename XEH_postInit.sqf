@@ -80,6 +80,7 @@ uiNamespace setVariable ["BCE_LandMarks",_BCE_LandMarks];
 #define isCtrlTurret ({count (_x getVariable ["TGP_View_Turret_Control",[]]) > 0} count (crew _vehicle)) > 0
 #define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
 #define IsPhoneCAM_ON !isnull (uiNamespace getVariable ["BCE_PhoneCAM_View",displayNull])
+#define IsHCAM_ON !isnull (uiNamespace getVariable ["BCE_HCAM_View",displayNull])
 #ifdef cTAB_Installed
 	[BCE_fnc_cTab_postInit, [], 1] call CBA_fnc_WaitAndExecute;
  
@@ -134,15 +135,7 @@ uiNamespace setVariable ["BCE_LandMarks",_BCE_LandMarks];
 	{
 		if (IsTGP_CAM_ON) then {
 			SwitchSound;
-			_n_counts = player getVariable ["TGP_View_Optic_Mode", 2];
-			if (_n_counts == 5) then {
-				_n_counts = 2;
-				player setVariable ["TGP_View_Optic_Mode", 2];
-			} else {
-				_n_counts = _n_counts + 1;
-				player setVariable ["TGP_View_Optic_Mode", _n_counts];
-			};
-			_n_counts call BCE_fnc_OpticMode;
+			(call BCE_fnc_Next_VisionMode) call BCE_fnc_OpticMode;
 		};
 	},
 	"",
@@ -167,7 +160,7 @@ uiNamespace setVariable ["BCE_LandMarks",_BCE_LandMarks];
 		};
 
 		//- Exit Phone Camera
-		if (IsPhoneCAM_ON) exitWith {
+		if (IsPhoneCAM_ON || IsHCAM_ON) exitWith {
 			558 cutRsc ["default","PLAIN"];
 			cutText ["", "BLACK IN",0.5];
 		};

@@ -9,7 +9,7 @@
 	["mapScaleDsp",2],
 	["mapScaleDlg",2],
 	["MarkerEDIT",""],
-	["MarkerWidget",[false,0,0,[],0,0,100]],
+	["MarkerWidget",[false,0,[0,0],[],0,0,100]],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["uavCam",""],
@@ -33,19 +33,20 @@
 	["mapScaleDlg",0.4],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
-	["showMenu",["main",false,-1]],
-	["MarkerWidget",[false,0,0,[],0,0,100]],
+	["showMenu",["main",false,-1,[]]],
+	["MarkerWidget",[false,0,[0,0],[],0,0,100]],
 	["MarkerEDIT",""],
 	["Contactor",""],
 	["showModeMenu",false],
-	["uavCam",""],
 	["uavInfo",false],
 	["mapTools",true],
 	["PLP_mapTools",false],
 	["nightMode",2],
+	["hCam",""],
+	
 	//- Define Size
-	#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.443437)])
-	#define CustomPhoneH (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_H',(PhoneW * 4/3)])
+		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.443437)])
+		#define CustomPhoneH (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_H',(PhoneW * 4/3)])
 	["Weather_Condition",[false,"", str [((safezoneW * 0.8) * 4/3) / CustomPhoneH, 1.15]]],
 
 	["brightness",0.9]

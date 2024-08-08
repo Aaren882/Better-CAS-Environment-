@@ -87,6 +87,7 @@ PHONE_CLASS
 				style = 48 + 512;
 				onMouseButtonClick = MOUSE_CLICK_EH;
 				onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
+				onMouseZChanged = "[_this#0,-1,(_this#1) < 0] call BCE_fnc_ATAK_Camera_Controls";
 			#endif
 		};
 		
@@ -130,7 +131,7 @@ PHONE_CLASS
 		class Vic_PIP_Display: RscPicture
 		{
 			idc = idc_D(4632);
-			text = "#(argb,512,512,1)r2t(rendertarget9,1.1896551724)";
+			text = "";
 			x = phoneSizeX + (((((((452) + (20)) + (10)) + ((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) + (10))) - ((452))) / 2048 * PhoneW);
 			y = phoneSizeY + (((((((713) + (60) + (10)) + (20)))) - ((713) + (60))) / 2048 * CustomPhoneH);
 			w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2)) / 2048 * PhoneW;
@@ -465,7 +466,7 @@ PHONE_CLASS
 				x = phoneSizeX + (phoneSizeW * 3/5);
 				y = phoneSizeY;
 				w = phoneSizeW * 2/5;
-				h = phoneSizeH;
+				h = phoneSizeH - 0.11 * (((60)) / 2048 * CustomPhoneH);
 				class VScrollbar{};
 				class HScrollbar{};
 				class Scrollbar{};
@@ -474,11 +475,11 @@ PHONE_CLASS
 					class menuBackground: RscBackground
 					{
 						idc = 9;
-						colorBackground[] = {0.2,0.2,0.2,0.5};
+						colorBackground[] = {0.4,0.4,0.4,0.5};
 					};
 				};
 			};
-		//- Home page of ATAK
+		//- Home page of ATAK (Applications)
 			class ATAK_Tools: ATAK_MenuBG
 			{
 				idc = idc_D(4660);
@@ -509,7 +510,7 @@ PHONE_CLASS
 						animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
 						
 						size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
-						action = "['cTab_Android_dlg',[['showMenu',['message',true,-1]]]] call cTab_fnc_setSettings;";
+						action = "'message' call BCE_fnc_ATAK_ChangeTool;";
 						
 						textureNoShortcut=APP_MSG;
 						class ShortcutPos
@@ -543,8 +544,8 @@ PHONE_CLASS
 						idc = 4660 + 101;
 						text = ATAK_APP("MG8\AVFEVFX\data\missions.paa",Missions);
 						x = PhoneBFTContainerW(1);
-						action = "['cTab_Android_dlg',[['showMenu',['mission',true,-1]]]] call cTab_fnc_setSettings;";
-						
+						action = "'mission' call BCE_fnc_ATAK_ChangeTool;";
+
 						textureNoShortcut="MG8\AVFEVFX\data\missions.paa";
 					};
 					class actUAVtxt: actMSGtxt
@@ -553,7 +554,7 @@ PHONE_CLASS
 						x = PhoneBFTContainerW(2);
 						text = ATAK_APP("MG8\AVFEVFX\data\AV_Cam.paa",AV Camera);
 						// action = "['cTab_Android_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
-						action = "['cTab_Android_dlg',[['showMenu',['VideoFeeds',true,-1]]]] call cTab_fnc_setSettings;";
+						action = "'VideoFeeds' call BCE_fnc_ATAK_ChangeTool;";
 						
 						
 						textureNoShortcut="MG8\AVFEVFX\data\AV_Cam.paa";
@@ -564,7 +565,7 @@ PHONE_CLASS
 						idc = 4660 + 103;
 						y = (phoneSizeW * 3/5)/3;
 						text = ATAK_APP("MG8\AVFEVFX\data\photo.paa", Take Pictures);
-						action = "call cTab_fnc_close; 558 cutRsc ['BCE_PhoneCAM_View','PLAIN',0.3,false];";
+						action = "558 cutRsc ['BCE_PhoneCAM_View','PLAIN',0.3,false];";
 						
 						textureNoShortcut="MG8\AVFEVFX\data\photo.paa";
 					};
@@ -828,7 +829,7 @@ PHONE_CLASS
 
 						size = 0.7 * (((60) - (20))) / 2048 * CustomPhoneH;
 						
-						action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,1]]]] call cTab_fnc_setSettings;";
+						action = "['mission_Build',1] call BCE_fnc_ATAK_ChangeTool;";
 						
 						class Attributes: Attributes
 						{
@@ -859,7 +860,7 @@ PHONE_CLASS
 						ATAK_POS(0.2,(4.6 + (0.35/2)),2.7,0.7);
 						text = "535ft MSL";
 						tooltip="$STR_BCE_TIP_ELEV";
-						action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,4]]]] call cTab_fnc_setSettings;";
+						action = "['mission_Build',4] call BCE_fnc_ATAK_ChangeTool;";
 					};
 					/*class L94_PullBnt: ctrlButton
 					{
@@ -962,7 +963,7 @@ PHONE_CLASS
 						ATAK_POS(0.2,(7.6 + (0.35/2)),2.7,0.7);
 						text = "XT 123456";
 						tooltip="$STR_BCE_TIP_GRID";
-						action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,6]]]] call cTab_fnc_setSettings;";
+						action = "['mission_Build',6] call BCE_fnc_ATAK_ChangeTool;";
 					};
 					
 					//-Line 7
@@ -979,7 +980,7 @@ PHONE_CLASS
 						ATAK_POS(0.2,(8.6 + (0.35/2)),2.7,0.7);
 						text = "NO MARKS";
 						tooltip="$STR_BCE_TIP_MARK";
-						action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,7]]]] call cTab_fnc_setSettings;";
+						action = "['mission_Build',7] call BCE_fnc_ATAK_ChangeTool;";
 					};
 					
 					//-Line 8
@@ -996,7 +997,7 @@ PHONE_CLASS
 						ATAK_POS(0.2,(9.6 + (0.35/2)),2.7,0.7);
 						text = "None";
 						tooltip="$STR_BCE_TIP_FRND";
-						action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,8]]]] call cTab_fnc_setSettings;";
+						action = "['mission_Build',8] call BCE_fnc_ATAK_ChangeTool;";
 					};
 					//-Line 9
 					class Line9_T9: CtrlType
@@ -1012,7 +1013,7 @@ PHONE_CLASS
 						ATAK_POS(0.2,(10.6 + (0.35/2)),2.7,0.7);
 						text = "Back To IP";
 						tooltip="$STR_BCE_TIP_EGRS";
-						action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,9]]]] call cTab_fnc_setSettings;";
+						action = "['mission_Build',9] call BCE_fnc_ATAK_ChangeTool;";
 					};
 
 					////////// -5 Line //////////
@@ -1055,7 +1056,7 @@ PHONE_CLASS
 						ATAK_POS(0.2,(4.6 + (0.35/2)),2.7,0.7);
 						text = "None";
 						tooltip="$STR_BCE_TIP_FRND";
-						action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,1]]]] call cTab_fnc_setSettings;";
+						action = "['mission_Build',1] call BCE_fnc_ATAK_ChangeTool;";
 					};
 					
 					class Line3_T5: CtrlType
@@ -1071,7 +1072,7 @@ PHONE_CLASS
 						ATAK_POS(0.2,(5.6 + (0.35/2)),2.7,0.7);
 						text = "None";
 						tooltip="$STR_BCE_TIP_GRID";
-						action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,2]]]] call cTab_fnc_setSettings;";
+						action = "['mission_Build',2] call BCE_fnc_ATAK_ChangeTool;";
 					};
 					
 					class Line4_T5: CtrlType
@@ -1139,7 +1140,7 @@ PHONE_CLASS
 						ATAK_POS(0.1,(12.7 + (0.35/2)),2.8,0.7);
 						text = "No Remarks";
 						tooltip="$STR_BCE_TIP_Remarks";
-						action = "['cTab_Android_dlg',[['showMenu',['mission_Build',true,10]]]] call cTab_fnc_setSettings;";
+						action = "['mission_Build',10] call BCE_fnc_ATAK_ChangeTool;";
 					};
 					
 					/*class AddRemark: ctrlButton
@@ -1416,7 +1417,7 @@ PHONE_CLASS
 						animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
 						animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
 
-						action = "call BCE_fnc_ATAK_toggleMsgContacts";
+						onButtonClick = "call BCE_fnc_ATAK_toggleSubMenu";
 						class Attributes: Attributes
 						{
 							align = "center";
@@ -1468,143 +1469,211 @@ PHONE_CLASS
 				};
 			};
 		//- Video Feeds Interface
+			#define EMPT_SPAC (0.15 * ((60)) / 2048 * CustomPhoneH)
 			class ATAK_Video: ATAK_Message
 			{
 				idc = idc_D(4640);
 				class controls
 				{
-					//- Title
 					class Title: BCE_RscButtonMenu
 					{
 						idc = 5;
+						
 						x = 0;
 						y = 0;
 						w = PhoneBFTContainerW(3);
 						h = 0.8 * (((60)) / 2048 * CustomPhoneH);
-
+						
 						size = 0.7 * (((60)) / 2048 * CustomPhoneH);
-						text = "Test Name";
+						text = "";
 
 						colorBackground[] = {0,0,0,0.5};
 						colorBackground2[] = {0,0,0,0.5};
-						colorBackgroundFocused[] = {0,0,0,0.8};
+						colorBackgroundFocused[] = {0,0,0,0.5};
 
 						animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
 						animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
 						animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
 
-						action = "";
+						onButtonClick = "call BCE_fnc_ATAK_toggleSubMenu";
 						class Attributes: Attributes
 						{
 							align = "center";
 							valign = "Bottom";
 						};
 					};
-					//- Video Layer
-						class Vic_PIP_No_Signal: ctrlButton
+					//- Sel Other Camera (Helmet, TGP etc)
+					class CamSelBox: cTab_RscControlsGroup
+					{
+						idc = 10;
+						//- Scroll
+							class VScrollbar: VScrollbar
+							{
+								width = 0;
+							};
+							class HScrollbar: HScrollbar
+							{
+								height = 0;
+							};
+						x = 0;
+						y = 0.8 * (((60)) / 2048 * CustomPhoneH);
+						w = PhoneBFTContainerW(3);
+						h = 0;
+
+						class controls
 						{
-							idc = 46310;
-							style = 2;
-							text = "$STR_BCE_No_Signal";
-							
-							sizeEx = TextSize;
-							font = "RobotoCondensed_BCE";
-							colorShadow[] = {0,0,0,0.5};
+							class Type: RscToolbox
+							{
+								idc = 6;
+								
+								x = PhoneBFTContainerW(0.05);
+								y = EMPT_SPAC;
+								w = PhoneBFTContainerW(2.95);
+								h = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
 
-							colorBackground[]={0,0,0,0.8};
-							colorBackgroundActive[] = {0,0,0,0.8};
-							offsetPressedX = 0;
-							offsetPressedY = 0;
+								rows = 1;
+								columns = 2;
+								strings[] =
+								{
+									"AC CAM",
+									"Helmet CAM"
+								};
+								font = "RobotoCondensed_BCE";
+								colorBackground[] = {0,0,0,0.3};
+								sizeEx = 0.8 * TextSize;
+							};
+							class List: RscListbox
+							{
+								idc = 7;
+								colorBackground[]={0,0,0,0.8};
+								sizeEx = TextSize;
 
-							x = 0;
-							y = (phoneSizeW * 3/5)/3;
-							w = PhoneBFTContainerW(3);
-							h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH) - (phoneSizeW * 3/5)/3;
-							fade = 1;
-
-							onMouseEnter = "(_this # 0) ctrlSetFade 0.8; (_this # 0) ctrlcommit 0.2;";
-							onMouseExit = "(_this # 0) ctrlSetFade 1; (_this # 0) ctrlcommit 0.2;";
+								x = 0;
+								y = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 + EMPT_SPAC;
+								w = PhoneBFTContainerW(3);
+								h = phoneSizeH - (0.75 + 0.8) * (((60)) / 2048 * CustomPhoneH) - ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2;
+							};
 						};
-						class Vic_PIP_Display: RscPicture
+					};
+					class ViewBox: CamSelBox
+					{
+						idc = 20;
+						h = phoneSizeH - (0.75 + 0.8) * (((60)) / 2048 * CustomPhoneH);
+						class controls
 						{
-							idc = 4632;
-							text = "#(argb,512,512,1)r2t(rendertarget9,1.1896551724)";
-							x = 0;
-							y = (phoneSizeW * 3/5)/3;
-							w = PhoneBFTContainerW(3);
-							h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH) - (phoneSizeW * 3/5)/3;
-						};
-					// - Turret Infos + Optional Controls
-						#define EMPT_SPAC (0.15 * ((60)) / 2048 * CustomPhoneH)
-						class Track_TG: Vic_PIP_No_Signal
-						{
-							idc = 10;
-							text = "TRACK TG";
-							
-							colorBackground[]={0,0,0.5,0.3};
-							colorBackgroundActive[] = {0,0,0.5,0.2};
-							fade = 0;
+							// - Turret Infos + Optional Controls
+								class Track_TG: Title
+								{
+									idc = 11;
+									text = "TRACK TG";
+									
+									colorBackground[] = {0,0,0.5,0.3};
+									colorBackground2[] = {0,0,0.5,0.3};
+									colorBackgroundFocused[] = {0,0,0,0.3};
 
-							onMouseEnter = "";
-							onMouseExit = "";
-							sizeEx = 0.8 * TextSize;
+									size = 0.8 * TextSize;
 
-							x = PhoneBFTContainerW(0.05);
-							y = 0.8 * (((60)) / 2048 * CustomPhoneH) + EMPT_SPAC;
-							w = PhoneBFTContainerW(1.45);
-							h = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
-						};
-						class TG_INFO: RscText
-						{
-							idc = 11;
+									x = PhoneBFTContainerW(0.05);
+									y = EMPT_SPAC;
+									w = PhoneBFTContainerW(1.45);
+									h = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
 
-							style = 2;
-							text = "120° 1000m";
-							sizeEx = 0.8 * TextSize;
-							colorBackground[]={0,0,0,0.2};
+									onButtonClick = "[_this#0,0] call BCE_fnc_ATAK_Camera_Controls";
+								};
+								class TG_INFO: RscText
+								{
+									idc = 12;
 
-							x = PhoneBFTContainerW(0.05);
-							y = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) + EMPT_SPAC;
-							w = PhoneBFTContainerW(1.45);
-							h = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
-						};
-						class Vision: Track_TG
-						{
-							idc = 12;
-							text = "WHOT";
-							
-							x = PhoneBFTContainerW(1.55);
-						};
-						class Sync_Camera: Vision
-						{
-							idc = 13;
-							text = "Sync CAM";
-							
-							y = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) + EMPT_SPAC;
-						};
-					// - Next Turret
-						class TurretTxt: Track_TG
-						{
-							idc = 46320;
-							text = "Gunner >>";
-							colorBackground[] = {0.25,0.25,0.25,0.5};
-							colorBackgroundActive[] = {0.25,0.25,0.25,0.3};
+									style = 2;
+									text = "120° 1000m";
+									sizeEx = 0.8 * TextSize;
+									colorBackground[]={0,0,0,0.2};
 
-							x = 0;
-							y = (phoneSizeW * 3/5)/3 - (0.85 * TextSize);
-							w = PhoneBFTContainerW(3);
-							h = 0.85 * TextSize;
-							sizeEx = 0.75 * TextSize;
+									x = PhoneBFTContainerW(0.05);
+									y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2;
+									w = PhoneBFTContainerW(1.45);
+									h = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
+								};
+								class Vision: Track_TG
+								{
+									idc = 13;
+									text = "";
+									
+									x = PhoneBFTContainerW(1.55);
+									onButtonClick = "[_this#0,1] call BCE_fnc_ATAK_Camera_Controls";
+								};
+								class Sync_Camera: Vision
+								{
+									idc = 14;
+									text = "Sync CAM";
+									
+									y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2;
+									onButtonClick = "[_this#0,2] call BCE_fnc_ATAK_Camera_Controls";
+								};
+							// - Next Turret
+								class TurretTxt: ctrlButton
+								{
+									idc = 46320;
+									text = "Gunner >>";
+									colorBackground[] = {0.25,0.25,0.25,0.8};
+									colorBackgroundActive[] = {0.25,0.25,0.25,0.4};
+									colorBackgroundDisabled[] = {0.25,0.25,0.25,0.8};
+									colorDisabled[] = {1,1,1,1};
+
+									x = 0;
+									y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - 0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize);
+									w = PhoneBFTContainerW(3);
+									h = 0.85 * TextSize;
+									sizeEx = 0.75 * TextSize;
+
+									font = "RobotoCondensed_BCE";
+									colorShadow[] = {0,0,0,0.2};
+
+									offsetPressedX = 0;
+									offsetPressedY = 0;
+									
+									onButtonClick = "[_this # 0,17000] call BCE_fnc_NextTurretButton;";
+								};
+							//- Video Layer
+								class Vic_PIP_Display: RscPicture
+								{
+									idc = 4632;
+									text = "#(argb,512,512,1)r2t(rendertarget9,1.1896551724)";
+									x = 0;
+									y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - 0.8 * (60 / 2048 * CustomPhoneH));
+									w = PhoneBFTContainerW(3);
+									h = phoneSizeH - EMPT_SPAC - 0.75 * (((60)) / 2048 * CustomPhoneH) - (phoneSizeW * 3/5)/3;
+								};
+								class Vic_PIP_No_Signal: TurretTxt
+								{
+									idc = 46310;
+
+									x = 0;
+									y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - 0.8 * (60 / 2048 * CustomPhoneH));
+									w = PhoneBFTContainerW(3);
+									h = phoneSizeH - EMPT_SPAC - 0.75 * (((60)) / 2048 * CustomPhoneH) - (phoneSizeW * 3/5)/3;
+									
+									style = 2;
+									text = "$STR_BCE_No_Signal";
+									colorBackground[]={0,0,0,0.4};
+									colorBackgroundActive[] = {0,0,0,0.2};
+									colorBackgroundDisabled[] = {0,0,0,0.4};
+									colorDisabled[] = {1,1,1,0.25};
+
+									onButtonClick = "";
+									action = "call cTab_Tablet_btnACT";
+								};
 						};
+					};
 				};
 			};
 			#undef EMPT_SPAC
-		//-Bottons for ATAK Tools
+		//- Bottons for ATAK Tools
 			class InputButtons: ATAK_MenuBG
 			{
 				idc = 46600;
 				y = phoneSizeY + phoneSizeH - (0.75 * (((60)) / 2048 * CustomPhoneH));
-				h = 0.75 * (((60)) / 2048 * CustomPhoneH);
+				h = 0.64 * (((60)) / 2048 * CustomPhoneH);
 				class controls
 				{
 					class Back: BCE_RscButtonMenu
@@ -1835,8 +1904,6 @@ PHONE_CLASS
 						
 						colorBackground[]={0,0,0,0.5};
 						colorSelectBackground[]={0,0,0,0.5};
-
-						onLBSelChanged = "call cTab_fnc_onMarkerSelChanged";
 					};
 					
 					//- Marker text edittors
@@ -2055,14 +2122,6 @@ PHONE_CLASS
 
 					action = "['cTab_Android_dlg',[['mode','BFT']]] call cTab_fnc_setSettings;";
 					toolTip = "FBCB2 - Blue Force Tracker";
-				};
-				class actUAVtxt: actBFTtxt
-				{
-					idc = 1002;
-					y = (((((491) + (42)) + (25) * 2 + (100)) - ((491) + (42))) / 2048 * PhoneH);
-					text = APP_UAV;
-					action = "['cTab_Android_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
-					toolTip = "Air Vic Video Feeds";
 				};
 			};
 		};
