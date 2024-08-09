@@ -918,6 +918,10 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_onIfClose.sqf";
 				};
+				class msg_gui_Load
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_msg_gui_Load.sqf";
+				};
 			};
 
 			//- Add

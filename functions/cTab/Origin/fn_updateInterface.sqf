@@ -1132,36 +1132,42 @@ _settings apply {
 							_ctrl_View ctrlRemoveAllEventHandlers "MouseEnter";
 							_ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
 						};
+					
+					if (_interfaceInit) exitWith {};
 
 					//- View Box Status
 						private _veh = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
 						private _isHcam = _SubSel == 1;
-					
-					if (_null_Connected || _hcam != "") then {
-						call cTab_fnc_deleteUAVcam;
-						player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
-					};
+						//- exit if display is on
+						private _displayOn = (
+							!isnull(uiNamespace getVariable ["BCE_HCAM_View",displayNull]) || 
+							((player getVariable ["TGP_View_EHs", -1]) != -1)
+						);
 					
 					//- Setup PIP Camera
 						call {
-							if (_hcam != "" || _isHcam) exitWith {
+							//- Helmet CAM
+							if (_isHcam) exitWith {
 								_ctrl_Turret ctrlSetText "Helment CAM";
 								call cTab_fnc_deleteUAVcam;
-								_veh = ["rendertarget9",_hcam] call cTab_fnc_createHelmetCam;
+								player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
+								_veh = ["rendertarget9",_hcam, !_displayOn] call cTab_fnc_createHelmetCam;
 							};
-							if !(isnull _veh) exitWith {
+							//- AV CAM
+							if (!isnull _veh && !_displayOn) exitWith {
 								call cTab_fnc_deleteHelmetCam; //- delete Hcam PIP
 								[_veh,[[1,"rendertarget9"]],false] call cTab_fnc_createUavCam;
 							};
 						};
+
 					private _null_Connected = isnull _veh;
 					
 					//- PIP Control
-						_ctrl_PIP ctrlShow (!_null_Connected || _isHcam);
+						_ctrl_PIP ctrlShow ((!_null_Connected || _isHcam) && !_displayOn);
 					//- Button Control
-						_ctrl_View ctrlEnable !_null_Connected;
+						_ctrl_View ctrlEnable (!_null_Connected && !_displayOn);
 					//- Widget Control
-						{_x ctrlEnable (!_null_Connected && !_isHcam)} count [_ctrl_TrackTG,_ctrl_Vision,_ctrl_Sync,_ctrl_Turret];
+						{_x ctrlEnable (!_null_Connected && !_isHcam && !_displayOn)} count [_ctrl_TrackTG,_ctrl_Vision,_ctrl_Sync,_ctrl_Turret];
 
 					//- Create PIP camera if mode is "UAV"
 						private _title = if (_null_Connected) then {
@@ -1190,7 +1196,7 @@ _settings apply {
 
 					//- Set Title Text
 						_switch_btn ctrlSetStructuredText parseText _title;
-						_ctrl_TrackInfo ctrlSetText "NA"; //- Rewrite the Focus Point (Relative Info)
+						_ctrl_TrackInfo ctrlSetText localize "STR_BCE_None"; //- Rewrite the Focus Point (Relative Info)
 
 					//- Update Vision Mode (after Camera is Generated)
 							[_ctrl_TrackTG,0,false] call BCE_fnc_ATAK_Camera_Controls;
@@ -1264,18 +1270,18 @@ _settings apply {
 					_list ctrlSetFade 0;
 					_list ctrlCommit (0.25 call _commitTime);
 
-					//- exit on none "_contactor" Selected
-						if (_contactor == "") exitWith {
-							_title ctrlSetStructuredText parseText format ['"%1"',localize "STR_BCE_None"];
-						};
-					_title ctrlSetStructuredText parseText _contactor;
-
 					//- sort out the correct "_contactor" name (STRING)
 						{
 							if (str _x == _contactor) exitWith {
 								_contactor = name _x;
 							};
 						} count ([cTab_player] + playableUnits);
+					
+					//- exit on none "_contactor" Selected
+						if (_contactor == "") exitWith {
+							_title ctrlSetStructuredText parseText format ['"%1"',localize "STR_BCE_None"];
+						};
+					_title ctrlSetStructuredText parseText _contactor;
 
 					//- Msg Sort
 						private _msgArray = cTab_player getVariable ["cTab_messages_" + call cTab_fnc_getPlayerEncryptionKey,[]];
@@ -1354,6 +1360,7 @@ _settings apply {
 								_size_H = _size_H + (_ctrl_H * _size);
 								_index = _index + 1;
 						} forEach _msgArray;
+					
 					cTabRscLayerMailNotification cutText ["", "PLAIN"];
 					_list spawn {
 						uiSleep 0.1;

@@ -16,6 +16,7 @@ _Exit_ctrl = _display displayCtrl 15;
 _Exit_ctrl ctrlSetText format [localize "STR_BCE_Press_key" + " " + localize "STR_BCE_Exit_Camera", ((["Better CAS Environment (TGP)", "Exit"] call CBA_fnc_getKeybind) # -1 # 0) call CBA_fnc_localizeKey];
 
 _Sync = true;
+_can_Exit = !isnil {_components};
 
 _cam = switch _displayName do {
   case "BCE_PhoneCAM_View": {
@@ -61,14 +62,14 @@ _cam = switch _displayName do {
       if !(canSuspend) exitWith {
         //- Check Camera Data
           if (isnil{cTabHcams}) exitWith {objNull};
-          _newHost = cTabHcams # 1;
+          private _newHost = cTabHcams # 1;
           
         //- Close cTab Interface (Dont do it first ,data from cTab can be Transferred easily)
           call cTab_fnc_deleteHelmetCam;
           call cTab_fnc_close;
         
-        //- Active again
-          [_displayName,_newHost] spawn {
+        //- Active again -\\ _components : [OBJECT, Can Exit];
+          [_displayName,[_newHost,false]] spawn {
             uiSleep 0.1;
             _this call BCE_fnc_ATAK_CamInit;
           };
@@ -76,7 +77,8 @@ _cam = switch _displayName do {
       };
 
       _Sync = false;
-      _newHost = _components;
+      _newHost = _components # 0;
+      _can_Exit = _components # 1;
       
       //- User Name
         _user ctrlSetText name _newHost;
@@ -115,7 +117,7 @@ _cam = switch _displayName do {
 };
 
 if (isNull _cam) exitWith {
-  if (canSuspend) then {
+  if (_can_Exit) then {
     _display closeDisplay 0;
   };
 };
@@ -142,13 +144,13 @@ if (isNull _cam) exitWith {
   private _time = _display displayCtrl 53;
   _time ctrlSetText ([_zulu, [daytime] call BIS_fnc_timeToString] joinString " ");
 
-  //- In 10 GRIDs
+  //- Update Date
   private _dateCtrl = _display displayCtrl 54;
-  
   private _date = date;
   _date resize 3;
   _dateCtrl ctrlSetText ((_date apply {(["","0"] select (_x < 10)) + (str _x)}) joinString "/");
 
+  (isnull _cam) || 
   (isnull _display) || 
   !(alive _unit) || 
   !(isNull curatorCamera) || 

@@ -92,8 +92,46 @@ cTabOnDrawbftAndroid = ctab_fnc_onDrawbftAndroid;
 cTabOnDrawbftAndroidDsp = ctab_fnc_onDrawbftAndroidDsp;
 cTabOnDrawUAV = ctab_fnc_onDrawUAV;
 cTab_Tablet_btnACT = ctab_fnc_Tablet_btnACT;
+cTab_msg_gui_load = ctab_fnc_msg_gui_load;
 
 cTabTxtSize = 0.06;
+
+["cTab_msg_receive",
+	{
+		params ["_msgRecipient","_msgTitle","_msgBody","_msgEncryptionKey","_sender"];
+
+		_playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
+		_msgArray = _msgRecipient getVariable ["cTab_messages_" + _msgEncryptionKey,[]];
+		// _msgArray pushBack [_msgTitle,_msgBody,0];
+		// _msgRecipient setVariable ["cTab_messages_" + _msgEncryptionKey,_msgArray];
+
+		["ctab_messagesUpdated"] call CBA_fnc_localEvent;
+
+		if (
+			_msgRecipient == cTab_player && 
+			_sender != cTab_player && 
+			(_playerEncryptionKey == _msgEncryptionKey) && 
+			([cTab_player,ctab_core_leaderDevices] call cTab_fnc_checkGear)
+		) then {
+			playSound "cTab_phoneVibrate";
+			
+			private _displayName = cTabIfOpen # 1;
+			if (
+				!isNil "cTabIfOpen" && 
+				(
+					"MESSAGE" == ([_displayName,"mode"] call cTab_fnc_getSettings) ||
+					"message" in ([_displayName,"showMenu"] call cTab_fnc_getSettings)
+				)
+			) then {
+				[] call cTab_msg_gui_load;
+
+				["MSG",format [localize "STR_ctab_core_newMessage",name _sender],6] call cTab_fnc_addNotification;
+			} else {
+				cTabRscLayerMailNotification cutRsc ["cTab_Mail_ico_disp", "PLAIN"]; 
+			};
+		};
+	}
+] call CBA_fnc_addLocalEventHandler;
 
 //- Set Marker Cache
 	private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");

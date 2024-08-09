@@ -19,7 +19,7 @@
 */
 
 private ["_renderTarget","_data","_newHost","_camOffSet","_oldCam","_oldHost","_target","_cam"];
-params ["_renderTarget","_data"];
+params ["_renderTarget","_data","_usePIP"];
 
 //- Exit on Empty
 if (_data == "") exitWith {objNull};
@@ -31,6 +31,8 @@ _camOffSet = [];
 {
 	if (_data == str _x) exitWith {_newHost = _x;};
 } count cTabHcamlist;
+
+if !(_usePIP) exitWith {_newHost};
 
 call {
 	// should unit not be in a vehicle
@@ -49,7 +51,7 @@ call {
 
 // if there is no valid unit or we are not allowed to set up a helmet cam in these conditions, drop out of full screen view
 if (IsNull _newHost) exitWith {
-	[cTabIfOpen # 1,[["mode","HCAM"]]] call cTab_fnc_setSettings;
+	["cTab_Tablet_dlg",[["mode","HCAM"]]] call cTab_fnc_setSettings;
 	_newHost
 };
 
