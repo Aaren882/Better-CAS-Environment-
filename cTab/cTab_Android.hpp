@@ -457,7 +457,6 @@ PHONE_CLASS
 				w = 1.3 * sizeW * (PhoneW * 3/4);
 				h = 1.3 * sizeW * PhoneW;
 			};
-		
 		//- Pages for ATAK
 			//- Back Ground
 			class ATAK_MenuBG: cTab_RscControlsGroup

@@ -86,25 +86,24 @@ if (_vehicle != _player && (_isDialog || _displayName in ["cTab_TAD_dsp"])) then
 private _EH = switch (true) do {
 	case ("Android" in _displayName): {
 		addMissionEventHandler ["Draw3D",{
-			_displayName = cTabIfOpen # 1;
-			_display = uiNamespace getVariable _displayName;
+			_display = uiNamespace getVariable (cTabIfOpen # 1);
 			_veh = vehicle cTab_player;
 			_heading = direction _veh;
 			_heading_sel = round (_heading / 90);
 			
 			_octant = [
-				"STR_ctab_core_North",
-				"STR_ctab_core_East",
-				"STR_ctab_core_South",
-				"STR_ctab_core_West",
-				"STR_ctab_core_North"
-			] select _heading_sel;
+				"N",
+				"E",
+				"S",
+				"W",
+				"N"
+			] # _heading_sel;
 			
 			_ctrl_heading = _display displayCtrl (17000+2615);
 				_ctrl_heading ctrlSetAngle [360 - _heading, 0.5, 0.5];
 
 			_ctrl_heading = _display displayCtrl (17000+2616);
-				_ctrl_heading ctrlSetText localize _octant;
+				_ctrl_heading ctrlSetText _octant;
 				_ctrl_heading ctrlSetTextColor ([[1,1,1,1],[1,0,0,1]] select (_heading_sel == 0 || _heading_sel == 4));
 
 			// update time
@@ -132,8 +131,7 @@ private _EH = switch (true) do {
 	};
 	case ("microDAGR" in _displayName): {
 		addMissionEventHandler ["Draw3D",{
-			_displayName = cTabIfOpen # 1;
-			_display = uiNamespace getVariable _displayName;
+			_display = uiNamespace getVariable (cTabIfOpen # 1);
 			_veh = vehicle cTab_player;
 			_heading = direction _veh;
 			// update time
@@ -149,8 +147,7 @@ private _EH = switch (true) do {
 	};
 	default {
 		addMissionEventHandler ["Draw3D",{
-			_displayName = cTabIfOpen # 1;
-			_display = uiNamespace getVariable _displayName;
+			_display = uiNamespace getVariable (cTabIfOpen # 1);
 			_veh = vehicle cTab_player;
 			_heading = direction _veh;
 			// update time
