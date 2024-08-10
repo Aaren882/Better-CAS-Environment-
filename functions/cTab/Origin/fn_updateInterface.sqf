@@ -1219,9 +1219,19 @@ _settings apply {
 					private _typing = _group controlsGroupCtrl 11;
 					private _commitTime = {[_this, 0] select _interfaceInit};
 
-					_contacts ctrlEnable (_line > 0);
-					_list ctrlEnable (_line < 1);
-					_typing ctrlEnable (_line < 1);
+					//- Layout
+						_list ctrlSetFade ([1,0] select (_line < 1));
+						_list ctrlCommit (0.25 call _commitTime);
+						
+						_contacts ctrlSetFade ([1,0] select (_line > 0));
+						_contacts ctrlSetPositionH ([0,(ctrlPosition _list) # 3] select (_line > 0));
+						_contacts ctrlCommit (0.2 call _commitTime);
+
+						_contacts ctrlEnable (_line > 0);
+						_list ctrlEnable (_line < 1);
+						_typing ctrlEnable (_line < 1);
+
+					if (_interfaceInit) exitWith {};
 
 					//- Get Contactor
 					private _previus = [_displayName, "Contactor"] call cTab_fnc_getSettings;
@@ -1239,19 +1249,14 @@ _settings apply {
 					
 					//- on Showing Sub-Menu Contactors (exitWith)
 						if (_line > 0) exitWith {
-							_list ctrlSetFade 1;
-							_list ctrlCommit (0.25 call _commitTime);
 							
-							_contacts ctrlSetFade 0;
-							_contacts ctrlSetPositionH ((ctrlPosition _list) # 3);
-							_contacts ctrlCommit (0.2 call _commitTime);
-
 							//- Get Contactors 
 								private _plrList = playableUnits;
 								private _validSides = call cTab_fnc_getPlayerSides;
 
 								//- Sel Null
-								private _index = _contacts lbAdd "--";
+								_contacts lbAdd "--";
+								_contacts lbSetCurSel 0;
 
 								if (_plrList findIf {true} < 0) then {_plrList pushBack cTab_player};
 								{
@@ -1265,6 +1270,7 @@ _settings apply {
 										];
 										private _index = _contacts lbAdd _name;
 										_contacts lbSetData [_index, _data];
+										
 										if (_previus == _data) then {
 											_contacts lbSetCurSel _index;
 											_title ctrlSetStructuredText parseText _name;
@@ -1273,14 +1279,8 @@ _settings apply {
 									false
 								} count _plrList;
 								uiNamespace setVariable ['cTab_msg_playerList', _plrList];
-								lbSort _contacts;
 						};
-						_contacts ctrlSetFade 1;
-						_contacts ctrlSetPositionH 0;
-						_contacts ctrlCommit (0.2 call _commitTime);
-
-					_list ctrlSetFade 0;
-					_list ctrlCommit (0.25 call _commitTime);
+						
 
 					//- sort out the correct "_contactor" name (STRING)
 						{
