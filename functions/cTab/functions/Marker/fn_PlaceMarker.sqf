@@ -25,7 +25,7 @@ if (_color == "") then {
 
 //- MARKER #<PlayerID>/<MarkerID>/#<SEPARATOR>#/<Hide Direction> .. /<ChannelID> must Be last
 _name = format ["_USER_DEFINED #%1/%2/-1/%3/0/%4", clientOwner, _id, getNumber (_class >> "Hide_Direction"),currentChannel];
-_markerData = format ["%1|%2|%3|%4|%5|%6|%7",_dropBox lbData _BoxSel,"ICON","[1,1]",0,"Solid",_color,1];
+_markerData = format ["%1|%2|%3|%4|%5|%6|%7",_dropBox lbData (_BoxSel # 0),"ICON","[1,1]",0,"Solid",_color,1];
 
 if (_markerData isEqualTo "") exitWith {
   ["Marker data is empty"] call BIS_fnc_error;

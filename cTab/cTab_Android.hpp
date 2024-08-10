@@ -552,12 +552,11 @@ PHONE_CLASS
 					{
 						idc = 4660 + 102;
 						x = PhoneBFTContainerW(2);
-						text = ATAK_APP("MG8\AVFEVFX\data\AV_Cam.paa",AV Camera);
+						text = ATAK_APP("MG8\AVFEVFX\data\Hcam.paa",Video Feeds);
 						// action = "['cTab_Android_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
 						action = "'VideoFeeds' call BCE_fnc_ATAK_ChangeTool;";
 						
-						
-						textureNoShortcut="MG8\AVFEVFX\data\AV_Cam.paa";
+						textureNoShortcut="MG8\AVFEVFX\data\Hcam.paa";
 					};
 					//-Second Line
 					class actPhototxt: actMSGtxt
@@ -575,16 +574,17 @@ PHONE_CLASS
 						x = PhoneBFTContainerW(1);
 						text = ATAK_APP("a3\3den\data\displays\display3den\panelright\modegroups_ca.paa",Groups);
 						action = "";
+						
 						textureNoShortcut="a3\3den\data\displays\display3den\panelright\modegroups_ca.paa";
 					};
 					class actHCamtxt: actPhototxt
 					{
 						idc = 4660 + 105;
-						text = ATAK_APP("MG8\AVFEVFX\data\Hcam.paa",Helmet Cam);
+						text = ATAK_APP("MG8\AVFEVFX\data\route.paa",Route);
 						x = PhoneBFTContainerW(2);
 						action = "";
 						
-						textureNoShortcut="MG8\AVFEVFX\data\Hcam.paa";
+						textureNoShortcut="MG8\AVFEVFX\data\route.paa";
 					};
 					
 					//-Thired Line
@@ -2127,7 +2127,7 @@ PHONE_CLASS
 		};
 
 		//-AV Feeds
-		class Aircraft: Desktop
+		/*class Aircraft: Desktop
 		{
 			idc = 4630;
 			class controls
@@ -2239,7 +2239,7 @@ PHONE_CLASS
 					action = "0 call cTab_Tablet_btnACT;";
 				};
 			};
-		};
+		};*/
 
 		delete MESSAGE;
 		delete COMPOSE;

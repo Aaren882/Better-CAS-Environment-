@@ -1,7 +1,7 @@
 if !((hasPilotCamera cameraOn) || (Local cameraOn)) exitWith {};
 
 if (
-		(time > (BCE_TGP_LastUpdate + 0.035)) &&
+		(time > BCE_TGP_LastUpdate) &&
 		(
 			(isLaserOn cameraOn) ||
 			!(isMultiplayer) ||
@@ -15,7 +15,7 @@ if (
 			}) > 0
 		)
 	) then {
-	BCE_TGP_LastUpdate = time;
+	BCE_TGP_LastUpdate = time + 0.035;
 	private _info = getPilotCameraTarget cameraOn;
 	cameraOn setVariable ["BCE_Camera_Info_Air",[str [_info # 0, _info # 1], str getPilotCameraDirection cameraOn,_info # 2],true];
 };

@@ -82,12 +82,15 @@ switch _ID do {
           private _vehicle = _Var # 1;
           private _turret = (_Var # 0) param [1,[]];
           private _cam_Var = cTabUAVcams # _camIndex;
-          private _FOV = _cam_Var param [5, 0.75];
+          private _FOV = rad ((_vehicle getVariable "BCE_Cam_FOV_Angle") get (str _turret));
           
           if (
             !isnull _cam && 
-            (localNamespace getVariable ["TGP_View_Camera_FOV", 0]) != _FOV
+            _FOV != (_cam_Var param [5, -1])
           ) then {
+            _cam_Var set [5,_FOV];
+            cTabUAVcams set [_camIndex,_cam_Var];
+
             private _config = if ((_turret # 0) < 0) then {
               configOf _vehicle >> "PilotCamera" >> "OpticsIn"
             } else {
@@ -98,19 +101,14 @@ switch _ID do {
               if (isText (_x >> "initFov")) then {
                 call compile getText (_x >> "initFov")
               } else {
-                getNumber(_x >> "initFov")
+                getNumber (_x >> "initFov")
               };
             };
 
-            _FOV = rad ((_vehicle getVariable "BCE_Cam_FOV_Angle") get (str _turret));
             private _find = _FOVs apply {abs (_FOV - _x)};
             _find = _find find (selectMin _find);
             _FOV = _FOVs # _find;
-
             _cam camSetFov _FOV;
-
-            _cam_Var set [5,_FOV];
-            cTabUAVcams set [_camIndex,_cam_Var];
 
             //- Update FOV for Next time having Live Feeds
               localNamespace setVariable ["TGP_View_Camera_FOV", _FOV];

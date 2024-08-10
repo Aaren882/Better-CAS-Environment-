@@ -104,7 +104,7 @@ call {
 
 	//-Edit Marker
 	if (_type in [41,42,43]) exitWith {
-		private ["_task","_info","_index","_POS","_TG_var","_mode","_condition","_ctrlEnter"];
+		private ["_task","_info","_marker","_POS","_TG_var","_mode","_condition","_ctrlEnter"];
 		 _task = switch (uiNameSpace getVariable ["BCE_Current_TaskType",0]) do {
 			//- 5 line
 			case 1: {
@@ -134,8 +134,8 @@ call {
 		if ((_info # 1) < 0) exitWith {};
 
 		//-CurSel Marker
-		_index = cTabUserMarkerList findIf {(_x # 0) == (uiNameSpace getVariable ["cTab_BFT_CurSel",-1])};
-		_POS = cTabUserMarkerList # _index # 1 # 0;
+		_marker = allMapMarkers # (uiNameSpace getVariable ["cTab_BFT_CurSel",-1]);
+		_POS = markerPos _marker;
 
 		//-GRID info
 		_TG_var = (uiNameSpace getVariable (_task # 1)) # (_task # 0 # 1);
@@ -175,7 +175,7 @@ call {
 	};
 
 	_idcToShow = switch _type do {
-		case 11: {3301};
+		/*case 11: {3301};
 		case 12: {3303};
 		case 13: {3304};
 		case 14: {
@@ -190,7 +190,7 @@ call {
 		case 100: {3308};
 		case 101: {3309};
 		case 102: {3310};
-		case 103: {3311};
+		case 103: {3311};*/
 
 		default {_type};
 	};

@@ -50,7 +50,7 @@ if (_LMB >= 1) then {
     private _draw = [
       _pointNE vectorAdd [_width/2,-_height/2],_width/2,_height/2,0,_color,"#(argb,1,1,1)color(1,1,1,1)"
     ];
-    if (0 == _toggle # 2) then {
+    if (0 == _toggle # 2 # 1) then {
       _ctrlScreen drawRectangle _draw;
     } else {
       _ctrlScreen drawEllipse _draw;
@@ -97,7 +97,7 @@ if (_LMB == 0 && _lastClick > -1) then {
   //- Marker
     _marker = createMarker [_name, _center, currentChannel, player];
 
-    _marker setMarkerShape (["Rectangle","ELLIPSE"] select _BoxSel);
+    _marker setMarkerShape (["Rectangle","ELLIPSE"] select (_BoxSel # 1));
     _marker setMarkerSize [_width/2,_height/2];
     _marker setMarkerColor _color;
     _marker setMarkerBrush (_brushes lbData _brush);

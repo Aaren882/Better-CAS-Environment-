@@ -1173,24 +1173,32 @@ _settings apply {
 						private _title = if (_null_Connected) then {
 							_ctrl_Turret ctrlSetText "- -";
 							
-							_ctrl_View ctrlSetFade 0;
 							_ctrl_View ctrlSetText localize "STR_BCE_No_Signal";
-							_ctrl_View ctrlcommit (0.2 call _commitTime);
 							
-							_ctrl_View ctrlRemoveAllEventHandlers "MouseEnter";
-							_ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
+							if (_isDialog) then {
+								_ctrl_View ctrlSetFade 0;
+								_ctrl_View ctrlcommit (0.2 call _commitTime);
+								_ctrl_View ctrlRemoveAllEventHandlers "MouseEnter";
+								_ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
+							} else {
+								_ctrl_View ctrlSetBackgroundColor [0,0,0,0.08];
+							};
 
 							"- -"
 						} else {
 							_ctrl_TrackTG ctrlSetBackgroundColor ([[0.5,0,0,0.3],[0,0,0.5,0.3]] select (uiNamespace getVariable ['BCE_ATAK_TRACK_Focus',false]));
-
-							_ctrl_View ctrlSetFade 1;
-							_ctrl_View ctrlSetText localize "STR_BCE_Live_Feed";
-							_ctrl_View ctrlcommit 0;
-
-							_ctrl_View ctrlAddEventHandler ["MouseEnter", {(_this # 0) ctrlSetFade 0.5; (_this # 0) ctrlcommit 0.2;}];
-							_ctrl_View ctrlAddEventHandler ["MouseExit", {(_this # 0) ctrlSetFade 1; (_this # 0) ctrlcommit 0.2;}];
-
+							
+							if (_isDialog) then {
+								_ctrl_View ctrlSetText localize "STR_BCE_Live_Feed";
+								_ctrl_View ctrlSetFade 1;
+								_ctrl_View ctrlcommit 0;
+								_ctrl_View ctrlAddEventHandler ["MouseEnter", {(_this # 0) ctrlSetFade 0.5; (_this # 0) ctrlcommit 0.2;}];
+								_ctrl_View ctrlAddEventHandler ["MouseExit", {(_this # 0) ctrlSetFade 1; (_this # 0) ctrlcommit 0.2;}];
+							} else {
+								_ctrl_View ctrlSetText "";
+								_ctrl_View ctrlSetBackgroundColor [0,0,0,0];
+							};
+								
 							[groupId group _veh, [_veh] call CBA_fnc_getGroupIndex] joinString " : "
 						};
 
@@ -1199,9 +1207,9 @@ _settings apply {
 						_ctrl_TrackInfo ctrlSetText localize "STR_BCE_None"; //- Rewrite the Focus Point (Relative Info)
 
 					//- Update Vision Mode (after Camera is Generated)
-							[_ctrl_TrackTG,0,false] call BCE_fnc_ATAK_Camera_Controls;
-							[_ctrl_Vision,1,false] call BCE_fnc_ATAK_Camera_Controls;
-							[_ctrl_Sync,2,false] call BCE_fnc_ATAK_Camera_Controls;
+						[_ctrl_TrackTG,0,false] call BCE_fnc_ATAK_Camera_Controls;
+						[_ctrl_Vision,1,false] call BCE_fnc_ATAK_Camera_Controls;
+						[_ctrl_Sync,2,false] call BCE_fnc_ATAK_Camera_Controls;
 						
 				};
 				case "message": {
@@ -1211,27 +1219,29 @@ _settings apply {
 					private _typing = _group controlsGroupCtrl 11;
 					private _commitTime = {[_this, 0] select _interfaceInit};
 
+					_contacts ctrlEnable (_line > 0);
+					_list ctrlEnable (_line < 1);
+					_typing ctrlEnable (_line < 1);
+
 					//- Get Contactor
 					private _previus = [_displayName, "Contactor"] call cTab_fnc_getSettings;
-					private _contactor = if (_interfaceInit || _previus != "") then {
-						_previus
-					} else {
+					private _contactor = if (lbSize _contacts > 0) then {
 						private _c = _contacts lbData (lbCurSel _contacts);
 						[_displayName, [["Contactor",_c]],false] call cTab_fnc_setSettings;
 						_c
+					} else {
+						_previus
 					};
 
 					//- Clear all Lists
 						{ctrlDelete _x} count allControls _list;
 						lbClear _contacts;
 					
-					//- on Showing Contactors (exitWith)
+					//- on Showing Sub-Menu Contactors (exitWith)
 						if (_line > 0) exitWith {
-							_list ctrlEnable false;
 							_list ctrlSetFade 1;
 							_list ctrlCommit (0.25 call _commitTime);
 							
-							_contacts ctrlEnable true;
 							_contacts ctrlSetFade 0;
 							_contacts ctrlSetPositionH ((ctrlPosition _list) # 3);
 							_contacts ctrlCommit (0.2 call _commitTime);
@@ -1239,6 +1249,10 @@ _settings apply {
 							//- Get Contactors 
 								private _plrList = playableUnits;
 								private _validSides = call cTab_fnc_getPlayerSides;
+
+								//- Sel Null
+								private _index = _contacts lbAdd "--";
+
 								if (_plrList findIf {true} < 0) then {_plrList pushBack cTab_player};
 								{
 									if ((side _x in _validSides) && {isPlayer _x} && {[_x,ctab_core_leaderDevices] call cTab_fnc_checkGear}) then {
@@ -1261,12 +1275,10 @@ _settings apply {
 								uiNamespace setVariable ['cTab_msg_playerList', _plrList];
 								lbSort _contacts;
 						};
-						_contacts ctrlEnable false;
 						_contacts ctrlSetFade 1;
 						_contacts ctrlSetPositionH 0;
 						_contacts ctrlCommit (0.2 call _commitTime);
 
-					_list ctrlEnable true;
 					_list ctrlSetFade 0;
 					_list ctrlCommit (0.25 call _commitTime);
 
