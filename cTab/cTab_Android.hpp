@@ -467,7 +467,7 @@ PHONE_CLASS
 				w = phoneSizeW * 2/5;
 
 				// - Check if it's "1erGTD"
-				#if PHONE_MOD == 1134
+				#if PHONE_MOD <= 1134
 					h = phoneSizeH - 0.11 * (((60)) / 2048 * CustomPhoneH);
 				#else
 					h= phoneSizeH;
@@ -558,7 +558,6 @@ PHONE_CLASS
 						idc = 4660 + 102;
 						x = PhoneBFTContainerW(2);
 						text = ATAK_APP("MG8\AVFEVFX\data\Hcam.paa",Video Feeds);
-						// action = "['cTab_Android_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
 						action = "'VideoFeeds' call BCE_fnc_ATAK_ChangeTool;";
 						
 						textureNoShortcut="MG8\AVFEVFX\data\Hcam.paa";
@@ -1680,7 +1679,7 @@ PHONE_CLASS
 				y = phoneSizeY + phoneSizeH - (0.75 * (((60)) / 2048 * CustomPhoneH));
 				
 				// - Check if it's "1erGTD"
-				#if PHONE_MOD == 1134
+				#if PHONE_MOD <= 1134
 					h = 0.64 * (((60)) / 2048 * CustomPhoneH);
 				#else
 					h = 0.75 * (((60)) / 2048 * CustomPhoneH);
@@ -1704,7 +1703,7 @@ PHONE_CLASS
 						size = 0.64 * (((60) - (20))) / 2048 * CustomPhoneH;
 						
 						// - Check if it's "1erGTD"
-						#if PHONE_MOD == 1134
+						#if PHONE_MOD <= 1134
 							ATAK_POS(0,0,0.75,0.64);
 						#else
 							ATAK_POS(0,0,0.75,0.75);
@@ -1733,7 +1732,7 @@ PHONE_CLASS
 						text = "$STR_BCE_Enter";
 						
 						// - Check if it's "1erGTD"
-						#if PHONE_MOD == 1134
+						#if PHONE_MOD <= 1134
 							ATAK_POS(0.75,0,0.75,0.64);
 						#else
 							ATAK_POS(0.75,0,0.75,0.75);
@@ -1749,7 +1748,7 @@ PHONE_CLASS
 						text = "$STR_BCE_Live_Feed";
 
 						// - Check if it's "1erGTD"
-						#if PHONE_MOD == 1134
+						#if PHONE_MOD <= 1134
 							ATAK_POS(1.5,0,0.75,0.64);
 						#else
 							ATAK_POS(1.5,0,0.75,0.75);
@@ -1787,7 +1786,7 @@ PHONE_CLASS
 						};
 
 						// - Check if it's "1erGTD"
-						#if PHONE_MOD == 1134
+						#if PHONE_MOD <= 1134
 							ATAK_POS(2.25,0,0.75,0.64);
 						#else
 							ATAK_POS(2.25,0,0.75,0.75);

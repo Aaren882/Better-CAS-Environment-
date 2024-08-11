@@ -1059,9 +1059,14 @@ _settings apply {
 				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
 				_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
 				_targetMapCtrl = _display displayCtrl _targetMapIDC;
-				_bgW = (ctrlPosition _background) # 2;
+				(ctrlPosition _targetMapCtrl) params ["_bgX","_bgY","_bgW","_bgH"];
 
-				_targetMapCtrl ctrlSetPositionW (_bgW / 2 * ([5, 3] select (_show || (uiNamespace getVariable ['BCE_ATAK_TRACK_Focus',false]))));
+				_targetMapCtrl ctrlSetPosition [
+					_bgX,
+					_bgY,
+					((ctrlPosition _background) # 2) / 2 * ([5, 3] select _show),
+					_bgH
+				];
 				_targetMapCtrl ctrlCommit 0;
 				_targetMapCtrl ctrlMapSetPosition [];
 			
