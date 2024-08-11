@@ -1540,7 +1540,7 @@ PHONE_CLASS
 								strings[] =
 								{
 									"$STR_BCE_AC_CAM",
-									"$STR_BCE_Helment_CAM"
+									"$STR_BCE_Helmet_CAM"
 								};
 								font = "RobotoCondensed_BCE";
 								colorBackground[] = {0,0,0,0.3};

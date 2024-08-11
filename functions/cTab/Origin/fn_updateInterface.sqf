@@ -1153,7 +1153,7 @@ _settings apply {
 						call {
 							//- Helmet CAM
 							if (_isHcam) exitWith {
-								_ctrl_Turret ctrlSetText localize "STR_BCE_Helment_CAM";
+								_ctrl_Turret ctrlSetText localize "STR_BCE_Helmet_CAM";
 								call cTab_fnc_deleteUAVcam;
 								player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
 								_veh = ["rendertarget9",_hcam, !_displayOn] call cTab_fnc_createHelmetCam;

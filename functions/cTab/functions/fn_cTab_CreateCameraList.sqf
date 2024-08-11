@@ -38,7 +38,7 @@ switch _mode do {
     };
   };
 
-  // Populate list of Helment CAMs
+  // Populate list of Helmet CAMs
   case 1: {
     private _data = [_displayName,"hCam"] call cTab_fnc_getSettings;
     
