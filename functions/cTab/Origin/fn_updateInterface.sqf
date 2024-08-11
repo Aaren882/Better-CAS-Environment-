@@ -1128,7 +1128,7 @@ _settings apply {
 									[_this # 0,4,_this # 1] call BCE_fnc_ATAK_Camera_Controls
 								}];
 
-							_switch_btn ctrlSetStructuredText parseText "Select Camera";
+							_switch_btn ctrlSetStructuredText parseText localize "STR_BCE_Select_Camera";
 							_ctrl_View ctrlRemoveAllEventHandlers "MouseEnter";
 							_ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
 						};
@@ -1148,7 +1148,7 @@ _settings apply {
 						call {
 							//- Helmet CAM
 							if (_isHcam) exitWith {
-								_ctrl_Turret ctrlSetText "Helment CAM";
+								_ctrl_Turret ctrlSetText localize "STR_BCE_Helment_CAM";
 								call cTab_fnc_deleteUAVcam;
 								player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
 								_veh = ["rendertarget9",_hcam, !_displayOn] call cTab_fnc_createHelmetCam;

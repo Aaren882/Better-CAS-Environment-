@@ -259,13 +259,39 @@
 			<Chinese>切換標記類型</Chinese>
 			<Chinesesimp>切换标记类型</Chinesesimp>
 		</Key>
+
+		<Key ID="STR_BCE_Select_Camera">
+			<Original>Select Camera</Original>
+			<Chinese>選擇攝影機</Chinese>
+			<ChineseSimp>选择摄影机</ChineseSimp>
+		</Key>
+		<Key ID="STR_BCE_AC_CAM">
+			<Original>AC CAM</Original>
+			<Chinese>飛行器攝影機</Chinese>
+			<ChineseSimp>飞行器摄像机</ChineseSimp>
+		</Key>
+		<Key ID="STR_BCE_Helment_CAM">
+			<Original>Helment CAM</Original>
+			<Chinese>頭盔攝影機</Chinese>
+			<ChineseSimp>头盔摄像机</ChineseSimp>
+		</Key>
+		<Key ID="STR_BCE_TRACK_TG">
+			<Original>TRACK POINT</Original>
+			<Chinese>追蹤指向</Chinese>
+			<ChineseSimp>追踪指向</ChineseSimp>
+		</Key>
+		<Key ID="STR_BCE_Sync_Zoom">
+			<Original>Sync Zoom</Original>
+			<Chinese>同步縮放</Chinese>
+			<ChineseSimp>同步缩放</ChineseSimp>
+		</Key>
+
 		
 		<Key ID="STR_BCE_Toggle_FOV">
 			<Original>Toggle FOV of vehicle turrets</Original>
 			<Chinese>開關車輛炮塔FOV</Chinese>
 			<Chinesesimp>开关车辆炮塔FOV</Chinesesimp>
 		</Key>
-		
 		<Key ID="STR_BCE_CAS_Task">
 			<Original>CAS Task</Original>
 			<Chinese>CAS 任務</Chinese>

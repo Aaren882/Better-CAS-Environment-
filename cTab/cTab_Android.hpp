@@ -568,7 +568,7 @@ PHONE_CLASS
 					{
 						idc = 4660 + 103;
 						y = (phoneSizeW * 3/5)/3;
-						text = ATAK_APP("MG8\AVFEVFX\data\photo.paa", Take Pictures);
+						text = ATAK_APP("MG8\AVFEVFX\data\photo.paa", Quick Pictures);
 						action = "558 cutRsc ['BCE_PhoneCAM_View','PLAIN',0.3,false];";
 						
 						textureNoShortcut="MG8\AVFEVFX\data\photo.paa";
@@ -1540,8 +1540,8 @@ PHONE_CLASS
 								columns = 2;
 								strings[] =
 								{
-									"AC CAM",
-									"Helmet CAM"
+									"$STR_BCE_AC_CAM",
+									"$STR_BCE_Helment_CAM"
 								};
 								font = "RobotoCondensed_BCE";
 								colorBackground[] = {0,0,0,0.3};
@@ -1570,7 +1570,7 @@ PHONE_CLASS
 								class Track_TG: Title
 								{
 									idc = 11;
-									text = "TRACK TG";
+									text = "$STR_BCE_TRACK_TG";
 									
 									colorBackground[] = {0,0,0.5,0.3};
 									colorBackground2[] = {0,0,0.5,0.3};
@@ -1590,7 +1590,7 @@ PHONE_CLASS
 									idc = 12;
 
 									style = 2;
-									text = "120° 1000m";
+									text = "";
 									sizeEx = 0.8 * TextSize;
 									colorBackground[]={0,0,0,0.2};
 
@@ -1610,7 +1610,7 @@ PHONE_CLASS
 								class Sync_Camera: Vision
 								{
 									idc = 14;
-									text = "Sync CAM";
+									text = "$STR_BCE_Sync_Zoom";
 									
 									y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2;
 									onButtonClick = "[_this#0,2] call BCE_fnc_ATAK_Camera_Controls";
@@ -1619,7 +1619,7 @@ PHONE_CLASS
 								class TurretTxt: ctrlButton
 								{
 									idc = 46320;
-									text = "Gunner >>";
+									text = "";
 									colorBackground[] = {0.25,0.25,0.25,0.8};
 									colorBackgroundActive[] = {0.25,0.25,0.25,0.4};
 									colorBackgroundDisabled[] = {0.25,0.25,0.25,0.8};
