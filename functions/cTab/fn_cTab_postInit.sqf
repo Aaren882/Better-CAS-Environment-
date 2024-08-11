@@ -90,6 +90,7 @@ cTabOnDrawbftTAD = ctab_fnc_onDrawbftTAD;
 cTabOnDrawbftTADdialog = ctab_fnc_onDrawbftTADdialog;
 cTabOnDrawbftAndroid = ctab_fnc_onDrawbftAndroid;
 cTabOnDrawbftAndroidDsp = ctab_fnc_onDrawbftAndroidDsp;
+cTabOnDrawHCam = ctab_fnc_OnDrawHCam;
 cTabOnDrawUAV = ctab_fnc_onDrawUAV;
 cTab_Tablet_btnACT = ctab_fnc_Tablet_btnACT;
 cTab_msg_gui_load = ctab_fnc_msg_gui_load;

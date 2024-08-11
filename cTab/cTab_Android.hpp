@@ -465,7 +465,13 @@ PHONE_CLASS
 				x = phoneSizeX + (phoneSizeW * 3/5);
 				y = phoneSizeY;
 				w = phoneSizeW * 2/5;
-				h = phoneSizeH - 0.11 * (((60)) / 2048 * CustomPhoneH);
+
+				// - Check if it's "1erGTD"
+				#if PHONE_MOD == 1134
+					h = phoneSizeH - 0.11 * (((60)) / 2048 * CustomPhoneH);
+				#else
+					h= phoneSizeH;
+				#endif
 				class VScrollbar{};
 				class HScrollbar{};
 				class Scrollbar{};
@@ -474,7 +480,7 @@ PHONE_CLASS
 					class menuBackground: RscBackground
 					{
 						idc = 9;
-						colorBackground[] = {0.4,0.4,0.4,0.5};
+						colorBackground[] = {0.4,0.4,0.4,0.8};
 					};
 				};
 			};
@@ -1672,7 +1678,13 @@ PHONE_CLASS
 			{
 				idc = 46600;
 				y = phoneSizeY + phoneSizeH - (0.75 * (((60)) / 2048 * CustomPhoneH));
-				h = 0.64 * (((60)) / 2048 * CustomPhoneH);
+				
+				// - Check if it's "1erGTD"
+				#if PHONE_MOD == 1134
+					h = 0.64 * (((60)) / 2048 * CustomPhoneH);
+				#else
+					h = 0.75 * (((60)) / 2048 * CustomPhoneH);
+				#endif
 				class controls
 				{
 					class Back: BCE_RscButtonMenu
@@ -1691,7 +1703,12 @@ PHONE_CLASS
 						
 						size = 0.64 * (((60) - (20))) / 2048 * CustomPhoneH;
 						
-						ATAK_POS(0,0,0.75,0.64);
+						// - Check if it's "1erGTD"
+						#if PHONE_MOD == 1134
+							ATAK_POS(0,0,0.75,0.64);
+						#else
+							ATAK_POS(0,0,0.75,0.75);
+						#endif
 						
 						onButtonClick = "call BCE_fnc_ATAK_LastPage";
 						
@@ -1715,7 +1732,13 @@ PHONE_CLASS
 						
 						text = "$STR_BCE_Enter";
 						
-						ATAK_POS(0.75,0,0.75,0.64);
+						// - Check if it's "1erGTD"
+						#if PHONE_MOD == 1134
+							ATAK_POS(0.75,0,0.75,0.64);
+						#else
+							ATAK_POS(0.75,0,0.75,0.75);
+						#endif
+
 						onButtonClick = "call BCE_fnc_ATAK_DataReceiveButton";
 					};
 					
@@ -1724,8 +1747,13 @@ PHONE_CLASS
 						idc = 12;
 						
 						text = "$STR_BCE_Live_Feed";
-						
-						ATAK_POS(1.5,0,0.75,0.64);
+
+						// - Check if it's "1erGTD"
+						#if PHONE_MOD == 1134
+							ATAK_POS(1.5,0,0.75,0.64);
+						#else
+							ATAK_POS(1.5,0,0.75,0.75);
+						#endif
 						
 						action = "call cTab_Tablet_btnACT";
 						onButtonClick = "";
@@ -1757,8 +1785,14 @@ PHONE_CLASS
 							"1 - (profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
 							0.8
 						};
+
+						// - Check if it's "1erGTD"
+						#if PHONE_MOD == 1134
+							ATAK_POS(2.25,0,0.75,0.64);
+						#else
+							ATAK_POS(2.25,0,0.75,0.75);
+						#endif
 						
-						ATAK_POS(2.25,0,0.75,0.64);
 						onButtonClick = "call BCE_fnc_ATAK_ShowTaskResult";
 					};
 				};
@@ -2084,7 +2118,6 @@ PHONE_CLASS
 		//-Weather Condition
 			class cTab_android_on_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box
 			{
-				
 				x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (0.35))) / 2048 * PhoneW + CustomPhoneX;
 				y = (((713)) / 2048  * 	CustomPhoneH + 	CustomPhoneY) + (((60)) / 2048  * CustomPhoneH);
 				w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;

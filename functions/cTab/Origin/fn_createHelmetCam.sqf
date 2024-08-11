@@ -15,11 +15,11 @@
 		OBJECT - helmet cam be set up to
  	
  	Example:
-		["rendertarget12",str player] spawn cTab_fnc_createHelmetCam;
+		["rendertarget12",str player] call cTab_fnc_createHelmetCam;
 */
 
 private ["_renderTarget","_data","_newHost","_camOffSet","_oldCam","_oldHost","_target","_cam"];
-params ["_renderTarget","_data","_usePIP"];
+params ["_renderTarget","_data",["_usePIP",true]];
 
 //- Exit on Empty
 if (_data == "") exitWith {objNull};
