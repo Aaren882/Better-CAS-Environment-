@@ -1344,10 +1344,14 @@ _settings apply {
 								_time_AC = _time_s;
 								
 							//- get how many "\t" in the message
+								private _j = 0;
 								_msgBody = toString Flatten((toArray _msgBody) apply {
-									if (10 == _x) then {
+									_j = _j + 1;
+									if (10 == _x || _j > 38) then {
 										_size = _size + 1;
-										toArray "<br/>"
+										_j = 0;
+										
+										[_x,toArray "<br/>"] select (10 == _x)
 									} else {
 										_x
 									};
