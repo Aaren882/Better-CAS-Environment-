@@ -689,9 +689,7 @@ _settings apply {
 					[_displayName,[["mapScaleDsp",_mapScaleKm]],false] call cTab_fnc_setSettings;
 				};
 
-				if !("Android" in _displayName) then {
-					cTabMapScale = cTabMapScale / cTabMapScaleFactor;
-				};
+				cTabMapScale = _mapScaleKm / cTabMapScaleFactor;
 				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
 
 				// divide by 2 because we want to display the radius, not the diameter
