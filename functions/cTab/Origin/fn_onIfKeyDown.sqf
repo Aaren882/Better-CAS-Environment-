@@ -33,7 +33,7 @@ if (_dikCode == DIK_F1 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"
 	[_displayName,[["mode","BFT"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == DIK_F2 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"]}) exitWith {
+if (_dikCode == DIK_F2 && {_displayName == "cTab_Tablet_dlg"}) exitWith {
 	[_displayName,[["mode","UAV"]]] call cTab_fnc_setSettings;
 	true
 };
