@@ -20,6 +20,8 @@ class cTab_RscText_Tablet;
 class cTab_IGUIBack;
 class cTab_RscButton;
 class cTab_RscText_WindowTitle;
+class cTab_Tablet_btnMouse;
+
 class cTab_Tablet_notification: cTab_RscText_Tablet
 {
 	x = "((257)) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048))";
@@ -253,6 +255,10 @@ class cTab_Tablet_dlg
 	};
 	class controls
 	{
+		class btnACT: cTab_Tablet_btnMouse
+		{
+			action = "0 call cTab_Tablet_btnACT;";
+		};
 		//-Weather Widget
 		class cTab_Tablet_OSD_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box{};
 		
