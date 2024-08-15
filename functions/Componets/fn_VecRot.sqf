@@ -31,8 +31,6 @@ _vecDirUp = [
   _i = _i + 1;
   private _m = vectorMagnitude _x;
   private _a = _m * 0.98;
-
-  hintSilent str [_m,_a];
   vectorLinearConversion [_m ^ 2, 0.0, _a, _vec_Cur # _i, _vec_tar # _i,true]
 };
 

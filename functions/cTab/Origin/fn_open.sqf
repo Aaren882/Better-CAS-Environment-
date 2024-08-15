@@ -99,12 +99,20 @@ private _EH = switch (true) do {
 				"N"
 			] # _heading_sel;
 			
-			_ctrl_heading = _display displayCtrl (17000+2615);
-				_ctrl_heading ctrlSetAngle [360 - _heading, 0.5, 0.5];
+			//- Digi Compass
+				_ctrl_heading = _display displayCtrl (17000+2615);
+					_ctrl_heading ctrlSetAngle [360 - _heading, 0.5, 0.5];
 
-			_ctrl_heading = _display displayCtrl (17000+2616);
-				_ctrl_heading ctrlSetText _octant;
-				_ctrl_heading ctrlSetTextColor ([[1,1,1,1],[1,0,0,1]] select (_heading_sel == 0 || _heading_sel == 4));
+				_ctrl_heading = _display displayCtrl (17000+2616);
+					_ctrl_heading ctrlSetText _octant;
+					_ctrl_heading ctrlSetTextColor ([[1,1,1,1],[1,0,0,1]] select (_heading_sel == 0 || _heading_sel == 4));
+			
+			//- Self Infos
+			// update grid position
+			(_display displayCtrl (17000 + 2622)) ctrlSetText (mapGridPosition getPosASLVisual _veh);
+			
+			// update current heading
+			(_display displayCtrl (17000 + 2621)) ctrlSetText format ["%1 %2°", [_heading] call cTab_fnc_degreeToOctant,[_heading,3] call CBA_fnc_formatNumber];
 
 			// update time
 			(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;

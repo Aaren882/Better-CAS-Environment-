@@ -457,6 +457,34 @@ PHONE_CLASS
 				w = 1.3 * sizeW * (PhoneW * 3/4);
 				h = 1.3 * sizeW * PhoneW;
 			};
+		//- Self Info Box (Bottom Right)
+			class CallSign_Box: cTab_RscText_Android
+			{
+				idc = idc_D(2620);
+
+				font = "EtelkaMonospacePro";
+				colorText[] = {0.95,0.95,0.95,1};
+				colorBackground[] = {0,0,0,0.3};
+				sizeEx = ((27)) / 2048 * PhoneW;
+				text = "CallSign : Watt";
+
+				x = (((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (5 - 1)) + (((PHONE_MOD) - (20) * 6) / 5) - (42)) / 2048 * PhoneW + CustomPhoneX)+ ((42)) / 2048 * PhoneW - ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
+				y = ((-(0) + (713) + (626)) - (20) - ((60) - (20)) * 2) / 2048 * CustomPhoneH + CustomPhoneY;
+				w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
+				h = (((42) - (10))) / 2048 * PhoneW;
+			};
+			class Heading_Box: CallSign_Box
+			{
+				idc = idc_D(2621);
+				text = "343° M";
+				y = (((-(0) + (713) + (626)) - (20) - ((60) - (20)) * 2) / 2048 * CustomPhoneH + CustomPhoneY) + ((((42) - (10))) / 2048 * PhoneW);
+			};
+			class GRID_Box: CallSign_Box
+			{
+				idc = idc_D(2622);
+				text = "GRID :";
+				y = (((-(0) + (713) + (626)) - (20) - ((60) - (20)) * 2) / 2048 * CustomPhoneH + CustomPhoneY) + 2 * ((((42) - (10))) / 2048 * PhoneW);
+			};
 		//- Pages for ATAK
 			//- Back Ground
 			class ATAK_MenuBG: cTab_RscControlsGroup
@@ -2114,7 +2142,7 @@ PHONE_CLASS
 				colorSelectBackground[]={0.2,0.2,0.2,1};
 			};
 			#undef PhoneMarkerColor
-		//-Weather Condition
+		// - Weather Condition (Widget)
 			class cTab_android_on_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box
 			{
 				x = ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (0.35))) / 2048 * PhoneW + CustomPhoneX;
@@ -2127,7 +2155,6 @@ PHONE_CLASS
 					size = 0.9;
 				};
 			};
-		
 		//-App Menu
 		class Desktop: cTab_RscControlsGroup
 		{

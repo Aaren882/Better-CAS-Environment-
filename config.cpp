@@ -788,6 +788,7 @@ class CfgFunctions
 				class ATAK_getScrollValue;
 				class ATAK_PullData;
 				class ATAK_ShowTaskResult;
+				class ATAK_Check_Layout;
 				class ATAK_onVehicleChanged;
 				class ATAK_toggleSubMenu;
 				class ATAK_Camera_Controls;

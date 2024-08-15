@@ -391,8 +391,6 @@ _settings apply {
 				17000 + 4661,
 				17000 + 4662,
 				17000 + 4663,
-				17000 + 2615,
-				17000 + 2616,
 				46600,
 
 				//-BG
@@ -1050,22 +1048,7 @@ _settings apply {
 			private _background = _display displayCtrl IDC_CTAB_GROUP_MENU;
 			_background ctrlShow _show;
 
-			//- Get Map Type
-				private ["_targetMapName","_mapTypes","_targetMapIDC","_targetMapCtrl","_bgW"];
-				_targetMapName = [_displayName,"mapType"] call cTab_fnc_getSettings;
-				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-				_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
-				_targetMapCtrl = _display displayCtrl _targetMapIDC;
-				(ctrlPosition _targetMapCtrl) params ["_bgX","_bgY","_bgW","_bgH"];
-
-				_targetMapCtrl ctrlSetPosition [
-					_bgX,
-					_bgY,
-					((ctrlPosition _background) # 2) / 2 * ([5, 3] select _show),
-					_bgH
-				];
-				_targetMapCtrl ctrlCommit 0;
-				_targetMapCtrl ctrlMapSetPosition [];
+			call BCE_fnc_ATAK_Check_Layout;
 			
 			if (isnil{_group} || !_show) exitWith {};
 			_group ctrlShow _show;
