@@ -6,7 +6,6 @@ lbClear _ListCtrl;
 private _displayName = cTabIfOpen # 1;
 private _default = _ListCtrl lbAdd "--";
 _ListCtrl lbSetData [_default,str objNull];
-_ListCtrl lbSetCurSel 0;
 
 switch _mode do {
   // Populate list of UAVs

@@ -30,6 +30,8 @@ private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
 		private _typing = _group controlsGroupCtrl 11;
 		private _msgBody = ctrlText _typing;
 
+		if (_msgBody == "") exitWith {};
+
 		private _playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
 		private _time = call cTab_fnc_currentTime;
 		private _msgTitle = format ["%1 - %2:%3 (%4)",_time,groupId group player,[player] call CBA_fnc_getGroupIndex,name player];

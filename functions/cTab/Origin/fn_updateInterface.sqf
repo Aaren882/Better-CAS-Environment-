@@ -387,6 +387,12 @@ _settings apply {
 
 				//-ATAK
 				3510,
+				17000 + 2615,
+				17000 + 2616,
+				17000 + 2620,
+				17000 + 2621,
+				17000 + 2622,
+				
 				17000 + 4660,
 				17000 + 4661,
 				17000 + 4662,
@@ -434,14 +440,17 @@ _settings apply {
 		//-Setup show Controls on INIT
 		if !(_displayItems isEqualTo []) then {
 		_btnActCtrl = _display displayCtrl IDC_CTAB_BTNACT;
+		_btnActCtrl ctrlRemoveAllEventHandlers "ButtonClick";
+		_btnActCtrl ctrlSetText "";
+		_btnActCtrl ctrlSetTooltip "";
+		_btnActCtrl ctrlshow false;
+
 		_displayItemsToShow = [];
 
 		call {
 			// ---------- DESKTOP -----------
 				if (_mode == "DESKTOP") exitWith {
 					_displayItemsToShow pushback IDC_CTAB_GROUP_DESKTOP;
-					_btnActCtrl ctrlSetText "";
-					_btnActCtrl ctrlSetTooltip "";
 				};
 			// ---------- BFT -----------
 				if (_mode == "BFT") exitWith {
@@ -450,6 +459,14 @@ _settings apply {
 					_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
 					_TAC_Vis = true;
 
+					if !(isnull _btnActCtrl) then {
+						_btnActCtrl ctrlshow true;
+						_btnActCtrl ctrlSetTooltip localize "STR_BCE_Control_Turret";
+						_btnActCtrl ctrlAddEventHandler ["ButtonClick",{
+							0 call cTab_Tablet_btnACT
+						}];
+					};
+
 					_displayItemsToShow = [
 						_mapIDC,
 						3510,
@@ -457,6 +474,12 @@ _settings apply {
 						17000 + 1200,
 						17000 + 1201,
 						17000 + 1202,
+
+						17000 + 2615,
+						17000 + 2616,
+						17000 + 2620,
+						17000 + 2621,
+						17000 + 2622,
 						IDC_CTAB_OSD_HOOK_GRID,
 						IDC_CTAB_OSD_HOOK_ELEVATION,
 						IDC_CTAB_OSD_HOOK_DST,
@@ -475,7 +498,6 @@ _settings apply {
 						};
 					};
 
-					_btnActCtrl ctrlSetTooltip "";
 					_maptoolsInit = true;
 
 					private _widgets = [
@@ -522,13 +544,12 @@ _settings apply {
 						IDC_CTAB_CTABUAVMAP
 					];
 
-					if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
-						private ["_showMenu","_Showlist"];
-						_showMenu = [_displayName,"uavInfo"] call cTab_fnc_getSettings;
-						_Showlist = [17000 + 4630,17000 + 4631,17000 + 46310,17000 + 46320] + [([1776,1775] select (_showMenu))];
-						_displayItemsToShow append _Showlist;
-					} else {
-						_btnActCtrl ctrlSetTooltip "View Gunner Optics";
+					if !(isnull _btnActCtrl) then {
+						_btnActCtrl ctrlshow true;
+						_btnActCtrl ctrlSetTooltip localize "STR_BCE_Control_Turret";
+						_btnActCtrl ctrlAddEventHandler ["ButtonClick",{
+							0 call cTab_Tablet_btnACT
+						}];
 					};
 
 					_settings pushBack ["uavListUpdate",true];
@@ -543,7 +564,13 @@ _settings apply {
 						IDC_CTAB_GROUP_HCAM,
 						IDC_CTAB_CTABHCAMMAP
 					];
-					_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
+					//- Toggle Full Screen HCAM
+						_btnActCtrl ctrlshow true;
+						_btnActCtrl ctrlSetTooltip (localize "STR_BCE_Toggle" + localize "STR_BCE_Helmet_CAM_Full");
+						_btnActCtrl ctrlAddEventHandler ["ButtonClick",{
+							["cTab_Tablet_dlg",[["mode","HCAM_FULL"]]] call cTab_fnc_setSettings;
+						}];
+					
 					_settings pushBack ["hCamListUpdate",true];
 					if (!_interfaceInit) then {
 						_settings pushBack ["hCam",[_displayName,"hCam"] call cTab_fnc_getSettings];
@@ -556,7 +583,6 @@ _settings apply {
 					cTabRscLayerMailNotification cutText ["", "PLAIN"];
 					_displayItemsToShow = [IDC_CTAB_GROUP_MESSAGE];
 					call cTab_msg_gui_load;
-					_btnActCtrl ctrlSetTooltip "";
 				};
 			// ---------- MESSAGING COMPOSE -----------
 				if (_mode == "COMPOSE") exitWith {
@@ -580,8 +606,13 @@ _settings apply {
 			// ---------- FULLSCREEN HELMET CAM -----------
 				if (_mode == "HCAM_FULL") exitWith {
 					_displayItemsToShow = [IDC_CTAB_HCAM_FULL];
+					//- Toggle Full Screen HCAM
+						_btnActCtrl ctrlshow true;
+						_btnActCtrl ctrlSetTooltip (localize "STR_BCE_Toggle" + localize "STR_BCE_Helmet_CAM_Full");
+						_btnActCtrl ctrlAddEventHandler ["ButtonClick",{
+							["cTab_Tablet_dlg",[["mode","HCAM"]]] call cTab_fnc_setSettings;
+						}];
 					_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
-					_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
 					['rendertarget13',_data] call cTab_fnc_createHelmetCam;
 				};
 		};
@@ -1303,7 +1334,7 @@ _settings apply {
 							private _chatRoom = (_title select [_sep]) trim ["- ", 0];
 
 							//- Sent
-							private _size = 1;
+							private _size = 1 max (ceil (count _msgBody / 37));
 
 							//- on every 30 mins
 								//- on more than (30 mins)
@@ -1324,14 +1355,10 @@ _settings apply {
 								_time_AC = _time_s;
 								
 							//- get how many "\t" in the message
-								private _j = 0;
 								_msgBody = toString Flatten((toArray _msgBody) apply {
-									_j = _j + 1;
-									if (10 == _x || _j > 38) then {
+									if (10 == _x) then {
 										_size = _size + 1;
-										_j = 0;
-										
-										[_x,toArray "<br/>"] select (10 == _x)
+										toArray "<br/>"
 									} else {
 										_x
 									};

@@ -275,6 +275,11 @@
 			<Chinese>頭盔攝影機</Chinese>
 			<ChineseSimp>头盔摄像机</ChineseSimp>
 		</Key>
+		<Key ID="STR_BCE_Helmet_CAM_Full">
+			<Original>Fullscreen Helmet CAM</Original>
+			<Chinese>全螢幕 頭盔攝影機</Chinese>
+			<ChineseSimp>全屏 头盔摄像机</ChineseSimp>
+		</Key>
 		<Key ID="STR_BCE_TRACK_TG">
 			<Original>TRACK POINT</Original>
 			<Chinese>追蹤指向</Chinese>

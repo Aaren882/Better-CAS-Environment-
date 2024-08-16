@@ -257,7 +257,7 @@ class cTab_Tablet_dlg
 	{
 		class btnACT: cTab_Tablet_btnMouse
 		{
-			action = "0 call cTab_Tablet_btnACT;";
+			action = "";
 		};
 		//-Weather Widget
 		class cTab_Tablet_OSD_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box{};
