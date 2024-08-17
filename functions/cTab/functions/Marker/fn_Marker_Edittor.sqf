@@ -1,5 +1,7 @@
 params ["_display","_marker"];
 private _displayName = cTabIfOpen # 1;
+private _widgetMode = ([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) # 4;
+
 private _group = _display displayCtrl (17000 + 1301);
 
 private _desc = _group controlsGroupCtrl 10;
@@ -13,48 +15,78 @@ private _channel = _group controlsGroupCtrl 110;
 //- Marker Data
   private _selectColor = markerColor _marker;
   private _selectType = markerType _marker;
+  private _selectShape = markerShape _marker;
   _desc ctrlSetText markerText _marker;
 
   lbClear _EDIT_Type;
 
 //- Select Marker Shape
-  #if __has_include("\z\ace\addons\map_gestures\config.bin")
-    if (ace_markers_MarkersCache findIf {_selectType == (_x # 3)} > -1) then {
-      {
-        _x params ["_name", "", "_icon", "_classname"];
+  switch true do {
+    //- Marker Dropper
+    case (_selectShape == "ICON"): {
+      #if __has_include("\z\ace\addons\map_gestures\config.bin")
+        if (ace_markers_MarkersCache findIf {_selectType == (_x # 3)} > -1) then {
+          {
+            _x params ["_name", "", "_icon", "_classname"];
 
-        private _index = _EDIT_Type lbAdd _name;
-        _EDIT_Type lbSetPicture [_index, _icon];
-        _EDIT_Type lbSetData [_index, _classname];
+            private _index = _EDIT_Type lbAdd _name;
+            _EDIT_Type lbSetPicture [_index, _icon];
+            _EDIT_Type lbSetData [_index, _classname];
+            
+            if (_selectType == _classname) then {
+              _EDIT_Type lbSetCurSel _index;
+            };
+            false
+          } count ace_markers_MarkersCache;
+          _EDIT_Type ctrlEnable true;
+        } else {
+          _EDIT_Type ctrlEnable false;
+        };
+      #else
+        private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkers");
+        private _typeCount = {
+          private _Same = _selectType == configName _x;
+          private _name = getText (_x >> "name");
+          private _icon = getText (_x >> "icon");
+
+          private _index = _EDIT_Type lbAdd _name;
+          _EDIT_Type lbSetPicture [_index, _icon];
+          
+          if (_Same) then {
+            _EDIT_Type lbSetCurSel _index;
+          };
+          _Same
+        } count _cfg;
+        _EDIT_Type ctrlEnable (_typeCount > 0);
+      #endif
+    };
+    //- Drawing Tool
+    case (_selectShape == "RECTANGLE" || _selectShape == "ELLIPSE"): {
+      private _Brush = MarkerBrush _marker;
+      private _cfg = configFile >> "CfgMarkerBrushes";
+      private _classes = ("true" configClasses _cfg) apply {configName _x};
+      
+      {
+        private ["_name","_icon","_index"];
+        _name = getText (_cfg >> _x >> "name");
+        _icon = getText (_cfg >> _x >> "texture");
         
-        if (_selectType == _classname) then {
+        if (_icon == "" || "#" in _icon) then {
+          _icon = "a3\3den\data\cfg3den\marker\iconrectangle_ca.paa";
+        };
+        
+        _index = _EDIT_Type lbAdd _name;
+        _EDIT_Type lbSetData [_index,_x];
+        _EDIT_Type lbSetPicture [_index, _icon];
+        if (_Brush == _x) then {
           _EDIT_Type lbSetCurSel _index;
         };
         false
-      } count ace_markers_MarkersCache;
+      } count _classes;
       _EDIT_Type ctrlEnable true;
-    } else {
-      _EDIT_Type ctrlEnable false;
     };
-  #else
-    private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkers");
-    private _typeCount = {
-      private _Same = _selectType == configName _x;
-      private _name = getText (_x >> "name");
-      private _icon = getText (_x >> "icon");
-
-      private _index = _EDIT_Type lbAdd _name;
-      _EDIT_Type lbSetPicture [_index, _icon];
-      
-      if (_Same) then {
-        _EDIT_Type lbSetCurSel _index;
-      };
-      _Same
-    } count _cfg;
-    _EDIT_Type ctrlEnable (_typeCount > 0);
-
-  #endif
-
+  };
+  
 //- Select Color
   for "_i" from 0 to lbSize _markerColor - 1 do {
     private _color = (call compile (_markerColor lbData _i)) # 0;

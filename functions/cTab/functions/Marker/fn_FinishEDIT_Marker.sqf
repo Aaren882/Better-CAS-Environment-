@@ -12,20 +12,13 @@ private _EDIT_color = _group controlsGroupCtrl 51;
 //- Current Select Marker
   private _marker = [_displayName,"MarkerEDIT"] call cTab_fnc_getSettings;
 
-//- Data
-  private _curSel_TYPE = if (ctrlEnabled _EDIT_Type) then {
-    _EDIT_Type lbData lbCurSel _EDIT_Type
-  } else {
-    markerType _marker
-  };
-  private _curSel_COLOR = (call compile (_markerColor lbData lbCurSel _EDIT_color)) # 0;
-
 //- if Setup Marker
   if (_marker != "") then {
     
     private _channel = _group controlsGroupCtrl 110;
 
     private _pos = markerPos _marker;
+    private _type = MarkerType _marker;
     private _shape = MarkerShape _marker;
     private _size = MarkerSize _marker;
     private _dir = markerDir _marker;
@@ -33,26 +26,48 @@ private _EDIT_color = _group controlsGroupCtrl 51;
     private _alpha = MarkerAlpha _marker;
     private _priority = MarkerDrawPriority _marker;
 
+    private _split = ((_marker select [15]) splitString "/") apply {parseNumber _x};
+
     //- Marker
       deleteMarker _marker;
-    
-    private _split = ((_marker select [15]) splitString "/") apply {parseNumber _x};
-    private _values = values (uiNamespace getVariable "bce_marker_map");
-    
-    _split set [
-      3, 
-      (_values # (_values findIf {_curSel_TYPE in (_x # 0)})) param [2, 0]
-    ];
 
-    //- Re-Generate marker
-    _marker = createMarker [
-      (_marker select [0,15]) + (_split joinString "/"),
-      _pos,
-      _channel lbValue lbCurSel _channel,
-      focusOn
-    ];
+    //- Data
+      private _curSel_COLOR = (call compile (_markerColor lbData lbCurSel _EDIT_color)) # 0;
+      switch true do {
+        //- Marker Dropper
+        case (_shape == "ICON"): {
+          private _values = values (uiNamespace getVariable "bce_marker_map");
+          private _data = _EDIT_Type lbData lbCurSel _EDIT_Type;
+          _split set [
+            3, 
+            (_values # (_values findIf {_data in (_x # 0)})) param [2, 0]
+          ];
+          _marker = (_marker select [0,15]) + (_split joinString "/");
 
-    _marker setMarkerType _curSel_TYPE;
+          createMarker [
+            _marker,
+            _pos,
+            _channel lbValue lbCurSel _channel,
+            player
+          ];
+
+          _marker setMarkerType _data;
+          _marker setMarkerShadow (0 < getNumber (configFile >> "CfgMarkers" >> _type >> "shadow"));
+
+        };
+        //- Drawing Tool
+        case (_shape == "RECTANGLE" || _shape == "ELLIPSE"): {
+          _brush = _EDIT_Type lbData lbCurSel _EDIT_Type;
+          createMarker [
+            _marker,
+            _pos,
+            _channel lbValue lbCurSel _channel,
+            player
+          ];
+        };
+      };
+
+    //- Setup New marker
     _marker setMarkerShape _shape;
     _marker setMarkerSize _size;
     _marker setmarkerDir _dir;
@@ -60,7 +75,6 @@ private _EDIT_color = _group controlsGroupCtrl 51;
     _marker setMarkerColor _curSel_COLOR;
     _marker setMarkerAlpha _alpha;
     _marker setMarkerDrawPriority _priority;
-    _marker setMarkerShadow (0 < getNumber (configFile >> "CfgMarkers" >> _curSel_TYPE >> "shadow"));
     _marker setMarkerText ctrlText _desc;
   };
 

@@ -12,9 +12,43 @@ _heading = getDirVisual _veh;
 _cntrlScreen ctrlMapAnimAdd [0, cTabMapScale, _playerPos];
 ctrlMapAnimCommit _cntrlScreen;
 
-[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
+// [_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
 [_cntrlScreen,1] call cTab_fnc_drawBftMarkers;
 
+//- Only for "ICON"
+	private _mapScale = ctrlMapScale _cntrlScreen;
+	{
+		private _markerShape = MarkerShape _x;
+		private _config = configFile >> "CfgMarkers" >> markerType _x;
+		if (
+			_x select [0,1] == "-" ||
+			_markerShape != "ICON" ||
+			(_markerShape == "ICON" && getNumber (_config >> "size") == 0)
+		) then {continue};
+
+		private _markerColor = markerColor _x;
+		private _markerChannel = markerChannel _x;
+		
+		private _color = getArray ([
+			configFile >> "CfgMarkerColors" >> _markerColor >> "Color",
+			_config >> "color"
+		] select (_markerColor == "Default"));
+
+		_color = _color apply {
+			if (_x isEqualType "") then {call compile _x} else {_x};
+		};
+
+		private _onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
+		_color set [3, [0.4, markerAlpha _x] select _onSameChannel];
+		
+		[getMarkerPos _x, markerDir _x, selectMax (markerSize _x)] params ["_pos","_dir","_size"];
+		[_cntrlScreen,_x,_pos,_color,([_dir, _size,_mapScale] joinString "|")] call cTab_fnc_DrawMarkerDir;
+	} forEach allMapMarkers;
+
+	#if __has_include("\z\ace\addons\map_gestures\config.bin")
+		call cTab_fnc_onDrawMapPointer;
+	#endif
+	
 // draw vehicle icon at own location
 _cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB","right"];
 

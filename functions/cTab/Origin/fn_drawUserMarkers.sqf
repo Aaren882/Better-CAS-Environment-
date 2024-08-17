@@ -30,10 +30,6 @@
 		[_ctrlScreen] call cTab_fnc_drawUserMarkers;
 */
 
-#if __has_include("\z\ace\addons\map_gestures\config.bin")
-	#define ACE_LOADED 1
-#endif
-
 params ["_ctrlScreen","_highlight"];
 
 private [
@@ -41,7 +37,6 @@ private [
 	"_toggle","_toggle_show",
 	"_widgetMode",
 	"_reDirecting","_reSizing","_LMB",
-	"_checkInSameWidget",
 	"_curSelMarker","_isnt_Drawing","_getBrush"
 ];
 
@@ -64,13 +59,11 @@ if (isNil {_toggle}) then {
 	_widgetMode = _toggle # 4;
 };
 
-
 //- is holding LCtrl + Left Click
 _reDirecting = inputMouse "487653376";
 _reSizing = inputMouse "940638208";
 _LMB = (inputMouse 0) > 0;
 
-_checkInSameWidget = false;
 (localNamespace getVariable ["cTab_Marker_CurSel",[]]) params [["_curSelMarker",-1],"_EditMarker","_drawMode","_Marker_Component"];
 _isnt_Drawing = isnil{localNamespace getVariable "BCE_DrawHold_lastClick"};
 
@@ -82,50 +75,47 @@ _getBrush = {
 };
 
 {
-	private ["_markerType","_markerShape","_config","_onSameChannel","_hide_Direction","_texture","_color","_text"];
-
 	//- Skip on Prefix "-"
 		if (_x select [0,1] == "-") then {continue};
 
-	_markerType = markerType _x;
+	private ["_markerType","_markerColor","_markerShape","_config","_texture","_onSameChannel","_color","_text"];
+
 	_markerShape = MarkerShape _x;
 	_markerChannel = markerChannel _x;
+	_markerType = markerType _x;
+	_markerColor = markerColor _x;
+	_onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
+
 	_config = configFile >> "CfgMarkers" >> _markerType;
+	_color = getArray ([
+		configFile >> "CfgMarkerColors" >> _markerColor >> "Color",
+		_config >> "color"
+	] select (_markerColor == "Default"));
+
+	_color = _color apply {
+		if (_x isEqualType "") then {call compile _x} else {_x};
+	};
+	_color set [3, [0.4, markerAlpha _x] select _onSameChannel];
+
+	if (_markerShape == "POLYLINE") then {
+		private _lines = markerPolyline _x;
+		for "_i" from 0 to (count _lines) - 3 step 2 do {
+			_ctrlScreen drawLine [
+				[_lines # _i, _lines # (_i + 1)],
+				[_lines # (_i + 2), _lines # (_i + 3)],
+				_color
+			];
+		};
+		continue
+	};
 	
 	//- Skip if it's System Marker
 		if (_markerShape == "ICON" && getNumber (_config >> "size") == 0) then {continue};
-
-	_onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
-
-	//- Only for cTab Markers
-  _hide_Direction = if (
-		_x find "_cTab" > -1 || _x find "_USER" > -1
-	) then {
-		(((_x select [15]) splitString "/") apply {parseNumber _x}) params ["","","","_HideDir",["_type",0],""];
-
-		//- Optimize
-			if (isnil{_HideDir}) then {
-				private _values = values (uiNamespace getVariable "bce_marker_map");
-				private _find = _values findIf {_markerType in (_x # 0)};
-				_HideDir = (_values # _find) param [2, 0];
-			};
-
-		//- "_widgetMode" is "Current Widget Mode" 0. Marker Dropper 1. Drawing tools
-			_checkInSameWidget = _widgetMode == _type;
-		0 < _HideDir
-	} else {
-		false
-	};
-
+	
 	//- Marker Data
 		_texture = getText (_config >> "icon");
 		[getMarkerPos _x, markerDir _x, markerSize _x] params ["_pos","_dir","_size"];
-		
-		_color = (getArray (configFile >> "CfgMarkerColors" >> markerColor _x >> "Color")) apply {
-			if (_x isEqualType "") then {call compile _x} else {_x};
-		};
-		_color set [3, [0.4, markerAlpha _x] select _onSameChannel];
-	
+
 	//- Show type of marker
 		if (
 			_cursorMarkerIndex == _forEachIndex &&
@@ -140,7 +130,7 @@ _getBrush = {
 			_onSameChannel &&
 			_cursorMarkerIndex == _forEachIndex &&
 			_curSelMarker < 0 && _isnt_Drawing &&
-			_checkInSameWidget &&
+			_widgetMode == (["ICON","RECTANGLE ELLIPSE"] findIf {_x find _markerShape > -1}) &&
 			(_toggle_show) &&
 			!(_x find "PLP" > -1) &&
 			(_x find "_cTab" > -1 || _x find "_USER" > -1)
@@ -161,48 +151,41 @@ _getBrush = {
 			_color = cTabTADhighlightColour;
 		};
 
-		//- Key Actions
-			if (_curSelMarker == _forEachIndex && _isnt_Drawing) then {
-				switch (true) do {
-					//- Change Marker Size (Ctrl + LMB Hold)
-					case (_reSizing && _widgetMode == 0): {
-						private _s = vectorMagnitude (getMousePosition vectorDiff _Marker_Component);
-						_s = 2 min (1 + _s)^2;
-						_x setMarkerSizeLocal [_s,_s];
-					};
-					//- Change Marker Direction (Ctrl + LMB Hold)
-					case (_reDirecting): {
-						//- Change marker direction
-							private _dir = _pos getDirVisual cTabMapCursorPos;
-							_x setMarkerDirLocal ([_dir,360] select (_dir == 0));
-							_ctrlScreen drawIcon ["#(rgb,1,1,1)color(0,0,0,0)",cTabTADhighlightColour,cTabMapCursorPos, 0, 0, 0, format ["%1 %2°",_dir call BCE_fnc_getAzimuth, round _dir], 0, cTabTxtSize * 1.5,"TahomaB"];
-							_ctrlScreen drawArrow [_pos, cTabMapCursorPos, cTabTADhighlightColour];
-					};
-					//- Change marker Position (LMB Hold)
-					case (_LMB): {
-						_x setMarkerPosLocal (cTabMapCursorPos vectorDiff _Marker_Component);
-					};
+	//- Key Actions
+		if (_curSelMarker == _forEachIndex && _isnt_Drawing) then {
+			switch (true) do {
+				//- Change Marker Size (Ctrl + LMB Hold)
+				case (_reSizing && _widgetMode == 0): {
+					private _s = vectorMagnitude (getMousePosition vectorDiff _Marker_Component);
+					_s = 2 min (1 + _s)^2;
+					_x setMarkerSizeLocal [_s,_s];
+				};
+				//- Change Marker Direction (Ctrl + LMB Hold)
+				case (_reDirecting): {
+					//- Change marker direction
+						private _dir = _pos getDirVisual cTabMapCursorPos;
+						_x setMarkerDirLocal ([_dir,360] select (_dir == 0));
+						_ctrlScreen drawIcon ["#(rgb,1,1,1)color(0,0,0,0)",cTabTADhighlightColour,cTabMapCursorPos, 0, 0, 0, format ["%1 %2°",_dir call BCE_fnc_getAzimuth, round _dir], 0, cTabTxtSize * 1.5,"TahomaB"];
+						_ctrlScreen drawArrow [_pos, cTabMapCursorPos, cTabTADhighlightColour];
+				};
+				//- Change marker Position (LMB Hold)
+				case (_LMB): {
+					_x setMarkerPosLocal (cTabMapCursorPos vectorDiff _Marker_Component);
 				};
 			};
-
-	//- Draw Direction Arrow
-		if (_dir != 0 && !_hide_Direction) then {
-			private _arrowLength = cTabUserMarkerArrowSize * _mapScale * selectMax _size;
-			private _secondPos = [_pos,_arrowLength,_dir] call BIS_fnc_relPos;
-			_ctrlScreen drawArrow [_pos, _secondPos, _color];
 		};
 
 	//- draw Marker Icon
-		_text = if (cTabBFTtxt) then {
-			markerText _x
-		} else {
-			""
-		};
-
 		switch (_markerShape) do {
 			case "ICON": {
+				
+				//- Only for "ICON"
+					[_ctrlScreen,_x,_pos,_color,([_dir,selectMax _size,_mapScale] joinString "|")] call cTab_fnc_DrawMarkerDir;
+				
 				//- Update Marker Size
-					_size = _size vectorMultiply cTabIconSize;
+				_size = _size vectorMultiply cTabIconSize;
+				_text = ["",markerText _x] select cTabBFTtxt;
+				
 				_ctrlScreen drawIcon [
 					_texture,
 					_color,
@@ -216,19 +199,6 @@ _getBrush = {
 					"RobotoCondensed",
 					"right"
 				];
-				continue
-			};
-			case "POLYLINE": {
-				private _lines = markerPolyline _x;
-
-				for "_i" from 0 to (count _lines) - 3 step 2 do {
-					_ctrlScreen drawLine [
-						[_lines # _i, _lines # (_i + 1)],
-						[_lines # (_i + 2), _lines # (_i + 3)],
-						_color
-					];
-				};
-
 				continue
 			};
 			case "RECTANGLE": {
@@ -267,34 +237,6 @@ if (!(_reDirecting || _reSizing || _LMB) && _curSelMarker > -1) then {
 		call cTab_fnc_DrawArea;
 	};
 
-#ifdef ACE_LOADED
-	if !(ace_map_gestures_enabled) exitWith {};
-
-	call {
-		if (
-			_toggle_show || (inputMouse 0) != 2
-		) exitWith {
-			if (ace_map_gestures_EnableTransmit) then {
-				ace_map_gestures_EnableTransmit = false;
-				ACE_player setVariable ["ace_map_gestures_pointPosition", nil, true];
-			};
-		};
-
-		if (!ace_map_gestures_EnableTransmit) then {
-			ace_map_gestures_EnableTransmit = true;
-		};
-
-		ace_map_gestures_cursorPosition = _ctrlScreen ctrlMapScreenToWorld getMousePosition;
-		if (
-			ace_map_gestures_cursorPosition distance2D (ACE_player getVariable ["ace_map_gestures_pointPosition", [0, 0, 0]]) >= 1
-		) then {
-			[ACE_player, "ace_map_gestures_pointPosition", ace_map_gestures_cursorPosition, ace_map_gestures_interval] call ace_common_fnc_setVariablePublic;
-		};
-	};
-
-	if (getClientStateNumber < 10) then {
-		[_ctrlScreen, ace_map_gestures_briefingMode] call cTab_fnc_DrawMapPointer;
-	} else {
-		[_ctrlScreen, [[ACE_player, ace_map_gestures_maxRange]]] call cTab_fnc_DrawMapPointer;
-	};
+#if __has_include("\z\ace\addons\map_gestures\config.bin")
+	call cTab_fnc_onDrawMapPointer;
 #endif

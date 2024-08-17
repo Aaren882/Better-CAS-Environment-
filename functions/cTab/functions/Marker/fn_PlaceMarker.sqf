@@ -41,7 +41,7 @@ if (_markerData isEqualTo "") exitWith {
   "_markerAlpha"
 ];
 
-_marker = createMarker [_name, _position, currentChannel, focusOn];
+_marker = createMarker [_name, _position, currentChannel, player];
 
 _marker setMarkerType _markerType;
 _marker setMarkerShape _markerShape;

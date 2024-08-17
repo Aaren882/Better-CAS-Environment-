@@ -91,9 +91,7 @@ if (
   //- Can't be the same marker
     if (_marker == _EDIT_Marker) exitWith {};
   
-  [_displayName,[["MarkerEDIT",_marker]]] call cTab_fnc_setSettings;
-  
-  [_display,_marker] call cTab_fnc_Marker_Edittor;
+  [_displayName,[["MarkerEDIT",_marker]],true] call cTab_fnc_setSettings;
 };
 
 /////////////////////////// - PLACE MARKER - //////////////////////////////

@@ -935,7 +935,11 @@ class CfgFunctions
 				file="MG8\AVFEVFX\functions\cTab\functions\Marker";
 				class Marker_Edittor;
 				class NextMarkerID;
-				class DrawMapPointer;
+				class DrawMarkerDir;
+				#if __has_include("\z\ace\addons\map_gestures\config.bin")
+					class MapPointer;
+					class onDrawMapPointer;
+				#endif
 				class FinishEDIT_Marker;
 				class PlaceMarker;
 				class DrawArea;
