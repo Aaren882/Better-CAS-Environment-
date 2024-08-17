@@ -22,6 +22,7 @@ if ((player getVariable ["TGP_View_EHs", -1]) != -1) then {
   };
 
   _FOVs sort false;
+  _FOVs = _FOVs arrayIntersect _FOVs;
   _FOV = _FOVs find (localNamespace getVariable ["TGP_View_Camera_FOV",_FOVs # 0]);
   
   _FOV = switch _mode do {
@@ -32,10 +33,9 @@ if ((player getVariable ["TGP_View_EHs", -1]) != -1) then {
       _FOV - 1
     };
     default {
-      [_FOV,0] select (_FOV < 0);
+      0 max _FOV
     };
   };
-  
   //- dont cycle through entire FOVs
   if (_FOV >= count _FOVs || _FOV < 0) exitWith {};
 

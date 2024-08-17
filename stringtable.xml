@@ -104,6 +104,11 @@
 			<Chinese>武器資訊</Chinese>
 			<Chinesesimp>武器信息</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Widgets_System_Value">
+			<Original>System Value</Original>
+			<Chinese>系統預設</Chinese>
+			<Chinesesimp>系統預設</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_Widgets_TIP_TASK">
 			<Original>Current Task Info</Original>
 			<Chinese>目前任務資訊</Chinese>
@@ -159,6 +164,11 @@
 			<Original>This Aircraft is Unavailable for a New Task.</Original>
 			<Chinese>這架飛機無法執行新任務。</Chinese>
 			<Chinesesimp>这架飞机无法执行新任务。</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_MK_Limit_Reached_Error">
+			<Original>Marker Limit Reached.</Original>
+			<Chinese>已達到標記上限。</Chinese>
+			<Chinesesimp>已达到标记上限。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_ATAK_No_Info_Error">
 			<Original>Check Target Position is being filed.</Original>
@@ -218,13 +228,75 @@
 			<Chinese>描述</Chinese>
 			<Chinesesimp>描述</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Generic">
+			<Original>Generic</Original>
+			<Chinese>通用</Chinese>
+			<Chinesesimp>通用</Chinesesimp>
+		</Key>
+
+		<Key ID="STR_BCE_Marker_Dropper">
+			<Original>Marker Dropper</Original>
+			<Chinese>標記工具</Chinese>
+			<Chinesesimp>标记工具</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Drawing_Tool">
+			<Original>Drawing Tool</Original>
+			<Chinese>繪畫工具</Chinese>
+			<Chinesesimp>绘画工具</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Toggle_Marker_Widget">
+			<Original>Toggle Marker Widget</Original>
+			<Chinese>開關標記工具</Chinese>
+			<Chinesesimp>开关标记工具</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Toggle_Marker_Dropper">
+			<Original>Toggle Marker Dropper</Original>
+			<Chinese>開關標記功能</Chinese>
+			<Chinesesimp>开关标记功能</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Cycle_Marker">
+			<Original>Cycle Marker Type</Original>
+			<Chinese>切換標記類型</Chinese>
+			<Chinesesimp>切换标记类型</Chinesesimp>
+		</Key>
+
+		<Key ID="STR_BCE_Select_Camera">
+			<Original>Select Camera</Original>
+			<Chinese>選擇攝影機</Chinese>
+			<ChineseSimp>选择摄影机</ChineseSimp>
+		</Key>
+		<Key ID="STR_BCE_AC_CAM">
+			<Original>AC CAM</Original>
+			<Chinese>飛行器攝影機</Chinese>
+			<ChineseSimp>飞行器摄像机</ChineseSimp>
+		</Key>
+		<Key ID="STR_BCE_Helmet_CAM">
+			<Original>Helmet CAM</Original>
+			<Chinese>頭盔攝影機</Chinese>
+			<ChineseSimp>头盔摄像机</ChineseSimp>
+		</Key>
+		<Key ID="STR_BCE_Helmet_CAM_Full">
+			<Original>Fullscreen Helmet CAM</Original>
+			<Chinese>全螢幕 頭盔攝影機</Chinese>
+			<ChineseSimp>全屏 头盔摄像机</ChineseSimp>
+		</Key>
+		<Key ID="STR_BCE_TRACK_TG">
+			<Original>TRACK POINT</Original>
+			<Chinese>追蹤指向</Chinese>
+			<ChineseSimp>追踪指向</ChineseSimp>
+		</Key>
+		<Key ID="STR_BCE_Sync_Zoom">
+			<Original>Sync Zoom</Original>
+			<Chinese>同步縮放</Chinese>
+			<ChineseSimp>同步缩放</ChineseSimp>
+		</Key>
+
 		
 		<Key ID="STR_BCE_Toggle_FOV">
 			<Original>Toggle FOV of vehicle turrets</Original>
 			<Chinese>開關車輛炮塔FOV</Chinese>
 			<Chinesesimp>开关车辆炮塔FOV</Chinesesimp>
 		</Key>
-		
 		<Key ID="STR_BCE_CAS_Task">
 			<Original>CAS Task</Original>
 			<Chinese>CAS 任務</Chinese>
@@ -1454,6 +1526,13 @@
 			<Original>Laser on Ground Vehicle Turret</Original>
 			<Chinese>雷射在 地面載具 炮塔上</Chinese>
 			<Chinesesimp>激光在 地面载具 炮塔上</Chinesesimp>
+		</Key>
+		
+		
+		<Key ID="STR_BCE_OPACITY_FORMAT">
+			<Original>Opacity: %1%2</Original>
+			<Chinese>不透明度: %1%2</Chinese>
+			<Chinesesimp>不透明度: %1%2</Chinesesimp>
 		</Key>
 		
 	</Package>

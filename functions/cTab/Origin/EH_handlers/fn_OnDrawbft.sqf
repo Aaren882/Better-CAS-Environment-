@@ -1,17 +1,16 @@
 params ["_cntrlScreen"];
 
-_display = ctrlParent _cntrlScreen;
+private _display = ctrlParent _cntrlScreen;
 
-cTabMapWorldPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
 cTabMapScale = ctrlMapScale _cntrlScreen;
 
 [_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 [_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
 
 // draw directional arrow at own location
-_veh = vehicle cTab_player;
-_playerPos = getPosASLVisual _veh;
-_heading = getDirVisual _veh;
+private _veh = vehicle cTab_player;
+private _playerPos = getPosASLVisual _veh;
+private _heading = getDirVisual _veh;
 _cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB","right"];
 
 // update hook information

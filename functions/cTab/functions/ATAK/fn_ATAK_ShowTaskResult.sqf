@@ -15,5 +15,5 @@ if (ctrlshown _description) then {
 	_shownCtrls = [_group,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
 	call ([BCE_fnc_clearTask9line,BCE_fnc_clearTask5line] # _curType);
 } else {
-	['cTab_Android_dlg',[['showMenu',['Task_Result',true,-1]]]] call cTab_fnc_setSettings;
+	["Task_Result",-1] call BCE_fnc_ATAK_ChangeTool;
 };

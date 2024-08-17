@@ -33,19 +33,19 @@ if (_dikCode == DIK_F1 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"
 	[_displayName,[["mode","BFT"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == DIK_F2 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"]}) exitWith {
+if (_dikCode == DIK_F2 && {_displayName == "cTab_Tablet_dlg"}) exitWith {
 	[_displayName,[["mode","UAV"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == DIK_F3 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith {
+if (_dikCode == DIK_F3 && {_displayName == "cTab_Tablet_dlg"}) exitWith {
 	[_displayName,[["mode","HCAM"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == DIK_F4 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"]}) exitWith {
+if (_dikCode == DIK_F4 && {_displayName == "cTab_Tablet_dlg"}) exitWith {
 	[_displayName,[["mode","MESSAGE"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == DIK_F5 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith {
+if (_dikCode == DIK_F5 && {_displayName == "cTab_Tablet_dlg"}) exitWith {
 	[_displayName,[["mode","TASK_Builder"]]] call cTab_fnc_setSettings;
 	true
 };
@@ -59,14 +59,28 @@ if (_dikCode == DIK_F7 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"
 };
 
 if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
-	_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-	_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
-	_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
-	_ctrlScreen = _display displayCtrl (_mapTypes # _currentMapTypeIndex # 1);
-	_markerIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
-	if ((_markerIndex isNotEqualTo -1) && (_markerIndex isEqualType 0)) then {
-		[call cTab_fnc_getPlayerEncryptionKey,_markerIndex] call cTab_fnc_deleteUserMarker;
-	};
+	private _mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+	private _currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
+	private _currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
+	private _ctrlScreen = _display displayCtrl (_mapTypes # _currentMapTypeIndex # 1);
+	private _markerIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
+
+	if (_markerIndex isEqualType objNull) exitWith {true};
+	if (_markerIndex < 0) exitWith {true};
+
+	private _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
+	private _marker = allMapMarkers # _markerIndex;
+	private _Data = (((_marker select [15]) splitString "/") apply {parseNumber _x}) param [4, [-1,_toggle # 4] select (_marker find "_USER" > -1)];
+	if (
+		!(_toggle # 0) ||
+		(markerChannel _marker != currentChannel && isMultiplayer) ||
+		"PLP" in _marker ||
+		(_toggle # 4) != _Data
+	) exitWith {true};
+	
+	//- Can't delete POLPOX's MapTools Markers
+	deleteMarker _marker;
+
 	true
 };
 

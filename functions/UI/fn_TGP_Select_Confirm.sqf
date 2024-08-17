@@ -181,7 +181,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 	_time_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Time",[daytime] call BIS_fnc_timeToString]);
 	_Altitude_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Altitude",Round ((getPosASL _vehicle) # 2)]);
 	_Grid_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Grid",mapGridPosition (screenToWorld [0.5,0.5])]);
-	_camDir_ctrl ctrlSetText (format ["%1°", [getDir _cam,3] call CBA_fnc_formatNumber]);
+	_camDir_ctrl ctrlSetText (format ["%1°", [getDirVisual _cam,3] call CBA_fnc_formatNumber]);
 	_Fuel_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Fuel", round ((fuel _vehicle) * 100),"%"]);
 	_Engine_damage = _vehicle getHitPointDamage "hitEngine";
 

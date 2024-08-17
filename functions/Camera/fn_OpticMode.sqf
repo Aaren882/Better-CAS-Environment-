@@ -9,42 +9,37 @@ if (_type == 2) then {
 };
 
 // FLIR text
-_text = "";
 
 // FLIR setting
-switch (_type) do
+private _text = switch (_type) do
 {
 	#if __has_include("\A3TI\config.bin")
 		case 0: {
 			call A3TI_fnc_ppEffects;
-			_text = call A3TI_fnc_getA3TIVision;
+			call A3TI_fnc_getA3TIVision;
 		};
 		case 1: {
 			call A3TI_fnc_ppEffects;
-			_text = call A3TI_fnc_getA3TIVision;
+			call A3TI_fnc_getA3TIVision;
 		};
 	#endif
-	case 3:
-	{
+	case 3:	{
 		false setCamUseTi -1;
 		camUseNVG true;
-		_text = "NVG";
+		"NVG";
 	};
-	case 4:
-	{
+	case 4:	{
 		true setCamUseTi 0;
-		_text = "W-FLIR";
+		"W-FLIR";
 	};
-	case 5:
-	{
+	case 5:	{
 		true setCamUseTi 1;
-		_text = "T-FLIR";
+		"T-FLIR";
 	};
-	default
-	{
+	default	{
 		false setCamUseTi 0;
 		false setCamUseTi 1;
-		_text = "NORMAL";
+		"NORMAL";
 	};
 };
 

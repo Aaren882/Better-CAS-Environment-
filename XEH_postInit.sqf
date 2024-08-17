@@ -33,7 +33,7 @@ if (isnil {BCE_SYSTEM_Handler}) then {
 
 private _mapCenter = worldSize / 2;
 private _landmarks = ["NameVillage", "NameCity", "NameCityCapital", "NameLocal", "NameMarine", "Hill"];
-BCE_LandMarks = (nearestLocations [
+private _BCE_LandMarks = (nearestLocations [
 	[_mapCenter, _mapCenter],
 	_landmarks,
 	worldSize
@@ -57,11 +57,11 @@ BCE_LandMarks = (nearestLocations [
 		(getNumber (_config >> "textSize")) min 0.04
 	]
 };
+uiNamespace setVariable ["BCE_LandMarks",_BCE_LandMarks];
 
 #if __has_include("\z\ace\addons\hearing\config.bin")
 	BCE_have_ACE_earPlugs = false;
 #endif
-//ace_hearing_enableCombatDeafness = false;
 
 ["BCE_Init",BCE_fnc_init] call CBA_fnc_addEventHandler;
 
@@ -69,12 +69,9 @@ BCE_LandMarks = (nearestLocations [
 ["BCE_Init",[]] call CBA_fnc_localEvent;
 
 //-Add map eventhandler
-addMissionEventHandler ["Map", {
-	//- Refesh widgets infos
-	if (_this # 0) then {
-		[findDisplay 12, -1] call BCE_fnc_Update_MapCtrls;
-	};
-}];
+["visibleMap", {
+	[findDisplay 12, -1] call BCE_fnc_Update_MapCtrls;
+}] call CBA_fnc_addPlayerEventHandler;
 
 #define SetTitle(A,B) (localize A) + (localize B)
 #define IsPilot_CAM_ON ((player getVariable ["AHUD_Actived",-1]) != -1)
@@ -83,9 +80,10 @@ addMissionEventHandler ["Map", {
 #define isCtrlTurret ({count (_x getVariable ["TGP_View_Turret_Control",[]]) > 0} count (crew _vehicle)) > 0
 #define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
 #define IsPhoneCAM_ON !isnull (uiNamespace getVariable ["BCE_PhoneCAM_View",displayNull])
+#define IsHCAM_ON !isnull (uiNamespace getVariable ["BCE_HCAM_View",displayNull])
 #ifdef cTAB_Installed
 	[BCE_fnc_cTab_postInit, [], 1] call CBA_fnc_WaitAndExecute;
-
+ 
 	//- Phone Camera
 		[
 			"Better CAS Environment (cTab ATAK Camera)","ScreenShot",
@@ -137,15 +135,7 @@ addMissionEventHandler ["Map", {
 	{
 		if (IsTGP_CAM_ON) then {
 			SwitchSound;
-			_n_counts = player getVariable ["TGP_View_Optic_Mode", 2];
-			if (_n_counts == 5) then {
-				_n_counts = 2;
-				player setVariable ["TGP_View_Optic_Mode", 2];
-			} else {
-				_n_counts = _n_counts + 1;
-				player setVariable ["TGP_View_Optic_Mode", _n_counts];
-			};
-			_n_counts call BCE_fnc_OpticMode;
+			(call BCE_fnc_Next_VisionMode) call BCE_fnc_OpticMode;
 		};
 	},
 	"",
@@ -170,14 +160,13 @@ addMissionEventHandler ["Map", {
 		};
 
 		//- Exit Phone Camera
-		if (IsPhoneCAM_ON) exitWith {
+		if (IsPhoneCAM_ON || IsHCAM_ON) exitWith {
 			558 cutRsc ["default","PLAIN"];
 			cutText ["", "BLACK IN",0.5];
 		};
 	},
 	"",
-	[0x39, [false, false, false]],
-	true
+	[0x39, [false, false, false]]
 ] call cba_fnc_addKeybind;
 
 //- Zoom

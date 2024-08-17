@@ -27,19 +27,18 @@
 		[str _uavVehicle,[[0,"rendertarget8"],[1,"rendertarget9"]]] call cTab_fnc_createUavCam;
 */
 params ["_veh","_uavCams","_UAV_Interface"];
-private ["_veh","_displayName","_display","_squad_list","_seat_info","_PIP_IDC","_PIP_Ctrl","_Optic_LODs","_Selected_Optic","_turrets","_isEmpty","_renderTarget","_data","_seat","_veh","_uavCams","_seatName","_camPosMemPt","_cam","_turrets"];
+private ["_veh","_displayName","_display","_squad_list","_seat_info","_Optic_LODs","_Selected_Optic","_turrets","_isEmpty","_renderTarget","_data","_seat","_veh","_uavCams","_seatName","_camPosMemPt","_cam","_turrets"];
 
 _displayName = cTabIfOpen # 1;
 _display = uiNamespace getVariable _displayName;
 _squad_list = _display displayCtrl ([17000 + 1785,20116] select _UAV_Interface);
-_seat_info = _display displayCtrl (17000 + 46320);
-
-_PIP_IDC = if (_UAV_Interface) then {
-	[1773, 17000 + 4632] select ("Android" in _displayName)
+_seat_info = if ("Android" in _displayName) then {
+	private _group = _display displayCtrl (17000 + 4640);
+	_group = _group controlsGroupCtrl 20;
+	_group controlsGroupCtrl 46320
 } else {
-	17000 + 1786
+	_display displayCtrl (17000 + 46320)
 };
-_PIP_Ctrl = _display displayCtrl _PIP_IDC;
 
 // remove exisitng UAV cameras
 call cTab_fnc_deleteUAVcam;
@@ -51,7 +50,7 @@ _Optic_LODs = [_veh,0] call BCE_fnc_Check_Optics;
 _Selected_Optic = cTab_player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
 _turrets = _Optic_LODs apply {((_x # 1) # 0) + 1};
 
-_isEmpty = ((cTab_player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) || (_veh isNotEqualTo (_Selected_Optic # 1));
+_isEmpty = ((cTab_player getVariable ["TGP_View_Selected_Optic",[]]) findIf {true} < 0) || (_veh isNotEqualTo (_Selected_Optic # 1));
 
 if (_isEmpty) then {
 	cTab_player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_veh],true];
@@ -61,8 +60,6 @@ _Selected_Optic = cTab_player getVariable "TGP_View_Selected_Optic";
 
 //- Exit if AV have no turret
 if (isNil {_Selected_Optic # 0}) exitWith {
-	_PIP_Ctrl ctrlShow false;
-	_seat_info ctrlSetText "--";
 	false
 };
 
@@ -93,8 +90,6 @@ _uavCams apply {
 			((_turret # 0) < 0)
 		)
 	) then {
-		_PIP_Ctrl ctrlShow true;
-
 		_cam = "camera" camCreate [0,0,0];
 		_cam attachTo [_veh,[0,0,0],_camPosMemPt,!_is_Detached];
 
@@ -144,8 +139,6 @@ _uavCams apply {
 		
 		// -Store Cameras
 		cTabUAVcams pushBack [_renderTarget,_cam,_camPosMemPt,_turret,_is_Detached];
-	} else {
-		_PIP_Ctrl ctrlShow false;
 	};
 
 	nil

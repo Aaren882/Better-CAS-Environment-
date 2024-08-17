@@ -1,6 +1,7 @@
 params["_display","_ctrl"];
 
-(player getVariable ["TGP_View_Selected_Optic",[[],objNull]]) params ["_connected_Optic","_veh"];
+private _displayName = cTabIfOpen # 1;
+(focusOn getVariable ["TGP_View_Selected_Optic",[[],objNull]]) params ["_connected_Optic","_veh"];
 
 if !(isnull _veh) then {
 	private _color = [1,1,0.3,0.8];
@@ -48,7 +49,7 @@ if !(isnull _veh) then {
 	} forEach _waypoints;
 
 	//-Camera Info
-	if (!(_connected_Optic isEqualTo []) && (uinamespace getVariable ['BCE_Terminal_Targeting',true])) then {
+	if ((_connected_Optic findIf {true} > -1) && (uinamespace getVariable ['BCE_Terminal_Targeting',true])) then {
 		private _current_turret = _connected_Optic # 1;
 		private _isPilot = (_current_turret # 0) == -1;
 
@@ -65,9 +66,9 @@ if !(isnull _veh) then {
 				[_veh,_current_turret] call BCE_fnc_Turret_InterSurface;
 			};
 		};
-
+		
 		//-draw FOV for curret connected turret (except FFV)
-		if (!(isnil {_FocusPos}) && !(isNull (_veh turretUnit _current_turret))) then {
+		if (!isnil {_FocusPos} && !isNull (_veh turretUnit _current_turret)) then {
 			private ["_dis","_wpn","_turretName","_text"];
 
 			_dis = _veh distance _FocusPos;
@@ -85,12 +86,31 @@ if !(isnull _veh) then {
 				[_wpn,"NA"] select (_wpn == "")
 			];
 			[_veh,_ctrl,_FocusPos,_current_turret,_color,_text,uinamespace getVariable ['BCE_Terminal_Targeting',true]] call BCE_fnc_DrawFOV;
+			
+			//- Focus on TG point
+				if (_displayName find "Android" > -1 && uiNamespace getVariable ["BCE_ATAK_TRACK_Focus",false]) then {
+					//- Update Text Info
+						private _unit = getPosVisual focusOn;
+						private _g = (_display displayCtrl 21640) controlsGroupCtrl 20; //- 17000 + 4640
+						(_g controlsGroupCtrl 12) ctrlSetText format["%1° %2m",round (_unit getDirVisual _FocusPos), round ((_unit distance2D _FocusPos)/10) * 10];
+					
+					//- Draw on Map
+						private _pos = vectorLinearConversion [0,1,0.95,_unit,_FocusPos,true];
+						_ctrl drawArrow [_unit, _pos, [1,1,1,1]];
+
+						_ctrl ctrlMapAnimAdd [
+							0, 
+							cTabMapScale, 
+							_FocusPos
+						];
+					ctrlMapAnimCommit _ctrl;
+				};
 		};
 	};
 };
 
 //-Exit if it's not cTab or TAD
-if !((cTabIfOpen # 1) in ["cTab_Tablet_dlg","cTab_Android_dlg","cTab_Android_dsp"]) exitWith {};
+if (_displayName find "Tablet" < 0 && _displayName find "Android" < 0) exitWith {};
 
 //- CAS
 private _sel_TaskType = uiNameSpace getVariable ["BCE_Current_TaskType",0];

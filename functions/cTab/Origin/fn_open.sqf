@@ -83,18 +83,52 @@ if (_vehicle != _player && (_isDialog || _displayName in ["cTab_TAD_dsp"])) then
 };
 
 // Set up event handler to update display header / footer
-if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) then {
-	cTabIfOpen set [6,
+private _EH = switch (true) do {
+	case ("Android" in _displayName): {
 		addMissionEventHandler ["Draw3D",{
 			_display = uiNamespace getVariable (cTabIfOpen # 1);
 			_veh = vehicle cTab_player;
-			_playerPos = getPosASL _veh;
+			_heading = direction _veh;
+			_heading_sel = round (_heading / 90);
+			
+			_octant = [
+				"N",
+				"E",
+				"S",
+				"W",
+				"N"
+			] # _heading_sel;
+			
+			//- Digi Compass
+				_ctrl_heading = _display displayCtrl (17000+2615);
+					_ctrl_heading ctrlSetAngle [360 - _heading, 0.5, 0.5];
+
+				_ctrl_heading = _display displayCtrl (17000+2616);
+					_ctrl_heading ctrlSetText _octant;
+					_ctrl_heading ctrlSetTextColor ([[1,1,1,1],[1,0,0,1]] select (_heading_sel == 0 || _heading_sel == 4));
+			
+			//- Self Infos
+			// update grid position
+			(_display displayCtrl (17000 + 2622)) ctrlSetText (mapGridPosition getPosASLVisual _veh);
+			
+			// update current heading
+			(_display displayCtrl (17000 + 2621)) ctrlSetText format ["%1 %2°", [_heading] call cTab_fnc_degreeToOctant,[_heading,3] call CBA_fnc_formatNumber];
+
+			// update time
+			(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
+		}];
+	};
+	case ("_TAD_" in _displayName): {
+		addMissionEventHandler ["Draw3D",{
+			_display = uiNamespace getVariable (cTabIfOpen # 1);
+			_veh = vehicle cTab_player;
+			_playerPos = getPosASLVisual _veh;
 		
 			// update time
 			(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
 			
 			// update grid position
-			(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
+			(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText (mapGridPosition _playerPos);
 			
 			// update current heading
 			(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[direction _veh,3] call CBA_fnc_formatNumber];
@@ -102,43 +136,40 @@ if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) then {
 			// update current elevation (ASL) on TAD
 			(_display displayCtrl IDC_CTAB_OSD_ELEVATION) ctrlSetText format ["%1m",[round (_playerPos # 2),4] call CBA_fnc_formatNumber];
 		}]
-	];
-} else {
-	private _EH = if ("microDAGR" in _displayName) then {
+	};
+	case ("microDAGR" in _displayName): {
 		addMissionEventHandler ["Draw3D",{
-			_displayName = cTabIfOpen # 1;
-			_display = uiNamespace getVariable _displayName;
+			_display = uiNamespace getVariable (cTabIfOpen # 1);
 			_veh = vehicle cTab_player;
 			_heading = direction _veh;
 			// update time
 			(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
 			
 			// update grid position
-			(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition getPosASL _veh];
+			(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText (mapGridPosition getPosASLVisual _veh);
 			
 			// update current heading
 			(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°", [_heading,3] call CBA_fnc_formatNumber];
-			(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1", [_heading] call cTab_fnc_degreeToOctant];
+			(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText ([_heading] call cTab_fnc_degreeToOctant);
 		}];
-	} else {
+	};
+	default {
 		addMissionEventHandler ["Draw3D",{
-			_displayName = cTabIfOpen # 1;
-			_display = uiNamespace getVariable _displayName;
+			_display = uiNamespace getVariable (cTabIfOpen # 1);
 			_veh = vehicle cTab_player;
 			_heading = direction _veh;
 			// update time
 			(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
 			
 			// update grid position
-			(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition getPosASL _veh];
+			(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText (mapGridPosition getPosASLVisual _veh);
 			
 			// update current heading
 			(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1 %2°", [_heading] call cTab_fnc_degreeToOctant,[_heading,3] call CBA_fnc_formatNumber];
 		}];
-	};
-	cTabIfOpen set [6,_EH];
+	}
 };
-
+cTabIfOpen set [6,_EH]; //- Store the EH ID
 
 // If ace_medical is used, register with medical_onUnconscious event
 #if __has_include("\z\ace\addons\medical\config.cpp")

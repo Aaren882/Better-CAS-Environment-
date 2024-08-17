@@ -137,7 +137,7 @@ if ((_allTurrets findif {true} < 0) && !(hasPilotCamera _vehicle)) exitWith {[]}
 							(_vehicle isKindOf "Air") &&
 							!(isNil{_var}) &&
 							(
-								(count (allTurrets _vehicle) > 0) ||
+								((allTurrets _vehicle) findIf {true} > -1) ||
 								(hasPilotCamera _vehicle)
 							)
 						) then {

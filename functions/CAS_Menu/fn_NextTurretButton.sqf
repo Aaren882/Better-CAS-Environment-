@@ -19,7 +19,12 @@ if !(isnull _vehicle) then {
 
 	#ifdef cTAB_Installed
 		if (!(cTabIfOpenStart) && (cTabActUav != cTab_player)) then {
-			[[["uavCam",str _vehicle]]] call cTab_fnc_updateInterface;
+			if ("Android" in (cTabIfOpen # 1)) then {
+				//- Update Interface
+					"showMenu" call BCE_fnc_cTab_UpdateInterface;
+			} else {
+				[[["uavCam",str _vehicle]]] call cTab_fnc_updateInterface;
+			};
 		};
 	#endif
 

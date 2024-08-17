@@ -26,11 +26,11 @@
 disableSerialization;
 params ["_type"];
 
-_displayName = cTabIfOpen # 1;
-_display = uiNamespace getVariable _displayName;
+private _displayName = cTabIfOpen # 1;
+private _display = uiNamespace getVariable _displayName;
 
-_reset_Veh = false;
-_idcToShow = 0;
+private _reset_Veh = false;
+private _idcToShow = 0;
 
 call {
 	// send cTabUserSelIcon to server
@@ -58,7 +58,7 @@ call {
 		 	["cTab_Tablet_dlg",[["uavCam",str _curSel]],false] call cTab_fnc_setSettings;
 
 		 	_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
-			if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_curSel isNotEqualTo (_Selected_Optic # 1))) then {
+			if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) || (_curSel isNotEqualTo (_Selected_Optic # 1))) then {
 				player setVariable ["TGP_View_Selected_Optic",[([_curSel,0] call BCE_fnc_Check_Optics) # 0, _curSel],true];
 				
 				//-ATAK
@@ -104,8 +104,8 @@ call {
 
 	//-Edit Marker
 	if (_type in [41,42,43]) exitWith {
-
-		_task = switch (uiNameSpace getVariable ["BCE_Current_TaskType",0]) do {
+		private ["_task","_info","_marker","_POS","_TG_var","_mode","_condition","_ctrlEnter"];
+		 _task = switch (uiNameSpace getVariable ["BCE_Current_TaskType",0]) do {
 			//- 5 line
 			case 1: {
 				[[-1,2,1],"BCE_CAS_5Line_Var"]
@@ -134,8 +134,8 @@ call {
 		if ((_info # 1) < 0) exitWith {};
 
 		//-CurSel Marker
-		_index = cTabUserMarkerList findIf {(_x # 0) == (uiNameSpace getVariable ["cTab_BFT_CurSel",-1])};
-		_POS = cTabUserMarkerList # _index # 1 # 0;
+		_marker = allMapMarkers # (uiNameSpace getVariable ["cTab_BFT_CurSel",-1]);
+		_POS = markerPos _marker;
 
 		//-GRID info
 		_TG_var = (uiNameSpace getVariable (_task # 1)) # (_task # 0 # 1);
@@ -170,12 +170,12 @@ call {
 		_ctrlEnter = _display displayctrl (17000 + 21051);
 		[_ctrlEnter, 17000, true, _info # 1] call BCE_fnc_DataReceiveButton;
 
-	private _list = _display displayCtrl (17000 + 12010);
-	[_list, lbCurSel _list] call BCE_fnc_ctab_BFT_ToolBox;
+		private _list = _display displayCtrl (17000 + 12010);
+		[_list, lbCurSel _list] call BCE_fnc_ctab_BFT_ToolBox;
 	};
 
 	_idcToShow = switch _type do {
-		case 11: {3301};
+		/*case 11: {3301};
 		case 12: {3303};
 		case 13: {3304};
 		case 14: {
@@ -190,7 +190,7 @@ call {
 		case 100: {3308};
 		case 101: {3309};
 		case 102: {3310};
-		case 103: {3311};
+		case 103: {3311};*/
 
 		default {_type};
 	};
@@ -200,14 +200,15 @@ call {
 {ctrlShow [_x,false]} count [3300,3301,3302,3303,3304,3305,3306,3307, 3308,3309,3310,3311 ,17000 + 3300,17000 + 33000,17000 + 3301];
 
 //-clean variable
-if ((_type == 0) or (_reset_Veh)) then {
+if ((_type == 0) || (_reset_Veh)) then {
 	uiNameSpace setVariable ["cTab_BFT_CurSel",objNull];
 };
 
 // Bring the menu control we want to show into position and show it
 if (_idcToShow != 0) then {
-	_control = _display displayCtrl _idcToShow;
+	private _control = _display displayCtrl _idcToShow;
 	if !(isNull _control) then {
+		private ["_controlPos","_screenPos","_screenEdgeX","_screenEdgeY","_controlEdgeX","_controlEdgeY"];
 		_controlPos = ctrlPosition _control;
 
 		// figure out screen edge positions and where the edges of the control would be if we were just to move it blindly to cTabUserPos

@@ -45,6 +45,9 @@ class CfgPatches
 #if __has_include("\CTG_HMD_RHSUSAF\config.cpp")
 	#define RHS_HMD_Macro 1
 #endif
+#if __has_include("\CTG_HMD_RHSUSAF\config.cpp")
+	#define RHS_HMD_Macro 1
+#endif
 
 //-CBA Compile
 class Extended_PreInit_EventHandlers
@@ -189,6 +192,9 @@ class RscTeam: RscSubmenu
 	};
 };
 
+#ifdef cTAB_Installed
+	#include "cTab\cTab_MarkersClasses.hpp"
+#endif
 class CfgVehicles
 {
 	//-ACE Actions
@@ -609,6 +615,7 @@ class CfgFunctions
 			class Check_Optics;
 			class Set_EnvironmentList;
 			class Turret_interSurface;
+			class GetMapClickPOS;
 
 			class POS2Grid;
 			class Grid2POS;
@@ -664,6 +671,7 @@ class CfgFunctions
 			class touchMark;
 			class UpdateCameraInfo;
 			class LandMarks_icon;
+			class Next_VisionMode;
 		};
 		class Lists
 		{
@@ -694,7 +702,6 @@ class CfgFunctions
 			class TaskListDblCLick;
 			class ToolBoxChanged;
 			class IPMarkers;
-			class GetMapClickPOS;
 			class clearTaskInfo;
 			class SendTaskData;
 			class CAS_SelWPN;
@@ -749,11 +756,13 @@ class CfgFunctions
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions";
 				class cTabMap;
-				class ctab_ChangeTask_Desc;
-				class ctab_List_AV_Info;
-				class ctab_Switch_ExtendedList;
-				class ctab_BFT_ToolBox;
+				class cTab_ChangeTask_Desc;
+				class cTab_List_AV_Info;
+				class cTab_Switch_ExtendedList;
+				class cTab_BFT_ToolBox;
 				class cTab_getWeather_Infos;
+				class cTab_UpdateInterface;
+				class cTab_CreateCameraList;
 				class Extended_WeaponDESC;
 				class Extended_TaskDESC;
 			};
@@ -766,6 +775,7 @@ class CfgFunctions
 			class ATAK
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK";
+				class ATAK_ChangeTool;
 				class ATAK_openPage;
 				class ATAK_TaskCreate;
 				class ATAK_LastPage;
@@ -778,13 +788,22 @@ class CfgFunctions
 				class ATAK_getScrollValue;
 				class ATAK_PullData;
 				class ATAK_ShowTaskResult;
+				class ATAK_Check_Layout;
 				class ATAK_onVehicleChanged;
+				class ATAK_toggleSubMenu;
+				class ATAK_Camera_Controls;
 			};
 			class ATAK_CAM
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Camera";
 				class ATAK_CamInit;
 				class ATAK_TakePicture;
+				class ATAK_FullScreenCamera;
+			};
+			class ATAK_MSG
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Message";
+				class ATAK_msg_Line_Create;
 			};
 		#endif
 	};
@@ -806,6 +825,10 @@ class CfgFunctions
 					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_showMenu_toggle.sqf";
 				};
 				
+				class onMapDoubleClick
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_onMapDoubleClick.sqf";
+				};
 				class OnDrawbft
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawbft.sqf";
@@ -829,6 +852,10 @@ class CfgFunctions
 				class OnDrawbftVeh
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawbftVeh.sqf";
+				};
+				class OnDrawHCam
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawHCam.sqf";
 				};
 				class OnDrawUAV
 				{
@@ -868,9 +895,21 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_createUavCam.sqf";
 				};
+				class createHelmetCam
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_createHelmetCam.sqf";
+				};
+				class deleteHelmetCam
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_deleteHelmetCam.sqf";
+				};
 				class userMenuSelect
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_userMenuSelect.sqf";
+				};
+				class setInterfacePosition
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_setInterfacePosition.sqf";
 				};
 				class deleteUAVcam
 				{
@@ -884,21 +923,34 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_onIfClose.sqf";
 				};
-				
-				//- Add
-				class toggleWeather
+				class msg_gui_Load
 				{
-					file="MG8\AVFEVFX\functions\cTab\functions\fn_toggleWeather.sqf";
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_msg_gui_Load.sqf";
 				};
-				//- Action Menu
-				class Interaction_Menu
-				{
-					file="MG8\AVFEVFX\functions\cTab\functions\menu\fn_Interaction_Menu.sqf";
-				};
-				class Menu_Correction
-				{
-					file="MG8\AVFEVFX\functions\cTab\functions\menu\fn_Menu_Correction.sqf";
-				};
+			};
+
+			//- Add
+			class BCE_Marker
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\Marker";
+				class Marker_Edittor;
+				class NextMarkerID;
+				class DrawMapPointer;
+				class FinishEDIT_Marker;
+				class PlaceMarker;
+				class DrawArea;
+			};
+			class BCE_Widget
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\Menu_Widget";
+				class onMarkerSelChanged;
+				class onMarkerTextEditted;
+				class onMarkerOpacityChanged;
+				class Update_MarkerItems;
+				class toggleWeather;
+				class toggleMarkerWidget;
+				class toggleTADMarkerDropper;
+				class SwitchMarkerWidget;
 			};
 		};
 	#endif
@@ -989,6 +1041,7 @@ class RscListBox
 {
 	class ListScrollBar;
 };
+class RscListNBox;
 class RscIGUIText;
 class RscPictureKeepAspect;
 class RscControlsGroup;
@@ -998,12 +1051,15 @@ class RscShortcutButton;
 class RscButtonMenu: RscShortcutButton
 {
 	class TextPos;
+	class AttributesImage;
 };
 class ctrlButton;
 class RscEdit;
 class RscCombo;
+class RscXSliderH;
 class RscEditMulti;
 class RscStructuredText;
+class ctrlToolboxPictureKeepAspect;
 class RscMapControl
 {
 	class Bunker;
@@ -1064,6 +1120,7 @@ class BCE_RscButtonMenu: RscButtonMenu
 		font = "RobotoCondensed_BCE";
 		color = "#E5E5E5";
 		align = "left";
+		valign = "middle";
 		shadow = "false";
 	};
 };

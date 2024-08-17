@@ -5,7 +5,7 @@ class RscDisplayEmpty_BCE
 };
 class RscTitles
 {
-	titles[] += {"BCE_Task_Receiver","BCE_TGP_View_GUI","BCE_PhoneCAM_View","default"};
+	titles[] += {"BCE_Task_Receiver","BCE_TGP_View_GUI","BCE_HCAM_View","BCE_PhoneCAM_View","default"};
 	class default
 	{
 		idd = -1;
@@ -16,9 +16,17 @@ class RscTitles
 	#include "Task_Receiver.hpp"
 	
 	#ifdef cTAB_Installed
-		#define PHONE_CLASS class cTab_Android_dsp
-		
+
 		#undef MOUSE_CLICK_EH
+
+		#define TAD_CLASS class cTab_TAD_dsp
+		#define TAD_SizeH (0.86)
+		#define TAD_SizeW (TAD_SizeH * 3/4)
+		#define TAD_SizeX 2048 * (TAD_SizeH * 3/4) + (safeZoneX + (0.05) * 3/4)
+		#define TAD_SizeY 2048 * TAD_SizeH + (safeZoneY + safeZoneH - TAD_SizeH - (0.2))
+			#include "cTab\cTab_TAD.hpp"
+
+		#define PHONE_CLASS class cTab_Android_dsp
 		
 		#define PhoneH (safezoneH * 0.8)
 		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.443437)])
@@ -37,30 +45,8 @@ class RscTitles
 		#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
 		#define phoneSizeH ((((626) - (60) - (0))) / 2048 * CustomPhoneH)
 		
-		#define PhoneMarkerColor \
-			x = #((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX; \
-			y = #((713) + ((60) - (42)) / 2) / 2048 * CustomPhoneH + CustomPhoneY; \
-			w = #2.5 * (((42)) / 2048 * PhoneW); \
-			h = #((42)) / 2048 * CustomPhoneH
-		
-		/*#if MAP_MODE > 0
-			class cTab_android_RscMapControl: RscMapControl{};
-			class cTab_microDAGR_RscMapControl: RscMapControl{};
-			class cTab_TAD_RscMapControl: RscMapControl{};
-		#endif*/
 		
 		#if MAP_MODE > 2
-			class cTab_TAD_dsp
-			{
-				class controlsBackground
-				{
-					class screen: cTab_TAD_RscMapControl{}; 
-					class screenTopo: screen
-					{
-						#include "Map_Type\TOPO_AIR.hpp"
-					};
-				};
-			};
 			class cTab_microDAGR_dsp
 			{
 				class controlsBackground
@@ -82,6 +68,7 @@ class RscTitles
 		//-Phone display
 		#include "cTab\cTab_Android.hpp"
 		#include "cTab\ScreenShot_UI.hpp"
+		#include "cTab\cTab_HCam.hpp"
 	#endif
 	class BCE_TGP_View_GUI
 	{

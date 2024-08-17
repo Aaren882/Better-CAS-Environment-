@@ -22,33 +22,45 @@
 */
 params ["_ctrl","_searchPos"];
 
+
+private ["_return","_targetRadius","_maxDistance"];
 _return = -1;
 
 // figure out radius around cursor box based on map zoom and scale
 _targetRadius = cTabIconSize * 2 * (ctrlMapScale _ctrl) * cTabMapScaleFactor;
-_maxDistance = _searchPos distanceSqr [(_searchPos # 0) + _targetRadius,(_searchPos # 1) + _targetRadius];
+_maxDistance = _searchPos distanceSqr [(_searchPos # 0) + _targetRadius, (_searchPos # 1) + _targetRadius];
 
 // find closest user marker within _maxDistance
 {
-	_pos = getPos (_x # 0);
+	private ["_pos","_distance"];
+	_pos = getPosVisual (_x # 0);
 	_pos resize 2;
 	_distance = _searchPos distanceSqr _pos;
 	if ((_distance <= _maxDistance) && ((_x # 0) isKindOf "Air")) exitWith {
 		_maxDistance = _distance;
 		_return = _x # 0;
-
-		_return
 	};
 } count cTabBFTvehicles;
 
 {
-	_distance = _searchPos distanceSqr (_x # 1 # 0);
-	if (_distance <= _maxDistance) exitWith {
-		_maxDistance = _distance;
-		_return = _x # 0;
+	if ((_x find "_cTab") + (_x find "_USER") < -1) then {continue};
 
-		_return
+	if (MarkerShape _x == "ICON") then {
+		if (
+			getNumber (configFile >> "CfgMarkers" >> markerType _x >> "size") == 0
+		) then {continue};
+		private _pos = getMarkerPos _x;
+		_pos resize 2;
+		private _distance = _searchPos distanceSqr _pos;
+		if (_distance <= _maxDistance) exitWith {
+			_maxDistance = _distance;
+			_return = _forEachIndex;
+		};
+	} else {
+		if (_searchPos inArea _x) exitWith {
+			_return = _forEachIndex;
+		};
 	};
-} count cTabUserMarkerList;
+} forEach allMapMarkers;
 
 _return
