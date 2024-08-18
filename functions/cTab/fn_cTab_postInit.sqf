@@ -126,7 +126,7 @@ cTabTxtSize = 0.06;
 			) then {
 				[] call cTab_msg_gui_load;
 
-				["MSG",format [localize "STR_ctab_core_newMessage",name _sender],6] call cTab_fnc_addNotification;
+				["MSG",format [localize "STR_BCE_NewMessage",name _sender],6] call cTab_fnc_addNotification;
 			} else {
 				cTabRscLayerMailNotification cutRsc ["cTab_Mail_ico_disp", "PLAIN"]; 
 			};

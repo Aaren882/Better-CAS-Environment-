@@ -1534,6 +1534,11 @@
 			<Chinese>不透明度: %1%2</Chinese>
 			<Chinesesimp>不透明度: %1%2</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_NewMessage">
+			<Original>Incoming Message from %1</Original>
+			<Chinese>新訊息: %1</Chinese>
+			<Chinesesimp>新讯息: %1</Chinesesimp>
+		</Key>
 		
 	</Package>
 </Project>
