@@ -458,6 +458,12 @@ PHONE_CLASS
 				h = 1.3 * sizeW * PhoneW;
 			};
 		//- Self Info Box (Bottom Right)
+			#ifdef MOUSE_CLICK_EH
+				#define BOX_SIZE_H (0.65 * TextSize)
+			#else
+				#define BOX_SIZE_H (0.75 * TextSize)
+			#endif
+			#define BOX_POS_Y(SET) ((((-(0) + (713) + (626)) - (20) - ((60) - (20))) / 2048 * CustomPhoneH + CustomPhoneY) + ((32) / 2048 * PhoneW) - SET * (BOX_SIZE_H))
 			class CallSign_Box: cTab_RscText_Android
 			{
 				idc = idc_D(2620);
@@ -465,26 +471,28 @@ PHONE_CLASS
 				font = "EtelkaMonospacePro";
 				colorText[] = {0.95,0.95,0.95,1};
 				colorBackground[] = {0,0,0,0.3};
-				sizeEx = ((27)) / 2048 * PhoneW;
+				sizeEx = BOX_SIZE_H;
 				text = "CallSign : Watt";
 
 				x = (((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (5 - 1)) + (((PHONE_MOD) - (20) * 6) / 5) - (42)) / 2048 * PhoneW + CustomPhoneX)+ ((42)) / 2048 * PhoneW - ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
-				y = ((-(0) + (713) + (626)) - (20) - ((60) - (20)) * 2) / 2048 * CustomPhoneH + CustomPhoneY;
+				y = BOX_POS_Y(3);
 				w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
-				h = (((42) - (10))) / 2048 * PhoneW;
+				h = BOX_SIZE_H;
 			};
 			class Heading_Box: CallSign_Box
 			{
 				idc = idc_D(2621);
 				text = "343° M";
-				y = (((-(0) + (713) + (626)) - (20) - ((60) - (20)) * 2) / 2048 * CustomPhoneH + CustomPhoneY) + ((((42) - (10))) / 2048 * PhoneW);
+				y = BOX_POS_Y(2);
 			};
 			class GRID_Box: CallSign_Box
 			{
 				idc = idc_D(2622);
 				text = "GRID :";
-				y = (((-(0) + (713) + (626)) - (20) - ((60) - (20)) * 2) / 2048 * CustomPhoneH + CustomPhoneY) + 2 * ((((42) - (10))) / 2048 * PhoneW);
+				y = BOX_POS_Y(1);
 			};
+		#undef BOX_SIZE_H
+		#undef BOX_POS_Y
 		//- Pages for ATAK
 			//- Back Ground
 			class ATAK_MenuBG: cTab_RscControlsGroup
