@@ -942,6 +942,7 @@ class CfgFunctions
 				#endif
 				class FinishEDIT_Marker;
 				class PlaceMarker;
+				class Add_to_MarkerList;
 				class DrawArea;
 			};
 			class BCE_Widget
@@ -958,6 +959,19 @@ class CfgFunctions
 			};
 		};
 	#endif
+
+	//- Hatchet H-60
+	#if __has_include("\z\vtx\addons\uh60_jvmf\config.bin")
+		class vtx_uh60_jvmf
+		{
+			class Marker
+			{
+				file = "MG8\AVFEVFX\functions\cTab\functions\Marker";
+				class cTabToJVMF;
+			};
+		};
+	#endif
+
 	#if __has_include("\A3TI\config.bin")
 		class A3TI
 		{

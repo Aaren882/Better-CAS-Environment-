@@ -41,11 +41,12 @@ if (_markerData isEqualTo "") exitWith {
   "_markerAlpha"
 ];
 
+_markerSize = parseSimpleArray _markerSize;
 _marker = createMarker [_name, _position, currentChannel, player];
 
 _marker setMarkerType _markerType;
 _marker setMarkerShape _markerShape;
-_marker setMarkerSize parseSimpleArray _markerSize;
+_marker setMarkerSize _markerSize;
 _marker setmarkerDir parseNumber _markerDir;
 _marker setMarkerBrush _markerBrush;
 _marker setMarkerColor _markerColor;
@@ -62,29 +63,32 @@ _marker setMarkerText format [
   [" || " + _DESC, _DESC] select (_DESC == "" || (_prefix == "" && _index == ""))
 ];
 
-if (_index != "") then {
-  private _id= (toArray _index) # 0;
-  
-  _id = switch true do {
-    //- Between 65 - 90 (A-Z)
-    case (_id > 64 && _id <= 91) : {
-      call {
-        if (_id >= 90) exitwith {65};
-        _id + 1
+_position resize 2;
+[_position,_curSel,_BoxSel # 0,_id] call cTab_fnc_Add_to_MarkerList;
+//- update "Index" value
+  if (_index != "") then {
+    private _id= (toArray _index) # 0;
+    
+    _id = switch true do {
+      //- Between 65 - 90 (A-Z)
+      case (_id > 64 && _id <= 91) : {
+        call {
+          if (_id >= 90) exitwith {65};
+          _id + 1
+        };
       };
+
+      //- Between 48 - 57 (0-9)
+      case (_id > 47 &&_id <= 58) : {
+        call {
+          if (_id >= 57) exitwith {48};
+          _id + 1
+        };
+      };
+
+      default {_id};
     };
 
-    //- Between 48 - 57 (0-9)
-    case (_id > 47 &&_id <= 58) : {
-      call {
-        if (_id >= 57) exitwith {48};
-        _id + 1
-      };
-    };
-
-    default {_id};
+    //- Update "Index" EditBox
+    [_group controlsGroupCtrl 16, toString [_id]] call cTab_fnc_onMarkerTextEditted;
   };
-
-  //- Update "Index" EditBox
-  [_group controlsGroupCtrl 16, toString [_id]] call cTab_fnc_onMarkerTextEditted;
-};
