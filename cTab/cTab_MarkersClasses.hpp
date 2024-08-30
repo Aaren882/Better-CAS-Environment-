@@ -2,7 +2,7 @@ class cTab_CfgMarkers
 {
     class OPFOR
     {
-        Category = "NATO_OPFOR";
+        Categories[] = {"NATO_OPFOR"};
         MarkerColor = "ColorEAST";
         color[]=
 		{
@@ -14,7 +14,7 @@ class cTab_CfgMarkers
     };
     class BLUFOR
     {
-        Category = "NATO_BLUFOR";
+        Categories[] = {"NATO_BLUFOR"};
         MarkerColor = "ColorWEST";
         color[]=
 		{
@@ -26,7 +26,7 @@ class cTab_CfgMarkers
     };
     class CIV
     {
-        Category = "NATO_Civilian";
+        Categories[] = {"NATO_Civilian"};
         MarkerColor = "ColorCIV";
         color[]=
         {
@@ -38,7 +38,7 @@ class cTab_CfgMarkers
     };
     class Generic
     {
-        Category = "draw";
+        Categories[] = {"draw","Check_point_1"};
         Hide_Direction = 1; //- Won't Draw Direction on cTab
     };
 };

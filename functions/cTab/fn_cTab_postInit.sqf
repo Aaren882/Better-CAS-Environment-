@@ -137,23 +137,25 @@ cTabTxtSize = 0.06;
 //- Set Marker Cache
 	private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");
 	private _result = _classes apply {
-		private ["_Category","_color","_hide"];
-		_Category = getText (_x >> "Category");
+		private ["_Categories","_color","_hide"];
+		_Categories = getArray (_x >> "Categories");
 		_color = (getArray (_x >> "color")) apply {
 			if (_x isEqualType "") then {call compile _x} else {_x};
 		};
 		_hide = getNumber (_x >> "Hide_Direction");
 
-		_Category = (format [
-			"getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0", _Category
-		]) configClasses (configFile >> "CfgMarkers") apply {
-			configName _x
-		};
+		_Categories = flatten (_Categories apply {
+		(format [ 
+			"getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0", _x 
+			]) configClasses (configFile >> "CfgMarkers") apply { 
+				configName _x 
+			};
+		});
 
 		if (_hide > 0) then {
-			[_Category,_color,1]
+			[_Categories,_color,1]
 		} else {
-			[_Category,_color]
+			[_Categories,_color]
 		};
 	};
 
