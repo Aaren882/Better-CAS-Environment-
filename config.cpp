@@ -891,6 +891,10 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_updateLists.sqf";
 				};
+				class updateUserMarkerList
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\fn_updateUserMarkerList.sqf";
+				};
 				class createUavCam
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\fn_createUavCam.sqf";

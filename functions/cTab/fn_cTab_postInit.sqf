@@ -146,7 +146,7 @@ cTabTxtSize = 0.06;
 
 		_Categories = flatten (_Categories apply {
 		(format [ 
-			"getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0", _x 
+			"(getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0) || configName _x find 'mts_' > -1", _x 
 			]) configClasses (configFile >> "CfgMarkers") apply { 
 				configName _x 
 			};

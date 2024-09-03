@@ -43,24 +43,24 @@ _maxDistance = _searchPos distanceSqr [(_searchPos # 0) + _targetRadius, (_searc
 } count cTabBFTvehicles;
 
 {
-	if ((_x find "_cTab") + (_x find "_USER") < -1) then {continue};
+	_x params ["_marker","_ID","_markerShape"];
 
-	if (MarkerShape _x == "ICON") then {
+	if (_markerShape == 0) then {
 		if (
-			getNumber (configFile >> "CfgMarkers" >> markerType _x >> "size") == 0
+			getNumber (configFile >> "CfgMarkers" >> markerType _marker >> "size") == 0
 		) then {continue};
-		private _pos = getMarkerPos _x;
+		private _pos = getMarkerPos _marker;
 		_pos resize 2;
 		private _distance = _searchPos distanceSqr _pos;
 		if (_distance <= _maxDistance) exitWith {
 			_maxDistance = _distance;
-			_return = _forEachIndex;
+			_return = _ID;
 		};
 	} else {
-		if (_searchPos inArea _x) exitWith {
-			_return = _forEachIndex;
+		if (_searchPos inArea _marker) exitWith {
+			_return = _ID;
 		};
 	};
-} forEach allMapMarkers;
+} count cTabUserMarkerList;
 
 _return

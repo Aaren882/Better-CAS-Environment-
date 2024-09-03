@@ -108,4 +108,7 @@ if (_LMB == 0 && _lastClick > -1) then {
     _texts params [["_prefix",""],["_index",""],["_DESC",""]];
 
     _marker setMarkerText _DESC;
+    
+    //- Update Marker
+      call cTab_fnc_updateUserMarkerList;
 };

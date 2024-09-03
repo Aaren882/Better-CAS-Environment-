@@ -69,17 +69,41 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	if (_markerIndex < 0) exitWith {true};
 
 	private _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
-	private _marker = allMapMarkers # _markerIndex;
-	private _Data = (((_marker select [15]) splitString "/") apply {parseNumber _x}) param [4, [-1,_toggle # 4] select (_marker find "_USER" > -1)];
+	(cTabUserMarkerList # _markerIndex) params ["_marker","","_markerShape"];
+
+	private _Data = [[0],[1,2]] findIf {_x find _markerShape > -1};
+
 	if (
 		!(_toggle # 0) ||
 		(markerChannel _marker != currentChannel && isMultiplayer) ||
 		"PLP" in _marker ||
 		(_toggle # 4) != _Data
 	) exitWith {true};
-	
+
 	//- Can't delete POLPOX's MapTools Markers
-	deleteMarker _marker;
+	if (_marker find "mtsmarker" < 0) then {
+		deleteMarker _marker;
+
+		//- must be "cTab Marker" or "Vanilla marker"
+			if (_marker find "_USER" > -1) then {
+				private _playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey; 
+				private _Net_MarkerBase = [cTab_userMarkerLists,_playerEncryptionKey,[]] call cTab_fnc_getFromPairs;
+
+				private _marker_ID = parseNumber ((((_marker splitString "#") # 1) splitString "/") # 1);
+
+				//- Remove Marker from cTab Marker Bases
+					{
+						if (_marker_ID == (_x # 1 # 2)) exitWith {
+							[_playerEncryptionKey, _x # 0] call cTab_fnc_deleteUserMarker;
+						};
+					} count _Net_MarkerBase;
+			};
+	} else {
+		[(_marker splitString "_") # 0] call MTS_markers_fnc_deleteMarker;
+	};
+	
+	//- Update Markers
+		call cTab_fnc_updateUserMarkerList;
 
 	true
 };

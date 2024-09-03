@@ -82,7 +82,11 @@ uiNamespace setVariable ["BCE_LandMarks",_BCE_LandMarks];
 #define IsPhoneCAM_ON !isnull (uiNamespace getVariable ["BCE_PhoneCAM_View",displayNull])
 #define IsHCAM_ON !isnull (uiNamespace getVariable ["BCE_HCAM_View",displayNull])
 #ifdef cTAB_Installed
-	[BCE_fnc_cTab_postInit, [], 1] call CBA_fnc_WaitAndExecute;
+	
+	[] spawn {
+		waitUntil {!isnil {cTabSettings}};
+		call BCE_fnc_cTab_postInit;
+	};
  
 	//- Phone Camera
 		[

@@ -75,15 +75,13 @@ _getBrush = {
 };
 
 {
-	//- Skip on Prefix "-"
-		if (_x select [0,1] == "-") then {continue};
+	_x params ["_marker","_ID","_markerShape","_def_Size","_editable"];
 
-	private ["_markerType","_markerColor","_markerShape","_config","_texture","_onSameChannel","_color","_text"];
+	private ["_markerType","_markerColor","_config","_texture","_onSameChannel","_color","_text"];
 
-	_markerShape = MarkerShape _x;
-	_markerChannel = markerChannel _x;
-	_markerType = markerType _x;
-	_markerColor = markerColor _x;
+	_markerType = markerType _marker;
+	_markerColor = markerColor _marker;
+	_markerChannel = markerChannel _marker;
 	_onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
 
 	_config = configFile >> "CfgMarkers" >> _markerType;
@@ -95,31 +93,29 @@ _getBrush = {
 	_color = _color apply {
 		if (_x isEqualType "") then {call compile _x} else {_x};
 	};
-	_color set [3, [0.4, markerAlpha _x] select _onSameChannel];
+	_color set [3, [0.4, markerAlpha _marker] select _onSameChannel];
 
-	if (_markerShape == "POLYLINE") then {
-		private _lines = markerPolyline _x;
-		for "_i" from 0 to (count _lines) - 3 step 2 do {
-			_ctrlScreen drawLine [
-				[_lines # _i, _lines # (_i + 1)],
-				[_lines # (_i + 2), _lines # (_i + 3)],
-				_color
-			];
+	//- Draw "POLYLINE"
+		if (_markerShape == 3) then { 
+			private _lines = markerPolyline _marker;
+			for "_i" from 0 to (count _lines) - 3 step 2 do {
+				_ctrlScreen drawLine [
+					[_lines # _i, _lines # (_i + 1)],
+					[_lines # (_i + 2), _lines # (_i + 3)],
+					_color
+				];
+			};
+			continue
 		};
-		continue
-	};
-	
-	//- Skip if it's System Marker
-		if (_markerShape == "ICON" && getNumber (_config >> "size") == 0) then {continue};
 	
 	//- Marker Data
 		_texture = getText (_config >> "icon");
-		[getMarkerPos _x, markerDir _x, markerSize _x] params ["_pos","_dir","_size"];
+		[getMarkerPos _marker, markerDir _marker, markerSize _marker] params ["_pos","_dir","_size"];
 
 	//- Show type of marker
 		if (
-			_cursorMarkerIndex == _forEachIndex &&
-			_x find "BCE_" < 0 //- Skip BCE Click Marker
+			_cursorMarkerIndex == _ID &&
+			_marker find "BCE_" < 0 //- Skip BCE Click Marker
 		) then {
 			private _text = getText (_config >> "name");
 			_ctrlScreen drawIcon ["#(rgb,1,1,1)color(0,0,0,0)",_color, _pos vectorDiff _size, 20, 20, 0, _text, 0, cTabTxtSize,"RobotoCondensed","left"];
@@ -128,23 +124,22 @@ _getBrush = {
 	//- when the marker having cursor hovering on
 		if (
 			_onSameChannel &&
-			_cursorMarkerIndex == _forEachIndex &&
+			_cursorMarkerIndex == _ID &&
 			_curSelMarker < 0 && _isnt_Drawing &&
-			_widgetMode == (["ICON","RECTANGLE ELLIPSE"] findIf {_x find _markerShape > -1}) &&
+			_widgetMode == ([[0],[1,2]] findIf {_x find _markerShape > -1}) && //- ["ICON","RECTANGLE ELLIPSE"]
 			(_toggle_show) &&
-			!(_x find "PLP" > -1) &&
-			(_x find "_cTab" > -1 || _x find "_USER" > -1)
+			_editable //- from Cache List
 		) then {
 			//- Set Selected Marker
 			switch (true) do { //- must before "_LMB" so it wont be skipped
 				case (_reSizing && _widgetMode == 0): {
-					localNamespace setVariable ["cTab_Marker_CurSel",[_forEachIndex,_x,2,getMousePosition]];
+					localNamespace setVariable ["cTab_Marker_CurSel",[_ID,_marker,2,getMousePosition]];
 				};
 				case (_reDirecting): {
-					localNamespace setVariable ["cTab_Marker_CurSel",[_forEachIndex,_x,1]];
+					localNamespace setVariable ["cTab_Marker_CurSel",[_ID,_marker,1]];
 				};
 				case (_LMB): {
-					localNamespace setVariable ["cTab_Marker_CurSel",[_forEachIndex,_x,0,cTabMapCursorPos vectorDiff (markerPos _x)]];
+					localNamespace setVariable ["cTab_Marker_CurSel",[_ID,_marker,0,cTabMapCursorPos vectorDiff (markerPos _marker)]];
 				};
 			};
 
@@ -152,39 +147,39 @@ _getBrush = {
 		};
 
 	//- Key Actions
-		if (_curSelMarker == _forEachIndex && _isnt_Drawing) then {
+		if (_curSelMarker == _ID && _isnt_Drawing) then {
 			switch (true) do {
 				//- Change Marker Size (Ctrl + LMB Hold)
 				case (_reSizing && _widgetMode == 0): {
 					private _s = vectorMagnitude (getMousePosition vectorDiff _Marker_Component);
 					_s = 2 min (1 + _s)^2;
-					_x setMarkerSizeLocal [_s,_s];
+					_marker setMarkerSizeLocal [_s,_s];
 				};
 				//- Change Marker Direction (Ctrl + LMB Hold)
 				case (_reDirecting): {
 					//- Change marker direction
 						private _dir = _pos getDirVisual cTabMapCursorPos;
-						_x setMarkerDirLocal ([_dir,360] select (_dir == 0));
+						_marker setMarkerDirLocal ([_dir,360] select (_dir == 0));
 						_ctrlScreen drawIcon ["#(rgb,1,1,1)color(0,0,0,0)",cTabTADhighlightColour,cTabMapCursorPos, 0, 0, 0, format ["%1 %2°",_dir call BCE_fnc_getAzimuth, round _dir], 0, cTabTxtSize * 1.5,"TahomaB"];
 						_ctrlScreen drawArrow [_pos, cTabMapCursorPos, cTabTADhighlightColour];
 				};
 				//- Change marker Position (LMB Hold)
 				case (_LMB): {
-					_x setMarkerPosLocal (cTabMapCursorPos vectorDiff _Marker_Component);
+					_marker setMarkerPosLocal (cTabMapCursorPos vectorDiff _Marker_Component);
 				};
 			};
 		};
 
 	//- draw Marker Icon
 		switch (_markerShape) do {
-			case "ICON": {
+			case 0: {
 				
 				//- Only for "ICON"
-					[_ctrlScreen,_x,_pos,_color,([_dir,selectMax _size,_mapScale] joinString "|")] call cTab_fnc_DrawMarkerDir;
+					[_ctrlScreen,_marker,_pos,_color,([_dir,selectMax _size,_mapScale] joinString "|")] call cTab_fnc_DrawMarkerDir;
 				
 				//- Update Marker Size
-				_size = _size vectorMultiply cTabIconSize;
-				_text = ["",markerText _x] select cTabBFTtxt;
+				_size = _size vectorMultiply (_def_Size + cTabIconSize);
+				_text = ["",markerText _marker] select cTabBFTtxt;
 				
 				_ctrlScreen drawIcon [
 					_texture,
@@ -194,28 +189,28 @@ _getBrush = {
 					_size # 1,
 					_dir,
 					_text,
-					[0,1] select markerShadow _x,
-					cTabTxtSize * ([1,1.5] select (_x find "PLP_SMT_Grid" > -1 && _x find "_text" > -1)),
+					[0,1] select markerShadow _marker,
+					cTabTxtSize * ([1,1.5] select (_marker find "PLP_SMT_Grid" > -1 && _marker find "_text" > -1)),
 					"RobotoCondensed",
 					"right"
 				];
 				continue
 			};
-			case "RECTANGLE": {
+			case 1: {
 				_ctrlScreen drawRectangle [
-					_pos ,(_size # 0),(_size # 1),_dir,_color,(_x call _getBrush)
+					_pos ,(_size # 0),(_size # 1),_dir,_color,(_marker call _getBrush)
 				];
 				continue
 			};
-			case "ELLIPSE": {
+			case 2: {
 				_ctrlScreen drawEllipse [
-					_pos ,(_size # 0),(_size # 1),_dir,_color,(_x call _getBrush)
+					_pos ,(_size # 0),(_size # 1),_dir,_color,(_marker call _getBrush)
 				];
 				continue
 			};
 			default {continue};
 		};
-} forEach allMapMarkers;
+} count cTabUserMarkerList;
 
 if (!(_reDirecting || _reSizing || _LMB) && _curSelMarker > -1) then {
 	switch (_drawMode) do {

@@ -24,6 +24,7 @@ private _bgw = (ctrlPosition _background) # 2;
   {
     private _ctrl = _display displayCtrl (17000 + _x);
     _ctrl ctrlSetPositionX (_MapX + _result - (ctrlPosition _ctrl # 2) + (_MapX - _batX));
+    _ctrl ctrlSetPositionY ((ctrlPosition _ctrl) # 1);
     _ctrl ctrlCommit 0;
   } count [
     2620,
@@ -35,5 +36,7 @@ private _bgw = (ctrlPosition _background) # 2;
 
 //- Marker Tool
   private _tool = _display displayCtrl (17000 + 1300);
-  _tool ctrlSetPositionX (_MapX + _result - (ctrlPosition _tool # 2));
+  (ctrlPosition _tool) params ["","_POSY","_POSW"];
+  _tool ctrlSetPositionX (_MapX + _result - _POSW);
+  _tool ctrlSetPositionY _POSY;
   _tool ctrlCommit 0;

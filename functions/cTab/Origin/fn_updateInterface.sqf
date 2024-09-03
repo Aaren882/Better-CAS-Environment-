@@ -250,7 +250,6 @@ _settings apply {
 					//- Marker Dropper
 					default {
 						//- DropBox Selection
-						// _dropBox lbSetCurSel (_BoxSel # _widgetMode);
 						_cate lbSetCurSel _curSel;
 						_cate ctrlShow true;
 						{_x ctrlshow false} forEach _DrawingTools;
@@ -283,6 +282,9 @@ _settings apply {
 
 			//- Set POS
 			if (_displayName find "Android" > -1) then {
+				(ctrlPosition _group) params ["_POSX","_POSY"];
+				_group ctrlSetPositionX _POSX;
+				_group ctrlSetPositionY _POSY;
 				_group ctrlSetPositionH ([
 					0,
 					5 * ((ctrlPosition _TitleMode) # 3)
@@ -1200,7 +1202,7 @@ _settings apply {
 								_ctrl_View ctrlSetBackgroundColor [0,0,0,0.08];
 							};
 
-							"- -"
+							"- - <img image='\MG8\AVFEVFX\data\settings.paa'/>"
 						} else {
 							_ctrl_TrackTG ctrlSetBackgroundColor ([[0.5,0,0,0.3],[0,0,0.5,0.3]] select (uiNamespace getVariable ['BCE_ATAK_TRACK_Focus',false]));
 							
