@@ -17,14 +17,15 @@
 		call cTab_fnc_updateUserMarkerList;
 */
 
+if (isNil "cTabIfOpen") exitWith {false};
+
 private _list = [];
 {
   private _marker = _x;
 
   //- Skip on (Prefix "-") or (Marker is already in "_list")
 		if (
-      _marker select [0,1] == "-"// || 
-      // _list findif {_x find _marker > -1} > -1
+      _marker select [0,1] == "-"
     ) then {continue};
   
   private _markerShape = MarkerShape _marker;

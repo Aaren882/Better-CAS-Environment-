@@ -193,9 +193,6 @@ if !(cTabHcamlist isEqualTo _cTabHcamlist) then {
 	_updateInterface pushBack ["hCamListUpdate",true];
 };
 
-//- Update Markers
-	call cTab_fnc_updateUserMarkerList;
-
 // call interface updates
 if (count _updateInterface > 0) then {
 	[_updateInterface] call cTab_fnc_updateInterface;

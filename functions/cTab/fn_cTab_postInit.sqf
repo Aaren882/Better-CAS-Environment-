@@ -97,6 +97,16 @@ cTab_msg_gui_load = ctab_fnc_msg_gui_load;
 
 cTabTxtSize = 0.06;
 
+//- CBA Setting
+	[
+		"BCE_cTab_Marker_Sync_time", "TIME",
+		[localize "STR_BCE_cTab_Marker_Sync_Time"],
+		["Better CAS Environment (Server)",localize "STR_BCE_cTab_Settings"],
+		[1, 5, 1],
+		1
+	] call CBA_fnc_addSetting;
+	BCE_cTab_Marker_Sync_time call BCE_fnc_cTab_Marker_update;
+
 ["cTab_msg_receive",
 	{
 		params ["_msgRecipient","_msgTitle","_msgBody","_msgEncryptionKey","_sender"];

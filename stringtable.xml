@@ -1452,6 +1452,16 @@
 			<Chinese>伺服器端</Chinese>
 			<Chinesesimp>伺服器端</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_cTab_Settings">
+			<Original>cTab Settings</Original>
+			<Chinese>cTab 設定</Chinese>
+			<Chinesesimp>cTab 设定</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_cTab_Marker_Sync_Time">
+			<Original>cTab "Marker" Sync Time</Original>
+			<Chinese>cTab "地圖標記" 同步時間</Chinese>
+			<Chinesesimp>cTab "地图标记" 同步时间</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_Select_Turret_Control_Trait">
 			<Original>Select available Trait for Turret Control</Original>
 			<Chinese>選擇可控制砲塔的職位</Chinese>
