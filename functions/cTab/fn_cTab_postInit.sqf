@@ -113,8 +113,6 @@ cTabTxtSize = 0.06;
 
 		_playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
 		_msgArray = _msgRecipient getVariable ["cTab_messages_" + _msgEncryptionKey,[]];
-		// _msgArray pushBack [_msgTitle,_msgBody,0];
-		// _msgRecipient setVariable ["cTab_messages_" + _msgEncryptionKey,_msgArray];
 
 		["ctab_messagesUpdated"] call CBA_fnc_localEvent;
 
@@ -156,7 +154,7 @@ cTabTxtSize = 0.06;
 
 		_Categories = flatten (_Categories apply {
 		(format [ 
-			"(getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0) || configName _x find 'mts_' > -1", _x 
+			"(getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0)", _x 
 			]) configClasses (configFile >> "CfgMarkers") apply { 
 				configName _x 
 			};

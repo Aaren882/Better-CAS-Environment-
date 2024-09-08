@@ -1202,7 +1202,7 @@ _settings apply {
 								_ctrl_View ctrlSetBackgroundColor [0,0,0,0.08];
 							};
 
-							"- - <img image='\MG8\AVFEVFX\data\settings.paa'/>"
+							"  - - <img image='\MG8\AVFEVFX\data\ExpandList.paa'/>"
 						} else {
 							_ctrl_TrackTG ctrlSetBackgroundColor ([[0.5,0,0,0.3],[0,0,0.5,0.3]] select (uiNamespace getVariable ['BCE_ATAK_TRACK_Focus',false]));
 							
