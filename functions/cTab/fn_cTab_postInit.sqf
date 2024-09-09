@@ -124,9 +124,11 @@ cTabTxtSize = 0.06;
 		) then {
 			playSound "cTab_phoneVibrate";
 			
-			private _displayName = cTabIfOpen # 1;
+			//- Check Current Display Name
+			private _displayName = if (isNil{cTabIfOpen}) then {""} else {cTabIfOpen # 1};
+
 			if (
-				!isNil "cTabIfOpen" && 
+				_displayName != "" && 
 				(
 					"MESSAGE" == ([_displayName,"mode"] call cTab_fnc_getSettings) ||
 					"message" in ([_displayName,"showMenu"] call cTab_fnc_getSettings)
