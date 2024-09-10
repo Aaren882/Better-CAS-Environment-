@@ -41,16 +41,17 @@ private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
 				_recipientNames = format ["%1:%2 (%3)",groupId group _x,[_x] call CBA_fnc_getGroupIndex,name _x];
 				["cTab_msg_receive",[_x,_msgTitle,_msgBody,_playerEncryptionKey,player]] call CBA_fnc_whereLocalEvent;
 			};
-			false
+			nil
 		} count ([player] + playableUnits);
 
-		private _msgArray = player getVariable [format ["cTab_messages_%1",_playerEncryptionKey],[]];
-		_msgArray pushBack [format ["%1 - %2",_time,_recipientNames],_msgBody,2];
+		private _msgArray = player getVariable ["cTab_messages_" + _playerEncryptionKey,[]];
+		_msgArray pushBack [[_time,_recipientNames] joinString " - ", _msgBody,2];
 		player setVariable ["cTab_messages_" + _playerEncryptionKey,_msgArray];
 
 		["cTab_Android_dlg", [["showMenu",_settings]],true,true] call cTab_fnc_setSettings;
 		_typing ctrlSetText "";
-		// ["ctab_messagesUpdated"] call CBA_fnc_localEvent;
+		
+		["ctab_messagesUpdated"] call CBA_fnc_localEvent;
 	};
 
 switch (_ctrlTitle) do {
