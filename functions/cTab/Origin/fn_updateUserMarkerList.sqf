@@ -28,11 +28,14 @@ private _list = [];
       _marker select [0,1] == "-"
     ) then {continue};
   
-  private _markerShape = MarkerShape _marker;
+  private _markerShape = ["ICON","RECTANGLE","ELLIPSE","POLYLINE"] find (MarkerShape _marker);
   private _config = configFile >> "CfgMarkers" >> markerType _marker;
 
-  //- Skip if it's System Marker
-		if (_markerShape == "ICON" && getNumber (_config >> "size") == 0) then {continue};
+  //- Skip Conditions
+		if (
+      _markerShape < 0 || //- in-affective "MarkerShape"
+      (_markerShape == 0 && getNumber (_config >> "size") == 0) //- if it's System Marker
+    ) then {continue};
 
   //- Check if it's Editable
   private _editable = !(_marker find "PLP" > -1) && (
@@ -41,15 +44,7 @@ private _list = [];
     (_marker find "mtsmarker" > -1) ||
     (_marker find "SWT_" > -1)
   );
-
-  private _shape = switch (_markerShape) do {
-    case "ICON": {0};
-    case "RECTANGLE": {1};
-    case "ELLIPSE": {2};
-    case "POLYLINE": {3};
-    default {-1};
-  };
-
+  
   //- _result : [MARKER, SHAPE, DEFAULT_SIZE];
   private _result = if (_marker find "mtsmarker" > -1) then {
 
