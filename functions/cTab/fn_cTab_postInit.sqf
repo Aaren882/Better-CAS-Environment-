@@ -97,7 +97,14 @@ cTab_msg_gui_load = ctab_fnc_msg_gui_load;
 
 cTabTxtSize = 0.06;
 
-//- CBA Setting
+//- CBA Settings
+	[
+		"BCE_cTab_Side_Display", "CHECKBOX",
+		[localize "STR_BCE_cTab_ATAK_Side_Display",localize "STR_BCE_cTab_ATAK_Side_Display_tip"],
+		["Better CAS Environment (Server)",localize "STR_BCE_cTab_Settings"],
+		true,
+		1
+	] call CBA_fnc_addSetting;
 	[
 		"BCE_cTab_Marker_Sync_time", "TIME",
 		[localize "STR_BCE_cTab_Marker_Sync_Time"],
@@ -107,12 +114,21 @@ cTabTxtSize = 0.06;
 	] call CBA_fnc_addSetting;
 	BCE_cTab_Marker_Sync_time call BCE_fnc_cTab_Marker_update;
 
+//////////////////////////////////////////////////////////////
+
+//- Remove the origin "cTab_msg_receive"
+	["cTab_msg_receive",0] call CBA_fnc_RemoveLocalEventHandler;
+
+//- Replace Event "cTab_msg_receive"
 ["cTab_msg_receive",
 	{
 		params ["_msgRecipient","_msgTitle","_msgBody","_msgEncryptionKey","_sender"];
 
 		_playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
 		_msgArray = _msgRecipient getVariable ["cTab_messages_" + _msgEncryptionKey,[]];
+		_msgArray pushBack [_msgTitle,_msgBody,0];
+		
+		_msgRecipient setVariable ["cTab_messages_" + _msgEncryptionKey, _msgArray];
 
 		["ctab_messagesUpdated"] call CBA_fnc_localEvent;
 
@@ -127,18 +143,17 @@ cTabTxtSize = 0.06;
 			//- Check Current Display Name
 			private _displayName = if (isNil{cTabIfOpen}) then {""} else {cTabIfOpen # 1};
 
+			if (_displayName == "") exitWith {
+				cTabRscLayerMailNotification cutRsc ["cTab_Mail_ico_disp", "PLAIN"]; 
+			};
+
+			["MSG",format [localize "STR_BCE_NewMessage",name _sender],6] call cTab_fnc_addNotification;
+
 			if (
-				_displayName != "" && 
-				(
-					"MESSAGE" == ([_displayName,"mode"] call cTab_fnc_getSettings) ||
-					"message" in ([_displayName,"showMenu"] call cTab_fnc_getSettings)
-				)
+				"MESSAGE" == ([_displayName,"mode"] call cTab_fnc_getSettings) ||
+				"message" in ([_displayName,"showMenu"] call cTab_fnc_getSettings)
 			) then {
 				[] call cTab_msg_gui_load;
-
-				["MSG",format [localize "STR_BCE_NewMessage",name _sender],6] call cTab_fnc_addNotification;
-			} else {
-				cTabRscLayerMailNotification cutRsc ["cTab_Mail_ico_disp", "PLAIN"]; 
 			};
 		};
 	}

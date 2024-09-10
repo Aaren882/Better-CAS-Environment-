@@ -858,6 +858,10 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawHCam.sqf";
 				};
+				class onIfMainPressed
+				{
+					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_onIfMainPressed.sqf";
+				};
 				class OnDrawUAV
 				{
 					file="MG8\AVFEVFX\functions\cTab\Origin\EH_handlers\fn_OnDrawUAV.sqf";

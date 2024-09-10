@@ -1237,6 +1237,9 @@ _settings apply {
 					private _typing = _group controlsGroupCtrl 11;
 					private _commitTime = {[_this, 0] select _interfaceInit};
 
+					//- Remove Message Display icon
+						cTabRscLayerMailNotification cutText ["", "PLAIN"];
+
 					//- Layout
 						_list ctrlSetFade ([1,0] select (_line < 1));
 						_list ctrlCommit (0.25 call _commitTime);
@@ -1391,7 +1394,6 @@ _settings apply {
 								_index = _index + 1;
 						} forEach _msgArray;
 					
-					cTabRscLayerMailNotification cutText ["", "PLAIN"];
 					_list spawn {
 						uiSleep 0.1;
 						_this ctrlSetScrollValues [1, -1];

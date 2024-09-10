@@ -1457,6 +1457,16 @@
 			<Chinese>cTab 設定</Chinese>
 			<Chinesesimp>cTab 设定</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_cTab_ATAK_Side_Display">
+			<Original>Enable ATAK Side Display</Original>
+			<Chinese>啟用 視窗化 ATAK</Chinese>
+			<Chinesesimp>启用 视窗化 ATAK</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_cTab_ATAK_Side_Display_tip">
+			<Original>If turned off Android Phone Side Display won't be able to open</Original>
+			<Chinese>如果關閉，將無法開啟 "視窗化的 Android手機"</Chinese>
+			<Chinesesimp>如果关闭，将无法开启 "视窗化的 Android手机"</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_cTab_Marker_Sync_Time">
 			<Original>cTab "Marker" Sync Time</Original>
 			<Chinese>cTab "地圖標記" 同步時間</Chinese>
