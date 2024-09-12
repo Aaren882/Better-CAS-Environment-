@@ -1568,7 +1568,7 @@ PHONE_CLASS
 								
 								x = PhoneBFTContainerW(0.05);
 								y = EMPT_SPAC;
-								w = PhoneBFTContainerW(2.95);
+								w = PhoneBFTContainerW(2.9);
 								h = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
 
 								rows = 1;
