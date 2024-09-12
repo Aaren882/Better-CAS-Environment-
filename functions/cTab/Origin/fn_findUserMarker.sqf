@@ -43,7 +43,7 @@ _maxDistance = _searchPos distanceSqr [(_searchPos # 0) + _targetRadius, (_searc
 } count cTabBFTvehicles;
 
 {
-	_x params ["_marker","_ID","_markerShape"];
+	_x params ["_marker","","_ID","_markerShape"];
 
 	if (_markerShape == 0) then {
 		if (
@@ -61,6 +61,6 @@ _maxDistance = _searchPos distanceSqr [(_searchPos # 0) + _targetRadius, (_searc
 			_return = _ID;
 		};
 	};
-} count cTabUserMarkerList;
+} count cTabMarkerList;
 
 _return

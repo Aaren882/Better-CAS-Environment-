@@ -69,7 +69,7 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	if (_markerIndex < 0) exitWith {true};
 
 	private _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
-	(cTabUserMarkerList # _markerIndex) params ["_marker","","_markerShape"];
+	(cTabMarkerList # _markerIndex) params ["_marker","","","_markerShape"];
 
 	private _Data = [[0],[1,2]] findIf {_x find _markerShape > -1};
 

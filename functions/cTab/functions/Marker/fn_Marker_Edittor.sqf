@@ -88,8 +88,9 @@ private _channel = _group controlsGroupCtrl 110;
   };
   
 //- Select Color
+  private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
   for "_i" from 0 to lbSize _markerColor - 1 do {
-    private _color = (call compile (_markerColor lbData _i)) # 0;
+    private _color = _MarkerColorCache # _i # 0;
     if (_color == _selectColor) exitWith {
       _EDIT_color lbSetCurSel _i;
     };

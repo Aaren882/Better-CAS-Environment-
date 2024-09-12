@@ -1,3 +1,8 @@
+/*
+	_MarkerType = 0
+	missionNamespace getVariable ["PLP_SMT_Markers",[]]
+*/
+
 params ["_display","_map_IDC"];
 
 if (isnil{_map_IDC}) then {
@@ -6,7 +11,6 @@ if (isnil{_map_IDC}) then {
 };
 private _map = _display displayCtrl _map_IDC;
 
-//missionNamespace setVariable ["PLP_SMT_placeGrid_points",[]];
 localNamespace setVariable ["PLP_SMT_placeGrid_lastClick",-1];
 localNamespace setVariable ["PLP_SMT_placeGrid_dragging",-1];
 
@@ -18,12 +22,7 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 	private _iscTab = !isnil {cTabIfOpen};
 	if (_iscTab && !cTabCursorOnMap) exitWith {};
 
-	private _display = if (_iscTab) then {
-		uiNamespace getVariable (cTabIfOpen # 1)
-	} else {
-		findDisplay 12
-	};
-
+	private _display = ctrlParent _map;
 	private _mapScale = ctrlMapScale _map;
 
 	/*{
@@ -149,14 +148,17 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 					currentChannel,player
 				];
 				_marker setMarkerSize [0,0];
-				_marker setMarkerText format ["%1%2",_xx call _getAlphabet,_yy];
+				_marker setMarkerText ([_xx call _getAlphabet,_yy] joinString "");
 				_markersTextAlpha pushBack _marker;
 			};
 		};
+		
 
 		private _color = if (_iscTab) then {
 			private _colorLb = _display displayCtrl (17000 + 1090);
-			(call compile (_colorLb lbData lbCurSel _colorLb)) # 0;
+			private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
+
+			_MarkerColorCache # lbCurSel _colorLb # 0
 		} else {
 			private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090;
 			configName (("true" configClasses (configFile >> "CfgMarkerColors")) # (_colorLb lbValue lbCurSel _colorLb));
@@ -183,12 +185,31 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 		};
 
 		_lastGrid set [3,[_markers,_markersText,_markersTextAlpha]];
+
+		//- Add by Aaren
+		//- BoardCast : ["ownerID:netID", Marker Count]
+			private _PLP_GLB_Var = missionNamespace getVariable ["PLP_SMT_Markers",createHashMap];
+			private _playerID = player call BIS_fnc_netId;
+			private _MarkerType = 0;
+
+			private _All_IDs = _PLP_GLB_Var getOrDefault [_playerID, [0,0]];
+			_All_IDs set [_MarkerType, (_All_IDs # _MarkerType) + 1];
+
+			_PLP_GLB_Var set [_playerID, _All_IDs];
+
+			missionNamespace setVariable ["PLP_SMT_Markers",_PLP_GLB_Var,true];
+
+			if (_iscTab) then {
+				call cTab_fnc_updateUserMarkerList;
+			};
 	};
 
 	//-Get Color RGBs
 	private _color = if (_iscTab) then {
 		private _colorLb = _display displayCtrl (17000 + 1090);
-		(call compile (_colorLb lbData lbCurSel _colorLb)) # 1;
+		private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
+
+		_MarkerColorCache # lbCurSel _colorLb # 1
 	} else {
 		private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090;
 		private _class = configName (("true" configClasses (configFile >> "CfgMarkerColors")) # (_colorLb lbValue lbCurSel _colorLb));
@@ -275,6 +296,19 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 				if (_delete) exitWith {
 					(_points deleteAt _forEachIndex) params ["","","","_markers"];
 					_markers apply {_x apply {deleteMarker _x}};
+
+					//- Add by Aaren
+					//- BoardCast : ["ownerID:netID", Marker Count]
+						private _PLP_GLB_Var = missionNamespace getVariable ["PLP_SMT_Markers",createHashMap];
+						private _playerID = player call BIS_fnc_netId;
+						private _MarkerType = 0;
+
+						private _All_IDs = _PLP_GLB_Var getOrDefault [_playerID, [0,0]];
+						_All_IDs set [_MarkerType, (_All_IDs # _MarkerType) - 1];
+
+						_PLP_GLB_Var set [_playerID, _All_IDs];
+
+						missionNamespace setVariable ["PLP_SMT_Markers",_PLP_GLB_Var,true];
 				};
 
 				_map drawRectangle [

@@ -1,3 +1,7 @@
+/*
+	_MarkerType = 1
+	missionNamespace getVariable ["PLP_SMT_Markers",[]]
+*/
 params ["_display","_map_IDC"];
 
 if (isnil{_map_IDC}) then {
@@ -18,12 +22,7 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 	private _iscTab = !isnil {cTabIfOpen};
 	if (_iscTab && !cTabCursorOnMap) exitWith {};
 
-	private _display = if (_iscTab) then {
-		uiNamespace getVariable (cTabIfOpen # 1)
-	} else {
-		findDisplay 12
-	};
-
+	private _display = ctrlParent _map;
 	private _mapScale = ctrlMapScale _map ;
 
 	/*{
@@ -46,7 +45,9 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 
 	private _color = if (_iscTab) then {
 		private _colorLb = _display displayCtrl (17000 + 1090);
-		(call compile (_colorLb lbData lbCurSel _colorLb)) # 0;
+		private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
+		
+    _MarkerColorCache # lbCurSel _colorLb # 0
 	} else {
 		private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090;
 		configName (("true" configClasses (configFile >> "CfgMarkerColors")) # (_colorLb lbValue lbCurSel _colorLb));
@@ -59,7 +60,7 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 		} ;
 		localNamespace setVariable ["PLP_SMT_markHouses_lastClick",time] ;
 	} ;
-	if (inputMouse 0 == 0 and (_lastClick + 0.1 > time)) then {
+	if (inputMouse 0 == 0 && (_lastClick + 0.1 > time)) then {
 		_curPoints params ["_posOrig"] ;
 		(_posOrig vectorDiff _mPos) params ["_width","_height"] ;
 
@@ -80,7 +81,7 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 		{
 			private _hash = ((getPosASL _x)#0*5) + ((getPosASL _x)#1 * 7) ;
 			private _marker = createMarker [
-				format ["PLP_SMT_markHouses_%1",_hash],
+				["PLP_SMT_markHouses_",_hash] joinString "",
 				_x modelToWorld [0,0,0],
 				currentChannel,player
 			] ;
@@ -107,16 +108,32 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 			_marker setMarkerColor _color ;*/
 		} forEach _buildings ;
 
-		_curPoints = [_posOrig,[_width,_height],_markers,_color] ;
+		if (_iscTab) then {
+			call cTab_fnc_updateUserMarkerList;
+		};
 
+		//- Add by Aaren
+		//- BoardCast : ["ownerID:netID", Marker Count]
+			private _PLP_GLB_Var = missionNamespace getVariable ["PLP_SMT_Markers",createHashMap];
+			private _playerID = player call BIS_fnc_netId;
+			private _MarkerType = 1;
+
+			private _All_IDs = _PLP_GLB_Var getOrDefault [_playerID, [0,0]];
+			_All_IDs set [_MarkerType, 0 max ((_All_IDs # _MarkerType) + 1)];
+			_PLP_GLB_Var set [_playerID, _All_IDs];
+
+			missionNamespace setVariable ["PLP_SMT_Markers",_PLP_GLB_Var,true];
+
+		//- Store into local Variable
+		_curPoints = [_posOrig,[_width,_height],_markers,_color] ;
 		_points pushBack _curPoints ;
 		missionNamespace setVariable ["PLP_SMT_markHouses_points",_points] ;
 
 		localNamespace setVariable ["PLP_SMT_markHouses_lastClick",-1] ;
 	} ;
 
-	if (count _curPoints != 0 and inputMouse 0 == 2) then {
-		_curPoints params ["_posOrig"] ;
+	if (count _curPoints != 0 && inputMouse 0 == 2) then {
+		private _posOrig = _curPoints # 0;
 		(_posOrig vectorDiff _mPos) params ["_width","_height"] ;
 
 		_color = (getArray (configFile >> "CfgMarkerColors" >> _color >> "color")) apply {
@@ -166,9 +183,23 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 				abs _width/2,abs _height/2,0,_color,"#(rgb,8,8,3)color(1,1,1,0.3)"
 			] ;
 
+			//- on Delete
 			if (inputMouse "487653633") then {
 				_points deleteAt _forEachIndex ;
 				_markers apply {deleteMarker _x} ;
+
+				//- Add by Aaren
+					//- BoardCast : ["ownerID:netID", Marker Count]
+						private _PLP_GLB_Var = missionNamespace getVariable ["PLP_SMT_Markers",createHashMap];
+						private _playerID = player call BIS_fnc_netId;
+						private _MarkerType = 1;
+
+						private _All_IDs = _PLP_GLB_Var getOrDefault [_playerID, [0,0]];
+						_All_IDs set [_MarkerType, 0 max ((_All_IDs # _MarkerType) - 1)];
+
+						_PLP_GLB_Var set [_playerID, _All_IDs];
+
+						missionNamespace setVariable ["PLP_SMT_Markers",_PLP_GLB_Var,true];
 			} ;
 		} ;
 

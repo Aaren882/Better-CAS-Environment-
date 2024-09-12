@@ -35,7 +35,8 @@ if (_LMB >= 1) then {
   } else {
     //- Draw Rectangle
     private _colorLb = _display displayCtrl (17000 + 1090);
-    private _color = (call compile (_colorLb lbData lbCurSel _colorLb)) # 1;
+    private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
+    private _color = _MarkerColorCache # lbCurSel _colorLb # 1;
     _color set [3, 0.3];
 
     private _PosA = _Pool # 0;
@@ -81,7 +82,8 @@ if (_LMB == 0 && _lastClick > -1) then {
   _brushes = _group controlsGroupCtrl 21;
 
   _colorLb = _display displayCtrl (17000 + 1090);
-  _color = (call compile (_colorLb lbData lbCurSel _colorLb)) # 0;
+  _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
+  _color = _MarkerColorCache # lbCurSel _colorLb # 0;
 
   //- Marker ID
     _id = "cTab" call cTab_fnc_NextMarkerID;

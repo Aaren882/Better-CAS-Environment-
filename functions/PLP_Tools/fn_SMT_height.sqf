@@ -28,12 +28,7 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 	private _iscTab = !isnil {cTabIfOpen};
 	if (_iscTab && !cTabCursorOnMap) exitWith {};
 
-	private _display = if (_iscTab) then {
-		uiNamespace getVariable (cTabIfOpen # 1)
-	} else {
-		findDisplay 12
-	};
-
+	private _display = ctrlParent _map;
 	private _mapScale = ctrlMapScale _map ;
 
 	private _lastClick = localNamespace getVariable ["PLP_SMT_height_lastClick",-1] ;

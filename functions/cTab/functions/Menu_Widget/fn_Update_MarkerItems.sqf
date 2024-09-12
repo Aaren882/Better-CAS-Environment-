@@ -1,4 +1,4 @@
-private ["_display","_displayName","_toggle","_widgetMode","_dropBox"];
+private ["_display","_displayName","_toggle","_widgetMode","_dropBox","_MarkerColorCache"];
 
 //-get Widget Vars
   _displayName = cTabIfOpen # 1;
@@ -9,6 +9,8 @@ params ["_ctrl","_selectedIndex"];
 _display = ctrlParent _ctrl;
 _group = _display displayCtrl (17000 + 1300);
 _dropBox = _group controlsGroupCtrl 10;
+_MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
+
 lbClear _dropBox;
 
 //- Arrange items
@@ -22,7 +24,7 @@ lbClear _dropBox;
       ];
 
       _colorLb = _display displayCtrl (17000 + 1090);
-      _color = (call compile (_colorLb lbData lbCurSel _colorLb)) # 1;
+      _color = _MarkerColorCache # lbCurSel _colorLb # 1;
 
       _color set [3, 0.75];
 
@@ -57,8 +59,9 @@ lbClear _dropBox;
         _brushes lbSetPicture [_index, _icon];
         _brushes lbSetPictureColor [_index, _color];
         _brushes lbSetPictureColorSelected [_index, _color];
-
-      } forEach _classes;
+        
+        nil
+      } count _classes;
 
       _brushes lbSetCurSel (_toggle # 5);
       (_group controlsGroupCtrl 22) ctrlSetText format [localize "STR_BCE_OPACITY_FORMAT",(_toggle # 6),"%"];
@@ -86,7 +89,7 @@ lbClear _dropBox;
 
         if (_color findif {true} < 0) then {
           private _colorLb = _display displayCtrl (17000 + 1090);
-          _color = (call compile (_colorLb lbData lbCurSel _colorLb)) # 1;
+          _color = _MarkerColorCache # lbCurSel _colorLb # 1;
         };
 
         _index = _dropBox lbAdd _name;

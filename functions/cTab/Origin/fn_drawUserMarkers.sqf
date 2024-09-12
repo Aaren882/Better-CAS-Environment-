@@ -8,7 +8,7 @@
 		Aaren
 
 	Description:
-		Draw userMarkers held in cTabUserMarkerList to map control
+		Draw userMarkers held in cTabMarkerList to map control
 
 		List format:
 			Index 0: ARRAY	- marker position
@@ -75,9 +75,9 @@ _getBrush = {
 };
 
 {
-	_x params ["_marker","_ID","_markerShape","_def_Size","_editable"];
+	_x params ["_marker","_texture","_ID","_markerShape","_def_Size","_editable"];
 
-	private ["_markerType","_markerColor","_config","_texture","_onSameChannel","_color","_text"];
+	private ["_markerType","_markerColor","_config","_onSameChannel","_color","_text"];
 
 	_markerType = markerType _marker;
 	_markerColor = markerColor _marker;
@@ -109,7 +109,6 @@ _getBrush = {
 		};
 	
 	//- Marker Data
-		_texture = getText (_config >> "icon");
 		[getMarkerPos _marker, markerDir _marker, markerSize _marker] params ["_pos","_dir","_size"];
 
 	//- Show type of marker
@@ -210,7 +209,7 @@ _getBrush = {
 			};
 			default {continue};
 		};
-} count cTabUserMarkerList;
+} count cTabMarkerList;
 
 if (!(_reDirecting || _reSizing || _LMB) && _curSelMarker > -1) then {
 	switch (_drawMode) do {
