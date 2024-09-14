@@ -979,12 +979,13 @@ _settings apply {
 							_x params ["_IDC",["_showOnInit",true]];
 							private _c = _display displayctrl (17000 + _IDC);
 							if (_showOnInit) then {
-							_c ctrlshow _status;
+								_c ctrlshow _status;
 							};
 
 							//-Preset of List Content
 							if (_MoveDir < 0) then {
 								_c ctrlSetPositionX _CTRLX;
+								_c ctrlSetPositionY ((ctrlPosition _c) # 1);
 								_c ctrlCommit 0;
 							};
 
