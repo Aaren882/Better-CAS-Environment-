@@ -30,6 +30,8 @@
 params ["_ctrlScreen","_mode"];
 private ["_ctrlScreen","_mode","_veh","_iconB","_groupID","_vehicles","_vehIndex","_mountedLabels","_mountedIndex","_drawText","_playerVehicle","_playerGroup","_teamColor"];
 
+if (ctab_core_bft_mode == 0) exitWith { };
+
 _vehicles = [];
 _playerVehicle = vehicle cTab_player;
 _playerGroup = group cTab_player;
@@ -109,7 +111,7 @@ if (_mode != 2) then {
 						// group name is not the same as that of the vehicle the leader is sitting in
 						_mountedIndex = _mountedLabels find _veh;
 						if (_mountedIndex != -1) then {
-							_mountedLabels set [_mountedIndex + 1,(_mountedLabels # (_mountedIndex + 1)) + "/" + (_text)];
+							_mountedLabels set [_mountedIndex + 1,[_mountedLabels # (_mountedIndex + 1), _text] joinString "/"];
 						} else {
 							0 = _mountedLabels pushBack _veh;
 							0 = _mountedLabels pushBack _text;
@@ -142,7 +144,7 @@ cTabBFTmembers apply {
 				// we want to draw text on anything but MicroDAGR and the unit sits in a vehicle that has already been drawn
 				_mountedIndex = _mountedLabels find _veh;
 				if (_mountedIndex != -1) then {
-					_mountedLabels set [_mountedIndex + 1,(_mountedLabels # (_mountedIndex + 1)) + "/" + (_x # 4)];
+					_mountedLabels set [_mountedIndex + 1,[_mountedLabels # (_mountedIndex + 1), _x # 4] joinString "/"];
 				} else {
 					0 = _mountedLabels pushBack _veh;
 					0 = _mountedLabels pushBack (_x # 4);
@@ -153,7 +155,7 @@ cTabBFTmembers apply {
 			// the unit _does_ sit in a vehicle
 			_mountedIndex = _mountedLabels find _veh;
 			if (_mountedIndex != -1 && _drawText) then {
-				_mountedLabels set [_mountedIndex + 1,(_mountedLabels # (_mountedIndex + 1)) + "/" + (_x # 4)];
+				_mountedLabels set [_mountedIndex + 1,[_mountedLabels # (_mountedIndex + 1), _x # 4] joinString "/"];
 			} else {
 				0 = _mountedLabels pushBack _veh;
 				if	(_drawText) then {
