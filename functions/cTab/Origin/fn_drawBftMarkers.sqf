@@ -36,6 +36,9 @@ _playerGroup = group cTab_player;
 _mountedLabels = [];
 _drawText = cTabBFTtxt;
 _Connected_veh = cTab_player getvariable ["TGP_View_Selected_Vehicle",objNull];
+
+private _playerVehicle_marker = [objNull, _playerVehicle] select ctab_core_useArmaMarker;
+
 _PointedIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
 
 // Anything but MicroDAGR
@@ -171,9 +174,32 @@ cTabBFTmembers apply {
 // ------------------ ADD LABEL TO VEHICLES WITH MOUNTED GROUPS / MEMBERS ------------------
 if (_drawText && !(_mountedLabels isEqualTo [])) then {
 	for "_i" from 0 to (count _mountedLabels - 2) step 2 do {
+
 		private _veh = _mountedLabels # _i;
-		if (_veh != _playerVehicle) then {
-			_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_mountedLabels # (_i + 1),0,cTabTxtSize,"TahomaB","left"];
+
+		if (_veh != _playerVehicle_marker) then {
+			private _pos = getPosASLVisual _veh;
+
+			if ( ctab_core_bft_mode != 1 ) then {
+				private _index = cTabBFTvehicles findIf { _x # 0 == _veh };
+				if ( _index != -1 ) then {
+					_pos = cTabBFTvehicles # _index # 5;
+				};
+			};
+
+			_ctrlScreen drawIcon [
+				"\A3\ui_f\data\map\Markers\System\dummy_ca.paa",
+				cTabColorBlue,
+				_pos,
+				cTabIconSize,
+				cTabIconSize,
+				0,
+				_mountedLabels # (_i + 1),
+				0,
+				cTabTxtSize,
+				"TahomaB",
+				"left"
+			];
 		};
 	};
 };

@@ -44,5 +44,7 @@ if (hasInterface) exitWith {
 		ctab_core_leaderDevices = ["ItemcTab","ItemcTabMisc","ItemAndroid","ItemAndroidMisc"];
 		ctab_core_androidDevices = ["ItemAndroid","ItemAndroidMisc"];
 		ctab_core_tabDevices = ["ItemcTab","ItemcTabMisc"];
+		ctab_core_useArmaMarker = false;
+		ctab_core_bft_mode = 0;
 	#endif
 };
