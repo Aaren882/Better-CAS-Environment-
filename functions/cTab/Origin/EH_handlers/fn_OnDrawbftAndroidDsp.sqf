@@ -17,6 +17,7 @@ if !(uiNamespace getVariable ["BCE_ATAK_TRACK_Focus",false]) then {
 
 //- Only for "ICON"
 	private _mapScale = ctrlMapScale _cntrlScreen;
+	private _ColorCache = uiNamespace getVariable "BCE_Marker_Color";
 	{
 		private _markerShape = MarkerShape _x;
 		private _config = configFile >> "CfgMarkers" >> markerType _x;
@@ -29,14 +30,12 @@ if !(uiNamespace getVariable ["BCE_ATAK_TRACK_Focus",false]) then {
 		private _markerColor = markerColor _x;
 		private _markerChannel = markerChannel _x;
 		
-		private _color = getArray ([
-			configFile >> "CfgMarkerColors" >> _markerColor >> "Color",
-			_config >> "color"
-		] select (_markerColor == "Default"));
-
-		_color = _color apply {
-			if (_x isEqualType "") then {call compile _x} else {_x};
-		};
+		private _color = [];
+		{
+			if (_markerColor == (_x # 0)) exitWith {
+				_color = _x # 1;
+			};
+		} count _ColorCache;
 
 		private _onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
 		_color set [3, [0.4, markerAlpha _x] select _onSameChannel];

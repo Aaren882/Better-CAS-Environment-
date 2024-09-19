@@ -49,6 +49,17 @@ if !(isNil "cTabIfOpen") then {
 		cTabProcessNotificationsPFH = nil;
 	};
 
+	//- if the on hovered markerColor hasn't turned back
+	(localNamespace getVariable ["cTab_Marker_CurHov",[-1]]) params ["_hovSel","_hovCol"];
+	if (_hovSel > -1) then {
+		{
+			if (_hovSel == _x # 2) exitWith {
+				localNamespace setVariable ["cTab_Marker_CurHov",nil];
+				(_x # 0) setMarkerColorLocal _hovCol;
+			};
+		} count cTabMarkerList;
+	};
+
 	// don't call this part if we are closing down before setup has finished
 	if (!cTabIfOpenStart) then {
 		if ([_displayName] call cTab_fnc_isDialog) then {

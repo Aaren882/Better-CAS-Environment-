@@ -83,28 +83,10 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	//- Can't delete POLPOX's MapTools Markers
 	if (_marker find "mtsmarker" < 0) then {
 		deleteMarker _marker;
-
-		//- must be "cTab Marker" or "Vanilla marker"
-			if (_marker find "_USER" > -1) then {
-				private _playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey; 
-				private _Net_MarkerBase = [cTab_userMarkerLists,_playerEncryptionKey,[]] call cTab_fnc_getFromPairs;
-
-				private _marker_ID = parseNumber ((((_marker splitString "#") # 1) splitString "/") # 1);
-
-				//- Remove Marker from cTab Marker Bases
-					{
-						if (_marker_ID == (_x # 1 # 2)) exitWith {
-							[_playerEncryptionKey, _x # 0] call cTab_fnc_deleteUserMarker;
-						};
-					} count _Net_MarkerBase;
-			};
 	} else {
 		[(_marker splitString "_") # 0] call MTS_markers_fnc_deleteMarker;
 	};
 	
-	//- Update Markers
-		call cTab_fnc_updateUserMarkerList;
-
 	true
 };
 

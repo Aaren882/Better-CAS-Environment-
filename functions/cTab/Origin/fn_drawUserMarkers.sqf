@@ -37,7 +37,7 @@ private [
 	"_toggle","_toggle_show",
 	"_widgetMode",
 	"_reDirecting","_reSizing","_LMB",
-	"_curSelMarker","_isnt_Drawing","_getBrush"
+	"_curSelMarker","_isnt_Drawing","_ColorCache"
 ];
 
 //- tell the Marker index
@@ -65,14 +65,9 @@ _reSizing = inputMouse "940638208";
 _LMB = (inputMouse 0) > 0;
 
 (localNamespace getVariable ["cTab_Marker_CurSel",[]]) params [["_curSelMarker",-1],"_EditMarker","_drawMode","_Marker_Component"];
+(localNamespace getVariable ["cTab_Marker_CurHov",[]]) params [["_hovSel",-1],"_hovCol"];
 _isnt_Drawing = isnil{localNamespace getVariable "BCE_DrawHold_lastClick"};
-
-_getBrush = {
-	private _brush = getText (configFile >> "CfgMarkerBrushes" >> markerBrush _this >> "texture");
-	if (_brush == "") exitwith {"#(rgb,1,1,1)color(1,1,1,0.5)"};
-	if (_brush find "(0,0,0,0)" > -1) exitwith {""};
-	_brush
-};
+_ColorCache = uiNamespace getVariable "BCE_Marker_Color";
 
 {
 	_x params ["_marker","_texture","_ID","_markerShape","_def_Size","_editable"];
@@ -85,41 +80,17 @@ _getBrush = {
 	_onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
 
 	_config = configFile >> "CfgMarkers" >> _markerType;
-	_color = getArray ([
-		configFile >> "CfgMarkerColors" >> _markerColor >> "Color",
-		_config >> "color"
-	] select (_markerColor == "Default"));
-
-	_color = _color apply {
-		if (_x isEqualType "") then {call compile _x} else {_x};
-	};
-	_color set [3, [0.4, markerAlpha _marker] select _onSameChannel];
-
-	//- Draw "POLYLINE"
-		if (_markerShape == 3) then { 
-			private _lines = markerPolyline _marker;
-			for "_i" from 0 to (count _lines) - 3 step 2 do {
-				_ctrlScreen drawLine [
-					[_lines # _i, _lines # (_i + 1)],
-					[_lines # (_i + 2), _lines # (_i + 3)],
-					_color
-				];
-			};
-			continue
+	_color = [];
+	{
+		if (_markerColor == (_x # 0)) exitWith {
+			_color = _x # 1;
 		};
+	} count _ColorCache;
+	_color set [3, [0.4, markerAlpha _marker] select _onSameChannel];
 	
 	//- Marker Data
 		[getMarkerPos _marker, markerDir _marker, markerSize _marker] params ["_pos","_dir","_size"];
 
-	//- Show type of marker
-		if (
-			_cursorMarkerIndex == _ID &&
-			_marker find "BCE_" < 0 //- Skip BCE Click Marker
-		) then {
-			private _text = getText (_config >> "name");
-			_ctrlScreen drawIcon ["#(rgb,1,1,1)color(0,0,0,0)",_color, _pos vectorDiff _size, 20, 20, 0, _text, 0, cTabTxtSize,"RobotoCondensed","left"];
-		};
-	
 	//- when the marker having cursor hovering on
 		if (
 			_onSameChannel &&
@@ -142,7 +113,26 @@ _getBrush = {
 				};
 			};
 
+			//- if no Hover Color
+			if (_hovSel < 0) then {
+				localNamespace setVariable ["cTab_Marker_CurHov",[_ID,_markerColor]];
+				_marker setMarkerColorLocal "cTab_Highlight";
+			};
 			_color = cTabTADhighlightColour;
+		} else {
+			if (_hovSel > -1 && _hovSel == _ID) then {
+				localNamespace setVariable ["cTab_Marker_CurHov",nil];
+				_marker setMarkerColorLocal _hovCol;
+			};
+		};
+
+		//- Show type of marker
+		if (
+			_cursorMarkerIndex == _ID &&
+			_marker find "BCE_" < 0 //- Skip BCE Click Marker
+		) then {
+			private _text = getText (_config >> "name");
+			_ctrlScreen drawIcon ["#(rgb,1,1,1)color(0,0,0,0)",_color, _pos vectorDiff _size, 20, 20, 0, _text, 0, cTabTxtSize,"RobotoCondensed","left"];
 		};
 
 	//- Key Actions
@@ -177,7 +167,7 @@ _getBrush = {
 					[_ctrlScreen,_marker,_pos,_color,([_dir,selectMax _size,_mapScale] joinString "|")] call cTab_fnc_DrawMarkerDir;
 				
 				//- Update Marker Size
-				_size = _size vectorMultiply (_def_Size + cTabIconSize);
+				/*_size = _size vectorMultiply (_def_Size + cTabIconSize);
 				_text = ["",markerText _marker] select cTabBFTtxt;
 				
 				_ctrlScreen drawIcon [
@@ -192,19 +182,7 @@ _getBrush = {
 					cTabTxtSize * ([1,1.5] select (_marker find "PLP_SMT_Grid" > -1 && _marker find "_text" > -1)),
 					"RobotoCondensed",
 					"right"
-				];
-				continue
-			};
-			case 1: {
-				_ctrlScreen drawRectangle [
-					_pos ,(_size # 0),(_size # 1),_dir,_color,(_marker call _getBrush)
-				];
-				continue
-			};
-			case 2: {
-				_ctrlScreen drawEllipse [
-					_pos ,(_size # 0),(_size # 1),_dir,_color,(_marker call _getBrush)
-				];
+				];*/
 				continue
 			};
 			default {continue};

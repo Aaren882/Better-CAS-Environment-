@@ -159,6 +159,29 @@ cTabTxtSize = 0.06;
 	}
 ] call CBA_fnc_addLocalEventHandler;
 
+//- on Marker Deleted
+	["deleted", {
+		params ["_marker"];
+
+		//- must be "cTab Marker" or "Vanilla marker"
+			if (_marker find "_USER" > -1) then {
+				private _playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey; 
+				private _Net_MarkerBase = [cTab_userMarkerLists,_playerEncryptionKey,[]] call cTab_fnc_getFromPairs;
+
+				private _marker_ID = parseNumber ((((_marker splitString "#") # 1) splitString "/") # 1);
+				
+				//- Remove Marker from cTab Marker Bases
+					{
+						if (_marker_ID == (_x # 1 # 2)) exitWith {
+							[_playerEncryptionKey, _x # 0] call cTab_fnc_deleteUserMarker;
+						};
+					} count _Net_MarkerBase;
+
+				//- Update Markers
+					call cTab_fnc_updateUserMarkerList;
+			};
+	}] call CBA_fnc_addMarkerEventHandler;
+
 //- Set Marker Cache
 	private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");
 	private _result = _classes apply {
