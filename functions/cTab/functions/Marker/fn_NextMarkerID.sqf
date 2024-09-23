@@ -1,5 +1,9 @@
-params [["_MID","USER"]];
+params ["_MID"];
 private ["_markers","_id"];
+
+if (isnil{_MID}) then {
+  _MID = BCE_cTab_Marker_Sync select [1];
+};
 
 _markers = (if (isMultiplayer) then {
 	allMapMarkers select {markerChannel _x == currentChannel}

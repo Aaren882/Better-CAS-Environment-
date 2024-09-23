@@ -125,7 +125,6 @@ _ColorCache = uiNamespace getVariable "BCE_Marker_Color";
 				_marker setMarkerColorLocal _hovCol;
 			};
 		};
-
 		//- Show type of marker
 		if (
 			_cursorMarkerIndex == _ID &&
@@ -165,24 +164,7 @@ _ColorCache = uiNamespace getVariable "BCE_Marker_Color";
 				
 				//- Only for "ICON"
 					[_ctrlScreen,_marker,_pos,_color,([_dir,selectMax _size,_mapScale] joinString "|")] call cTab_fnc_DrawMarkerDir;
-				
-				//- Update Marker Size
-				/*_size = _size vectorMultiply (_def_Size + cTabIconSize);
-				_text = ["",markerText _marker] select cTabBFTtxt;
-				
-				_ctrlScreen drawIcon [
-					_texture,
-					_color,
-					_pos,
-					_size # 0,
-					_size # 1,
-					_dir,
-					_text,
-					[0,1] select markerShadow _marker,
-					cTabTxtSize * ([1,1.5] select (_marker find "PLP_SMT_Grid" > -1 && _marker find "_text" > -1)),
-					"RobotoCondensed",
-					"right"
-				];*/
+
 				continue
 			};
 			default {continue};

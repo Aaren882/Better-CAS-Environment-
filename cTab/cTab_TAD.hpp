@@ -8,11 +8,6 @@ TAD_CLASS
 	{
 		class screen: cTab_TAD_RscMapControl
 		{
-			#ifdef MOUSE_CLICK_EH
-				showMarkers = 0;
-			#else
-				showMarkers = 1;
-			#endif
 			onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
 		};
         class screenBlack: cTab_TAD_RscMapControl_BLACK

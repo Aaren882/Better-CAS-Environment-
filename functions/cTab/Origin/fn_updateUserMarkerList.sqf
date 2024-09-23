@@ -42,7 +42,7 @@ private _list = [];
   //- Check if it's Editable
   private _editable = !(_marker find "PLP" > -1) && (
     (_marker find "_cTab" > -1) || 
-    (_marker find "_USER" > -1) || 
+    (_marker find BCE_cTab_Marker_Sync > -1) || 
     (_marker find "mtsmarker" > -1) ||
     (_marker find "SWT_" > -1)
   );
@@ -77,7 +77,6 @@ _list = nil;
 
 //- Get Marker Data for SIT
   private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
-	private _cTabMarkerClasses = "true" configClasses (configFile >> "cTab_CfgMarkers");
   private _rawMarkersList = [cTab_userMarkerLists,call cTab_fnc_getPlayerEncryptionKey,[]] call cTab_fnc_getFromPairs;
 
   cTabUserMarkerList = _rawMarkersList apply {
@@ -86,7 +85,7 @@ _list = nil;
 
     //- Get the correct Marker
       private _marker = "";
-      private _target = format ["_USER_DEFINED #%1/%2",((_sender call BIS_fnc_netId) splitString ":") # 0 ,_iconID];
+      private _target = format [BCE_cTab_Marker_Sync + "_DEFINED #%1/%2",((_sender call BIS_fnc_netId) splitString ":") # 0 ,_iconID];
       {
         if (_target in _x) exitWith {
           _marker = _x;

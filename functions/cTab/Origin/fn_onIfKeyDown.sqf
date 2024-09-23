@@ -69,20 +69,37 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	if (_markerIndex < 0) exitWith {true};
 
 	private _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
-	(cTabMarkerList # _markerIndex) params ["_marker","","","_markerShape"];
+	
+	private _marker = "";
+	private _markerShape = -1;
+	{
+		if (_markerIndex == (_x # 2)) exitWith {
+			_marker = _x # 0;
+			_markerShape = _x # 3;
+		};
+	} count cTabMarkerList;
 
 	private _Data = [[0],[1,2]] findIf {_x find _markerShape > -1};
 
 	if (
 		!(_toggle # 0) ||
 		(markerChannel _marker != currentChannel && isMultiplayer) ||
+		_marker == "" ||
 		"PLP" in _marker ||
 		(_toggle # 4) != _Data
 	) exitWith {true};
 
 	//- Can't delete POLPOX's MapTools Markers
 	if (_marker find "mtsmarker" < 0) then {
-		deleteMarker _marker;
+		if (
+			_marker find "_cTab" > -1 || 
+			_marker find BCE_cTab_Marker_Sync > -1 //- Unable to delete vanilla marker if "Marker_Sync" Disabled
+		) then {
+			if (!isnil {localNamespace getVariable "cTab_Marker_CurHov"}) then {
+				localNamespace setVariable ["cTab_Marker_CurHov",nil];
+			};
+			deleteMarker _marker;			
+		};
 	} else {
 		[(_marker splitString "_") # 0] call MTS_markers_fnc_deleteMarker;
 	};

@@ -12,7 +12,7 @@ private _position3d = [_position # 0, _position # 1, getTerrainHeightASL _positi
 
 //- Get the correct Marker
 	private _marker = "";
-	private _target = format ["_USER_DEFINED #%1/%2",((_sender call BIS_fnc_netId) splitString ":") # 0 ,_iconID];
+	private _target = format [BCE_cTab_Marker_Sync + "_DEFINED #%1/%2",((_sender call BIS_fnc_netId) splitString ":") # 0 ,_iconID];
 	{
 		if (_target in _x) exitWith {
 			_marker = _x;

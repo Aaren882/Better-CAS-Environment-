@@ -3,7 +3,7 @@ params ["_ctrlScreen","_marker","_pos","_color","_data"];
 ((_data splitString "|") apply {parseNumber _x}) params ["_dir","_size","_mapScale"];
 
 private _hide_Direction = if (
-  _marker find "_cTab" > -1 || _marker find "_USER" > -1
+  _marker find "_cTab" > -1 || _marker find BCE_cTab_Marker_Sync > -1
 ) then {
   private _HideDir = (((_marker select [15]) splitString "/") apply {parseNumber _x}) # 3;
 

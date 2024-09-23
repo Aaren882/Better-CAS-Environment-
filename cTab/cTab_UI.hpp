@@ -209,7 +209,6 @@ class cTab_Tablet_dlg
 		delete MiniMapBG;
 		class screen: cTab_Tablet_RscMapControl
 		{
-			showMarkers = 0;
 			onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
 			onMouseButtonClick = "(_this + [17000]) call BCE_fnc_GetMapClickPOS";
 		};
@@ -2082,7 +2081,6 @@ class cTab_FBCB2_dlg
 		{
 			class screen: RscMapControl
 			{
-				showMarkers = 0;
 				onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
 			};
 			#if MAP_MODE > 2

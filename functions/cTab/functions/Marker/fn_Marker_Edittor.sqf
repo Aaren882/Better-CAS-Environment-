@@ -13,7 +13,12 @@ private _channel = _group controlsGroupCtrl 110;
   private _markerColor = _display displayCtrl (17000 + 1090);
 
 //- Marker Data
-  private _selectColor = markerColor _marker;
+  (localNamespace getVariable ["cTab_Marker_CurHov",[]]) params [["_hovSel",-1],"_hovCol"];
+  private _selectColor = if (_hovSel < 0) then {
+    markerColor _marker;
+  } else {
+    _hovCol
+  }; 
   private _selectType = markerType _marker;
   private _selectShape = markerShape _marker;
   _desc ctrlSetText markerText _marker;

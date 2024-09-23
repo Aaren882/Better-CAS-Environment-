@@ -8,7 +8,7 @@ private [
 ];
 
 //- Marker ID
-  _id = "USER" call cTab_fnc_NextMarkerID;
+  _id = [] call cTab_fnc_NextMarkerID;
 
 //- From Marker placer
 _group = _display displayCtrl (17000 + 1300);
@@ -28,7 +28,7 @@ private _colorSel = if (_color == "") then {
 };
 
 //- MARKER #<PlayerID>/<MarkerID>/#<SEPARATOR>#/<Hide Direction> .. /<ChannelID> must Be last
-_name = format ["_USER_DEFINED #%1/%2/-1/%3/0/%4", clientOwner, _id, getNumber (_class >> "Hide_Direction"),currentChannel];
+_name = format [BCE_cTab_Marker_Sync + "_DEFINED #%1/%2/-1/%3/0/%4", clientOwner, _id, getNumber (_class >> "Hide_Direction"),currentChannel];
 _markerData = [_dropBox lbData (_BoxSel # 0),"ICON","[1,1]",0,"Solid",_color,1];
 
 _markerData params [

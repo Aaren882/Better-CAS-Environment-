@@ -33,9 +33,9 @@ _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
       if (_show) then {
         //- Needs "_display" and other infoPanelComponents
         private _name = format [
-          "_USER_DEFINED #%1/%2/-1/1/0/%3",
+          BCE_cTab_Marker_Sync + "_DEFINED #%1/%2/-1/1/0/%3",
           clientOwner,
-          "USER" call cTab_fnc_NextMarkerID,
+          [] call cTab_fnc_NextMarkerID,
           currentChannel
         ];
 
@@ -43,7 +43,7 @@ _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
         _marker setMarkerShape "ICON"; 
         _marker setMarkerType "hd_dot";
         _marker setMarkerText ([["M","E","B"] # _mode, _count] joinString "-");
-        _marker setMarkerColor (["colorBlack","colorOPFOR","colorBLUFOR"] # _mode);
+        _marker setMarkerColor (["colorBlack","ColorEAST","ColorWEST"] # _mode);
         _marker setMarkerSize [0.8, 0.8];
 
         //- Update Values
@@ -64,7 +64,7 @@ _toggle params ["_show","_curSel","_BoxSel","_texts","_widgetMode"];
 _Data = if (_cursorMarkerIndex > -1) then {
   private _marker = allMapMarkers # _cursorMarkerIndex;
   [
-    (((_marker select [15]) splitString "/") apply {parseNumber _x}) param [4, [-1,_widgetMode] select (_marker find "_USER" > -1)],
+    (((_marker select [15]) splitString "/") apply {parseNumber _x}) param [4, [-1,_widgetMode] select (_marker find BCE_cTab_Marker_Sync > -1)],
     _marker
   ]
 } else {
@@ -78,6 +78,14 @@ if (
 ) exitWith {
   
   private _marker = _Data # 1;
+  if (
+    !(_marker find "PLP" < 0) && (
+      (_marker find "_cTab" < 0) || 
+      (_marker find BCE_cTab_Marker_Sync < 0) || 
+      (_marker find "mtsmarker" < 0) ||
+      (_marker find "SWT_" < 0)
+    )
+  ) exitWith {};
   private _EDIT_Marker = [_displayName,"MarkerEDIT"] call cTab_fnc_getSettings;
 
   //- Slew to Marker

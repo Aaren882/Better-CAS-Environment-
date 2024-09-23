@@ -1457,6 +1457,16 @@
 			<Chinese>cTab 設定</Chinese>
 			<Chinesesimp>cTab 设定</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_cTab_Marker_Sync">
+			<Original>Marker Sync with Vanilla map</Original>
+			<Chinese>與 "原廠地圖標記" 同步</Chinese>
+			<Chinesesimp>与 "原厂地图标记" 同步</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_cTab_Marker_Sync_tip">
+			<Original>If Disabled ,it won't be able to Edit/Get-Info from vanilla Map Markers.</Original>
+			<Chinese>如果停用，它將無法 "編輯/獲取資訊" 原廠地圖標記 。</Chinese>
+			<Chinesesimp>如果停用，它将无法 "编辑/获取资讯" 原厂地图标记 。</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_cTab_ATAK_Side_Display">
 			<Original>Enable ATAK Side Display</Original>
 			<Chinese>啟用 視窗化 ATAK</Chinese>
