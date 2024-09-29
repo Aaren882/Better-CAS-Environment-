@@ -63,10 +63,8 @@ uiNamespace setVariable ["BCE_LandMarks",_BCE_LandMarks];
 	BCE_have_ACE_earPlugs = false;
 #endif
 
-["BCE_Init",BCE_fnc_init] call CBA_fnc_addEventHandler;
-
 //PostInit
-["BCE_Init",[]] call CBA_fnc_localEvent;
+	call BCE_fnc_init;
 
 //-Add map eventhandler
 ["visibleMap", {

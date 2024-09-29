@@ -1532,6 +1532,16 @@
 			<Chinese>雷射指示器的 光源效果</Chinese>
 			<Chinesesimp>雷射指示器的 光源效果</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_A3TI_AUTO_LTM">
+			<Original>A3TI Auto LTM</Original>
+			<Chinese>A3TI 自動 LTM</Chinese>
+			<Chinesesimp>A3TI 自动 LTM</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_A3TI_AUTO_LTM_tip">
+			<Original>When AV turned On Laserdesignator, will turn on A3TI's LTM "Automatically"</Original>
+			<Chinese>當飛行載具的 雷射指示器 開啟時 "自動開啟" A3TI 的 LTM</Chinese>
+			<Chinesesimp>当飞行载具的 雷射指示器 开启时 "自动开启" A3TI 的 LTM</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_Unit_Render_Distance">
 			<Original>Unit Render Distance</Original>
 			<Chinese>單位顯示距離</Chinese>

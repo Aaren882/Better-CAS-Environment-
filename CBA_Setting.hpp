@@ -109,18 +109,6 @@
 	}
 ] call CBA_fnc_addSetting;
 
-//- List
-[
-	"BCE_Access_list", "LIST",
-	[localize "STR_BCE_Select_Turret_Control_Trait"],
- 	["Better CAS Environment", localize "STR_BCE_Title_AV_Cam_Settings"],
- 	[[0,1,2,3,4], ["Disabled","All","Leader or JTAC","JTAC","Leader"], 2],
-	1,
-	{
-		TGP_View_Terminal_canUseTurret = call BCE_fnc_canUseTurret;
-	}
-] call CBA_fnc_addSetting;
-
 #include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 //- Set File type (cTab/ATAK)
 #ifdef cTAB_Installed
@@ -201,11 +189,53 @@
 ] call CBA_fnc_addSetting;
 
 ///////////////////TGP//////////////////////
+//- A3 Thermal Improvement
+#if __has_include("\A3TI\config.bin")
+	[
+		"BCE_AUTO_LTM_A3TI_fn","CHECKBOX",
+		[localize "STR_BCE_A3TI_AUTO_LTM", localize "STR_BCE_A3TI_AUTO_LTM_tip"],
+		["Better CAS Environment", localize "STR_BCE_Title_AV_Cam_Settings"],
+		false,
+		0,
+		{
+			if (_this) then {
+				private _id1 = ["BCE_AVLaser_ON", {
+					// params ["_unit"];
+					[true] call A3TI_fnc_toggleLTM;
+				}] call CBA_fnc_addEventHandler;
+
+				private _id2 = ["BCE_AVLaser_OFF", {
+					[false] call A3TI_fnc_toggleLTM;
+				}] call CBA_fnc_addEventHandler;
+
+				localNamespace setVariable ["BCE_A3Ti_EH",[_id1,_id2]];
+			} else {
+				private _ids = localNamespace getVariable "BCE_A3Ti_EH";
+				if (isnil{_ids}) exitWith {};
+				
+				["BCE_AVLaser_ON",_ids # 0] call CBA_fnc_removeEventHandler;
+				["BCE_AVLaser_OFF",_ids # 1] call CBA_fnc_removeEventHandler;
+				localNamespace setVariable ["BCE_A3Ti_EH",nil];
+			};
+		}
+	] call CBA_fnc_addSetting;
+#endif
 [
 	"BCE_Tracker_Render_sdr", "SLIDER",
 	[localize "STR_BCE_Unit_Render_Distance"],
 	["Better CAS Environment", localize "STR_BCE_Title_AV_Cam_Settings"],
 	[500, 20000, 10000, 0]
+] call CBA_fnc_addSetting;
+//- List
+[
+	"BCE_Access_list", "LIST",
+	[localize "STR_BCE_Select_Turret_Control_Trait"],
+ 	["Better CAS Environment", localize "STR_BCE_Title_AV_Cam_Settings"],
+ 	[[0,1,2,3,4], ["Disabled","All","Leader or JTAC","JTAC","Leader"], 2],
+	1,
+	{
+		TGP_View_Terminal_canUseTurret = call BCE_fnc_canUseTurret;
+	}
 ] call CBA_fnc_addSetting;
 
 ///////////////////(Server)//////////////////////

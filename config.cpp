@@ -990,6 +990,10 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\A3TI\fn_specialCase.sqf";
 				};
+				class toggleLTM
+				{
+					file="MG8\AVFEVFX\functions\A3TI\fn_toggleLTM.sqf";
+				};
 			};
 		};
 	#endif
