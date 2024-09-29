@@ -16,13 +16,13 @@ if (cTabUavViewActive) exitWith {
 	call cTab_fnc_onIfTertiaryPressed;
 	true
 };
-if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) exitWith {
+if (!isNil "cTabIfOpen" && {cTabIfOpen # 0 == 0}) exitWith {
 	// close Main
 	call cTab_fnc_close;
 	true
 };
 if !(isNil "cTabIfOpen") then {
-	_previousInterface = cTabIfOpen select 1;
+	_previousInterface = cTabIfOpen # 1;
 	// close Secondary / Tertiary
 	call cTab_fnc_close;
 };
@@ -31,7 +31,7 @@ _player = cTab_player;
 _vehicle = vehicle _player;
 _interfaceName = call {
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
+		cTabPlayerVehicleIcon = getText (configOf _vehicle/"Icon");
 		"cTab_TAD_dsp"
 	};
 	if ([_player,ctab_core_androidDevices] call cTab_fnc_checkGear) exitWith {"cTab_Android_dsp"};
