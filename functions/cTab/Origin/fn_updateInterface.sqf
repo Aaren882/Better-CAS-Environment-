@@ -1227,6 +1227,11 @@ _settings apply {
 					private _list = _group controlsGroupCtrl 10;
 					private _typing = _group controlsGroupCtrl 11;
 					private _commitTime = {[_this, 0] select _interfaceInit};
+					private _playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
+					private _msgArray = cTab_player getVariable ["cTab_messages_" + _playerEncryptionKey,[]];
+					
+					//- get Msg sender's name (un-read Msgs only)
+						private _Msg_received = (_msgArray select {0 == (_x # 2)}) apply {(_x # 0) select [8]};
 
 					//- Remove Message Display icon
 						cTabRscLayerMailNotification cutText ["", "PLAIN"];
@@ -1265,8 +1270,8 @@ _settings apply {
 							//- Get Contactors 
 								private _plrList = playableUnits;
 								private _validSides = call cTab_fnc_getPlayerSides;
-
-								//- Sel Null
+							
+							//- Sel Null
 								_contacts lbAdd "--";
 								_contacts lbSetCurSel 0;
 
@@ -1286,6 +1291,13 @@ _settings apply {
 										if (_previus == _data) then {
 											_contacts lbSetCurSel _index;
 											_title ctrlSetStructuredText parseText _name;
+										};
+
+										//- Highlight un-read msg
+										if (_Msg_received find _name > -1) then {
+											private _count = str ({_x == _name} count _Msg_received);
+											_contacts lbSetPictureRight [_index, "\MG8\AVFEVFX\data\mail.paa"];
+											_contacts lbSetTextRight [_index, "+" + _count];
 										};
 									};
 									false
@@ -1308,11 +1320,10 @@ _settings apply {
 					_title ctrlSetStructuredText parseText _contactor;
 
 					//- Msg Sort
-						private _msgArray = cTab_player getVariable ["cTab_messages_" + call cTab_fnc_getPlayerEncryptionKey,[]];
-
 						private _index = 0;
 						private _size_H = 0;
 						private _time_AC = 0;
+						private _Update_Var = false;
 						{
 							_x params ["_title","_msgBody","_msgState"];
 							private _sep = _title find "-";
@@ -1372,6 +1383,12 @@ _settings apply {
 								];
 								[_name,_msgBody] joinString "<br/>"
 							};
+							
+							//- If Message is un-Read => Read
+								if (_msgState == 0) then {
+									_Update_Var = true;
+									_msgArray set [_forEachIndex, [_title,_msgBody,1]];
+								};
 
 							private _ctrlMsg = [_list,_msgState,_txt] call BCE_fnc_ATAK_msg_Line_Create;
 							private _ctrl_H = (ctrlPosition _ctrlMsg) # 3;
@@ -1385,6 +1402,11 @@ _settings apply {
 								_index = _index + 1;
 						} forEach _msgArray;
 					
+					//- Need to Update Message 
+						if (_Update_Var) then {
+							cTab_player setVariable ["cTab_messages_" + _playerEncryptionKey, _msgArray];
+							["ctab_messagesUpdated"] call CBA_fnc_localEvent;
+						};
 					_list spawn {
 						uiSleep 0.1;
 						_this ctrlSetScrollValues [1, -1];

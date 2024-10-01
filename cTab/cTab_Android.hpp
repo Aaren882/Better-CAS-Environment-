@@ -1486,6 +1486,7 @@ PHONE_CLASS
 					{
 						idc = 6;
 						colorBackground[] = {0,0,0,0.3};
+						colorSelectBackground[] = {0.95,0.95,0.95,0.4};
 						sizeEx = 0.8 * (((60) - (20))) / 2048 * CustomPhoneH;
 
 						x = 0;
