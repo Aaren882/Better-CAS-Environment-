@@ -43,7 +43,7 @@ cTabBFTmembers --- GROUP MEMBERS
 cTabBFTmembers = ((units cTab_player) apply {
 	[
 		nil,
-		[_x,_x call cTab_fnc_getInfMarkerIcon,"",name _x,str([_x] call CBA_fnc_getGroupIndex)]
+		[_x,_x call cTab_fnc_getInfMarkerIcon,"",name _x,str([_x] call CBA_fnc_getGroupIndex), getPosASLVisual _x, getDirVisual _x]
 	] select ((_x != cTab_player) && {[_x,ctab_core_personneldevices] call cTab_fnc_checkGear});
 }) select {!isnil {_x}};
 
@@ -68,7 +68,7 @@ cTabBFTgroups = (allGroups apply {
 				if (_groupSize <= 9) exitWith {"\A3\ui_f\data\map\markers\nato\group_1.paa"};
 				"\A3\ui_f\data\map\markers\nato\group_2.paa"
 			};
-			[_leader,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_sizeIcon,groupID _x,""]
+			[_leader,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_sizeIcon,groupID _x,"", getPosASL _leader]
 		} else {
 			nil
 		};
@@ -161,7 +161,7 @@ cTabBFTvehicles = (vehicles apply {
 		call {
 			if (_iconA == "" && {!(_x isKindOf "Static")} && {!(_x isKindOf "StaticWeapon")}) then {_iconA = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";};
 			if (_iconA == "") exitWith {};
-			[_x,_iconA,_iconB,_name,_groupID]
+			[_x,_iconA,_iconB,_name,_groupID, getPosASLVisual _x, getDirVisual _x]
 		};
 	} else {
 		nil
