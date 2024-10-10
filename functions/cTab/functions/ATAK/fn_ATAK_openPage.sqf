@@ -10,52 +10,6 @@ _ctrlPOS = ctrlPosition _group;
 _ctrlPOS set [2, (_ctrlPOS # 2) / 4];
 
 private _return = switch _page do {
-	case "VideoFeeds": {
-		(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_line"];
-
-		//- Arrange Bottons layout
-			{
-				_x ctrlShow false;
-				false
-			} count (_ctrls select [2]);
-
-			_bnt_back = _ctrls # 0;
-			_bnt_Ent = _ctrls # 1;
-
-			_size = (2 * (_ctrlPOS # 2));
-
-			_bnt_back ctrlSetPositionW _size;
-			
-			_bnt_Ent ctrlSetPositionX _size;
-			_bnt_Ent ctrlSetPositionW _size;
-
-			_bnt_back ctrlCommit 0;
-			_bnt_Ent ctrlCommit 0;
-
-			//- Set Color
-				_bnt_Ent ctrlSetBackgroundColor [
-					(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77]),
-					(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51]),
-					(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08]),
-					0.8
-				];
-		
-		//- Botton Text
-			_bnt_Ent ctrlSetText localize "STR_BCE_Control_Turret";
-
-		private _commitTime = [0.3, 0] select _interfaceInit;
-		//- Bottons Fade-out "when showing [Sub-Menu]"
-			if !(_line < 1) then {
-				_group ctrlEnable false;
-				_group ctrlSetFade 0.75;
-				_group ctrlCommit _commitTime;
-			} else {
-				_group ctrlSetFade 0;
-				_group ctrlCommit _commitTime;
-			};
-
-		4640
-	};
 	case "message": {
 		(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_line"];
 		//- Arrange Bottons layout
@@ -164,6 +118,98 @@ private _return = switch _page do {
 	};
 	case "Task_Result": {
 		4663
+	};
+	case "VideoFeeds": {
+		(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_line"];
+
+		//- Arrange Bottons layout
+			{
+				_x ctrlShow false;
+				false
+			} count (_ctrls select [2]);
+
+			_bnt_back = _ctrls # 0;
+			_bnt_Ent = _ctrls # 1;
+
+			_size = (2 * (_ctrlPOS # 2));
+
+			_bnt_back ctrlSetPositionW _size;
+			
+			_bnt_Ent ctrlSetPositionX _size;
+			_bnt_Ent ctrlSetPositionW _size;
+
+			_bnt_back ctrlCommit 0;
+			_bnt_Ent ctrlCommit 0;
+
+			//- Set Color
+				_bnt_Ent ctrlSetBackgroundColor [
+					(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77]),
+					(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51]),
+					(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08]),
+					0.8
+				];
+		
+		//- Botton Text
+			_bnt_Ent ctrlSetText localize "STR_BCE_Control_Turret";
+
+		private _commitTime = [0.3, 0] select _interfaceInit;
+		//- Bottons Fade-out "when showing [Sub-Menu]"
+			if !(_line < 1) then {
+				_group ctrlEnable false;
+				_group ctrlSetFade 0.75;
+				_group ctrlCommit _commitTime;
+			} else {
+				_group ctrlSetFade 0;
+				_group ctrlCommit _commitTime;
+			};
+
+		4640
+	};
+	case "Group": {
+		(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_line"];
+
+		//- Arrange Bottons layout
+			{
+				_x ctrlShow false;
+				false
+			} count (_ctrls select [2]);
+
+			_bnt_back = _ctrls # 0;
+			_bnt_Ent = _ctrls # 1;
+
+			_size = (2 * (_ctrlPOS # 2));
+
+			_bnt_back ctrlSetPositionW _size;
+			
+			_bnt_Ent ctrlSetPositionX _size;
+			_bnt_Ent ctrlSetPositionW _size;
+
+			_bnt_back ctrlCommit 0;
+			_bnt_Ent ctrlCommit 0;
+
+			//- Set Color
+				_bnt_Ent ctrlSetBackgroundColor [
+					(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77]),
+					(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51]),
+					(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08]),
+					0.8
+				];
+		
+		//- Botton Text
+			_bnt_Ent ctrlSetText localize "STR_BCE_Control_Turret";
+
+		private _commitTime = [0.3, 0] select _interfaceInit;
+		//- Bottons Fade-out "when showing [Sub-Menu]"
+			if !(_line < 1) then {
+				_group ctrlEnable false;
+				_group ctrlSetFade 0.75;
+				_group ctrlCommit _commitTime;
+			} else {
+				_group ctrlSetFade 0;
+				_group ctrlCommit _commitTime;
+			};
+
+		4641
 	};
 	default {
 		//- Clear up Menu Components
