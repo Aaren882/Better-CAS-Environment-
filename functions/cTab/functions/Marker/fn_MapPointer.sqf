@@ -11,7 +11,7 @@ private _players = [_positions, ace_map_gestures_fnc_getProximityPlayers, missio
     if (_x == ACE_player && { !isNil "ace_map_gestures_cursorPosition" }) then {
       _pos = ace_map_gestures_cursorPosition;
     };
-    private _colorMap = ace_map_gestures_GroupColorCfgMappingNew getVariable [(groupID (group _x)), [ace_map_gestures_defaultLeadColor, ace_map_gestures_defaultColor]];
+    private _colorMap = ace_map_gestures_GroupColorCfgMappingNew getOrDefault [toLower groupId (group _x), [ace_map_gestures_defaultLeadColor, ace_map_gestures_defaultColor]]; 
     private _color = _colorMap select (_x != leader _x);
     
     _mapHandle drawIcon ["a3\ui_f\data\igui\cfg\simpletasks\types\target_ca.paa", _color, _pos, 25, 25, 0, "", 1, 0.030, "RobotoCondensedBold", "left"];
