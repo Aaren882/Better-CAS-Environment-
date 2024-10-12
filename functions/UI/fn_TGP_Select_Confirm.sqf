@@ -5,7 +5,6 @@ private _player = player;
 if ((_player getVariable ["TGP_View_EHs", -1]) != -1) exitWith {};
 
 #define Equal isEqualTo
-//#define have_ACE (isClass(configFile >> "CfgPatches" >> "ace_hearing"))
 #if __has_include("\z\ace\addons\hearing\config.bin")
 	#define have_ACE 1
 #endif
@@ -20,7 +19,7 @@ showCinemaBorder false;
 		BCE_have_ACE_earPlugs = _player getVariable ["ACE_hasEarPlugsin", false];
 		_player setVariable ["ACE_hasEarPlugsIn", true, true];
 
-		[[true]] call ace_hearing_fnc_updateVolume;
+		[true] call ace_hearing_fnc_updateVolume;
 		[] call ace_hearing_fnc_updateHearingProtection;
 	} else {
 		0 fadeSound 0.1;
@@ -40,13 +39,12 @@ _config_path = configOf _vehicle;
 
 _Optic_LODs = [_vehicle,0] call BCE_fnc_Check_Optics;
 
-if (((_player getVariable ["TGP_View_Selected_Optic",[]]) Equal []) || !(_vehicle Equal ((_player getVariable "TGP_View_Selected_Optic") # 1))) then {
+if (((_player getVariable ["TGP_View_Selected_Optic",[]]) findIf {true} > -1) || !(_vehicle Equal ((_player getVariable "TGP_View_Selected_Optic") # 1))) then {
 	_player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 };
 
 _Selected_Optic = (_player getVariable "TGP_View_Selected_Optic") # 0;
-_turret = _Selected_Optic # 1;
-_is_Detached = _Selected_Optic # 2;
+_Selected_Optic params ["","_turret","_is_Detached"];
 
 //- Setup Camera
 _cam attachTo [_vehicle, [0,0,0],_Selected_Optic # 0,!_is_Detached];
@@ -56,7 +54,7 @@ TGP_View_Camera = [_cam,_pphandle];
 556 cutRsc ["BCE_TGP_View_GUI","PLAIN",0.3,false];
 cutText ["", "BLACK IN",0.5];
 
-_player setVariable ["TGP_View_laser_update", [time,""]];
+localNamespace setVariable ["TGP_View_laser_update", [time,""]];
 
 //Crews
 _turret_Unit = _vehicle turretUnit _turret;
@@ -94,7 +92,7 @@ _pilot_ctrl = _display displayCtrl 1028;
 _Gunner_ctrl = _display displayCtrl 1029;
 _Vehicle_ctrl = _display displayCtrl 1030;
 
-//UI
+//- UI
 _pilot_ctrl ctrlSetText (format ["%1: %2", localize "str_position_pilot", _pilot]);
 _Gunner_ctrl ctrlSetText (format ["%1: %2",localize "STR_GUNNER", _gunner]);
 _Vehicle_ctrl ctrlSetText (getText (_config_path >> "DisplayName"));
@@ -173,7 +171,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 	#if __has_include("\A3TI\config.bin")
 		_A3TI = call A3TI_fnc_getA3TIVision;
 		if (_visionType == 2) then {
-			_vision_ctrl ctrlSetText format ["%1 %2", localize "STR_BCE_CMODE",[_A3TI, "NORMAL"] select (isnil {_A3TI})];
+			_vision_ctrl ctrlSetText ([localize "STR_BCE_CMODE",[_A3TI, "NORMAL"] select (isnil {_A3TI})] joinString " ");
 		};
 	#endif
 
@@ -181,7 +179,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 	_time_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Time",[daytime] call BIS_fnc_timeToString]);
 	_Altitude_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Altitude",Round ((getPosASL _vehicle) # 2)]);
 	_Grid_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Grid",mapGridPosition (screenToWorld [0.5,0.5])]);
-	_camDir_ctrl ctrlSetText (format ["%1°", [getDirVisual _cam,3] call CBA_fnc_formatNumber]);
+	_camDir_ctrl ctrlSetText (([getDirVisual _cam,3] call CBA_fnc_formatNumber) + "°");
 	_Fuel_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Fuel", round ((fuel _vehicle) * 100),"%"]);
 	_Engine_damage = _vehicle getHitPointDamage "hitEngine";
 
@@ -236,13 +234,12 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
 	//Laser
 	if (_vehicle isLaserOn _turret) then {
-		_laser_Vars = _player getVariable "TGP_View_laser_update";
+		private _laser_Vars = localNamespace getVariable "TGP_View_laser_update";
 		if ((_laser_Vars # 0) <= time) then {
-			if ((_laser_Vars # 1) Equal "") then {
-				_player setVariable ["TGP_View_laser_update", [time+0.2,"L T D / R"]];
-			} else {
-				_player setVariable ["TGP_View_laser_update", [time+0.2,""]];
-			};
+			localNamespace setVariable ["TGP_View_laser_update", [
+				time + 0.2,
+				["", "L T D / R"] select ((_laser_Vars # 1) Equal "")
+			]];
 			_Laser_ctrl ctrlSetText (_laser_Vars # 1);
 		};
 	} else {
@@ -293,7 +290,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
 			//-Except for Zeus camera
 			if (isnull curatorcamera) then {
-				_cam = TGP_View_Camera # 0;
+				private _cam = TGP_View_Camera # 0;
 				_cam cameraeffect ["Terminate", "back"];
 				camDestroy _cam;
 			};
@@ -306,7 +303,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 			#ifdef have_ACE
 				if !(BCE_have_ACE_earPlugs) then {
 					_player setVariable ["ACE_hasEarPlugsIn", false, true];
-					[[true]] call ace_hearing_fnc_updateVolume;
+					[true] call ace_hearing_fnc_updateVolume;
 					[] call ace_hearing_fnc_updateHearingProtection;
 				};
 			#else

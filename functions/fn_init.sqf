@@ -51,7 +51,7 @@ call BCE_fnc_ClientSide;
 		#if __has_include("\z\ace\addons\hearing\config.bin")
 			if !(BCE_have_ACE_earPlugs) then {
 				player setVariable ["ACE_hasEarPlugsIn", false, true];
-				[[true]] call ace_hearing_fnc_updateVolume;
+				[true] call ace_hearing_fnc_updateVolume;
 				[] call ace_hearing_fnc_updateHearingProtection;
 			};
 		#else

@@ -143,7 +143,7 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 
 		_map drawRectangle [
 			_posOrig vectorAdd [-_width/2,-_height/2],
-			_width/2,_height/2,0,_color
+			_width/2,_height/2,0,_color,""
 		] ;
 
 		private _pointNE = [] ;
@@ -205,7 +205,11 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 
 		_map drawRectangle [
 			_posOrig vectorAdd [-_width/2,-_height/2],
-			abs _width/2,abs _height/2,0,_color
+			abs _width/2,
+			abs _height/2,
+			0,
+			_color,
+			""
 		] ;
 	} forEach _points ;
 }] ;
