@@ -54,18 +54,111 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 	h = HPOS * (((60)) / 2048 * CustomPhoneH)
 
 //- message Line
-class ATAK_Message: RscStructuredText
-{
-	x = 0;
-	y = 0;
-	w = PhoneBFTContainerW(3);
-	h = 0.7 * (((60)) / 2048 * CustomPhoneH);
-	size = 0.65 * (((60)) / 2048 * CustomPhoneH);
-	class Attributes
+	class ATAK_Message: RscStructuredText
 	{
-		color = "#dee0de";
+		x = 0;
+		y = 0;
+		w = PhoneBFTContainerW(3);
+		h = 0.7 * (((60)) / 2048 * CustomPhoneH);
+		size = 0.65 * (((60)) / 2048 * CustomPhoneH);
+		class Attributes
+		{
+			color = "#dee0de";
+		};
 	};
-};
+
+//- Group Manage
+	class ATAK_Group_Manage_System: RscControlsGroupNoScrollbars
+	{
+		x = 0;
+		y = 0;
+		w = PhoneBFTContainerW(3);
+		h = (3 * 0.7) * (((60)) / 2048 * CustomPhoneH); // - Display with 3 lines
+		class controls
+		{
+			class menuBackground: RscBackground
+			{
+				idc = -1;
+				x = 0;
+				y = 0.7 * (((60)) / 2048 * CustomPhoneH);
+				w = PhoneBFTContainerW(3);
+				h = (2 * 0.7) * (((60)) / 2048 * CustomPhoneH);
+				colorBackground[] = {0,0,0,0.2};
+			};
+			#define BNT_W 0.4
+			#define TAG_BNT_W(SIZE) (3 - (SIZE * BNT_W))
+			class Tag_Bnt: BCE_RscButtonMenu
+			{
+				idc = 15;
+				w = PhoneBFTContainerW(TAG_BNT_W(1));
+				h = 0.7 * (((60)) / 2048 * CustomPhoneH);
+				size = 0.7 * (((60)) / 2048 * CustomPhoneH);
+
+				text = "";
+
+				colorBackground[] = {0.2,0.2,0.2,0.86};
+				colorBackground2[] = {0.2,0.2,0.2,0.86};
+				colorBackgroundFocused[] = {0.2,0.2,0.2,0.5};
+
+				animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
+				animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+				animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.65)";
+
+				class Attributes: Attributes
+				{
+					size = 0.8;
+					valign = "middle";
+				};
+			};
+			//- Chat Bnt
+				class Msg_bnt: Tag_Bnt
+				{
+					idc = 16;
+					style = "0x02 + 0x0C + 0x0100";
+					shadow = 1;
+					text = "<img image='MG8\AVFEVFX\data\chat.paa'/>";
+					
+					x = PhoneBFTContainerW(TAG_BNT_W(1));
+					w = PhoneBFTContainerW(BNT_W);
+					size = 0.65 * (((60)) / 2048 * CustomPhoneH);
+					
+					colorBackground[] = {0.26,0.26,0.26,0.86};
+					colorBackground2[] = {0.26,0.26,0.26,0.86};
+					colorBackgroundFocused[] = {0.26,0.26,0.26,0.5};
+
+					class Attributes: Attributes
+					{
+						size = 1;
+						align = "center";
+						valign = "Bottom";
+					};
+				};
+		};
+	};
+	class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
+	{
+		class controls: controls
+		{
+			class menuBackground:menuBackground {};
+			class Tag_Bnt: Tag_Bnt
+			{
+				w = PhoneBFTContainerW(TAG_BNT_W(2));
+			};
+			class Msg_bnt: Msg_bnt {};
+			class Edit_bnt: Msg_bnt
+			{
+				idc = 17;
+				x = PhoneBFTContainerW(TAG_BNT_W(2));
+				text = "<img image='MG8\AVFEVFX\data\edit.paa'/>";
+
+				colorBackground[] = {0.23,0.23,0.23,0.86};
+				colorBackground2[] = {0.23,0.23,0.23,0.86};
+				colorBackgroundFocused[] = {0.23,0.23,0.23,0.5};
+			};
+		};
+	};
+	#undef BNT_W
+	#undef TAG_BNT_W
 
 PHONE_CLASS
 {
@@ -1463,7 +1556,7 @@ PHONE_CLASS
 								valign = "Bottom";
 							};
 						};
-						class messageBox: cTab_RscControlsGroup
+						class Group_Box: cTab_RscControlsGroup
 						{
 							idc = 10;
 
@@ -1716,6 +1809,7 @@ PHONE_CLASS
 					{
 						class Title: Title
 						{
+							idc = 5;
 							text = "Group";
 							w = PhoneBFTContainerW(2.4);
 						};
@@ -1727,9 +1821,14 @@ PHONE_CLASS
 							text = "<img image='MG8\AVFEVFX\data\add.paa' />";
 
 							x = PhoneBFTContainerW(2.4);
-							w = PhoneBFTContainerW(3/5);
+							w = PhoneBFTContainerW(0.6);
 							
 							onButtonClick = "";
+						};
+
+						class Group_Box: Group_Box
+						{
+							idc = 10;
 						};
 					};
 				};
