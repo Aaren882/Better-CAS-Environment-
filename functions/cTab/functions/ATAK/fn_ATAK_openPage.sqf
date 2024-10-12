@@ -196,7 +196,7 @@ private _return = switch _page do {
 				];
 		
 		//- Botton Text
-			_bnt_Ent ctrlSetText localize "STR_BCE_Control_Turret";
+			_bnt_Ent ctrlSetText localize "STR_BCE_Locate_Position";
 
 		private _commitTime = [0.3, 0] select _interfaceInit;
 		//- Bottons Fade-out "when showing [Sub-Menu]"

@@ -1428,7 +1428,41 @@ _settings apply {
 						
 				};
 				case "Group": {
+					private _list = _group controlsGroupCtrl 10;
+					private _tag_Name = "ATAK_Group_Manage_Custom";
+					private _tag_class = [configFile >> "RscTitles" >> _tag_Name, configFile >> _tag_Name] select _isDialog;
+					private _customTeam = ((createHashMapFromArray [["CCT",["Assault Team"]],["TACP",["Platoon"]]]) toArray false);
+					reverse _customTeam;
 
+					//- Clear List
+						{ctrlDelete _x} count allControls _list;
+					
+					//- Create Option Tags
+						{
+							_x params [["_title",""],["_values",[]]];
+
+							if (_title == "") then {continue};
+							_values params ["_teamName"];
+
+							private _ctrl = _display ctrlCreate [
+								_tag_class,
+								100 + _forEachIndex,
+								_list
+							];
+
+							//- Sorting Position
+								_ctrl ctrlSetPositionY (_forEachIndex * (ctrlPosition _ctrl # 3));
+								_ctrl ctrlCommit 0;
+
+							private _tag = _ctrl controlsGroupCtrl 15;
+
+							_tag ctrlSetStructuredText parseText format [
+								"<img size='1' image='\MG8\AVFEVFX\data\ExpandList.paa'/> %1<t align='right'>%2 </t>",
+								_title,
+								_teamName //- Call Sign or something you like
+							];
+						} forEach _customTeam;
+					
 				};
 			};
 		};
