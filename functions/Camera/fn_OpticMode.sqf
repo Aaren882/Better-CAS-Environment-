@@ -13,7 +13,7 @@ if (_type == 2) then {
 // FLIR setting
 private _text = switch (_type) do
 {
-	#if __has_include("\A3TI\config.bin")
+	#if __has_include("\A3TI\functions.hpp")
 		case 0: {
 			call A3TI_fnc_ppEffects;
 			call A3TI_fnc_getA3TIVision;

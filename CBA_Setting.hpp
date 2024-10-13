@@ -190,7 +190,7 @@
 
 ///////////////////TGP//////////////////////
 //- A3 Thermal Improvement
-#if __has_include("\A3TI\config.bin")
+#if __has_include("\A3TI\functions.hpp")
 	[
 		"BCE_AUTO_LTM_A3TI_fn","CHECKBOX",
 		[localize "STR_BCE_A3TI_AUTO_LTM", localize "STR_BCE_A3TI_AUTO_LTM_tip"],

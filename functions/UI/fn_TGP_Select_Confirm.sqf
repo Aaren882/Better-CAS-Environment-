@@ -168,7 +168,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
 	//-A3TI
 	_visionType = _player getVariable ["TGP_View_Optic_Mode", 2];
-	#if __has_include("\A3TI\config.bin")
+	#if __has_include("\A3TI\functions.hpp")
 		_A3TI = call A3TI_fnc_getA3TIVision;
 		if (_visionType == 2) then {
 			_vision_ctrl ctrlSetText ([localize "STR_BCE_CMODE",[_A3TI, "NORMAL"] select (isnil {_A3TI})] joinString " ");
@@ -331,7 +331,7 @@ _player setVariable ["TGP_View_EHs",_idEH,true];
 
 //-Set Camera Vision Mode
 _visionMode = _player getVariable ["TGP_View_Optic_Mode",2];
-#if __has_include("\A3TI\config.bin")
+#if __has_include("\A3TI\functions.hpp")
 	_A3TI = A3TI_FLIR_VisionMode;
 	_visionMode = [_visionMode,_A3TI] select (_A3TI > -1);
 #endif
