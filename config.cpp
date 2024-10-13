@@ -9,7 +9,7 @@ class CfgPatches
 		requiredVersion="2.00";
 		requiredAddons[]=
 		{
-			#if __has_include("\A3TI\config.bin")
+			#if __has_include("\A3TI\functions.hpp")
 				"A3TI",
 			#endif
 			#if __has_include("\z\ace\addons\map\config.bin")
@@ -981,7 +981,7 @@ class CfgFunctions
 		};
 	#endif
 
-	#if __has_include("\A3TI\config.bin")
+	#if __has_include("\A3TI\functions.hpp")
 		class A3TI
 		{
 			class core

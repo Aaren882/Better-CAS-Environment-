@@ -97,13 +97,13 @@ _uavCams apply {
 		_cam cameraEffect ["INTERNAL","BACK",_renderTarget];
 
 		_vision = cTab_player getVariable ["TGP_View_Optic_Mode", 2];
-		#if __has_include("\A3TI\config.bin")
+		#if __has_include("\A3TI\functions.hpp")
 			private _A3TI = A3TI_FLIR_VisionMode;
 		#endif
 
 		//-Set Vision Mode
 		_vision = switch (true) do {
-			#if __has_include("\A3TI\config.bin")
+			#if __has_include("\A3TI\functions.hpp")
 				case (_vision == 5 || _A3TI == 0): {2};
 				case (_vision == 4 || _A3TI == 1): {7};
 			#else
