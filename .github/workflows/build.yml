@@ -2,28 +2,28 @@ name: Build
 
 on: [push]
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Setup HEMTT
-#         uses: arma-actions/hemtt@v1
-#       - name: Run HEMTT build
-#         run: hemtt release
-#       - name: Upload Release
-#         uses: actions/upload-artifact@v4
-#         with:
-#           name: my-mod-latest
-#           path: release/my-mod-latest.zip
-
 jobs:
-  test-sqflint:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-
-      - uses: arma-actions/sqflint@v1.0
-        name: Validate with SQFLint
+      - uses: actions/checkout@v2
+      - name: Setup HEMTT
+        uses: arma-actions/hemtt@v1
+      - name: Run HEMTT build
+        run: hemtt release
+      - name: Upload Release
+        uses: actions/upload-artifact@v4
         with:
-          args: --exit e --directory functions
+          name: my-mod-latest
+          path: release/my-mod-latest.zip
+
+# jobs:
+#   test-sqflint:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@master
+
+#       - uses: arma-actions/sqflint@v1.0
+#         name: Validate with SQFLint
+#         with:
+#           args: --exit e --directory functions
