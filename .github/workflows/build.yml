@@ -23,7 +23,7 @@ jobs:
     - name: Run HEMTT build
       run: hemtt build
     - name: Rename build folder
-      run: mv .hemttout/build .hemttout/@ace
+      run: mv .hemttout/build .hemttout/@BCE
 
 # jobs:
 #   test-sqflint:
