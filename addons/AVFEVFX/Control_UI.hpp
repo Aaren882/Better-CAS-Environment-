@@ -538,7 +538,7 @@ class RscDisplayAVTerminal
 			colorBackground[] = {0,0,0,0.5};
 		};
 
-		#define TextH (safezoneH / 30)
+		#define TextH(SIZE) SIZE * (safezoneH / 30)
 		//-Text
 		class New_Task_Title: RscText
 		{
@@ -560,7 +560,7 @@ class RscDisplayAVTerminal
 			x = "50 * (safezoneW / 64) + (safezoneX)";
 			y = "3 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01)";
 			w = "14 * (safezoneW / 64)";
-			h = 11 * TextH;
+			h = TextH(11);
 			show = 0;
 			colorBackground[] = {0,0,0,0};
 			//lineSpacing = 0.5;
@@ -576,7 +576,7 @@ class RscDisplayAVTerminal
 			colorBackground[] = {0,0,0,0.5};
 			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 			y = "((safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + ((11/2)*(safezoneH / 30)))";
-			h = 9 * TextH;
+			h = TextH(9);
 			fade = 1;
 			Enabled = 0;
 			lineSpacing = 0.5;
@@ -611,7 +611,7 @@ class RscDisplayAVTerminal
 			x = "50 * (safezoneW / 64) + (safezoneX)";
 			y = "3 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01)";
 			w = "14 * (safezoneW / 64)";
-			h = 11.1 * TextH;
+			h = TextH(11.1);
 			colorBackground[] = {0,0,0,0};
 			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
 			rowHeight = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.5";
