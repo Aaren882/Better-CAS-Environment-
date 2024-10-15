@@ -1,20 +1,20 @@
 /*
-	Name: cTab_fnc_updateUserMarkerList
+  Name: cTab_fnc_updateUserMarkerList
 
-	Author(s):
-		Gundy
+  Author(s):
+    Gundy
 
-	Description:
-		Update lists of user markers by finding extracting all the user markers with the right encryption key and then translate the marker data in to a format so that it can be drawn quicker.
+  Description:
+    Update lists of user markers by finding extracting all the user markers with the right encryption key and then translate the marker data in to a format so that it can be drawn quicker.
 
-	Parameters:
-		NONE
+  Parameters:
+    NONE
 
-	Returns:
-		BOOLEAN - Always TRUE
+  Returns:
+    BOOLEAN - Always TRUE
 
-	Example:
-		call cTab_fnc_updateUserMarkerList;
+  Example:
+    call cTab_fnc_updateUserMarkerList;
 */
 
 if (isNil "cTabIfOpen") exitWith {false};
@@ -24,7 +24,7 @@ private _list = [];
   private _marker = _x;
 
   //- Skip on (Prefix "-") or (Marker is already in "_list")
-		if (
+    if (
       _marker select [0,1] == "-"
     ) then {continue};
   
@@ -32,7 +32,7 @@ private _list = [];
   private _config = configFile >> "CfgMarkers" >> markerType _marker;
 
   //- Skip Conditions
-		if (
+    if (
       _markerShape < 0 || //- in-affective "MarkerShape"
       (_markerShape == 0 && getNumber (_config >> "size") == 0) //- if it's System Marker
     ) then {continue};

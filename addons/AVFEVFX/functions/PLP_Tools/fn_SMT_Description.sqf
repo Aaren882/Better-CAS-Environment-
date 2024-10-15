@@ -2,9 +2,9 @@
 params ["_item","_display"];
 
 private _cGrp = if (isnil{_display}) then {
-	(findDisplay 12) ctrlCreate ["PLP_SMT_Description",73454];
+  (findDisplay 12) ctrlCreate ["PLP_SMT_Description",73454];
 } else {
-	_display displayCtrl 73454;
+  _display displayCtrl 73454;
 };
 
 private _displayName = getText (_item >> "displayNameFull") ;

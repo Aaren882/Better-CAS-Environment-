@@ -10,11 +10,11 @@ _pos params ["_posX","_posY"];
 _posX = str round floor (_posX / _divisor);
 _posY = str round floor (_posY / _divisor);
 while {count _posX < _gridResolution} do {
-	_posX = "0" + _posX;
+  _posX = "0" + _posX;
 };
 
 while {count _posY < _gridResolution} do {
-	_posY = "0" + _posY;
+  _posY = "0" + _posY;
 };
 
 _posX + _posY

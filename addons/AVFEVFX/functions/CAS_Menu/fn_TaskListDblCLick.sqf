@@ -8,18 +8,18 @@ _title = _display displayctrl 2003;
 _Task_Type = _display displayCtrl 2107;
 _sel_TaskType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
 _list_result = switch _sel_TaskType do {
-	//-5 line
-	case 1: {
-		_TaskList = _display displayCtrl 2005;
-		_taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
-		[_TaskList,_taskVar]
-	};
-	//-9 line
-	default {
-		_TaskList = _display displayCtrl 2002;
-		_taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
-		[_TaskList,_taskVar]
-	};
+  //-5 line
+  case 1: {
+    _TaskList = _display displayCtrl 2005;
+    _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
+    [_TaskList,_taskVar]
+  };
+  //-9 line
+  default {
+    _TaskList = _display displayCtrl 2002;
+    _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
+    [_TaskList,_taskVar]
+  };
 };
 _list_result params ["_TaskList","_taskVar"];
 
@@ -34,90 +34,90 @@ _description = _display displayctrl ([2004,20041] select _extend_desc);
 
 //-Extended Description
 if (_extend_desc) then {
-	private ["_vehicle","_unit_info","_squad_title","_squad_pic","_squad_list","_Button_Racks","_text","_turret_optics","_current_optic","_turrets"];
-	_vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
+  private ["_vehicle","_unit_info","_squad_title","_squad_pic","_squad_list","_Button_Racks","_text","_turret_optics","_current_optic","_turrets"];
+  _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
 
-	//-Display info
-	_squad_title = _display displayctrl 20114;
-	_squad_pic = _display displayctrl 20115;
-	_squad_list = _display displayctrl 20116;
-	_squad_list ctrlSetPositionH call compile (getText(configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _squad_list >> "H"));
-	_squad_list ctrlCommit 0;
+  //-Display info
+  _squad_title = _display displayctrl 20114;
+  _squad_pic = _display displayctrl 20115;
+  _squad_list = _display displayctrl 20116;
+  _squad_list ctrlSetPositionH call compile (getText(configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _squad_list >> "H"));
+  _squad_list ctrlCommit 0;
 
-	lbClear _squad_list;
+  lbClear _squad_list;
 
-	//-Check turrets
-	_turret_optics = [_vehicle,0] call BCE_fnc_Check_Optics;
-	_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
-	_current_optic = _turret_optics find (_Selected_Optic # 0);
-	_turrets = _turret_optics apply {((_x # 1) # 0) + 1};
+  //-Check turrets
+  _turret_optics = [_vehicle,0] call BCE_fnc_Check_Optics;
+  _Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
+  _current_optic = _turret_optics find (_Selected_Optic # 0);
+  _turrets = _turret_optics apply {((_x # 1) # 0) + 1};
 
-	#if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
-		_Button_Racks = _display displayctrl 201141;
-		_List_Racks = _display displayctrl 201142;
-		_radio_Racks = _vehicle getVariable ["acre_sys_rack_vehicleRacks", []];
-		_Button_Racks ctrlshow ({isplayer _x} count (crew _vehicle) > 0);
-	#else
-		_Button_Racks = controlNull;
-		_List_Racks = controlNull;
-	#endif
+  #if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
+    _Button_Racks = _display displayctrl 201141;
+    _List_Racks = _display displayctrl 201142;
+    _radio_Racks = _vehicle getVariable ["acre_sys_rack_vehicleRacks", []];
+    _Button_Racks ctrlshow ({isplayer _x} count (crew _vehicle) > 0);
+  #else
+    _Button_Racks = controlNull;
+    _List_Racks = controlNull;
+  #endif
 
-	{_x ctrlshow true} forEach [_squad_title,_squad_pic,_squad_list,_List_Racks];
+  {_x ctrlshow true} forEach [_squad_title,_squad_pic,_squad_list,_List_Racks];
 
-	//-get crew Info
-	{
-		private ["_unit_x","_seat","_turret_c","_turret_Index","_name","_freq","_radioInfo","_add","_turret_info","_unit_info","_title","_Racks_info","_i","_i_List"];
-		_unit_x = _x;
-		_turret_c = _vehicle unitTurret _unit_x;
-		_turret_Index = _turret_optics findIf {_turret_c in _x};
-		_seat = getText ([_vehicle, _turret_c] call BIS_fnc_turretConfig >> "gunnerName");
-		_name = ((name _unit_x) splitString " ") # 0;
-		_add = _squad_list lbAdd format ["%1 - %2",[_seat,localize "STR_DRIVER"] select (_seat == ""),_name];
+  //-get crew Info
+  {
+    private ["_unit_x","_seat","_turret_c","_turret_Index","_name","_freq","_radioInfo","_add","_turret_info","_unit_info","_title","_Racks_info","_i","_i_List"];
+    _unit_x = _x;
+    _turret_c = _vehicle unitTurret _unit_x;
+    _turret_Index = _turret_optics findIf {_turret_c in _x};
+    _seat = getText ([_vehicle, _turret_c] call BIS_fnc_turretConfig >> "gunnerName");
+    _name = ((name _unit_x) splitString " ") # 0;
+    _add = _squad_list lbAdd format ["%1 - %2",[_seat,localize "STR_DRIVER"] select (_seat == ""),_name];
 
-		_turret_info = if (((_turret_Index > -1) && (count _turrets > 0))) then {
-			_turret_optics # _turret_Index
-		} else {
-			nil
-		};
+    _turret_info = if (((_turret_Index > -1) && (count _turrets > 0))) then {
+      _turret_optics # _turret_Index
+    } else {
+      nil
+    };
 
-		//-if it's a pilot -> "yellow Color"
-		if (_seat == "") then {
-			_squad_list lbSetSelectColor [_add,[1, 1, 0, 1]];
-			_squad_list lbSetSelectColorRight [_add,[1, 1, 0, 1]];
-		};
+    //-if it's a pilot -> "yellow Color"
+    if (_seat == "") then {
+      _squad_list lbSetSelectColor [_add,[1, 1, 0, 1]];
+      _squad_list lbSetSelectColorRight [_add,[1, 1, 0, 1]];
+    };
 
-		//-get UNIT info
-		_unit_info = [_unit_x,_turret_info] call BCE_fnc_getUnitParams;
+    //-get UNIT info
+    _unit_info = [_unit_x,_turret_info] call BCE_fnc_getUnitParams;
 
-		#if __has_include("\z\tfar\addons\core\script_component.hpp")
-			_freq = _unit_x call BCE_fnc_getFreq_TFAR;
-			_squad_list lbSetTextRight [_add, "LR-" + ([_freq,"“NA”"] select (isnil {_freq}))];
-		#else
-			_squad_list lbSetTextRight [_add, _unit_info # 1];
-		#endif
+    #if __has_include("\z\tfar\addons\core\script_component.hpp")
+      _freq = _unit_x call BCE_fnc_getFreq_TFAR;
+      _squad_list lbSetTextRight [_add, "LR-" + ([_freq,"“NA”"] select (isnil {_freq}))];
+    #else
+      _squad_list lbSetTextRight [_add, _unit_info # 1];
+    #endif
 
-		_squad_list lbSetData [_add, str _unit_info];
+    _squad_list lbSetData [_add, str _unit_info];
 
-	} forEach flatten ((crew _vehicle) select {(_vehicle unitTurret _x) in ([[-1]] + allTurrets _vehicle)});
+  } forEach flatten ((crew _vehicle) select {(_vehicle unitTurret _x) in ([[-1]] + allTurrets _vehicle)});
 
-	//-set selected Turret Unit
-	private _isEmpty = ((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_vehicle isNotEqualTo (_Selected_Optic # 1));
-	if (_isEmpty or ((lbCurSel _squad_list) < 0)) then {
-		if (lbsize _squad_list > 0) then {
-			_squad_list lbSetCurSel ([0,_current_optic] select (count _turrets > 0));
-		} else {
-			(_display displayctrl 20114) ctrlSetStructuredText parseText "NA";
-		};
-	} else {
-		private _unit = (call compile (_squad_list lbData (lbCurSel _squad_list))) # 1;
-		(_display displayctrl 20114) ctrlSetStructuredText parseText format ["[%1]",_unit];
-	};
+  //-set selected Turret Unit
+  private _isEmpty = ((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_vehicle isNotEqualTo (_Selected_Optic # 1));
+  if (_isEmpty or ((lbCurSel _squad_list) < 0)) then {
+    if (lbsize _squad_list > 0) then {
+      _squad_list lbSetCurSel ([0,_current_optic] select (count _turrets > 0));
+    } else {
+      (_display displayctrl 20114) ctrlSetStructuredText parseText "NA";
+    };
+  } else {
+    private _unit = (call compile (_squad_list lbData (lbCurSel _squad_list))) # 1;
+    (_display displayctrl 20114) ctrlSetStructuredText parseText format ["[%1]",_unit];
+  };
 
-	//-position Extended Description
-	if ((ctrlText _desc_show) == "<") then {
-		_description ctrlSetPositionH 0;
-		_description ctrlCommit 0;
-	};
+  //-position Extended Description
+  if ((ctrlText _desc_show) == "<") then {
+    _description ctrlSetPositionH 0;
+    _description ctrlCommit 0;
+  };
 };
 
 _sendData = _display displayCtrl 2105;
@@ -143,14 +143,14 @@ _shownCtrls = [_display,_curLine,0] call BCE_fnc_Show_CurTaskCtrls;
 {_x ctrlshow true} count [_title,_description];
 
 switch _sel_TaskType do {
-	//-5 line
-	case 1: {
-		call BCE_fnc_DblClick5line;
-	};
-	//-9 line
-	default {
-		if (_curLine in [2,3,4]) then {_clearbut ctrlShow false};
-		call BCE_fnc_DblClick9line;
-	};
+  //-5 line
+  case 1: {
+    call BCE_fnc_DblClick5line;
+  };
+  //-9 line
+  default {
+    if (_curLine in [2,3,4]) then {_clearbut ctrlShow false};
+    call BCE_fnc_DblClick9line;
+  };
 };
 _description ctrlCommit 0;

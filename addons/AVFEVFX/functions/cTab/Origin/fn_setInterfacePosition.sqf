@@ -1,21 +1,21 @@
 /*
-	Name: cTab_fnc_setInterfacePosition
-	
-	Author(s):
-		Gundy
-	
-	Description:
-		Move the whole interface by a provided offset
-	
-	Parameters:
-		0: STRING - uiNamespace variable name of interface
-		1: ARRAY  - offset in the form of [x,y]
-	
-	Returns:
-		BOOLEAN - TRUE
-	
-	Example:
-		["cTab_Tablet_dlg",[0.2,0.1]] call cTab_fnc_setInterfacePosition;
+  Name: cTab_fnc_setInterfacePosition
+  
+  Author(s):
+    Gundy
+  
+  Description:
+    Move the whole interface by a provided offset
+  
+  Parameters:
+    0: STRING - uiNamespace variable name of interface
+    1: ARRAY  - offset in the form of [x,y]
+  
+  Returns:
+    BOOLEAN - TRUE
+  
+  Example:
+    ["cTab_Tablet_dlg",[0.2,0.1]] call cTab_fnc_setInterfacePosition;
 */
 
 private ["_display","_isDialog","_backgroundCtrl","_backgroundClassName","_displayConfigContainers"];
