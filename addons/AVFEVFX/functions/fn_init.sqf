@@ -1,4 +1,3 @@
-// #include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
 #pragma hemtt flag pe23_ignore_has_include
 #define getOpticVars ([_unit,0] call BCE_fnc_Check_Optics)
 
