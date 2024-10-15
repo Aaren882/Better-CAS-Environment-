@@ -62,7 +62,7 @@ if ("USAF" in _class) then {
                 localize "STR_BCE_Anti_Rad"
               };
               default {
-                _x
+                _x;
               };
             };
           } joinString "/";
@@ -70,7 +70,8 @@ if ("USAF" in _class) then {
         
         private _str = [format ["<t size='0.7' color='#e3c500'> %1</t>",trim _x], format [" %1",trim _x]] select (_i == 0);
         _i = _i + 1;
-        _str
+        
+        _str;
       };
       //-output
       _str joinString ":";

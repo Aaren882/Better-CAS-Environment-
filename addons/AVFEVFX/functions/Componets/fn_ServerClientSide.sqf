@@ -24,7 +24,7 @@ addMissionEventHandler ["EachFrame", {
 
     //-Remove Client Side Handler If Have Multiple Handlers
     private _Server_unit = _thisArgs # 0;
-    private _BCE_list = (allPlayers select {_x getVariable ["Have_BCE_Loaded",false]}) apply {str _x};
+    private _BCE_list = (allPlayers select {_x getVariable ["Have_BCE_Loaded",false]}) apply {str _x;};
     _BCE_list sort true;
 
     //-if BCE_SYSTEM_Handler variable been deleted
