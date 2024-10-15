@@ -1,4 +1,5 @@
-#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+// #include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+#pragma hemtt flag pe23_ignore_has_include
 
 params ["_displayName",["_loop",false]];
 private ["_cur_displayName","_display","_getWeather","_windDir","_temperature","_windSpeed","_text"];

@@ -1,4 +1,5 @@
-#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+// #include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+#pragma hemtt flag pe23_ignore_has_include
 
 _cam = TGP_View_Camera # 0;
 _cam cameraeffect ["Terminate", "back"];

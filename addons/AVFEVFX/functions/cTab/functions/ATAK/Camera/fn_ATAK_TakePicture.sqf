@@ -1,4 +1,5 @@
-#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+// #include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+#pragma hemtt flag pe23_ignore_has_include
 
 private _time = systemTime apply {(["","0"] select (_x < 10)) + (str _x)};
 _time resize 6;

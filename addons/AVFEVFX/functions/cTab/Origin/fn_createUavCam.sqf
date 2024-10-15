@@ -1,4 +1,5 @@
-#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+// #include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+#pragma hemtt flag pe23_ignore_has_include
 #include "\MG8\AVFEVFX\macro.hpp"
 /*
 	Name: cTab_fnc_createUavCam
