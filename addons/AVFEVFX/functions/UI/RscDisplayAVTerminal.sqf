@@ -1,6 +1,6 @@
 #include "\A3\ui_f\hpp\defineResincl.inc"
 #include "\A3\ui_f\hpp\defineResinclDesign.inc"
-#include "\MG8\addons\AVFEVFX\cTab\has_cTab.hpp"
+#include "\MG8\main\has_cTab.hpp"
 #include "\MG8\AVFEVFX\macro.hpp"
 
 params["_mode","_params","_class"];

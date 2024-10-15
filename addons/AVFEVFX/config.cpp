@@ -1,4 +1,4 @@
-#include "\MG8\addons\AVFEVFX\cTab\has_cTab.hpp"
+#include "\MG8\main\has_cTab.hpp"
 
 class CfgPatches
 {
