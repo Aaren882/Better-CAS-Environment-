@@ -10,3 +10,5 @@ jobs:
 
       - uses: arma-actions/sqflint@v1.0
         name: Validate with SQFLint
+        with:
+          args: --exit w --directory MG8\AVFEVFX
