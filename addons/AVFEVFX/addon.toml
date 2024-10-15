@@ -1,1 +1,2 @@
---no-bin
+[binarize]
+enabled = false # Default: true
