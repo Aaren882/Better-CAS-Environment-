@@ -3,27 +3,25 @@ name: Build
 on: [push]
 
 jobs:
-  # validate:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout the source code
-  #     uses: actions/checkout@v4
-  #   - name: Validate SQF
-  #     run: python3 tools/sqf_validator.py
-  #   - name: Check for BOM
-  #     uses: arma-actions/bom-check@master
-
-  build:
+  validate:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout the source code
       uses: actions/checkout@v4
-    - name: Setup HEMTT
-      uses: arma-actions/hemtt@v1
-    - name: Run HEMTT build
-      run: hemtt build
-    - name: Rename build folder
-      run: mv .hemttout/build .hemttout/@BCE
+    - name: Validate SQF
+      run: python3 tools/sqf_validator.py
+
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout the source code
+  #     uses: actions/checkout@v4
+  #   - name: Setup HEMTT
+  #     uses: arma-actions/hemtt@v1
+  #   - name: Run HEMTT build
+  #     run: hemtt build
+  #   - name: Rename build folder
+  #     run: mv .hemttout/build .hemttout/@BCE
 
 # jobs:
 #   test-sqflint:
