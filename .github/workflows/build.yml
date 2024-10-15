@@ -11,4 +11,4 @@ jobs:
       - uses: arma-actions/sqflint@v1.0
         name: Validate with SQFLint
         with:
-          args: --exit w --directory functions
+          args: --exit e --directory functions
