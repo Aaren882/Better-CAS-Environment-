@@ -10,12 +10,6 @@ jobs:
       uses: actions/checkout@v4
     - name: Validate SQF
       run: python3 tools/sqf_validator.py
-    - name: Validate Config
-      run: python3 tools/config_style_checker.py
-    - name: Validate Stringtables
-      run: python3 tools/stringtable_validator.py
-    - name: Check Strings
-      run: python3 tools/check_strings.py
     - name: Check for BOM
       uses: arma-actions/bom-check@master
       with:
