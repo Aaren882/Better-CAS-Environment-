@@ -1,4 +1,4 @@
-#include "\MG8\main\has_cTab.hpp"
+#include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 
 //- Init Discord Webhook Settings
 #if __has_include("\MG8\DiscordMessageAPI\config.bin")

@@ -109,7 +109,7 @@
 	}
 ] call CBA_fnc_addSetting;
 
-#include "\MG8\main\has_cTab.hpp"
+#include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 //- Set File type (cTab/ATAK)
 #ifdef cTAB_Installed
 	[

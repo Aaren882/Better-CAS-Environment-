@@ -1,4 +1,4 @@
-#include "\MG8\main\has_cTab.hpp"
+#include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 params["_vehicle","_cameraview"];
 
 _current_turret = ((player getVariable "TGP_View_Selected_Optic") # 0) # 1;
