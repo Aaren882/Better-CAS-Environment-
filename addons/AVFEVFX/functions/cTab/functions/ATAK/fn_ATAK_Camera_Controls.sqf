@@ -48,10 +48,10 @@ switch _ID do {
           call A3TI_fnc_getA3TIVision;
         };
       #endif
-      case 3:	{"NVG"};
-      case 4:	{"W-FLIR"};
-      case 5:	{"T-FLIR"};
-      default	{"NORMAL"};
+      case 3:  {"NVG"};
+      case 4:  {"W-FLIR"};
+      case 5:  {"T-FLIR"};
+      default  {"NORMAL"};
     };
     _control ctrlSetText _text;
   };

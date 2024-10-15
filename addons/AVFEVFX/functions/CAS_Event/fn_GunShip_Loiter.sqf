@@ -9,12 +9,12 @@ _WP01 = [_grp, currentWaypoint _grp];
 _shooter = _vehicle turretUnit _WPN_turret;
 
 if (waypointType _WP01 != "LOITER") then {
-	_allWps = waypoints _grp;
-	_allWps apply {deleteWaypoint _x};
-	_WP01 = _grp addWaypoint [_posTarget, 0];
-	_WP01 setWaypointType "Loiter";
+  _allWps = waypoints _grp;
+  _allWps apply {deleteWaypoint _x};
+  _WP01 = _grp addWaypoint [_posTarget, 0];
+  _WP01 setWaypointType "Loiter";
 } else {
-	_WP01 setWaypointPosition [_posTarget, 0];
+  _WP01 setWaypointPosition [_posTarget, 0];
 };
 _WP01 setWaypointLoiterType "CIRCLE_L";
 _WP01 setWaypointLoiterRadius _ATK_range;

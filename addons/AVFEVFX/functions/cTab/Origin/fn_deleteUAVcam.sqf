@@ -1,25 +1,25 @@
 /*
-	Name: cTab_fnc_deleteUAVcam
+  Name: cTab_fnc_deleteUAVcam
 
-	Author(s):
-		Gundy
+  Author(s):
+    Gundy
 
-	Description:
-		Delete UAV camera
+  Description:
+    Delete UAV camera
 
-	Parameters:
-		Optional:
-		0: OBJECT - Camera to delete
+  Parameters:
+    Optional:
+    0: OBJECT - Camera to delete
 
-	Returns:
-		BOOLEAN - TRUE
+  Returns:
+    BOOLEAN - TRUE
 
-	Example:
-		// delete all UAV cameras
-		[] call cTab_fnc_deleteUAVcam;
+  Example:
+    // delete all UAV cameras
+    [] call cTab_fnc_deleteUAVcam;
 
-		// delete a specific UAV camera
-		[_cam] call cTab_fnc_deleteUAVcam;
+    // delete a specific UAV camera
+    [_cam] call cTab_fnc_deleteUAVcam;
 */
 private ["_displayName","_display","_mode","_squad_list","_EH"];
 
@@ -30,9 +30,9 @@ _mode = [_displayName,"mode"] call cTab_fnc_getSettings;
 _squad_list = [20116,17000 + 1785] select (_mode == "TASK_Builder");
 
 cTabUAVcams apply {
-	private _cam = _x # 1;
-	_cam cameraEffect ["TERMINATE","BACK"];
-	camDestroy _cam;
+  private _cam = _x # 1;
+  _cam cameraEffect ["TERMINATE","BACK"];
+  camDestroy _cam;
 };
 
 cTabUAVcams = [];
@@ -44,10 +44,10 @@ _EH = cTab_player getVariable ["cTab_TGP_View_EH",-1];
 lbClear (_display displayCtrl _squad_list);
 
 if (_EH != -1) then {
-	if (_EH > 0) then {
-		removeMissionEventHandler ["Draw3D",_EH];
-	};
-	cTab_player setVariable ["cTab_TGP_View_EH",-1,true];
+  if (_EH > 0) then {
+    removeMissionEventHandler ["Draw3D",_EH];
+  };
+  cTab_player setVariable ["cTab_TGP_View_EH",-1,true];
 };
 
 true

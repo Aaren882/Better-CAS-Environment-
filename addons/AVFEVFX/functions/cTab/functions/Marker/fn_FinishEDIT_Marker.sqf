@@ -32,7 +32,7 @@ private _EDIT_color = _group controlsGroupCtrl 51;
       deleteMarker _marker;
 
     //- Data
-			private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
+      private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
       private _curSel_COLOR = _MarkerColorCache # lbCurSel _EDIT_color # 0;
       switch true do {
         //- Marker Dropper

@@ -21,57 +21,57 @@ if ((isnull _display || _displayName != _cur_displayName) && _loop) exitWith {
 
 //- Get Info and Icon
 _getWeather = {
-	private ["_texts","_factors","_factor","_result","_icon"];
-	
-	_texts = if (_this isEqualType 0) then {
-		_factor = _this;
-		
-		[
+  private ["_texts","_factors","_factor","_result","_icon"];
+  
+  _texts = if (_this isEqualType 0) then {
+    _factor = _this;
+    
+    [
       ["wind_Strong","wind_Gentle","wind_Calm"],
       ["","",""]
     ]
-	} else {
-		_factors = [fog, rain, overcastForecast];
+  } else {
+    _factors = [fog, rain, overcastForecast];
     private _index = _factors findif {_x > 0.1};
-		_factor = _factors # _index;
+    _factor = _factors # _index;
 
-		(
-			[
-				[
+    (
+      [
+        [
           ["fog_Haze","fog_Fog","fog_Mist"],
           ["haze","mist","mist"]
         ],
-				[
+        [
           ["Heavy_rain","Moderate_rain","Slight_rain"],
           ["Heavy_Rain","Moderate_rain","drizzle"]
         ],
-				[
+        [
           ["overcast_Over","overcast_Cloudy","overcast_Clear"],
           ["overcast","clouds_sun","sunny"]
         ]
-			] # _index
-		)
-	};
-	
-	
-	_result = switch true do {
-		case (_factor > 0.5): {
-			0
-		};
-		case (_factor > 0.15): {
-			1
-		};
-		default {
-			2
-		};
-	};
+      ] # _index
+    )
+  };
+  
+  
+  _result = switch true do {
+    case (_factor > 0.5): {
+      0
+    };
+    case (_factor > 0.15): {
+      1
+    };
+    default {
+      2
+    };
+  };
 
   _icon = _texts # 1 # _result;
-	//- [Text, Icon]
-	[
-		localize ("STR_BCE_Env_" + (_texts # 0 # _result)),
-		[format ["<img image='MG8\AVFEVFX\data\%1.paa' />", _icon],nil] select (_icon == "")
-	]
+  //- [Text, Icon]
+  [
+    localize ("STR_BCE_Env_" + (_texts # 0 # _result)),
+    [format ["<img image='MG8\AVFEVFX\data\%1.paa' />", _icon],nil] select (_icon == "")
+  ]
 };
 
 ([] call _getWeather) params ["_result","_icon"];

@@ -13,24 +13,24 @@ _display call BCE_fnc_ATAK_Refresh_Weapons;
 // - Output all + hide them all
 _ctrls = [];
 {
-	_ctrls pushback (_x apply {
-		private _ctrl = _TaskList controlsGroupCtrl _x;
-		_ctrl ctrlShow (_forEachIndex == _lbCurSel);
-		_ctrl
-	});
+  _ctrls pushback (_x apply {
+    private _ctrl = _TaskList controlsGroupCtrl _x;
+    _ctrl ctrlShow (_forEachIndex == _lbCurSel);
+    _ctrl
+  });
 } foreach _IDCs;
 
 if (_lbCurSel == 1) then {
-	(_TaskList controlsGroupCtrl (17000 + 2040)) ctrlSetStructuredText parseText format ["“%1” / “%2”", [groupId group _vehicle, "None"] select isnull _vehicle, groupId group player];
+  (_TaskList controlsGroupCtrl (17000 + 2040)) ctrlSetStructuredText parseText format ["“%1” / “%2”", [groupId group _vehicle, "None"] select isnull _vehicle, groupId group player];
 };
 
 //-Setup Remarks POS on ATAK Mission Builder
 _last_CtrlPOS = ctrlPosition (_ctrls # _lbCurSel # -1);
 {
-	_x params ["_offset","_H"];
-	private _ctrl = _TaskList controlsGroupCtrl (3000 + _offset);
-	_ctrl ctrlSetPositionY ((_last_CtrlPOS # 1) + ((_last_CtrlPOS # 3) * (_H + 0.25)));
-	_ctrl ctrlcommit 0;
+  _x params ["_offset","_H"];
+  private _ctrl = _TaskList controlsGroupCtrl (3000 + _offset);
+  _ctrl ctrlSetPositionY ((_last_CtrlPOS # 1) + ((_last_CtrlPOS # 3) * (_H + 0.25)));
+  _ctrl ctrlcommit 0;
 } count [[0,1.05],[1,1.1],[2,2.35]];
 
 _ctrlDESC = _TaskList controlsGroupCtrl (17000 + ([2027,2043] # _lbCurSel));

@@ -6,9 +6,9 @@ if (isnil{_MID}) then {
 };
 
 _markers = (if (isMultiplayer) then {
-	allMapMarkers select {markerChannel _x == currentChannel}
+  allMapMarkers select {markerChannel _x == currentChannel}
 } else {
-	allMapMarkers
+  allMapMarkers
 }) select {(["_","_DEFINED"] joinString _MID) in _x};
 
 _id = (selectMax (_markers apply {

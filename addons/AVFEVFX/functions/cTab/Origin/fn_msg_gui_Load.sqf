@@ -27,21 +27,21 @@ uiNamespace setVariable ['cTab_msg_playerList', _plrList];
 // Messages
 {
   _x params ["_title","","_msgState"];
-	private _img = call {
-		if (_msgState == 0) exitWith {"\cTab\img\icoUnopenedmail.paa"};
-		if (_msgState == 1) exitWith {"\cTab\img\icoOpenmail.paa"};
-		if (_msgState == 2) exitWith {"\cTab\img\icon_sentMail_ca.paa"};
-	};
-	private _index = _msgControl lbAdd _title;
-	_msgControl lbSetPicture [_index,_img];
-	_msgControl lbSetTooltip [_index,_title];
+  private _img = call {
+    if (_msgState == 0) exitWith {"\cTab\img\icoUnopenedmail.paa"};
+    if (_msgState == 1) exitWith {"\cTab\img\icoOpenmail.paa"};
+    if (_msgState == 2) exitWith {"\cTab\img\icon_sentMail_ca.paa"};
+  };
+  private _index = _msgControl lbAdd _title;
+  _msgControl lbSetPicture [_index,_img];
+  _msgControl lbSetTooltip [_index,_title];
 } count _msgArray;
 
 {
-	if ((side _x in _validSides) && {isPlayer _x} && {[_x,ctab_core_leaderDevices] call cTab_fnc_checkGear}) then {
-		private _index = _plrlistControl lbAdd format ["%1:%2 (%3)",groupId group _x,[_x] call CBA_fnc_getGroupIndex,name _x];
-		_plrlistControl lbSetData [_index,str _x];
-	};
+  if ((side _x in _validSides) && {isPlayer _x} && {[_x,ctab_core_leaderDevices] call cTab_fnc_checkGear}) then {
+    private _index = _plrlistControl lbAdd format ["%1:%2 (%3)",groupId group _x,[_x] call CBA_fnc_getGroupIndex,name _x];
+    _plrlistControl lbSetData [_index,str _x];
+  };
 } count _plrList;
 
 lbSort [_plrlistControl, "ASC"];

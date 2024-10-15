@@ -15,8 +15,8 @@ _cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cT
 
 // update hook information
 if (cTabDrawMapTools) then {
-	[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_drawHook;
-	[_display,_cntrlScreen] call BCE_fnc_cTabMap;
+  [_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_drawHook;
+  [_display,_cntrlScreen] call BCE_fnc_cTabMap;
 };
 
 true
