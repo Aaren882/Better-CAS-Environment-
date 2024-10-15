@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+
 class RscDisplayAttributes
 {
 	class Controls

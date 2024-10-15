@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+
 params ["_control", "_selectedIndex",["_ismenu",false],["_IDC_offset",0],["_DisplayName",""]];
 private ["_display","_Task_Type","_curInterface","_ListInfo","_curLine","_shownCtrls","_TypeChanged","_MenuChanged"];
 

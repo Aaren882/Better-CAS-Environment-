@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+
 params ["_control","_lbCurSel",["_period",0.5]];
 
 if (_period == 0) then {

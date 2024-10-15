@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+
 params ["_control", "_curLine"];
 private ["_display","_title","_Task_Type","_sel_TaskType","_list_result","_Expression_class","_desc_show","_extend_desc","_description","_sendData","_clearbut","_checklist","_desc","_descriptionPOS","_TaskListPOS","_titlePOS","_Expression_Ctrls","_shownCtrls"];
 

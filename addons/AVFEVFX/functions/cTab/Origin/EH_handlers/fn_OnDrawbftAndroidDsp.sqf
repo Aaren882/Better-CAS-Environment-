@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+
 params ["_cntrlScreen"];
 
 _display = ctrlParent _cntrlScreen;

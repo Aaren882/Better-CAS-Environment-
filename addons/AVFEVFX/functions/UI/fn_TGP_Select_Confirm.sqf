@@ -1,3 +1,4 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
 #include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 params ["_vehicle"];
 

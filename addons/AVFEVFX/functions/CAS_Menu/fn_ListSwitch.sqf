@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+
 params["_display",["_period",1],["_preload",false],["_vehicle",objNull]];
 
 if ((lbcursel (_display displayCtrl 2102)) != 0) exitWith {};

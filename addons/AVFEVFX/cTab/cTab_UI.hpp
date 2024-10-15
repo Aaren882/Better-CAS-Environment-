@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+
 class cTab_RscFrame;
 class cTab_RscPicture;
 class cTab_RscControlsGroup

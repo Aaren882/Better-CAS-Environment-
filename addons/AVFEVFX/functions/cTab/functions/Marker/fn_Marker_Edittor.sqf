@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+
 params ["_display","_marker"];
 private _displayName = cTabIfOpen # 1;
 private _widgetMode = ([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) # 4;

@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+
 params ["_displayOrControl","_index"];
 
 #define PLP_TOOL 0

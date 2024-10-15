@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+
 _cam = TGP_View_Camera # 0;
 _cam cameraeffect ["Terminate", "back"];
 camDestroy _cam;

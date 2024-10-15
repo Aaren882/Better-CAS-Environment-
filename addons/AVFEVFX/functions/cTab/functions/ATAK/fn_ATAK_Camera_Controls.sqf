@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+
 params ["_control","_ID",["_component",true]];
 
 switch _ID do {

@@ -1,3 +1,5 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
+
 params ["_displayName",["_loop",false]];
 private ["_cur_displayName","_display","_getWeather","_windDir","_temperature","_windSpeed","_text"];
 

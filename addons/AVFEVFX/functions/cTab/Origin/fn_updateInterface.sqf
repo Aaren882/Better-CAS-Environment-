@@ -1,3 +1,4 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
 /*
 	 Name: cTab_fnc_updateInterface
 

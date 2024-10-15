@@ -1,3 +1,4 @@
+#include "\MG8\AVFEVFX\HEMTT_FLAGs.hpp"
 #include "\MG8\AVFEVFX\macro.hpp"
 /*
 	Name: cTab_fnc_createUavCam
