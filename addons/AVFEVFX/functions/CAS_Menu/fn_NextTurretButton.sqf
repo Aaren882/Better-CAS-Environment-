@@ -1,4 +1,4 @@
-#include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
+#include "\MG8\addons\AVFEVFX\cTab\has_cTab.hpp"
 params ["_control",["_IDC_offset",0],["_show_info",false]];
 
 private _display = ctrlParent _control;
