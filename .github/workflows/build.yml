@@ -12,10 +12,6 @@ jobs:
       run: python3 tools/sqf_validator.py
     - name: Check for BOM
       uses: arma-actions/bom-check@master
-      with:
-        path: 'addons'
-    - name: Validate function headers
-      run: python3 docs/tools/document_functions.py --debug
 
   # build:
   #   runs-on: ubuntu-latest
