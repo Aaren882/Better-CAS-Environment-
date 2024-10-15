@@ -86,7 +86,7 @@ def buildPbo(settings,env, pbo):
     optBinarize = "-binarize=C:\\Windows\\System32\\print.exe" if pbo.name in settings["noBinarize"] else ""
     cfgConvertArg = "-cfgconvert=asdfafds" # + a3toolsPath() + "\\CfgConvert\\CfgConvert.exe"
     env.Command(pbo.outputPath, allFilesIn(pbo.folder)+["build"], 
-        f'"{addonBuilderPath()}" "{os.path.abspath(pbo.buildSymlink)}" "{os.path.abspath(settings["outputFolder"])}" "-cfgconvert=C:\arma3tools\CfgConvert\CfgConvert.exe" "-dssignfile=C:\arma3tools\DSSignFile\DSSignFile.exe" "-filebank=C:\arma3tools\FileBank\FileBank.exe" "-packonly" "-project=build" "-prefix={pbo.pboPrefix}" -include=tools\\buildExtIncludes.txt {optBinarize}')
+        f'"{addonBuilderPath()}" "{os.path.abspath(pbo.buildSymlink)}" "{os.path.abspath(settings["outputFolder"])}" "-cfgconvert=C:\\arma3tools\\CfgConvert\\CfgConvert.exe" "-dssignfile=C:\\arma3tools\\DSSignFile\\DSSignFile.exe" "-filebank=C:\\arma3tools\\FileBank\\FileBank.exe" "-packonly" "-project=build" "-prefix={pbo.pboPrefix}" -include=tools\\buildExtIncludes.txt {optBinarize}')
     targetDefinition(pbo.name, f"Build the {pbo.name} pbo.")
     return env.Alias(pbo.name, pbo.outputPath)
 
