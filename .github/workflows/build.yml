@@ -10,7 +10,7 @@ jobs:
       - name: Setup HEMTT
         uses: arma-actions/hemtt@v1
       - name: Run HEMTT build
-        run: hemtt release
+        run: hemtt release --no-rap --no-bin
       - name: Upload Release
         uses: actions/upload-artifact@v4
         with:
