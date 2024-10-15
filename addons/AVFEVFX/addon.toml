@@ -1,2 +1,21 @@
 [binarize]
 enabled = false # Default: true
+exclude = [
+    "data/*.p3d",
+    "data/anim/chop.rtm",
+]
+
+[rapify]
+enabled = false # Default: true
+exclude = [
+    "missions/**/description.ext",
+]
+
+[files]
+exclude = [
+    ".vscode/**/*", # Exclude all files in the .vscode folder
+    "data/*.psd",
+]
+
+[properties]
+iso = "14001"
