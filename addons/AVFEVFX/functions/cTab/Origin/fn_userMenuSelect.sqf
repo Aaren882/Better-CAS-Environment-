@@ -21,7 +21,7 @@
 		[1] call cTab_fnc_userMenuSelect;
 */
 
-#include ".\cTab\shared\cTab_gui_macros.hpp"
+#include "\cTab\shared\cTab_gui_macros.hpp"
 
 disableSerialization;
 params ["_type"];
