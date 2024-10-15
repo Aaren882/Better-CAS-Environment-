@@ -1,0 +1,9 @@
+{
+    "addonsFolder": "addons",
+    "excludePboSymlinks": [],
+    "noBinarize":
+    [ 
+        "AVFEVFX"
+    ],
+    "outputFolder": "release"
+}
