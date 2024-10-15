@@ -33,7 +33,7 @@
 		[0,"cTab_TAD_dsp",player,vehicle player] call cTab_fnc_open;
 */
 
-#include "\cTab\shared\cTab_gui_macros.hpp"
+#include ".\cTab\shared\cTab_gui_macros.hpp"
 
 if (cTabIfOpenStart || (!isNil "cTabIfOpen")) exitWith {false};
 cTabIfOpenStart = true;

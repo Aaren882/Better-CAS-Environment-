@@ -1,4 +1,4 @@
-#include "\cTab\shared\cTab_gui_macros.hpp"
+#include ".\cTab\shared\cTab_gui_macros.hpp"
 
 [cTabSettings,"Tablet",[
 	["dlgIfPosition",[]],

@@ -23,7 +23,7 @@
 	[[["mapType","SAT"],["mapScaleDsp","4"]]] call cTab_fnc_updateInterface;
 */
 
-#include "\cTab\shared\cTab_gui_macros.hpp"
+#include ".\cTab\shared\cTab_gui_macros.hpp"
 
 //-POLPOX Map Tools
 #if __has_include("\plp\plp_mapToolsRemastered\config.bin")
