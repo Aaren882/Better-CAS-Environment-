@@ -73,18 +73,9 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 		x = 0;
 		y = 0;
 		w = PhoneBFTContainerW(3);
-		h = (3 * 0.7) * (((60)) / 2048 * CustomPhoneH); // - Display with 3 lines
+		h = 0.7 * (((60)) / 2048 * CustomPhoneH);
 		class controls
 		{
-			class menuBackground: RscBackground
-			{
-				idc = -1;
-				x = 0;
-				y = 0.7 * (((60)) / 2048 * CustomPhoneH);
-				w = PhoneBFTContainerW(3);
-				h = (2 * 0.7) * (((60)) / 2048 * CustomPhoneH);
-				colorBackground[] = {0,0,0,0.2};
-			};
 			#define BNT_W 0.4
 			#define TAG_BNT_W(SIZE) (3 - (SIZE * BNT_W))
 			class Tag_Bnt: BCE_RscButtonMenu
@@ -96,9 +87,9 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 
 				text = "";
 
-				colorBackground[] = {0.2,0.2,0.2,0.86};
-				colorBackground2[] = {0.2,0.2,0.2,0.86};
-				colorBackgroundFocused[] = {0.2,0.2,0.2,0.5};
+				colorBackground[] = {0.15,0.15,0.15,0.86};
+				colorBackground2[] = {0.15,0.15,0.15,0.86};
+				colorBackgroundFocused[] = {0.15,0.15,0.15,0.5};
 
 				animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
 				animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
@@ -137,12 +128,56 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 	};
 	class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 	{
+		h = (3 * 0.7) * (((60)) / 2048 * CustomPhoneH); // - Display with 3 lines
 		class controls: controls
 		{
-			class menuBackground:menuBackground {};
+			class menuBackground: RscBackground
+			{
+				idc = -1;
+				x = 0;
+				y = 0.7 * (((60)) / 2048 * CustomPhoneH);
+				w = PhoneBFTContainerW(3);
+				h = (2 * 0.7) * (((60)) / 2048 * CustomPhoneH);
+				colorBackground[] = {0,0,0,0.2};
+			};
+			class List_Info: RscListNBox
+			{
+				idc = 50;
+				
+				onLoad="(_this # 0) ctrlenable false;";
+
+				shadow = 1;
+				shadowTextLeft = 1;
+				shadowTextRight = 1;
+				shadowPictureLeft = 1;
+				shadowPictureRight = 1;
+
+				x = 0;
+				y = 0.7 * (((60)) / 2048 * CustomPhoneH);
+				w = PhoneBFTContainerW(3);
+				h = (2 * 0.7) * (((60)) / 2048 * CustomPhoneH);
+
+				sizeEx = (0.8 * 0.7) * (((60)) / 2048 * CustomPhoneH);
+				rowHeight = 0.7 * (((60)) / 2048 * CustomPhoneH);
+				
+				colorDisabled[]={1,1,1,1};
+				colorShadow[] = {0,0,0,1};
+
+				drawSideArrows = 0;
+				tooltipPerColumn = 1;
+				period=0;
+				colorBackground[]={0,0,0,0.5};
+
+				font = "RobotoCondensed_BCE";
+				columns[] = {0.01,0.99};
+			};
 			class Tag_Bnt: Tag_Bnt
 			{
 				w = PhoneBFTContainerW(TAG_BNT_W(2));
+				
+				colorBackground[] = {0.2,0.2,0.2,0.86};
+				colorBackground2[] = {0.2,0.2,0.2,0.86};
+				colorBackgroundFocused[] = {0.2,0.2,0.2,0.5};
 			};
 			class Msg_bnt: Msg_bnt {};
 			class Edit_bnt: Msg_bnt
@@ -1829,6 +1864,37 @@ PHONE_CLASS
 						class Group_Box: Group_Box
 						{
 							idc = 10;
+							h = phoneSizeH - 1.55 * (((60)) / 2048 * CustomPhoneH);
+
+							#define TAG_TITLE(NAME,SIZE,ICON) #<img size=SIZE image='a3\ui_f\data\map\markers\military\dot_ca.paa'/><img size=SIZE align='center' image=ICON/><t align='center'> NAME</t>
+							class controls
+							{
+								class All_Groups: ATAK_Group_Manage_System
+								{
+									idc = 98;
+									class controls: controls
+									{
+										class Tag_Bnt: Tag_Bnt
+										{
+											text = TAG_TITLE(All Groups,'0.8','a3\3den\data\displays\display3den\toolbar\widget_global_ca.paa');
+										};
+										class Msg_bnt: Msg_bnt{};
+									};
+								};
+								class My_Team: All_Groups
+								{
+									idc = 99;
+									class controls: controls
+									{
+										class Tag_Bnt: Tag_Bnt
+										{
+											text = TAG_TITLE(My Team,'0.8','a3\3den\data\displays\display3den\panelright\modegroups_ca.paa');
+										};
+										class Msg_bnt: Msg_bnt{};
+									};
+								};
+							};
+							#undef TAG_TITLE
 						};
 					};
 				};

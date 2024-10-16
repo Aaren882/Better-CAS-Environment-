@@ -692,9 +692,9 @@ _settings apply {
 				if (!isNull _osdCtrl) then {_osdCtrl ctrlSetText _targetMapName;};
 				
 				//- Update the ATAK Tools //
-					if (_displayName find "Android" > -1) then {
-						"showMenu" call BCE_fnc_cTab_UpdateInterface;
-					};
+					// if (_displayName find "Android" > -1) then {
+					// 	"showMenu" call BCE_fnc_cTab_UpdateInterface;
+					// };
 
 				// show correct map contorl
 				if (!ctrlShown _targetMapCtrl) then {
@@ -1108,7 +1108,7 @@ _settings apply {
 						_list ctrlEnable (_line < 1);
 						_typing ctrlEnable (_line < 1);
 
-					if (_interfaceInit) exitWith {};
+					// if (_interfaceInit) exitWith {};
 
 					//- Get Contactor
 					private _previus = [_displayName, "Contactor"] call cTab_fnc_getSettings;
@@ -1348,7 +1348,7 @@ _settings apply {
 							_ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
 						};
 					
-					if (_interfaceInit) exitWith {};
+					// if (_interfaceInit) exitWith {};
 
 					//- View Box Status
 						private _veh = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
@@ -1431,8 +1431,20 @@ _settings apply {
 					private _list = _group controlsGroupCtrl 10;
 					private _tag_Name = "ATAK_Group_Manage_Custom";
 					private _tag_class = [configFile >> "RscTitles" >> _tag_Name, configFile >> _tag_Name] select _isDialog;
-					private _customTeam = ((createHashMapFromArray [["CCT",["Assault Team"]],["TACP",["Platoon"]]]) toArray false);
+					private _sum_H = 0;
+
+					(ctrlPosition _list) params ["_list_X","","_list_W"];
+
+					//- Get All Groups
+					// private _customTeam = (groups playerSide) apply {
+					// 	[] 
+					// };
+
+					//- get custom Groups
+					private _customTeam = ((createHashMapFromArray [["CCT",[group player,"Assault Team", 71.1]],["TACP",[group player,"Platoon", 50]]]) toArray false);
 					reverse _customTeam;
+
+					_customTeam = [["All Groups",98],["My Team",99]] + _customTeam;
 
 					//- Clear List
 						{ctrlDelete _x} count allControls _list;
@@ -1442,27 +1454,57 @@ _settings apply {
 							_x params [["_title",""],["_values",[]]];
 
 							if (_title == "") then {continue};
-							_values params ["_teamName"];
+
+							// - System Values ("_values" = "IDC")
+							if (_values isEqualType 0) then {
+								private _ctrl = _list controlsGroupCtrl _values;
+
+								_ctrl ctrlSetPositionY _sum_H;
+								_ctrl ctrlCommit 0;
+								_sum_H = _sum_H + (ctrlPosition _ctrl # 3);
+								
+								continue
+							};
+							_values params ["_group","_teamName","_freq"];
 
 							private _ctrl = _display ctrlCreate [
 								_tag_class,
-								100 + _forEachIndex,
+								100 + _forEachIndex, //- IDC Prefix = 100
 								_list
 							];
 
 							//- Sorting Position
-								_ctrl ctrlSetPositionY (_forEachIndex * (ctrlPosition _ctrl # 3));
+								_ctrl ctrlSetPositionY _sum_H;
 								_ctrl ctrlCommit 0;
+								_sum_H = _sum_H + (ctrlPosition _ctrl # 3);
 
 							private _tag = _ctrl controlsGroupCtrl 15;
-
 							_tag ctrlSetStructuredText parseText format [
 								"<img size='1' image='\MG8\AVFEVFX\data\ExpandList.paa'/> %1<t align='right'>%2 </t>",
 								_title,
 								_teamName //- Call Sign or something you like
 							];
+
+							private _info_ls = _ctrl controlsGroupCtrl 50;
+							
+
+							//- Apply Infos
+								{
+									(_x splitString "|") params ["_L","_R",["_pic",""]];
+
+									private _row = _info_ls lnbAddRow [_L,""];
+									_info_ls lnbSetTextRight [[_row, 0], _R];
+
+									if (_pic != "") then {
+										_info_ls lnbSetPictureRight [[_row, 0], _pic];
+									};
+								} forEach [
+									format ["Leader : %1| ”NW” %2°", name leader _group, 160],
+									format ["Freq : %1| |%2", _freq, "\cTab\img\icon_signalStrength_ca.paa"]
+								];
+								
 						} forEach _customTeam;
-					
+					 	_sum_H = 0;
 				};
 			};
 		};
