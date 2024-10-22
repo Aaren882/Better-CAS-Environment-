@@ -2045,19 +2045,26 @@ PHONE_CLASS
 				h = 40 / 2048 * CustomPhoneH;
 				
 				tooltip = "$STR_BCE_Toggle_Marker_Widget";
-				action = "['cTab_Android_dlg'] call cTab_fnc_toggleMarkerWidget";
+				action = "['cTab_Android_dlg', 17000 + 1300] call cTab_fnc_toggleMarkerWidget";
 			};
 			class Marker_Widgets: cTab_RscControlsGroup
 			{
 				class VScrollbar{};
 				class HScrollbar{};
 				class Scrollbar{};
-				
+
 				#define MARKER_WIDGET_W (phoneSizeX + phoneSizeW - (PhoneMarkerWidget_X))
 				#define MARKER_WIDGET_H (30 / 2048 * CustomPhoneH)
 				#define MAKRER_WIDGET_MULT 3.5
 				#define MAKRER_WIDGET_CONTENT_W (40 / 2048 * PhoneW)
 				#define MARKER_WIDGET_BORDER (0.9 * (MAKRER_WIDGET_MULT - 1) * MAKRER_WIDGET_CONTENT_W)
+
+				// onLoad = "call BCE_fnc_Anim_getConfigSteps";
+				// Animation_Steps[] = {
+				// 	{"","","",0},
+				// 	{"","","",(MAKRER_WIDGET_MULT + 1.5) * MARKER_WIDGET_H},
+				// 	{phoneSizeX + (phoneSizeW * 3/5) - MARKER_WIDGET_W,"","",""}
+				// };
 
 				idc = idc_D(1300);
 				x = PhoneMarkerWidget_X;
@@ -2090,7 +2097,7 @@ PHONE_CLASS
 						h = MARKER_WIDGET_H;
 						
 						tooltip = "$STR_BCE_Toggle_Marker_Widget";
-						action = "['cTab_Android_dlg'] call cTab_fnc_toggleMarkerWidget";
+						action = "['cTab_Android_dlg',17000 + 1300] call cTab_fnc_toggleMarkerWidget";
 					};
 					class Mode_Switch: BCE_RscButtonMenu
 					{
