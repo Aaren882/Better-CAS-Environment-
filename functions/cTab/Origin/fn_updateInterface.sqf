@@ -280,30 +280,66 @@ _settings apply {
 				} forEach [15,16,17];
 			};
 
+			//- Check Group should Update
+				if !(_group getVariable ["Anim_Activation",_interfaceInit]) exitWith {};
+
 			//- Set POS
-			if (_displayName find "Android" > -1) then {
-				(ctrlPosition _group) params ["_POSX","_POSY"];
-				_group ctrlSetPositionX _POSX;
-				_group ctrlSetPositionY _POSY;
-				_group ctrlSetPositionH ([
-					0,
-					5 * ((ctrlPosition _TitleMode) # 3)
-				] select _show);
+			private _groupPos = ctrlPosition _group;
+			private _groupPos_end = _groupPos;
+
+			private _ignore = if (_displayName find "Android" > -1) then {
+				_groupPos params ["_POSX","_POSY"];
+				// _group ctrlSetPositionX _POSX;
+				// _group ctrlSetPositionY _POSY;
+				// _group ctrlSetPositionH ([
+				// 	0,
+				// 	5 * ((ctrlPosition _TitleMode) # 3)
+				// ] select _show);
+
+				//- Set end position
+					_groupPos_end set [0,_POSX];
+					_groupPos_end set [1,_POSY];
+					_groupPos_end set [3, ([
+						0,
+						5 * ((ctrlPosition _TitleMode) # 3)
+					] select _show)];
+				
+				[2]
 			} else {
 				private _posToggle = ctrlPosition _toggleBnt;
 				private _pos = ctrlPosition _cate;
-				_group ctrlSetPositionX ([
-					(_posToggle # 0) + (_posToggle # 2),
-					(_posToggle # 0) + (_posToggle # 2) - (_pos # 2)
-				] select _show);
-				_group ctrlSetPositionW ([
-					0,
-					_pos # 2
-				] select _show);
-			};
-			
+				// _group ctrlSetPositionX ([
+				// 	(_posToggle # 0) + (_posToggle # 2),
+				// 	(_posToggle # 0) + (_posToggle # 2) - (_pos # 2)
+				// ] select _show);
+				// _group ctrlSetPositionW ([
+				// 	0,
+				// 	_pos # 2
+				// ] select _show);
 
-			_group ctrlCommit ([0.2, 0] select _interfaceInit);
+				//- Set end position
+					_groupPos_end set [0, [
+						(_posToggle # 0) + (_posToggle # 2),
+						(_posToggle # 0) + (_posToggle # 2) - (_pos # 2)
+					] select _show];
+					_groupPos_end set [2, [
+						0,
+						_pos # 2
+					] select _show];
+				
+				[1,3]
+			};
+			// _group ctrlCommit ([0.2, 0] select _interfaceInit);
+
+			//- Anim Transform
+			[
+				_group,
+				"Spring_Example",
+				[[],_groupPos_end,_interfaceInit,1200],
+				_ignore
+			] call BCE_fnc_Anim_Type;
+			_group setVariable ["Anim_Activation",false];
+			
 		};
 		// -- TAD -- //
 			if ((_x # 0) == "MarkerDropper") exitWith {

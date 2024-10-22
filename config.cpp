@@ -593,6 +593,9 @@ class CfgVehicles
 
 	#include "Compat.hpp"
 };
+
+//- Animation Config
+#include "Extended_Anim_props.hpp"
 class CfgFunctions
 {
 	class BCE
@@ -630,6 +633,14 @@ class CfgFunctions
 			#if __has_include("\MG8\DiscordMessageAPI\config.bin")
 				class Discord_GetWebhooks;
 			#endif
+		};
+		class Anim_Componets
+		{
+			file="MG8\AVFEVFX\Functions\Componets\Animation_Transf";
+			class Anim_Type;
+			class Anim_Init;
+			class Anim_CustomOffset;
+			class Anim_getConfigSteps;
 		};
 		class HUD
 		{
