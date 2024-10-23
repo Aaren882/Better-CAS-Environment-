@@ -6,16 +6,18 @@ if (_position_Param findIf {true} > 0 || isnull _ctrl) exitWith {
 
 private _instant = _position_Param param [2, false];
 
-//- Exit on Instant Tramsform
-if (_instant) exitWith {
-  _ctrl ctrlSetPosition (_position_Param # 1);
-  _ctrl ctrlCommit 0;
-};
-
 //- Setup Position
   private _Start_Point = _position_Param param [0, []];
   private _End_Point = _position_Param param [1, []];
+  private _Fade_Point = _End_Point param [3, -1];
 
+//- Exit on Instant Tramsform
+if (_instant) exitWith {
+  _ctrl ctrlSetPosition (_End_Point select [0,4]);
+  _ctrl ctrlCommit 0;
+};
+
+//- Custom Position
   private _CustomStartPOS = _ctrl getVariable ["Animation_StartWithOffset", []];
   private _CustomEndPOS = _ctrl getVariable ["Animation_EndWithOffset", []];
 
@@ -65,7 +67,15 @@ if (_type == "") exitWith {};
 
 //- Get data
   private _get_data = {
-    [[_ctrl] + _position_Param + [_actions]] + (_this apply {
+    //- If _Fade_Point is lower than 0 => Ignore _Fade_Point
+      if (_Fade_Point > -1) then {
+        _actions pushBack [{_ctrl ctrlSetFade _this},4];
+      };
+    [
+      [_ctrl] + 
+      _position_Param + 
+      [_actions]
+    ] + (_this apply {
       if (_x isEqualType []) then {
         _anim_params getOrDefault _x
       } else {
@@ -127,16 +137,19 @@ private _Spawn_handler = switch (_type) do {
         };
       
       //- Walk through each point (on each frame)
-      for "_t" from 0 to _arange step 1 do {
+      for "_t" from 0 to 1.5 * _arange step 1 do {
         
         uiSleep diag_deltaTime;
 
         //- Result will approach >> 0 (solution: Y offset +1)
         // private _result = exp(-_a * t) * (_c * sin(_b * _t) + (_d * cos(_b * _t))) + 1;
-        private _result = [
-          exp(-_a * _t) * (_c * sin deg(_b * _t) + (_d * cos deg(_b * _t))) - _initialPosition,
-          1
-        ] select (_t == _arange);
+        private _result = exp(-_a * _t) * (_c * sin deg(_b * _t) + (_d * cos deg(_b * _t))) - _initialPosition;
+        private _Breakout = (_arange < _t) && (_d + _result < 0.00001); // -1 + 0.5 "(_initialPosition + _t)"
+
+        //- Check if the value is too small
+        if (_Breakout) then {
+          _result = 1;
+        };
 
         //- Custom POS
           // private _CustomStartPOS = _ctrl getVariable ["Animation_StartWithOffset", []];
@@ -167,6 +180,10 @@ private _Spawn_handler = switch (_type) do {
             false
           } count _actions;
           _ctrl ctrlCommit 0;
+        //- Finish all works and breakout
+        if (_Breakout) then {
+          break;
+        };
       };
 
       //- Completed

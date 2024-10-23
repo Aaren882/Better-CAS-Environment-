@@ -6,7 +6,7 @@ _ctrls = allControls _group;
 _group ctrlShow _Back;
 _group ctrlEnable true;
 
-_ctrlPOS = ctrlPosition _group;
+_ctrlPOS = ctrlPosition _background;
 _ctrlPOS set [2, (_ctrlPOS # 2) / 4];
 
 private _return = switch _page do {
