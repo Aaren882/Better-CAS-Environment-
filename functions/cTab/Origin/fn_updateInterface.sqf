@@ -327,17 +327,16 @@ _settings apply {
 						_pos # 2
 					] select _show];
 				
-				[1,3]
+				[3]
 			};
 			// _group ctrlCommit ([0.2, 0] select _interfaceInit);
 
 			//- Anim Transform
-			[
-				_group,
-				"Spring_Example",
-				[[],_groupPos_end,_interfaceInit,1200],
-				_ignore
-			] call BCE_fnc_Anim_Type;
+				[
+					_group, //- Tool Bnts
+					_groupPos_end, // - [End]
+					["Spring_Example",_interfaceInit, 1200, _ignore] // - [Anim_Type, _instant, _BG_IDC, _ignore]
+				] call BCE_fnc_Anim_CustomOffset;
 			_group setVariable ["Anim_Activation",false];
 			
 		};
@@ -435,6 +434,9 @@ _settings apply {
 				17000 + 4661,
 				17000 + 4662,
 				17000 + 4663,
+				17000 + 4650,
+				17000 + 4640,
+				17000 + 4641,
 				46600,
 
 				//-BG
@@ -530,7 +532,7 @@ _settings apply {
 						private _showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
 						_displayItemsToShow append [17000 + 2615,17000 + 2616]; //- Show Compass on Phone
 						if (_showMenu # 1) then {
-							_displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
+							// _displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
 							if !(_interfaceInit) then {
 								_settings pushBack ["showMenu",[_displayName,"showMenu"] call cTab_fnc_getSettings];
 							};
@@ -1104,16 +1106,16 @@ _settings apply {
 			];
 
 			(_x # 1) params ["_page","_show","_line",["_PgComponents",[]]];
-		
-			private _group = [_display, _page, (_page != "main") && _show] call BCE_fnc_ATAK_openPage;
-			
-			private _background = _display displayCtrl IDC_CTAB_GROUP_MENU;
-			_background ctrlShow _show;
+			private _backgroundGroup = _display displayCtrl IDC_CTAB_GROUP_MENU;
+			private _background = _backgroundGroup controlsGroupCtrl 9;
+			_backgroundGroup ctrlShow true;
 
+			private _group = [_display, _page, (_page != "main")] call BCE_fnc_ATAK_openPage;
+			_group ctrlShow true;
+			
 			call BCE_fnc_ATAK_Check_Layout;
 			
 			if (isnil{_group} || !_show) exitWith {};
-			_group ctrlShow _show;
 
 			//-ATAK Control Adjustments
 			switch (_page) do {

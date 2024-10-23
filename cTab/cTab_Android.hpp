@@ -645,6 +645,14 @@ PHONE_CLASS
 						{
 							idc = 9;
 							colorBackground[] = {0.4,0.4,0.4,0.8};
+							
+							w = phoneSizeW * 2/5;
+							// - Check if it's "1erGTD"
+							#if PHONE_MOD <= 1134
+								h = phoneSizeH - 0.11 * (((60)) / 2048 * CustomPhoneH);
+							#else
+								h= phoneSizeH;
+							#endif
 						};
 					};
 				};
