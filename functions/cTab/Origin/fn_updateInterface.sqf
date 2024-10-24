@@ -334,7 +334,7 @@ _settings apply {
 			//- Anim Transform
 				[
 					_group, //- Tool Bnts
-					_groupPos_end, // - [End]
+					[[],_groupPos_end], // - [Start, End]
 					["Spring_Example",_interfaceInit, 1200, _ignore] // - [Anim_Type, _instant, _BG_IDC, _ignore]
 				] call BCE_fnc_Anim_CustomOffset;
 			_group setVariable ["Anim_Activation",false];

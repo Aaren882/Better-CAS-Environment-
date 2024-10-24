@@ -1,10 +1,12 @@
 params ["_ctrl",["_POS",[]],["_update_Components",[]]];
 
 if (
-  _POS findIf {true} < 0
+  2 != count _POS
 ) exitwith {
   ["Invalid Input of ""_POS = %1"" for fnc_Anim_CustomOffset",_POS] call BIS_fnc_error;
 };
+
+_POS params [["_POS_Start",[]],["_POS_End",[]]];
 
 // -Update In when Custom Offsets are changed
 if (_update_Components findIf {true} < 0) exitWith {};
@@ -20,7 +22,7 @@ private _end = if (_queue findIf {true} > -1) then {
     if !(isNil {_x}) then {
       _endFlag set [_forEachIndex, _x];
     };
-  } foreach _POS;
+  } foreach _POS_End;
   _ctrl setVariable ["Animation_EndWithOffset_F", _endFlag];
 
   _endFlag
@@ -31,7 +33,7 @@ private _end = if (_queue findIf {true} > -1) then {
     if !(isNil {_x}) then {
       _endFlag set [_forEachIndex, _x];
     };
-  } foreach _POS;
+  } foreach _POS_End;
 
   _endFlag
 };
@@ -40,6 +42,6 @@ private _end = if (_queue findIf {true} > -1) then {
 [
   _ctrl,
   _type,
-  [[],_end,_instant,_BG_IDC],
+  [_POS_Start,_end,_instant,_BG_IDC],
   _ignore
 ] call BCE_fnc_Anim_Type;
