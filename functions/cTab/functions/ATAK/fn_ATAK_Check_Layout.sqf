@@ -18,10 +18,13 @@
   [
     _targetMapCtrl, // - Ctrl
     [
-      _MapX,
-      _MapY,
-      _result
-    ], // - [End]
+      [],
+      [
+        _MapX,
+        _MapY,
+        _result
+      ]
+    ], // - [Start, End]
     ["Spring_Example",_interfaceInit, 1200, [3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
   ] call BCE_fnc_Anim_CustomOffset;
   _targetMapCtrl ctrlMapSetPosition [];
@@ -37,7 +40,13 @@
     // _ctrl ctrlCommit 0;
     [
       _ctrl, // - Ctrl
-      [(_MapX + _result - (ctrlPosition _ctrl # 2) + (_MapX - _batX)), ((ctrlPosition _ctrl) # 1)], // - [End]
+      [
+        [],
+        [
+          (_MapX + _result - (ctrlPosition _ctrl # 2) + (_MapX - _batX)),
+          (ctrlPosition _ctrl) # 1
+        ]
+      ], // - [End]
       ["Spring_Example",_interfaceInit, 1200, [2,3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
     ] call BCE_fnc_Anim_CustomOffset;
   } count [
@@ -57,7 +66,7 @@
   
   [
     _tool, // - Ctrl
-    [_MapX + _result - _POSW, _POSY], // - [End]
+    [[],[_MapX + _result - _POSW, _POSY]], // - [Start, End]
     ["Spring_Example",_interfaceInit, 1200, [2]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
   ] call BCE_fnc_Anim_CustomOffset;
 
@@ -67,12 +76,15 @@
     [
       _x # 0, // - Ctrl
       [
-        _MapX + _result,
-        _POSY,
-        [0, _bgW] select _show,
-        nil,
-        [1, _fade] select (_show || _x # 1)
-      ], // - [End]
+        [],
+        [
+          _MapX + _result,
+          _POSY,
+          [0, _bgW] select _show,
+          nil,
+          [1, _fade] select (_show || _x # 1)
+        ]
+      ], // - [Start, End]
       ["Spring_Example",_interfaceInit, 1200, [3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
     ] call BCE_fnc_Anim_CustomOffset;
     false
@@ -84,9 +96,12 @@
   [
     _toolBnt, //- Tool Bnts
     [
-      _MapX + _result,
-      _POSY + _bgH - (ctrlPosition _toolBnt) # 3,
-      [0, _bgW] select _show
-    ], // - [End]
+      [],
+      [
+        _MapX + _result,
+        _POSY + _bgH - (ctrlPosition _toolBnt) # 3,
+        [0, _bgW] select _show
+      ]
+    ], // - [Start, End]
     ["Spring_Example",_interfaceInit, 1200, [3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
   ] call BCE_fnc_Anim_CustomOffset;

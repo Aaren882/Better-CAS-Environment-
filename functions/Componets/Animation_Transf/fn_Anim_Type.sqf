@@ -180,10 +180,9 @@ private _Spawn_handler = switch (_type) do {
             false
           } count _actions;
           _ctrl ctrlCommit 0;
+        
         //- Finish all works and breakout
-        if (_Breakout) then {
-          break;
-        };
+        if (_Breakout) then {break};
       };
 
       //- Completed
