@@ -1113,19 +1113,6 @@ _settings apply {
 						_ctrl ctrlSetFade 1;
 						_ctrl ctrlCommit 0;
 					};
-					// private _ctrl = _display displayCtrl (17000 + _x);
-
-					// //- Run None Animation Need to break Their Anim_Loop
-					// [
-					// 	_ctrl, //- Tool Bnts
-					// 	[
-					// 		[],
-					// 		[nil,nil,nil,nil,1]
-					// 	], // - [Start, End]
-					// 	["",true] // - [Anim_Type, _instant, _BG_IDC, _ignore]
-					// ] call BCE_fnc_Anim_CustomOffset;
-					// _ctrl ctrlEnable false;
-					// _ctrl ctrlShow true;
 				} forEach [
 					4660,
 					4661,
@@ -1141,36 +1128,6 @@ _settings apply {
 			call BCE_fnc_ATAK_Check_Layout;
 			if (isNull _group || !_show) exitWith {};
 			
-			//- Run animation
-				/*if (_page != "main" && _has_animPayload) then {
-					//- Check is Sub-Menu
-						// if !(_line < 1) then { 
-							// 	_group ctrlSetFade 0;
-							// 	_group ctrlCommit 0;
-							// } else {
-								
-							// };
-						(ctrlPosition _backgroundGroup) params ["_bgX","_bgY","_bgW"];
-						private _toolBnt = _display displayCtrl 46600;
-						private _bgH = (ctrlPosition _background) # 3 - (ctrlPosition _toolBnt) # 3;
-						[
-							_group, //- Selected GroupControl
-							[
-								_animPayload,
-								[
-									_bgX,
-									_bgY,
-									_bgW,
-									_bgH,
-									0
-								]
-							], // - [Start, End]
-							["Spring_Example",_interfaceInit, 1200] // - [Anim_Type, _instant, _BG_IDC, _ignore]
-						] call BCE_fnc_Anim_CustomOffset;
-						_backgroundGroup setVariable ["Anim_Payload",[]];
-				};*/
-			// _group ctrlEnable true;
-
 			//-ATAK Control Adjustments
 			switch (_page) do {
 				case "message": {

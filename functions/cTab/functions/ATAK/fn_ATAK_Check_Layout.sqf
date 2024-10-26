@@ -13,14 +13,6 @@
   private _targetMapCtrl = _display displayCtrl _targetMapIDC;
   (ctrlPosition _targetMapCtrl) params ["_MapX","_MapY","_MapW","_MapH"];
   private _result = _bgW / 2 * ([5, 3] select _show);
-
-  // _targetMapCtrl ctrlSetPosition [
-  //   _MapX,
-  //   _MapY,
-  //   _result,
-  //   _MapH
-  // ];
-  // _targetMapCtrl ctrlCommit 0;
   [
     _targetMapCtrl, // - Ctrl
     [
@@ -41,9 +33,6 @@
 
   {
     private _ctrl = _display displayCtrl (17000 + _x);
-    // _ctrl ctrlSetPositionX (_MapX + _result - (ctrlPosition _ctrl # 2) + (_MapX - _batX));
-    // _ctrl ctrlSetPositionY ((ctrlPosition _ctrl) # 1);
-    // _ctrl ctrlCommit 0;
     [
       _ctrl, // - Ctrl
       [
@@ -98,7 +87,6 @@
     [_backgroundGroup],
     [_group, false, !_onToggle && !(_line < 0) && !_onSwitch]
   ];
-  systemChat str [_line,!_onToggle && !(_line < 0) && !_onSwitch,time];
   
   private _toolBnt = _display displayCtrl 46600;
   [
