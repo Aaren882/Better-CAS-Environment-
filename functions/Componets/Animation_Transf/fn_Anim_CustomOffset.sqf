@@ -15,7 +15,7 @@ _update_Components params [["_type",""],"_instant",["_BG_IDC",0],["_ignore",[]]]
 private _queue = (_ctrl getVariable ["Animation_Queue",[]]) select {!isnull _x};
 
 //- Check Queue (If Not Empty)
-private _end = if (_queue findIf {true} > -1) then {
+private _result = if (_queue findIf {true} > -1) then {
   //- If not Empty
   private _endFlag = _ctrl getVariable ["Animation_EndWithOffset_F", []];
   {
@@ -42,6 +42,6 @@ private _end = if (_queue findIf {true} > -1) then {
 [
   _ctrl,
   _type,
-  [_POS_Start,_end,_instant,_BG_IDC],
+  [_POS_Start,_result,_instant,_BG_IDC],
   _ignore
 ] call BCE_fnc_Anim_Type;

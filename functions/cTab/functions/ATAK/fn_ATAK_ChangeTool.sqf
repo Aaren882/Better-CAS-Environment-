@@ -10,14 +10,15 @@ if !(isnil{_curLine}) then {
 };
 
 //- Pass POS for Animation Tramsformation
-  /*if (!isNull _ctrl && 1 > _setting # 2) then {
+  if (!isNull _ctrl && 1 > _setting # 2) then {
     private _display = ctrlParent _ctrl;
     private _background = _display displayCtrl 4660;
-    private _group = ctrlParentControlsGroup _ctrl;
+    _background setVariable ["Anim_SwitchTool", true];
+    // private _group = ctrlParentControlsGroup _ctrl;
 
     //- Get Positions
-      private _pos = ctrlPosition _group;
-      private _Sel_pos = ctrlPosition _ctrl;
+      // private _pos = ctrlPosition _group;
+      // private _Sel_pos = ctrlPosition _ctrl;
 
     // [
     //   _ctrl, //- Selected Control
@@ -29,7 +30,7 @@ if !(isnil{_curLine}) then {
     // ] call BCE_fnc_Anim_CustomOffset;
 
     //- Get Open-Animation Position (Pass them to "UpdateInterface")
-      {
+      /*{
         private _offset = 0.5;
         private _result = if (_forEachIndex < 2) then {
           //- Replace "X, Y" only
@@ -42,8 +43,8 @@ if !(isnil{_curLine}) then {
         };
         _pos set [_forEachIndex,_result];
       } forEach _Sel_pos;
-      _background setVariable ["Anim_Payload",_pos + [1]];
-  };*/
+      _background setVariable ["Anim_Payload",_pos + [1]];*/
+  };
 
 //- UpdateInterface
   [_displayName,[["showMenu",_setting]],true,true] call cTab_fnc_setSettings;

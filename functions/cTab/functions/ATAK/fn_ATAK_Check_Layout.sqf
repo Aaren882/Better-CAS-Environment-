@@ -1,4 +1,10 @@
-(ctrlPosition _background) params ["","","_bgW","_bgH"];
+//- Get Basic Variable infos
+  private _onSwitch = _backgroundGroup getVariable ["Anim_SwitchTool",false]; //- Check on switching Tool
+  private _onToggle = _backgroundGroup getVariable ["Anim_ToggleMenu",false]; //- Check on toggling Menu
+  if (_onSwitch) then {_backgroundGroup setVariable ["Anim_SwitchTool",false]};
+  if (_onToggle) then {_backgroundGroup setVariable ["Anim_ToggleMenu",false]};
+
+  (ctrlPosition _background) params ["","","_bgW","_bgH"];
 
 //- Get Map Type and Arrange
   private _targetMapName = [_displayName,"mapType"] call cTab_fnc_getSettings;
@@ -68,25 +74,32 @@
 
 //- Set Background Animation
   {
-    private _fade = [0, nil] select (_x # 1);
-    [
-      _x # 0, // - Ctrl
+    _x params ["_c",["_ignore_fade",true],["_skip",false]];
+    
+    //- need to ignore fade
+    if !(_skip) then {
+      private _fade = [0, nil] select _ignore_fade;
       [
-        [],
+        _c, // - Ctrl
         [
-          _MapX + _result,
-          _POSY,
-          [0, _bgW] select _show,
-          nil,
-          [1, _fade] select (_show || _x # 1)
-        ]
-      ], // - [Start, End]
-      ["Spring_Example",_interfaceInit, 1200, [3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
-    ] call BCE_fnc_Anim_CustomOffset;
+          [],
+          [
+            _MapX + _result,
+            _POSY,
+            [0, _bgW] select _show,
+            nil,
+            [1, _fade] select (_show || _ignore_fade)
+          ]
+        ], // - [Start, End]
+        ["Spring_Example",_interfaceInit, 1200, [3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
+      ] call BCE_fnc_Anim_CustomOffset;
+    };
   } count [
-    [_backgroundGroup,true],
-    [_group,false]
+    [_backgroundGroup],
+    [_group, false, !_onToggle && !(_line < 0) && !_onSwitch]
   ];
+  systemChat str [_line,!_onToggle && !(_line < 0) && !_onSwitch,time];
+  
   private _toolBnt = _display displayCtrl 46600;
   [
     _toolBnt, //- Tool Bnts
