@@ -2,7 +2,7 @@ params [["_animType",""]];
 
 private _return = createHashMap;
 private _config = configFile >> "Extended_Anim_transform" >> _animType;
-// private _config_Props = _config >> "Config";
+private _errorPop = false;
 
 if (isclass _config) then {
   private _type = toLowerANSI getText (_config >> "type");
@@ -25,12 +25,13 @@ if (isclass _config) then {
         private _f = _data get "frameRate";
         private _r = _data get "response";
 
-      //- frequencyResponse = points_Count * response;
-      // _data set ["arange", _f * _d];
-      _data set ["frequencyResponse", _r * (_f * _d)];
+      //- Error on "FrameRate <= 0"
+        if (_f <= 0) exitwith {
+          _errorPop = true;
+          ["Invalid Animation frameRate ""frameRate = %1""",_f] call BIS_fnc_error;
+        };
 
-      // _data deleteAt "frameRate";
-      // _data deleteAt "response";
+      _data set ["frequencyResponse", _r * (_f * _d)];
     };
   };
 
@@ -41,4 +42,4 @@ if (isclass _config) then {
   ]);
 };
 
-_return
+[_return,nil] select _errorPop

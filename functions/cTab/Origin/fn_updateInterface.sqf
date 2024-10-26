@@ -1103,11 +1103,16 @@ _settings apply {
 			private _has_animPayload = _animPayload findIf {true} > -1; //- Check variable isn't empty
 
 			private _group = [_display, _page, (_page != "main")] call BCE_fnc_ATAK_openPage;
-			// private _group = _display displayCtrl (17000 + _groupIDC);
+			private _groupIDC = ctrlIDC _group - 17000;
 			
 			//- Init State 
 				{
-					(_display displayCtrl 17000 + _x) ctrlShow false;
+					private _ctrl = _display displayCtrl (17000 + _x);
+					_ctrl ctrlShow false;
+					if (_groupIDC != _x) then {
+						_ctrl ctrlSetFade 1;
+						_ctrl ctrlCommit 0;
+					};
 					// private _ctrl = _display displayCtrl (17000 + _x);
 
 					// //- Run None Animation Need to break Their Anim_Loop
@@ -1122,23 +1127,22 @@ _settings apply {
 					// _ctrl ctrlEnable false;
 					// _ctrl ctrlShow true;
 				} forEach [
-					4660, 
-					4661, 
-					4662, 
+					4660,
+					4661,
+					4662,
 					4663,
 					4650,
 					4640,
 					4641
 				];
-			
 			_group ctrlShow true;
+			
 			//- Make sure is updated
 			call BCE_fnc_ATAK_Check_Layout;
-			
 			if (isNull _group || !_show) exitWith {};
 			
 			//- Run animation
-				if (_page != "main" && _has_animPayload) then {
+				/*if (_page != "main" && _has_animPayload) then {
 					//- Check is Sub-Menu
 						// if !(_line < 1) then { 
 							// 	_group ctrlSetFade 0;
@@ -1164,7 +1168,7 @@ _settings apply {
 							["Spring_Example",_interfaceInit, 1200] // - [Anim_Type, _instant, _BG_IDC, _ignore]
 						] call BCE_fnc_Anim_CustomOffset;
 						_backgroundGroup setVariable ["Anim_Payload",[]];
-				};
+				};*/
 			// _group ctrlEnable true;
 
 			//-ATAK Control Adjustments

@@ -12,7 +12,6 @@ private _instant = _position_Param param [2, false];
   private _Fade_Point = _End_Point param [4, -1];
   private _Fade_Included = _Fade_Point > -1;
 
-
 //- Remove Current Process
   private _queue = (_ctrl getVariable ["Animation_Queue",[]]) select {!isnull _x};
   if (_queue findIf {true} > -1) then {
@@ -65,6 +64,9 @@ if (_instant) exitWith {
 
 //- Get Animation Configuration
   private _params = _animType call BCE_fnc_Anim_Init;
+
+  //- Pop if _params is empty 
+    if (isnil{_params}) exitWith {};
 
   private _type = toLowerANSI (_params getOrDefault ["type", ""]);
   private _anim_params = _params getOrDefault ["params", createHashMap];

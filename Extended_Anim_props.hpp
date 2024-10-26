@@ -8,7 +8,7 @@ class Extended_Anim_transform
 
         //- points_Count = frameRate * duration;
         duration = 1;
-        frameRate = 60; //- how many points within "duration" sec
+        frameRate = 80; //- how many points within "duration" sec
 
         damping = 0.99; //- -0.99 ~ 0.99
 
