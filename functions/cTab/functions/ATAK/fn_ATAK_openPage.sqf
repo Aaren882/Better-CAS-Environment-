@@ -92,8 +92,6 @@ private _return = switch _page do {
 		4661
 	};
 	case "mission_Build": {
-		_display call BCE_fnc_ATAK_TaskCreate;
-		
 		_bnt_back = _ctrls # 0;
 		_bnt_Ent = _ctrls # 1;
 		_bnt_result = _ctrls # 3;
@@ -114,7 +112,7 @@ private _return = switch _page do {
 		_bnt_result ctrlSetStructuredText parseText localize "STR_BCE_ClearTaskInfo";
 		_bnt_result ctrlSetBackgroundColor [1,0,0,0.5];
 
-		nil
+		4662
 	};
 	case "Task_Result": {
 		4663
@@ -214,8 +212,8 @@ private _return = switch _page do {
 	default {
 		//- Clear up Menu Components
 			private _setting = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
-			private _c = _setting param [3,[]];
-			if (_c isNotEqualTo []) then {
+			private _PgComponents = _setting param [3,[]];
+			if (_PgComponents findIf {true} > -1) then {
 				_setting set [3,[]];
 				["cTab_Android_dlg",[["showMenu",_setting]],false] call cTab_fnc_setSettings;
 			};
@@ -224,5 +222,5 @@ private _return = switch _page do {
 };
 
 // - Return "nil" or "Control Group"
-if (isnil {_return}) exitWith {};
+if (isnil {_return}) exitWith {controlNull};
 _display displayCtrl (17000 + _return)
