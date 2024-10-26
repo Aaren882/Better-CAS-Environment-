@@ -1092,30 +1092,80 @@ _settings apply {
 
 		// ---------- ATAK Tools -----------
 		if (((_x # 0) == "showMenu") && (_mode == "BFT")) exitWith {
-			{
-				(_display displayCtrl 17000 + _x) ctrlShow false;
-				false
-			} count [
-				4660, 
-				4661, 
-				4662, 
-				4663,
-				4650,
-				4640,
-				4641
-			];
-
 			(_x # 1) params ["_page","_show","_line",["_PgComponents",[]]];
+
 			private _backgroundGroup = _display displayCtrl IDC_CTAB_GROUP_MENU;
 			private _background = _backgroundGroup controlsGroupCtrl 9;
 			_backgroundGroup ctrlShow true;
 
+			// private _activeAnim = _backgroundGroup getVariable ["Anim_Activation",_interfaceInit];
+			private _animPayload = _backgroundGroup getVariable ["Anim_Payload",[]];
+			private _has_animPayload = _animPayload findIf {true} > -1; //- Check variable isn't empty
+
 			private _group = [_display, _page, (_page != "main")] call BCE_fnc_ATAK_openPage;
-			_group ctrlShow true;
+			// private _group = _display displayCtrl (17000 + _groupIDC);
 			
+			//- Init State 
+				{
+					(_display displayCtrl 17000 + _x) ctrlShow false;
+					// private _ctrl = _display displayCtrl (17000 + _x);
+
+					// //- Run None Animation Need to break Their Anim_Loop
+					// [
+					// 	_ctrl, //- Tool Bnts
+					// 	[
+					// 		[],
+					// 		[nil,nil,nil,nil,1]
+					// 	], // - [Start, End]
+					// 	["",true] // - [Anim_Type, _instant, _BG_IDC, _ignore]
+					// ] call BCE_fnc_Anim_CustomOffset;
+					// _ctrl ctrlEnable false;
+					// _ctrl ctrlShow true;
+				} forEach [
+					4660, 
+					4661, 
+					4662, 
+					4663,
+					4650,
+					4640,
+					4641
+				];
+			
+			_group ctrlShow true;
+			//- Make sure is updated
 			call BCE_fnc_ATAK_Check_Layout;
 			
-			if (isnil{_group} || !_show) exitWith {};
+			if (isNull _group || !_show) exitWith {};
+			
+			//- Run animation
+				if (_page != "main" && _has_animPayload) then {
+					//- Check is Sub-Menu
+						// if !(_line < 1) then { 
+							// 	_group ctrlSetFade 0;
+							// 	_group ctrlCommit 0;
+							// } else {
+								
+							// };
+						(ctrlPosition _backgroundGroup) params ["_bgX","_bgY","_bgW"];
+						private _toolBnt = _display displayCtrl 46600;
+						private _bgH = (ctrlPosition _background) # 3 - (ctrlPosition _toolBnt) # 3;
+						[
+							_group, //- Selected GroupControl
+							[
+								_animPayload,
+								[
+									_bgX,
+									_bgY,
+									_bgW,
+									_bgH,
+									0
+								]
+							], // - [Start, End]
+							["Spring_Example",_interfaceInit, 1200] // - [Anim_Type, _instant, _BG_IDC, _ignore]
+						] call BCE_fnc_Anim_CustomOffset;
+						_backgroundGroup setVariable ["Anim_Payload",[]];
+				};
+			// _group ctrlEnable true;
 
 			//-ATAK Control Adjustments
 			switch (_page) do {
@@ -1316,6 +1366,9 @@ _settings apply {
 
 					private _ctrl = _group controlsGroupCtrl (17000 + 2107);
 					_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
+				};
+				case "mission_Build": {
+					_display call BCE_fnc_ATAK_TaskCreate;
 				};
 				case "Task_Result": {
 					private _ctrl = _group controlsGroupCtrl 11;

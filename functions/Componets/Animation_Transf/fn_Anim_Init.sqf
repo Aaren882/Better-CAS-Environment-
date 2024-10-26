@@ -26,11 +26,11 @@ if (isclass _config) then {
         private _r = _data get "response";
 
       //- frequencyResponse = points_Count * response;
-      _data set ["arange", _f * _d];
+      // _data set ["arange", _f * _d];
       _data set ["frequencyResponse", _r * (_f * _d)];
 
-      _data deleteAt "frameRate";
-      _data deleteAt "response";
+      // _data deleteAt "frameRate";
+      // _data deleteAt "response";
     };
   };
 

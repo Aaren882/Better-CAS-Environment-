@@ -60,10 +60,6 @@
 //- Marker Tool
   private _tool = _display displayCtrl (17000 + 1300);
   (ctrlPosition _tool) params ["","_POSY","_POSW","_POSH"];
-  // _tool ctrlSetPositionX (_MapX + _result - _POSW);
-  // _tool ctrlSetPositionY _POSY;
-  // _tool ctrlCommit 0;
-  
   [
     _tool, // - Ctrl
     [[],[_MapX + _result - _POSW, _POSY]], // - [Start, End]
@@ -87,7 +83,6 @@
       ], // - [Start, End]
       ["Spring_Example",_interfaceInit, 1200, [3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
     ] call BCE_fnc_Anim_CustomOffset;
-    false
   } count [
     [_backgroundGroup,true],
     [_group,false]

@@ -687,7 +687,7 @@ PHONE_CLASS
 							animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
 							
 							size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
-							action = "'message' call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[_this # 0, 'message'] call BCE_fnc_ATAK_ChangeTool;";
 							
 							textureNoShortcut=APP_MSG;
 							class ShortcutPos
@@ -720,7 +720,7 @@ PHONE_CLASS
 							idc = 4660 + 101;
 							text = ATAK_APP("MG8\AVFEVFX\data\missions.paa",Missions);
 							x = PhoneBFTContainerW(1);
-							action = "'mission' call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[_this # 0, 'mission'] call BCE_fnc_ATAK_ChangeTool;";
 
 							textureNoShortcut="MG8\AVFEVFX\data\missions.paa";
 						};
@@ -729,7 +729,7 @@ PHONE_CLASS
 							idc = 4660 + 102;
 							x = PhoneBFTContainerW(2);
 							text = ATAK_APP("MG8\AVFEVFX\data\Hcam.paa",Video Feeds);
-							action = "'VideoFeeds' call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[_this # 0, 'VideoFeeds'] call BCE_fnc_ATAK_ChangeTool;";
 							
 							textureNoShortcut="MG8\AVFEVFX\data\Hcam.paa";
 						};
@@ -739,7 +739,7 @@ PHONE_CLASS
 							idc = 4660 + 103;
 							y = (phoneSizeW * 3/5)/3;
 							text = ATAK_APP("MG8\AVFEVFX\data\photo.paa", Quick Pictures);
-							action = "558 cutRsc ['BCE_PhoneCAM_View','PLAIN',0.3,false];";
+							onButtonClick = "558 cutRsc ['BCE_PhoneCAM_View','PLAIN',0.3,false];";
 							
 							textureNoShortcut="MG8\AVFEVFX\data\photo.paa";
 						};
@@ -748,7 +748,7 @@ PHONE_CLASS
 							idc = 4660 + 104;
 							x = PhoneBFTContainerW(1);
 							text = ATAK_APP("a3\3den\data\displays\display3den\panelright\modegroups_ca.paa",Groups);
-							action = "'Group' call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[_this # 0, 'Group'] call BCE_fnc_ATAK_ChangeTool;";
 							
 							textureNoShortcut="a3\3den\data\displays\display3den\panelright\modegroups_ca.paa";
 						};
@@ -757,7 +757,7 @@ PHONE_CLASS
 							idc = 4660 + 105;
 							text = ATAK_APP("MG8\AVFEVFX\data\route.paa",Route);
 							x = PhoneBFTContainerW(2);
-							action = "";
+							onButtonClick = "";
 							
 							textureNoShortcut="MG8\AVFEVFX\data\route.paa";
 						};
@@ -768,7 +768,7 @@ PHONE_CLASS
 							idc = 4660 + 106;
 							y = 2*((phoneSizeW * 3/5)/3);
 							text = ATAK_APP("a3\3den\data\displays\display3den\toolbar\intel_ca.paa",Weather);
-							action = "";
+							onButtonClick = "";
 							
 							textureNoShortcut="a3\3den\data\displays\display3den\toolbar\intel_ca.paa";
 						};
@@ -777,7 +777,7 @@ PHONE_CLASS
 							idc = 4660 + 107;
 							x = PhoneBFTContainerW(1);
 							text = ATAK_APP("a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa",BDA Report);
-							action = "";
+							onButtonClick = "";
 							
 							textureNoShortcut="a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa";
 						};
@@ -788,7 +788,7 @@ PHONE_CLASS
 							y = 2*((phoneSizeW * 3/5)/3);
 							x = PhoneBFTContainerW(2);
 							text = ATAK_APP("MG8\AVFEVFX\data\settings.paa",Settings);
-							action = "";
+							onButtonClick = "";
 							
 							textureNoShortcut="MG8\AVFEVFX\data\settings.paa";
 						};
@@ -1004,7 +1004,7 @@ PHONE_CLASS
 
 							size = 0.7 * (((60) - (20))) / 2048 * CustomPhoneH;
 							
-							action = "['mission_Build',1] call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[nil,'mission_Build',1] call BCE_fnc_ATAK_ChangeTool;";
 							
 							class Attributes: Attributes
 							{
@@ -1035,7 +1035,7 @@ PHONE_CLASS
 							ATAK_POS(0.2,(4.6 + (0.35/2)),2.7,0.7);
 							text = "535ft MSL";
 							tooltip="$STR_BCE_TIP_ELEV";
-							action = "['mission_Build',4] call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[nil,'mission_Build',4] call BCE_fnc_ATAK_ChangeTool;";
 						};
 						/*class L94_PullBnt: ctrlButton
 						{
@@ -1138,7 +1138,7 @@ PHONE_CLASS
 							ATAK_POS(0.2,(7.6 + (0.35/2)),2.7,0.7);
 							text = "XT 123456";
 							tooltip="$STR_BCE_TIP_GRID";
-							action = "['mission_Build',6] call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[nil,'mission_Build',6] call BCE_fnc_ATAK_ChangeTool;";
 						};
 						
 						//-Line 7
@@ -1155,7 +1155,7 @@ PHONE_CLASS
 							ATAK_POS(0.2,(8.6 + (0.35/2)),2.7,0.7);
 							text = "NO MARKS";
 							tooltip="$STR_BCE_TIP_MARK";
-							action = "['mission_Build',7] call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[nil,'mission_Build',7] call BCE_fnc_ATAK_ChangeTool;";
 						};
 						
 						//-Line 8
@@ -1172,7 +1172,7 @@ PHONE_CLASS
 							ATAK_POS(0.2,(9.6 + (0.35/2)),2.7,0.7);
 							text = "None";
 							tooltip="$STR_BCE_TIP_FRND";
-							action = "['mission_Build',8] call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[nil,'mission_Build',8] call BCE_fnc_ATAK_ChangeTool;";
 						};
 						//-Line 9
 						class Line9_T9: CtrlType
@@ -1188,7 +1188,7 @@ PHONE_CLASS
 							ATAK_POS(0.2,(10.6 + (0.35/2)),2.7,0.7);
 							text = "Back To IP";
 							tooltip="$STR_BCE_TIP_EGRS";
-							action = "['mission_Build',9] call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[nil,'mission_Build',9] call BCE_fnc_ATAK_ChangeTool;";
 						};
 
 						////////// -5 Line //////////
@@ -1231,7 +1231,7 @@ PHONE_CLASS
 							ATAK_POS(0.2,(4.6 + (0.35/2)),2.7,0.7);
 							text = "None";
 							tooltip="$STR_BCE_TIP_FRND";
-							action = "['mission_Build',1] call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[nil,'mission_Build',1] call BCE_fnc_ATAK_ChangeTool;";
 						};
 						
 						class Line3_T5: CtrlType
@@ -1247,7 +1247,7 @@ PHONE_CLASS
 							ATAK_POS(0.2,(5.6 + (0.35/2)),2.7,0.7);
 							text = "None";
 							tooltip="$STR_BCE_TIP_GRID";
-							action = "['mission_Build',2] call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[nil,'mission_Build',2] call BCE_fnc_ATAK_ChangeTool;";
 						};
 						
 						class Line4_T5: CtrlType
@@ -1315,7 +1315,7 @@ PHONE_CLASS
 							ATAK_POS(0.1,(12.7 + (0.35/2)),2.8,0.7);
 							text = "No Remarks";
 							tooltip="$STR_BCE_TIP_Remarks";
-							action = "['mission_Build',10] call BCE_fnc_ATAK_ChangeTool;";
+							onButtonClick = "[nil,'mission_Build',10] call BCE_fnc_ATAK_ChangeTool;";
 						};
 						
 						/*class AddRemark: ctrlButton
