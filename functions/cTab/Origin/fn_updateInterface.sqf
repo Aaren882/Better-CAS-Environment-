@@ -1124,7 +1124,7 @@ _settings apply {
 				];
 			_group ctrlShow true;
 			
-			//- Make sure is updated
+			//- Make sure Layout is correct
 			call BCE_fnc_ATAK_Check_Layout;
 			if (isNull _group || !_show) exitWith {};
 			
