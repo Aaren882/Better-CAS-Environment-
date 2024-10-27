@@ -1,6 +1,6 @@
 //- Get Basic Variable infos
   private _onSwitch = _backgroundGroup getVariable ["Anim_SwitchTool",false]; //- Check on switching Tool
-  private _onToggle = _backgroundGroup getVariable ["Anim_ToggleMenu",false]; //- Check on toggling Menu
+  private _onToggle = _backgroundGroup getVariable ["Anim_ToggleMenu",_interfaceInit]; //- Check on toggling Menu
   if (_onSwitch) then {_backgroundGroup setVariable ["Anim_SwitchTool",false]};
   if (_onToggle) then {_backgroundGroup setVariable ["Anim_ToggleMenu",false]};
 
