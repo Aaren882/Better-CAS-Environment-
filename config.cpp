@@ -636,7 +636,7 @@ class CfgFunctions
 		};
 		class Anim_Componets
 		{
-			file="MG8\AVFEVFX\Functions\Componets\Animation_Transf";
+			file="MG8\AVFEVFX\Functions\Componets\Animation_Transform";
 			class Anim_Type;
 			class Anim_Init;
 			class Anim_CustomOffset;
