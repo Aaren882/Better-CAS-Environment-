@@ -23,7 +23,7 @@
         _result
       ]
     ], // - [Start, End]
-    ["Spring_Example",_interfaceInit, 1200, [3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
+    ["ATAK_Toggle_Spring",_interfaceInit, 1200, [3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
   ] call BCE_fnc_Anim_CustomOffset;
   _targetMapCtrl ctrlMapSetPosition [];
 
@@ -42,7 +42,7 @@
           (ctrlPosition _ctrl) # 1
         ]
       ], // - [End]
-      ["Spring_Example",_interfaceInit, 1200, [2,3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
+      ["ATAK_Toggle_Spring",_interfaceInit, 1200, [2,3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
     ] call BCE_fnc_Anim_CustomOffset;
   } count [
     2620,
@@ -58,7 +58,7 @@
   [
     _tool, // - Ctrl
     [[],[_MapX + _result - _POSW, _POSY]], // - [Start, End]
-    ["Spring_Example",_interfaceInit, 1200, [2]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
+    ["ATAK_Toggle_Spring",_interfaceInit, 1200, [2]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
   ] call BCE_fnc_Anim_CustomOffset;
 
 //- Set Background Animation
@@ -80,7 +80,7 @@
             [1, _fade] select (_show || _ignore_fade)
           ]
         ], // - [Start, End]
-        ["Spring_Example",_interfaceInit, 1200, [3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
+        ["ATAK_Toggle_Spring", _interfaceInit, 1200, [3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
       ] call BCE_fnc_Anim_CustomOffset;
     };
   } count [
@@ -99,5 +99,5 @@
         [0, _bgW] select _show
       ]
     ], // - [Start, End]
-    ["Spring_Example",_interfaceInit, 1200, [3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
+    ["ATAK_Toggle_Spring",_interfaceInit, 1200, [3]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
   ] call BCE_fnc_Anim_CustomOffset;

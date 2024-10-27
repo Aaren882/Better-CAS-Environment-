@@ -6,7 +6,7 @@ private _errorPop = false;
 
 if (isclass _config) then {
   private _type = toLowerANSI getText (_config >> "type");
-  private _props = configProperties [_config, "true", false];
+  private _props = configProperties [_config, "true"];
 
   private _data = createHashMapFromArray (_props apply {
     private _name = configname _x;
