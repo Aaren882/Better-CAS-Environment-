@@ -1,4 +1,3 @@
-//- Can't be inherited
 class Extended_Anim_transform
 {
     class Spring_Example
@@ -8,7 +7,7 @@ class Extended_Anim_transform
 
         //- points_Count = frameRate * duration;
         duration = 1;
-        frameRate = 80; //- how many points within "duration" sec
+        frameRate = 80; //- how many frames within a second
 
         damping = 0.99; //- -0.99 ~ 0.99
 
@@ -17,5 +16,11 @@ class Extended_Anim_transform
 
         initialPosition = -1;
         initialVelocity = -0.02;
+    };
+    class ATAK_Toggle_Spring: Spring_Example
+    {
+        duration = 0.65;
+        frameRate = 120;
+        response = 0.5;
     };
 };
