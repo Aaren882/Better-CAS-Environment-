@@ -1,4 +1,4 @@
-class Extended_Anim_transform
+class Extended_Anim_transformation
 {
     class Spring_Example
     {
