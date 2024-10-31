@@ -641,6 +641,7 @@ class CfgFunctions
 			class Anim_Init;
 			class Anim_CustomOffset;
 			class Anim_getConfigSteps;
+			class Anim_SmoothDamp;
 		};
 		class HUD
 		{
