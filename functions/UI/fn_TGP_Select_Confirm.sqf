@@ -142,7 +142,11 @@ _getTargetVeh = [{
 
 //Draw Icons And Set DirUp
 _idEH = addMissionEventHandler ["Draw3D", {
-	_thisArgs params ["_cam","_vehicle","_Optic_LODs","_player","_getTargetVeh"];
+	_thisArgs params [
+		"_cam","_vehicle",
+		"_current_vec","_delta",
+		"_Optic_LODs","_player","_getTargetVeh"
+	];
 	(_thisArgs # 5) params ["_time_ctrl","_Altitude_ctrl","_Grid_ctrl","_vision_ctrl","_Laser_ctrl","_camDir_ctrl","_Fuel_ctrl","_Weapon_ctrl","_Ammo_ctrl","_Mode_ctrl","_ENG_W_ctrl","_widget_01_ctrl","_widgets_01"];
 
 	((_player getVariable "TGP_View_Selected_Optic") # 0) params ["_TGP","_turret","_is_Detached"];
@@ -322,7 +326,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 		};
 	};
 },[
-	_cam,_vehicle,_Optic_LODs,_player,_getTargetVeh,
+	_cam,_vehicle,[[0,0,0],[0,0,0]],0.035,_Optic_LODs,_player,_getTargetVeh,
 	[_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_vision_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_Ammo_ctrl,_Mode_ctrl,_ENG_W_ctrl,_widget_01_ctrl,_widgets_01]
 ]];
 

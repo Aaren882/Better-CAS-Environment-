@@ -1,37 +1,50 @@
 params[["_obj",objNull],"_wRot","_isTurret"];
 private [
   // "_time",
-  "_offset","_offset2","_wVec","_vDirUp",
-  "_vec_Cur","_vec_tar",
-  "_array","_vecDirUp", "_i"
+  "_offset","_offset2","_vecDirUp",
+  "_vecTar"
 ];
-
-//-For camera only
-if (_wRot isEqualType objNull) exitWith {
-  _obj camPrepareTarget _wRot;
-  _obj camCommitPrepared 0;
-};
 
 if (isnil{_wRot} || isnull _obj) exitWith {};
 
 _offset = [1,-1] select (isSimpleObject _obj);
-/*_offset2 = [1,-1] select (_isTurret);
-_wVec = _wRot apply {(linearConversion [-1,1,_x,-65,65,true])};
-_vDirUp = [nil, 0, _wVec # 2, 0] call BIS_fnc_transformVectorDirAndUp;
-_vec_tar = [_wRot vectorMultiply _offset ,(_vDirUp # 1) vectorMultiply _offset2]; //- Target*/
+_offset2 = [1,-1] select (_isTurret);
+_vecDirUp = [_wRot, _wRot vectorCrossProduct (_wRot vectorCrossProduct [0, 0, -1])];
 
-_vec_Cur = [vectorDirVisual _obj, vectorUpVisual _obj]; //- Current
-_vec_tar = [_wRot vectorMultiply _offset, _wRot vectorCrossProduct [-(_wRot # 1), _wRot # 0, 0]]; //- Target
+_vec_tar = if (isnil{_delta}) then {
+  _vecDirUp
+} else {
+  call {
+    /*_private ["_vec_Cur","_dis"];
+    vec_Cur = ;
+    _dis = vectorMagnitude (_wRot vectorDiff _vec_Cur);
 
-_i = -1;
-_vecDirUp = [
-  (_vec_tar # 0) vectorDiff (_vec_Cur # 0),
-  (_vec_tar # 1) vectorDiff (_vec_Cur # 1)
-] apply {
-  _i = _i + 1;
-  private _m = vectorMagnitude _x;
-  private _a = _m * 0.98;
-  vectorLinearConversion [_m ^ 2, 0.0, _a, _vec_Cur # _i, _vec_tar # _i,true]
+    if (_dis^2 < 0.0001) exitWith {_wRot};
+
+    private _result = [
+      _wRot,
+      _vec_Cur,
+      1/_dis
+    ] call BIS_fnc_lerpVector;*/
+
+    [
+      0,1
+    ] apply {
+      private _vec_Cur = _current_vec # _x;
+      private _Vec_target = _vecDirUp # _x;
+
+      private _result = [
+        _vec_Cur,
+        _Vec_target,
+        _delta,
+        1.2
+      ] call BIS_fnc_interpolateVector;
+      _current_vec set [_x, _result];
+      _result
+    };
+  };
 };
 
-_obj setVectorDirAndUp _vecDirUp;
+hintSilent str [_current_vec,time];
+
+_obj setVectorDirAndUp _vec_tar;

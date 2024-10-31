@@ -201,9 +201,10 @@ if (count cTabUAVcams > 0) exitWith {
 	if ((cTab_player getVariable ["cTab_TGP_View_EH",-1]) == -1) then {
 
 		private _EH = if ((cTabUAVcams findIf {_x # 4}) > -1) then {
-			addMissionEventHandler ["Draw3D",{
-				_veh = _thisArgs # 0;
 
+			addMissionEventHandler ["Draw3D",{
+				_thisArgs params ["_veh","_current_vec","_delta"];
+				
 				if (alive _veh) then {
 					(cTabUAVcams select {_x # 4}) apply {
 						_x params ["","_cam","","_turret","_is_Detached"];
@@ -211,7 +212,7 @@ if (count cTabUAVcams > 0) exitWith {
 						if (_is_Detached) then {
 							private _dir = [
 							 [_veh,_turret] call BCE_fnc_getTurretDir,
-							 call compile ((_veh getVariable ["BCE_Camera_Info_Air",["[]","[0,0,0]"]]) # 1)
+							 parseSimpleArray ((_veh getVariable ["BCE_Camera_Info_Air",["[]","[0,0,0]"]]) # 1)
 							] select ((_turret # 0) < 0);
 							[_cam, _dir, false] call BCE_fnc_VecRot;
 						};
@@ -219,7 +220,29 @@ if (count cTabUAVcams > 0) exitWith {
 				} else {
 					call cTab_fnc_deleteUAVcam;
 				};
-			},[_veh]];
+			},[_veh,[[0,0,0],[0,0,0]],0.035]];
+			/*_veh spawn {
+				private _veh = _this;
+				private _current_vec = [[0,0,0],[0,0,0]];
+				private _delta = 0.035;
+
+				while {alive _veh} do {
+					(cTabUAVcams select {_x # 4}) apply {
+						_x params ["","_cam","","_turret","_is_Detached"];
+
+						if (_is_Detached) then {
+							private _dir = [
+							 [_veh,_turret] call BCE_fnc_getTurretDir,
+							 parseSimpleArray ((_veh getVariable ["BCE_Camera_Info_Air",["[]","[0,0,0]"]]) # 1)
+							] select ((_turret # 0) < 0);
+							[_cam, _dir, false] call BCE_fnc_VecRot;
+						};
+					};
+				};
+				
+				//- after the loop end
+					call cTab_fnc_deleteUAVcam;
+			};*/
 		} else {
 			-2
 		};
