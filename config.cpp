@@ -969,6 +969,18 @@ class CfgFunctions
 		};
 	#endif
 
+	//- especially for "1erGTD"
+	#if __has_include("\z\ctab\addons\core\config.bin")
+		class cTab_core
+		{
+			class function
+			{
+				file="MG8\AVFEVFX\functions\cTab\Origin\Extra";
+				class toggleInterface;
+			};
+		};
+	#endif
+
 	//- Hatchet H-60
 	#if __has_include("\z\vtx\addons\uh60_jvmf\config.bin")
 		class vtx_uh60_jvmf
