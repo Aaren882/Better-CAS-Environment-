@@ -161,7 +161,7 @@ _idEH = addMissionEventHandler ["Draw3D", {
 			//-Check if is point track
 			[
 				_var # 2,
-				call compile (_var # 1)
+				parseSimpleArray (_var # 1)
 			] select isNull (_var # 2);
 
 		}] select ((_turret # 0) < 0);

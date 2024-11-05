@@ -111,7 +111,7 @@ _ctrl drawIcon [
 			} else {
 				if (_isPilot) then {
 					private _var = _x getVariable ["BCE_Camera_Info_Air",["[false,[]]","[]",objNull]];
-					_var = call compile (_var # 0);
+					_var = parseSimpleArray (_var # 0);
 					[nil,_var # 1] select (_var # 0);
 				} else {
 					[_x,_current_turret] call BCE_fnc_Turret_InterSurface;
