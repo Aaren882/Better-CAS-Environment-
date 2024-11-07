@@ -68,7 +68,7 @@ cTabBFTgroups = (allGroups apply {
 				if (_groupSize <= 9) exitWith {"\A3\ui_f\data\map\markers\nato\group_1.paa"};
 				"\A3\ui_f\data\map\markers\nato\group_2.paa"
 			};
-			[_leader,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_sizeIcon,groupID _x,"", getPosASL _leader]
+			[_leader,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_sizeIcon,groupID _x,"", getPosASLVisual _leader]
 		} else {
 			nil
 		};
