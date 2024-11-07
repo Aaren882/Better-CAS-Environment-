@@ -37,7 +37,6 @@
 	["MarkerWidget",[false,0,[0,0],[],0,0,100]],
 	["MarkerEDIT",""],
 	["Contactor",""],
-	["showModeMenu",false],
 	["uavInfo",false],
 	["mapTools",true],
 	["PLP_mapTools",false],

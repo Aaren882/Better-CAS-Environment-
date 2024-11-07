@@ -11,6 +11,11 @@
 			<Chinese>遙控砲台</Chinese>
 			<Chinesesimp>遥控炮台</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Locate_Position">
+			<Original>Locate Position</Original>
+			<Chinese>定位位置</Chinese>
+			<Chinesesimp>定位位置</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_Description">
 			<Original>Description : </Original>
 			<Chinese>簡易描述 : </Chinese>
