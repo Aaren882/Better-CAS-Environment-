@@ -280,30 +280,65 @@ _settings apply {
 				} forEach [15,16,17];
 			};
 
+			//- Check Group should Update
+				if !(_group getVariable ["Anim_Activation",_interfaceInit]) exitWith {};
+
 			//- Set POS
-			if (_displayName find "Android" > -1) then {
-				(ctrlPosition _group) params ["_POSX","_POSY"];
-				_group ctrlSetPositionX _POSX;
-				_group ctrlSetPositionY _POSY;
-				_group ctrlSetPositionH ([
-					0,
-					5 * ((ctrlPosition _TitleMode) # 3)
-				] select _show);
+			private _groupPos = ctrlPosition _group;
+			private _groupPos_end = _groupPos;
+
+			private _ignore = if (_displayName find "Android" > -1) then {
+				_groupPos params ["_POSX","_POSY"];
+				// _group ctrlSetPositionX _POSX;
+				// _group ctrlSetPositionY _POSY;
+				// _group ctrlSetPositionH ([
+				// 	0,
+				// 	5 * ((ctrlPosition _TitleMode) # 3)
+				// ] select _show);
+
+				//- Set end position
+					_groupPos_end set [0,_POSX];
+					_groupPos_end set [1,_POSY];
+					_groupPos_end set [3, ([
+						0,
+						5 * ((ctrlPosition _TitleMode) # 3)
+					] select _show)];
+				
+				[2]
 			} else {
 				private _posToggle = ctrlPosition _toggleBnt;
 				private _pos = ctrlPosition _cate;
-				_group ctrlSetPositionX ([
-					(_posToggle # 0) + (_posToggle # 2),
-					(_posToggle # 0) + (_posToggle # 2) - (_pos # 2)
-				] select _show);
-				_group ctrlSetPositionW ([
-					0,
-					_pos # 2
-				] select _show);
-			};
-			
+				// _group ctrlSetPositionX ([
+				// 	(_posToggle # 0) + (_posToggle # 2),
+				// 	(_posToggle # 0) + (_posToggle # 2) - (_pos # 2)
+				// ] select _show);
+				// _group ctrlSetPositionW ([
+				// 	0,
+				// 	_pos # 2
+				// ] select _show);
 
-			_group ctrlCommit ([0.2, 0] select _interfaceInit);
+				//- Set end position
+					_groupPos_end set [0, [
+						(_posToggle # 0) + (_posToggle # 2),
+						(_posToggle # 0) + (_posToggle # 2) - (_pos # 2)
+					] select _show];
+					_groupPos_end set [2, [
+						0,
+						_pos # 2
+					] select _show];
+				
+				[3]
+			};
+			// _group ctrlCommit ([0.2, 0] select _interfaceInit);
+
+			//- Anim Transform
+				[
+					_group, //- Tool Bnts
+					[[],_groupPos_end], // - [Start, End]
+					["Spring_Example",_interfaceInit, 1200, _ignore] // - [Anim_Type, _instant, _BG_IDC, _ignore]
+				] call BCE_fnc_Anim_CustomOffset;
+			_group setVariable ["Anim_Activation",false];
+			
 		};
 		// -- TAD -- //
 			if ((_x # 0) == "MarkerDropper") exitWith {
@@ -399,6 +434,9 @@ _settings apply {
 				17000 + 4661,
 				17000 + 4662,
 				17000 + 4663,
+				17000 + 4650,
+				17000 + 4640,
+				17000 + 4641,
 				46600,
 
 				//-BG
@@ -408,6 +446,7 @@ _settings apply {
 				17000 + 4632,
 				17000 + 4650,
 				17000 + 4640,
+				17000 + 4641,
 
 				//-BTF Widgets
 				17000 + 1200,
@@ -493,7 +532,7 @@ _settings apply {
 						private _showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
 						_displayItemsToShow append [17000 + 2615,17000 + 2616]; //- Show Compass on Phone
 						if (_showMenu # 1) then {
-							_displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
+							// _displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
 							if !(_interfaceInit) then {
 								_settings pushBack ["showMenu",[_displayName,"showMenu"] call cTab_fnc_getSettings];
 							};
@@ -691,9 +730,9 @@ _settings apply {
 				if (!isNull _osdCtrl) then {_osdCtrl ctrlSetText _targetMapName;};
 				
 				//- Update the ATAK Tools //
-					if (_displayName find "Android" > -1) then {
-						"showMenu" call BCE_fnc_cTab_UpdateInterface;
-					};
+					// if (_displayName find "Android" > -1) then {
+					// 	"showMenu" call BCE_fnc_cTab_UpdateInterface;
+					// };
 
 				// show correct map contorl
 				if (!ctrlShown _targetMapCtrl) then {
@@ -1053,174 +1092,46 @@ _settings apply {
 
 		// ---------- ATAK Tools -----------
 		if (((_x # 0) == "showMenu") && (_mode == "BFT")) exitWith {
-			{
-				(_display displayCtrl 17000 + _x) ctrlShow false;
-				false
-			} count [
-				4660, 
-				4661, 
-				4662, 
-				4663,
-				4650,
-				4640
-			];
-
 			(_x # 1) params ["_page","_show","_line",["_PgComponents",[]]];
-		
-			private _group = [_display, _page, (_page != "main") && _show] call BCE_fnc_ATAK_openPage;
-			
-			private _background = _display displayCtrl IDC_CTAB_GROUP_MENU;
-			_background ctrlShow _show;
 
+			private _backgroundGroup = _display displayCtrl IDC_CTAB_GROUP_MENU;
+			private _background = _backgroundGroup controlsGroupCtrl 9;
+			_backgroundGroup ctrlShow true;
+
+			// private _activeAnim = _backgroundGroup getVariable ["Anim_Activation",_interfaceInit];
+			private _animPayload = _backgroundGroup getVariable ["Anim_Payload",[]];
+			private _has_animPayload = _animPayload findIf {true} > -1; //- Check variable isn't empty
+
+			private _group = [_display, _page, (_page != "main")] call BCE_fnc_ATAK_openPage;
+			private _groupIDC = ctrlIDC _group - 17000;
+			
+			//- Init State 
+				{
+					private _ctrl = _display displayCtrl (17000 + _x);
+					if (_groupIDC == _x) then {
+						_ctrl ctrlShow true;
+					} else {
+						_ctrl ctrlShow false;
+						_ctrl ctrlSetFade 1;
+						_ctrl ctrlCommit 0;
+					};
+				} forEach [
+					4660,
+					4661,
+					4662,
+					4663,
+					4650,
+					4640,
+					4641
+				];
+			_group ctrlShow true;
+			
+			//- Make sure Layout is correct
 			call BCE_fnc_ATAK_Check_Layout;
+			if (isNull _group || !_show) exitWith {};
 			
-			if (isnil{_group} || !_show) exitWith {};
-			_group ctrlShow _show;
-
 			//-ATAK Control Adjustments
 			switch (_page) do {
-				case "VideoFeeds": {
-					private _switch_btn = _group controlsGroupCtrl 5;
-					private _ListGroup = _group controlsGroupCtrl 10;
-					private _ViewGroup = _group controlsGroupCtrl 20;
-					private _commitTime = {[_this, 0] select _interfaceInit};
-					private _hcam = [_displayName, "hcam"] call cTab_fnc_getSettings;
-
-					//- Get Last Selection
-						private _SubSel = _PgComponents param [0, [0,1] select (_hcam != "")];
-
-					//- Control Components
-						private _ctrl_TrackTG = _ViewGroup controlsGroupCtrl 11;
-						private _ctrl_TrackInfo = _ViewGroup controlsGroupCtrl 12;
-						private _ctrl_Vision = _ViewGroup controlsGroupCtrl 13;
-						private _ctrl_Sync = _ViewGroup controlsGroupCtrl 14;
-						private _ctrl_View = _ViewGroup controlsGroupCtrl 46310;
-						private _ctrl_Turret = _ViewGroup controlsGroupCtrl 46320;
-						private _ctrl_PIP = _ViewGroup controlsGroupCtrl 4632;
-					
-					//- Check if is Sub-Menu
-						private _subMenu = _line > 0;
-
-						_ListGroup ctrlEnable _subMenu;
-						_ViewGroup ctrlEnable !_subMenu;
-
-						_ListGroup ctrlSetPositionH ([
-							0,
-							(ctrlPosition _group) # 3
-						] select _subMenu);
-						_ListGroup ctrlSetFade ([1,0] select _subMenu);
-						_ListGroup ctrlCommit (0.3 call _commitTime);
-		
-						{
-							_x ctrlSetFade ([0,1] select _subMenu);
-							_x ctrlCommit ((0.08 * (1 max _forEachIndex)) call _commitTime);
-						} forEach allControls _ViewGroup;
-					
-					//- Setup View Control Lists
-						if (_subMenu) exitWith {
-							//- List Controls
-								private _toolbox = _ListGroup controlsGroupCtrl 6;
-								private _ls = _ListGroup controlsGroupCtrl 7;
-
-							//- Setup Lists Selections
-								_toolbox ctrlRemoveAllEventHandlers "ToolBoxSelChanged";
-								_ls ctrlRemoveAllEventHandlers "LBSelChanged";
-
-								//- Generate Camera Connectable List
-								[_ls,_SubSel] call BCE_fnc_cTab_CreateCameraList;
-								_toolbox lbSetCurSel _SubSel;
-
-								_toolbox ctrlAddEventHandler ["ToolBoxSelChanged", {
-									[_this # 0,3,_this # 1] call BCE_fnc_ATAK_Camera_Controls
-								}];
-								_ls ctrlAddEventHandler ["LBSelChanged", {
-									[_this # 0,4,_this # 1] call BCE_fnc_ATAK_Camera_Controls
-								}];
-
-							_switch_btn ctrlSetStructuredText parseText localize "STR_BCE_Select_Camera";
-							_ctrl_View ctrlRemoveAllEventHandlers "MouseEnter";
-							_ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
-						};
-					
-					if (_interfaceInit) exitWith {};
-
-					//- View Box Status
-						private _veh = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
-						private _isHcam = _SubSel == 1;
-						//- exit if display is on
-						private _displayOn = (
-							!isnull(uiNamespace getVariable ["BCE_HCAM_View",displayNull]) || 
-							((player getVariable ["TGP_View_EHs", -1]) != -1)
-						);
-					
-					//- Setup PIP Camera
-						call {
-							//- Helmet CAM
-							if (_isHcam) exitWith {
-								_ctrl_Turret ctrlSetText localize "STR_BCE_Helmet_CAM";
-								call cTab_fnc_deleteUAVcam;
-								player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
-								_veh = ["rendertarget9",_hcam, !_displayOn] call cTab_fnc_createHelmetCam;
-							};
-							//- AV CAM
-							if (!isnull _veh && !_displayOn) exitWith {
-								call cTab_fnc_deleteHelmetCam; //- delete Hcam PIP
-								[_veh,[[1,"rendertarget9"]],false] call cTab_fnc_createUavCam;
-							};
-						};
-
-					private _null_Connected = isnull _veh;
-					
-					//- PIP Control
-						_ctrl_PIP ctrlShow ((!_null_Connected || _isHcam) && !_displayOn);
-					//- Button Control
-						_ctrl_View ctrlEnable (!_null_Connected && !_displayOn);
-					//- Widget Control
-						{_x ctrlEnable (!_null_Connected && !_isHcam && !_displayOn)} count [_ctrl_TrackTG,_ctrl_Vision,_ctrl_Sync,_ctrl_Turret];
-
-					//- Create PIP camera if mode is "UAV"
-						private _title = if (_null_Connected) then {
-							_ctrl_Turret ctrlSetText "- -";
-							
-							_ctrl_View ctrlSetText localize "STR_BCE_No_Signal";
-							
-							if (_isDialog) then {
-								_ctrl_View ctrlSetFade 0;
-								_ctrl_View ctrlcommit (0.2 call _commitTime);
-								_ctrl_View ctrlRemoveAllEventHandlers "MouseEnter";
-								_ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
-							} else {
-								_ctrl_View ctrlSetBackgroundColor [0,0,0,0.08];
-							};
-
-							"  - - <img image='\MG8\AVFEVFX\data\ExpandList.paa'/>"
-						} else {
-							_ctrl_TrackTG ctrlSetBackgroundColor ([[0.5,0,0,0.3],[0,0,0.5,0.3]] select (uiNamespace getVariable ['BCE_ATAK_TRACK_Focus',false]));
-							
-							if (_isDialog) then {
-								_ctrl_View ctrlSetText localize "STR_BCE_Live_Feed";
-								_ctrl_View ctrlSetFade 1;
-								_ctrl_View ctrlcommit 0;
-								_ctrl_View ctrlAddEventHandler ["MouseEnter", {(_this # 0) ctrlSetFade 0.5; (_this # 0) ctrlcommit 0.2;}];
-								_ctrl_View ctrlAddEventHandler ["MouseExit", {(_this # 0) ctrlSetFade 1; (_this # 0) ctrlcommit 0.2;}];
-							} else {
-								_ctrl_View ctrlSetText "";
-								_ctrl_View ctrlSetBackgroundColor [0,0,0,0];
-							};
-								
-							[groupId group _veh, [_veh] call CBA_fnc_getGroupIndex] joinString " : "
-						};
-
-					//- Set Title Text
-						_switch_btn ctrlSetStructuredText parseText _title;
-						_ctrl_TrackInfo ctrlSetText localize "STR_BCE_None"; //- Rewrite the Focus Point (Relative Info)
-
-					//- Update Vision Mode (after Camera is Generated)
-						[_ctrl_TrackTG,0,false] call BCE_fnc_ATAK_Camera_Controls;
-						[_ctrl_Vision,1,false] call BCE_fnc_ATAK_Camera_Controls;
-						[_ctrl_Sync,2,false] call BCE_fnc_ATAK_Camera_Controls;
-						
-				};
 				case "message": {
 					private _title = _group controlsGroupCtrl 5;
 					private _contacts = _group controlsGroupCtrl 6;
@@ -1248,7 +1159,7 @@ _settings apply {
 						_list ctrlEnable (_line < 1);
 						_typing ctrlEnable (_line < 1);
 
-					if (_interfaceInit) exitWith {};
+					// if (_interfaceInit) exitWith {};
 
 					//- Get Contactor
 					private _previus = [_displayName, "Contactor"] call cTab_fnc_getSettings;
@@ -1419,11 +1330,235 @@ _settings apply {
 					private _ctrl = _group controlsGroupCtrl (17000 + 2107);
 					_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
 				};
+				case "mission_Build": {
+					_display call BCE_fnc_ATAK_TaskCreate;
+				};
 				case "Task_Result": {
 					private _ctrl = _group controlsGroupCtrl 11;
 					private _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
 					private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
 					[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
+				};
+				case "VideoFeeds": {
+					private _switch_btn = _group controlsGroupCtrl 5;
+					private _ListGroup = _group controlsGroupCtrl 10;
+					private _ViewGroup = _group controlsGroupCtrl 20;
+					private _commitTime = {[_this, 0] select _interfaceInit};
+					private _hcam = [_displayName, "hcam"] call cTab_fnc_getSettings;
+
+					//- Get Last Selection
+						private _SubSel = _PgComponents param [0, [0,1] select (_hcam != "")];
+
+					//- Control Components
+						private _ctrl_TrackTG = _ViewGroup controlsGroupCtrl 11;
+						private _ctrl_TrackInfo = _ViewGroup controlsGroupCtrl 12;
+						private _ctrl_Vision = _ViewGroup controlsGroupCtrl 13;
+						private _ctrl_Sync = _ViewGroup controlsGroupCtrl 14;
+						private _ctrl_View = _ViewGroup controlsGroupCtrl 46310;
+						private _ctrl_Turret = _ViewGroup controlsGroupCtrl 46320;
+						private _ctrl_PIP = _ViewGroup controlsGroupCtrl 4632;
+					
+					//- Check if is Sub-Menu
+						private _subMenu = _line > 0;
+
+						_ListGroup ctrlEnable _subMenu;
+						_ViewGroup ctrlEnable !_subMenu;
+
+						_ListGroup ctrlSetPositionH ([
+							0,
+							(ctrlPosition _group) # 3
+						] select _subMenu);
+						_ListGroup ctrlSetFade ([1,0] select _subMenu);
+						_ListGroup ctrlCommit (0.3 call _commitTime);
+		
+						{
+							_x ctrlSetFade ([0,1] select _subMenu);
+							_x ctrlCommit ((0.08 * (1 max _forEachIndex)) call _commitTime);
+						} forEach allControls _ViewGroup;
+					
+					//- Setup View Control Lists
+						if (_subMenu) exitWith {
+							//- List Controls
+								private _toolbox = _ListGroup controlsGroupCtrl 6;
+								private _ls = _ListGroup controlsGroupCtrl 7;
+
+							//- Setup Lists Selections
+								_toolbox ctrlRemoveAllEventHandlers "ToolBoxSelChanged";
+								_ls ctrlRemoveAllEventHandlers "LBSelChanged";
+
+								//- Generate Camera Connectable List
+								[_ls,_SubSel] call BCE_fnc_cTab_CreateCameraList;
+								_toolbox lbSetCurSel _SubSel;
+
+								_toolbox ctrlAddEventHandler ["ToolBoxSelChanged", {
+									[_this # 0,3,_this # 1] call BCE_fnc_ATAK_Camera_Controls
+								}];
+								_ls ctrlAddEventHandler ["LBSelChanged", {
+									[_this # 0,4,_this # 1] call BCE_fnc_ATAK_Camera_Controls
+								}];
+
+							_switch_btn ctrlSetStructuredText parseText localize "STR_BCE_Select_Camera";
+							_ctrl_View ctrlRemoveAllEventHandlers "MouseEnter";
+							_ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
+						};
+					
+					// if (_interfaceInit) exitWith {};
+
+					//- View Box Status
+						private _veh = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+						private _isHcam = _SubSel == 1;
+						//- exit if display is on
+						private _displayOn = (
+							!isnull(uiNamespace getVariable ["BCE_HCAM_View",displayNull]) || 
+							((player getVariable ["TGP_View_EHs", -1]) != -1)
+						);
+					
+					//- Setup PIP Camera
+						call {
+							//- Helmet CAM
+							if (_isHcam) exitWith {
+								_ctrl_Turret ctrlSetText localize "STR_BCE_Helmet_CAM";
+								call cTab_fnc_deleteUAVcam;
+								player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
+								_veh = ["rendertarget9",_hcam, !_displayOn] call cTab_fnc_createHelmetCam;
+							};
+							//- AV CAM
+							if (!isnull _veh && !_displayOn) exitWith {
+								call cTab_fnc_deleteHelmetCam; //- delete Hcam PIP
+								[_veh,[[1,"rendertarget9"]],false] call cTab_fnc_createUavCam;
+							};
+						};
+
+					private _null_Connected = isnull _veh;
+					
+					//- PIP Control
+						_ctrl_PIP ctrlShow ((!_null_Connected || _isHcam) && !_displayOn);
+					//- Button Control
+						_ctrl_View ctrlEnable (!_null_Connected && !_displayOn);
+					//- Widget Control
+						{_x ctrlEnable (!_null_Connected && !_isHcam && !_displayOn)} count [_ctrl_TrackTG,_ctrl_Vision,_ctrl_Sync,_ctrl_Turret];
+
+					//- Create PIP camera if mode is "UAV"
+						private _title = if (_null_Connected) then {
+							_ctrl_Turret ctrlSetText "- -";
+							
+							_ctrl_View ctrlSetText localize "STR_BCE_No_Signal";
+							
+							if (_isDialog) then {
+								_ctrl_View ctrlSetFade 0;
+								_ctrl_View ctrlcommit (0.2 call _commitTime);
+								_ctrl_View ctrlRemoveAllEventHandlers "MouseEnter";
+								_ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
+							} else {
+								_ctrl_View ctrlSetBackgroundColor [0,0,0,0.08];
+							};
+
+							"  - - <img image='\MG8\AVFEVFX\data\ExpandList.paa'/>"
+						} else {
+							_ctrl_TrackTG ctrlSetBackgroundColor ([[0.5,0,0,0.3],[0,0,0.5,0.3]] select (uiNamespace getVariable ['BCE_ATAK_TRACK_Focus',false]));
+							
+							if (_isDialog) then {
+								_ctrl_View ctrlSetText localize "STR_BCE_Live_Feed";
+								_ctrl_View ctrlSetFade 1;
+								_ctrl_View ctrlcommit 0;
+								_ctrl_View ctrlAddEventHandler ["MouseEnter", {(_this # 0) ctrlSetFade 0.5; (_this # 0) ctrlcommit 0.2;}];
+								_ctrl_View ctrlAddEventHandler ["MouseExit", {(_this # 0) ctrlSetFade 1; (_this # 0) ctrlcommit 0.2;}];
+							} else {
+								_ctrl_View ctrlSetText "";
+								_ctrl_View ctrlSetBackgroundColor [0,0,0,0];
+							};
+								
+							[groupId group _veh, [_veh] call CBA_fnc_getGroupIndex] joinString " : "
+						};
+
+					//- Set Title Text
+						_switch_btn ctrlSetStructuredText parseText _title;
+						_ctrl_TrackInfo ctrlSetText localize "STR_BCE_None"; //- Rewrite the Focus Point (Relative Info)
+
+					//- Update Vision Mode (after Camera is Generated)
+						[_ctrl_TrackTG,0,false] call BCE_fnc_ATAK_Camera_Controls;
+						[_ctrl_Vision,1,false] call BCE_fnc_ATAK_Camera_Controls;
+						[_ctrl_Sync,2,false] call BCE_fnc_ATAK_Camera_Controls;
+						
+				};
+				case "Group": {
+					private _list = _group controlsGroupCtrl 10;
+					private _tag_Name = "ATAK_Group_Manage_Custom";
+					private _tag_class = [configFile >> "RscTitles" >> _tag_Name, configFile >> _tag_Name] select _isDialog;
+					private _sum_H = 0;
+
+					(ctrlPosition _list) params ["_list_X","","_list_W"];
+
+					//- Get All Groups
+					// private _customTeam = (groups playerSide) apply {
+					// 	[] 
+					// };
+
+					//- get custom Groups
+					private _customTeam = ((createHashMapFromArray [["CCT",[group player,"Assault Team", 71.1]],["TACP",[group player,"Platoon", 50]]]) toArray false);
+					reverse _customTeam;
+
+					_customTeam = [["All Groups",98],["My Team",99]] + _customTeam;
+
+					//- Clear List
+						{ctrlDelete _x} count allControls _list;
+					
+					//- Create Option Tags
+						{
+							_x params [["_title",""],["_values",[]]];
+
+							if (_title == "") then {continue};
+
+							// - System Values ("_values" = "IDC")
+							if (_values isEqualType 0) then {
+								private _ctrl = _list controlsGroupCtrl _values;
+
+								_ctrl ctrlSetPositionY _sum_H;
+								_ctrl ctrlCommit 0;
+								_sum_H = _sum_H + (ctrlPosition _ctrl # 3);
+								
+								continue
+							};
+							_values params ["_group","_teamName","_freq"];
+
+							private _ctrl = _display ctrlCreate [
+								_tag_class,
+								100 + _forEachIndex, //- IDC Prefix = 100
+								_list
+							];
+
+							//- Sorting Position
+								_ctrl ctrlSetPositionY _sum_H;
+								_ctrl ctrlCommit 0;
+								_sum_H = _sum_H + (ctrlPosition _ctrl # 3);
+
+							private _tag = _ctrl controlsGroupCtrl 15;
+							_tag ctrlSetStructuredText parseText format [
+								"<img size='1' image='\MG8\AVFEVFX\data\ExpandList.paa'/> %1<t align='right'>%2 </t>",
+								_title,
+								_teamName //- Call Sign or something you like
+							];
+
+							private _info_ls = _ctrl controlsGroupCtrl 50;
+							
+
+							//- Apply Infos
+								{
+									(_x splitString "|") params ["_L","_R",["_pic",""]];
+
+									private _row = _info_ls lnbAddRow [_L,""];
+									_info_ls lnbSetTextRight [[_row, 0], _R];
+
+									if (_pic != "") then {
+										_info_ls lnbSetPictureRight [[_row, 0], _pic];
+									};
+								} forEach [
+									format ["Leader : %1| ”NW” %2°", name leader _group, 160],
+									format ["Freq : %1| |%2", _freq, "\cTab\img\icon_signalStrength_ca.paa"]
+								];
+								
+						} forEach _customTeam;
+					 	_sum_H = 0;
 				};
 			};
 		};
