@@ -16,11 +16,17 @@ if !(isnil{_delta}) then {
     private _vec_Cur = _current_vec # _x;
     private _Vec_target = _vecDirUp # _x;
 
+    private _VecMag = linearConversion [
+      0, 1,
+      vectorMagnitude (_Vec_target vectorDiff _vec_Cur),
+      1.5, 1.2
+    ];
+
     private _result = [
       _vec_Cur,
       _Vec_target,
       _delta,
-      1.2
+      _VecMag
     ] call BIS_fnc_interpolateVector;
     _current_vec set [_x, _result];
     _result
