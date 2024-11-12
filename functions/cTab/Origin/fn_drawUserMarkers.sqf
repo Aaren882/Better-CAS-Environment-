@@ -65,7 +65,7 @@ _reSizing = inputMouse "940638208";
 _LMB = (inputMouse 0) > 0;
 
 (localNamespace getVariable ["cTab_Marker_CurSel",[]]) params [["_curSelMarker",-1],"_EditMarker","_drawMode","_Marker_Component"];
-(localNamespace getVariable ["cTab_Marker_CurHov",[]]) params [["_hovSel",-1],"_hovCol"];
+(localNamespace getVariable ["cTab_Marker_CurHov",[]]) params [["_hovSel",-1],"_hovCol","_hovmarker"];
 _isnt_Drawing = isnil{localNamespace getVariable "BCE_DrawHold_lastClick"};
 _ColorCache = uiNamespace getVariable "BCE_Marker_Color";
 
@@ -115,7 +115,7 @@ _ColorCache = uiNamespace getVariable "BCE_Marker_Color";
 
 			//- if no Hover Color
 			if (_hovSel < 0) then {
-				localNamespace setVariable ["cTab_Marker_CurHov",[_ID,_markerColor]];
+				localNamespace setVariable ["cTab_Marker_CurHov",[_ID,_markerColor,_marker]];
 				_marker setMarkerColorLocal "cTab_Highlight";
 			};
 			_color = cTabTADhighlightColour;

@@ -50,14 +50,10 @@ if !(isNil "cTabIfOpen") then {
 	};
 
 	//- if the on hovered markerColor hasn't turned back
-	(localNamespace getVariable ["cTab_Marker_CurHov",[-1]]) params ["_hovSel","_hovCol"];
+	(localNamespace getVariable ["cTab_Marker_CurHov",[-1]]) params ["_hovSel","_hovCol","_hovmarker"];
 	if (_hovSel > -1) then {
-		{
-			if (_hovSel == _x # 2) exitWith {
-				localNamespace setVariable ["cTab_Marker_CurHov",nil];
-				(_x # 0) setMarkerColorLocal _hovCol;
-			};
-		} count cTabMarkerList;
+		localNamespace setVariable ["cTab_Marker_CurHov",nil];
+		_hovmarker setMarkerColorLocal _hovCol;
 	};
 
 	// don't call this part if we are closing down before setup has finished
