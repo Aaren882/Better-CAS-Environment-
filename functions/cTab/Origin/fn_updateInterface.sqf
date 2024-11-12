@@ -492,7 +492,7 @@ _settings apply {
 					if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
 						private _showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
 						_displayItemsToShow append [17000 + 2615,17000 + 2616]; //- Show Compass on Phone
-						if (_showMenu # 1) then {
+						if (_showMenu param [1, false]) then {
 							_displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
 							if !(_interfaceInit) then {
 								_settings pushBack ["showMenu",[_displayName,"showMenu"] call cTab_fnc_getSettings];
