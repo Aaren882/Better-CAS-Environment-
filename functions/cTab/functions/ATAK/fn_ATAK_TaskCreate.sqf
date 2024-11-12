@@ -15,17 +15,19 @@ _components = _display displayCtrl (17000+4662);
 _description = _components controlsGroupCtrl (17000+2004);
 
 _TaskList ctrlShow false;
-[_description,_components] apply {_x ctrlShow true};
+{_x ctrlShow true} count [_components,_description];
+_components ctrlSetFade 0;
+_components ctrlCommit 0.3;
 
 _TaskListPOS = ctrlPosition (_components controlsGroupCtrl (17000+2011));
 _titlePOS = [0, _TaskListPOS # 1, 0, (_TaskListPOS # 3) * 0.01];
 
 _desc = switch (_curType) do {
 	case 1: {
-		["","STR_BCE_DECS_FRNDMark","STR_BCE_DECS_TGT","","STR_BCE_DECS_Remarks"]
+		["","FRNDMark","TGT","","Remarks"]
 	};
 	default {
-		["","STR_BCE_DECS_IPBP","","","STR_BCE_DECS_ELEV","STR_BCE_DECS_DESC","STR_BCE_DECS_GRID","STR_BCE_DECS_MARK","STR_BCE_DECS_FRND","STR_BCE_DECS_EGRS","STR_BCE_DECS_Remarks"]
+		["","IPBP","","","ELEV","DESC","GRID","MARK","FRND","EGRS","Remarks"]
 	};
 };
 
@@ -36,4 +38,7 @@ _shownCtrls = [_components,_curLine,1,true] call BCE_fnc_Show_CurTaskCtrls;
 call ([BCE_fnc_DblClick9line, BCE_fnc_DblClick5line] # _curType);
 
 _description ctrlCommit 0;
-_description ctrlSetStructuredText parseText format ["%1<br/>%2", localize "STR_BCE_Description", localize (_desc # _curLine)];
+_description ctrlSetStructuredText parseText ([
+	localize "STR_BCE_Description",
+	localize ("STR_BCE_DECS_" + (_desc # _curLine))
+] joinString "<br/>");
