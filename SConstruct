@@ -83,10 +83,10 @@ def buildSymlink(pathFrom, pathTo):
     return commands
 
 def buildPbo(settings,env, pbo):
-    optBinarize = "-binarize=C:\\Windows\\System32\\print.exe" if pbo.name in settings["noBinarize"] else ""
+    optBinarize = "-packonly" if pbo.name in settings["noBinarize"] else "" 
     cfgConvertArg = "-cfgconvert=asdfafds" # + a3toolsPath() + "\\CfgConvert\\CfgConvert.exe"
     env.Command(pbo.outputPath, allFilesIn(pbo.folder)+["build"], 
-        f'"{addonBuilderPath()}" "{os.path.abspath(pbo.buildSymlink)}" "{os.path.abspath(settings["outputFolder"])}" "-packonly" "-project=build" "-prefix={pbo.pboPrefix}" -include=tools\\buildExtIncludes.txt {optBinarize}')
+        f'"{addonBuilderPath()}" "{os.path.abspath(pbo.buildSymlink)}" "{os.path.abspath(settings["outputFolder"])}" "-project=build" "-prefix={pbo.pboPrefix}" -include=tools\\buildExtIncludes.txt {optBinarize}')
     targetDefinition(pbo.name, f"Build the {pbo.name} pbo.")
     return env.Alias(pbo.name, pbo.outputPath)
 
