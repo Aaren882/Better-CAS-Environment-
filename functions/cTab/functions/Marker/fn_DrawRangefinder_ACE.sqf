@@ -3,7 +3,7 @@ if (ctab_rangefinder_last == 0) exitWith {}; //- Exit on "ctab_rangefinder" Vars
 
 if (ctab_rangefinder_last > time) then {
   private _last = ctab_rangefinder_last - time;
-  private _step = ((_last/5) call BIS_fnc_smoothStep);
+  private _step = ((_last/5) call BIS_fnc_smoothStep); //- Normalize and apply Smooth
   private _size = 40 + _step * 10;
   
   _ctrlScreen drawIcon [
