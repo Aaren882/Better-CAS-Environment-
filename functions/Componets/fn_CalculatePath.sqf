@@ -61,3 +61,6 @@
     _marker setMarkerType "mil_dot";  
     _marker setMarkerText str _forEachIndex;  
   } forEach Calculated_Path; 
+
+//- Measure Map Size
+// A3\functions_f\Strategic\fn_StrategicMapOpen.sqf [BIS_fnc_StrategicMapOpen]

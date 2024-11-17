@@ -818,6 +818,11 @@ class CfgFunctions
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Message";
 				class ATAK_msg_Line_Create;
 			};
+			class ATAK_Group_Menu
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Group_Menu";
+				class ATAK_onGroupClicked;
+			};
 		#endif
 	};
 	#ifdef cTAB_Installed

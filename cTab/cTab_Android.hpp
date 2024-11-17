@@ -86,6 +86,7 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 				size = 0.7 * (((60)) / 2048 * CustomPhoneH);
 
 				text = "";
+				onButtonClick = "call BCE_fnc_ATAK_onGroupClicked"
 
 				colorBackground[] = {0.15,0.15,0.15,0.86};
 				colorBackground2[] = {0.15,0.15,0.15,0.86};
@@ -128,7 +129,7 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 	};
 	class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 	{
-		h = (3 * 0.7) * (((60)) / 2048 * CustomPhoneH); // - Display with 3 lines
+		// h = (3 * 0.7) * (((60)) / 2048 * CustomPhoneH); // - Display with 3 lines
 		class controls: controls
 		{
 			class menuBackground: RscBackground
@@ -1202,19 +1203,21 @@ PHONE_CLASS
 						class L51_EditBnt: RscStructuredText
 						{
 							idc = idc_D(2040);
+							style = 2;
 							ATAK_POS(0.2,(3.6 + (0.35/2)),2.7,0.7);
 							colorBackground[] = {0.2,0.2,0.2,0.5};
 							
-							size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
+							// size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
+							size = TextSize;
 							text = "“Alpha 1-1” / “Alpha 1-2”";
 							tooltip="$STR_BCE_TIP_5Line";
 							
 							class Attributes
 							{
 								align = "center";
-								valign = "middle";
+								// valign = "middle";
 								font = "RobotoCondensedBold_BCE";
-								size = TextMenu(1);
+								size = TextMenu(0.8);
 							};
 						};
 						

@@ -23,4 +23,8 @@ class Extended_Anim_transformation
         frameRate = 120;
         response = 0.5;
     };
+    class ATAK_Toggle_Fast_Spring: ATAK_Toggle_Spring
+    {
+        duration = 0.45;
+    };
 };
