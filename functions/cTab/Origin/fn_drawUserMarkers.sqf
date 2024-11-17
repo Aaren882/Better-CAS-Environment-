@@ -190,3 +190,8 @@ if (!(_reDirecting || _reSizing || _LMB) && _curSelMarker > -1) then {
 #if __has_include("\z\ace\addons\map_gestures\config.bin")
 	call cTab_fnc_onDrawMapPointer;
 #endif
+
+//- Check Rangefinder (Requir ACE + cTab 1erGTD)
+#if __has_include("\z\ctab\addons\rangefinder\config.bin")
+	call cTab_fnc_DrawRangefinder_ACE;
+#endif

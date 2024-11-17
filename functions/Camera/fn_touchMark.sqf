@@ -1,7 +1,7 @@
 TGP_View_Marker_List apply {
 	private["_pos","_time","_alpha"];
 	_pos = _x getVariable ["TGP_View_Mark",[]];
-	_time = _x getVariable "TGP_View_Marker_last";
+	_time = _x getVariable ["TGP_View_Marker_last",1];
 	_alpha = abs (1 min _time);
 	if (!(_pos isEqualTo []) && (_time != -1)) then {
 		drawIcon3D [

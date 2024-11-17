@@ -95,6 +95,9 @@ cTabOnDrawUAV = ctab_fnc_onDrawUAV;
 cTab_Tablet_btnACT = ctab_fnc_Tablet_btnACT;
 cTab_msg_gui_load = ctab_fnc_msg_gui_load;
 
+ctab_rangefinder_lastPosition = [];
+ctab_rangefinder_last = 0;
+
 cTabTxtSize = 0.06;
 
 //- CBA Settings
@@ -102,8 +105,9 @@ cTabTxtSize = 0.06;
 
 //////////////////////////////////////////////////////////////
 
-//- Remove the origin "cTab_msg_receive"
+//- Remove the origin "cTab_msg_receive", (RangeFinder) "ctab_interface_open"
 	["cTab_msg_receive",0] call CBA_fnc_RemoveLocalEventHandler;
+	["ctab_interface_open", 0] call CBA_fnc_removeEventHandler;
 
 //- Replace Event "cTab_msg_receive"
 ["cTab_msg_receive",
@@ -144,6 +148,29 @@ cTabTxtSize = 0.06;
 		};
 	}
 ] call CBA_fnc_addLocalEventHandler;
+
+["ctab_interface_open", { 
+	params ["_display", "_displayName", "_player", "_vehicle"];
+
+	if (
+		ctab_rangefinder_lastPosition findIf {true} > -1 && 
+		ctab_rangefinder_last == 0 && 
+		{[_displayName] call cTab_fnc_isDialog}
+	) then {
+
+		private _targetMapName = [_displayName,"mapType"] call cTab_fnc_getSettings;
+		private _mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+		private _targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
+		private _targetMapCtrl = _display displayCtrl _targetMapIDC;
+
+		//- Focus to the POS
+			_targetMapCtrl ctrlMapAnimAdd [0, ctrlMapScale _targetMapCtrl, ctab_rangefinder_lastPosition];
+			ctrlMapAnimCommit _targetMapCtrl;
+		
+		//- Set Last time
+			ctab_rangefinder_last = time + 5;
+	};
+}] call CBA_fnc_addEventHandler;
 
 //- on Marker Deleted
 	["deleted", {

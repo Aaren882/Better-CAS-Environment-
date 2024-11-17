@@ -949,6 +949,9 @@ class CfgFunctions
 					class MapPointer;
 					class onDrawMapPointer;
 				#endif
+				#if __has_include("\z\ctab\addons\rangefinder\config.bin")
+					class DrawRangefinder_ACE;
+				#endif
 				class FinishEDIT_Marker;
 				class PlaceMarker;
 				class Add_to_MarkerList;
