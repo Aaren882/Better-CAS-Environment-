@@ -19,7 +19,9 @@ class CfgPatches
 				"cTab",
 			#endif
 			#if __has_include("\z\ctab\addons\core\config.bin")
+				#define cTab_1erGTD 1
 				"ctab_core",
+				"ctab_rangefinder",
 			#endif
 			//-POLPOX map tools
 			#define PLP_TOOL 0
@@ -63,6 +65,13 @@ class Extended_PostInit_EventHandlers
 	{
 		init = "call compile preprocessFileLineNumbers 'MG8\AVFEVFX\XEH_postInit.sqf'";
 	};
+	//- Remove 1erGTD's rangefinder Initiation
+	#ifdef cTab_1erGTD
+		class ctab_rangefinder
+		{
+			clientInit = "";
+		};
+	#endif
 };
 class CfgUIGrids
 {
@@ -102,7 +111,7 @@ class CfgUIGrids
 			};
 		};
 		
-		#if __has_include("\z\ctab\addons\core\config.bin")
+		#ifdef cTab_1erGTD
 			#define PHONE_BG "\cTab\img\android_s7_ca.paa"
 		#else
 			#define PHONE_BG "\cTab\img\android_background_ca.paa"
@@ -973,7 +982,7 @@ class CfgFunctions
 	#endif
 
 	//- especially for "1erGTD"
-	#if __has_include("\z\ctab\addons\core\config.bin")
+	#ifdef cTab_1erGTD
 		class cTab_core
 		{
 			class function
