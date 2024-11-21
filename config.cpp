@@ -602,6 +602,9 @@ class CfgVehicles
 
 	#include "Compat.hpp"
 };
+
+//- Animation Config
+#include "Extended_Anim_props.hpp"
 class CfgFunctions
 {
 	class BCE
@@ -639,6 +642,15 @@ class CfgFunctions
 			#if __has_include("\MG8\DiscordMessageAPI\config.bin")
 				class Discord_GetWebhooks;
 			#endif
+		};
+		class Anim_Componets
+		{
+			file="MG8\AVFEVFX\Functions\Componets\Animation_Transform";
+			class Anim_Type;
+			class Anim_Init;
+			class Anim_CustomOffset;
+			class Anim_getConfigSteps;
+			class Anim_SmoothDamp;
 		};
 		class HUD
 		{
@@ -814,6 +826,11 @@ class CfgFunctions
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Message";
 				class ATAK_msg_Line_Create;
+			};
+			class ATAK_Group_Menu
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Group_Menu";
+				class ATAK_onGroupClicked;
 			};
 		#endif
 	};

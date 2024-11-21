@@ -37,12 +37,12 @@
 	["MarkerWidget",[false,0,[0,0],[],0,0,100]],
 	["MarkerEDIT",""],
 	["Contactor",""],
-	["showModeMenu",false],
 	["uavInfo",false],
 	["mapTools",true],
 	["PLP_mapTools",false],
 	["nightMode",2],
 	["hCam",""],
+	["group_Info",[]],
 	
 	//- Define Size
 		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.443437)])
