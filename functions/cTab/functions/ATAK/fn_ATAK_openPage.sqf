@@ -1,12 +1,13 @@
 params ["_display","_page",["_Back", false]];
-private ["_group","_ctrls","_ctrlPOS"];
+private ["_group","_ctrls","_ctrlPOS_BG","_ctrlPOS"];
 
 _group = _display displayCtrl 46600;
 _ctrls = allControls _group;
 _group ctrlShow _Back;
 _group ctrlEnable true;
 
-_ctrlPOS = ctrlPosition _background;
+_ctrlPOS_BG = ctrlPosition _background;
+_ctrlPOS =+ _ctrlPOS_BG; // - Copy Value
 _ctrlPOS set [2, (_ctrlPOS # 2) / 4];
 
 private _return = switch _page do {
@@ -217,6 +218,42 @@ private _return = switch _page do {
 				_setting set [3,[]];
 				["cTab_Android_dlg",[["showMenu",_setting]],false] call cTab_fnc_setSettings;
 			};
+		
+		//- Set ATAK APPs (by order)
+			private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
+			private _order = [] call BCE_fnc_ATAK_getAPPs;
+			private _Apps_Group = _display displayCtrl (17000 + 4660);
+			private _createCtrls = (allControls _Apps_Group) findIf {true} < 0;
+			_Apps_Group ctrlshow true;
+			
+			private _ROWs = 3;
+			private _config = [
+				configFile >> "RscTitles" >> "ATAK_APPs",
+				configFile >> "ATAK_APPs"
+			] select _isDialog;
+			
+			private _APP_W = (_ctrlPOS_BG # 2) / 3;
+			private _Yaxis = 0;
+			{
+				//- Check Ctrls
+					private _ctrl = if (_createCtrls) then {
+						_display ctrlCreate [_config >> _x, 100 + _forEachIndex, _Apps_Group];
+					} else {
+						_Apps_Group controlsGroupCtrl (100 + _forEachIndex);
+					};
+				_ctrl ctrlshow true;
+
+				private _o = _forEachIndex mod _ROWs; //- Checking Order
+
+				//- Check Y POS (Skip the first ROW)
+					if (_o == 0 && _forEachIndex >= _ROWs) then {
+						_Yaxis = _Yaxis + ((ctrlPosition _ctrl) # 3);
+					};
+				
+				_ctrl ctrlSetPositionX (_APP_W * _o);
+				_ctrl ctrlSetPositionY _Yaxis;
+				_ctrl ctrlCommit 0;
+			} forEach _order;
 		4660
 	};
 };
