@@ -1107,10 +1107,8 @@ _settings apply {
 			
 			//- Init State 
 				{
-					private _ctrl = _display displayCtrl (17000 + _x);
-					if (_groupIDC == _x) then {
-						_ctrl ctrlShow true;
-					} else {
+					if (_groupIDC != _x) then {
+						private _ctrl = _display displayCtrl (17000 + _x);
 						_ctrl ctrlShow false;
 						_ctrl ctrlSetFade 1;
 						_ctrl ctrlCommit 0;

@@ -829,8 +829,13 @@ class CfgFunctions
 			};
 			class ATAK_Group_Menu
 			{
-				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Group_Menu";
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Group";
 				class ATAK_onGroupClicked;
+			};
+			class ATAK_Menu
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu";
+				class ATAK_getAPPs;
 			};
 		#endif
 	};

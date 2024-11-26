@@ -2155,8 +2155,6 @@ class cTab_FBCB2_dlg
 #define TextTimesH 1
 #define TextMenu(MULTI) __EVAL(1.1*MULTI)
 
-#define ATAK_APP(APP,TITLE) #<t size='1'>TITLE</t>
-
 //-ATAK Map
 #include "cTab_Android_Widgets.hpp"
 #include "cTab_Android_Layout.hpp"
