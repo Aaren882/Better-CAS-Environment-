@@ -1,6 +1,7 @@
 params ["_display","_page",["_Back", false]];
-private ["_group","_ctrls","_ctrlPOS_BG","_ctrlPOS"];
+private ["_isHome","_group","_ctrls","_ctrlPOS_BG","_ctrlPOS","_setting"];
 
+_isHome = false;
 _group = _display displayCtrl 46600;
 _ctrls = allControls _group;
 _group ctrlShow _Back;
@@ -10,9 +11,11 @@ _ctrlPOS_BG = ctrlPosition _background;
 _ctrlPOS =+ _ctrlPOS_BG; // - Copy Value
 _ctrlPOS set [2, (_ctrlPOS # 2) / 4];
 
-private _return = switch _page do {
+_setting = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
+_setting params ["","","_line"];
+
+switch _page do {
 	case "message": {
-		(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_line"];
 		//- Arrange Bottons layout
 			{
 				_x ctrlShow false;
@@ -119,8 +122,6 @@ private _return = switch _page do {
 		4663
 	};
 	case "VideoFeeds": {
-		(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_line"];
-
 		//- Arrange Bottons layout
 			{
 				_x ctrlShow false;
@@ -165,8 +166,6 @@ private _return = switch _page do {
 		4640
 	};
 	case "Group": {
-		(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_line"];
-
 		//- Arrange Bottons layout
 			{
 				_x ctrlShow false;
@@ -212,52 +211,20 @@ private _return = switch _page do {
 	};
 	default {
 		//- Clear up Menu Components
-			private _setting = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
 			private _PgComponents = _setting param [3,[]];
 			if (_PgComponents findIf {true} > -1) then {
 				_setting set [3,[]];
 				["cTab_Android_dlg",[["showMenu",_setting]],false] call cTab_fnc_setSettings;
 			};
 		
-		//- Set ATAK APPs (by order)
-			private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
-			private _order = [] call BCE_fnc_ATAK_getAPPs;
-			private _Apps_Group = _display displayCtrl (17000 + 4660);
-			private _createCtrls = (allControls _Apps_Group) findIf {true} < 0;
-			_Apps_Group ctrlshow true;
-			
-			private _ROWs = 3;
-			private _config = [
-				configFile >> "RscTitles" >> "ATAK_APPs",
-				configFile >> "ATAK_APPs"
-			] select _isDialog;
-			
-			private _APP_W = (_ctrlPOS_BG # 2) / 3;
-			private _Yaxis = 0;
-			{
-				//- Check Ctrls
-					private _ctrl = if (_createCtrls) then {
-						_display ctrlCreate [_config >> _x, 100 + _forEachIndex, _Apps_Group];
-					} else {
-						_Apps_Group controlsGroupCtrl (100 + _forEachIndex);
-					};
-				_ctrl ctrlshow true;
-
-				private _o = _forEachIndex mod _ROWs; //- Checking Order
-
-				//- Check Y POS (Skip the first ROW)
-					if (_o == 0 && _forEachIndex >= _ROWs) then {
-						_Yaxis = _Yaxis + ((ctrlPosition _ctrl) # 3);
-					};
-				
-				_ctrl ctrlSetPositionX (_APP_W * _o);
-				_ctrl ctrlSetPositionY _Yaxis;
-				_ctrl ctrlCommit 0;
-			} forEach _order;
-		4660
+		//- Check Home Page
+			_isHome = true;
 	};
 };
 
+private _return = [4650, 4660] select _isHome;
+_isHome call BCE_fnc_ATAK_openMenu;
+
 // - Return "nil" or "Control Group"
-if (isnil {_return}) exitWith {controlNull};
+// if (isnil {_return}) exitWith {controlNull};
 _display displayCtrl (17000 + _return)
