@@ -1,18 +1,94 @@
-//- Task Building Page
-    class Task_Builder: cTab_RscControlsGroup
+//- Message Interface
+    class ATAK_Message: cTab_RscControlsGroup
     {
         x = phoneSizeX + (phoneSizeW * 3/5);
         y = phoneSizeY;
         w = phoneSizeW * 2/5;
         h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH);
-        
+
         class VScrollbar
         {
             scrollSpeed=0.08;
         };
         class HScrollbar{};
         class Scrollbar{};
-        
+
+        class controls
+        {
+            class Title: BCE_RscButtonMenu
+            {
+                idc = 5;
+                x = 0;
+                y = 0;
+                w = PhoneBFTContainerW(3);
+                h = 0.8 * (((60)) / 2048 * CustomPhoneH);
+
+                size = 0.7 * (((60)) / 2048 * CustomPhoneH);
+                text = "";
+
+                colorBackground[] = {0,0,0,0.5};
+                colorBackground2[] = {0,0,0,0.5};
+                colorBackgroundFocused[] = {0,0,0,0.8};
+
+                animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
+                animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+                animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
+
+                onButtonClick = "call BCE_fnc_ATAK_toggleSubMenu";
+                class Attributes: Attributes
+                {
+                    align = "center";
+                    valign = "Bottom";
+                };
+            };
+            class Group_Box: cTab_RscControlsGroup
+            {
+                idc = 10;
+
+                class VScrollbar: VScrollbar
+                {
+                    width = 0;
+                };
+                class HScrollbar: HScrollbar
+                {
+                    height = 0;
+                };
+                
+                x = 0;
+                y = 0.8 * (((60)) / 2048 * CustomPhoneH);
+                w = PhoneBFTContainerW(3);
+                h = phoneSizeH - 2.3 * (((60)) / 2048 * CustomPhoneH);
+            };
+            class Contacts_list: RscListbox
+            {
+                idc = 6;
+                colorBackground[] = {0,0,0,0.3};
+                colorSelectBackground[] = {0.95,0.95,0.95,0.4};
+                sizeEx = 0.8 * (((60) - (20))) / 2048 * CustomPhoneH;
+
+                x = 0;
+                y = 0.8 * (((60)) / 2048 * CustomPhoneH);
+                w = PhoneBFTContainerW(3);
+                h = 0;
+            };
+            class typing: RscEdit
+            {
+                idc = 11;
+                
+                x = 0;
+                y = phoneSizeH - 1.5 * (((60)) / 2048 * CustomPhoneH);
+                w = PhoneBFTContainerW(3);
+                h = 0.75 * (((60)) / 2048 * CustomPhoneH);
+
+                sizeEx = 0.64 * (((60) - (20))) / 2048 * CustomPhoneH;
+
+                colorBackground[]={0,0,0,0.5};
+            };
+        };
+    };
+//- Task Building Page
+    class Task_Builder: ATAK_Message
+    {
         class controls
         {
             class Game_Plan_T: RscText
@@ -775,82 +851,6 @@
                 y = 0;
                 w = PhoneBFTContainerW(3);
                 h = "SafezoneH";
-            };
-        };
-    };
-//- Message Interface
-    class ATAK_Message: Task_Building
-    {
-        class controls
-        {
-            class Title: BCE_RscButtonMenu
-            {
-                idc = 5;
-                x = 0;
-                y = 0;
-                w = PhoneBFTContainerW(3);
-                h = 0.8 * (((60)) / 2048 * CustomPhoneH);
-
-                size = 0.7 * (((60)) / 2048 * CustomPhoneH);
-                text = "";
-
-                colorBackground[] = {0,0,0,0.5};
-                colorBackground2[] = {0,0,0,0.5};
-                colorBackgroundFocused[] = {0,0,0,0.8};
-
-                animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
-                animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
-                animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
-
-                onButtonClick = "call BCE_fnc_ATAK_toggleSubMenu";
-                class Attributes: Attributes
-                {
-                    align = "center";
-                    valign = "Bottom";
-                };
-            };
-            class Group_Box: cTab_RscControlsGroup
-            {
-                idc = 10;
-
-                class VScrollbar: VScrollbar
-                {
-                    width = 0;
-                };
-                class HScrollbar: HScrollbar
-                {
-                    height = 0;
-                };
-                
-                x = 0;
-                y = 0.8 * (((60)) / 2048 * CustomPhoneH);
-                w = PhoneBFTContainerW(3);
-                h = phoneSizeH - 2.3 * (((60)) / 2048 * CustomPhoneH);
-            };
-            class Contacts_list: RscListbox
-            {
-                idc = 6;
-                colorBackground[] = {0,0,0,0.3};
-                colorSelectBackground[] = {0.95,0.95,0.95,0.4};
-                sizeEx = 0.8 * (((60) - (20))) / 2048 * CustomPhoneH;
-
-                x = 0;
-                y = 0.8 * (((60)) / 2048 * CustomPhoneH);
-                w = PhoneBFTContainerW(3);
-                h = 0;
-            };
-            class typing: RscEdit
-            {
-                idc = 11;
-                
-                x = 0;
-                y = phoneSizeH - 1.5 * (((60)) / 2048 * CustomPhoneH);
-                w = PhoneBFTContainerW(3);
-                h = 0.75 * (((60)) / 2048 * CustomPhoneH);
-
-                sizeEx = 0.64 * (((60) - (20))) / 2048 * CustomPhoneH;
-
-                colorBackground[]={0,0,0,0.5};
             };
         };
     };

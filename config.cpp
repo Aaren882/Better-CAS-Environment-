@@ -797,8 +797,6 @@ class CfgFunctions
 			class ATAK
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK";
-				class ATAK_ChangeTool;
-				class ATAK_openPage;
 				class ATAK_TaskCreate;
 				class ATAK_LastPage;
 				class ATAK_DescType_Changed;
@@ -814,6 +812,14 @@ class CfgFunctions
 				class ATAK_onVehicleChanged;
 				class ATAK_toggleSubMenu;
 				class ATAK_Camera_Controls;
+			};
+			class ATAK_Menu
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu";
+				class ATAK_getAPPs;
+				class ATAK_openPage;
+				class ATAK_openMenu;
+				class ATAK_ChangeTool;
 			};
 			class ATAK_CAM
 			{
@@ -831,11 +837,6 @@ class CfgFunctions
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Group";
 				class ATAK_onGroupClicked;
-			};
-			class ATAK_Menu
-			{
-				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu";
-				class ATAK_getAPPs;
 			};
 		#endif
 	};

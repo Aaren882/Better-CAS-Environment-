@@ -173,9 +173,12 @@ cTabTxtSize = 0.06;
 			};
 	}] call CBA_fnc_addMarkerEventHandler;
 
+//- Check ATAK Menu items
+	[] call BCE_fnc_ATAK_getAPPs;
+
 //- Set Marker Cache
 	private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");
-	private _result = _classes apply {
+	_result = _classes apply {
 		private ["_Categories","_color","_hide"];
 		_Categories = getArray (_x >> "Categories");
 		_color = (getArray (_x >> "color")) apply {

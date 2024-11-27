@@ -662,7 +662,7 @@ PHONE_CLASS
 					};
 				};
 			//- Home page of ATAK (Applications)
-				class ATAK_Tools: ATAK_MenuBG
+				class ATAK_APPs_Menu: ATAK_MenuBG
 				{
 					idc = idc_D(4660);
 					h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH);
@@ -798,6 +798,11 @@ PHONE_CLASS
 							textureNoShortcut="MG8\AVFEVFX\data\settings.paa";
 						};*/
 					};
+				};
+			//- Functional page of ATAK (Application)
+				class ATAK_Tool_Menu: ATAK_APPs_Menu
+				{
+					idc = idc_D(4650);
 				};
 		////- Bottons for ATAK Tools
 			class InputButtons: ATAK_MenuBG

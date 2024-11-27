@@ -6,6 +6,8 @@ class ATAK_APPs
         class message: BCE_ATAK_Tool_ICON
         {
             ORDER = 0; //- Default Order (Customizable)
+            PAGE_CTRL = "ATAK_Message"; //- which "Control Class" switch to
+
             text = ATAK_APP(Missions);
             onButtonClick = "[_this # 0, 'message'] call BCE_fnc_ATAK_ChangeTool;";
             
@@ -14,6 +16,8 @@ class ATAK_APPs
         class mission: message
         {
             ORDER = 1;
+            PAGE_CTRL = "Task_Builder";
+
             text = ATAK_APP(Missions);
             onButtonClick = "[_this # 0, 'mission'] call BCE_fnc_ATAK_ChangeTool;";
 
@@ -22,6 +26,8 @@ class ATAK_APPs
         class VideoFeeds: message
         {
             ORDER = 2;
+            PAGE_CTRL = "ATAK_Video";
+
             text = ATAK_APP(Video Feeds);
             onButtonClick = "[_this # 0, 'VideoFeeds'] call BCE_fnc_ATAK_ChangeTool;";
             
@@ -31,6 +37,8 @@ class ATAK_APPs
         class Photo: message
         {
             ORDER = 3;
+            PAGE_CTRL = "";
+
             text = ATAK_APP(Quick Pictures);
             onButtonClick = "558 cutRsc ['BCE_PhoneCAM_View','PLAIN',0.3,false];";
             
@@ -39,6 +47,8 @@ class ATAK_APPs
         class Groups: Photo
         {
             ORDER = 4;
+            PAGE_CTRL = "ATAK_Group";
+
             text = ATAK_APP(Groups);
             onButtonClick = "[_this # 0, 'Group'] call BCE_fnc_ATAK_ChangeTool;";
             
@@ -47,6 +57,8 @@ class ATAK_APPs
         class Route: Photo
         {
             ORDER = 5;
+            PAGE_CTRL = "";
+
             text = ATAK_APP(Route);
             onButtonClick = "";
             
@@ -57,6 +69,8 @@ class ATAK_APPs
         class Weather: message
         {
             ORDER = 6;
+            PAGE_CTRL = "";
+
             text = ATAK_APP(Weather);
             onButtonClick = "";
             
@@ -65,6 +79,8 @@ class ATAK_APPs
         class BDA_Report: Weather
         {
             ORDER = 7;
+            PAGE_CTRL = "";
+
             text = ATAK_APP(BDA Report);
             onButtonClick = "";
             
@@ -74,6 +90,8 @@ class ATAK_APPs
         class settings: VideoFeeds
         {
             ORDER = 8;
+            PAGE_CTRL = "";
+
             text = ATAK_APP(Settings);
             onButtonClick = "";
             

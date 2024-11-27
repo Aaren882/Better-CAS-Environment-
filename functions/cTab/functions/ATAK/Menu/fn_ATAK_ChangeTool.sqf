@@ -1,6 +1,5 @@
 params [["_ctrl",controlNull],"_page","_curLine"];
 
-
 private _displayName = "cTab_Android_dlg";
 private _setting = [_displayName, "showMenu"] call cTab_fnc_getSettings;
 _setting set [0,_page];
