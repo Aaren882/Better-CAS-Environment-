@@ -1,20 +1,20 @@
 params ["_display"];
 
 (["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["_page","_show"];
+(call BCE_fnc_ATAK_getCurrentAPP) params ["_APP_page","_APP_Ctrl"];
 
-if !(_show) exitWith {};
+if (!_show || _APP_page != _page) exitWith {};
 
 private _ctrl = switch _page do {
 	case "mission": {
-		_display displayCtrl (17000 + 4660)
+		_APP_Ctrl
 	};
 	case "message": {
-		private _group = _display displayCtrl (17000 + 4650);
-		_group controlsGroupCtrl 10;
+		_APP_Ctrl controlsGroupCtrl 10;
 	};
 	case "mission_Build": {controlNull};
 	default {
-		_display displayCtrl (17000 + 4660)
+		_APP_Ctrl
 	};
 };
 

@@ -1,4 +1,4 @@
-private ["_List","_fnc"];
+private ["_components","_List","_fnc"];
 
 _components = _display displayCtrl (17000+4662);
 

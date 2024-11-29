@@ -14,7 +14,7 @@ if (isnil {_taskVar}) exitWith {hintSilent "Error Variable is empty"};
 _display = ctrlParent _control;
 _ctrlTitle = ctrlText _control;
 
-_TaskList = _display displayCtrl (17000+4661);
+// _TaskList = _display displayCtrl (17000+4661);
 _components = _display displayCtrl (17000+4662);
 
 private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
@@ -26,7 +26,7 @@ private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
 			["MSG","Invaild Recipient...",3] call cTab_fnc_addNotification;
 		};
 
-		private _group = _display displayCtrl (17000+4650);
+		private _group = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
 		private _typing = _group controlsGroupCtrl 11;
 		private _msgBody = ctrlText _typing;
 

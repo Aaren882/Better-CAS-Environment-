@@ -1,5 +1,5 @@
 // - "BCE_fnc_ATAK_openMenu" (in "BCE_fnc_ATAK_openPage")
-params ["_HomePage"];
+params ["_HomePage","_setting"];
 
 private _order = [] call BCE_fnc_ATAK_getAPPs;
 private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
@@ -13,7 +13,6 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
       configFile >> "RscTitles" >> "ATAK_APPs",
       configFile >> "ATAK_APPs"
     ] select _isDialog;
-    // _Apps_Group ctrlshow true;
     
     private _ROWs = 3;
     private _APP_W = (_ctrlPOS_BG # 2) / 3;
@@ -26,7 +25,6 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
         } else {
           _Apps_Group controlsGroupCtrl (100 + _forEachIndex);
         };
-      _ctrl ctrlshow true;
 
       private _o = _forEachIndex mod _ROWs; //- Checking Order
 
@@ -43,14 +41,18 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
 
 //- Set APP Menu
   private _APPs_Map = uiNamespace getVariable ["BCE_ATAK_APPs_HashMap", createHashMap];
-  private _currentMenu = _APPs_Map get _page;
-  private _menuIDC = 100 + (_order find _page);
+  (_APPs_Map get _page) params ["_currentMenu","_function"];
+  
+  //- catch empty "Opened function"
+    if (_function == "") exitWith {
+      ["“Opened function” of this page is not exist"] call BIS_fnc_error;
+    };
 
   //- Check Ctrls
     private _Apps_Group = _display displayCtrl (17000 + 4650);
+    private _menuIDC = 15000 + (_order find _page);
     private _allCtrls = allControls _Apps_Group;
-    private _ctrl = _allCtrls param [0, controlNull];
-    // private _createCtrls = _allCtrls findIf {ctrlClassName _x == _page} > -1;
+    private _ctrl = (_allCtrls select {ctrlIDC _x >= 15000}) param [0, controlNull];
 
     //- if selected "_page" isn't current "_page"
     if (ctrlIDC _ctrl != _menuIDC) then {
@@ -58,10 +60,10 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
         configFile >> "RscTitles",
         configFile
       ] select _isDialog;
-      {ctrlDelete _x} count _allCtrls; //- Reset ControlGroup
-      hintSilent str [_display,_config >> _currentMenu,_Apps_Group,time];
+      {ctrlDelete _x} count _allCtrls; //- Reset ControlsGroup
       
       _ctrl = _display ctrlCreate [_config >> _currentMenu, _menuIDC, _Apps_Group];
     };
 
-    systemChat str [ctrlIDC _ctrl != _menuIDC,_currentMenu,_ctrl,_allCtrls,time];
+  //- Opened
+    [_ctrl,_interfaceInit,_settings] call (uiNamespace getVariable _function);

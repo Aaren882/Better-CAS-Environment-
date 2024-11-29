@@ -5,7 +5,6 @@ private _ctrlIndex = _groupSel getVariable ["Index",-1];
 if (_ctrlIndex < 0) exitWith {};
 
 //- Set Variable
-private _display = ctrlParent _ctrl;
 private _className = ctrlClassName _groupSel;
 private _groupSel_IDC = ctrlIDC _groupSel;
 private _checkedGroup = ["cTab_Android_dlg", "group_Info"] call cTab_fnc_getSettings;
@@ -29,7 +28,7 @@ if (_open) then {
       _tagH
     };
 
-private _displayGroup = _display displayCtrl (17000 + 4641);
+private _displayGroup = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
 private _list = _displayGroup controlsGroupCtrl 10;
 
 //- Expend List Element

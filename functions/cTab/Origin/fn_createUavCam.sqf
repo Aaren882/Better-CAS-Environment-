@@ -33,7 +33,7 @@ _displayName = cTabIfOpen # 1;
 _display = uiNamespace getVariable _displayName;
 _squad_list = _display displayCtrl ([17000 + 1785,20116] select _UAV_Interface);
 _seat_info = if ("Android" in _displayName) then {
-	private _group = _display displayCtrl (17000 + 4640);
+	private _group = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
 	_group = _group controlsGroupCtrl 20;
 	_group controlsGroupCtrl 46320
 } else {

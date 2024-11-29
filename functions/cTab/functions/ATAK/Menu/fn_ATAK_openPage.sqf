@@ -1,5 +1,5 @@
 params ["_display","_page",["_Back", false]];
-private ["_isHome","_group","_ctrls","_ctrlPOS_BG","_ctrlPOS","_setting"];
+private ["_isHome","_group","_ctrls","_ctrlPOS_BG","_ctrlPOS","_settings"];
 
 _isHome = false;
 _group = _display displayCtrl 46600;
@@ -11,8 +11,8 @@ _ctrlPOS_BG = ctrlPosition _background;
 _ctrlPOS =+ _ctrlPOS_BG; // - Copy Value
 _ctrlPOS set [2, (_ctrlPOS # 2) / 4];
 
-_setting = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
-_setting params ["","","_line"];
+_settings = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
+_settings params ["","","_line"];
 
 switch _page do {
 	case "message": {
@@ -56,8 +56,6 @@ switch _page do {
 				_group ctrlSetFade 0;
 				_group ctrlCommit _commitTime;
 			};
-
-		4650
 	};
 	case "mission": {
 		_vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
@@ -92,8 +90,6 @@ switch _page do {
 
 		_bnt_result ctrlSetStructuredText parseText "<img image='a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa' />";
 		_bnt_result ctrlSetBackgroundColor ((["R","G","B"] apply {1 - (profilenamespace getvariable ('GUI_BCG_RGB_' + _x))}) + [0.5]);
-
-		4661
 	};
 	case "mission_Build": {
 		_bnt_back = _ctrls # 0;
@@ -162,8 +158,6 @@ switch _page do {
 				_group ctrlSetFade 0;
 				_group ctrlCommit _commitTime;
 			};
-
-		4640
 	};
 	case "Group": {
 		//- Arrange Bottons layout
@@ -211,10 +205,10 @@ switch _page do {
 	};
 	default {
 		//- Clear up Menu Components
-			private _PgComponents = _setting param [3,[]];
+			private _PgComponents = _settings param [3,[]];
 			if (_PgComponents findIf {true} > -1) then {
-				_setting set [3,[]];
-				["cTab_Android_dlg",[["showMenu",_setting]],false] call cTab_fnc_setSettings;
+				_settings set [3,[]];
+				["cTab_Android_dlg",[["showMenu",_settings]],false] call cTab_fnc_setSettings;
 			};
 		
 		//- Check Home Page
@@ -222,9 +216,25 @@ switch _page do {
 	};
 };
 
-private _return = [4650, 4660] select _isHome;
-_isHome call BCE_fnc_ATAK_openMenu;
+//- The return value
+	private _returnIDC = [4650, 4660] select _isHome;
+	private _return = _display displayCtrl (17000 + _returnIDC);
+	_return ctrlShow true;
+
+//- Init State
+	{
+		if (_returnIDC != _x) then {
+			private _ctrl = _display displayCtrl (17000 + _x);
+			_ctrl ctrlShow false;
+			_ctrl ctrlSetFade 1;
+			_ctrl ctrlCommit 0;
+		};
+	} forEach [
+		4660,
+		4650
+	];
+
+[_isHome,_settings] call BCE_fnc_ATAK_openMenu;
 
 // - Return "nil" or "Control Group"
-// if (isnil {_return}) exitWith {controlNull};
-_display displayCtrl (17000 + _return)
+_return

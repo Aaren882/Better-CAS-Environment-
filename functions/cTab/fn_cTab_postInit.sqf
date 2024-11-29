@@ -173,12 +173,12 @@ cTabTxtSize = 0.06;
 			};
 	}] call CBA_fnc_addMarkerEventHandler;
 
-//- Check ATAK Menu items
-	[] call BCE_fnc_ATAK_getAPPs;
-
+//- Verify the Existence of ATAK Menu Items
+	[false,true] call BCE_fnc_ATAK_getAPPs;
+  
 //- Set Marker Cache
 	private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");
-	_result = _classes apply {
+	private _result = _classes apply {
 		private ["_Categories","_color","_hide"];
 		_Categories = getArray (_x >> "Categories");
 		_color = (getArray (_x >> "color")) apply {
@@ -187,8 +187,8 @@ cTabTxtSize = 0.06;
 		_hide = getNumber (_x >> "Hide_Direction");
 
 		_Categories = flatten (_Categories apply {
-		(format [ 
-			"(getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0)", _x 
+			(format [ 
+				"(getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0)", _x 
 			]) configClasses (configFile >> "CfgMarkers") apply { 
 				configName _x 
 			};

@@ -797,21 +797,24 @@ class CfgFunctions
 			class ATAK
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK";
-				class ATAK_TaskCreate;
 				class ATAK_LastPage;
+				class ATAK_getScrollValue;
+				class ATAK_Check_Layout;
+				class ATAK_Camera_Controls;
+			};
+			class ATAK_Fire_Mission
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission";
+				class ATAK_TaskCreate;
 				class ATAK_DescType_Changed;
 				class ATAK_TaskTypeChanged;
 				class ATAK_DataReceiveButton;
 				class ATAK_AutoSaveTask;
 				class ATAK_Refresh_TaskInfos;
 				class ATAK_Refresh_Weapons;
-				class ATAK_getScrollValue;
 				class ATAK_PullData;
 				class ATAK_ShowTaskResult;
-				class ATAK_Check_Layout;
 				class ATAK_onVehicleChanged;
-				class ATAK_toggleSubMenu;
-				class ATAK_Camera_Controls;
 			};
 			class ATAK_Menu
 			{
@@ -820,6 +823,16 @@ class CfgFunctions
 				class ATAK_openPage;
 				class ATAK_openMenu;
 				class ATAK_ChangeTool;
+				class ATAK_toggleSubMenu;
+				class ATAK_getCurrentAPP;
+			};
+			class ATAK_Menu_Init
+			{
+				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\APP_Menu_Init";
+				class ATAK_message_Init;
+				class ATAK_mission_Init;
+				class ATAK_Group_Init;
+				class ATAK_VideoFeeds_Init;
 			};
 			class ATAK_CAM
 			{
