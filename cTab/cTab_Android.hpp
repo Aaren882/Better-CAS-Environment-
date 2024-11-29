@@ -196,7 +196,21 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 	#undef BNT_W
 	#undef TAG_BNT_W
 
-//- ATAK Tools
+//- ATAK APPs
+	class ATAK_AppMenu_Base: cTab_RscControlsGroup
+	{
+		x = 0;
+		y = 0;
+		w = phoneSizeW * 2/5;
+		h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH);
+		
+		class VScrollbar
+		{
+			scrollSpeed=0.08;
+		};
+		class HScrollbar{};
+		class Scrollbar{};
+	};
 #include "ATAK_Tools\cTab_ATAK_APP.hpp"
 #include "ATAK_Tools\cTab_ATAK_Tools.hpp"
 

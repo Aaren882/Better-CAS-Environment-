@@ -1,17 +1,10 @@
 //- Message Interface
-    class ATAK_Message: cTab_RscControlsGroup
+    class ATAK_Message: ATAK_AppMenu_Base
     {
-        x = phoneSizeX + (phoneSizeW * 3/5);
-        y = phoneSizeY;
+        /*x = phoneSizeX + (phoneSizeW * 3/5);
+        y = phoneSizeY;*/
         w = phoneSizeW * 2/5;
         h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH);
-
-        class VScrollbar
-        {
-            scrollSpeed=0.08;
-        };
-        class HScrollbar{};
-        class Scrollbar{};
 
         class controls
         {
@@ -624,236 +617,236 @@
         };
     };
     //- Task building Components
-    class Task_Building: Task_Builder
-    {
-        class VScrollbar
+        class Task_Building: Task_Builder
         {
-            scrollSpeed=0;
-        };
-        
-        class controls
-        {
-            //-Description
-            class taskDesc: RscStructuredText
+            class VScrollbar
             {
-                idc = idc_D(2004);
-                text = "Desc :";
-                colorBackground[] = {0,0,0,0};
-                ATAK_POS(0,0,3,1);
-                size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
-                class Attributes
-                {
-                    font = "RobotoCondensed_BCE";
-                    color = "#ffffff";
-                    align = "left";
-                    shadow = 1;
-                    size = TextMenu(0.95);
-                };
+                scrollSpeed=0;
             };
             
-            class Indicator: RscText
+            class controls
             {
-                idc = idc_D(2011);
-                
-                x = PhoneBFTContainerW(0.1);
-                y = 0.1 * ((60)) / 2048 * CustomPhoneH;
-                w = PhoneBFTContainerW(3);
-                h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH);
-            };
-            
-            //-IP
-            class New_Task_IPtype: RscToolbox
-            {
-                idc = idc_D(2012);
-                ATAK_POS(0.1,0.35/2,2.8,0.65);
-                
-                rows = 1;
-                columns = 3;
-                strings[] =
+                //-Description
+                class taskDesc: RscStructuredText
                 {
-                    "$STR_BCE_Tit_Map_marker",
-                    "$STR_BCE_Tit_Click_Map",
-                    "$STR_BCE_Tit_OverHead"
-                };
-                
-                font = "RobotoCondensed_BCE";
-                colorBackground[] = {0,0,0,0.3};
-                sizeEx = 0.9 * TextSize;
-                
-                onToolBoxSelChanged = _this + [false,TASK_OFFSET,'cTab_Android_dlg'] call BCE_fnc_ToolBoxChanged;
-            };
-            class New_Task_MarkerCombo: RscCombo
-            {
-                idc = idc_D(2013);
-                ATAK_POS(0.1,(0.65 + 0.35/2),1.4,0.65);
-                colorBackground[] = {0.5,0.5,0.5,0.6};
-                colorSelectBackground[] = {0.5,0.5,0.5,0.6};
-                //colorPictureSelected[] = {1,1,1,0};
-                wholeHeight = 0.8;
-                font = "PuristaMedium";
-                sizeEx = 0.85 * TextSize;
-                onMouseButtonClick = "(_this # 0) call BCE_fnc_IPMarkers;";
-                class Items
-                {
-                    class NA
+                    idc = idc_D(2004);
+                    text = "Desc :";
+                    colorBackground[] = {0,0,0,0};
+                    ATAK_POS(0,0,3,1);
+                    size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
+                    class Attributes
                     {
-                        text = "$STR_BCE_SelectMarker";
-                        data = "[]";
-                        default = 1;
+                        font = "RobotoCondensed_BCE";
+                        color = "#ffffff";
+                        align = "left";
+                        shadow = 1;
+                        size = TextMenu(0.95);
                     };
                 };
-            };
-            class New_Task_IPExpression: RscEdit
-            {
-                idc = idc_D(2014);
-                ATAK_POS(1.5,(0.65 + 0.35/2),1.3,0.65);
-                text = "";
-                canModify = 0;
-                sizeEx = 0.85 * TextSize;
-                colorBackground[] = {0,0,0,0};
-                tooltip = "$STR_BCE_tip_ShowResult";
-            };
-            
-            //-TG Description
-            class New_Task_TGT: New_Task_IPtype
-            {
-                idc = idc_D(20121);
-                columns = 2;
-                strings[] =
-                {
-                    "$STR_BCE_Tit_Map_marker",
-                    "$STR_BCE_Tit_Click_Map"
-                };
-            };
-
-            //-Mark
-            class New_Task_GRID_DESC: New_Task_IPExpression
-            {
-                idc = idc_D(2016);
-                ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
-                canModify = 1;
-                text = "$STR_BCE_MarkWith";
-            };
-
-            //-ERGS
-            class New_Task_EGRS_Azimuth: RscToolbox
-            {
-                idc = idc_D(2017);
-                ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
-                rows = 1;
-                columns = 8;
-                strings[] =
-                {
-                    "N",
-                    "NE",
-                    "E",
-                    "SE",
-                    "S",
-                    "SW",
-                    "W",
-                    "NW"
-                };
-                values[] =
-                {
-                    0,
-                    45,
-                    90,
-                    135,
-                    180,
-                    225,
-                    270,
-                    315
-                };
-                font = "RobotoCondensed_BCE";
-                colorBackground[] = {0,0,0,0.3};
-                sizeEx = 0.85 * TextSize;
-            };
-            class New_Task_EGRS_Bearing: New_Task_GRID_DESC
-            {
-                idc = idc_D(2018);
-                ATAK_POS(0.1,(0.35/2 + 0.65),1.4,0.65);
-                text = "$STR_BCE_Bearing_ENT";
-            };
-            class New_Task_EGRS: New_Task_IPtype
-            {
-                idc = idc_D(2019);
-                columns = 4;
-                strings[] =
-                {
-                    "$STR_BCE_Tit_Azimuth",
-                    "$STR_BCE_Tit_Bearing",
-                    "$STR_BCE_Tit_Map_marker",
-                    "$STR_BCE_Tit_OverHead"
-                };
-                sizeEx = 0.85 * TextSize;
-            };
-            
-            //-Remarks
-            class New_Task_FADH: New_Task_IPtype
-            {
-                idc = idc_D(2200);
-                columns = 3;
-                strings[] =
-                {
-                    "FAD",
-                    "FAH",
-                    "$STR_BCE_Default"
-                };
-            };
-            class New_Task_DangerClose_Text: RscText
-            {
-                idc = idc_D(2201);
-                ATAK_POS(0.26,(0.3/2 + 0.65*3),2.8,0.65);
-                text = ": Danger Close";
-                sizeEx = 0.9 * TextSize;
-            };
-            class New_Task_DangerClose_Box: RscCheckBox
-            {
-                idc = idc_D(2202);
-                textureChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-                textureFocusedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-                textureHoverChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-                texturePressedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-                textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
                 
-                x = PhoneBFTContainerW(0.1);
-                y = (0.35/2 + 0.65*3) * ((60)) / 2048 * CustomPhoneH;
-                w = PhoneBFTContainerW(0.3) * (safezoneH/safezonew);
-                h = PhoneBFTContainerW(0.3);
+                class Indicator: RscText
+                {
+                    idc = idc_D(2011);
+                    
+                    x = PhoneBFTContainerW(0.1);
+                    y = 0.1 * ((60)) / 2048 * CustomPhoneH;
+                    w = PhoneBFTContainerW(3);
+                    h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH);
+                };
+                
+                //-IP
+                class New_Task_IPtype: RscToolbox
+                {
+                    idc = idc_D(2012);
+                    ATAK_POS(0.1,0.35/2,2.8,0.65);
+                    
+                    rows = 1;
+                    columns = 3;
+                    strings[] =
+                    {
+                        "$STR_BCE_Tit_Map_marker",
+                        "$STR_BCE_Tit_Click_Map",
+                        "$STR_BCE_Tit_OverHead"
+                    };
+                    
+                    font = "RobotoCondensed_BCE";
+                    colorBackground[] = {0,0,0,0.3};
+                    sizeEx = 0.9 * TextSize;
+                    
+                    onToolBoxSelChanged = _this + [false,TASK_OFFSET,'cTab_Android_dlg'] call BCE_fnc_ToolBoxChanged;
+                };
+                class New_Task_MarkerCombo: RscCombo
+                {
+                    idc = idc_D(2013);
+                    ATAK_POS(0.1,(0.65 + 0.35/2),1.4,0.65);
+                    colorBackground[] = {0.5,0.5,0.5,0.6};
+                    colorSelectBackground[] = {0.5,0.5,0.5,0.6};
+                    //colorPictureSelected[] = {1,1,1,0};
+                    wholeHeight = 0.8;
+                    font = "PuristaMedium";
+                    sizeEx = 0.85 * TextSize;
+                    onMouseButtonClick = "(_this # 0) call BCE_fnc_IPMarkers;";
+                    class Items
+                    {
+                        class NA
+                        {
+                            text = "$STR_BCE_SelectMarker";
+                            data = "[]";
+                            default = 1;
+                        };
+                    };
+                };
+                class New_Task_IPExpression: RscEdit
+                {
+                    idc = idc_D(2014);
+                    ATAK_POS(1.5,(0.65 + 0.35/2),1.3,0.65);
+                    text = "";
+                    canModify = 0;
+                    sizeEx = 0.85 * TextSize;
+                    colorBackground[] = {0,0,0,0};
+                    tooltip = "$STR_BCE_tip_ShowResult";
+                };
+                
+                //-TG Description
+                class New_Task_TGT: New_Task_IPtype
+                {
+                    idc = idc_D(20121);
+                    columns = 2;
+                    strings[] =
+                    {
+                        "$STR_BCE_Tit_Map_marker",
+                        "$STR_BCE_Tit_Click_Map"
+                    };
+                };
+
+                //-Mark
+                class New_Task_GRID_DESC: New_Task_IPExpression
+                {
+                    idc = idc_D(2016);
+                    ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
+                    canModify = 1;
+                    text = "$STR_BCE_MarkWith";
+                };
+
+                //-ERGS
+                class New_Task_EGRS_Azimuth: RscToolbox
+                {
+                    idc = idc_D(2017);
+                    ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
+                    rows = 1;
+                    columns = 8;
+                    strings[] =
+                    {
+                        "N",
+                        "NE",
+                        "E",
+                        "SE",
+                        "S",
+                        "SW",
+                        "W",
+                        "NW"
+                    };
+                    values[] =
+                    {
+                        0,
+                        45,
+                        90,
+                        135,
+                        180,
+                        225,
+                        270,
+                        315
+                    };
+                    font = "RobotoCondensed_BCE";
+                    colorBackground[] = {0,0,0,0.3};
+                    sizeEx = 0.85 * TextSize;
+                };
+                class New_Task_EGRS_Bearing: New_Task_GRID_DESC
+                {
+                    idc = idc_D(2018);
+                    ATAK_POS(0.1,(0.35/2 + 0.65),1.4,0.65);
+                    text = "$STR_BCE_Bearing_ENT";
+                };
+                class New_Task_EGRS: New_Task_IPtype
+                {
+                    idc = idc_D(2019);
+                    columns = 4;
+                    strings[] =
+                    {
+                        "$STR_BCE_Tit_Azimuth",
+                        "$STR_BCE_Tit_Bearing",
+                        "$STR_BCE_Tit_Map_marker",
+                        "$STR_BCE_Tit_OverHead"
+                    };
+                    sizeEx = 0.85 * TextSize;
+                };
+                
+                //-Remarks
+                class New_Task_FADH: New_Task_IPtype
+                {
+                    idc = idc_D(2200);
+                    columns = 3;
+                    strings[] =
+                    {
+                        "FAD",
+                        "FAH",
+                        "$STR_BCE_Default"
+                    };
+                };
+                class New_Task_DangerClose_Text: RscText
+                {
+                    idc = idc_D(2201);
+                    ATAK_POS(0.26,(0.3/2 + 0.65*3),2.8,0.65);
+                    text = ": Danger Close";
+                    sizeEx = 0.9 * TextSize;
+                };
+                class New_Task_DangerClose_Box: RscCheckBox
+                {
+                    idc = idc_D(2202);
+                    textureChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+                    textureFocusedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+                    textureHoverChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+                    texturePressedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+                    textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+                    
+                    x = PhoneBFTContainerW(0.1);
+                    y = (0.35/2 + 0.65*3) * ((60)) / 2048 * CustomPhoneH;
+                    w = PhoneBFTContainerW(0.3) * (safezoneH/safezonew);
+                    h = PhoneBFTContainerW(0.3);
+                };
             };
         };
-    };
-    //- Task Result
-    class Task_Result: Task_Building
-    {
-        class controls
+        //- Task Result
+        class Task_Result: Task_Building
         {
-            class taskDesc: RscListBox
+            class controls
             {
-                idc = 11;
-                shadow = 2;
-                
-                colorBackground[] = {0,0,0,0};
-                period = 0;
-                colorSelect[] = {1,1,1,1};
-                colorSelect2[] = {1,1,1,1};
-                colorSelectRight[] = {1,1,1,1};
-                colorSelect2Right[] = {1,1,1,1};
-                colorSelectBackground[] = {0,0,0,0};
-                colorSelectBackground2[] = {0,0,0,0};
-                
-                font = "RobotoCondensed_BCE";
-                sizeEx = TextSize;
-                soundSelect[]={"\A3\ui_f\data\sound\RscListbox\soundSelect",0,1};
-                rowHeight = 0.1 * TextSize;
-                
-                x = 0;
-                y = 0;
-                w = PhoneBFTContainerW(3);
-                h = "SafezoneH";
+                class taskDesc: RscListBox
+                {
+                    idc = 11;
+                    shadow = 2;
+                    
+                    colorBackground[] = {0,0,0,0};
+                    period = 0;
+                    colorSelect[] = {1,1,1,1};
+                    colorSelect2[] = {1,1,1,1};
+                    colorSelectRight[] = {1,1,1,1};
+                    colorSelect2Right[] = {1,1,1,1};
+                    colorSelectBackground[] = {0,0,0,0};
+                    colorSelectBackground2[] = {0,0,0,0};
+                    
+                    font = "RobotoCondensed_BCE";
+                    sizeEx = TextSize;
+                    soundSelect[]={"\A3\ui_f\data\sound\RscListbox\soundSelect",0,1};
+                    rowHeight = 0.1 * TextSize;
+                    
+                    x = 0;
+                    y = 0;
+                    w = PhoneBFTContainerW(3);
+                    h = "SafezoneH";
+                };
             };
         };
-    };
 //- Video Feeds Interface
     #define EMPT_SPAC (0.15 * ((60)) / 2048 * CustomPhoneH)
     class ATAK_Video: ATAK_Message

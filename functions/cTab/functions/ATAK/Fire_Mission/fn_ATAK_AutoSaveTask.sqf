@@ -1,10 +1,8 @@
 [{
 	params ["_control","_input",["_type",-1]];
-	private ["_display","_TaskList","_curType","_text","_curLine","_shownCtrls"];
-
-	_display = ctrlParent _control;
-	_TaskList = _display displayCtrl (17000+4661);
-
+	private ["_TaskList","_curType","_text","_curLine","_shownCtrls"];
+	
+	_TaskList = ctrlParentControlsGroup _control;
 	if !(ctrlshown _TaskList) exitWith {};
 
 	_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];

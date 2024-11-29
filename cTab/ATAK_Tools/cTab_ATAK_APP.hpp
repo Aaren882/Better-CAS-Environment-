@@ -5,9 +5,13 @@ class ATAK_APPs
     //-First Line
         class message: BCE_ATAK_Tool_ICON
         {
-            ORDER = 0; //- Default Order (Customizable)
-            PAGE_CTRL = "ATAK_Message"; //- which "Control Class" switch to
-
+            class Menu_Property
+            {
+                ORDER = 0; //- Default Order (Customizable)
+                PAGE_CTRL = "ATAK_Message"; //- which "Control Class" switch to
+                Opened = "BCE_fnc_ATAK_message_Init";
+            };
+            
             text = ATAK_APP(Missions);
             onButtonClick = "[_this # 0, 'message'] call BCE_fnc_ATAK_ChangeTool;";
             
@@ -15,8 +19,12 @@ class ATAK_APPs
         };
         class mission: message
         {
-            ORDER = 1;
-            PAGE_CTRL = "Task_Builder";
+            class Menu_Property
+            {
+                ORDER = 1;
+                PAGE_CTRL = "Task_Builder";
+                Opened = "BCE_fnc_ATAK_mission_Init";
+            };
 
             text = ATAK_APP(Missions);
             onButtonClick = "[_this # 0, 'mission'] call BCE_fnc_ATAK_ChangeTool;";
@@ -25,8 +33,12 @@ class ATAK_APPs
         };
         class VideoFeeds: message
         {
-            ORDER = 2;
-            PAGE_CTRL = "ATAK_Video";
+            class Menu_Property
+            {
+                ORDER = 2;
+                PAGE_CTRL = "ATAK_Video";
+                Opened = "BCE_fnc_ATAK_VideoFeeds_Init";
+            };
 
             text = ATAK_APP(Video Feeds);
             onButtonClick = "[_this # 0, 'VideoFeeds'] call BCE_fnc_ATAK_ChangeTool;";
@@ -36,18 +48,25 @@ class ATAK_APPs
     //-Second Line
         class Photo: message
         {
-            ORDER = 3;
-            PAGE_CTRL = "";
+            class Menu_Property
+            {
+                ORDER = 3;
+                PAGE_CTRL = "";
+            };
 
             text = ATAK_APP(Quick Pictures);
             onButtonClick = "558 cutRsc ['BCE_PhoneCAM_View','PLAIN',0.3,false];";
             
             textureNoShortcut="MG8\AVFEVFX\data\photo.paa";
         };
-        class Groups: Photo
+        class Group: Photo
         {
-            ORDER = 4;
-            PAGE_CTRL = "ATAK_Group";
+            class Menu_Property
+            {
+                ORDER = 4;
+                PAGE_CTRL = "ATAK_Group";
+                Opened = "BCE_fnc_ATAK_Group_Init";
+            };
 
             text = ATAK_APP(Groups);
             onButtonClick = "[_this # 0, 'Group'] call BCE_fnc_ATAK_ChangeTool;";
@@ -56,8 +75,11 @@ class ATAK_APPs
         };
         class Route: Photo
         {
-            ORDER = 5;
-            PAGE_CTRL = "";
+            class Menu_Property
+            {
+                ORDER = 5;
+                PAGE_CTRL = "";
+            };
 
             text = ATAK_APP(Route);
             onButtonClick = "";
@@ -68,8 +90,11 @@ class ATAK_APPs
     //-Thired Line
         class Weather: message
         {
-            ORDER = 6;
-            PAGE_CTRL = "";
+            class Menu_Property
+            {
+                ORDER = 6;
+                PAGE_CTRL = "";
+            };
 
             text = ATAK_APP(Weather);
             onButtonClick = "";
@@ -78,8 +103,11 @@ class ATAK_APPs
         };
         class BDA_Report: Weather
         {
-            ORDER = 7;
-            PAGE_CTRL = "";
+            class Menu_Property
+            {
+                ORDER = 7;
+                PAGE_CTRL = "";
+            };
 
             text = ATAK_APP(BDA Report);
             onButtonClick = "";
@@ -89,8 +117,11 @@ class ATAK_APPs
         
         class settings: VideoFeeds
         {
-            ORDER = 8;
-            PAGE_CTRL = "";
+            class Menu_Property
+            {
+                ORDER = 8;
+                PAGE_CTRL = "";
+            };
 
             text = ATAK_APP(Settings);
             onButtonClick = "";

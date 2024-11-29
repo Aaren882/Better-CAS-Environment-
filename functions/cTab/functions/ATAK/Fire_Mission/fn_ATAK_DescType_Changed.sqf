@@ -1,10 +1,9 @@
 params ["_control", "_lbCurSel"];
-private ["_display","_TaskList","_EditBox","_curType","_taskVar","_show"];
+private ["_TaskList","_EditBox","_curType","_taskVar","_show"];
 
 uiNamespace setVariable ["BCE_ATAK_Desc_Type",_lbCurSel];
 
-_display = ctrlParent _control;
-_TaskList = _display displayCtrl (17000 + 4661);
+_TaskList = ctrlParentControlsGroup _control;
 _EditBox = _TaskList controlsGroupCtrl (17000 + 2015);
 
 _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
