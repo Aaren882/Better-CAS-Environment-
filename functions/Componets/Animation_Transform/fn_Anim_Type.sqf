@@ -152,7 +152,7 @@ private _Spawn_handler = switch (_type) do {
       //- Walk through each point (on each frame)
       for "_t" from 0 to (1.5 * _arange) step 1 do {
         
-        uiSleep (1 / _frameRate);
+        Sleep (1 / _frameRate);
 
         //- Result will approach >> 0 (solution: Y offset +1)
         // private _result = exp(-_a * t) * (_c * sin(_b * _t) + (_d * cos(_b * _t))) + 1;
