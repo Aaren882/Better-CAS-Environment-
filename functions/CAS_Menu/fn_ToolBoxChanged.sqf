@@ -20,7 +20,7 @@ if (_DisplayName == "cTab_Android_dlg") then {
 		default {[controlNull,10]};
 	};
 
-	_curLine = _showMenu # 2;
+	_curLine = (_showMenu # 2) param [1,-1];
 } else {
 
 	private _IDCs = [2002,2005] apply {_x + _IDC_offset};

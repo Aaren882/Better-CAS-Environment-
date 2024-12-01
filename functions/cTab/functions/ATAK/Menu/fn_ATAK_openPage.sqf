@@ -1,5 +1,5 @@
 params ["_display","_page",["_Back", false]];
-private ["_isHome","_group","_ctrls","_ctrlPOS_BG","_ctrlPOS","_settings"];
+private ["_isHome","_group","_ctrls","_currentPage","_ctrlPOS_BG","_ctrlPOS","_settings"];
 
 _isHome = false;
 _group = _display displayCtrl 46600;
@@ -7,14 +7,25 @@ _ctrls = allControls _group;
 _group ctrlShow _Back;
 _group ctrlEnable true;
 
+_currentPage = _page;
 _ctrlPOS_BG = ctrlPosition _background;
 _ctrlPOS =+ _ctrlPOS_BG; // - Copy Value
 _ctrlPOS set [2, (_ctrlPOS # 2) / 4];
 
-_settings = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
-_settings params ["","","_line"];
+//- Menu Elements
+	//- Get Sub-Menu
+		_subInfos params ["_subMenu","_curLine"];
 
-switch _page do {
+	//- Get Sub-List
+		private _PG_data = _PgComponents getOrDefault [_page,[]];
+		_PG_data params ["_line"];
+
+//- Overwrite (--temporary--)
+	if (_subMenu != "") then {
+		_currentPage = _subMenu;
+	};
+
+switch _currentPage do {
 	case "message": {
 		//- Arrange Bottons layout
 			{
@@ -47,7 +58,7 @@ switch _page do {
 			_bnt_Ent ctrlSetText localize "STR_BCE_SendData";
 
 		private _commitTime = [0.3, 0] select _interfaceInit;
-		//- Bottons Fade-out "when showing [Contactors]"
+		//- Bottons Fade-out "when showing [Sub-List]"
 			if !(_line < 1) then {
 				_group ctrlEnable false;
 				_group ctrlSetFade 0.75;
@@ -91,7 +102,7 @@ switch _page do {
 		_bnt_result ctrlSetStructuredText parseText "<img image='a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa' />";
 		_bnt_result ctrlSetBackgroundColor ((["R","G","B"] apply {1 - (profilenamespace getvariable ('GUI_BCG_RGB_' + _x))}) + [0.5]);
 	};
-	case "mission_Build": {
+	case "Task_Building": {
 		_bnt_back = _ctrls # 0;
 		_bnt_Ent = _ctrls # 1;
 		_bnt_result = _ctrls # 3;
@@ -149,7 +160,7 @@ switch _page do {
 			_bnt_Ent ctrlSetText localize "STR_BCE_Control_Turret";
 
 		private _commitTime = [0.3, 0] select _interfaceInit;
-		//- Bottons Fade-out "when showing [Sub-Menu]"
+		//- Bottons Fade-out "when showing [Sub-List]"
 			if !(_line < 1) then {
 				_group ctrlEnable false;
 				_group ctrlSetFade 0.75;
@@ -191,7 +202,7 @@ switch _page do {
 			_bnt_Ent ctrlSetText localize "STR_BCE_Locate_Position";
 
 		private _commitTime = [0.3, 0] select _interfaceInit;
-		//- Bottons Fade-out "when showing [Sub-Menu]"
+		//- Bottons Fade-out "when showing [Sub-List]"
 			if !(_line < 1) then {
 				_group ctrlEnable false;
 				_group ctrlSetFade 0.75;
@@ -205,11 +216,11 @@ switch _page do {
 	};
 	default {
 		//- Clear up Menu Components
-			private _PgComponents = _settings param [3,[]];
+			/*private _PgComponents = _settings param [3, []];
 			if (_PgComponents findIf {true} > -1) then {
 				_settings set [3,[]];
 				["cTab_Android_dlg",[["showMenu",_settings]],false] call cTab_fnc_setSettings;
-			};
+			};*/
 		
 		//- Check Home Page
 			_isHome = true;
@@ -234,7 +245,7 @@ switch _page do {
 		4650
 	];
 
-[_isHome,_settings] call BCE_fnc_ATAK_openMenu;
+[_isHome] call BCE_fnc_ATAK_openMenu;
 
 // - Return "nil" or "Control Group"
 _return

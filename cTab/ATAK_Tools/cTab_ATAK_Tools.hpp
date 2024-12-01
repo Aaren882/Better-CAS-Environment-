@@ -27,7 +27,7 @@
                 animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
                 animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
 
-                onButtonClick = "call BCE_fnc_ATAK_toggleSubMenu";
+                onButtonClick = "call BCE_fnc_ATAK_toggleSubListMenu";
                 class Attributes: Attributes
                 {
                     align = "center";
@@ -284,7 +284,7 @@
 
                 size = 0.7 * (((60) - (20))) / 2048 * CustomPhoneH;
                 
-                onButtonClick = "[nil,'mission_Build',1] call BCE_fnc_ATAK_ChangeTool;";
+                onButtonClick = "[nil,'Task_Building',1] call BCE_fnc_ATAK_ChangeTool;";
                 
                 class Attributes: Attributes
                 {
@@ -315,7 +315,7 @@
                 ATAK_POS(0.2,(4.6 + (0.35/2)),2.7,0.7);
                 text = "535ft MSL";
                 tooltip="$STR_BCE_TIP_ELEV";
-                onButtonClick = "[nil,'mission_Build',4] call BCE_fnc_ATAK_ChangeTool;";
+                onButtonClick = "[nil,'Task_Building',4] call BCE_fnc_ATAK_ChangeTool;";
             };
             /*class L94_PullBnt: ctrlButton
             {
@@ -418,7 +418,7 @@
                 ATAK_POS(0.2,(7.6 + (0.35/2)),2.7,0.7);
                 text = "XT 123456";
                 tooltip="$STR_BCE_TIP_GRID";
-                onButtonClick = "[nil,'mission_Build',6] call BCE_fnc_ATAK_ChangeTool;";
+                onButtonClick = "[nil,'Task_Building',6] call BCE_fnc_ATAK_ChangeTool;";
             };
             
             //-Line 7
@@ -435,7 +435,7 @@
                 ATAK_POS(0.2,(8.6 + (0.35/2)),2.7,0.7);
                 text = "NO MARKS";
                 tooltip="$STR_BCE_TIP_MARK";
-                onButtonClick = "[nil,'mission_Build',7] call BCE_fnc_ATAK_ChangeTool;";
+                onButtonClick = "[nil,'Task_Building',7] call BCE_fnc_ATAK_ChangeTool;";
             };
             
             //-Line 8
@@ -452,7 +452,7 @@
                 ATAK_POS(0.2,(9.6 + (0.35/2)),2.7,0.7);
                 text = "None";
                 tooltip="$STR_BCE_TIP_FRND";
-                onButtonClick = "[nil,'mission_Build',8] call BCE_fnc_ATAK_ChangeTool;";
+                onButtonClick = "[nil,'Task_Building',8] call BCE_fnc_ATAK_ChangeTool;";
             };
             //-Line 9
             class Line9_T9: CtrlType
@@ -468,7 +468,7 @@
                 ATAK_POS(0.2,(10.6 + (0.35/2)),2.7,0.7);
                 text = "Back To IP";
                 tooltip="$STR_BCE_TIP_EGRS";
-                onButtonClick = "[nil,'mission_Build',9] call BCE_fnc_ATAK_ChangeTool;";
+                onButtonClick = "[nil,'Task_Building',9] call BCE_fnc_ATAK_ChangeTool;";
             };
 
             ////////// -5 Line //////////
@@ -513,7 +513,7 @@
                 ATAK_POS(0.2,(4.6 + (0.35/2)),2.7,0.7);
                 text = "None";
                 tooltip="$STR_BCE_TIP_FRND";
-                onButtonClick = "[nil,'mission_Build',1] call BCE_fnc_ATAK_ChangeTool;";
+                onButtonClick = "[nil,'Task_Building',1] call BCE_fnc_ATAK_ChangeTool;";
             };
             
             class Line3_T5: CtrlType
@@ -529,7 +529,7 @@
                 ATAK_POS(0.2,(5.6 + (0.35/2)),2.7,0.7);
                 text = "None";
                 tooltip="$STR_BCE_TIP_GRID";
-                onButtonClick = "[nil,'mission_Build',2] call BCE_fnc_ATAK_ChangeTool;";
+                onButtonClick = "[nil,'Task_Building',2] call BCE_fnc_ATAK_ChangeTool;";
             };
             
             class Line4_T5: CtrlType
@@ -597,7 +597,7 @@
                 ATAK_POS(0.1,(12.7 + (0.35/2)),2.8,0.7);
                 text = "No Remarks";
                 tooltip="$STR_BCE_TIP_Remarks";
-                onButtonClick = "[nil,'mission_Build',10] call BCE_fnc_ATAK_ChangeTool;";
+                onButtonClick = "[nil,'Task_Building',10] call BCE_fnc_ATAK_ChangeTool;";
             };
             
             /*class AddRemark: ctrlButton
@@ -873,7 +873,7 @@
                 animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
                 animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.5)";
 
-                onButtonClick = "call BCE_fnc_ATAK_toggleSubMenu";
+                onButtonClick = "call BCE_fnc_ATAK_toggleSubListMenu";
                 class Attributes: Attributes
                 {
                     align = "center";

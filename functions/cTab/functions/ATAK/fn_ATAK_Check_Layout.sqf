@@ -1,8 +1,10 @@
 //- Get Basic Variable infos
   private _onSwitch = _backgroundGroup getVariable ["Anim_SwitchTool",false]; //- Check on switching Tool
   private _onToggle = _backgroundGroup getVariable ["Anim_ToggleMenu",_interfaceInit]; //- Check on toggling Menu
+  private _fadeIgnore = _backgroundGroup getVariable ["Anim_fadeIgnore",_interfaceInit]; //- Check if Ignore fade Transformation
   if (_onSwitch) then {_backgroundGroup setVariable ["Anim_SwitchTool",false]};
   if (_onToggle) then {_backgroundGroup setVariable ["Anim_ToggleMenu",false]};
+  if (_fadeIgnore) then {_backgroundGroup setVariable ["Anim_fadeIgnore",false]};
 
   (ctrlPosition _background) params ["","","_bgW","_bgH"];
 
@@ -85,7 +87,7 @@
     };
   } count [
     [_backgroundGroup],
-    [_group, false, !_onToggle && !(_line < 0) && !_onSwitch]
+    [_group, _fadeIgnore, !_onToggle && !(_line < 0) && !_onSwitch]
   ];
   
   private _toolBnt = _display displayCtrl 46600;

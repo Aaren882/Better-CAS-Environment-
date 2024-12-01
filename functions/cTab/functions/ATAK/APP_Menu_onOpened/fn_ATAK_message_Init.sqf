@@ -1,5 +1,9 @@
 params ["_group",["_interfaceInit",false],"_settings"];
-_settings params ["_page","_show","_line",["_PgComponents",[]]];
+_settings params ["_page","","",["_PgComponents",createHashMap]];
+
+//- Get Page data
+  private _PG_data = _PgComponents getOrDefault [_page,[]];
+  _PG_data params ["_line"];
 
 private _title = _group controlsGroupCtrl 5;
 private _contacts = _group controlsGroupCtrl 6;

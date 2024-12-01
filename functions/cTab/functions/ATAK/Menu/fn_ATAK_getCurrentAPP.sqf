@@ -1,3 +1,5 @@
+//- call BCE_fnc_ATAK_getCurrentAPP;
+
 private _displayName = cTabIfOpen param [1,""];
 if (_displayName == "") exitWith {["",controlNull]};
 

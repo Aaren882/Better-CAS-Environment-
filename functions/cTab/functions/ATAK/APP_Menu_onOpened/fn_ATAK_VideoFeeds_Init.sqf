@@ -1,14 +1,15 @@
 params ["_group",["_interfaceInit",false],"_settings"];
-_settings params ["_page","_show","_line",["_PgComponents",[]]];
+_settings params ["_page","","",["_PgComponents",createHashMap]];
 
 private _switch_btn = _group controlsGroupCtrl 5;
 private _ListGroup = _group controlsGroupCtrl 10;
 private _ViewGroup = _group controlsGroupCtrl 20;
 private _commitTime = {[_this, 0] select _interfaceInit};
-private _hcam = [_displayName, "hcam"] call cTab_fnc_getSettings;
+private _hcam = ["cTab_Android_dlg", "hcam"] call cTab_fnc_getSettings;
 
 //- Get Last Selection
-  private _SubSel = _PgComponents param [0, [0,1] select (_hcam != "")];
+  private _PG_data = _PgComponents getOrDefault [_page,[]];
+  _PG_data params ["_line", ["_SubSel", [0,1] select (_hcam != "")]];
 
 //- Control Components
   private _ctrl_TrackTG = _ViewGroup controlsGroupCtrl 11;
