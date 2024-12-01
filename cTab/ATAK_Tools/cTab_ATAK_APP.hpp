@@ -12,9 +12,9 @@ class ATAK_APPs
                 Opened = "BCE_fnc_ATAK_message_Init";
             };
             
-            text = ATAK_APP(Missions);
-            onButtonClick = "[_this # 0, 'message'] call BCE_fnc_ATAK_ChangeTool;";
+            onButtonClick = "[_this # 0] call BCE_fnc_ATAK_ChangeTool;";
             
+            text = ATAK_APP(Missions);
             textureNoShortcut=APP_MSG;
         };
         class mission: message
@@ -24,11 +24,14 @@ class ATAK_APPs
                 ORDER = 1;
                 PAGE_CTRL = "Task_Builder";
                 Opened = "BCE_fnc_ATAK_mission_Init";
+                Pages[] = {
+                    // { "CTRL_CLASS" , "OPENED" }
+                    {"Task_Building", "BCE_fnc_ATAK_mission_SUB_TaskBuilding"},
+                    {"Task_Result", "BCE_fnc_ATAK_mission_SUB_TaskResult"}
+                };
             };
 
             text = ATAK_APP(Missions);
-            onButtonClick = "[_this # 0, 'mission'] call BCE_fnc_ATAK_ChangeTool;";
-
             textureNoShortcut="MG8\AVFEVFX\data\missions.paa";
         };
         class VideoFeeds: message
@@ -41,8 +44,6 @@ class ATAK_APPs
             };
 
             text = ATAK_APP(Video Feeds);
-            onButtonClick = "[_this # 0, 'VideoFeeds'] call BCE_fnc_ATAK_ChangeTool;";
-            
             textureNoShortcut="MG8\AVFEVFX\data\Hcam.paa";
         };
     //-Second Line
@@ -54,9 +55,9 @@ class ATAK_APPs
                 PAGE_CTRL = "";
             };
 
-            text = ATAK_APP(Quick Pictures);
             onButtonClick = "558 cutRsc ['BCE_PhoneCAM_View','PLAIN',0.3,false];";
             
+            text = ATAK_APP(Quick Pictures);
             textureNoShortcut="MG8\AVFEVFX\data\photo.paa";
         };
         class Group: Photo
@@ -68,12 +69,12 @@ class ATAK_APPs
                 Opened = "BCE_fnc_ATAK_Group_Init";
             };
 
-            text = ATAK_APP(Groups);
-            onButtonClick = "[_this # 0, 'Group'] call BCE_fnc_ATAK_ChangeTool;";
+            onButtonClick = "[_this # 0] call BCE_fnc_ATAK_ChangeTool;";
             
+            text = ATAK_APP(Groups);
             textureNoShortcut="a3\3den\data\displays\display3den\panelright\modegroups_ca.paa";
         };
-        class Route: Photo
+        class Route: Group
         {
             class Menu_Property
             {
@@ -82,8 +83,6 @@ class ATAK_APPs
             };
 
             text = ATAK_APP(Route);
-            onButtonClick = "";
-            
             textureNoShortcut="MG8\AVFEVFX\data\route.paa";
         };
     
@@ -97,8 +96,6 @@ class ATAK_APPs
             };
 
             text = ATAK_APP(Weather);
-            onButtonClick = "";
-            
             textureNoShortcut="a3\3den\data\displays\display3den\toolbar\intel_ca.paa";
         };
         class BDA_Report: Weather
@@ -110,8 +107,6 @@ class ATAK_APPs
             };
 
             text = ATAK_APP(BDA Report);
-            onButtonClick = "";
-            
             textureNoShortcut="a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa";
         };
         
@@ -124,8 +119,6 @@ class ATAK_APPs
             };
 
             text = ATAK_APP(Settings);
-            onButtonClick = "";
-            
             textureNoShortcut="MG8\AVFEVFX\data\settings.paa";
         };
 };

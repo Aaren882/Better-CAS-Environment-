@@ -12,7 +12,7 @@ private _ctrl = switch _page do {
 	case "message": {
 		_APP_Ctrl controlsGroupCtrl 10;
 	};
-	case "mission_Build": {controlNull};
+	case "Task_Building": {controlNull};
 	default {
 		_APP_Ctrl
 	};

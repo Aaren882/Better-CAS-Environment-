@@ -1089,7 +1089,7 @@ _settings apply {
 
 		// ---------- ATAK Tools -----------
 		if (((_x # 0) == "showMenu") && (_mode == "BFT")) exitWith {
-			(_x # 1) params ["_page","_show","_line",["_PgComponents",[]]];
+			(_x # 1) params ["_page","_show","_subInfos",["_PgComponents",createHashMap]];
 
 			private _backgroundGroup = _display displayCtrl IDC_CTAB_GROUP_MENU;
 			private _background = _backgroundGroup controlsGroupCtrl 9;
@@ -1108,15 +1108,12 @@ _settings apply {
 			
 			//-ATAK Control Adjustments
 			switch (_page) do {
-				case "mission_Build": {
-					_display call BCE_fnc_ATAK_TaskCreate;
-				};
-				case "Task_Result": {
+				/*case "Task_Result": {
 					private _ctrl = _group controlsGroupCtrl 11;
 					private _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
 					private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
 					[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
-				};
+				};*/
 			};
 		};
 

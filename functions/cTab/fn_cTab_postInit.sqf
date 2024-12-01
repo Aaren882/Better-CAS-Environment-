@@ -33,7 +33,7 @@
 	["mapScaleDlg",0.4],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
-	["showMenu",["main",false,-1,[]]],
+	["showMenu",["main",false,["",0],createHashMap]],
 	["MarkerWidget",[false,0,[0,0],[],0,0,100]],
 	["MarkerEDIT",""],
 	["Contactor",""],

@@ -86,7 +86,7 @@ private _View_Cam = {
 
 //-ATAK
 if ("Android" in _displayName) exitWith {
-	([_displayName,"showMenu"] call cTab_fnc_getSettings) params ["_mode","","",["_PgComponents",[]]];
+	([_displayName,"showMenu"] call cTab_fnc_getSettings) params ["_mode","","",["_PgComponents",createHashMap]];
 	private _hcam = [_displayName, "hcam"] call cTab_fnc_getSettings;
 	private _c = _PgComponents param [0, [0,1] select (_hcam != "")];
 	switch true do {
