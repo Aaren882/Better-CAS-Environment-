@@ -43,12 +43,12 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
   private _APPs_Map = uiNamespace getVariable ["BCE_ATAK_APPs_HashMap", createHashMap];
   (_APPs_Map get _page) params ["_currentMenu","_function","_subMenus"];
   /* _subInfos params ["_subMenu","_curLine"]; */
-  
+
   //- if subMenu exist then overwrite [_currentMenu, _function]
-  if (_subMenu != "") then {
-    _currentMenu = _subMenu;
-    _function = _subMenus get _subMenu;
-  };
+    if (_subMenu != "") then {
+      _currentMenu = _subMenu;
+      _function = _subMenus get _subMenu;
+    };
 
   //- Check Ctrls
     private _Apps_Group = _display displayCtrl (17000 + 4650);
@@ -66,11 +66,6 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
       {ctrlDelete _x} count _allCtrls; //- Reset ControlsGroup
       
       _ctrl = _display ctrlCreate [_config >> _currentMenu, _menuIDC, _Apps_Group];
-    };
-
-  //- catch empty "Opened function"
-    if (_function == "") exitWith {
-      ["“Opened function” of this page is not exist"] call BIS_fnc_error;
     };
 
   //- Opened

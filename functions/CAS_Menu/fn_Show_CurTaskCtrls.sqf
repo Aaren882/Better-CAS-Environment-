@@ -2,7 +2,6 @@ params ["_display","_curLine","_curInterface",["_type_changed",false],["_skip",f
 private ["_is_Display","_Info_list","_curType","_IDCs_list","_TypeCtrls","_shownCtrls","_return"];
 
 _is_Display	= displayNull isEqualType _display;
-
 _Info_list = switch _curInterface do {
 	//-AVT
 	case 0: {missionNamespace getVariable "AVT_Task_TaskItems"};

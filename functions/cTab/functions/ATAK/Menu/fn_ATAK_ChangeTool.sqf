@@ -14,9 +14,18 @@ if (_subList) then {
     _setting set [3, _PgComponents];
 } else {
 
-  //- if "_ctrl" is Null
+  //- if "_ctrl" is Null (Switching APP)
   if !(isnull _ctrl) then {
-    _setting set [0, ctrlClassName _ctrl];
+    private _page = ctrlClassName _ctrl;
+    private _APPs_Map = uiNamespace getVariable ["BCE_ATAK_APPs_HashMap", createHashMap];
+    (_APPs_Map get _page) params ["","_function"];
+
+    //- catch empty "Opened function" (only to APPs)
+      if (_function == "") exitWith {
+        ["“Opened function” of this page is not exist"] call BIS_fnc_error;
+      };
+
+    _setting set [0, _page];
   };
 
   if !(isnil{_curLine}) then {
