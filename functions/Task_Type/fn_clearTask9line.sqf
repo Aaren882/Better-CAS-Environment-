@@ -55,16 +55,14 @@ if ((ctrlShown _description) or (_Veh_Changed) or (_isOverwrite)) then {
 			_ctrl3 ctrlSetText "NA";
 		};
 		default {
-			_shownCtrls apply {
-				if (ctrlIDC _x == 2014) then {
-					_x ctrlSetText "NA";
-					break;
-				};
-			};
+			private _displayEdit = _IDC_offset + 2014;
+			{
+				if (ctrlIDC _x == _displayEdit) exitWith {_x ctrlSetText "NA"};
+			} count _shownCtrls;
 			_taskVar set [_curLine, _default # _curLine];
 		};
 	};
 	uiNamespace setVariable ["BCE_CAS_9Line_Var", _taskVar];
 } else {
-	uiNamespace setVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
+	uiNamespace setVariable ["BCE_CAS_9Line_Var", _default];
 };

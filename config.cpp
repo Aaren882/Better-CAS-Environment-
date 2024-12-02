@@ -718,6 +718,7 @@ class CfgFunctions
 		{
 			file="MG8\AVFEVFX\functions\CAS_Menu";
 			class checkList;
+			class getTaskVar;
 			class DataReceiveButton;
 			class ListSwitch;
 			class TaskListDblCLick;
