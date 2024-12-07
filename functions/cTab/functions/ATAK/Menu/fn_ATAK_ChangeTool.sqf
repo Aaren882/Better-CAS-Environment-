@@ -17,7 +17,7 @@ if (_subList) then {
   //- if "_ctrl" is Null (Switching APP)
   if !(isnull _ctrl) then {
     private _page = ctrlClassName _ctrl;
-    private _APPs_Map = uiNamespace getVariable ["BCE_ATAK_APPs_HashMap", createHashMap];
+    private _APPs_Map = localNamespace getVariable ["BCE_ATAK_APPs_HashMap", createHashMap];
     (_APPs_Map get _page) params ["","_function"];
 
     //- catch empty "Opened function" (only to APPs)

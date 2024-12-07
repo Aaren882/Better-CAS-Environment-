@@ -10,4 +10,4 @@ private _result = _configNames apply {
   [_x, [_page,_Opened,_pages]]
 };
 
-uiNamespace setVariable ["BCE_ATAK_APPs_HashMap", createHashMapFromArray _result];
+localNamespace setVariable ["BCE_ATAK_APPs_HashMap", createHashMapFromArray _result];
