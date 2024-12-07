@@ -40,7 +40,7 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
   };
 
 //- Set APP Menu
-  private _APPs_Map = uiNamespace getVariable ["BCE_ATAK_APPs_HashMap", createHashMap];
+  private _APPs_Map = localNamespace getVariable ["BCE_ATAK_APPs_HashMap", createHashMap];
   (_APPs_Map get _page) params ["_currentMenu","_function","_subMenus"];
   /* _subInfos params ["_subMenu","_curLine"]; */
 

@@ -40,7 +40,7 @@ if (_Reset_Value || _ATAK_APPs findIf {true} < 0) then {
 };
 
 //- Set HashMap for finding "Menu className" (Debug - uiNamespace)
-  private _APPs_Map = uiNamespace getVariable ["BCE_ATAK_APPs_HashMap", createHashMap];
+  private _APPs_Map = localNamespace getVariable ["BCE_ATAK_APPs_HashMap", createHashMap];
   if (count _APPs_Map == 0) then {
     [_ATAK_APPs] call BCE_fnc_ATAK_setAPPs_props; //- Update APP Props
   };
