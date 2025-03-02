@@ -24,6 +24,7 @@ _TaskList = _ctrls # _lbCurSel;
 if (_NotAVT) then {
 	[_TaskList,lbCurSel _TaskList,_IDCs,_IDC_offset,true] call BCE_fnc_TaskList_Changed;
 
+	//- Air 5 Line
 	if (_lbCurSel == 1) then {
 		_TaskList lbSetText [0, format ["1: “%1”/“%2” :", groupId group _vehicle, groupId group player]];
 	};

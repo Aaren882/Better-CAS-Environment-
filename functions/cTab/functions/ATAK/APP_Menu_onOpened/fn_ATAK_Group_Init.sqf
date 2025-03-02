@@ -1,4 +1,4 @@
-params ["_group",["_interfaceInit",false],"_settings"];
+params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 
 private _list = _group controlsGroupCtrl 10;
 private _tag_Name = "ATAK_Group_Manage_Custom";

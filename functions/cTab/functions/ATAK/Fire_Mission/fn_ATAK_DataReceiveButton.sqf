@@ -64,12 +64,10 @@ switch (_ctrlTitle) do {
 			};
 
 			_isOverwrite = false;
-			_DESC_Type= uiNamespace getVariable ["BCE_ATAK_Desc_Type",0];
+			_DESC_Type= localNamespace getVariable ["BCE_ATAK_Desc_Type",0];
 
 			///-Enter Data
 			_shownCtrls = [_group,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
-			call ([BCE_fnc_DataReceive9line, BCE_fnc_DataReceive5line] # _curType);
-
 			call BCE_fnc_ATAK_Refresh_TaskInfos;
 		};
 	//-Send Data

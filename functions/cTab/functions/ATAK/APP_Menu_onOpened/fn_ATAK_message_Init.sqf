@@ -1,4 +1,4 @@
-params ["_group",["_interfaceInit",false],"_settings"];
+params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 _settings params ["_page","","",["_PgComponents",createHashMap]];
 
 //- Get Page data

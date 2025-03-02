@@ -29,33 +29,14 @@ switch _curLine do {
 		};
 
 		if !(isnil {_description}) then {
-			_ctrlPOS = ctrlPosition _ctrl;
 			_weapPOS = ctrlPosition _weap;
-			_modePOS = ctrlPosition _mode;
 			_rangePOS = ctrlPosition _range;
+			_countPOS = ctrlPosition _count;
 
 			//-Expression
-			_mode ctrlSetPosition
-			[
-				(_weapPOS # 0) + (_modePOS # 2),
-				_weapPOS # 1,
-				_weapPOS # 2,
-				_weapPOS # 3
-			];
-			_count ctrlSetPosition
-			[
-				(_weapPOS # 0) + 2 * (_rangePOS # 2),
-				_rangePOS # 1,
-				_rangePOS # 2,
-				_rangePOS # 3
-			];
-			_height ctrlSetPosition
-			[
-				(_weapPOS # 0) + (_rangePOS # 2),
-				_rangePOS # 1,
-				_rangePOS # 2,
-				_rangePOS # 3
-			];
+			_mode ctrlSetPositionX ((_weapPOS # 0) + (_weapPOS # 2));
+			_count ctrlSetPositionX ((_weapPOS # 0) + (_rangePOS # 2));
+			_height ctrlSetPositionX ((_weapPOS # 0) + (_rangePOS # 2) + (_countPOS # 2));
 
 			[_mode,_count,_height] apply {_x ctrlCommit 0};
 		};

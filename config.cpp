@@ -816,6 +816,8 @@ class CfgFunctions
 					class ATAK_PullData;
 					class ATAK_ShowTaskResult;
 					class ATAK_onVehicleChanged;
+					class ATAK_updateTaskControl;
+					class ATAK_getTaskCategoryInfo;
 				};
 				class ATAK_Menu_Init
 				{
@@ -829,6 +831,8 @@ class CfgFunctions
 					class ATAK_openPage;
 					class ATAK_openMenu;
 					class ATAK_ChangeTool;
+					class ATAK_createSubPage;
+					class ATAK_getAPP_Config;
 					class ATAK_toggleSubListMenu;
 					class ATAK_getCurrentAPP;
 					class ATAK_ignoreFade_Transform;

@@ -1,5 +1,5 @@
-params ["_display","_page",["_Back", false]];
-private ["_isHome","_group","_ctrls","_currentPage","_ctrlPOS_BG","_ctrlPOS","_settings"];
+params ["_display","_page",["_Back", false],"_settings"];
+private ["_isHome","_group","_ctrls","_currentPage","_ctrlPOS_BG","_ctrlPOS"];
 
 _isHome = false;
 _group = _display displayCtrl 46600;

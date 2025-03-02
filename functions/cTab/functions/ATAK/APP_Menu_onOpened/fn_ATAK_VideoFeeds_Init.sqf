@@ -1,9 +1,10 @@
-params ["_group",["_interfaceInit",false],"_settings"];
+params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 _settings params ["_page","","",["_PgComponents",createHashMap]];
 
 private _switch_btn = _group controlsGroupCtrl 5;
 private _ListGroup = _group controlsGroupCtrl 10;
 private _ViewGroup = _group controlsGroupCtrl 20;
+
 private _commitTime = {[_this, 0] select _interfaceInit};
 private _hcam = ["cTab_Android_dlg", "hcam"] call cTab_fnc_getSettings;
 
