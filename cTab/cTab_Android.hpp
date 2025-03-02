@@ -45,13 +45,15 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 };
 
 //-ATAK Menu W
-#define PhoneBFTContainerW(AxisX) AxisX*((phoneSizeW * 2/5)/3)
+#define ATAK_POS_H (((60)) / 2048 * CustomPhoneH)
+#define ATAK_POS_W ((phoneSizeW * 2/5)/3)
+#define PhoneBFTContainerW(AxisX) AxisX * ATAK_POS_W
 
 #define ATAK_POS(XPOS,YPOS,WPOS,HPOS) \
 	x = PhoneBFTContainerW(XPOS); \
-	y = YPOS * ((60)) / 2048 * CustomPhoneH; \
+	y = YPOS * ATAK_POS_H; \
 	w = PhoneBFTContainerW(WPOS); \
-	h = HPOS * (((60)) / 2048 * CustomPhoneH)
+	h = HPOS * ATAK_POS_H
 
 //- message Line
 	class ATAK_Message_Line: RscStructuredText
@@ -202,7 +204,7 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 		x = 0;
 		y = 0;
 		w = phoneSizeW * 2/5;
-		h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH);
+		h = phoneSizeH - 0.75 * ATAK_POS_H;
 		
 		class VScrollbar
 		{

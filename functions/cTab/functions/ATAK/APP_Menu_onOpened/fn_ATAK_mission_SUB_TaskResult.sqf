@@ -1,5 +1,5 @@
 //- call BCE_fnc_ATAK_mission_SUB_TaskResult;
-params ["_group",["_interfaceInit",false],"_settings"];
+params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 
 private _ctrl = _group controlsGroupCtrl 11;
 private _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];

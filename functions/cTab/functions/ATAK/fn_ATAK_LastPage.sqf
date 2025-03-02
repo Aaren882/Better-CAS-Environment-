@@ -21,8 +21,8 @@ private _return = switch _subMenu do {
 _setting set [0,_return];
 
 //- SubMenu Infos
-	_subInfos set [0,_subMenu];
-	_subInfos set [1,_curline];
+	_subInfos set [0, _subMenu];
+	_subInfos set [1, _curline];
 
 _setting set [2,_subInfos];
 ["cTab_Android_dlg",[["showMenu",_setting]],true,true] call cTab_fnc_setSettings;

@@ -1,38 +1,49 @@
-private ["_components","_List","_fnc"];
+// private ["_components","_List","_fnc"];
+privateAll;
 
-_components = _display displayCtrl (17000+4662);
+_group = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
+_MissionCtrl = _group getVariable "Mission_Control";
 
-_List = [
-	[[2025,1],[2026,4],[2029,6],[2030,7],[2031,8],[2032,9],[3002,-1]],
-	[[2041,1],[2042,2],[3002,-1]]
-] # _curType;
+_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+_taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
 
-//-Appling Infos
-{
-	_x params ["_idc","_index"];
-	private _title = _TaskList controlsGroupCtrl ([17000 + _idc, _idc] select (_index < 0));
-	_title ctrlSetStructuredText parseText (_taskVar # _index # 0);
-} foreach _List;
+//- If "_curLine" isn't selected 
+	// _components = _display displayCtrl (17000+4662);
 
-//-Set DESC Infos
-(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_subInfos"];
-_subInfos params ["_subMenu","_curLine"];
+	private _List = [
+		[[2025,1],[2026,4],[2029,6],[2030,7],[2031,8],[2032,9],[3002,-1]],
+		[[2041,1],[2042,2],[3002,-1]]
+	] # _curType;
 
-if (_curLine > count _taskVar) then {
-	_curLine = (count _taskVar) - 1;
-};
+//-Appling Infos to each line
+	{
+		_x params ["_idc","_index"];
+		private _title = _MissionCtrl controlsGroupCtrl ([17000 + _idc, _idc] select (_index < 0));
+		_title ctrlSetStructuredText parseText (_taskVar # _index # 0);
+	} foreach _List;
 
-_TaskListPOS = ctrlPosition (_components controlsGroupCtrl (17000 + 2011));
-_titlePOS = [0, _TaskListPOS # 1, 0, (_TaskListPOS # 3) * 0.01];
-_description = _components controlsGroupCtrl (17000 + 2004);
+//- Set DESC Infos -// "Game Plan" or so
+		(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_subInfos"];
+		_subInfos params ["_subMenu","_curLine"];
 
-_fnc = [BCE_fnc_DblClick9line, BCE_fnc_DblClick5line] # _curType;
-{
-	if (_forEachIndex == 1) then {
-		_curLine = [5,3] # _curType;
+	if (_curLine > count _taskVar) then {
+		_curLine = (count _taskVar) - 1;
 	};
-	if (_curLine < 0) then {_curLine = 0};
-	
-	private _shownCtrls = [_x,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
-	call _fnc;
-} foreach [_components,_TaskList];
+
+	//- Task Building (Values)
+	_MissionCtrlPOS = ctrlPosition (_group controlsGroupCtrl (17000 + 2011));
+	_titlePOS = [0, _MissionCtrlPOS # 1, 0, (_MissionCtrlPOS # 3) * 0.01];
+	_description = _group controlsGroupCtrl (17000 + 2004);
+
+	_fnc = [BCE_fnc_DblClick9line, BCE_fnc_DblClick5line] # _curType;
+	{
+		if (_forEachIndex == 1) then {
+			_curLine = [5,3] # _curType;
+		};
+
+		//- if on Task Builder Menu
+		if (_curLine < 0) then {_curLine = 0};
+		
+		private _shownCtrls = [_x,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
+		call _fnc;
+	} foreach [_group,_MissionCtrl];

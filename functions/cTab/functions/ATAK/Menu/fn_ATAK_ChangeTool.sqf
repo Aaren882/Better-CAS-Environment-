@@ -29,7 +29,7 @@ if (_subList) then {
   };
 
   if !(isnil{_curLine}) then {
-    _setting set [2,[_page,_curLine]];
+    _setting set [2, [_page, _curLine]];
   };
 };
 

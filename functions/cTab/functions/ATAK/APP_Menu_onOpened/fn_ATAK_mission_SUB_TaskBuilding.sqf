@@ -1,7 +1,8 @@
 //- call BCE_fnc_ATAK_mission_SUB_TaskBuilding;
-params ["_group",["_interfaceInit",false],"_settings"];
+params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 
-private ["_TaskList","_curType","_taskVar","_all_lists","_Tasklist","_shownCtrls","_TaskListPOS","_titlePOS","_description","_desc"];
+// private ["_TaskList","_curType","_taskVar","_all_lists","_Tasklist","_shownCtrls","_TaskListPOS","_titlePOS","_description","_desc"];
+privateAll;
 
 (["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","_shown","_subInfos"];
 _subInfos params ["_subMenu","_curLine"];
