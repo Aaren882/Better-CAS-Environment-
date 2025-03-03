@@ -7,19 +7,15 @@ _subInfos params ["_subMenu","_curLine"];
 
 if !(_shown) exitwith {};
 
-_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
-_taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
-
-if (isnil {_taskVar}) exitWith {hintSilent "Error Variable is empty"};
-
 _display = ctrlParent _control;
 _ctrlTitle = ctrlText _control;
 
 private _group = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
 private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
 
-//- Sending message ATAK interface only
-	if (_page == "message") exitWith {
+switch (_page) do {
+	//- Sending message ATAK interface only
+	case "message": {
 		private _recip = ["cTab_Android_dlg", "Contactor"] call cTab_fnc_getSettings;
 		if (_recip == "") exitWith {
 			["MSG","Invaild Recipient...",3] call cTab_fnc_addNotification;
@@ -51,8 +47,81 @@ private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
 		
 		["ctab_messagesUpdated"] call CBA_fnc_localEvent;
 	};
+	//- Mission Builders
+	case "mission": {
+		call {
 
-switch (_ctrlTitle) do {
+			//- Task elements
+			private _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+			private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
+
+			//- Enter Infos (on Building Page)
+				if (_subMenu == "Task_Building") exitWith {
+					if (isnil {_taskVar}) exitWith {["Error Variable is empty"] call BIS_fnc_error};
+					
+					//-get curLine
+					if (_curLine > count _taskVar) then {
+						_curLine = (count _taskVar) - 1;
+					};
+
+					private _isOverwrite = false;
+					private _DESC_Type= localNamespace getVariable ["BCE_ATAK_Desc_Type",0];
+
+					///-Enter Data
+					private _shownCtrls = [_group,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
+					call ([BCE_fnc_DataReceive9line, BCE_fnc_DataReceive5line] # _curType);
+					call BCE_fnc_ATAK_Refresh_TaskInfos;
+				};
+			
+			///- Other Conditions
+			private _vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
+			//- Abort Mission
+				if (_ctrlTitle == localize "STR_BCE_Abort_Task") exitWith {
+					_vehicle setVariable ["BCE_Task_Receiver","", true];
+					_vehicle setVariable ["Module_CAS_Sound",false,true];
+
+					//-Clear Waypoints
+					private _grp = group _vehicle;
+					for "_i" from count waypoints _grp to 0 step -1 do {
+						deleteWaypoint [_grp, _i];
+					};
+					_grp addWaypoint [getpos _vehicle, 0];
+					
+					_bnt ctrlSetText localize "STR_BCE_SendData";
+					_bnt ctrlSetBackgroundColor ([
+						(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77]),
+						(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51]),
+						(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08]),
+						0.8
+					]);
+				};
+			
+			//- Send Data
+				//- Check Vehicle Availability
+					if (
+						(isnull _vehicle) || 
+						((_vehicle getVariable ["BCE_Task_Receiver",""])) != ""
+					) exitWith {
+						[
+							"BFT",
+							localize ("STR_BCE_Error_" + (["Unavailable","Vehicle"] select (isnull _vehicle))),
+							5
+						] call cTab_fnc_addNotification;
+					};
+				private _sel_TaskType = _curType;
+				private _NotAVT = true;
+				if (call BCE_fnc_SendTaskData) then {
+					_bnt ctrlSetText localize "STR_BCE_Abort_Task";
+					_bnt ctrlSetBackgroundColor [1,0,0,0.5];
+				};
+		};
+	};
+	case "VideoFeeds": {
+		0 call cTab_Tablet_btnACT;
+	};
+};
+	
+/* switch (_ctrlTitle) do {
 	case localize "STR_BCE_Control_Turret": {
 		0 call cTab_Tablet_btnACT;
 	};
@@ -113,4 +182,4 @@ switch (_ctrlTitle) do {
 				0.8
 			]);
 		};
-};
+}; */

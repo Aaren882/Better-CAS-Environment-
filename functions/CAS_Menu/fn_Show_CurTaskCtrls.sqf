@@ -9,7 +9,7 @@ _Info_list = switch _curInterface do {
 	case 1: {missionNamespace getVariable "cTab_Task_TaskItems"};
 };
 
-if (isNil {_Info_list}) exitWith {hintsilent "Error variable not Exist";};
+if (isNil {_Info_list}) exitWith {["Error variable not Exist"] call BIS_fnc_error};
 
 _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
 

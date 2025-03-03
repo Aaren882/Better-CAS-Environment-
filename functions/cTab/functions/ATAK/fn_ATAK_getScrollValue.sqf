@@ -7,7 +7,7 @@ if (!_show || _APP_page != _page) exitWith {};
 
 private _ctrl = switch _page do {
 	case "mission": {
-		_APP_Ctrl
+		_APP_Ctrl getVariable "Mission_Control"
 	};
 	case "message": {
 		_APP_Ctrl controlsGroupCtrl 10;
