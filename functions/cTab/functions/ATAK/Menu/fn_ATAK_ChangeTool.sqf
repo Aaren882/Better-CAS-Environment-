@@ -2,6 +2,7 @@ params [["_ctrl",controlNull],"_page","_curLine",["_subList",false]];
 
 private _displayName = "cTab_Android_dlg";
 private _setting = [_displayName, "showMenu"] call cTab_fnc_getSettings;
+private _subInfos = _setting param [2,[]];
 
 //- Check if is "BCE_fnc_ATAK_toggleSubListMenu"
 if (_subList) then {
@@ -29,7 +30,11 @@ if (_subList) then {
   };
 
   if !(isnil{_curLine}) then {
-    _setting set [2, [_page, _curLine]];
+    //- Set Sub Infos
+      _subInfos set [0,_page];
+      _subInfos set [1,_curLine];
+
+    _setting set [2, _subInfos];
   };
 };
 
