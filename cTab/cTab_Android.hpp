@@ -940,7 +940,7 @@ PHONE_CLASS
 							ATAK_POS(2.25,0,0.75,0.75);
 						#endif
 						
-						onButtonClick = "call BCE_fnc_ATAK_ShowTaskResult";
+						onButtonClick = "[] call BCE_fnc_ATAK_ShowTaskResult";
 					};
 				};
 			};

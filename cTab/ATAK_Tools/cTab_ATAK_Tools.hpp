@@ -121,7 +121,6 @@
                     "GND", //- Ground
                     "OTR"  //- Others
                 };
-                onToolBoxSelChanged = "[] call BCE_fnc_ATAK_updateTaskControl";
             };
         };
     };

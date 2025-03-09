@@ -10,24 +10,24 @@
 */
 params ["_control",["_vector",[]]];
 
-private _curAdjust = (localNamespace getVariable ["BCE_Fire_Adjust","0,0"]) splitString ",";
-_curAdjust = _curAdjust apply {parseNumber _x};
+//- Get Current Adjust
+private _cur = ["Adjust", "0,0"] call BCE_fnc_get_FireAdjustValues;
+private _curAdjust = (_cur splitString ",") apply {parseNumber _x};
 
-//- on "_control" or "_vector" Empty
-if (isNil{_control} || _vector isEqualTo []) exitWith {_curAdjust};
+//- on "_control" Empty
+if (isNil{_control}) exitWith {_curAdjust};
 
 //- Get Multiplier (10m, 50m)
 private _group = ctrlParentControlsGroup _control;
-private _adjustMeter = _group controlsGroupCtrl 5004;
-private _multiplier = _adjustMeter getVariable ["AdjustMeter",1];
+private _multiplier = ["Meter", 1] call BCE_fnc_get_FireAdjustValues;
 
 _vector = _vector vectorMultiply _multiplier;
 private _curAdjust = _curAdjust vectorAdd _vector;
 
 //- Update value
-localNamespace setVariable ["BCE_Fire_Adjust",_curAdjust joinString ","];
+["Adjust", _curAdjust joinString ","] call BCE_fnc_set_FireAdjustValues;
 
-["BCE_onFireAdjusted", [_group,_curAdjust]] call CBA_fnc_localEvent;
+["BCE_onFireAdjusted", [_group, _curAdjust]] call CBA_fnc_localEvent;
 
 //- Return
 _curAdjust

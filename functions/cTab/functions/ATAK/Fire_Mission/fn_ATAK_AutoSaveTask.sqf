@@ -5,7 +5,7 @@
 	_TaskList = ctrlParentControlsGroup _control;
 	if !(ctrlshown _TaskList) exitWith {};
 
-	_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+	_curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
 	_taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
 
 	_isOverwrite = false;
@@ -32,6 +32,5 @@
 	
 	_shownCtrls = [_TaskList,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
 	call ([BCE_fnc_DataReceive9line, BCE_fnc_DataReceive5line] # _curType);
-
-	}, _this, 0.01
-] call CBA_fnc_waitAndExecute;
+	}, _this
+] call CBA_fnc_execNextFrame;

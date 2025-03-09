@@ -8,7 +8,7 @@ _display = ctrlParent _control;
 _NotAVT = _IDC_offset != 0;
 _IDCs = [2002,2005] apply {_x + _IDC_offset};
 _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
-uiNameSpace setVariable ["BCE_Current_TaskType",_lbCurSel];
+["Type",_lbCurSel] call BCE_fnc_set_TaskCurSetup;
 
 // - ["_9line","_5line"]
 //- Output all + hide them all

@@ -13,7 +13,7 @@ _clearAction = {
 	_description = _display displayctrl (_IDC_offset + 2004);
 	_Task_Type = _display displayCtrl (_IDC_offset + 2107);
 
-	_sel_TaskType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+	_sel_TaskType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
 
 	_list_result = switch _sel_TaskType do {
 		//-5 line

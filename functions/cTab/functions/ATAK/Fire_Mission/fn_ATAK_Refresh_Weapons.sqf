@@ -5,7 +5,7 @@ private ["_curType","_curLine","_shownCtrls"];
 
 if !(_shown) exitwith {};
 
-_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+_curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
 _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
 
 _curLine = 0;

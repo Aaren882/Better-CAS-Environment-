@@ -1,10 +1,15 @@
+/*
+  NAME : BCE_fnc_ATAK_ChangeTool
+  
+  When Click on ATAK Tools (Message, Mission...)
+*/
 params [["_ctrl",controlNull],"_page","_curLine",["_subList",false]];
 
 private _displayName = "cTab_Android_dlg";
 private _setting = [_displayName, "showMenu"] call cTab_fnc_getSettings;
 private _subInfos = _setting param [2,[]];
 
-//- Check if is "BCE_fnc_ATAK_toggleSubListMenu"
+//- Check if is "BCE_fnc_ATAK_toggleSubListMenu" SUB MENU
 if (_subList) then {
   private _PgComponents = _setting param [3, createHashMap];
   private _PG_data = _PgComponents getOrDefault [_page, []];

@@ -5,6 +5,6 @@
 */
 params ["_control"];
 
-localNamespace setVariable ["BCE_Fire_Adjust","0,0"];
+["Adjust", "0,0"] call BCE_fnc_set_FireAdjustValues;
 
 [_control, [0,0]] call BCE_fnc_UpdateFireAdjust; //- with Vector Return

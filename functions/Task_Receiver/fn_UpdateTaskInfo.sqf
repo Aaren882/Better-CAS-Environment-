@@ -7,7 +7,7 @@ _var = switch (_mode) do {
 	case 0: {
 		private ["_vehicle","_type","_taskVar"];
 		_vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
-		_type = [9, 5] # (uiNameSpace getVariable ["BCE_Current_TaskType",0]);
+		_type = [9, 5] # (["Type",0] call BCE_fnc_get_TaskCurSetup);
 		_taskVar = uiNamespace getVariable format ["BCE_CAS_%1Line_Var", _type];
 		(_display displayCtrl 15112) ctrlSetText localize "STR_BCE_Widgets_TIP_TASK";
 		

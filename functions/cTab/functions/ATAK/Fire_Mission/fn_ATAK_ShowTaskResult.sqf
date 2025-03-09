@@ -1,4 +1,6 @@
-params ["_control"];
+/*
+	NAME : BCE_fnc_ATAK_ShowTaskResult
+*/
 private ["_group","_description"];
 
 _group = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
@@ -10,7 +12,7 @@ if (ctrlshown _description) then {
 	(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_subInfos"];
 	_subInfos params ["_subMenu","_curLine"];
 	
-	_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+	_curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
 	((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) params ["_taskVar","_default","_maxIndex"];
 
 	//- Correct Remark Index
