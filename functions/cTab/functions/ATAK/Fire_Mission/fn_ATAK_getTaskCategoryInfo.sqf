@@ -13,7 +13,7 @@ private _subInfos = _settings param [2,[]];
 private _subMenu_Map = _subInfos param [2, createHashMap];
 
 private _category = _group controlsGroupCtrl (17000 + 2102);
-private _cateSel = lbCurSel _category;
+private _cateSel = ["Cate",0] call BCE_fnc_get_TaskCurSetup;
 private _cateData = _category getVariable ["data",[]];
 
 //- "Game Plan", "SubMenu"

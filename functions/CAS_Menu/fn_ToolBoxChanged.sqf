@@ -2,7 +2,7 @@ params ["_control", "_selectedIndex",["_ismenu",false],["_IDC_offset",0],["_Disp
 private ["_display","_Task_Type","_curInterface","_ListInfo","_curLine","_shownCtrls","_TypeChanged","_MenuChanged"];
 
 _display = ctrlParent _control;
-_Task_Type = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+_Task_Type = ["Type",0] call BCE_fnc_get_TaskCurSetup;
 
 _curInterface = switch _IDC_offset do {
 	case 17000: {1};

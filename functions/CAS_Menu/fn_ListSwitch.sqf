@@ -15,7 +15,7 @@ _MainList = _display displayCtrl 2100;
 _list_Title = _display displayCtrl 2001;
 _Task_Type = _display displayCtrl 2107;
 
-_list_result = switch (uiNameSpace getVariable ["BCE_Current_TaskType",0]) do {
+_list_result = switch (["Type",0] call BCE_fnc_get_TaskCurSetup) do {
 	//-5 line
 	case 1: {
 		_TaskList = _display displayCtrl 2005;

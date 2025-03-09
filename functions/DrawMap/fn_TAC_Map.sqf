@@ -143,7 +143,7 @@ _ctrl drawIcon [
 };
 
 //- CAS
-_sel_TaskType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+_sel_TaskType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
 _taskVars = switch _sel_TaskType do {
 	//-5 line
 	case 1: {

@@ -4,7 +4,7 @@ private ["_display","_title","_Task_Type","_sel_TaskType","_list_result","_Expre
 _display = ctrlParent _control;
 _title = _display displayctrl 2003;
 _Task_Type = _display displayCtrl 2107;
-_sel_TaskType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+_sel_TaskType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
 _list_result = switch _sel_TaskType do {
 	//-5 line
 	case 1: {

@@ -1,11 +1,13 @@
-// private ["_components","_List","_fnc"];
+/*
+	NAME : BCE_fnc_ATAK_Refresh_TaskInfos
+*/
 privateAll;
 
-_group = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
-_MissionCtrl = _group getVariable "Mission_Control";
+private _group = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
+private _MissionCtrl = _group getVariable "Mission_Control";
 
-_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
-_taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
+private _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
+private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
 
 //- If "_curLine" isn't selected 
 	// _components = _display displayCtrl (17000+4662);

@@ -59,7 +59,7 @@ if (_button == 0) then {
 
 			_type = _BCE_MapTool lbText lbCurSel _BCE_MapTool;
 
-			_task = switch (uiNameSpace getVariable ["BCE_Current_TaskType",0]) do {
+			_task = switch (["Type",0] call BCE_fnc_get_TaskCurSetup) do {
 				//- 5 line
 				case 1: {
 					[-1,2,1]

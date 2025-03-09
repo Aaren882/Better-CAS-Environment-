@@ -1,35 +1,17 @@
+/*
+	NAME : BCE_fnc_ATAK_TaskTypeChanged
+*/
 params ["_control","_lbCurSel"];
-// private ["_TaskList","_vehicle","_ctrls","_last_CtrlPOS","_ctrlDESC","_ctrlDESC_POS","_ctrl","_curLine","_shownCtrls"];
-privateAll;
 
-_TaskList = ctrlParentControlsGroup _control;
-_group = ctrlParentControlsGroup _TaskList;
+private _TaskList = ctrlParentControlsGroup _control;
+private _group = ctrlParentControlsGroup _TaskList;
 
-//- Get Correct Mission Builder
+//- Update TaskType Value
 	private _category = _group controlsGroupCtrl (17000 + 2102);
-	private _cateData = _category getVariable ["data",[]];
-	private _cateSel = lbCurSel _category;
-	private _current_Cate = _cateData param [_cateSel,""];
-	
-_settings = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
-
-_settings params ["","","_subInfos"];
-_subMenu_Map = _subInfos param [2, createHashMap];
-
-if (_current_Cate == "") exitWith {
-	["Cannot found Mission Category : ""%1"" !!", _cateSel] call BIS_fnc_error;
-};
-
-//- Set SubMenu Infos (HashMap)
-	_subMenu_Map set [_current_Cate, _lbCurSel];
-	_subInfos set [2, _subMenu_Map];
-
-//- Don't Update Interface (Save Only)
-	_settings set [2, _subInfos];
-	["cTab_Android_dlg",[["showMenu",_settings]],false] call cTab_fnc_setSettings;
+	private _settings = _lbCurSel call BCE_fnc_ATAK_set_TaskType; //- Update task type in cTab Variable
 
 //- Update Task Control
-	uiNameSpace setVariable ["BCE_Current_TaskType",_lbCurSel];
+	["Type", _lbCurSel] call BCE_fnc_set_TaskCurSetup;
 	private _MissionCtrl = [_group,_settings] call BCE_fnc_ATAK_updateTaskControl;
 
 //-Setup Remarks POS on ATAK Mission Builder
@@ -51,7 +33,7 @@ if (_current_Cate == "") exitWith {
 if (isNull _MissionCtrl) exitWith {};
 
 //- Initiate 
-	_vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
+	private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
 	_TaskList call BCE_fnc_ATAK_Refresh_Weapons;
 
 	//- Air 5 Line

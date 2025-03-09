@@ -329,6 +329,7 @@ class Call_For_Fire: AIR_5_LINE
                             font = "RobotoCondensed_BCE";
                             sizeEx = 0.8 * TextSize;
                             text = "<-- 10 m -->";
+                            onButtonClick = "call BCE_fnc_ATAK_FireAdjustMeter";
                         };
                         //- Undef "BORDER", "ADJUST_CTRL_W"
                             #undef BORDER

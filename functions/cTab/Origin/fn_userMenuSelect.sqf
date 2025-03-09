@@ -88,7 +88,7 @@ call {
 	if (_type == -4) exitWith {
 		_list = _display displayCtrl (17000 + 12010);
 
-		_task = switch (uiNameSpace getVariable ["BCE_Current_TaskType",0]) do {
+		_task = switch (["Type",0] call BCE_fnc_get_TaskCurSetup) do {
 			//- 5 line
 			case 1: {
 				[-1,2,1]
@@ -105,7 +105,7 @@ call {
 	//-Edit Marker
 	if (_type in [41,42,43]) exitWith {
 		private ["_task","_info","_marker","_POS","_TG_var","_mode","_condition","_ctrlEnter"];
-		 _task = switch (uiNameSpace getVariable ["BCE_Current_TaskType",0]) do {
+		 _task = switch (["Type",0] call BCE_fnc_get_TaskCurSetup) do {
 			//- 5 line
 			case 1: {
 				[[-1,2,1],"BCE_CAS_5Line_Var"]

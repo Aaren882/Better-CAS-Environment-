@@ -1,4 +1,12 @@
-//- BCE_fnc_ATAK_updateTaskControl
+/* 
+  NAME : BCE_fnc_ATAK_updateTaskControl
+
+  ["_group","_settings"]
+  
+  Update Task ControlGroup for each Mission
+
+  Return : ControlNull or "_MissionCtrl"
+*/
 
 params ["_group","_settings"];
 
@@ -34,19 +42,35 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
 //- Save "_ctrl" easier to find
   _group setVariable ["Mission_Control", _MissionCtrl];
 
-//- Check if initiated
+//- Init Mission Control for each category
   if !(_MissionCtrl getVariable ["Init",false]) then {
-    //- New control's Initation Refresh Values
-    switch (_cateSel) do {
-      case 0: {
-        call BCE_fnc_ATAK_Refresh_TaskInfos; //- Refresh Values
+    
+    //- Update task type in cTab Variable
+      _subSel call BCE_fnc_ATAK_set_TaskType;
 
-        //- Set Task EH + update "MissionType" CurSel
-        private _missionType = _MissionCtrl controlsGroupCtrl (17000 + 2107);
-        _missionType lbSetCurSel _subSel;
-        _missionType ctrlAddEventHandler ["LBSelChanged", BCE_fnc_ATAK_TaskTypeChanged];
+    //- New control's Initation Refresh Values
+      switch (_cateSel) do {
+        case 0: { //- Air Fire Support
+
+          //- Refresh Task Values
+            call BCE_fnc_ATAK_Refresh_TaskInfos;
+          
+          //- Set Task EH + update "MissionType" CurSel
+          private _missionType = _MissionCtrl controlsGroupCtrl (17000 + 2107);
+          _missionType lbSetCurSel _subSel;
+          _missionType ctrlAddEventHandler ["LBSelChanged", BCE_fnc_ATAK_TaskTypeChanged];
+        };
+        case 1: { //- Ground Fire Support ("Call For Fire")
+          private _AdjustGrp = _MissionCtrl controlsGroupCtrl 5400;
+          private _AdjustBnt = _AdjustGrp controlsGroupCtrl 5100;
+          private _AdjustMeter = _AdjustGrp controlsGroupCtrl 5004;
+          
+          _AdjustBnt call BCE_fnc_UpdateFireAdjust; //- Refresh UI Values
+
+          private _MeterValue = ["Meter",1] call BCE_fnc_get_FireAdjustValues;
+          _AdjustMeter ctrlSetText format ["<-- %1 m -->", _MeterValue * 10];
+        };
       };
-    };
     ctrlSetFocus _MissionCtrl;
     _MissionCtrl setVariable ["Init",true];
   };

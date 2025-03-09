@@ -2,6 +2,7 @@
 private _setting = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
 _setting params ["_page","","_subInfos"];
 _subInfos params ["_subMenu","_curLine"];
+
 private _return = switch _subMenu do {
 	case "Task_Building": {
 		_subMenu = "";

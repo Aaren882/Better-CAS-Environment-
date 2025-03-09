@@ -4,7 +4,7 @@ params ["_control", "_selectedIndex",["_condition",true]];
 _display = ctrlParent _control;
 if (_control isEqualTo (_display displayCtrl (17000 + 12010))) then {
 	_clear = _display displayCtrl (17000 + 12011);
-	_task = switch (uiNameSpace getVariable ["BCE_Current_TaskType",0]) do {
+	_task = switch (["Type",0] call BCE_fnc_get_TaskCurSetup) do {
 		//- 5 line
 		case 1: {
 			[[-1,2,1],"BCE_CAS_5Line_Var"]
