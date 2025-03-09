@@ -1,3 +1,5 @@
+//- BCE_fnc_ATAK_updateTaskControl
+
 params ["_group","_settings"];
 
 //- Get "controlGroup" automatically (this takes time)
@@ -19,13 +21,6 @@ params ["_group","_settings"];
   };
 
 private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
-// private _MissionCtrl = _group getVariable ["Mission_Control", controlNull];
-
-//- if "_MissionCtrl" Exist (Delete Ctrl)
-  /* if (!isNull _MissionCtrl) then {
-    ctrlDelete _MissionCtrl;
-  }; */
-
 
 //- Create Builder
   private _MissionCtrl = [
@@ -52,6 +47,7 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
         _missionType ctrlAddEventHandler ["LBSelChanged", BCE_fnc_ATAK_TaskTypeChanged];
       };
     };
+    ctrlSetFocus _MissionCtrl;
     _MissionCtrl setVariable ["Init",true];
   };
 

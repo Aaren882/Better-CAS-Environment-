@@ -734,6 +734,12 @@ class CfgFunctions
 			class Reset_TaskList;
 			class NextTurretButton;
 		};
+		//- Fire Mission
+		class Call_for_Fire_Menu
+		{
+			file="MG8\AVFEVFX\functions\CAS_Menu\Call_for_fire";
+			class UpdateFireAdjust;
+		};
 		class Task_Receiver
 		{
 			file="MG8\AVFEVFX\functions\Task_Receiver";
@@ -818,6 +824,12 @@ class CfgFunctions
 					class ATAK_onVehicleChanged;
 					class ATAK_updateTaskControl;
 					class ATAK_getTaskCategoryInfo;
+				};
+				class ATAK_Call_for_Fire_Menu
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission\Call_for_Fire";
+					class ATAK_onFireAdjusted;
+					class ATAK_CleanFireAdjust;
 				};
 				class ATAK_Menu_Init
 				{
@@ -1168,6 +1180,7 @@ class RscButtonMenu: RscShortcutButton
 	class AttributesImage;
 };
 class ctrlButton;
+class ctrlButtonPictureKeepAspect;
 class RscEdit;
 class RscCombo;
 class RscXSliderH;

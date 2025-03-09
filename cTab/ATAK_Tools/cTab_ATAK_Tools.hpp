@@ -85,6 +85,17 @@
     {
         class controls
         {
+            //- Background (for ControlGroup)
+                class Background: RscBackground
+                {
+                    idc = 20;
+                    text="";
+                    colorBackground[] = {0,0,0.5,0.1};
+                    x = 0;
+                    y = CATEGORY_H * ATAK_POS_H;
+                    w = PhoneBFTContainerW(3);
+                    h = phoneSizeH - ((CATEGORY_H + 0.75) * ATAK_POS_H);
+                };
             class ListCategory: ctrlToolboxPictureKeepAspect
             {
                 idc = idc_D(2102);
@@ -110,14 +121,8 @@
                     "GND", //- Ground
                     "OTR"  //- Others
                 };
+                onToolBoxSelChanged = "[] call BCE_fnc_ATAK_updateTaskControl";
             };
-            //- Background (for ControlGroup formatting)
-                class Background: RscText
-                {
-                    idc = 20;
-                    text="";
-                    ATAK_POS(0,CATEGORY_H,1,(0.7 + 12.7 + (0.35/2)));
-                };
         };
     };
     //- TASK GROUPs (9 Line, 5 Line etc)
@@ -168,6 +173,7 @@
                     idc = idc_D(2012);
                     ATAK_POS(0.1,0.35/2,2.8,0.65);
                     
+                    shadow = 1;
                     rows = 1;
                     columns = 3;
                     strings[] =

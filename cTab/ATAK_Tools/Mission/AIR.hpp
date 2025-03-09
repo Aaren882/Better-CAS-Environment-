@@ -5,6 +5,11 @@ class AIR_9_LINE: ATAK_AppMenu_Base
     h = phoneSizeH - ((CATEGORY_H + 0.75) * ATAK_POS_H);
     class controls
     {
+        //- Background
+            class Background: RscBackground
+            {
+                ATAK_POS(0,0,0,(0.7 + 12.7 + 0.35));
+            };
         class Game_Plan_T: RscText
         {
             idc = -1;
@@ -447,6 +452,10 @@ class AIR_5_LINE: AIR_9_LINE
     class controls: controls
     {
         //- Inherits
+            class Background: Background
+            {
+                ATAK_POS(0,0,0,(0.7 + 10.3 + 0.35));
+            };
             class Game_Plan_T: Game_Plan_T {};
             class TaskType: TaskType {};
             class CtrlType: CtrlType {};
@@ -462,7 +471,6 @@ class AIR_5_LINE: AIR_9_LINE
         
         class Line1_T5: CtrlType
         {
-            idc = 51;
             text="1";
             ATAK_POS(0,(3.6 + (0.35/2)),1,0.7);
             tooltip="$STR_BCE_TIP_5Line";
@@ -490,7 +498,6 @@ class AIR_5_LINE: AIR_9_LINE
 
         class Line2_T5: CtrlType
         {
-            idc = 52;
             text="2";
             ATAK_POS(0,(4.6 + (0.35/2)),1,0.7);
             tooltip="$STR_BCE_TIP_FRND";
@@ -506,7 +513,6 @@ class AIR_5_LINE: AIR_9_LINE
 
         class Line3_T5: CtrlType
         {
-            idc = 53;
             text="3";
             ATAK_POS(0,(5.6 + (0.35/2)),1,0.7);
             tooltip="$STR_BCE_TIP_GRID";
@@ -522,7 +528,6 @@ class AIR_5_LINE: AIR_9_LINE
 
         class Line4_T5: CtrlType
         {
-            idc = 54;
             text="4";
             ATAK_POS(0,(6.6 + (0.35/2)),1,0.7);
             tooltip="$STR_BCE_TIP_DESC";
