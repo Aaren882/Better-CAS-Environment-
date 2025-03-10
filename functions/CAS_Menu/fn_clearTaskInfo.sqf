@@ -13,9 +13,9 @@ _clearAction = {
 	_description = _display displayctrl (_IDC_offset + 2004);
 	_Task_Type = _display displayCtrl (_IDC_offset + 2107);
 
-	_sel_TaskType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
+	_curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
 
-	_list_result = switch _sel_TaskType do {
+	_list_result = switch _curType do {
 		//-5 line
 		case 1: {
 			_TaskList = _display displayCtrl (_IDC_offset + 2005);
@@ -47,16 +47,8 @@ _clearAction = {
 	//-check current Controls
 	([_display,_curLine,_curInterface,false,true,true] call BCE_fnc_Show_CurTaskCtrls) params ["_shownCtrls","_TextR"];
 
-	switch _sel_TaskType do {
-		//-5 line
-		case 1: {
-			call BCE_fnc_clearTask5line;
-		};
-		//-9 line
-		default {
-			call BCE_fnc_clearTask9line;
-		};
-	};
+	private _fnc = ["BCE_fnc_clearTask5line", "BCE_fnc_clearTask9line"] # _curType;
+	call (uiNamespace getVariable _fnc);
 
 	//-Set Clear button color (except AV Terminal)
 	if (_IDC_offset != 0) then {

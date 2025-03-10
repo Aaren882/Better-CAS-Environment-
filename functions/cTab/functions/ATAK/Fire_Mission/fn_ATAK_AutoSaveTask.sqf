@@ -31,6 +31,8 @@
 	};
 	
 	_shownCtrls = [_TaskList,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
-	call ([BCE_fnc_DataReceive9line, BCE_fnc_DataReceive5line] # _curType);
+	
+	private _fnc = ["BCE_fnc_DataReceive9line", "BCE_fnc_DataReceive5line"] # _curType;
+	call (uiNamespace getVariable _fnc);
 	}, _this
 ] call CBA_fnc_execNextFrame;

@@ -38,9 +38,10 @@ _desc = switch (_curType) do {
 
 _curLine = [_curLine, (count _taskVar)-1] select (_curLine > count _taskVar);
 _shownCtrls = [_group,_curLine,1,true] call BCE_fnc_Show_CurTaskCtrls;
+private _fnc = ["BCE_fnc_DblClick9line", "BCE_fnc_DblClick5line"] # _curType;
 
 //-Formatting
-call ([BCE_fnc_DblClick9line, BCE_fnc_DblClick5line] # _curType);
+call (uiNamespace getVariable _fnc);
 
 _description ctrlCommit 0;
 _description ctrlSetStructuredText parseText ([
