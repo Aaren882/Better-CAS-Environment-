@@ -10,21 +10,21 @@ private _setting = [_displayName, "showMenu"] call cTab_fnc_getSettings;
 private _subInfos = _setting param [2,[]];
 
 //- Check if is "BCE_fnc_ATAK_toggleSubListMenu" SUB MENU
-if (_subList) then {
-  private _PgComponents = _setting param [3, createHashMap];
-  private _PG_data = _PgComponents getOrDefault [_page, []];
+switch (true) do {
+  case _subList: {
+    private _PgComponents = _setting param [3, createHashMap];
+    private _PG_data = _PgComponents getOrDefault [_page, []];
 
-  //- Update subList data
-    _PG_data set [0, _curLine];
-    _PgComponents set [_page, _PG_data];
-    _setting set [3, _PgComponents];
-} else {
+    //- Update subList data
+      _PG_data set [0, _curLine];
+      _PgComponents set [_page, _PG_data];
+      _setting set [3, _PgComponents];
+  };
 
   //- if "_ctrl" is Null (Switching APP)
-  if !(isnull _ctrl) then {
+  case !(isnull _ctrl): {
     private _page = ctrlClassName _ctrl;
-    private _APPs_Map = localNamespace getVariable ["BCE_ATAK_APPs_HashMap", createHashMap];
-    (_APPs_Map get _page) params ["","_function"];
+    (_page call BCE_fnc_ATAK_getAPPs_props) params ["","_function"];
 
     //- catch empty "Opened function" (only to APPs)
       if (_function == "") exitWith {
@@ -33,8 +33,9 @@ if (_subList) then {
 
     _setting set [0, _page];
   };
-
-  if !(isnil{_curLine}) then {
+  
+  //- Mission Lines
+  case !(isnil{_curLine}): {
     //- Set Sub Infos
       _subInfos set [0,_page];
       _subInfos set [1,_curLine];

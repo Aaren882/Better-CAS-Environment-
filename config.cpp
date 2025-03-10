@@ -845,6 +845,7 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Init";
 					class ATAK_setAPPs_props;
+					class ATAK_getAPPs_props;
 				};
 				class ATAK_Menu
 				{

@@ -2,7 +2,7 @@ params ["_control", "_lbCurSel"];
 // private ["_TaskList","_EditBox","_curType","_taskVar","_show"];
 privateAll;
 
-localNamespace setVariable ["BCE_ATAK_Desc_Type",_lbCurSel];
+["Desc",_lbCurSel] call BCE_fnc_set_TaskCurSetup;
 
 _TaskList = ctrlParentControlsGroup _control;
 _EditBox = _TaskList controlsGroupCtrl (17000 + 2015);

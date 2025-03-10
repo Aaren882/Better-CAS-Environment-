@@ -48,17 +48,17 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
     //- Update task type in cTab Variable
       _subSel call BCE_fnc_ATAK_set_TaskType;
 
+    //- Refresh Task Values
+      call BCE_fnc_ATAK_Refresh_TaskInfos;
+
     //- New control's Initation Refresh Values
       switch (_cateSel) do {
         case 0: { //- Air Fire Support
-
-          //- Refresh Task Values
-            call BCE_fnc_ATAK_Refresh_TaskInfos;
-          
-          //- Set Task EH + update "MissionType" CurSel
           private _missionType = _MissionCtrl controlsGroupCtrl (17000 + 2107);
-          _missionType lbSetCurSel _subSel;
-          _missionType ctrlAddEventHandler ["LBSelChanged", BCE_fnc_ATAK_TaskTypeChanged];
+
+          //- Set Task EH + update "MissionType" CurSel
+            _missionType lbSetCurSel _subSel;
+            _missionType ctrlAddEventHandler ["LBSelChanged", BCE_fnc_ATAK_TaskTypeChanged];
         };
         case 1: { //- Ground Fire Support ("Call For Fire")
           private _AdjustGrp = _MissionCtrl controlsGroupCtrl 5400;

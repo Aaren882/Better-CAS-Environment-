@@ -65,7 +65,7 @@ switch (_page) do {
 					};
 
 					private _isOverwrite = false;
-					private _DESC_Type= localNamespace getVariable ["BCE_ATAK_Desc_Type",0];
+					private _DESC_Type = ["Desc",0] call BCE_fnc_get_TaskCurSetup;
 
 					///-Enter Data
 					private _shownCtrls = [_group,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
@@ -110,7 +110,6 @@ switch (_page) do {
 							5
 						] call cTab_fnc_addNotification;
 					};
-				private _sel_TaskType = _curType;
 				private _NotAVT = true;
 				if (call BCE_fnc_SendTaskData) then {
 					_bnt ctrlSetText localize "STR_BCE_Abort_Task";

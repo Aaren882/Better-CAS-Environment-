@@ -113,8 +113,8 @@ if !(isnull _veh) then {
 if (_displayName find "Tablet" < 0 && _displayName find "Android" < 0) exitWith {};
 
 //- CAS
-private _sel_TaskType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-private _taskVars = switch _sel_TaskType do {
+private _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
+private _taskVars = switch _curType do {
 	//-5 line
 	case 1: {
 		private _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];

@@ -1,7 +1,6 @@
 //- call BCE_fnc_ATAK_mission_SUB_TaskBuilding;
 params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 
-// private ["_TaskList","_curType","_taskVar","_all_lists","_Tasklist","_shownCtrls","_TaskListPOS","_titlePOS","_description","_desc"];
 privateAll;
 
 (["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","_shown","_subInfos"];
@@ -12,7 +11,9 @@ if !(_shown) exitwith {};
 _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
 _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
 
-if (isnil {_taskVar}) exitWith {hintSilent "Error Variable is empty"};
+if (isnil {_taskVar}) exitWith {
+	["Error ""_taskVar"" Variable is empty"] call BIS_fnc_error;
+};
 
 // _TaskList = _display displayCtrl (17000+4661);
 // _group = _display displayCtrl (17000+4662);
@@ -28,12 +29,19 @@ _TaskListPOS = ctrlPosition (_group controlsGroupCtrl (17000+2011));
 _titlePOS = [0, _TaskListPOS # 1, 0, (_TaskListPOS # 3) * 0.01];
 
 _desc = switch (_curType) do {
+	case 0: {
+		["","IPBP","","","ELEV","DESC","GRID","MARK","FRND","EGRS","Remarks"]
+	};
 	case 1: {
 		["","FRNDMark","TGT","","Remarks"]
 	};
 	default {
-		["","IPBP","","","ELEV","DESC","GRID","MARK","FRND","EGRS","Remarks"]
+		nil
 	};
+};
+
+if (isNil{_desc}) exitWith {
+	["Error no Task Found."] call BIS_fnc_error;
 };
 
 _curLine = [_curLine, (count _taskVar)-1] select (_curLine > count _taskVar);

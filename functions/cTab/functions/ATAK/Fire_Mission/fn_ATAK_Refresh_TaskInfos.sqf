@@ -37,7 +37,11 @@ private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_
 	_titlePOS = [0, _MissionCtrlPOS # 1, 0, (_MissionCtrlPOS # 3) * 0.01];
 	_description = _group controlsGroupCtrl (17000 + 2004);
 
-	_fnc = [BCE_fnc_DblClick9line, BCE_fnc_DblClick5line] # _curType;
+//- Get description DropList Selection
+	private _ctrlDESC = _MissionCtrl controlsGroupCtrl (17000 + 2027);
+	private _DESC_Type = ["Desc",0] call BCE_fnc_get_TaskCurSetup;
+	_ctrlDESC lbSetCurSel _DESC_Type;
+
 	private _fnc = ["BCE_fnc_DblClick9line", "BCE_fnc_DblClick5line"] # _curType;
 	{
 		if (_forEachIndex == 1) then {

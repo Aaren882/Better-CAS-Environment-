@@ -16,7 +16,6 @@ switch _curLine do {
 		if ((_taskVar_0 # 0) != "NA") then {
 			_taskVarSel = _taskVar_0 # 4;
 			
-			systemChat str [_ctrl,(_taskVarSel # 0)];
 			_ctrl lbSetCurSel (_taskVarSel # 0);
 			_type lbSetCurSel (_taskVarSel # 1);
 			_weap lbSetCurSel (_taskVarSel # 2);
