@@ -14,7 +14,7 @@ _drawT = {
 	(_POSs select ((_from distance (_POSs # 0)) > (_from distance (_POSs # 1))))
 };
 
-_return = switch _sel_TaskType do {
+_return = switch _curType do {
 	//-5 line
 	case 1: {
 		_taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];

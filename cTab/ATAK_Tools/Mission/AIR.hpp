@@ -534,7 +534,6 @@ class AIR_5_LINE: AIR_9_LINE
         };
         class L54_EditBnt: L95_EditBnt
         {
-            idc = idc_D(2043);
             ATAK_POS(0.2,(6.6 + (0.35/2)),2.3,0.7);
             tooltip="$STR_BCE_TIP_DESC";
         };

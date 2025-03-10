@@ -223,7 +223,9 @@ PHONE_CLASS
 			//- 9 Line
 			{93,94,95,96,97,98,99,idc_D(2025),idc_D(2026),idc_D(20260),idc_D(2027),idc_D(20270),idc_D(2015),idc_D(2029),idc_D(2030),idc_D(2031),idc_D(2032)},
 			//- 5 Line
-			{51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2043),idc_D(20430),idc_D(2015),idc_D(2016)}
+			{51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2027),idc_D(20430),idc_D(2015),idc_D(2016)},
+			//- Call For Fire
+			{51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2027),idc_D(20430),idc_D(2015),idc_D(2016)}
 		};
 		onMouseZChanged = "call BCE_fnc_ATAK_getScrollValue";
 	#endif

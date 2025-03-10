@@ -43,4 +43,5 @@ if (isNull _MissionCtrl) exitWith {};
 
 //-Update DESC Selection
 	private _ctrlDESC = _MissionCtrl controlsGroupCtrl (17000 + 2027);
-	_ctrlDESC lbSetCurSel (localNamespace getVariable ["BCE_ATAK_Desc_Type",0]);
+	private _DESC_Type = ["Desc",0] call BCE_fnc_get_TaskCurSetup;
+	_ctrlDESC lbSetCurSel _DESC_Type;

@@ -143,8 +143,8 @@ _ctrl drawIcon [
 };
 
 //- CAS
-_sel_TaskType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-_taskVars = switch _sel_TaskType do {
+_curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
+_taskVars = switch _curType do {
 	//-5 line
 	case 1: {
 		_taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];

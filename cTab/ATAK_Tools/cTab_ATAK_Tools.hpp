@@ -327,6 +327,22 @@
                     w = PhoneBFTContainerW(0.3) * (safezoneH/safezonew);
                     h = PhoneBFTContainerW(0.3);
                 };
+                class New_Task_CFF_CtrlType: New_Task_IPtype
+                {
+                    idc = idc_D(2203);
+                    strings[] =
+                    {
+                        "At-Ready",
+                        "AMC",
+                        "TOT"
+                    };
+                    tooltips[] =
+                    {
+                        "Fire When Ready",
+                        "At My Command",
+                        """Impact"" Time on Target"
+                    };
+                };
             };
         };
         //- Task Result

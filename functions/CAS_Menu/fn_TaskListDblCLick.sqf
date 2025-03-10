@@ -1,11 +1,11 @@
 params ["_control", "_curLine"];
-private ["_display","_title","_Task_Type","_sel_TaskType","_list_result","_Expression_class","_desc_show","_extend_desc","_description","_sendData","_clearbut","_checklist","_desc","_descriptionPOS","_TaskListPOS","_titlePOS","_Expression_Ctrls","_shownCtrls"];
+private ["_display","_title","_Task_Type","_curType","_list_result","_Expression_class","_desc_show","_extend_desc","_description","_sendData","_clearbut","_checklist","_desc","_descriptionPOS","_TaskListPOS","_titlePOS","_Expression_Ctrls","_shownCtrls"];
 
 _display = ctrlParent _control;
 _title = _display displayctrl 2003;
 _Task_Type = _display displayCtrl 2107;
-_sel_TaskType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-_list_result = switch _sel_TaskType do {
+_curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
+_list_result = switch _curType do {
 	//-5 line
 	case 1: {
 		_TaskList = _display displayCtrl 2005;
@@ -140,15 +140,12 @@ _shownCtrls = [_display,_curLine,0] call BCE_fnc_Show_CurTaskCtrls;
 //-Show Needed Controls
 {_x ctrlshow true} count [_title,_description];
 
-switch _sel_TaskType do {
-	//-5 line
-	case 1: {
-		call BCE_fnc_DblClick5line;
-	};
+switch _curType do {
 	//-9 line
-	default {
+	case 0: {
 		if (_curLine in [2,3,4]) then {_clearbut ctrlShow false};
-		call BCE_fnc_DblClick9line;
 	};
 };
+private _fnc = ["BCE_fnc_DblClick9line","BCE_fnc_DblClick5line"] # _curType;
+call uiNamespace getVariable _fnc;
 _description ctrlCommit 0;

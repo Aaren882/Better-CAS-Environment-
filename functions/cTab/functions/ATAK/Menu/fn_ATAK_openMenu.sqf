@@ -40,8 +40,7 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
   };
 
 //- Set APP Menu
-  private _APPs_Map = localNamespace getVariable ["BCE_ATAK_APPs_HashMap", createHashMap];
-  (_APPs_Map get _page) params ["_currentMenu","_function","_subMenus"];
+  (_page call BCE_fnc_ATAK_getAPPs_props) params ["_currentMenu","_function","_subMenus"];
 
   //- if subMenu exist then overwrite [_currentMenu, _function]
     if (_subMenu != "") then {

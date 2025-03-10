@@ -143,6 +143,7 @@ class Call_For_Fire: AIR_5_LINE
             {
                 ATAK_POS(0.2,(7.2 + (0.35/2)),2.7,0.7);
                 toolTip="Method of fire and control";
+                onButtonClick = "[nil,'Task_Building',1] call BCE_fnc_ATAK_ChangeTool";
             };
 
         //- Separator -//
@@ -385,7 +386,7 @@ class Call_For_Fire: AIR_5_LINE
                 columns = 2;
                 strings[] =
                 {
-                    "ADJUST FIRE",
+                    "SHIFT",
                     "Fire for Effect"
                 };
                 tooltips[] =
@@ -434,23 +435,6 @@ class Call_For_Fire: AIR_5_LINE
                 };
             };
         #undef ADJUSTMENT_MENU
-            /*class New_Task_CtrlType: New_Task_CtrlType
-            {
-                ATAK_POS(0.5,(1 + (0.35/2)),2.4,0.65);
-                columns = 3;
-                strings[] =
-                {
-                    "At-Ready",
-                    "AMC",
-                    "TOT"
-                };
-                tooltips[] =
-                {
-                    "Fire When Ready",
-                    "At My Command",
-                    """Impact"" Time on Target"
-                };
-            };*/
 
         // Fire Script
         /*_group = arty1 call dra_fnc_GroupVehiclesArty; 
