@@ -69,7 +69,9 @@ switch (_page) do {
 
 					///-Enter Data
 					private _shownCtrls = [_group,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
-					call ([BCE_fnc_DataReceive9line, BCE_fnc_DataReceive5line] # _curType);
+					private _fnc = ["BCE_fnc_DataReceive9line", "BCE_fnc_DataReceive5line"] # _curType;
+					
+					call (uiNamespace getVariable _fnc);
 					call BCE_fnc_ATAK_Refresh_TaskInfos;
 				};
 			

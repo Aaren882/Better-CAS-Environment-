@@ -1,12 +1,12 @@
 params ["_control",["_IDC_offset",0],["_updateList",false],["_overwrite",-1]];
-private ["_display","_button_text","_NotAVT","_sel_TaskType","_list_result","_isOverwrite","_curLine","_vehicle","_condition","_text"];
+private ["_display","_button_text","_NotAVT","_curType","_list_result","_isOverwrite","_curLine","_vehicle","_condition","_text"];
 
 _display = ctrlParent _control;
 _button_text = ctrlText _control;
 _NotAVT = _IDC_offset != 0;
 
-_sel_TaskType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-_list_result = switch _sel_TaskType do {
+_curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
+_list_result = switch _curType do {
 	//-5 line
 	case 1: {
 		_TaskList = _display displayCtrl (_IDC_offset + 2005);
@@ -69,7 +69,8 @@ _condition = [[],[0]] select (isNull _vehicle);
 _text = nil;
 
 if !(_curLine in _condition) then {
-	call ([BCE_fnc_DataReceive9line, BCE_fnc_DataReceive5line] # _sel_TaskType);
+	private _fnc = ["BCE_fnc_DataReceive9line", "BCE_fnc_DataReceive5line"] # _curType;
+	call (uiNamespace getVariable _fnc);
 };
 
 //-Update List
