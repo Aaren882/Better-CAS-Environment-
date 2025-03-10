@@ -17,7 +17,7 @@ _list_Title = _display displayCtrl 2001;
 _Task_Type = _display displayCtrl 2107;
 
 _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-_taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+_taskVar = ((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) # 0;
 
 _TaskList = switch (_curType) do {
 	//-5 line

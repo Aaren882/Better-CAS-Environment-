@@ -9,7 +9,7 @@ _subInfos params ["_subMenu","_curLine"];
 if !(_shown) exitwith {};
 
 _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-_taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+_taskVar = ((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) # 0;
 
 if (isnil {_taskVar}) exitWith {
 	["Error ""_taskVar"" Variable is empty"] call BIS_fnc_error;

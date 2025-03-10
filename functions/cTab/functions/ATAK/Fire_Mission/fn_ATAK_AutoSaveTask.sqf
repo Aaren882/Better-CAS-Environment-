@@ -6,7 +6,7 @@
 	if !(ctrlshown _TaskList) exitWith {};
 
 	_curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-	_taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+	_taskVar = ((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) # 0;
 
 	_isOverwrite = false;
 	_text = nil;

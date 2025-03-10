@@ -114,7 +114,7 @@ if (_displayName find "Tablet" < 0 && _displayName find "Android" < 0) exitWith 
 
 //- CAS
 private _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-private _taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+private _taskVar = ((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) # 0;
 _taskVar = switch _curType do {
 	//-5 line
 	case 1: {

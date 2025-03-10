@@ -14,7 +14,7 @@ _drawT = {
 	(_POSs select ((_from distance (_POSs # 0)) > (_from distance (_POSs # 1))))
 };
 
-_taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+_taskVar = ((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) # 0;
 _return = switch _curType do {
 	//-5 line
 	case 1: {
