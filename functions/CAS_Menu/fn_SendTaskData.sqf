@@ -1,5 +1,5 @@
 #define CHECK_TASK(TASK) ((TASK select 0) != "NA")
-private ["_drawT"];
+private ["_drawT","_taskVar"];
 _drawT = {
 	private ["_HDG","_POSs","_dis"];
 	_HDG = _FRPOS getDirVisual _TGPOS;
@@ -14,10 +14,10 @@ _drawT = {
 	(_POSs select ((_from distance (_POSs # 0)) > (_from distance (_POSs # 1))))
 };
 
+_taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
 _return = switch _curType do {
 	//-5 line
 	case 1: {
-		_taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
 		_taskVar params ["_taskVar_0","_taskVar_1","_taskVar_2","_taskVar_3","_taskVar_4"];
 
 		if !(CHECK_TASK(_taskVar_0) && CHECK_TASK(_taskVar_1) && CHECK_TASK(_taskVar_2)) exitwith {
@@ -57,7 +57,6 @@ _return = switch _curType do {
 	};
 	//-9 line
 	default {
-		_taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
 		_taskVar params ["_taskVar_0",["_taskVar_1",["NA","",[]]],"","","","",["_taskVar_6",["NA","111222"]],"","_taskVar_8",["_taskVar_9",["NA",0,[],nil,nil]],"_taskVar_10"];
 
 		if !(!(isnull _vehicle) && CHECK_TASK(_taskVar_0) && CHECK_TASK(_taskVar_6) && CHECK_TASK(_taskVar_8) && CHECK_TASK(_taskVar_9)) exitwith {

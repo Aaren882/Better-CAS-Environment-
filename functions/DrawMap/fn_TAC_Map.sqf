@@ -144,10 +144,10 @@ _ctrl drawIcon [
 
 //- CAS
 _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-_taskVars = switch _curType do {
+_taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+_taskVar = switch _curType do {
 	//-5 line
 	case 1: {
-		_taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
 		_FRD = _taskVar # 1;
 		_Target = _taskVar # 2;
 		_remarks = _taskVar # 4;
@@ -155,7 +155,6 @@ _taskVars = switch _curType do {
 	};
 	//-9 line
 	default {
-		_taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
 		_IPBP = _taskVar # 1;
 		_Target = _taskVar # 6;
 		_FRD = _taskVar # 8;
@@ -164,7 +163,7 @@ _taskVars = switch _curType do {
 		[_IPBP,_Target,_FRD,_EGRS,_remarks]
 	};
 };
-_taskVars params ["_IPBP","_Target","_FRD","_EGRS","_remarks"];
+_taskVar params ["_IPBP","_Target","_FRD","_EGRS","_remarks"];
 
 //-Draw IP/BP
 if (((_IPBP # 0) != "NA") && !("Marker" in (_IPBP # 0))) then {

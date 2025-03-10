@@ -1,37 +1,37 @@
 params["_display",["_period",1],["_preload",false],["_vehicle",objNull]];
 
 if ((lbcursel (_display displayCtrl 2102)) != 0) exitWith {};
-private [
+/*private [
 	"_BG_grp","_MainList","_list_Title","_Task_Type",
 	"_list_result","_config","_Expression_class",
 	"_Task_title","_desc_show","_squad_title","_squad_pic","_squad_list",
 	"_Button_Racks","_List_Racks","_extend_desc","_Task_Description",
 	"_clearbut","_Expression_TextR","_Expression_Ctrls",
 	"_createTask","_lastPage","_sendData","_Task_Type_POS","_BG_grp_POS","_MainList_POS","_createTask_POS","_sendData_POS"
-];
+];*/
+privateAll;
 _BG_grp = _display displayCtrl 2000;
 
 _MainList = _display displayCtrl 2100;
 _list_Title = _display displayCtrl 2001;
 _Task_Type = _display displayCtrl 2107;
 
-_list_result = switch (["Type",0] call BCE_fnc_get_TaskCurSetup) do {
+_curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
+_taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+
+_TaskList = switch (_curType) do {
 	//-5 line
 	case 1: {
 		_TaskList = _display displayCtrl 2005;
-		_taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
-
 		_TaskList lbSetText [0, format ["1: “%1”/“%2” :", groupId group _vehicle, groupId group player]];
-		[_TaskList,_taskVar]
+
+		_TaskList
 	};
 	//-9 line
 	default {
-		_TaskList = _display displayCtrl 2002;
-		_taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
-		[_TaskList,_taskVar]
+		_display displayCtrl 2002;
 	};
 };
-_list_result params ["_TaskList","_taskVar"];
 
 _config = configFile >> "RscDisplayAVTerminal" >> "controls";
 _Expression_class = "true" configClasses (_config >> ctrlClassName _TaskList >>"items");

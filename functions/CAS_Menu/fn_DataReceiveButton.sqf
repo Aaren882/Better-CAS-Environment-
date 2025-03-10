@@ -1,27 +1,25 @@
 params ["_control",["_IDC_offset",0],["_updateList",false],["_overwrite",-1]];
-private ["_display","_button_text","_NotAVT","_curType","_list_result","_isOverwrite","_curLine","_vehicle","_condition","_text"];
+// private ["_display","_button_text","_NotAVT","_curType","_isOverwrite","_curLine","_vehicle","_condition","_text"];
+privateAll;
 
 _display = ctrlParent _control;
 _button_text = ctrlText _control;
 _NotAVT = _IDC_offset != 0;
 
 _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-_list_result = switch _curType do {
+_taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+
+_TaskList = switch _curType do {
 	//-5 line
 	case 1: {
-		_TaskList = _display displayCtrl (_IDC_offset + 2005);
-		_taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
-		[_TaskList,_taskVar]
+		_display displayCtrl (_IDC_offset + 2005);
 	};
 	//-9 line
 	default {
-		_TaskList = _display displayCtrl (_IDC_offset + 2002);
-		_taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
-		[_TaskList,_taskVar]
+		_display displayCtrl (_IDC_offset + 2002);
 	};
 };
 
-_list_result params ["_TaskList","_taskVar"];
 _isOverwrite = _overwrite > -1;
 _curLine = [lbCurSel _taskList,_overwrite] select _isOverwrite;
 
