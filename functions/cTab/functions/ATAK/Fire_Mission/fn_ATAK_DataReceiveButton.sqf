@@ -53,7 +53,7 @@ switch (_page) do {
 
 			//- Task elements
 			private _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-			private _taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+			private _taskVar = ((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) # 0;
 
 			//- Enter Infos (on Building Page)
 				if (_subMenu == "Task_Building") exitWith {

@@ -3,7 +3,7 @@ params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 
 private _ctrl = _group controlsGroupCtrl 11;
 private _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-private _taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+private _taskVar = ((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) # 0;
 
 [
   _ctrl,

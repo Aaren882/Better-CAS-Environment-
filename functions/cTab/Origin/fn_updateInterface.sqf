@@ -1117,7 +1117,7 @@ _settings apply {
 				case "Task_Result": {
 					private _ctrl = _group controlsGroupCtrl 11;
 					private _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-					private _taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+					private _taskVar = ((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) # 0;
 					[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
 				};
 			};*/
