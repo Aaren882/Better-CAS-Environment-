@@ -1,25 +1,23 @@
 params ["_control", "_curLine"];
-private ["_display","_title","_Task_Type","_curType","_list_result","_Expression_class","_desc_show","_extend_desc","_description","_sendData","_clearbut","_checklist","_desc","_descriptionPOS","_TaskListPOS","_titlePOS","_Expression_Ctrls","_shownCtrls"];
+// private ["_display","_title","_Task_Type","_curType","_list_result","_Expression_class","_desc_show","_extend_desc","_description","_sendData","_clearbut","_checklist","_desc","_descriptionPOS","_TaskListPOS","_titlePOS","_Expression_Ctrls","_shownCtrls"];
+privateAll;
 
 _display = ctrlParent _control;
 _title = _display displayctrl 2003;
 _Task_Type = _display displayCtrl 2107;
 _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-_list_result = switch _curType do {
+_taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+
+_TaskList = switch _curType do {
 	//-5 line
 	case 1: {
-		_TaskList = _display displayCtrl 2005;
-		_taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
-		[_TaskList,_taskVar]
+		_display displayCtrl 2005;
 	};
 	//-9 line
 	default {
-		_TaskList = _display displayCtrl 2002;
-		_taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
-		[_TaskList,_taskVar]
+		_display displayCtrl 2002;
 	};
 };
-_list_result params ["_TaskList","_taskVar"];
 
 _Expression_class = "true" configClasses (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _TaskList >> "items");
 

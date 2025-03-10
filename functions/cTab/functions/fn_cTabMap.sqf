@@ -114,10 +114,10 @@ if (_displayName find "Tablet" < 0 && _displayName find "Android" < 0) exitWith 
 
 //- CAS
 private _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-private _taskVars = switch _curType do {
+private _taskVar = (["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar;
+_taskVar = switch _curType do {
 	//-5 line
 	case 1: {
-		private _taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
 		private _FRD = _taskVar # 1;
 		private _Target = _taskVar # 2;
 		private _remarks = _taskVar # 4;
@@ -125,7 +125,6 @@ private _taskVars = switch _curType do {
 	};
 	//-9 line
 	default {
-		private _taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
 		private _IPBP = _taskVar # 1;
 		private _Target = _taskVar # 6;
 		private _FRD = _taskVar # 8;
@@ -134,7 +133,7 @@ private _taskVars = switch _curType do {
 		[_IPBP,_Target,_FRD,_EGRS,_remarks]
 	};
 };
-_taskVars params ["_IPBP","_Target","_FRD","_EGRS","_remarks"];
+_taskVar params ["_IPBP","_Target","_FRD","_EGRS","_remarks"];
 
 //-Draw IP/BP
 if (((_IPBP # 0) != "NA") && !("Marker" in (_IPBP # 0))) then {
