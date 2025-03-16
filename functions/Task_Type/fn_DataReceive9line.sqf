@@ -3,13 +3,14 @@
 switch _curLine do {
 	//-Control Type
 	case 0:{
+		// privateAll;
 		_shownCtrls params [
 			"_title_ctrl","_ctrl",
 			"_title_type","_type",
 			"_ord_title",
 			"_CTweap","_CTmode","_CTrange","_CTcount","_CTHeight"
 		];
-		private ["_typeCAS","_typeATK","_ordance","_ordnanceInfo","_setCount","_height","_lowest","_rangeIndex","_ATK_range","_text","_isnil","_text","_result"];
+		
 		_typeCAS = ["T1","T2","T3"] # (lbCurSel _ctrl);
 		_typeATK = ["BoT","BoC"] # (lbCurSel _type);
 
@@ -125,9 +126,9 @@ switch _curLine do {
 	//-DESC
 	case 5:{
 		_shownCtrls params ["_ctrl"];
-		if (isnil {_text}) then {
-			_text = ctrlText _ctrl;
-		};
+		/* if (isnil {_text}) then {
+		}; */
+		_text = ctrlText _ctrl;
 		_isEmptyInfo = ((_text == "--") || (_text == ""));
 
 		_taskVar set [5,
@@ -423,5 +424,3 @@ if (((_taskVar # 8 # 0) != "NA") && ((_taskVar # 6 # 0) != "NA") && (!((localize
 	] select _isEmptyInfo;
 	_taskVar set [8,[_info,_taskVar_8 # 1,_taskVar_8 # 2,_taskVar_8 # 3,_taskVar_8 # 4]];
 };
-
-uiNamespace setVariable ["BCE_CAS_9Line_Var",_taskVar];

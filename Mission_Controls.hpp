@@ -4,7 +4,8 @@
     [X, Y, W, H] are defined in the UI that uses this Config.
     [size, SizeEx] Also
 */
-#define PROP_IDC_OFFSET(IDC) __EVAL(30000 + IDC)
+#define PROP_IDC_OFFSET 30000
+#define PROP_IDC(IDC) __EVAL(PROP_IDC_OFFSET + IDC)
 #define REGISTER_FNC \
     onLoad = "call BCE_fnc_RegisterMissionControls"
 
@@ -15,7 +16,7 @@ class BCE_Mission_Build_Controls
     {
         REGISTER_FNC;
 
-        idc = 2107;
+        idc = PROP_IDC(2107);
         colorBackground[] = {0,0,0,1};
         colorSelectBackground[] = {0.5,0.5,0.5,1};
         wholeHeight = 0.8;
@@ -41,7 +42,7 @@ class BCE_Mission_Build_Controls
     {
         REGISTER_FNC;
 
-        idc = 2004;
+        idc = PROP_IDC(2004);
         text = "Desc :";
         colorBackground[] = {0,0,0,0};
         class Attributes
@@ -54,7 +55,7 @@ class BCE_Mission_Build_Controls
     };
     class New_Task_Ctrl_Title: RscButtonMenu
     {
-        idc = PROP_IDC_OFFSET(20110);
+        idc = PROP_IDC(20110);
         style = 2;
         text = "$STR_BCE_ControlType_BNT";
         colorBackground[] = {0,0,0,0.4};
@@ -79,7 +80,7 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2011);
+            idc = PROP_IDC(2011);
             rows = 1;
             columns = 3;
             strings[] =
@@ -95,7 +96,7 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(20111);
+            idc = PROP_IDC(20111);
             text = "$STR_BCE_AttackType_BNT";
             BCE_Desc = "$STR_BCE_DECS_sm_AttackType";
         };
@@ -103,7 +104,7 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(20112);
+            idc = PROP_IDC(20112);
             columns = 2;
             strings[] =
             {
@@ -111,34 +112,19 @@ class BCE_Mission_Build_Controls
                 "BoC"
             };
         };
-        class New_Task_AttackType_Combo: TaskType
+        /* class New_Task_AttackType_Combo: TaskType
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(20112);
-            columns = 2;
-            class Items
-            {
-                class BoT
-                {
-                    text = "BoT";
-                    textRight = "";
-                    value = 0;
-                    default = 1;
-                };
-                class BoC
-                {
-                    text = "BoC";
-                    textRight = "";
-                    value = 1;
-                };
-            };
-        };
+            idc = PROP_IDC(20112);
+            
+            
+        }; */
         class New_Task_Ordnance_Title: New_Task_Ctrl_Title
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(20113);
+            idc = PROP_IDC(20113);
             text = "$STR_BCE_OrdnanceREQ_BNT";
             BCE_Desc = "$STR_BCE_DECS_sm_Ordnance";
         };
@@ -147,19 +133,19 @@ class BCE_Mission_Build_Controls
             {
                 REGISTER_FNC;
 
-                idc = PROP_IDC_OFFSET(2020);
+                idc = PROP_IDC(2020);
             };
             class AI_Remark_ModeCombo: AI_Remark_WeaponCombo
             {
                 REGISTER_FNC;
 
-                idc = PROP_IDC_OFFSET(2021);
+                idc = PROP_IDC(2021);
             };
             class Attack_Range_Combo: AI_Remark_ModeCombo
             {
                 REGISTER_FNC;
 
-                idc = PROP_IDC_OFFSET(2022);
+                idc = PROP_IDC(2022);
                 tooltip = "$STR_BCE_tip_Attack_Range";
                 class Items
                 {
@@ -185,7 +171,7 @@ class BCE_Mission_Build_Controls
             {
                 REGISTER_FNC;
 
-                idc = PROP_IDC_OFFSET(2023);
+                idc = PROP_IDC(2023);
                 Style = 2;
                 text = "1";
                 tooltip = "$STR_BCE_tip_Round_Count";
@@ -194,7 +180,7 @@ class BCE_Mission_Build_Controls
             {
                 REGISTER_FNC;
 
-                idc = PROP_IDC_OFFSET(2024);
+                idc = PROP_IDC(2024);
                 tooltip = "$STR_BCE_tip_Attack_Height";
                 text = "2000";
             };
@@ -204,7 +190,7 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2012);
+            idc = PROP_IDC(2012);
             
             shadow = 1;
             rows = 1;
@@ -224,7 +210,7 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2013);
+            idc = PROP_IDC(2013);
             wholeHeight = 0.8;
             font = "PuristaMedium";
             onMouseButtonClick = "(_this # 0) call BCE_fnc_IPMarkers";
@@ -242,7 +228,7 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2014);
+            idc = PROP_IDC(2014);
             text = "";
             canModify = 0;
             colorBackground[] = {0,0,0,0};
@@ -254,7 +240,7 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(20121);
+            idc = PROP_IDC(20121);
             columns = 2;
             strings[] =
             {
@@ -266,13 +252,14 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2015);
+            idc = PROP_IDC(2015);
             text = "";
             tooltip="$STR_BCE_TIP_AddDESC";
         };
         class New_Task_TG_DESC_Combo: RscCombo
         {
-            idc = PROP_IDC_OFFSET(2027);
+            REGISTER_FNC;
+            idc = PROP_IDC(2027);
             
             wholeHeight = 0.8;
             font = "PuristaMedium";
@@ -323,14 +310,21 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2016);
+            idc = PROP_IDC(2016);
             canModify = 1;
             text = "$STR_BCE_MarkWith";
+            tooltip = "";
+        };
+        class New_Task_GRID_DESC_Air_5line: New_Task_GRID_DESC
+        {
+            REGISTER_FNC;
+
+            idc = PROP_IDC(20160);
         };
         class New_Task_FRND_DESC: New_Task_GRID_DESC
         {
             REGISTER_FNC;
-            idc = PROP_IDC_OFFSET(2026);
+            idc = PROP_IDC(2026);
         };
 
     //- ERGS
@@ -338,7 +332,7 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2017);
+            idc = PROP_IDC(2017);
             rows = 1;
             columns = 8;
             strings[] =
@@ -370,14 +364,14 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2018);
+            idc = PROP_IDC(2018);
             text = "$STR_BCE_Bearing_ENT";
         };
         class New_Task_EGRS: New_Task_IPtype
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2019);
+            idc = PROP_IDC(2019);
             columns = 4;
             strings[] =
             {
@@ -393,7 +387,7 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2200);
+            idc = PROP_IDC(2200);
             columns = 3;
             strings[] =
             {
@@ -406,14 +400,14 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2201);
+            idc = PROP_IDC(2201);
             text = ": Danger Close";
         };
         class New_Task_DangerClose_Box: RscCheckBox
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2202);
+            idc = PROP_IDC(2202);
             textureChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
             textureFocusedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
             textureHoverChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
@@ -425,7 +419,7 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
 
-            idc = PROP_IDC_OFFSET(2203);
+            idc = PROP_IDC(2203);
             strings[] =
             {
                 "At-Ready",
@@ -442,4 +436,5 @@ class BCE_Mission_Build_Controls
 };
 
 #undef PROP_IDC_OFFSET
+#undef PROP_IDC
 #undef REGISTER_FNC

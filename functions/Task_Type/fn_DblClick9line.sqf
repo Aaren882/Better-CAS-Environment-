@@ -10,7 +10,14 @@ switch _curLine do {
 		_taskVar_0 = _taskVar # 0;
 
 		//-Weapon List
-		[ctrlParent _weap,_weap,player getVariable ['TGP_View_Selected_Vehicle',objNull],false,false,false] call BCE_fnc_checkList;
+		[
+			ctrlParent _weap,
+			_weap,
+			player getVariable ['TGP_View_Selected_Vehicle',objNull],
+			false,
+			false,
+			false
+		] call BCE_fnc_checkList;
 
 		//-Default
 		if ((_taskVar_0 # 0) != "NA") then {
@@ -25,8 +32,7 @@ switch _curLine do {
 			_height ctrlSetText (_taskVarSel # 6);
 		};
 
-		if !(isnil {_description}) then {
-
+		/*
 			_weapPOS = ctrlPosition _weap;
 			_rangePOS = ctrlPosition _range;
 			_countPOS = ctrlPosition _count;
@@ -37,7 +43,7 @@ switch _curLine do {
 			_height ctrlSetPositionX ((_weapPOS # 0) + (_rangePOS # 2) + (_countPOS # 2));
 
 			[_mode,_count,_height] apply {_x ctrlCommit 0};
-		};
+		*/
 	};
 
 	//-IP/BP
@@ -62,13 +68,13 @@ switch _curLine do {
 		};
 
 		//-Description POS
-		private _c = _titlePOS # 3;
+		/*private _c = _titlePOS # 3;
 		{
 			_c = _c + ((ctrlPosition _x) # 3);
 		} forEach [_ctrl1,_ctrl2];
 
 		_description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
+		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);*/
 
 		_ctrl2POS = ctrlPosition _ctrl2;
 		_ctrl3POS = ctrlPosition _ctrl3;
@@ -84,7 +90,7 @@ switch _curLine do {
 		_ctrl3 ctrlCommit 0;
 	};
 	//-Heading
-	case 2:{
+	/* case 2:{
 		private _c = _titlePOS # 3;
 		_description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
 		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
@@ -98,22 +104,22 @@ switch _curLine do {
 		private _c = _titlePOS # 3;
 		_description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
 		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
-	};
+	}; */
 
 	//-DESC
 	case 5:{
 		_shownCtrls params ["_ctrl"];
-		private _taskVar_5 = _taskVar # 5;
+		(_taskVar # 5) params ["_state","_value"];
 		
-		_ctrl ctrlSetText (["",(_taskVar_5 # 1)] select ((_taskVar_5 # 0) != "NA"));
+		_ctrl ctrlSetText (["",_value] select (_state != "NA"));
 		
 		//-Exit
-		if !(isnil {_description}) then {
+		/* if !(isnil {_description}) then {
 			private _ctrlPOS = ctrlPosition _ctrl;
 			private _c = (_ctrlPOS # 3) + (_titlePOS # 3);
 			_description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
 			_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
-		};
+		}; */
 	};
 
 	//-GRID
@@ -138,13 +144,13 @@ switch _curLine do {
 		};
 
 		//-Description POS
-		private _c = _titlePOS # 3;
+		/* private _c = _titlePOS # 3;
 		{
 			_c = _c + ((ctrlPosition _x) # 3);
 		} forEach [_ctrl1,_ctrl2];
 
 		_description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
+		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c); */
 
 		_ctrl2POS = ctrlPosition _ctrl2;
 		_ctrl3POS = ctrlPosition _ctrl3;
@@ -164,8 +170,6 @@ switch _curLine do {
 	case 7:{
 		_shownCtrls params ["_ctrl"];
 		private _taskVar7 = _taskVar # 7;
-		private _ctrlPOS = ctrlPosition _ctrl;
-		private _c = (_ctrlPOS # 3) + (_titlePOS # 3);
 
 		if ((_taskVar7 # 0) != "NA") then {
 			_ctrl ctrlSetText (_taskVar # 7 # 1);
@@ -173,11 +177,13 @@ switch _curLine do {
 			_ctrl ctrlSetText localize "STR_BCE_MarkWith";
 		};
 
+		/* private _ctrlPOS = ctrlPosition _ctrl;
+		private _c = (_ctrlPOS # 3) + (_titlePOS # 3);
 		_description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
 		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
 
 		_ctrl ctrlSetPositionY ((_titlePOS # 1) + (_titlePOS # 3));
-		_ctrl ctrlCommit 0;
+		_ctrl ctrlCommit 0; */
 	};
 
 	//-Friendlies
@@ -214,13 +220,13 @@ switch _curLine do {
 		};
 
 		//-Description POS
-		private _c = _titlePOS # 3;
+		/* private _c = _titlePOS # 3;
 		{
 			_c = _c + ((ctrlPosition _x) # 3);
 		} forEach [_ctrl1,_ctrl2,_ctrl4];
 		
 		_description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
+		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c); */
 		
 		_ctrl2POS = ctrlPosition _ctrl2;
 		_ctrl3POS = ctrlPosition _ctrl3;
@@ -287,13 +293,13 @@ switch _curLine do {
 		};
 
 		//-Description POS
-		private _c = _titlePOS # 3;
+		/* private _c = _titlePOS # 3;
 		{
 			_c = _c + ((ctrlPosition _x) # 3);
 		} forEach [_ctrl1,_ctrl2,_ctrl3];
 
 		_description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
+		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c); */
 
 		_ctrl2POS = ctrlPosition _ctrl2;
 		_ctrl3POS = ctrlPosition _ctrl3;
@@ -333,28 +339,27 @@ switch _curLine do {
 		_ctrl1sel = lbCurSel _ctrl1;
 		_ctrl3 ctrlSetText (_taskVar_10 # 0);
 
-		if (_ctrl1sel == 2) then {
-			_ctrl4 ctrlShow false;
-			_ctrl2 ctrlShow false;
-		} else {
-			//-FA D/H
-			if (_ctrl1sel == 0) then {
-				_ctrl2 ctrlShow false;
-				_ctrl4 ctrlShow true;
-			} else {
-				_ctrl2 ctrlShow true;
-				_ctrl4 ctrlShow false;
-			};
-		};
+		if (_ctrl1sel == 0) then {
+      _ctrl2 ctrlShow false;
+      _ctrl4 ctrlShow true;
+    };
+    if (_ctrl1sel == 1) then {
+      _ctrl2 ctrlShow true;
+      _ctrl4 ctrlShow false;
+    };
+    if (_ctrl1sel == 2) then {
+      _ctrl2 ctrlShow false;
+      _ctrl4 ctrlShow false;
+    };
 
 		//-Description POS
-		private _c = _titlePOS # 3;
+		/* private _c = _titlePOS # 3;
 		{
 			_c = _c + ((ctrlPosition _x) # 3);
 		} forEach [_ctrl1,_ctrl2,_ctrl3,_ctrl5];
 
 		_description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
+		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c); */
 
 		_ctrl2POS = ctrlPosition _ctrl2;
 		_ctrl3POS = ctrlPosition _ctrl3;
@@ -370,8 +375,8 @@ switch _curLine do {
 		_ctrl3 ctrlCommit 0;
 	};
 
-	default {
+	/* default {
 		_description ctrlSetPositionY (_TaskListPOS # 1);
 		_description ctrlSetPositionH (_TaskListPOS # 3);
-	};
+	}; */
 };
