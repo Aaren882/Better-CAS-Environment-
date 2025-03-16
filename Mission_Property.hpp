@@ -1,0 +1,131 @@
+/* 
+    This file is used to define the mission properties for the BCE mission/task Builder
+
+    Ex. 9Line, 5Line, etc.
+ */
+class BCE_Mission_Property
+{
+    Event_Functions[] = {
+        "Opened",
+        "Enter",
+        "Clear"
+    };
+    //- FIRST From Category
+    class AIR //- Air Fire Support
+    {
+        // : NO Inheritance
+        class AIR_9_LINE
+        {
+            displayName = "9 Line"; //- Localiziable displayName
+            Variable = "BCE_CAS_9Line_Var"; //- Where the data is stored
+            default = "[[""NA"",0],[""NA"","""",[],[0,0]],[""NA"",180],[""NA"",200],[""NA"",15],[""NA"",""--""],[""NA"","""",[],[0,0],[]],[""NA"",""1111""],[""NA"","""",[],[0,0],""""],[""NA"",0,[],nil,nil],[""NA"",-1,[]]]";
+   
+            Expression_idc[] = 
+            {
+                {
+                    "","New_Task_CtrlType",
+                    "","New_Task_AttackType",
+                    "",
+                    "AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
+                },
+                {
+                    "New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression"
+                },
+                {},
+                {},
+                {},
+                {"New_Task_TG_DESC"},
+                {"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
+                {"New_Task_GRID_DESC"},
+                {"New_Task_IPtype","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_FRND_DESC"},
+                {"New_Task_EGRS","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_MarkerCombo"},
+                {"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
+            };
+            /* {
+                {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024},
+                {2012,2013,2014},
+                {},
+                {},
+                {},
+                {2015},
+                {20121,2013,2014},
+                {2016},
+                {2012,2013,2014,2016},
+                {2019,2018,2014,2017,2013},
+                {2200,2018,2014,2017,2201,2202}
+            } */
+            Descriptions[] = {
+                "$STR_BCE_DECS_GAMEPLAN",
+                "$STR_BCE_DECS_IPBP_NoKey",
+                "$STR_BCE_DECS_HDG",
+                "$STR_BCE_DECS_DIST",
+                "$STR_BCE_DECS_ELEV",
+                "$STR_BCE_DECS_DESC",
+                "$STR_BCE_DECS_GRID",
+                "$STR_BCE_DECS_MARK",
+                "$STR_BCE_DECS_FRND",
+                "$STR_BCE_DECS_EGRS",
+                "$STR_BCE_DECS_Remarks"
+            };
+            
+            //- Events
+            class Events
+            {
+                Opened = "BCE_fnc_DblClick9line";
+                Enter = "BCE_fnc_DataReceive9line";
+                Clear = "BCE_fnc_clearTask9line"; //- Clear All the data
+            };
+        };
+        class AIR_5_LINE
+        {
+            displayName = "5 Line"; //- Localiziable displayName
+            Variable = "BCE_CAS_5Line_Var"; //- Where the data is stored
+            default = "[[""NA"",0],[""NA"","""",[],[0,0],""""],[""NA"",""111222""],[""NA"",""--"",""""],[""NA"",-1,[]]]";
+            
+
+            //- Maybe use UI Controls would be better
+            Expression_idc[] = {
+                {
+                    "","New_Task_CtrlType",
+                    "","New_Task_AttackType",
+                    "AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
+                },
+                {"New_Task_IPtype","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_GRID_DESC"},
+                {"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
+                {"New_Task_TG_DESC","New_Task_GRID_DESC"},
+                {"New_Task_FADH","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
+            };
+            /* {
+                {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024},
+                {2012,2013,2014,2016},
+                {20121,2013,2014},
+                {2015,2016},
+                {2200,2018,2014,2017,2201,2202}
+            } */
+            Descriptions[] = {
+                "$STR_BCE_DECS_GAMEPLAN",
+                "$STR_BCE_DECS_FRNDMark",
+                "$STR_BCE_DECS_TGT",
+                "$STR_BCE_DECS_DESCMark",
+                "$STR_BCE_DECS_Remarks"
+            };
+
+            //- Events
+            class Events
+            {
+                Opened = "BCE_fnc_DblClick5line";
+                Enter = "BCE_fnc_DataReceive5line";
+                Clear = "BCE_fnc_DblClick5line"; //- Clear All the data
+            };
+        };
+    };
+    class GND //- Ground Fire Support
+    {
+        class CFF
+        {
+            displayName = "Call For Fire"; //- Localiziable displayName
+            Variable = "BCE_CFF_Var"; //- Where the data is stored
+            default = "[[""NA"",0],[""NA"","""",[],[0,0],""""],[""NA"",""111222""],[""NA"",""--"",""""],[""NA"",-1,[]]]";
+        };
+    };
+};
