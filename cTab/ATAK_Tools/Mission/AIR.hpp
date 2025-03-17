@@ -3,7 +3,9 @@ class AIR_9_LINE: ATAK_AppMenu_Base
 {
     y = CATEGORY_H * ATAK_POS_H;
     h = phoneSizeH - ((CATEGORY_H + 0.75) * ATAK_POS_H);
-    class controls
+
+    //- Use "BCE_Mission_Build_Controls" for some Building Components
+    class controls: BCE_Mission_Build_Controls
     {
         //- Background
             class Background: RscBackground
@@ -23,9 +25,9 @@ class AIR_9_LINE: ATAK_AppMenu_Base
             tooltip="$STR_BCE_TIP_GAMEPLAN";
         };
         //-Task Type
-        class TaskType: RscCombo
+        class TaskType: TaskType
         {
-            idc = idc_D(2107);
+            // idc = idc_D(2107);
             ATAK_POS(1,((0.35/2)),1.9,0.65);
             
             wholeHeight = 0.8;
@@ -35,23 +37,6 @@ class AIR_9_LINE: ATAK_AppMenu_Base
             colorBackground[] = {0,0,0,1};
             colorSelect[]={1,1,1,1};
             colorSelectBackground[]={0.2,0.2,0.2,1};
-            
-            class Items
-            {
-                class 9line
-                {
-                    text = "9 Line";
-                    textRight = "";
-                    value = 0;
-                    default = 1;
-                };
-                class 5line
-                {
-                    text = "5 Line";
-                    textRight = "";
-                    value = 1;
-                };
-            };
         };
 
         class CtrlType: Game_Plan_T
@@ -62,9 +47,9 @@ class AIR_9_LINE: ATAK_AppMenu_Base
         };
 
         //-MOA
-        class New_Task_CtrlType: RscToolbox
+        class New_Task_CtrlType: New_Task_CtrlType
         {
-            idc = idc_D(2011);
+            // idc = idc_D(2011);
             ATAK_POS(0.5,(1 + (0.35/2)),1.2,0.65);
             rows = 1;
             columns = 3;
@@ -86,16 +71,52 @@ class AIR_9_LINE: ATAK_AppMenu_Base
             ATAK_POS(1.8,(1 + (0.35/2)),0.4,0.65);
             tooltip="$STR_BCE_TIP_MOA";
         };
-        class MOA_Combo: TaskType
+        class MOA_Combo: New_Task_AttackType
         {
-            idc = idc_D(20112);
             ATAK_POS(2.2,(1 + (0.35/2)),0.7,0.65);
+            sizeEx = 0.9 * TextSize;
             
+            wholeHeight = 0.8;
             colorBackground[] = {0.3,0.3,0.3,1};
             colorSelect[]={1,1,1,1};
             colorSelectBackground[]={0.4,0.4,0.4,1};
             
             onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+
+            //- Combo Definitions
+                deletable = 0;
+                fade = 0;
+                access = 0;
+                type = 4;
+                colorText[] = {1,1,1,1};
+                colorScrollbar[] = {1,0,0,1};
+                colorDisabled[] = {1,1,1,0.25};
+                colorPicture[] = {1,1,1,1};
+                colorPictureSelected[] = {1,1,1,1};
+                colorPictureDisabled[] = {1,1,1,0.25};
+                colorPictureRight[] = {1,1,1,1};
+                colorPictureRightSelected[] = {1,1,1,1};
+                colorPictureRightDisabled[] = {1,1,1,0.25};
+                colorTextRight[] = {1,1,1,1};
+                colorSelectRight[] = {0,0,0,1};
+                colorSelect2Right[] = {0,0,0,1};
+                tooltipColorText[] = {1,1,1,1};
+                tooltipColorBox[] = {1,1,1,1};
+                tooltipColorShade[] = {0,0,0,0.65};
+                soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect",0.1,1};
+                soundExpand[] = {"\A3\ui_f\data\sound\RscCombo\soundExpand",0.1,1};
+                soundCollapse[] = {"\A3\ui_f\data\sound\RscCombo\soundCollapse",0.1,1};
+                maxHistoryDelay = 1;
+                class ComboScrollBar: ScrollBar
+                {
+                    color[] = {1,1,1,1};
+                };
+                style = "0x10 + 0x200";
+                shadow = 0;
+                arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
+                arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
+                colorActive[] = {1,0,0,1};
+
             class Items
             {
                 class BoT
@@ -121,25 +142,39 @@ class AIR_9_LINE: ATAK_AppMenu_Base
             ATAK_POS(0,(2 + (0.35/2)),1,0.63);
             tooltip="$STR_BCE_TIP_Weapon";
         };
-        class AI_Remark_WeaponCombo: MOA_Combo
+        class AI_Remark_WeaponCombo: AI_Remark_WeaponCombo
         {
-            idc = idc_D(2020);
             ATAK_POS(0.7,(2 + (0.35/2)),1.5,0.65);
+            
+            colorBackground[] = {0.3,0.3,0.3,1};
+            colorSelect[]={1,1,1,1};
+            colorSelectBackground[]={0.4,0.4,0.4,1};
+
             sizeEx = 0.9 * TextSize;
             onLBSelChanged = "(_this + [17000]) call BCE_fnc_CAS_SelWPN; call BCE_fnc_ATAK_AutoSaveTask;";
-            class Items{};
         };
-        class AI_Remark_ModeCombo: AI_Remark_WeaponCombo
+        class AI_Remark_ModeCombo: AI_Remark_ModeCombo
         {
-            idc = idc_D(2021);
             ATAK_POS(2.2,(2 + (0.35/2)),0.7,0.63);
+
+            colorBackground[] = {0.3,0.3,0.3,1};
+            colorSelect[]={1,1,1,1};
+            colorSelectBackground[]={0.4,0.4,0.4,1};
+
+            sizeEx = 0.9 * TextSize;
             onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask";
         };
-        class Attack_Range_Combo: AI_Remark_ModeCombo
+        class Attack_Range_Combo: Attack_Range_Combo
         {
-            idc = idc_D(2022);
             ATAK_POS(0.7,(2.65 + (0.35/2)),1.1,0.63);
             tooltip = "$STR_BCE_tip_Attack_Range";
+
+            colorBackground[] = {0.3,0.3,0.3,1};
+            colorSelect[]={1,1,1,1};
+            colorSelectBackground[]={0.4,0.4,0.4,1};
+
+            sizeEx = 0.9 * TextSize;
+            onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
             class Items
             {
                 class 2000m
@@ -160,22 +195,19 @@ class AIR_9_LINE: ATAK_AppMenu_Base
                 };
             };
         };
-        class Round_Count_Box: RscEdit
+        class Round_Count_Box: Round_Count_Box
         {
-            idc = idc_D(2023);
             ATAK_POS(1.8,(2.65 + (0.35/2)),(1.1/3),0.63);
-            Style = 2;
             text = "1";
             sizeEx = 0.9 * TextSize;
-            tooltip = "$STR_BCE_tip_Round_Count";
             onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
         };
-        class Attack_Height_Box: Round_Count_Box
+        class Attack_Height_Box: Attack_Height_Box
         {
-            idc = idc_D(2024);
             ATAK_POS((1.8 + (1.1/3)),(2.65 + (0.35/2)),(2.2/3),0.63);
-            tooltip = "$STR_BCE_tip_Attack_Height";
+            sizeEx = 0.9 * TextSize;
             text = "2000";
+            onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
         };
 
         //-1~3 lines
@@ -263,59 +295,19 @@ class AIR_9_LINE: ATAK_AppMenu_Base
             tooltip="$STR_BCE_TIP_DESC";
         };
         //-Task Type
-        class L95_EditBnt: RscCombo
+        class L95_EditBnt: New_Task_TG_DESC_Combo
         {
-            idc = idc_D(2027);
+            // idc = idc_D(2027);
             ATAK_POS(0.2,(5.6 + (0.35/2)),2.3,0.7);
             
             wholeHeight = 0.8;
             sizeEx = 0.9 * TextSize;
-            font = "PuristaMedium";
-            tooltip="$STR_BCE_TIP_DESC";
             
-            style="0x10 + 0x200 + 0x02";
-            colorText[] = {1,1,1,1};
-            colorBackground[]={0,0,0,0.75};
-            colorSelect[]={1,1,1,1};
-            colorSelectBackground[]={0.2,0.2,0.2,1};
-            
-            onLBSelChanged = "call BCE_fnc_ATAK_DescType_Changed";
-            class Items
-            {
-                class Custom
-                {
-                    text = "$STR_BCE_DESC_Custom";
-                    textRight = "";
-                    value = 0;
-                    default = 1;
-                };
-                class Open
-                {
-                    text = "$STR_BCE_DESC_Open";
-                    textRight = "";
-                    value = 1;
-                    color[]={0.65,0.65,0.65,1};
-                };
-                class Cover: Open
-                {
-                    text = "$STR_BCE_DESC_Cover";
-                    value = 2;
-                };
-                class treeline: Open
-                {
-                    text = "$STR_BCE_DESC_treeline";
-                    value = 3;
-                };
-                class Hardstructure: Open
-                {
-                    text = "$STR_BCE_DESC_Hardstructure";
-                    value = 4;
-                };
-            };
+            onLBSelChanged = "(_this + [5]) call BCE_fnc_ATAK_DescType_Changed";
         };
-        class L95_DESC: RscEdit
+        class L95_DESC: New_Task_TG_DESC
         {
-            idc = idc_D(2015);
+            // idc = idc_D(2015);
             sizeEx = 0.9 * TextSize;
             ATAK_POS(0.15,(6.5 + (0.35/2)),2.75,0.7);
             
@@ -535,7 +527,12 @@ class AIR_5_LINE: AIR_9_LINE
         class L54_EditBnt: L95_EditBnt
         {
             ATAK_POS(0.2,(6.6 + (0.35/2)),2.3,0.7);
+
+            wholeHeight = 0.8;
+            sizeEx = 0.9 * TextSize;
+
             tooltip="$STR_BCE_TIP_DESC";
+            onLBSelChanged = "(_this + [3]) call BCE_fnc_ATAK_DescType_Changed";
         };
         class L54_PullBnt: L95_PullBnt
         {
