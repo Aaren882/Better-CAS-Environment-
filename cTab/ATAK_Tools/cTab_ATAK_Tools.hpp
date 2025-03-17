@@ -4,7 +4,7 @@
         /*x = phoneSizeX + (phoneSizeW * 3/5);
         y = phoneSizeY;*/
         w = phoneSizeW * 2/5;
-        h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH);
+        h = phoneSizeH - 0.75 * ATAK_POS_H;
 
         class controls
         {
@@ -14,9 +14,9 @@
                 x = 0;
                 y = 0;
                 w = PhoneBFTContainerW(3);
-                h = 0.8 * (((60)) / 2048 * CustomPhoneH);
+                h = 0.8 * ATAK_POS_H;
 
-                size = 0.7 * (((60)) / 2048 * CustomPhoneH);
+                size = 0.7 * ATAK_POS_H;
                 text = "";
 
                 colorBackground[] = {0,0,0,0.5};
@@ -48,9 +48,9 @@
                 };
                 
                 x = 0;
-                y = 0.8 * (((60)) / 2048 * CustomPhoneH);
+                y = 0.8 * ATAK_POS_H;
                 w = PhoneBFTContainerW(3);
-                h = phoneSizeH - 2.3 * (((60)) / 2048 * CustomPhoneH);
+                h = phoneSizeH - 2.3 * ATAK_POS_H;
             };
             class Contacts_list: RscListbox
             {
@@ -60,7 +60,7 @@
                 sizeEx = 0.8 * (((60) - (20))) / 2048 * CustomPhoneH;
 
                 x = 0;
-                y = 0.8 * (((60)) / 2048 * CustomPhoneH);
+                y = 0.8 * ATAK_POS_H;
                 w = PhoneBFTContainerW(3);
                 h = 0;
             };
@@ -69,9 +69,9 @@
                 idc = 11;
                 
                 x = 0;
-                y = phoneSizeH - 1.5 * (((60)) / 2048 * CustomPhoneH);
+                y = phoneSizeH - 1.5 * ATAK_POS_H;
                 w = PhoneBFTContainerW(3);
-                h = 0.75 * (((60)) / 2048 * CustomPhoneH);
+                h = 0.75 * ATAK_POS_H;
 
                 sizeEx = 0.64 * (((60) - (20))) / 2048 * CustomPhoneH;
 
@@ -116,6 +116,8 @@
                     "Ground Fire Support",
                     "Others"
                 };
+
+                //- Connects to => "BCE_Mission_Property" Category
                 data[] = {
                     "AIR", //- Air
                     "GND", //- Ground
@@ -136,212 +138,101 @@
                 scrollSpeed=0;
             };
             
-            class controls
+            //- Inherit from "Mission_Controls.hpp"
+            class controls: BCE_Mission_Build_Controls
             {
-                //-Description
-                class taskDesc: RscStructuredText
+                class taskDesc: taskDesc
                 {
-                    idc = idc_D(2004);
-                    text = "Desc :";
-                    colorBackground[] = {0,0,0,0};
                     ATAK_POS(0,0,3,1);
                     size = ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) / TextTimesH;
-                    class Attributes
+                    class Attributes: Attributes
                     {
-                        font = "RobotoCondensed_BCE";
-                        color = "#ffffff";
-                        align = "left";
-                        shadow = 1;
                         size = TextMenu(0.95);
                     };
                 };
                 
-                class Indicator: RscText
+                /*class Indicator: RscText
                 {
                     idc = idc_D(2011);
                     
                     x = PhoneBFTContainerW(0.1);
                     y = 0.1 * ((60)) / 2048 * CustomPhoneH;
                     w = PhoneBFTContainerW(3);
-                    h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH);
-                };
-                
-                //-IP
-                class New_Task_IPtype: RscToolbox
+                    h = phoneSizeH - 0.75 * ATAK_POS_H;
+                };*/
+                class New_Task_IPtype: New_Task_IPtype
                 {
-                    idc = idc_D(2012);
                     ATAK_POS(0.1,0.35/2,2.8,0.65);
-                    
-                    shadow = 1;
-                    rows = 1;
-                    columns = 3;
-                    strings[] =
-                    {
-                        "$STR_BCE_Tit_Map_marker",
-                        "$STR_BCE_Tit_Click_Map",
-                        "$STR_BCE_Tit_OverHead"
-                    };
-                    
-                    font = "RobotoCondensed_BCE";
-                    colorBackground[] = {0,0,0,0.3};
                     sizeEx = 0.9 * TextSize;
-                    
-                    onToolBoxSelChanged = _this + [false,TASK_OFFSET,'cTab_Android_dlg'] call BCE_fnc_ToolBoxChanged;
+                    // onToolBoxSelChanged = _this + [false,TASK_OFFSET,'cTab_Android_dlg'] call BCE_fnc_ToolBoxChanged;
                 };
-                class New_Task_MarkerCombo: RscCombo
+                class New_Task_MarkerCombo: New_Task_MarkerCombo
                 {
-                    idc = idc_D(2013);
                     ATAK_POS(0.1,(0.65 + 0.35/2),1.4,0.65);
-                    colorBackground[] = {0.5,0.5,0.5,0.6};
-                    colorSelectBackground[] = {0.5,0.5,0.5,0.6};
-                    //colorPictureSelected[] = {1,1,1,0};
-                    wholeHeight = 0.8;
-                    font = "PuristaMedium";
                     sizeEx = 0.85 * TextSize;
-                    onMouseButtonClick = "(_this # 0) call BCE_fnc_IPMarkers;";
-                    class Items
-                    {
-                        class NA
-                        {
-                            text = "$STR_BCE_SelectMarker";
-                            data = "[]";
-                            default = 1;
-                        };
-                    };
+
+                    colorBackground[] = {0,0,0,1};
+                    colorSelect[]={1,1,1,1};
+                    colorSelectBackground[]={0.2,0.2,0.2,1};
                 };
-                class New_Task_IPExpression: RscEdit
+                class New_Task_IPExpression: New_Task_IPExpression
                 {
-                    idc = idc_D(2014);
                     ATAK_POS(1.5,(0.65 + 0.35/2),1.3,0.65);
-                    text = "";
-                    canModify = 0;
                     sizeEx = 0.85 * TextSize;
-                    colorBackground[] = {0,0,0,0};
-                    tooltip = "$STR_BCE_tip_ShowResult";
                 };
-                
                 //-TG Description
-                class New_Task_TGT: New_Task_IPtype
+                class New_Task_TGT: New_Task_TGT
                 {
-                    idc = idc_D(20121);
-                    columns = 2;
-                    strings[] =
-                    {
-                        "$STR_BCE_Tit_Map_marker",
-                        "$STR_BCE_Tit_Click_Map"
-                    };
-                };
-
-                //-Mark
-                class New_Task_GRID_DESC: New_Task_IPExpression
-                {
-                    idc = idc_D(2016);
-                    ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
-                    canModify = 1;
-                    text = "$STR_BCE_MarkWith";
-                };
-
-                //-ERGS
-                class New_Task_EGRS_Azimuth: RscToolbox
-                {
-                    idc = idc_D(2017);
-                    ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
-                    rows = 1;
-                    columns = 8;
-                    strings[] =
-                    {
-                        "N",
-                        "NE",
-                        "E",
-                        "SE",
-                        "S",
-                        "SW",
-                        "W",
-                        "NW"
-                    };
-                    values[] =
-                    {
-                        0,
-                        45,
-                        90,
-                        135,
-                        180,
-                        225,
-                        270,
-                        315
-                    };
-                    font = "RobotoCondensed_BCE";
-                    colorBackground[] = {0,0,0,0.3};
-                    sizeEx = 0.85 * TextSize;
-                };
-                class New_Task_EGRS_Bearing: New_Task_GRID_DESC
-                {
-                    idc = idc_D(2018);
-                    ATAK_POS(0.1,(0.35/2 + 0.65),1.4,0.65);
-                    text = "$STR_BCE_Bearing_ENT";
-                };
-                class New_Task_EGRS: New_Task_IPtype
-                {
-                    idc = idc_D(2019);
-                    columns = 4;
-                    strings[] =
-                    {
-                        "$STR_BCE_Tit_Azimuth",
-                        "$STR_BCE_Tit_Bearing",
-                        "$STR_BCE_Tit_Map_marker",
-                        "$STR_BCE_Tit_OverHead"
-                    };
-                    sizeEx = 0.85 * TextSize;
-                };
-                
-                //-Remarks
-                class New_Task_FADH: New_Task_IPtype
-                {
-                    idc = idc_D(2200);
-                    columns = 3;
-                    strings[] =
-                    {
-                        "FAD",
-                        "FAH",
-                        "$STR_BCE_Default"
-                    };
-                };
-                class New_Task_DangerClose_Text: RscText
-                {
-                    idc = idc_D(2201);
-                    ATAK_POS(0.26,(0.3/2 + 0.65*3),2.8,0.65);
-                    text = ": Danger Close";
+                    ATAK_POS(0.1,0.35/2,2.8,0.65);
                     sizeEx = 0.9 * TextSize;
                 };
-                class New_Task_DangerClose_Box: RscCheckBox
+                class New_Task_GRID_DESC: New_Task_GRID_DESC
                 {
-                    idc = idc_D(2202);
-                    textureChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-                    textureFocusedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-                    textureHoverChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-                    texturePressedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-                    textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-                    
+                    // ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
+                    ATAK_POS(0.1,0.35/2,2.8,0.65);
+                    sizeEx = 0.85 * TextSize;
+                };
+                class New_Task_GRID_DESC_Air_5line: New_Task_GRID_DESC_Air_5line
+                {
+                    ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
+                    sizeEx = 0.85 * TextSize;
+                };
+                class New_Task_FRND_DESC: New_Task_FRND_DESC
+                {
+                    ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
+                    sizeEx = 0.85 * TextSize;
+                };
+                class New_Task_EGRS_Azimuth: New_Task_EGRS_Azimuth
+                {
+                    ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
+                    sizeEx = 0.85 * TextSize;
+                };
+                class New_Task_EGRS_Bearing: New_Task_EGRS_Bearing
+                {
+                    ATAK_POS(0.1,(0.35/2 + 0.65),1.4,0.65);
+                    sizeEx = 0.85 * TextSize;
+                };
+                class New_Task_EGRS: New_Task_EGRS
+                {
+                    ATAK_POS(0.1,0.35/2,2.8,0.65);
+                    sizeEx = 0.85 * TextSize;
+                };
+                class New_Task_FADH: New_Task_FADH
+                {
+                    ATAK_POS(0.1,0.35/2,2.8,0.65);
+                    sizeEx = 0.85 * TextSize;
+                };
+                class New_Task_DangerClose_Text: New_Task_DangerClose_Text
+                {
+                    ATAK_POS(0.26,(0.3/2 + 0.65*3),2.8,0.65);
+                    sizeEx = 0.9 * TextSize;
+                };
+                class New_Task_DangerClose_Box: New_Task_DangerClose_Box
+                {
                     x = PhoneBFTContainerW(0.1);
                     y = (0.35/2 + 0.65*3) * ((60)) / 2048 * CustomPhoneH;
                     w = PhoneBFTContainerW(0.3) * (safezoneH/safezonew);
                     h = PhoneBFTContainerW(0.3);
-                };
-                class New_Task_CFF_CtrlType: New_Task_IPtype
-                {
-                    idc = idc_D(2203);
-                    strings[] =
-                    {
-                        "At-Ready",
-                        "AMC",
-                        "TOT"
-                    };
-                    tooltips[] =
-                    {
-                        "Fire When Ready",
-                        "At My Command",
-                        """Impact"" Time on Target"
-                    };
                 };
             };
         };
@@ -389,9 +280,9 @@
                 x = 0;
                 y = 0;
                 w = PhoneBFTContainerW(3);
-                h = 0.8 * (((60)) / 2048 * CustomPhoneH);
+                h = 0.8 * ATAK_POS_H;
                 
-                size = 0.7 * (((60)) / 2048 * CustomPhoneH);
+                size = 0.7 * ATAK_POS_H;
                 text = "";
 
                 colorBackground[] = {0,0,0,0.5};
@@ -423,7 +314,7 @@
                         height = 0;
                     };
                 x = 0;
-                y = 0.8 * (((60)) / 2048 * CustomPhoneH);
+                y = 0.8 * ATAK_POS_H;
                 w = PhoneBFTContainerW(3);
                 h = 0;
 
@@ -436,7 +327,7 @@
                         x = PhoneBFTContainerW(0.05);
                         y = EMPT_SPAC;
                         w = PhoneBFTContainerW(2.9);
-                        h = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
+                        h = ((phoneSizeW * 3/5)/3 - (0.8 * ATAK_POS_H) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
 
                         rows = 1;
                         columns = 2;
@@ -456,16 +347,16 @@
                         sizeEx = TextSize;
 
                         x = 0;
-                        y = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 + EMPT_SPAC;
+                        y = ((phoneSizeW * 3/5)/3 - (0.8 * ATAK_POS_H) - (0.85 * TextSize)) / 2 + EMPT_SPAC;
                         w = PhoneBFTContainerW(3);
-                        h = phoneSizeH - (0.75 + 0.8) * (((60)) / 2048 * CustomPhoneH) - ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2;
+                        h = phoneSizeH - (0.75 + 0.8) * ATAK_POS_H - ((phoneSizeW * 3/5)/3 - (0.8 * ATAK_POS_H) - (0.85 * TextSize)) / 2;
                     };
                 };
             };
             class ViewBox: CamSelBox
             {
                 idc = 20;
-                h = phoneSizeH - (0.75 + 0.8) * (((60)) / 2048 * CustomPhoneH);
+                h = phoneSizeH - (0.75 + 0.8) * ATAK_POS_H;
                 class controls
                 {
                     // - Turret Infos + Optional Controls
@@ -483,7 +374,7 @@
                             x = PhoneBFTContainerW(0.05);
                             y = EMPT_SPAC;
                             w = PhoneBFTContainerW(1.45);
-                            h = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
+                            h = ((phoneSizeW * 3/5)/3 - (0.8 * ATAK_POS_H) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
 
                             onButtonClick = "[_this#0,0] call BCE_fnc_ATAK_Camera_Controls";
                         };
@@ -497,9 +388,9 @@
                             colorBackground[]={0,0,0,0.2};
 
                             x = PhoneBFTContainerW(0.05);
-                            y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2;
+                            y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - (0.8 * ATAK_POS_H) - (0.85 * TextSize)) / 2;
                             w = PhoneBFTContainerW(1.45);
-                            h = ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
+                            h = ((phoneSizeW * 3/5)/3 - (0.8 * ATAK_POS_H) - (0.85 * TextSize)) / 2 - EMPT_SPAC;
                         };
                         class Vision: Track_TG
                         {
@@ -514,7 +405,7 @@
                             idc = 14;
                             text = "$STR_BCE_Sync_Zoom";
                             
-                            y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - (0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize)) / 2;
+                            y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - (0.8 * ATAK_POS_H) - (0.85 * TextSize)) / 2;
                             onButtonClick = "[_this#0,2] call BCE_fnc_ATAK_Camera_Controls";
                         };
                     // - Next Turret
@@ -528,7 +419,7 @@
                             colorDisabled[] = {1,1,1,1};
 
                             x = 0;
-                            y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - 0.8 * (((60)) / 2048 * CustomPhoneH)) - (0.85 * TextSize);
+                            y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - 0.8 * ATAK_POS_H) - (0.85 * TextSize);
                             w = PhoneBFTContainerW(3);
                             h = 0.85 * TextSize;
                             sizeEx = 0.75 * TextSize;
@@ -549,7 +440,7 @@
                             x = 0;
                             y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - 0.8 * (60 / 2048 * CustomPhoneH));
                             w = PhoneBFTContainerW(3);
-                            h = phoneSizeH - EMPT_SPAC - 0.75 * (((60)) / 2048 * CustomPhoneH) - (phoneSizeW * 3/5)/3;
+                            h = phoneSizeH - EMPT_SPAC - 0.75 * ATAK_POS_H - (phoneSizeW * 3/5)/3;
                         };
                         class Vic_PIP_No_Signal: TurretTxt
                         {
@@ -558,7 +449,7 @@
                             x = 0;
                             y = EMPT_SPAC + ((phoneSizeW * 3/5)/3 - 0.8 * (60 / 2048 * CustomPhoneH));
                             w = PhoneBFTContainerW(3);
-                            h = phoneSizeH - EMPT_SPAC - 0.75 * (((60)) / 2048 * CustomPhoneH) - (phoneSizeW * 3/5)/3;
+                            h = phoneSizeH - EMPT_SPAC - 0.75 * ATAK_POS_H - (phoneSizeW * 3/5)/3;
                             
                             style = 2;
                             text = "$STR_BCE_No_Signal";
@@ -602,7 +493,7 @@
             class Group_Box: Group_Box
             {
                 idc = 10;
-                h = phoneSizeH - 1.55 * (((60)) / 2048 * CustomPhoneH);
+                h = phoneSizeH - 1.55 * ATAK_POS_H;
 
                 #define TAG_TITLE(NAME,SIZE,ICON) #<img size=SIZE image='a3\ui_f\data\map\markers\military\dot_ca.paa'/><img size=SIZE align='center' image=ICON/><t align='center'> NAME</t>
                 class controls

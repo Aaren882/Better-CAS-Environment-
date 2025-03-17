@@ -19,7 +19,7 @@ class Call_For_Fire: AIR_5_LINE
                 {
                     class CallForFire
                     {
-                        text = "Call For Fire";
+                        text = "Adjust Fire";
                         textRight = "";
                         value = 0;
                         default = 1;
@@ -112,7 +112,7 @@ class Call_For_Fire: AIR_5_LINE
                 ATAK_POS(0,(4.6 + (0.35/2)),1,0.7);
                 tooltip="$STR_BCE_TIP_DESC";
             };
-            class L53_EditBnt: L54_EditBnt
+            class New_Task_TG_DESC_Combo: New_Task_TG_DESC_Combo
             {
                 ATAK_POS(0.2,(4.6 + (0.35/2)),2.3,0.7);
                 tooltip="$STR_BCE_TIP_DESC";
