@@ -13,30 +13,9 @@ class Call_For_Fire: AIR_5_LINE
             sizeEx = 0.95 * TextSize;
         };
         //- FFE, Suppress ...
-            class TaskType: TaskType
+            class TaskType_GND: TaskType_GND
             {
-                class Items
-                {
-                    class CallForFire
-                    {
-                        text = "Adjust Fire";
-                        textRight = "";
-                        value = 0;
-                        default = 1;
-                    };
-                    class Suppress
-                    {
-                        text = "Suppress";
-                        textRight = "";
-                        value = 1;
-                    };
-                    class immediate_Suppress
-                    {
-                        text = "Immediate Suppress";
-                        textRight = "";
-                        value = 2;
-                    };
-                };
+                ATAK_POS(1,((0.35/2)),1.9,0.65);
             };
 
         //- Correction Method
@@ -112,7 +91,7 @@ class Call_For_Fire: AIR_5_LINE
                 ATAK_POS(0,(4.6 + (0.35/2)),1,0.7);
                 tooltip="$STR_BCE_TIP_DESC";
             };
-            class New_Task_TG_DESC_Combo: New_Task_TG_DESC_Combo
+            class L53_EditBnt: L54_EditBnt
             {
                 ATAK_POS(0.2,(4.6 + (0.35/2)),2.3,0.7);
                 tooltip="$STR_BCE_TIP_DESC";

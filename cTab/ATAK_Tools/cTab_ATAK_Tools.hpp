@@ -123,6 +123,16 @@
                     "GND", //- Ground
                     "OTR"  //- Others
                 };
+                
+                //- BCE Mission
+                class BCE_Mission: BCE_Mission_Default
+                {
+                    class Air: Air
+                    {
+                        9Line = "AIR_9_LINE_ATAK";
+                        5Line = "AIR_5_LINE_ATAK";
+                    };
+                };
             };
         };
     };

@@ -218,6 +218,8 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 
 PHONE_CLASS
 {
+	/* #define GLUE(A,B) #A;##B
+	#define IS_DSP true */
 	#ifdef MOUSE_CLICK_EH
 		/* TaskIDCs_List[] = {
 			//- 9 Line
@@ -228,10 +230,34 @@ PHONE_CLASS
 			// {51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2027),idc_D(20430),idc_D(2015),idc_D(2016)}
 		}; */
 		onMouseZChanged = "call BCE_fnc_ATAK_getScrollValue";
+		// #define IS_DSP false
 	#endif
-	class controlsBackground
+
+	/* #define ONLOAD_FNC \
+		#call BCE_fnc_onLoad_Display
+	#define ONLOAD_FNC_BCE \
+		#[_this # 0, PHONE_CLASS, IS_DSP] call cTab_fnc_onIfOpen
+	onLoad = GLUE(ONLOAD_FNC,ONLOAD_FNC_BCE); //- when the phone is opened
+
+	#undef GLUE
+	#undef ONLOAD_FNC
+	#undef ONLOAD_FNC_BCE
+	#undef IS_DSP */
+	class controlsBackground: BCE_Mission_Build_Controls
 	{
-		
+		//- BCE Mission Holder (Init BCE Properties)
+			class BCE_Holder: BCE_Holder
+			{
+				// #LINK - Mission_Property.hpp
+				class BCE_Mission: BCE_Mission
+				{
+					class Air: Air //- Change UI Setups
+					{
+						9Line = "AIR_9_LINE_ATAK";
+						5Line = "AIR_5_LINE_ATAK";
+					};
+				};
+			};
 		class screen: cTab_android_RscMapControl
 		{
 			#ifdef MOUSE_CLICK_EH
