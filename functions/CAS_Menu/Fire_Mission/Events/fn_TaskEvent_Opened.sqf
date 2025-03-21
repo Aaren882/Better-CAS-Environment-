@@ -13,7 +13,7 @@ params ["_curLine"];
     "Events (HashMap)" : Functions
   ]
 */
-([] call BCE_fnc_getTaskProps) params ["_varName","_default","_events"];
+([] call BCE_fnc_getDisplayTaskProps) params ["_varName","_default","_events"];
 ([] call BCE_fnc_getTaskVar) params ["_taskVar"];
 
 (_curLine call BCE_fnc_getTaskComponents) params ["_shownCtrls","_desc_str"];
@@ -27,11 +27,11 @@ params ["_curLine"];
     (_shownCtrls findIf {true} < 0) && 
     _desc_str == ""
   ) exitWith {
-    ["No Task Infos are found - Make sure ""Vaild _curLine"" and ""Controls are created correctly"""] call BIS_fnc_error;
+    ["No task info is found, neither ""UI Controls"" nor ""Description""."] call BIS_fnc_error;
   };
 
 //- Setup Description and Layout
-  private _description = [2004] call BCE_fnc_getTaskSingleComponent;
+  private _description = "taskDesc" call BCE_fnc_getTaskSingleComponent;
 
   if !(isnull _description) then {
     private _groupDESC = ctrlParentControlsGroup _description;

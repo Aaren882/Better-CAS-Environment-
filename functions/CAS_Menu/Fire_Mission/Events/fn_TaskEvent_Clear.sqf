@@ -23,7 +23,7 @@ _isOverwrite = false;
 _IDC_offset = 17000;
 _shownCtrls = [_group,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
 
-([] call BCE_fnc_getTaskProps) params ["","","_events"];
+([] call BCE_fnc_getDisplayTaskProps) params ["","","_events"];
 
 //- Call Clear Function
-call (uiNamespace getVariable (_events get "Clear"));
+call (uiNamespace getVariable [(_events get "Clear"),{}]);
