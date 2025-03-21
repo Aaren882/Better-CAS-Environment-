@@ -8,8 +8,8 @@ _subInfos params ["_subMenu","_curLine"];
 
 if !(_shown) exitwith {};
 
-_curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-_taskVar = ((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) # 0;
+_curType = []  call BCE_fnc_get_TaskCurType;
+_taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 
 if (isnil {_taskVar}) exitWith {
 	["Error ""_taskVar"" Variable is empty"] call BIS_fnc_error;
@@ -18,7 +18,7 @@ if (isnil {_taskVar}) exitWith {
 // _TaskList = _display displayCtrl (17000+4661);
 // _group = _display displayCtrl (17000+4662);
 // _group = (call BCE_fnc_ATAK_getCurrentAPP) # 1; //- current Control
-_description = _group controlsGroupCtrl (17000+2004);
+/* _description = _group controlsGroupCtrl (17000+2004);
 
 // _TaskList ctrlShow false;
 {_x ctrlShow true} count [_group,_description];
@@ -42,17 +42,19 @@ _desc = switch (_curType) do {
 
 if (isNil{_desc}) exitWith {
 	["Error no Task Found."] call BIS_fnc_error;
-};
+}; */
 
 _curLine = [_curLine, (count _taskVar)-1] select (_curLine > count _taskVar);
-_shownCtrls = [_group,_curLine,1,true] call BCE_fnc_Show_CurTaskCtrls;
-private _fnc = ["BCE_fnc_DblClick9line", "BCE_fnc_DblClick5line"] # _curType;
+["BCE_TaskBuilding_Opened", [_curLine]] call CBA_fnc_localEvent;
+// _shownCtrls = [_group,_curLine,1,true] call BCE_fnc_Show_CurTaskCtrls;
+
+// private _fnc = ["BCE_fnc_DblClick9line", "BCE_fnc_DblClick5line"] # _curType;
 
 //-Formatting
-call (uiNamespace getVariable _fnc);
+// call (uiNamespace getVariable _fnc);
 
-_description ctrlCommit 0;
+/* _description ctrlCommit 0;
 _description ctrlSetStructuredText parseText ([
 	localize "STR_BCE_Description",
 	localize ("STR_BCE_DECS_" + (_desc # _curLine))
-] joinString "<br/>");
+] joinString "<br/>"); */
