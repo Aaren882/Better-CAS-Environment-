@@ -5,11 +5,13 @@ private ["_curType","_curLine","_shownCtrls"];
 
 if !(_shown) exitwith {};
 
-_curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-_taskVar = ((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) # 0;
+_curType = []  call BCE_fnc_get_TaskCurType;
+_taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 
 _curLine = 0;
-_shownCtrls = [_TaskList,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
+["BCE_TaskBuilding_Opened", [_curLine]] call CBA_fnc_localEvent;
+
+/* _shownCtrls = [_TaskList,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
 
 private _fnc = ["BCE_fnc_DblClick9line", "BCE_fnc_DblClick5line"] # _curType;
-call (uiNamespace getVariable _fnc);
+call (uiNamespace getVariable _fnc); */

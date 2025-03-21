@@ -54,7 +54,7 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
     //- New control's Initation Refresh Values
       switch (_cateSel) do {
         case 0: { //- Air Fire Support
-          private _missionType = _MissionCtrl controlsGroupCtrl (17000 + 2107);
+          private _missionType = "TaskType" call BCE_fnc_getTaskSingleComponent;
 
           //- Set Task EH + update "MissionType" CurSel
             _missionType lbSetCurSel _subSel;

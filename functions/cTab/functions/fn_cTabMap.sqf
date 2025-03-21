@@ -113,166 +113,179 @@ if !(isnull _veh) then {
 if (_displayName find "Tablet" < 0 && _displayName find "Android" < 0) exitWith {};
 
 //- CAS
-private _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-private _taskVar = ((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) # 0;
-_taskVar = switch _curType do {
-	//-5 line
-	case 1: {
-		private _FRD = _taskVar # 1;
-		private _Target = _taskVar # 2;
-		private _remarks = _taskVar # 4;
-		[["NA",[]],_Target,_FRD,["NA",[]],_remarks]
+private _curCate = ["Cate",0] call BCE_fnc_get_TaskCurSetup;
+private _curType = []  call BCE_fnc_get_TaskCurType;
+if (_curCate == 0) then {
+	private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
+	_taskVar = switch _curType do {
+		//-5 line
+		case 1: {
+			private _FRD = _taskVar # 1;
+			private _Target = _taskVar # 2;
+			private _remarks = _taskVar # 4;
+			[["NA",[]],_Target,_FRD,["NA",[]],_remarks]
+		};
+		//-9 line
+		default {
+			private _IPBP = _taskVar # 1;
+			private _Target = _taskVar # 6;
+			private _FRD = _taskVar # 8;
+			private _EGRS = _taskVar # 9;
+			private _remarks = _taskVar # 10;
+			[_IPBP,_Target,_FRD,_EGRS,_remarks]
+		};
 	};
-	//-9 line
-	default {
-		private _IPBP = _taskVar # 1;
-		private _Target = _taskVar # 6;
-		private _FRD = _taskVar # 8;
-		private _EGRS = _taskVar # 9;
-		private _remarks = _taskVar # 10;
-		[_IPBP,_Target,_FRD,_EGRS,_remarks]
-	};
-};
-_taskVar params ["_IPBP","_Target","_FRD","_EGRS","_remarks"];
+	_taskVar params ["_IPBP","_Target","_FRD","_EGRS","_remarks"];
 
-//-Draw IP/BP
-if (((_IPBP # 0) != "NA") && !("Marker" in (_IPBP # 0))) then {
-	_ctrl drawIcon [
-		"\a3\ui_f\data\GUI\Cfg\Cursors\hc_overfriendly_gs.paa",
-		[1,1,0,1],
-		_IPBP # 2,
-		40,
-		40,
-		0,
-		_IPBP # 0,
-		1,
-		0.075,
-		"RobotoCondensed_BCE",
-		"right"
-	];
-};
+	[_ctrl] call BCE_fnc_drawEach_TaskMapInfo;
 
-//-Draw Target
-if ((_Target # 0) != "NA") then {
-
-	//-IP to TG line
-	if ((_IPBP # 0) != "NA") then {
-		private _posDiff = ((_Target # 2) vectorDiff (_IPBP # 2)) vectorMultiply 0.95;
-		_ctrl drawArrow [
+	//-Draw IP/BP
+	if (!("Marker" in (_IPBP # 0))) then {
+		// [_ctrl,1] call BCE_fnc_draw_TaskMapInfo;
+		/* _ctrl drawIcon [
+			"\a3\ui_f\data\GUI\Cfg\Cursors\hc_overfriendly_gs.paa",
+			[1,1,0,1],
 			_IPBP # 2,
-			(_IPBP # 2) vectorAdd _posDiff,
-			[1,1,0,1]
-		];
+			40,
+			40,
+			0,
+			_IPBP # 0,
+			1,
+			0.075,
+			"RobotoCondensed_BCE",
+			"right"
+		]; */
 	};
 
-	//-FAD/H to TG line
-	if ((_remarks # 1) != -1) then {
-		private _HDG = (_remarks # 1) + 180;
-		private _relPOS = (_Target # 2) getPos [1000, _HDG];
-		private _posDiff = ((_Target # 2) vectorDiff _relPOS) vectorMultiply 0.9;
+	if ((_Target # 0) != "NA") then {
+
+		//-IP to TG line
+		if ((_IPBP # 0) != "NA") then {
+			private _posDiff = ((_Target # 2) vectorDiff (_IPBP # 2)) vectorMultiply 0.95;
+			_ctrl drawArrow [
+				_IPBP # 2,
+				(_IPBP # 2) vectorAdd _posDiff,
+				[1,1,0,1]
+			];
+		};
+
+		//-FAD/H to TG line
+		if ((_remarks # 1) != -1) then {
+			private _HDG = (_remarks # 1) + 180;
+			private _relPOS = (_Target # 2) getPos [1000, _HDG];
+			private _posDiff = ((_Target # 2) vectorDiff _relPOS) vectorMultiply 0.9;
+			_ctrl drawArrow [
+				_relPOS vectorAdd _posDiff,
+				_relPOS,
+				[0.6,1,0.37,1]
+			];
+
+			_ctrl drawIcon [
+				"\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
+				[0.6,1,0.37,1],
+				_relPOS,
+				30,
+				30,
+				0,
+				_remarks # 0,
+				1,
+				0.075,
+				"RobotoCondensed_BCE",
+				["right","left"] select (_HDG > 180)
+			];
+		};
+
+		//-Draw Target
+		// [_ctrl,6] call BCE_fnc_draw_TaskMapInfo;
+		
+		//-Icon
+		/* private _Icon = [
+			"\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
+			"\a3\ui_f\data\GUI\Cfg\Cursors\hc_overenemy_gs.paa"
+		] select ((_Target # 1) == "GRID");
+
+		_ctrl drawIcon [
+			_Icon,
+			[1,0,0,1],
+			_Target # 2,
+			30,
+			30,
+			0,
+			_Target # 0,
+			1,
+			0.075,
+			"RobotoCondensed_BCE",
+			"right"
+		]; */
+	};
+
+	//-Friendly
+	if ((_FRD # 0) != "NA") then {
+
+		//-Draw Arrow
+		if ((_Target # 0) != "NA") then {
+			private _posDiff = ((_FRD # 2) vectorDiff (_Target # 2)) vectorMultiply 0.9;
+			_ctrl drawArrow [
+				(_Target # 2),
+				(_Target # 2) vectorAdd _posDiff,
+				[0,0.5,1,1]
+			];
+		};
+
+		//-Draw Friendly
+		// [_ctrl,8] call BCE_fnc_draw_TaskMapInfo;
+		//-Icon
+		/* private _Icon = [
+			"\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
+			"\a3\ui_f\data\Map\Markers\NATO\b_inf.paa"
+		] select ((_FRD # 1) == "GRID");
+
+		_ctrl drawIcon [
+			_Icon,
+			[0,0.5,1,1],
+			_FRD # 2,
+			30,
+			30,
+			0,
+			_FRD # 0,
+			1,
+			0.075,
+			"RobotoCondensed_BCE",
+			"right"
+		]; */
+	};
+
+	//-EGRS
+	if (
+		((_EGRS # 0) != "NA") && ((_Target # 0) != "NA")
+	) then {
+		private _HDG = _EGRS # 1;
+		private _relPOS = [
+			(_Target # 2) vectorAdd (((_EGRS # 3) vectorDiff (_Target # 2)) vectorMultiply 0.95),
+			(_Target # 2) getPos [500, _HDG]
+		] select (isnil{_EGRS # 3});
+
 		_ctrl drawArrow [
-			_relPOS vectorAdd _posDiff,
+			(_Target # 2),
 			_relPOS,
-			[0.6,1,0.37,1]
+			[1,1,1,1]
 		];
+
+		//-Draw Egress 
+		// [_ctrl,9] call BCE_fnc_draw_TaskMapInfo;
 
 		_ctrl drawIcon [
 			"\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
-			[0.6,1,0.37,1],
+			[1,1,1,1],
 			_relPOS,
 			30,
 			30,
 			0,
-			_remarks # 0,
+			format ["EGRS: %1",_EGRS # 0],
 			1,
 			0.075,
 			"RobotoCondensed_BCE",
-			["right","left"] select (_HDG > 180)
+			"left"
 		];
 	};
-
-	//-Icon
-	private _Icon = [
-		"\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
-		"\a3\ui_f\data\GUI\Cfg\Cursors\hc_overenemy_gs.paa"
-	] select ((_Target # 1) == "GRID");
-
-	_ctrl drawIcon [
-		_Icon,
-		[1,0,0,1],
-		_Target # 2,
-		30,
-		30,
-		0,
-		_Target # 0,
-		1,
-		0.075,
-		"RobotoCondensed_BCE",
-		"right"
-	];
-};
-
-//-Friendly
-if ((_FRD # 0) != "NA") then {
-
-	//-Draw Arrow
-	if ((_Target # 0) != "NA") then {
-		private _posDiff = ((_FRD # 2) vectorDiff (_Target # 2)) vectorMultiply 0.9;
-		_ctrl drawArrow [
-			(_Target # 2),
-			(_Target # 2) vectorAdd _posDiff,
-			[0,0.5,1,1]
-		];
-	};
-
-	//-Icon
-	private _Icon = [
-		"\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
-		"\a3\ui_f\data\Map\Markers\NATO\b_inf.paa"
-	] select ((_FRD # 1) == "GRID");
-
-	_ctrl drawIcon [
-		_Icon,
-		[0,0.5,1,1],
-		_FRD # 2,
-		30,
-		30,
-		0,
-		_FRD # 0,
-		1,
-		0.075,
-		"RobotoCondensed_BCE",
-		"right"
-	];
-};
-
-//-EGRS
-if (
-	((_EGRS # 0) != "NA") && ((_Target # 0) != "NA")
-) then {
-	private _HDG = _EGRS # 1;
-	private _relPOS = [
-		(_Target # 2) vectorAdd (((_EGRS # 3) vectorDiff (_Target # 2)) vectorMultiply 0.95),
-		(_Target # 2) getPos [500, _HDG]
-	] select (isnil{_EGRS # 3});
-
-	_ctrl drawArrow [
-		(_Target # 2),
-		_relPOS,
-		[1,1,1,1]
-	];
-
-	_ctrl drawIcon [
-		"\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
-		[1,1,1,1],
-		_relPOS,
-		30,
-		30,
-		0,
-		format ["EGRS: %1",_EGRS # 0],
-		1,
-		0.075,
-		"RobotoCondensed_BCE",
-		"left"
-	];
 };

@@ -52,27 +52,29 @@ switch (_page) do {
 		call {
 
 			//- Task elements
-			private _curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
-			private _taskVar = ((["9Line","5Line"] # _curType) call BCE_fnc_getTaskVar) # 0;
+			/* private _curType = []  call BCE_fnc_get_TaskCurType;
+			private _taskVar = ([] call BCE_fnc_getTaskVar) # 0; */
 
 			//- Enter Infos (on Building Page)
 				if (_subMenu == "Task_Building") exitWith {
-					if (isnil {_taskVar}) exitWith {["Error Variable is empty"] call BIS_fnc_error};
+					/* if (isnil {_taskVar}) exitWith {["Error Variable is empty"] call BIS_fnc_error};
 					
 					//-get curLine
 					if (_curLine > count _taskVar) then {
 						_curLine = (count _taskVar) - 1;
-					};
+					}; */
 
-					private _isOverwrite = false;
-					private _DESC_Type = ["Desc",0] call BCE_fnc_get_TaskCurSetup;
+					// private _isOverwrite = false;
+					// private _DESC_Type = ["Desc",0] call BCE_fnc_get_TaskCurSetup;
 
 					///-Enter Data
-					private _shownCtrls = [_group,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
+					["BCE_TaskBuilding_Enter", [_curLine]] call CBA_fnc_localEvent;
+
+					/* private _shownCtrls = [_group,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
 					private _fnc = ["BCE_fnc_DataReceive9line", "BCE_fnc_DataReceive5line"] # _curType;
 					
-					call (uiNamespace getVariable _fnc);
-					call BCE_fnc_ATAK_Refresh_TaskInfos;
+					call (uiNamespace getVariable _fnc); */
+					// call BCE_fnc_ATAK_Refresh_TaskInfos;
 				};
 			
 			///- Other Conditions
