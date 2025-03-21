@@ -3,8 +3,32 @@
 
     Ex. 9Line, 5Line, etc.
  */
+
+//- #NOTE IMPROTANT - Mission Types For Each Category
+// #LINK - functions/CAS_Menu/fn_onLoad_BCE_Holder.sqf
+class BCE_Mission_Default
+{
+    class AIR
+    {
+        9Line = "AIR_9_LINE";
+        5Line = "AIR_5_LINE";
+    };
+    class GND
+    {
+        CFF = "CFF";
+    };
+};
 class BCE_Mission_Property
 {
+    
+    Mission_Types[] = {
+        {"9Line","5Line"},
+        {"CFF"}
+    };
+    // AIR[] = {"9Line","5Line"};
+    // GND[] = {"CFF"};
+
+    //- Event Functions
     Event_Functions[] = {
         "Opened",
         "Enter",
@@ -17,10 +41,25 @@ class BCE_Mission_Property
         class AIR_9_LINE
         {
             displayName = "9 Line"; //- Localiziable displayName
-            Variable = "BCE_CAS_9Line_Var"; //- Where the data is stored
-            default = "[[""NA"",0],[""NA"","""",[],[0,0]],[""NA"",180],[""NA"",200],[""NA"",15],[""NA"",""--""],[""NA"","""",[],[0,0],[]],[""NA"",""1111""],[""NA"","""",[],[0,0],""""],[""NA"",0,[],nil,nil],[""NA"",-1,[]]]";
+
+            class Variable
+            {
+                name = "BCE_CAS_9Line_Var"; //- Where the data is stored
+                default = "[[""NA"",0],[""NA"","""",[],[0,0]],[""NA"",180],[""NA"",200],[""NA"",15],[""NA"",""--""],[""NA"","""",[],[0,0],[]],[""NA"",""1111""],[""NA"","""",[],[0,0],""""],[""NA"",0,[],nil,nil],[""NA"",-1,[]]]";
+                Map_Infos[] = {
+                    "",
+                    "IP_BP_Point",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "Air_TGT_Point",
+                    "",
+                    "FRD_Point"
+                };
+            };
    
-            Expression_idc[] = 
+            Controls[] = 
             {
                 {
                     "","New_Task_CtrlType",
@@ -76,15 +115,47 @@ class BCE_Mission_Property
                 Clear = "BCE_fnc_clearTask9line"; //- Clear All the data
             };
         };
+        class AIR_9_LINE_ATAK: AIR_9_LINE
+        {
+            Controls[] = 
+            {
+                {
+                    "","New_Task_CtrlType",
+                    "","New_Task_AttackType_Combo",
+                    "",
+                    "AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
+                },
+                {
+                    "New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression"
+                },
+                {},
+                {},
+                {},
+                {"New_Task_TG_DESC"},
+                {"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
+                {"New_Task_GRID_DESC"},
+                {"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_FRND_DESC"},
+                {"New_Task_EGRS","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_MarkerCombo"},
+                {"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
+            };
+        };
         class AIR_5_LINE
         {
             displayName = "5 Line"; //- Localiziable displayName
-            Variable = "BCE_CAS_5Line_Var"; //- Where the data is stored
-            default = "[[""NA"",0],[""NA"","""",[],[0,0],""""],[""NA"",""111222""],[""NA"",""--"",""""],[""NA"",-1,[]]]";
-            
+
+            class Variable
+            {
+                name = "BCE_CAS_5Line_Var"; //- Where the data is stored
+                default = "[[""NA"",0],[""NA"","""",[],[0,0],""""],[""NA"",""111222""],[""NA"",""--"",""""],[""NA"",-1,[]]]";
+                Map_Infos[] = {
+                    "",
+                    "FRD_Point",
+                    "Air_TGT_Point"
+                };
+            };
 
             //- Maybe use UI Controls would be better
-            Expression_idc[] = {
+            Controls[] = {
                 {
                     "","New_Task_CtrlType",
                     "","New_Task_AttackType",
@@ -116,7 +187,22 @@ class BCE_Mission_Property
             {
                 Opened = "BCE_fnc_DblClick5line";
                 Enter = "BCE_fnc_DataReceive5line";
-                Clear = "BCE_fnc_DblClick5line"; //- Clear All the data
+                Clear = "BCE_fnc_clearTask5line"; //- Clear All the data
+            };
+        };
+        class AIR_5_LINE_ATAK: AIR_5_LINE
+        {
+            Controls[] = {
+                {
+                    "","New_Task_CtrlType",
+                    "","New_Task_AttackType_Combo",
+                    "",
+                    "AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
+                },
+                {"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_GRID_DESC_Air_5line"},
+                {"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
+                {"New_Task_TG_DESC","New_Task_GRID_DESC"},
+                {"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
             };
         };
     };
@@ -125,8 +211,39 @@ class BCE_Mission_Property
         class CFF
         {
             displayName = "Call For Fire"; //- Localiziable displayName
-            Variable = "BCE_CFF_Var"; //- Where the data is stored
-            default = "[[""NA"",0],[""NA"","""",[],[0,0],""""],[""NA"",""111222""],[""NA"",""--"",""""],[""NA"",-1,[]]]";
+            class Variable
+            {
+                name = "BCE_CFF_Var"; //- Where the data is stored
+                default = "[[""NA"",0],[""NA"","""",[],[0,0],""""],[""NA"",""111222""],[""NA"",""--"",""""],[""NA"",-1,[]]]";
+            };
+
+            Controls[] = {
+                {
+                    "","",
+                    "","",
+                    "TaskType_GND",
+                    "AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
+                },
+                {},
+                {"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
+                {"New_Task_TG_DESC","New_Task_GRID_DESC"},
+                {"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
+            };
+            Descriptions[] = {
+                "$STR_BCE_DECS_GAMEPLAN",
+                "$STR_BCE_DECS_FRNDMark",
+                "$STR_BCE_DECS_TGT",
+                "$STR_BCE_DECS_DESCMark",
+                "$STR_BCE_DECS_Remarks"
+            };
+
+            //- Events
+            class Events
+            {
+                Opened = "";
+                Enter = "";
+                Clear = ""; //- Clear All the data
+            };
         };
     };
 };

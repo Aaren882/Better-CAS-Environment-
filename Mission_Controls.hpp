@@ -11,6 +11,21 @@
 
 class BCE_Mission_Build_Controls
 {
+    //- BCE Mission Holder
+        class BCE_Holder: RscText
+        {
+            onLoad = "call BCE_fnc_onLoad_BCE_Holder";
+
+            idc = PROP_IDC(2000);
+            x = 0;
+            y = 0;
+            w = 0;
+            h = 0;
+
+            //- Default Values
+            class BCE_Mission: BCE_Mission_Default{};
+        };
+    
     //- Air Mission Type
     class TaskType: RscCombo
     {
@@ -34,6 +49,31 @@ class BCE_Mission_Build_Controls
                 text = "5 Line";
                 textRight = "";
                 value = 1;
+            };
+        };
+    };
+    class TaskType_GND: TaskType
+    {
+        class Items
+        {
+            class CallForFire
+            {
+                text = "Adjust Fire";
+                textRight = "";
+                value = 0;
+                default = 1;
+            };
+            class Suppress
+            {
+                text = "Suppress";
+                textRight = "";
+                value = 1;
+            };
+            class immediate_Suppress
+            {
+                text = "Immediate Suppress";
+                textRight = "";
+                value = 2;
             };
         };
     };
@@ -112,14 +152,28 @@ class BCE_Mission_Build_Controls
                 "BoC"
             };
         };
-        /* class New_Task_AttackType_Combo: TaskType
+        class New_Task_AttackType_Combo: TaskType
         {
             REGISTER_FNC;
-
             idc = PROP_IDC(20112);
             
-            
-        }; */
+            class Items
+            {
+                class BoT
+                {
+                    text = "BoT";
+                    textRight = "";
+                    value = 0;
+                    default = 1;
+                };
+                class BoC
+                {
+                    text = "BoC";
+                    textRight = "";
+                    value = 1;
+                };
+            };
+        };
         class New_Task_Ordnance_Title: New_Task_Ctrl_Title
         {
             REGISTER_FNC;

@@ -718,7 +718,6 @@ class CfgFunctions
 		{
 			file="MG8\AVFEVFX\functions\CAS_Menu";
 			class checkList;
-			class getTaskVar;
 			class DataReceiveButton;
 			class ListSwitch;
 			class TaskListDblCLick;
@@ -733,13 +732,54 @@ class CfgFunctions
 			class TaskList_Changed;
 			class Reset_TaskList;
 			class NextTurretButton;
+			//- Registries
+				class RegisterMissionControls;
+				class onLoad_BCE_Holder;
+				class HandleTaskElementChange;
 		};
 		//- Fire Mission
+		class Fire_Mission_Map_Infos
+		{
+			file="MG8\AVFEVFX\functions\CAS_Menu\Fire_Mission\Map_Infos";
+			class get_TaskMapInfo;
+			class get_TaskMapInfoEntry;
+
+			//- Draw Infos
+				class draw_TaskMapInfo;
+				class drawEach_TaskMapInfo;
+		};
 		class Fire_Mission
 		{
 			file="MG8\AVFEVFX\functions\CAS_Menu\Fire_Mission";
-			class get_TaskCurSetup;
-			class set_TaskCurSetup;
+			class getTaskProps;
+			class getDisplayTaskProps;
+			
+			//- Task Setup
+				class get_TaskCurSetup;
+				class set_TaskCurSetup;
+			
+			//- Task Variables
+				class getTaskVar;
+				class setTaskVar;
+
+			//- Task Building Components
+				class getTaskComponents;
+				class getTaskSingleComponent;
+
+			//- Task Line
+				class get_TaskCurLine;
+				class set_TaskCurLine;
+				
+			//- Task Type
+				class get_TaskCurType;
+				class set_TaskCurType;
+		};
+		class Fire_Mission_Events
+		{
+			file="MG8\AVFEVFX\functions\CAS_Menu\Fire_Mission\Events";
+			class TaskEvent_Clear;
+			class TaskEvent_Enter;
+			class TaskEvent_Opened;
 		};
 		class Call_for_Fire_Menu
 		{
@@ -1262,6 +1302,11 @@ class BCE_RscButtonMenu: RscButtonMenu
 		shadow = "false";
 	};
 };
+
+//- Mission Property + Controls + Map Infos
+	#include "Mission_Property.hpp"
+	#include "Mission_Controls.hpp"
+	#include "Mission_Map_Infos.hpp"
 
 //-POLPOX Map Tools Control
 #if cTAB_Installed == PLP_TOOL
