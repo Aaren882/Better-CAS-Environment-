@@ -15,7 +15,7 @@ _all_lists apply {
 	(_display displayctrl _x) ctrlshow false;
 };
 
-_curType = ["Type",0] call BCE_fnc_get_TaskCurSetup;
+_curType = []  call BCE_fnc_get_TaskCurType;
 
 _TaskType = _display displayctrl (_IDC_offset + 2107);
 _description = _display displayctrl (_IDC_offset + 2004);

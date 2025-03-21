@@ -1,8 +1,13 @@
+
+/*
+	NAME : BCE_fnc_ToolBoxChanged
+*/
+
 params ["_control", "_selectedIndex",["_ismenu",false],["_IDC_offset",0],["_DisplayName",""]];
 private ["_display","_Task_Type","_curInterface","_ListInfo","_curLine","_shownCtrls","_TypeChanged","_MenuChanged"];
 
 _display = ctrlParent _control;
-_Task_Type = ["Type",0] call BCE_fnc_get_TaskCurSetup;
+_Task_Type = []  call BCE_fnc_get_TaskCurType;
 
 _curInterface = switch _IDC_offset do {
 	case 17000: {1};
@@ -39,68 +44,9 @@ _ListInfo params ["_taskList","_remarks"];
 _curLine = _remarks min _curLine;
 _shownCtrls = [_display,_curLine,_curInterface,false,_ismenu] call BCE_fnc_Show_CurTaskCtrls;
 
-_TypeChanged = {
-	switch _curLine do {
-		//-EGRS [Toolbox, EditBox, output, Toolbox(Azimuth), Marker(combo)]
-		case 9:{
-			_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4","_ctrl5"];
-
-			if (_selectedIndex == 0) then {
-				_ctrl4 ctrlShow true;
-
-				_ctrl2 ctrlShow false;
-				_ctrl5 ctrlShow false;
-			} else {
-				//-Map Markers
-				if (_selectedIndex == 2) then {
-					_ctrl5 ctrlShow true;
-					_ctrl5 call BCE_fnc_IPMarkers;
-
-					_ctrl2 ctrlShow false;
-					_ctrl4 ctrlShow false;
-				} else {
-					if (_selectedIndex == 3) then {
-						_ctrl2 ctrlShow false;
-						_ctrl4 ctrlShow false;
-						_ctrl5 ctrlShow false;
-					} else {
-						_ctrl2 ctrlShow true;
-						_ctrl4 ctrlShow false;
-						_ctrl5 ctrlShow false;
-					};
-				};
-			};
-		};
-		//-FAD/H [Toolbox, EditBox, output, Toolbox(Azimuth)]
-		case _remarks:{
-			_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
-
-			if (_selectedIndex == 2) then {
-				_ctrl4 ctrlShow false;
-				_ctrl2 ctrlShow false;
-			} else {
-				//-FA D/H
-				if (_selectedIndex == 0) then {
-					_ctrl2 ctrlShow false;
-					_ctrl4 ctrlShow true;
-				} else {
-					_ctrl2 ctrlShow true;
-					_ctrl4 ctrlShow false;
-				};
-			};
-		};
-		default {
-			if (_selectedIndex == 0) then {
-				_shownCtrls params ["_toolBox","_combo"];
-				_combo ctrlShow true;
-				_combo call BCE_fnc_IPMarkers;
-			} else {
-				_shownCtrls params ["_toolBox","_combo","_textBox"];
-				_combo ctrlShow false;
-			};
-		};
-	};
-};
+/*_TypeChanged = {
+	
+};*/
 
 _MenuChanged = {
 	private [
@@ -244,4 +190,7 @@ _MenuChanged = {
 	{_x ctrlCommit 0.2} forEach [_BG_grp] + _ctrlList;
 };
 
-call ([_TypeChanged,_MenuChanged] select _ismenu);
+call ([
+	BCE_fnc_ToolElement_Changed,
+	_MenuChanged
+] select _ismenu);
