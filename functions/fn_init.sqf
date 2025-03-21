@@ -29,6 +29,26 @@ if (isMultiplayer) then {
 //PostInit Perf_EH
 call BCE_fnc_ClientSide;
 
+//- Init Task/Mission Builder Items
+	[] call BCE_fnc_getTaskProps;
+	[] call BCE_fnc_get_TaskMapInfoEntry;
+
+//- Task/Mission Builder Events : from "Mission_Property.hpp"
+	private _event_Func = getArray (configFile >> "BCE_Mission_Property" >> "Event_Functions");
+	// Set Eventhandler API
+	{
+		/*
+			"Opened",
+			"Enter",
+			"Clear"
+		*/
+		[
+			"BCE_TaskBuilding_" + _x, 
+			uiNamespace getVariable ("BCE_fnc_TaskEvent_" + _x)
+		] call CBA_fnc_addEventHandler;
+	} forEach _event_Func;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 ["turret", {
 	params ["_unit", "_turret", "_turretPrev"];
 	if !(_unit getVariable ["BCE_turret_Gunner_Lights",[]] isEqualTo []) then {
