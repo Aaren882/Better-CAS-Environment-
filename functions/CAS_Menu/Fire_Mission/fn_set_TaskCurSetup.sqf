@@ -1,12 +1,15 @@
 /* 
-  NAME : BCE_fnc_set_FireAdjustValues
+  NAME : BCE_fnc_set_TaskCurSetup
 
-  ["_key","_value"]
+  Params :
+    ["_key","_value"]
   
   Set "BCE_Task_Setup" Values
   [
-    "Type" : 0, //- Task Type
-    "Cate" : 0  //- Task Category
+    "Type" : [0,1], //- Task Type
+    "Cate" : 0, //- Task Category
+    "CurDisplay" : createHashMap, //- Current Task Display
+    "Desc" : 0  //- Description Type for ATAK {localNamespace getVariable ["BCE_ATAK_Desc_Type",0]}
   ]
 */
 params ["_key","_value"];
