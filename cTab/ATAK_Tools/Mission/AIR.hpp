@@ -71,12 +71,12 @@ class AIR_9_LINE: ATAK_AppMenu_Base
             ATAK_POS(1.8,(1 + (0.35/2)),0.4,0.65);
             tooltip="$STR_BCE_TIP_MOA";
         };
-        class MOA_Combo: New_Task_AttackType
+        class MOA_Combo: New_Task_AttackType_Combo
         {
             ATAK_POS(2.2,(1 + (0.35/2)),0.7,0.65);
             sizeEx = 0.9 * TextSize;
             
-            wholeHeight = 0.8;
+            // wholeHeight = 0.8;
             colorBackground[] = {0.3,0.3,0.3,1};
             colorSelect[]={1,1,1,1};
             colorSelectBackground[]={0.4,0.4,0.4,1};
@@ -84,7 +84,7 @@ class AIR_9_LINE: ATAK_AppMenu_Base
             onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask";
 
             //- Combo Definitions
-                deletable = 0;
+                /* deletable = 0;
                 fade = 0;
                 access = 0;
                 type = 4;
@@ -115,24 +115,9 @@ class AIR_9_LINE: ATAK_AppMenu_Base
                 shadow = 0;
                 arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
                 arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
-                colorActive[] = {1,0,0,1};
+                colorActive[] = {1,0,0,1}; */
 
-            class Items
-            {
-                class BoT
-                {
-                    text = "BoT";
-                    textRight = "";
-                    value = 0;
-                    default = 1;
-                };
-                class BoC
-                {
-                    text = "BoC";
-                    textRight = "";
-                    value = 1;
-                };
-            };
+            
         };
 
         //-Weapons Selections
