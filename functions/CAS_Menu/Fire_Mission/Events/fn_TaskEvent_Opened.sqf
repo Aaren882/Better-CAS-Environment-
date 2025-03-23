@@ -18,7 +18,7 @@ params ["_curLine"];
 
 (_curLine call BCE_fnc_getTaskComponents) params ["_shownCtrls","_desc_str"];
 
-// #!SECTION UPDATE CurLine
+// #SECTION - UPDATE CurLine
 //- Update Current Display's CurLine
   [_curLine] call BCE_fnc_set_TaskCurLine;
 
