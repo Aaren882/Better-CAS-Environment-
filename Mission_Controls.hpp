@@ -477,15 +477,29 @@ class BCE_Mission_Build_Controls
             strings[] =
             {
                 "At-Ready",
-                "AMC",
-                "TOT"
+                "TOT",
+                "AMC"
             };
             tooltips[] =
             {
                 "Fire When Ready",
-                "At My Command",
-                """Impact"" Time on Target"
+                """Impact"" Time on Target",
+                "At My Command"
             };
+        };
+        class New_Task_CFF_TOT: New_Task_EGRS_Bearing
+        {
+            REGISTER_FNC;
+
+            idc = PROP_IDC(2204);
+            text = "Enter Minutes...";
+        };
+        class New_Task_CFF_ETA: taskDesc
+        {
+            REGISTER_FNC;
+
+            idc = PROP_IDC(2205);
+            text = "Enter Minutes...";
         };
 };
 
