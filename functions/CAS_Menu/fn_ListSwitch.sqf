@@ -16,7 +16,7 @@ _MainList = _display displayCtrl 2100;
 _list_Title = _display displayCtrl 2001;
 _Task_Type = _display displayCtrl 2107;
 
-_curType = []  call BCE_fnc_get_TaskCurType;
+_curType = [] call BCE_fnc_get_TaskCurType;
 _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 
 _TaskList = switch (_curType) do {

@@ -6,7 +6,7 @@ _display = ctrlParent _control;
 _button_text = ctrlText _control;
 _NotAVT = _IDC_offset != 0;
 
-_curType = []  call BCE_fnc_get_TaskCurType;
+_curType = [] call BCE_fnc_get_TaskCurType;
 _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 
 _TaskList = switch _curType do {

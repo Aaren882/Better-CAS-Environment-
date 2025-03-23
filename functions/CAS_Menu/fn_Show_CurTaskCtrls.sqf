@@ -17,7 +17,7 @@ _Info_list = switch _curInterface do {
 
 if (isNil {_Info_list}) exitWith {["Error variable not Exist"] call BIS_fnc_error};
 
-_curType = []  call BCE_fnc_get_TaskCurType;
+_curType = [] call BCE_fnc_get_TaskCurType;
 
 _IDCs_list = _Info_list # 0;
 _TypeCtrls = if (_is_Display) then {
