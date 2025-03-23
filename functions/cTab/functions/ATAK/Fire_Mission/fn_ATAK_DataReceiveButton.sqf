@@ -52,7 +52,7 @@ switch (_page) do {
 		call {
 
 			//- Task elements
-			/* private _curType = []  call BCE_fnc_get_TaskCurType;
+			/* private _curType = [] call BCE_fnc_get_TaskCurType;
 			private _taskVar = ([] call BCE_fnc_getTaskVar) # 0; */
 
 			//- Enter Infos (on Building Page)
