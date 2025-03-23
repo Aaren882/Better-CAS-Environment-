@@ -179,7 +179,7 @@ switch _mode do
 			(_display displayctrl 20116) ctrlSetPositionH 0;
 			(_display displayctrl 20116) ctrlCommit 0;
 
-			(_display displayctrl 2107) lbSetCurSel (["Type",0] call BCE_fnc_get_TaskCurSetup);
+			(_display displayctrl 2107) lbSetCurSel ([] call BCE_fnc_get_TaskCurType);
 
 			//-CAS Layout
 			[_display,0,true] call BCE_fnc_ListSwitch;

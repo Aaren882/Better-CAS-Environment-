@@ -59,7 +59,7 @@ if (_button == 0) then {
 
 			_type = _BCE_MapTool lbText lbCurSel _BCE_MapTool;
 
-			_task = switch (["Type",0] call BCE_fnc_get_TaskCurSetup) do {
+			_task = switch ([] call BCE_fnc_get_TaskCurType) do {
 				//- 5 line
 				case 1: {
 					[-1,2,1]
