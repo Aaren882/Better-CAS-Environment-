@@ -12,12 +12,14 @@ params ["_group","_settings"];
 private _subInfos = _settings param [2,[]];
 private _subMenu_Map = _subInfos param [2, createHashMap];
 
-private _category = _group controlsGroupCtrl (17000 + 2102);
+/* private _category = _group controlsGroupCtrl (17000 + 2102);
+private _cateData = _category getVariable ["data",[]]; */
 private _cateSel = ["Cate",0] call BCE_fnc_get_TaskCurSetup;
-private _cateData = _category getVariable ["data",[]];
+private _cateData = _cateSel call BCE_fnc_get_BCE_TaskCateClass;
 
 //- "Game Plan", "SubMenu"
-  private _subData = _subMenu_Map getOrDefault [_cateData # _cateSel, []];
+  // private _subData = _subMenu_Map getOrDefault [_cateData # _cateSel, []];
+  private _subData = _subMenu_Map getOrDefault [_cateData, []];
   _subData params [["_subSel",0]];
 
 private _taskMenu = switch (_cateSel) do {

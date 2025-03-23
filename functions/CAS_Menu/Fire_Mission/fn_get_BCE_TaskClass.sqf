@@ -1,7 +1,7 @@
 /*
   NAME : BCE_fnc_get_BCE_TaskClass
 
-  Get BCE Holding Components from display
+  Get Current/Desire BCE Holding Components from display
 
   Params : 
     "_display" :  Display object for desire custom setup
@@ -43,19 +43,7 @@ if (isnull _display) exitWith {
   private _BCE_Holder = _display getVariable ["BCE_onLoad_BCE_Holder", createHashMap];
 
 // ex. [["AIR",["9LINE","5LINE"]],["GND",["CFF"]]] (ARRAY)
-  private _categories = localNamespace getVariable ["BCE_Mission_Cate", []];
-
-//- Arrange According (For Task Items)
-  if (_categories findIf {true} < 0) then {
-    private _missionCfg = configFile >> "BCE_Mission_Default";
-
-    _categories = ("true" configClasses _missionCfg) apply {
-      private _tasks = configProperties [_x] apply {toUpperANSI configName _x};
-      [toUpperANSI configName _x, _tasks]
-    };
-    localNamespace setVariable ["BCE_Mission_Cate", _categories]; //- Save Categories
-    _categories 
-  };
+  private _categories = call BCE_fnc_get_BCE_TaskCateClasses;
 
 //- Get Desire Task Type
   private _cate = _categories # _cateSel;
