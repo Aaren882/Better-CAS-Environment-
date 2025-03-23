@@ -2,11 +2,10 @@
   NAME : BCE_fnc_getTaskProps
   
   Get Mission/Task from "BCE_Mission_Property"
-  # LINK .\fn_getTaskProps.sqf
+  # LINK .\fn_getDisplayTaskProps.sqf
 
   Params : 
-    "_taskID"  :  Index Number (0,1,2...)
-    "_cateSel" :  Index Number (0,1,2...)
+    "_taskType"  :  Task type for class ("BCE_Mission_Default" / "BCE_Mission")
   
   RETURN : [
     "Variable Name"      : Default is Class name
@@ -121,9 +120,3 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
 
 //- Return
 localNamespace getVariable [format ["#PROP_%1", _taskType], []];
-
-/* private _categories = localNamespace getVariable ["BCE_Mission_Cate", []];
-private _cate = _categories # _cateSel;
-
-//- Return
-((_props get _cate) # _curType) */

@@ -807,6 +807,7 @@ class CfgFunctions
 			class clearTask9line;
 			class DataReceive5line;
 			class DataReceive9line;
+			class DblClickCFF;
 			class DblClick5line;
 			class DblClick9line;
 			class TaskTypeChanged;

@@ -20,14 +20,6 @@ class BCE_Mission_Default
 };
 class BCE_Mission_Property
 {
-    
-    Mission_Types[] = {
-        {"9Line","5Line"},
-        {"CFF"}
-    };
-    // AIR[] = {"9Line","5Line"};
-    // GND[] = {"CFF"};
-
     //- Event Functions
     Event_Functions[] = {
         "Opened",
@@ -219,28 +211,26 @@ class BCE_Mission_Property
 
             Controls[] = {
                 {
-                    "","",
-                    "","",
                     "TaskType_GND",
                     "AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
                 },
                 {},
                 {"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
                 {"New_Task_TG_DESC","New_Task_GRID_DESC"},
-                {"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
+                {"New_Task_CFF_CtrlType","New_Task_CFF_TOT","New_Task_IPExpression","New_Task_CFF_ETA"}
             };
             Descriptions[] = {
                 "$STR_BCE_DECS_GAMEPLAN",
                 "$STR_BCE_DECS_FRNDMark",
                 "$STR_BCE_DECS_TGT",
                 "$STR_BCE_DECS_DESCMark",
-                "$STR_BCE_DECS_Remarks"
+                "在沒有指定管制方法的情況下，射擊任務將以「準備就緒時」(When Ready) 執行。<br/><br/>在基礎學校您可能會使用的另外兩個選項是「聽我口令」(At My Command, AMC) 和「目標時間」(Time on Target, TOT)。"
             };
 
             //- Events
             class Events
             {
-                Opened = "";
+                Opened = "BCE_fnc_DblClickCFF";
                 Enter = "";
                 Clear = ""; //- Clear All the data
             };
