@@ -13,7 +13,7 @@ _clearAction = {
 	_description = _display displayctrl (_IDC_offset + 2004);
 	_Task_Type = _display displayCtrl (_IDC_offset + 2107);
 
-	_curType = []  call BCE_fnc_get_TaskCurType;
+	_curType = [] call BCE_fnc_get_TaskCurType;
 
 	_list_result = switch _curType do {
 		//-5 line

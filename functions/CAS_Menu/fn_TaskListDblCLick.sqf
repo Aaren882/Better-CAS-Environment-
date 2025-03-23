@@ -5,7 +5,7 @@ privateAll;
 _display = ctrlParent _control;
 _title = _display displayctrl 2003;
 _Task_Type = _display displayCtrl 2107;
-_curType = []  call BCE_fnc_get_TaskCurType;
+_curType = [] call BCE_fnc_get_TaskCurType;
 _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 
 _TaskList = switch _curType do {

@@ -1,7 +1,7 @@
 params ["_control", "_curLine","_IDCs","_IDC_offset",["_type_changed",false]];
 
 _display = ctrlParent _control;
-_curType = []  call BCE_fnc_get_TaskCurType;
+_curType = [] call BCE_fnc_get_TaskCurType;
 _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 
 _title = _display displayCtrl (_IDC_offset + 2003);
