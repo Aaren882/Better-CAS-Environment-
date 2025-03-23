@@ -2,7 +2,7 @@
 	params ["_control","_input",["_type",-1]];
 	privateAll;
 
-	_curType = []  call BCE_fnc_get_TaskCurType;
+	_curType = [] call BCE_fnc_get_TaskCurType;
 	_curCate = ["Cate"] call BCE_fnc_get_TaskCurSetup;
 
 	//-5 line "Mark With"

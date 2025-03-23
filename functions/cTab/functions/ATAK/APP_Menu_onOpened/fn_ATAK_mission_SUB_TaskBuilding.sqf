@@ -8,7 +8,7 @@ _subInfos params ["_subMenu","_curLine"];
 
 if !(_shown) exitwith {};
 
-_curType = []  call BCE_fnc_get_TaskCurType;
+_curType = [] call BCE_fnc_get_TaskCurType;
 _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 
 if (isnil {_taskVar}) exitWith {

@@ -14,7 +14,7 @@ if (ctrlshown _description) then {
 	(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_subInfos"];
 	_subInfos params ["_subMenu","_curLine"];
 	
-	// _curType = []  call BCE_fnc_get_TaskCurType;
+	// _curType = [] call BCE_fnc_get_TaskCurType;
 	([] call BCE_fnc_getDisplayTaskProps) params ["_varName","_default","_events"];
 	([] call BCE_fnc_getTaskVar) params ["_taskVar"];
 	

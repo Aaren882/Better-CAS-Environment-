@@ -5,7 +5,7 @@ private ["_curType","_curLine","_shownCtrls"];
 
 if !(_shown) exitwith {};
 
-_curType = []  call BCE_fnc_get_TaskCurType;
+_curType = [] call BCE_fnc_get_TaskCurType;
 _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 
 _curLine = 0;

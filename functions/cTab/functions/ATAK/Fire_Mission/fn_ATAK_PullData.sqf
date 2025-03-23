@@ -1,6 +1,6 @@
 private ["_curType","_taskVar","_pos"];
 
-_curType = []  call BCE_fnc_get_TaskCurType;
+_curType = [] call BCE_fnc_get_TaskCurType;
 _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 _pos = _taskVar # _this # 2;
 
