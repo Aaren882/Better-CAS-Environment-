@@ -1,6 +1,6 @@
 # Better CAS Environment
 <p align="center">
-   <a href="https://github.com/Aaren882/Better-CAS-Environment-/latest">
+   <a href="https://github.com/Aaren882/Better-CAS-Environment-/releases/latest">
       <img src="https://img.shields.io/github/v/release/Aaren882/Better-CAS-Environment-?label=Latest&color=blue&logo=github" >
    </a>
    <img src="https://img.shields.io/steam/size/2853828143?label=File%20Size&logo=steam" >
