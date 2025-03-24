@@ -7,10 +7,10 @@
    <img src="https://img.shields.io/steam/views/2853828143?label=Steam%20Views&logo=steam" >
    <img src="https://img.shields.io/steam/subscriptions/2853828143?label=Steam%20Downloads&logo=steam" >
 </p>
+
 <p align="center">
    <a href="https://discord.gg/QYCuYpDBgf">
-        <img src="https://img.shields.io/badge/Discord_Join-Here-blue?style=for-the-badge&logo=discord
-        ">
+        <img src="https://img.shields.io/badge/Discord_Join-Here-blue?style=for-the-badge&logo=discord">
     </a>
 </p>
 
