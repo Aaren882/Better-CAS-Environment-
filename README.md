@@ -1,11 +1,17 @@
 # Better CAS Environment
 <p align="center">
    <a href="https://github.com/Aaren882/Better-CAS-Environment-/latest">
-      <img src="https://img.shields.io/github/v/release/Aaren882/Better-CAS-Environment-?label=Latest&color=098de6" >
+      <img src="https://img.shields.io/github/v/release/Aaren882/Better-CAS-Environment-?label=Latest&color=blue&logo=github" >
    </a>
-   <img src="https://img.shields.io/steam/size/2853828143?label=File%20Size" >
-   <img src="https://img.shields.io/steam/views/2853828143?label=Steam%20Views" >
-   <img src="https://img.shields.io/steam/subscriptions/2853828143?label=Steam%20Downloads" >
+   <img src="https://img.shields.io/steam/size/2853828143?label=File%20Size&logo=steam" >
+   <img src="https://img.shields.io/steam/views/2853828143?label=Steam%20Views&logo=steam" >
+   <img src="https://img.shields.io/steam/subscriptions/2853828143?label=Steam%20Downloads&logo=steam" >
+</p>
+<p align="center">
+   <a href="https://discord.gg/QYCuYpDBgf">
+        <img src="https://img.shields.io/badge/Discord_Join-Here-blue?style=for-the-badge&logo=discord
+        ">
+    </a>
 </p>
 
 ### What Does It Do?
