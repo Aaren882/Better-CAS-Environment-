@@ -1,4 +1,12 @@
 # Better CAS Environment
+<p align="center">
+   <a href="https://github.com/Aaren882/Better-CAS-Environment-/latest">
+      <img src="https://img.shields.io/github/v/release/Aaren882/Better-CAS-Environment-?label=Latest&color=098de6" >
+   </a>
+   <img src="https://img.shields.io/steam/size/2853828143?label=File%20Size" >
+   <img src="https://img.shields.io/steam/views/2853828143?label=Steam%20Views" >
+   <img src="https://img.shields.io/steam/subscriptions/2853828143?label=Steam%20Downloads" >
+</p>
 
 ### What Does It Do?
 This mod is to provide better communication for Close Air Support or Air Support missions
