@@ -4,58 +4,35 @@ switch _curLine do {
 	//-Control Type
 	case 0:{
 		_shownCtrls params [
-			"_title_ctrl","_ctrl",
-			"_title_type","_type",
-			"_ord_title",
-			"_CTweap","_CTmode","_CTrange","_CTcount","_CTHeight"
+			"_taskType",
+			"_CTAmmo","_CTFuse","_CTFireUnits","_CTRounds","_CTRadius"
 		];
-		
-		_typeCAS = ["T1","T2","T3"] # (lbCurSel _ctrl);
-		_typeATK = ["BoT","BoC"] # (lbCurSel _type);
-
-		_ordance = _CTmode lbdata (lbcursel _CTmode);
+		_ordance = _CTFuse lbdata (lbcursel _CTFuse);
 		_ordnanceInfo = call compile _ordance;
 		_ordnanceInfo params ["_WeapName","_ModeName","_class","_Mode","_turret",["_Count",1,[0]]];
 
 		//-Ammo Count
-		_setCount = call compile (ctrlText _CTcount);
-		_height = call compile (ctrlText _CTHeight);
+		_setCount = parseNumber (ctrlText _CTRounds);
+		_height = parseNumber (ctrlText _CTRadius);
 
 		if (isnil{_setCount} || isnil{_height}) exitWith {};
 
 		if (_setCount > _Count) then {
 			_setCount = _Count;
-			_CTcount ctrlSetText (str _Count);
-		};
-		
-		//-so you can set it to whatever you want
-		_lowest = 0;
-
-		//-if it isn't a player (AI)
-		if !(isPlayer _vehicle) then {
-			_lowest = [50,500] select (_vehicle isKindOf "plane");
-		};
-
-		if (_height < _lowest) then {
-			_height = _lowest;
-			_CTHeight ctrlSetText (str _lowest);
+			_CTRounds ctrlSetText (str _Count);
 		};
 
 		//-Attack Range
-		_rangeIndex = lbCurSel _CTrange;
-		_ATK_range = _CTrange lbValue _rangeIndex;
-
-		_Count = _setCount;
+		_rangeIndex = lbCurSel _CTFireUnits;
+		_ATK_range = _CTFireUnits lbValue _rangeIndex;
 
 		_isnil = isnil {_ordnanceInfo};
-		_text = format ["%1 %2 %3 %4m",_typeCAS,_typeATK,[_WeapName,"NA"] select _isnil,_height];
+		_text = format ["%1 %2",[_WeapName,"NA"] select _isnil,_height];
 
 		_result = [
 			_text,
-			_typeCAS,
-			_typeATK,
-			[],
-			[lbCurSel _ctrl,lbCurSel _type,lbCurSel _CTweap,lbCurSel _CTmode,_rangeIndex,str _setCount,str _height]
+			lbCurSel _taskType,
+			[lbCurSel _CTAmmo,lbCurSel _CTFuse,_rangeIndex,str _setCount,str _height]
 		];
 
 		if !(isnil {_WeapName}) then {
@@ -66,7 +43,7 @@ switch _curLine do {
 	};
 
 	//-Friendly
-	case 1:{
+	/* case 1:{
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
 
 		private _text = ctrlText _ctrl4;
@@ -132,7 +109,7 @@ switch _curLine do {
 			};
 		};
 		_ctrl3 ctrlSetText (_taskVar # 1 # 0);
-	};
+	}; */
 
 	//-Target POS
 	case 2:{
@@ -207,51 +184,37 @@ switch _curLine do {
 		_taskVar set [3, _Info];
 	};
 
-	//-Remarks
+	//- Medthod of Controls
 	case 4:{
-		//-FAD/H [Toolbox, EditBox, output, Toolbox(Azimuth), DanClose(Text), DanClose(Box)]
-		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4","_ctrl5","_ctrl6"];
+		//- [Toolbox, EditBox, output, ETA(StructuredText)]
+		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
 
-		private _HDG = _ctrl4 lbValue (lbCurSel _ctrl4);
-		private _ctrl1Sel = lbCurSel _ctrl1;
+		private _ctrlMethod = lbCurSel _ctrl1; //- [At-Ready, TOT, AMC].
 
-		//-Set Default
-		if (_ctrl1Sel == 2) then {
-			_text = "FAD: “Default”";
-			_ctrl3 ctrlSetText _text;
-			_taskVar set [4,[_text,-1,[_ctrl1Sel,lbCurSel _ctrl4,cbChecked _ctrl6]]];
-		} else {
-			if (_ctrl1Sel == 1) then {
-				_TextInfo = ctrlText _ctrl2;
-
-				//-Debug
-				if ((_TextInfo == "") || (_TextInfo == localize "STR_BCE_Bearing_ENT") || isnil{(call compile _TextInfo)}) exitWith {
-					hint localize "STR_BCE_Error_InputVal";
-					_ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
-				};
-
-				_HDG = (round (call compile _TextInfo)) % 360;
+		private _ctrlParse = call {
+			if (_ctrlMethod == 0) exitWith {
+				["At-Ready"]
 			};
-
-			_HDG = [_HDG, 360 * ((_HDG / 360)-1)] select (_HDG < 0);
-			_cardinaldir = _HDG call BCE_fnc_getAzimuth;
-
-			_To_Dir = [_HDG - 180,360 + (_HDG - 180)] select ((_HDG - 180) < 0);
-
-			_DanClose = [""," [Danger Close]"] select (cbChecked _ctrl6);
-			_text = format ["“%1” to “%2”",_cardinaldir,_To_Dir call BCE_fnc_getAzimuth];
-
-			if !(isnil"_cardinaldir") then {
-				_taskVar set [4,[_text + _DanClose,_HDG,[_ctrl1Sel,lbCurSel _ctrl4,cbChecked _ctrl6]]];
-				_ctrl3 ctrlSetText _text;
+			if (_ctrlMethod == 1) exitWith {
+				private _TOT_time = parseNumber (ctrlText _ctrl2);
+				["TOT - " + str _TOT_time, _TOT_time]
+			};
+			if (_ctrlMethod == 2) exitWith {
+				["At My Command"]
 			};
 		};
+		_ctrlParse params ["_type",["_value",-1]];
+		
+		//- Update ouput display
+			_ctrl3 ctrlSetText _type;
+
+		_taskVar set [4, [_type, [_ctrlMethod,_value]]];
 	};
 };
 
 //-Automatically Generate
 //-Line 1
-if (([!("Andorid" in (cTabIfOpen # 1)), false] select isnil {cTabIfOpen}) || _IDC_offset == 0) then {
+/* if (([!("Andorid" in (cTabIfOpen # 1)), false] select isnil {cTabIfOpen}) || _IDC_offset == 0) then {
 	(_taskVar # 0) pushBackUnique ((_display displayCtrl (_IDC_offset + 2005)) lbText 0);
 };
 
@@ -276,3 +239,4 @@ if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && (!((localize
 
 	_taskVar set [1, [_info,_taskVar_1 # 1,_taskVar_1 # 2,_taskVar_1 # 3,_taskVar_1 # 4]];
 };
+*/

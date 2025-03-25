@@ -1,4 +1,8 @@
-if ((ctrlShown _description) or (_Veh_Changed) or (_isOverwrite)) then {
+if (
+	// (ctrlShown _description) ||
+	(_Veh_Changed) ||
+	(_isOverwrite)
+) then {
 	switch _curLine do {
 		case 1:{
 			_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
