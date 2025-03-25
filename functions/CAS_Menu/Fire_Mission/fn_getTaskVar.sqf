@@ -14,7 +14,7 @@
   ]
  */
 params [
-  ["_curType", [] call BCE_fnc_get_TaskCurSetup],
+  ["_curType", [] call BCE_fnc_get_TaskCurType],
   ["_cateSel", ["Cate"] call BCE_fnc_get_TaskCurSetup],
   ["_display", displayNull]
 ];

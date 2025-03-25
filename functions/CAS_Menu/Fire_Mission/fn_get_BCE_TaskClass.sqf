@@ -14,7 +14,7 @@
 
 params [
   ["_display", displayNull],
-  ["_curType", [] call BCE_fnc_get_TaskCurSetup],
+  ["_curType", [] call BCE_fnc_get_TaskCurType],
   ["_cateSel", ["Cate"] call BCE_fnc_get_TaskCurSetup]
 ];
 
@@ -48,5 +48,12 @@ if (isnull _display) exitWith {
 //- Get Desire Task Type
   private _cate = _categories # _cateSel;
   _cate params ["_key","_types"];
+
+//- Check out of range
+  private _count = count _types - 1;
+  if (_count < _curType) then {
+    ["Out of the ""_types"" range, ""_curType : %1"" / ""Total : %2""", _curType, _count] call BIS_fnc_error;
+    _curType = _count;
+  };
 
 (_BCE_Holder get _key) getOrDefault [_types # _curType, ""];
