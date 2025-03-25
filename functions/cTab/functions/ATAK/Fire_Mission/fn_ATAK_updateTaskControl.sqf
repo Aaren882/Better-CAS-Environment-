@@ -69,6 +69,23 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
 
           private _MeterValue = ["Meter",1] call BCE_fnc_get_FireAdjustValues;
           _AdjustMeter ctrlSetText format ["<-- %1 m -->", _MeterValue * 10];
+
+          //- Set the first line (line 1)
+            private _firstLine = _MissionCtrl controlsGroupCtrl (17000 + 2040);
+            private _vehicle = player getVariable ["BCE_CFF_Selected_Group",objNull];
+
+            _firstLine ctrlSetStructuredText parseText format [
+              "“%1” / “%2”",
+              [groupId group _vehicle, "None"] select isnull _vehicle,
+              groupId group player
+            ];
+          
+          //- CFF TaskType Eventhandler
+          private _missionType = "TaskType_GND" call BCE_fnc_getTaskSingleComponent;
+
+          //- Set Task EH + update "MissionType" CurSel
+            _missionType lbSetCurSel _subSel;
+            _missionType ctrlAddEventHandler ["LBSelChanged", BCE_fnc_ATAK_TaskTypeChanged];
         };
       };
     ctrlSetFocus _MissionCtrl;

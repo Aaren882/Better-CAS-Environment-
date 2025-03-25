@@ -6,7 +6,6 @@
 		_lbCurSel : Drop menu Selection (Number 0,1,2...)
 		_curLine  : The line of Task Description #NOTE - 5th, 3rd... line
 */
-privateAll;
 params ["_control", "_lbCurSel","_curLine"];
 
 //- Update Description Sel preset
