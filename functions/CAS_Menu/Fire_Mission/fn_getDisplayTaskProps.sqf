@@ -20,10 +20,14 @@
 
 params [
   ["_display", displayNull],
-  ["_curType", [] call BCE_fnc_get_TaskCurSetup],
+  "_curType",
   ["_cateSel", ["Cate"] call BCE_fnc_get_TaskCurSetup]
 ];
 
-private _taskType = _this call BCE_fnc_get_BCE_TaskClass;
+if (isNil{_curType}) then {
+  _curType = [_cateSel] call BCE_fnc_get_TaskCurType;
+};
+
+private _taskType = [_display,_curType,_cateSel] call BCE_fnc_get_BCE_TaskClass;
 
 _taskType call BCE_fnc_getTaskProps;

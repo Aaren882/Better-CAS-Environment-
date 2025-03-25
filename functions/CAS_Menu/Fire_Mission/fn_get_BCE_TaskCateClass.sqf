@@ -18,7 +18,7 @@ params [
 private _categories = call BCE_fnc_get_BCE_TaskCateClasses;
 private _count = count _categories - 1;
 
-if (_count <= _cateSel) then {
+if (_count < _cateSel) then {
   ["Out of the Task Category range. ""Selected : %1"" / ""Total (Index) : %2""", _cateSel, _count] call BIS_fnc_error;
   _cateSel = _count; //- return with the last one value
 };
