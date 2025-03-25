@@ -93,8 +93,8 @@ switch _curLine do {
 
 				//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:Elevation]
 				if !(_TGPOS isEqualTo []) then {
-					_TGPOS resize [3, 0];
-					_markerInfo = format ["GRID: [%1]",mapGridPosition _TGPOS];
+					private _TGPOS resize [3, 0];
+					private _markerInfo = format ["GRID: [%1]",mapGridPosition _TGPOS];
 					_taskVar set [1,
 						[
 							_markerInfo,
@@ -107,9 +107,9 @@ switch _curLine do {
 					_taskVar set [1,["NA",[]]];
 				};
 			} else {
-				_TGPOS = getpos cameraOn;
+				private _TGPOS = getpos cameraOn;
 				_TGPOS set [2,0];
-				_markerInfo = format ["GRID: [%1]",mapGridPosition _TGPOS];
+				private _markerInfo = format ["GRID: [%1]",mapGridPosition _TGPOS];
 				_taskVar set [1,
 					[
 						_markerInfo,
@@ -126,8 +126,7 @@ switch _curLine do {
 	//-DESC
 	case 5:{
 		_shownCtrls params ["_ctrl"];
-		/* if (isnil {_text}) then {
-		}; */
+		
 		_text = ctrlText _ctrl;
 		_isEmptyInfo = ((_text == "--") || (_text == ""));
 

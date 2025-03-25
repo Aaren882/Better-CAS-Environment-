@@ -3,13 +3,10 @@ switch _curLine do {
   case 4:{
     _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
 
-    if (_selectedIndex == 0) exitWith {
-      _ctrl2 ctrlShow false;
-    };
-    if (_selectedIndex == 1) exitWith {
-      _ctrl2 ctrlShow true;
-    };
-    if (_selectedIndex == 2) exitWith {
+    call {
+      if (_selectedIndex == 1) exitWith {
+        _ctrl2 ctrlShow true;
+      };
       _ctrl2 ctrlShow false;
     };
   };
