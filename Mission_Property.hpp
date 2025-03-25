@@ -24,7 +24,8 @@ class BCE_Mission_Property
     Event_Functions[] = {
         "Opened",
         "Enter",
-        "Clear"
+        "Clear",
+        "Element_SelChanged"
     };
     //- FIRST From Category
     class AIR //- Air Fire Support
@@ -104,6 +105,7 @@ class BCE_Mission_Property
             {
                 Opened = "BCE_fnc_DblClick9line";
                 Enter = "BCE_fnc_DataReceive9line";
+                Element_SelChanged = "BCE_fnc_SelChanged_AIR";
                 Clear = "BCE_fnc_clearTask9line"; //- Clear All the data
             };
         };
@@ -179,6 +181,7 @@ class BCE_Mission_Property
             {
                 Opened = "BCE_fnc_DblClick5line";
                 Enter = "BCE_fnc_DataReceive5line";
+                Element_SelChanged = "BCE_fnc_SelChanged_AIR";
                 Clear = "BCE_fnc_clearTask5line"; //- Clear All the data
             };
         };
@@ -206,7 +209,7 @@ class BCE_Mission_Property
             class Variable
             {
                 name = "BCE_CFF_Var"; //- Where the data is stored
-                default = "[[""NA"",0],[""NA"","""",[],[0,0],""""],[""NA"",""111222""],[""NA"",""--"",""""],[""NA"",-1,[]]]";
+                default = "[[""NA"",0],[""NA"","""",[],[0,0],""""],[""NA"",""111222""],[""NA"",""--"",""""],[""NA"",[]]]";
             };
 
             Controls[] = {
@@ -231,7 +234,8 @@ class BCE_Mission_Property
             class Events
             {
                 Opened = "BCE_fnc_DblClickCFF";
-                Enter = "";
+                Enter = "BCE_fnc_DataReceive_CFF";
+                Element_SelChanged = "BCE_fnc_SelChanged_CFF";
                 Clear = ""; //- Clear All the data
             };
         };
