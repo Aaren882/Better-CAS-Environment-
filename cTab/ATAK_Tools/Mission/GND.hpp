@@ -16,6 +16,14 @@ class Call_For_Fire: AIR_5_LINE
             class TaskType_GND: TaskType_GND
             {
                 ATAK_POS(1,((0.35/2)),1.9,0.65);
+
+                wholeHeight = 0.8;
+                sizeEx = 0.9 * TextSize;
+                font = "PuristaMedium";
+                
+                colorBackground[] = {0,0,0,1};
+                colorSelect[]={1,1,1,1};
+                colorSelectBackground[]={0.2,0.2,0.2,1};
             };
 
         //- Correction Method
@@ -81,6 +89,7 @@ class Call_For_Fire: AIR_5_LINE
                 ATAK_POS(0.2,(3.6 + (0.35/2)),2.7,0.7);
                 text = "Target";
                 tooltip="$STR_BCE_TIP_GRID";
+                onButtonClick = "[nil,'Task_Building',2] call BCE_fnc_ATAK_ChangeTool";
             };
 
 
@@ -116,13 +125,13 @@ class Call_For_Fire: AIR_5_LINE
             class Line4_T5: Line4_T5
             {
                 ATAK_POS(0,(7.2 + (0.35/2)),1,0.7);
-                tooltip="Method of fire and control";
+                tooltip="Method of Control";
             };
             class L54_EditBnt: Remark_EditBnt
             {
                 ATAK_POS(0.2,(7.2 + (0.35/2)),2.7,0.7);
-                toolTip="Method of fire and control";
-                onButtonClick = "[nil,'Task_Building',1] call BCE_fnc_ATAK_ChangeTool";
+                toolTip="Method of Control";
+                onButtonClick = "[nil,'Task_Building',4] call BCE_fnc_ATAK_ChangeTool";
             };
 
         //- Separator -//

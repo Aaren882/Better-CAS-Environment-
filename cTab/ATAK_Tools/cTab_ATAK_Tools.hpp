@@ -123,16 +123,6 @@
                     "GND", //- Ground
                     "OTR"  //- Others
                 };
-                
-                //- BCE Mission
-                class BCE_Mission: BCE_Mission_Default
-                {
-                    class Air: Air
-                    {
-                        9Line = "AIR_9_LINE_ATAK";
-                        5Line = "AIR_5_LINE_ATAK";
-                    };
-                };
             };
         };
     };
@@ -187,7 +177,7 @@
                 };
                 class New_Task_IPExpression: New_Task_IPExpression
                 {
-                    ATAK_POS(1.5,(0.65 + 0.35/2),1.3,0.65);
+                    ATAK_POS(1.5,(0.65 + 0.35/2),1.4,0.65);
                     sizeEx = 0.85 * TextSize;
                 };
                 //-TG Description
@@ -198,7 +188,6 @@
                 };
                 class New_Task_GRID_DESC: New_Task_GRID_DESC
                 {
-                    // ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
                     ATAK_POS(0.1,0.35/2,2.8,0.65);
                     sizeEx = 0.85 * TextSize;
                 };
@@ -243,6 +232,30 @@
                     y = (0.35/2 + 0.65*3) * ((60)) / 2048 * CustomPhoneH;
                     w = PhoneBFTContainerW(0.3) * (safezoneH/safezonew);
                     h = PhoneBFTContainerW(0.3);
+                };
+
+                //- Call for Fire
+                class New_Task_CFF_CtrlType: New_Task_CFF_CtrlType
+                {
+                    ATAK_POS(0.1,0.35/2,2.8,0.65);
+                    sizeEx = 0.9 * TextSize;
+                };
+                class New_Task_CFF_TOT: New_Task_CFF_TOT
+                {
+                    ATAK_POS(0.1,(0.35/2 + 0.65),1.4,0.65);
+                    sizeEx = 0.85 * TextSize;
+                };
+                class New_Task_CFF_ETA: New_Task_CFF_ETA
+                {
+                    ATAK_POS(0.1,(0.35/2 + 0.65*2),2.8,0.65);
+                    size = 0.9 * TextSize;
+
+                    class Attributes: Attributes
+                    {
+                        size = 0.9;
+                        align = "center";
+                        valign = "Middle";
+                    };
                 };
             };
         };
