@@ -57,7 +57,6 @@ if (_varName == "") then {
 
   (_component # _curLine) params ["_compo_VarName","_desc_Sel"];
 
-
 //- Get the Ctrls
   private _compo = localNamespace getVariable [_compo_VarName,[]];
 

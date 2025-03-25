@@ -1,7 +1,7 @@
 /*
   NAME : BCE_fnc_TaskEvent_Enter
 
-  On Task/Mission Building Load OR Refresh
+  On Task/Mission Building Value manually Updated
 */
 
 params ["_curLine"];
@@ -9,7 +9,7 @@ params ["_curLine"];
 ([] call BCE_fnc_getDisplayTaskProps) params ["_varName","_default","_events"];
 ([] call BCE_fnc_getTaskVar) params ["_taskVar"];
 
-(_curLine call BCE_fnc_getTaskComponents) params ["_shownCtrls"];
+([_curLine, _varName] call BCE_fnc_getTaskComponents) params ["_shownCtrls"];
 
 private _isOverwrite = false;
 
