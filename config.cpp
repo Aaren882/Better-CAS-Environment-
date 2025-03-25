@@ -753,6 +753,11 @@ class CfgFunctions
 			file="MG8\AVFEVFX\functions\CAS_Menu\Fire_Mission";
 			class getTaskProps;
 			class getDisplayTaskProps;
+
+			//- BCE handling Functions
+				class get_BCE_TaskClass;
+				class get_BCE_TaskCateClass;
+				class get_BCE_TaskCateClasses;
 			
 			//- Task Setup
 				class get_TaskCurSetup;
@@ -777,9 +782,10 @@ class CfgFunctions
 		class Fire_Mission_Events
 		{
 			file="MG8\AVFEVFX\functions\CAS_Menu\Fire_Mission\Events";
-			class TaskEvent_Clear;
-			class TaskEvent_Enter;
 			class TaskEvent_Opened;
+			class TaskEvent_Enter;
+			class TaskEvent_Element_SelChanged;
+			class TaskEvent_Clear;
 		};
 		class Call_for_Fire_Menu
 		{
@@ -803,13 +809,20 @@ class CfgFunctions
 		class Task_Type
 		{
 			file="MG8\AVFEVFX\functions\Task_Type";
+			class SelChanged_AIR;
+			class SelChanged_CFF;
+
 			class clearTask5line;
 			class clearTask9line;
+
 			class DataReceive5line;
 			class DataReceive9line;
-			class DblClickCFF;
+			class DataReceive_CFF;
+
 			class DblClick5line;
 			class DblClick9line;
+			class DblClickCFF;
+
 			class TaskTypeChanged;
 		};
 		class Radio_Compat
