@@ -499,7 +499,8 @@ class BCE_Mission_Build_Controls
             REGISTER_FNC;
 
             idc = PROP_IDC(2205);
-            text = "Enter Minutes...";
+            colorBackground[] = {0,0,0,0.3};
+            text = "ETA TOF : 1m20s";
         };
 };
 
