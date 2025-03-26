@@ -637,7 +637,9 @@ class CfgFunctions
 			class getAzimuth;
 			class getTurretDir;
 			class getUnitParams;
+			
 			class getCompatibleAVs;
+			class getCompatibleARTYs;
 
 			#if __has_include("\MG8\DiscordMessageAPI\config.bin")
 				class Discord_GetWebhooks;
