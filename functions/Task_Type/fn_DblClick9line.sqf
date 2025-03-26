@@ -259,9 +259,10 @@ switch _curLine do {
 
 		//-Back to previous status
 		if ((_taskVar_9 # 0) != "NA") then {
-			_ctrl1 lbSetCurSel (_taskVar_9 # 2 # 0);
-			_ctrl4 lbSetCurSel (_taskVar_9 # 2 # 1);
-			_ctrl5 lbSetCurSel (_taskVar_9 # 2 # 2);
+			(_taskVar_9 # 3) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",0]];
+			_ctrl1 lbSetCurSel _cndtion1;
+			_ctrl4 lbSetCurSel _cndtion2;
+			_ctrl5 lbSetCurSel _cndtion3;
 
 			_ctrl2 ctrlSetText (str (_taskVar_9 # 1));
 		} else {
@@ -324,7 +325,7 @@ switch _curLine do {
 
 		//-Back to previous status
 		if ((_taskVar_10 # 0) != "NA") then {
-			(_taskVar_10 # 2) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",false]];
+			(_taskVar_10 # 3) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",false]];
 			_ctrl1 lbSetCurSel _cndtion1;
 			_ctrl4 lbSetCurSel _cndtion2;
 			_ctrl6 cbSetChecked _cndtion3;
