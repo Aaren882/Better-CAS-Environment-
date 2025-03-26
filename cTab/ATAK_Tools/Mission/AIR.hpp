@@ -522,6 +522,7 @@ class AIR_5_LINE: AIR_9_LINE
         class Remark_EditBnt: Remark_EditBnt
         {
             ATAK_POS(0.1,(10.3 + (0.35/2)),2.8,0.7);
+            onButtonClick = "[nil,'Task_Building',4] call BCE_fnc_ATAK_ChangeTool;";
         };
     };
 };
