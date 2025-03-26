@@ -242,7 +242,7 @@ switch _curLine do {
 			_text = format ["“%1” to “%2”",_cardinaldir,_To_Dir call BCE_fnc_getAzimuth];
 
 			if !(isnil"_cardinaldir") then {
-				_taskVar set [4,[_text + _DanClose,_HDG,[_ctrl1Sel,lbCurSel _ctrl4,cbChecked _ctrl6]]];
+				_taskVar set [4,[_text + _DanClose,_HDG,[],[_ctrl1Sel,lbCurSel _ctrl4,cbChecked _ctrl6]]];
 				_ctrl3 ctrlSetText _text;
 			};
 		};
@@ -275,4 +275,16 @@ if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && (!((localize
 	] select _isEmptyInfo);
 
 	_taskVar set [1, [_info,_taskVar_1 # 1,_taskVar_1 # 2,_taskVar_1 # 3,_taskVar_1 # 4]];
+};
+
+//- Target - Remark (FAH/D)
+if ((_taskVar # 2 # 0) != "NA" && (_taskVar # 4 # 0) != "NA") then {
+	private _Target = _taskVar # 2;
+	private _remarks = _taskVar # 4;
+
+	private _HDG = (_remarks # 1) + 180;
+	private _relPOS = (_Target # 2) getPos [1000, _HDG];
+	
+	_remarks set [2, _relPOS];
+	_taskVar set [4, _remarks];
 };

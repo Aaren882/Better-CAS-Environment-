@@ -193,8 +193,9 @@ if (_curCate == 0) then {
 
 		//-FAD/H to TG line
 		if ((_remarks # 1) != -1) then {
-			private _HDG = (_remarks # 1) + 180;
-			private _relPOS = (_Target # 2) getPos [1000, _HDG];
+			/* private _HDG = (_remarks # 1) + 180;
+			private _relPOS = (_Target # 2) getPos [1000, _HDG]; */
+			private _relPOS = _remarks # 2;
 			private _posDiff = ((_Target # 2) vectorDiff _relPOS) vectorMultiply 0.9;
 			_ctrl drawArrow [
 				_relPOS vectorAdd _posDiff,
@@ -213,7 +214,7 @@ if (_curCate == 0) then {
 				1,
 				0.075,
 				"RobotoCondensed_BCE",
-				["right","left"] select (_HDG > 180)
+				["right","left"] select ((_remarks # 1) + 180 > 180)
 			];
 		};
 
@@ -281,11 +282,12 @@ if (_curCate == 0) then {
 	if (
 		((_EGRS # 0) != "NA") && ((_Target # 0) != "NA")
 	) then {
-		private _HDG = _EGRS # 1;
+		/* private _HDG = _EGRS # 1;
 		private _relPOS = [
 			(_Target # 2) vectorAdd (((_EGRS # 3) vectorDiff (_Target # 2)) vectorMultiply 0.95),
 			(_Target # 2) getPos [500, _HDG]
-		] select (isnil{_EGRS # 3});
+		] select (isnil{_EGRS # 3}); */
+		private _relPOS = _EGRS # 2;
 
 		_ctrl drawArrow [
 			(_Target # 2),

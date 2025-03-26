@@ -296,7 +296,7 @@ switch _curLine do {
 			};
 		} else {
 			if (lbCurSel _ctrl1 == 2) then {
-				_TGPOS = call compile (_ctrl5 lbData (lbCurSel _ctrl5));
+				_TGPOS = parseSimpleArray (_ctrl5 lbData (lbCurSel _ctrl5));
 				_TGPOS resize [3, 0];
 				_marker = _ctrl5 lbText (lbCurSel _ctrl5);
 			};
@@ -310,12 +310,12 @@ switch _curLine do {
 		_cardinaldir = _HDG call BCE_fnc_getAzimuth;
 
 		_text = [
-			format ["%1",_marker],
+			_marker,
 			format ["%1 %2°",_cardinaldir,_HDG]
 		] select (isnil "_marker");
 
 		if !(isnil"_cardinaldir") then {
-			_taskVar set [9,[_text,_HDG,[lbCurSel _ctrl1,lbCurSel _ctrl4,lbCurSel _ctrl5],_TGPOS,_marker]];
+			_taskVar set [9,[_text,_HDG,[],[lbCurSel _ctrl1,lbCurSel _ctrl4,lbCurSel _ctrl5],_TGPOS,_marker]];
 			_ctrl3 ctrlSetText (_taskVar # 9 # 0);
 		};
 	};
@@ -355,7 +355,7 @@ switch _curLine do {
 			_text = format ["“%1” to “%2”",_From_Dir call BCE_fnc_getAzimuth,_To_Dir];
 
 			if !(isnil"_To_Dir") then {
-				_taskVar set [10,[_text + _DanClose,_From_Dir,[_ctrl1Sel,lbCurSel _ctrl4,cbChecked _ctrl6]]];
+				_taskVar set [10,[_text + _DanClose,_From_Dir,[],[_ctrl1Sel,lbCurSel _ctrl4,cbChecked _ctrl6]]];
 				_ctrl3 ctrlSetText _text;
 			};
 		};
@@ -382,25 +382,53 @@ if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 6 # 0) != "NA")) then {
 
 //- 6 GRID	//- 4 ELEV
 if ((_taskVar # 6 # 0) != "NA") then {
-	private ["_taskVar_6","_taskVar_7","_ELEV"];
-	_taskVar_6 = _taskVar # 6;
-	_taskVar_7 = _taskVar # 7;
-
-	_ELEV = round (((_taskVar_6 # 4) * 3.2808399) / 10) * 10;
+	private _Target = _taskVar # 6;
+	private _mark = _taskVar # 7;
+	private _EGRS = _taskVar # 9;
+	private _remarks = _taskVar # 10;
 
 	//-in Feet
+	private _ELEV = round (((_Target # 4) * 3.2808399) / 10) * 10;
 	_taskVar set [4, [format ["%1 MSL",_ELEV],_ELEV]];
 
 	//-EGRS
-	if (((_taskVar # 9 # 0) != "NA") && !(isnil {_taskVar # 9 # 3})) then {
-		private ["_taskVar_9","_HDG","_text"];
-		_taskVar_9 = _taskVar # 9;
-		_HDG = round ((_taskVar_6 # 2) getDirVisual (_taskVar_9 # 3));
-		_text = format ["[%1] %2 %3°",_taskVar_9 # 4, _HDG call BCE_fnc_getAzimuth, _HDG];
-		_taskVar set [9,[_text,_HDG,_taskVar_9 # 2,_taskVar_9 # 3,_taskVar_9 # 4]];
+	if ((_EGRS # 0) != "NA") then {
+
+		private _HDG = if !(isnil {_EGRS # 4}) then {
+			private _HDG = round ((_Target # 2) getDirVisual (_EGRS # 4));
+			private _text = format ["[%1] %2 %3°",_EGRS # 5, _HDG call BCE_fnc_getAzimuth, _HDG];
+			
+			_EGRS set [0, _text];
+			_EGRS set [1, _HDG];
+
+			_HDG
+		} else {
+			_EGRS # 1 //- Get from TaskVar
+		};
+
+		private _relPOS = [
+			(_Target # 2) vectorAdd (((_EGRS # 4) vectorDiff (_Target # 2)) vectorMultiply 0.95),
+			(_Target # 2) getPos [500, _HDG]
+		] select (isnil{_EGRS # 4});
+
+		_EGRS set [2, _relPOS];
+
+		_taskVar set [9,_EGRS];
 	};
+
+	//- Target - Remark (FAH/D)
+	if ((_remarks # 0) != "NA") then {
+		private _HDG = (_remarks # 1) + 180;
+		private _relPOS = (_Target # 2) getPos [1000, _HDG];
+		
+		_remarks set [2, _relPOS];
+		_taskVar set [10, _remarks];
+	};
+
 	//-Mark with
-	_taskVar set [6, [format ["%1%2",_taskVar_6 # 5, ["",_taskVar_7 # 0] select ((_taskVar # 7 # 0) != "NA")],_taskVar_6 # 1,_taskVar_6 # 2,_taskVar_6 # 3,_taskVar_6 # 4,_taskVar_6 # 5]];
+	_Target set [0, format ["%1%2",_Target # 5, ["",_mark # 0] select ((_taskVar # 7 # 0) != "NA")]];
+
+	_taskVar set [6, _Target];
 };
 
 //-8 Friendlies
@@ -415,7 +443,7 @@ if (((_taskVar # 8 # 0) != "NA") && ((_taskVar # 6 # 0) != "NA") && (!((localize
 	_dist = round (((_taskVar_6 # 2) distance2D _TGPOS) / 10) * 10;
 	_cardinaldir = _HDG call BCE_fnc_getAzimuth;
 	_InfoText = _taskVar_8 # 4;
-	_isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") || (_InfoText == ""));
+	_isEmptyInfo = ((_InfoText == localize "STR_BCE_markWith") || (_InfoText == ""));
 
 	_info = [
 		format ["“%1” %2m %3: [%4]", _cardinaldir, _dist, localize "STR_BCE_With", toUpper _InfoText],
