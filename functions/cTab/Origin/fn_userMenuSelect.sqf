@@ -51,20 +51,32 @@ call {
 		private _curSel = localNamespace getVariable ["cTab_BFT_CurSel",objNull];
 		
 		if !(isnull _curSel) then {
-		 	if !(isEngineOn _curSel) exitWith {
-		 		["Task_Builder",localize "STR_BCE_Error_EngineOff",5] call cTab_fnc_addNotification;
-		 	};
-		 	_reset_Veh = true;
-		 	player setVariable ["TGP_View_Selected_Vehicle",_curSel];
-		 	["cTab_Tablet_dlg",[["uavCam",str _curSel]],false] call cTab_fnc_setSettings;
+			switch (true) do {
 
-		 	_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
-			if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) || (_curSel isNotEqualTo (_Selected_Optic # 1))) then {
-				player setVariable ["TGP_View_Selected_Optic",[([_curSel,0] call BCE_fnc_Check_Optics) # 0, _curSel],true];
-				
-				//-ATAK
-				if ("Android" in _displayName) then {
-					[true,_display] call BCE_fnc_ATAK_onVehicleChanged;
+				//- Air Support
+				case (_curSel isKindOf "Air"): {
+					private ["_reset_Veh","_Selected_Optic"];
+					
+					if !(isEngineOn _curSel) exitWith {
+						["Task_Builder",localize "STR_BCE_Error_EngineOff",5] call cTab_fnc_addNotification;
+					};
+					_reset_Veh = true;
+					player setVariable ["TGP_View_Selected_Vehicle",_curSel];
+					["cTab_Tablet_dlg",[["uavCam",str _curSel]],false] call cTab_fnc_setSettings;
+
+					_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
+					if (((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) || (_curSel isNotEqualTo (_Selected_Optic # 1))) then {
+						player setVariable ["TGP_View_Selected_Optic",[([_curSel,0] call BCE_fnc_Check_Optics) # 0, _curSel],true];
+						
+						//-ATAK
+						if ("Android" in _displayName) then {
+							[true,_display] call BCE_fnc_ATAK_onVehicleChanged;
+						};
+					};
+				};
+				//- Call For Fire (Artiliry) [Group Object]
+				case (_curSel in cTabARTYlist): {
+					player setVariable ["BCE_CFF_Selected_Group",_curSel];
 				};
 			};
 		};
@@ -135,7 +147,7 @@ call {
 		if ((_info # 1) < 0) exitWith {};
 
 		//-CurSel Marker
-		_marker = allMapMarkers # (uiNameSpace getVariable ["cTab_BFT_CurSel",-1]);
+		_marker = allMapMarkers # (localNamespace getVariable ["cTab_BFT_CurSel",-1]);
 		_POS = markerPos _marker;
 
 		//-GRID info
@@ -202,7 +214,7 @@ call {
 
 //-clean variable
 if ((_type == 0) || (_reset_Veh)) then {
-	uiNameSpace setVariable ["cTab_BFT_CurSel",objNull];
+	localNamespace setVariable ["cTab_BFT_CurSel",objNull];
 };
 
 // Bring the menu control we want to show into position and show it
