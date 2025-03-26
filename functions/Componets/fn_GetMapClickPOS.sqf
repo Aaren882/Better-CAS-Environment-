@@ -108,11 +108,11 @@ if (_button == 0) then {
 	if (_curSel isNotEqualTo -1) then {
 		_idc = switch true do {
 			case (_curSel isEqualType 0): {
-				uiNameSpace setVariable ["cTab_BFT_CurSel",_curSel];
+				localNamespace setVariable ["cTab_BFT_CurSel",_curSel];
 				17000 + 3301
 			};
 			case (_curSel isEqualType objNull): {
-				uiNameSpace setVariable ["cTab_BFT_CurSel",_curSel];
+				localNamespace setVariable ["cTab_BFT_CurSel",_curSel];
 				_curVeh = player getVariable ["TGP_View_Selected_Vehicle",objNull];
 
 				[_IDC_offset + 3300, _IDC_offset + 33000] select (_curVeh == _curSel);
