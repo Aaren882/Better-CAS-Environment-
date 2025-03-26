@@ -191,7 +191,7 @@ switch _curLine do {
 			params ["_txt","_empty"];
 			[
 				_txt,
-				"" ""
+				""" """
 			] select ((_txt == _empty) || (_txt == ""));
 		};
 		
