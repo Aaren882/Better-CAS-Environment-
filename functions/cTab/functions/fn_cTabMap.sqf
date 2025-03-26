@@ -3,7 +3,8 @@ params["_display","_ctrl"];
 private _displayName = cTabIfOpen # 1;
 (focusOn getVariable ["TGP_View_Selected_Optic",[[],objNull]]) params ["_connected_Optic","_veh"];
 
-if !(isnull _veh) then {
+//- Aerial vehicle
+if (alive _veh) then {
 	private _color = [1,1,0.3,0.8];
 	private _pos = getPosASLVisual _veh;
 
@@ -107,6 +108,27 @@ if !(isnull _veh) then {
 				};
 		};
 	};
+};
+
+//- ARTY Connection
+_veh = focusOn getVariable ["BCE_CFF_Selected_Group",objNull];
+if (alive _veh) then {
+	private _color = [1,1,0.3,0.8];
+	private _pos = getPosASLVisual _veh;
+
+	_ctrl drawIcon [
+		"\a3\ui_f\data\IGUI\Cfg\Targeting\MarkedTarget_ca.paa",
+		_color,
+		_pos,
+		50,
+		50,
+		0,
+		"",
+		1,
+		0.06,
+		"RobotoCondensed_BCE",
+		"right"
+	];
 };
 
 //-Exit if it's not cTab or TAD

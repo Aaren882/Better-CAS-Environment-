@@ -42,6 +42,7 @@ _playerGroup = group cTab_player;
 _mountedLabels = [];
 _drawText = cTabBFTtxt;
 _Connected_veh = cTab_player getvariable ["TGP_View_Selected_Vehicle",objNull];
+_Connected_ARTY = cTab_player getvariable ["BCE_CFF_Selected_Group",objNull];
 
 _playerVehicle_marker = [objNull, _playerVehicle] select ctab_core_useArmaMarker;
 
@@ -79,7 +80,10 @@ if (_mode != 2) then {
 					private _color =[
 						cTabColorBlue,
 						[1,1,0.3,0.8]
-					] select (_Connected_veh == _veh);
+					] select (
+						(_Connected_veh == _veh) ||
+						(_Connected_ARTY == _veh)
+					);
 
 					//-if it's pointed vehicle
 					if (_veh isEqualTo _PointedIndex) then {_color = cTabTADhighlightColour};
