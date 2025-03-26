@@ -36,7 +36,7 @@ if (isNil "cTabIfOpen") exitWith {false};
 _displayName = cTabIfOpen # 1;
 
 _display = uiNamespace getVariable _displayName;
-uiNameSpace setVariable ["cTab_BFT_CurSel",objNull];
+localNamespace setVariable ["cTab_BFT_CurSel",objNull];
 
 _interfaceInit = false;
 _maptoolsInit = false;

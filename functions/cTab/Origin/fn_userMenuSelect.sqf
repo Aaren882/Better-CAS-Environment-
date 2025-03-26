@@ -47,8 +47,9 @@ call {
 
 	//-connect to Vehicle
 	if (_type == 3) exitWith {
-		private ["_curSel","_reset_Veh","_Selected_Optic"];
-		_curSel = uiNameSpace getVariable ["cTab_BFT_CurSel",objNull];
+
+		private _curSel = localNamespace getVariable ["cTab_BFT_CurSel",objNull];
+		
 		if !(isnull _curSel) then {
 		 	if !(isEngineOn _curSel) exitWith {
 		 		["Task_Builder",localize "STR_BCE_Error_EngineOff",5] call cTab_fnc_addNotification;
