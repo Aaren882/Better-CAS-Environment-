@@ -52,15 +52,15 @@ class Mission_Map_Infos
     //- Friendly Point
     class FRD_Point: Air_TGT_Point
     {
-        display = "%1"; //- Format Text
+        display = "FRND: %1"; //- Format Text
         Icon = "\a3\ui_f\data\Map\Markers\NATO\b_inf.paa"; //- ICON
         color[] = {0,0.5,1,1}; //- Color
     };
     //- Air Egrees Point
-    /* class EGRS_Point: Air_TGT_Point
+    class EGRS_Point: Air_TGT_Point
     {
         display = "EGRS: %1"; //- Format Text
         Icon = "\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa"; //- ICON
         color[] = {1,1,1,1}; //- Color
-    }; */
+    };
 };

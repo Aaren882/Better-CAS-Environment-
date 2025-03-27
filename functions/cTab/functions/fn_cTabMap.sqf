@@ -162,9 +162,9 @@ if (_curCate == 0) then {
 	[_ctrl] call BCE_fnc_drawEach_TaskMapInfo;
 
 	//-Draw IP/BP
-	if (!("Marker" in (_IPBP # 0))) then {
+	/* if (!("Marker" in (_IPBP # 0))) then {
 		// [_ctrl,1] call BCE_fnc_draw_TaskMapInfo;
-		/* _ctrl drawIcon [
+		_ctrl drawIcon [
 			"\a3\ui_f\data\GUI\Cfg\Cursors\hc_overfriendly_gs.paa",
 			[1,1,0,1],
 			_IPBP # 2,
@@ -176,8 +176,8 @@ if (_curCate == 0) then {
 			0.075,
 			"RobotoCondensed_BCE",
 			"right"
-		]; */
-	};
+		];
+	}; */
 
 	if ((_Target # 0) != "NA") then {
 
@@ -298,7 +298,7 @@ if (_curCate == 0) then {
 		//-Draw Egress 
 		// [_ctrl,9] call BCE_fnc_draw_TaskMapInfo;
 
-		_ctrl drawIcon [
+		/* _ctrl drawIcon [
 			"\a3\ui_f\data\IGUI\Cfg\Targeting\Empty_ca.paa",
 			[1,1,1,1],
 			_relPOS,
@@ -310,6 +310,6 @@ if (_curCate == 0) then {
 			0.075,
 			"RobotoCondensed_BCE",
 			"left"
-		];
+		]; */
 	};
 };

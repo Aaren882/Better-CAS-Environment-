@@ -48,7 +48,8 @@ class BCE_Mission_Property
                     "",
                     "Air_TGT_Point",
                     "",
-                    "FRD_Point"
+                    "FRD_Point",
+                    "EGRS_Point"
                 };
             };
    
@@ -145,6 +146,9 @@ class BCE_Mission_Property
                     "",
                     "FRD_Point",
                     "Air_TGT_Point"
+                };
+                Drawn_Tasks[] = {
+                    {}
                 };
             };
 
