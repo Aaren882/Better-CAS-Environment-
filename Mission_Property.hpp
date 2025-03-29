@@ -25,7 +25,10 @@ class BCE_Mission_Property
         "Opened",
         "Enter",
         "Clear",
-        "Element_SelChanged"
+        "Element_SelChanged", //- For the ToolBox Selection
+        "LBTaskUnitChanged", //- For the "TaskUnit <DROPBOX>" Selection
+        "TaskUnitChanged", //- For the "TaskUnit <OBJECT>" Selection
+        "LBTaskTypeChanged" //- For the "TaskType <DROPBOX>" Selection
     };
     //- FIRST From Category
     class AIR //- Air Fire Support
@@ -37,6 +40,7 @@ class BCE_Mission_Property
 
             class Variable
             {
+                TaskUnit = "TGP_View_Selected_Vehicle"; //- Where the TaskUnit is stored
                 name = "BCE_CAS_9Line_Var"; //- Where the data is stored
                 default = "[[""NA"",0],[""NA"","""",[],[0,0]],[""NA"",180],[""NA"",200],[""NA"",15],[""NA"",""--""],[""NA"","""",[],[0,0],[]],[""NA"",""1111""],[""NA"","""",[],[0,0],""""],[""NA"",0,[],nil,nil],[""NA"",-1,[]]]";
                 Map_Infos[] = {
@@ -107,6 +111,8 @@ class BCE_Mission_Property
                 Opened = "BCE_fnc_DblClick9line";
                 Enter = "BCE_fnc_DataReceive9line";
                 Element_SelChanged = "BCE_fnc_SelChanged_AIR";
+                LBTaskTypeChanged = "BCE_fnc_LBTaskTypeChanged"; //- For the TaskType Selection
+                LBTaskUnitChanged = "BCE_fnc_LBTaskUnitChanged"; //- For the TaskUnit Selection
                 Clear = "BCE_fnc_clearTask9line"; //- Clear All the data
             };
         };
@@ -132,6 +138,10 @@ class BCE_Mission_Property
                 {"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_FRND_DESC"},
                 {"New_Task_EGRS","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_MarkerCombo"},
                 {"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
+            };
+            class Events: Events
+            {
+                LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
             };
         };
         class AIR_5_LINE
@@ -186,6 +196,7 @@ class BCE_Mission_Property
                 Opened = "BCE_fnc_DblClick5line";
                 Enter = "BCE_fnc_DataReceive5line";
                 Element_SelChanged = "BCE_fnc_SelChanged_AIR";
+                LBTaskTypeChanged = "BCE_fnc_LBTaskTypeChanged"; //- For the TaskType Selection
                 Clear = "BCE_fnc_clearTask5line"; //- Clear All the data
             };
         };
@@ -203,6 +214,11 @@ class BCE_Mission_Property
                 {"New_Task_TG_DESC","New_Task_GRID_DESC"},
                 {"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
             };
+
+            class Events: Events
+            {
+                LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
+            };
         };
     };
     class GND //- Ground Fire Support
@@ -212,6 +228,7 @@ class BCE_Mission_Property
             displayName = "Call For Fire"; //- Localiziable displayName
             class Variable
             {
+                TaskUnit = "BCE_CFF_Selected_Veh"; //- Where the TaskUnit is stored
                 name = "BCE_CFF_Var"; //- Where the data is stored
                 default = "[[""NA"",0],[""NA"","""",[],[0,0],""""],[""NA"",""111222""],[""NA"",""--"",""""],[""NA"",[]]]";
             };
@@ -240,6 +257,7 @@ class BCE_Mission_Property
                 Opened = "BCE_fnc_DblClickCFF";
                 Enter = "BCE_fnc_DataReceive_CFF";
                 Element_SelChanged = "BCE_fnc_SelChanged_CFF";
+                LBTaskUnitChanged = "BCE_fnc_LBTaskUnitChanged"; //- For the TaskUnit Selection
                 Clear = ""; //- Clear All the data
             };
         };

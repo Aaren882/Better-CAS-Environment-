@@ -258,7 +258,7 @@ class BCE_Mission_Build_Controls
             
             font = "RobotoCondensed_BCE";
             colorBackground[] = {0,0,0,0.3};
-            onToolBoxSelChanged = "call BCE_fnc_HandleTaskElementChange";
+            onToolBoxSelChanged = "call BCE_fnc_onTaskElementChange";
         };
         class New_Task_MarkerCombo: AI_Remark_WeaponCombo
         {

@@ -1322,7 +1322,7 @@ class cTab_Tablet_dlg
 					colorSelectBackground[] = {0.5,0.5,0.5,1};
 					wholeHeight = 0.8;
 					sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
-					onLBSelChanged = "(_this + [17000]) call BCE_fnc_TaskTypeChanged";
+					onLBSelChanged = "(_this + [17000]) call BCE_fnc_onLBTaskTypeChanged";
 					class Items
 					{
 						class 9line
