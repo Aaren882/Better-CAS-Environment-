@@ -11,7 +11,7 @@ switch _curLine do {
 		];
 		_taskVar_0 = _taskVar # 0;
 
-		_vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
+		_vehicle = [] call BCE_fnc_get_TaskCurUnit;
 
 		//-Weapon List
 		[ctrlParent _weap,_weap,_vehicle,false,false,false] call BCE_fnc_checkList;

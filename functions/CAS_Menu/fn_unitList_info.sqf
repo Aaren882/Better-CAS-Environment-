@@ -27,7 +27,7 @@ _curSel = for "_i" from 0 to (lbSize _squad_list) step 1 do {
 if (_curSel == _lbCurSel) exitWith {};
 
 //-Select Turret
-_vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
+_vehicle = [] call BCE_fnc_get_TaskCurUnit;
 if !(isNil{_turret_info}) then {
 	player setVariable ["TGP_View_Selected_Optic",[_turret_info,_vehicle],true];
 	#ifdef cTAB_Installed

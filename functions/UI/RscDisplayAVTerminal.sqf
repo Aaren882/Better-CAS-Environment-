@@ -10,7 +10,7 @@ _fnc_onLBSelChanged = {
 
 	_display = ctrlParent _ctrlValue;
 	_checklist = _display displayCtrl 2100;
-	_Selected = player getvariable ["TGP_View_Selected_Vehicle",objNull];
+	_Selected = [] call BCE_fnc_get_TaskCurUnit;
 
 	_vehicle_str = _ctrlValue lbdata _selectedIndex;
 
@@ -28,7 +28,7 @@ _fnc_onLBSelChanged = {
 		[1501,1502,1503,1504,1505,1506,1507] apply {
 			(_display displayCtrl _x) ctrlSetText "-";
 		};
-		player setVariable ["TGP_View_Selected_Vehicle",objNull];
+		[objNull] call BCE_fnc_set_TaskCurUnit;
 		player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
 		(_display displayctrl 1600) ctrlEnable false;
 		(_display displayctrl 1601) ctrlEnable false;
@@ -44,7 +44,7 @@ _fnc_onLBSelChanged = {
 		if (_vehicle_str == str _x) exitwith {_x};
 	} count (vehicles Select {(_x isKindOf "Air") && (isEngineOn _x)});
 
-	if !(_vehicle isEqualTo (player getVariable "TGP_View_Selected_Vehicle")) then {
+	if !(_vehicle isEqualTo ([] call BCE_fnc_get_TaskCurUnit)) then {
 		uiNameSpace setVariable ["BCE_CAS_ListSwtich", false];
 		[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
 	};
@@ -140,7 +140,7 @@ _fnc_onLBSelChanged = {
 		}, [_display,_ctrlValue,_Selected,_vehicle]
 	] call CBA_fnc_waitUntilAndExecute;
 
-	player setVariable ["TGP_View_Selected_Vehicle",_vehicle];
+	[_vehicle] call BCE_fnc_set_TaskCurUnit;
 };
 
 switch _mode do
@@ -198,7 +198,7 @@ switch _mode do
 			_control = _display displayctrl 1700;
 			_control ctrladdeventhandler ["LBSelChanged",_fnc_onLBSelChanged];
 
-			_selected = player getvariable ["TGP_View_Selected_Vehicle",objNull];
+			_selected = [] call BCE_fnc_get_TaskCurUnit;
 
 			_UnitList = call BCE_fnc_getCompatibleAVs;
 
@@ -270,13 +270,13 @@ switch _mode do
 		//-EHs
 		_control = _display displayctrl 1600;
 		_control ctrladdeventhandler ["ButtonClick",{
-			if !(player getVariable ["TGP_View_Selected_Vehicle",objNull] isEqualTo objNull) then {
-				(player getVariable "TGP_View_Selected_Vehicle") call BCE_fnc_TGP_Select_Confirm;
+			if !([] call BCE_fnc_get_TaskCurUnit isEqualTo objNull) then {
+				([] call BCE_fnc_get_TaskCurUnit) call BCE_fnc_TGP_Select_Confirm;
 			};
 		}];
 		_control = _display displayctrl 1601;
 		_control ctrlAddEventHandler ["ButtonClick",{
-			private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
+			private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 			if !(isnull _vehicle) then {
 				[_vehicle,cameraview] call BCE_fnc_onButtonClick_Gunner;
 				_vehicle call BCE_fnc_TGP_Select_Confirm;

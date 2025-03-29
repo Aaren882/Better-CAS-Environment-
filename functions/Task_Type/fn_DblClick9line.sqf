@@ -13,7 +13,7 @@ switch _curLine do {
 		[
 			ctrlParent _weap,
 			_weap,
-			player getVariable ['TGP_View_Selected_Vehicle',objNull],
+			[] call BCE_fnc_get_TaskCurUnit,
 			false,
 			false,
 			false

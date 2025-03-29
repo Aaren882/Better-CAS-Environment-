@@ -2,7 +2,7 @@
 params ["_control",["_IDC_offset",0],["_show_info",false]];
 
 private _display = ctrlParent _control;
-private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
+private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 
 if !(isnull _vehicle) then {
 	private ["_current_turret","_turret_select","_squad_list"];

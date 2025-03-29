@@ -10,7 +10,7 @@ _ListCtrl lbSetData [_default,str objNull];
 switch _mode do {
   // Populate list of UAVs
   case 0: {
-    private _data = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+    private _data = [] call BCE_fnc_get_TaskCurUnit;
 
     cTabUAVlist apply {
       if ((crew _x) findIf {true} > -1) then {
@@ -29,7 +29,7 @@ switch _mode do {
       // If no UAV could be selected, clear last selected UAV
       if (lbCurSel _ListCtrl == 0) then {
         [_displayName,[["uavCam",""]]] call cTab_fnc_setSettings;
-        cTab_player setVariable ["TGP_View_Selected_Vehicle",objNull];
+        [objNull] call BCE_fnc_set_TaskCurUnit;
         _ListCtrl lbSetCurSel 0;
       };
     } else {

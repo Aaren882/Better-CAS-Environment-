@@ -167,7 +167,7 @@ switch _ID do {
               if (str _x == _data) exitWith {_veh = _x};
             } count vehicles;
           };
-          focusOn setVariable ["TGP_View_Selected_Vehicle",_veh];
+		      [_veh] call BCE_fnc_set_TaskCurUnit;
           
           "showMenu" call BCE_fnc_cTab_UpdateInterface;
         };

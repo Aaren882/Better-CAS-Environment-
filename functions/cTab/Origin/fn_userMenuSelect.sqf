@@ -61,7 +61,7 @@ call {
 						["Task_Builder",localize "STR_BCE_Error_EngineOff",5] call cTab_fnc_addNotification;
 					};
 					_reset_Veh = true;
-					player setVariable ["TGP_View_Selected_Vehicle",_curSel];
+       		[_curSel] call BCE_fnc_set_TaskCurUnit;
 					["cTab_Tablet_dlg",[["uavCam",str _curSel]],false] call cTab_fnc_setSettings;
 
 					_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
@@ -76,7 +76,7 @@ call {
 				};
 				//- Call For Fire (Artiliry) [Group Object]
 				case (_curSel in cTabARTYlist): {
-					player setVariable ["BCE_CFF_Selected_Group",_curSel];
+					_curSel call BCE_fnc_set_TaskCurUnit;
 				};
 			};
 		};
@@ -84,7 +84,7 @@ call {
 	//-DisConnect Vehicle
 	if (_type == -3) exitWith {
 		_reset_Veh = true;
-		player setVariable ["TGP_View_Selected_Vehicle",objNull];
+		[objNull] call BCE_fnc_set_TaskCurUnit;
 		player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
 		["cTab_Tablet_dlg",[["uavCam",str objNull]],false] call cTab_fnc_setSettings;
 

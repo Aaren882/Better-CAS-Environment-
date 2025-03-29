@@ -22,7 +22,7 @@ switch (_curCate) do {
 		if (isNull _MissionCtrl) exitWith {};
 
 		//- Air 5 Line
-		private _vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
+		private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 		if (_lbCurSel == 1) then {
 			(_MissionCtrl controlsGroupCtrl (17000 + 2040)) ctrlSetStructuredText parseText format ["“%1” / “%2”", [groupId group _vehicle, "None"] select isnull _vehicle, groupId group player];
 		};

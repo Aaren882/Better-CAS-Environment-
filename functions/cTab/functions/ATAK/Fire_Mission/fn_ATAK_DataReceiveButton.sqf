@@ -78,7 +78,7 @@ switch (_page) do {
 				};
 			
 			///- Other Conditions
-			private _vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
+			private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 			//- Abort Mission
 				if (_ctrlTitle == localize "STR_BCE_Abort_Task") exitWith {
 					_vehicle setVariable ["BCE_Task_Receiver","", true];

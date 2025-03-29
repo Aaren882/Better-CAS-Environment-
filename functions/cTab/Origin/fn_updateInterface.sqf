@@ -592,7 +592,7 @@ _settings apply {
 
 					_settings pushBack ["uavListUpdate",true];
 					if (!_interfaceInit) then {
-						_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
+						_settings pushBack ["uavCam",str ([] call BCE_fnc_get_TaskCurUnit)];
 					};
 				};
 
@@ -670,7 +670,7 @@ _settings apply {
 				_settings pushBack ["uavListUpdate",true];
 
 				if (!_interfaceInit) then {
-					_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
+					_settings pushBack ["uavCam",str ([] call BCE_fnc_get_TaskCurUnit)];
 				};
 			};
 			// ----------------------------------
@@ -788,7 +788,7 @@ _settings apply {
 		// ------------ UAV List Update ------------
 		if (_x # 0 == "uavListUpdate") exitWith {
 			if (_mode in ["UAV","TASK_Builder"]) then {
-				_data = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+				_data = [] call BCE_fnc_get_TaskCurUnit;
 				[IDC_CTAB_CTABUAVLIST, 17000+IDC_CTAB_CTABUAVLIST] apply {
 					(_display displayCtrl _x) call BCE_fnc_cTab_CreateCameraList;
 				};
@@ -864,9 +864,9 @@ _settings apply {
 					if (_data == str _x) exitWith {_veh = _x};
 				} count cTabUAVlist;
 
-				_veh_changed = _veh isNotEqualTo (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull]);
+				_veh_changed = _veh isNotEqualTo ([] call BCE_fnc_get_TaskCurUnit);
 
-				cTab_player setVariable ["TGP_View_Selected_Vehicle",_veh];
+        [_veh] call BCE_fnc_set_TaskCurUnit;
 				_condition = [((uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0) == 0,true] select _UAV_Interface;
 
 				//-Create PIP camera if mode is "UAV"
@@ -1118,7 +1118,7 @@ _settings apply {
 					private _ctrl = _group controlsGroupCtrl 11;
 					private _curType = [] call BCE_fnc_get_TaskCurType;
 					private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
-					[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
+					[_ctrl,[9,5] # _curType,_taskVar,[] call BCE_fnc_get_TaskCurUnit] call BCE_fnc_SetTaskReceiver;
 				};
 			};*/
 		};
@@ -1133,7 +1133,7 @@ _settings apply {
 				};
 			};
 			if (_status) exitWith {
-				[_display displayCtrl 1775, cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_ctab_List_AV_Info;
+				[_display displayCtrl 1775, [] call BCE_fnc_get_TaskCurUnit] call BCE_fnc_ctab_List_AV_Info;
 			};
 		};
 		// ----------------------------------

@@ -58,7 +58,7 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
 
           //- Set Task EH + update "MissionType" CurSel
             _missionType lbSetCurSel _subSel;
-            _missionType ctrlAddEventHandler ["LBSelChanged", BCE_fnc_ATAK_TaskTypeChanged];
+            _missionType ctrlAddEventHandler ["LBSelChanged", BCE_fnc_onLBTaskTypeChanged];
         };
         case 1: { //- Ground Fire Support ("Call For Fire")
           private _AdjustGrp = _MissionCtrl controlsGroupCtrl 5400;
@@ -72,20 +72,33 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
 
           //- Set the first line (line 1)
             private _firstLine = _MissionCtrl controlsGroupCtrl (17000 + 2040);
-            private _vehicle = player getVariable ["BCE_CFF_Selected_Group",objNull];
+            private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 
             _firstLine ctrlSetStructuredText parseText format [
               "“%1” / “%2”",
               [groupId group _vehicle, "None"] select isnull _vehicle,
               groupId group player
             ];
+
+          //- Get Avaliable Arty Units
+            private _artyGrp = _MissionCtrl controlsGroupCtrl (17000 + 2000);
+            
+            //- Create ARTY List
+              {
+                private _add = _artyGrp lbAdd (groupId group _x);
+                _artyGrp lbSetData [_add, str _x];
+                if (_vehicle == _x) then {
+                  _artyGrp lbSetCurSel _add;
+                };
+              } forEach cTabARTYlist;
+            _artyGrp ctrlAddEventHandler ["LBSelChanged", BCE_fnc_onLBTaskUnitChanged];
           
           //- CFF TaskType Eventhandler
           private _missionType = "TaskType_GND" call BCE_fnc_getTaskSingleComponent;
 
           //- Set Task EH + update "MissionType" CurSel
             _missionType lbSetCurSel _subSel;
-            _missionType ctrlAddEventHandler ["LBSelChanged", BCE_fnc_ATAK_TaskTypeChanged];
+            _missionType ctrlAddEventHandler ["LBSelChanged", BCE_fnc_onLBTaskTypeChanged];
         };
       };
     ctrlSetFocus _MissionCtrl;

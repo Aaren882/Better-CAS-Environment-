@@ -1,6 +1,6 @@
 params ["_list_Racks"];
 
-_vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
+_vehicle = [] call BCE_fnc_get_TaskCurUnit;
 _radio_Racks = _vehicle getVariable ["acre_sys_rack_vehicleRacks", []];
 
 if (count _radio_Racks == 0) exitWith {

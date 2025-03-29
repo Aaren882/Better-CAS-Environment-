@@ -101,8 +101,8 @@ call BCE_fnc_ClientSide;
 	};
 
 	//TGP View
-	if ((player getvariable ["TGP_View_Selected_Vehicle",objNull]) isEqualTo _unit) then {
-		player setVariable ["TGP_View_Selected_Vehicle",objNull];
+	if (([] call BCE_fnc_get_TaskCurUnit) isEqualTo _unit) then {
+		[objNull] call BCE_fnc_set_TaskCurUnit;
 		player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
 
 		if !(TGP_View_Camera isEqualTo []) then {

@@ -24,7 +24,7 @@ if (
 		(ctrlShown _TaskList) &&
 		(_loop)
 	) || (
-		!(_vehicle isEqualTo (player getVariable ["TGP_View_Selected_Vehicle",objNull])) &&
+		!(_vehicle isEqualTo ([] call BCE_fnc_get_TaskCurUnit)) &&
 		(_skip)
 	)
 ) exitWith {};
