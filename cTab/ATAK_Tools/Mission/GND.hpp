@@ -3,19 +3,43 @@ class Call_For_Fire: AIR_5_LINE
     class controls: controls
     {
         #define ADJUSTMENT_MENU 3
+        #define MOVE_Y_OFFSET 1
         class Background: Background
         {
-            ATAK_POS(0,0,0,(10.3 + 0.35 + (0.7 * (ADJUSTMENT_MENU + 1.2))));
+            ATAK_POS(0,0,0,(10.3 + 0.35 + (0.7 * (ADJUSTMENT_MENU + 1.2)) + MOVE_Y_OFFSET));
         };
+        //- ARTY Group DropBox
+            class Vehicle_Grp_T: Game_Plan_T
+            {
+                text="Task Unit";
+                sizeEx = 0.95 * TextSize;
+            };
+            class Vehicle_Grp_Sel: MOA_Combo
+            {
+                idc = idc_D(2000);
+                onLoad = "";
+                onLBSelChanged = "";
+                ATAK_POS(1,((0.35/2)),1.9,0.65);
+                class Items
+                {
+                    class NA
+                    {
+                        text = "NA";
+                        default = 1;
+                    };   
+                };
+            };
+
         class Game_Plan_T: Game_Plan_T
         {
             text="Mission Type";
             sizeEx = 0.95 * TextSize;
+            ATAK_POS(0,MOVE_Y_OFFSET,1,1);
         };
         //- FFE, Suppress ...
             class TaskType_GND: TaskType_GND
             {
-                ATAK_POS(1,((0.35/2)),1.9,0.65);
+                ATAK_POS(1,((0.35/2) + MOVE_Y_OFFSET),1.9,0.65);
 
                 wholeHeight = 0.8;
                 sizeEx = 0.9 * TextSize;
@@ -38,55 +62,55 @@ class Call_For_Fire: AIR_5_LINE
         //- Weapons
             class Weapon_T: Weapon_T
             {
-                ATAK_POS(0,(1 + (0.35/2)),1,0.63);
+                ATAK_POS(0,(1 + (0.35/2) + MOVE_Y_OFFSET),1,0.63);
             };
             class AI_Remark_WeaponCombo: AI_Remark_WeaponCombo
             {
-                ATAK_POS(0.7,(1 + (0.35/2)),1.5,0.65);
+                ATAK_POS(0.7,(1 + (0.35/2) + MOVE_Y_OFFSET),1.5,0.65);
                 tooltip="Ammunition"; //- e.g. “ICM” (projectile) or “VT in effect” (fuze). The term, “in effect”
             };
             class AI_Remark_ModeCombo: AI_Remark_ModeCombo
             {
                 //- VT : (Variable Time) - Delay Fuze
                 //- ICM : (Improved-Conventional-Munition) - Cluster
-                ATAK_POS(2.2,(1 + (0.35/2)),0.7,0.63);
+                ATAK_POS(2.2,(1 + (0.35/2) + MOVE_Y_OFFSET),0.7,0.63);
                 tooltip="The Ammunition Fuze";
             };
             class Attack_Range_Combo: Attack_Range_Combo
             {
-                ATAK_POS(0.7,(1.65 + (0.35/2)),1.1,0.63);
+                ATAK_POS(0.7,(1.65 + (0.35/2) + MOVE_Y_OFFSET),1.1,0.63);
                 tooltip="Unit(s) to fire";
             };
             class Round_Count_Box: Round_Count_Box
             {
-                ATAK_POS(1.8,(1.65 + (0.35/2)),(1.1/3),0.63);
+                ATAK_POS(1.8,(1.65 + (0.35/2) + MOVE_Y_OFFSET),(1.1/3),0.63);
                 tooltip="Rounds to fire for each Unit";
             };
             class Attack_Height_Box: Attack_Height_Box
             {
-                ATAK_POS((1.8 + (1.1/3)),(1.65 + (0.35/2)),(2.2/3),0.63);
+                ATAK_POS((1.8 + (1.1/3)),(1.65 + (0.35/2) + MOVE_Y_OFFSET),(2.2/3),0.63);
                 tooltip="Impact Radius when ""Fire for Effect""";
             };
 
         //- Callouts
             class Line1_T5: Line1_T5
             {
-                ATAK_POS(0,(2.6 + (0.35/2)),1,0.7);
+                ATAK_POS(0,(2.6 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
             };
             class L51_EditBnt: L51_EditBnt
             {
-                ATAK_POS(0.2,(2.6 + (0.35/2)),2.7,0.7);
+                ATAK_POS(0.2,(2.6 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
             };
 
         //- Target
             class Line2_T5: Line2_T5
             {
-                ATAK_POS(0,(3.6 + (0.35/2)),1,0.7);
+                ATAK_POS(0,(3.6 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
                 tooltip="$STR_BCE_TIP_GRID";
             };
             class L52_EditBnt: L52_EditBnt
             {
-                ATAK_POS(0.2,(3.6 + (0.35/2)),2.7,0.7);
+                ATAK_POS(0.2,(3.6 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
                 text = "Target";
                 tooltip="$STR_BCE_TIP_GRID";
                 onButtonClick = "[nil,'Task_Building',2] call BCE_fnc_ATAK_ChangeTool";
@@ -97,39 +121,39 @@ class Call_For_Fire: AIR_5_LINE
             class Line3_T5: Line3_T5
             {
                 text="3";
-                ATAK_POS(0,(4.6 + (0.35/2)),1,0.7);
+                ATAK_POS(0,(4.6 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
                 tooltip="$STR_BCE_TIP_DESC";
             };
             class L53_EditBnt: L54_EditBnt
             {
-                ATAK_POS(0.2,(4.6 + (0.35/2)),2.3,0.7);
+                ATAK_POS(0.2,(4.6 + (0.35/2) + MOVE_Y_OFFSET),2.3,0.7);
                 tooltip="$STR_BCE_TIP_DESC";
             };
             class L53_PullBnt: L54_PullBnt
             {
-                ATAK_POS(2.55,(4.6 + (0.35/2)),0.35,0.7);
+                ATAK_POS(2.55,(4.6 + (0.35/2) + MOVE_Y_OFFSET),0.35,0.7);
                 action = "2 call BCE_fnc_ATAK_PullData";
             };
 
             //-Text EditBox
             class New_Task_TG_DESC: New_Task_TG_DESC
             {
-                ATAK_POS(0.15,(5.5 + (0.35/2)),2.75,0.7);
+                ATAK_POS(0.15,(5.5 + (0.35/2) + MOVE_Y_OFFSET),2.75,0.7);
             };
             class New_Task_GRID_DESC: New_Task_GRID_DESC
             {
-                ATAK_POS(0.15,(6.2 + (0.35/2)),2.75,0.7);
+                ATAK_POS(0.15,(6.2 + (0.35/2) + MOVE_Y_OFFSET),2.75,0.7);
             };
         
         //- Control Method
             class Line4_T5: Line4_T5
             {
-                ATAK_POS(0,(7.2 + (0.35/2)),1,0.7);
+                ATAK_POS(0,(7.2 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
                 tooltip="Method of Control";
             };
             class L54_EditBnt: Remark_EditBnt
             {
-                ATAK_POS(0.2,(7.2 + (0.35/2)),2.7,0.7);
+                ATAK_POS(0.2,(7.2 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
                 toolTip="Method of Control";
                 onButtonClick = "[nil,'Task_Building',4] call BCE_fnc_ATAK_ChangeTool";
             };
@@ -137,13 +161,13 @@ class Call_For_Fire: AIR_5_LINE
         //- Separator -//
             class Separator: Separator
             {
-                ATAK_POS(0.1,(8.25 + (0.35/2)),2.8,0.001);
+                ATAK_POS(0.1,(8.25 + (0.35/2) + MOVE_Y_OFFSET),2.8,0.001);
             };
         
         //- Adjustments
             class Adjust_Section: Remark
             {
-                ATAK_POS(0,(8.3 + (0.35/2)),3,1);
+                ATAK_POS(0,(8.3 + (0.35/2) + MOVE_Y_OFFSET),3,1);
 
                 text = "Fire Adjustments :";
                 tooltip="";
@@ -151,7 +175,7 @@ class Call_For_Fire: AIR_5_LINE
             class Adjustments_Group: ATAK_AppMenu_Base
             {
                 idc = 5400;
-                ATAK_POS(0.1,(9.3 + (0.35/2)),2.8,(ADJUSTMENT_MENU * 0.7));
+                ATAK_POS(0.1,(9.3 + (0.35/2) + MOVE_Y_OFFSET),2.8,(ADJUSTMENT_MENU * 0.7));
                 class controls
                 {
                     //- Background (for ControlGroup)
@@ -368,7 +392,7 @@ class Call_For_Fire: AIR_5_LINE
             class Execute_Mission_Type: RscToolbox
             {
                 idc = 5401;
-                ATAK_POS(0.1,(9.3 + (0.7 * ADJUSTMENT_MENU) + 0.35),2.8,0.7);
+                ATAK_POS(0.1,(9.3 + (0.7 * ADJUSTMENT_MENU) + 0.35 + MOVE_Y_OFFSET),2.8,0.7);
                 shadow = 2;
                 rows = 1;
                 columns = 2;
@@ -388,7 +412,7 @@ class Call_For_Fire: AIR_5_LINE
             class Execute_Fire_Mission: BCE_RscButtonMenu
             {
                 idc = 5402;
-                ATAK_POS(0.1,(9.3 + (0.7 * (ADJUSTMENT_MENU + 1)) + 0.35),2.8,1.2 * 0.7);
+                ATAK_POS(0.1,(9.3 + (0.7 * (ADJUSTMENT_MENU + 1)) + 0.35 + MOVE_Y_OFFSET),2.8,1.2 * 0.7);
                 text = "<img image='\MG8\AVFEVFX\data\explosion.paa' /> Execute Mission";
 
                 //- Style
@@ -423,6 +447,7 @@ class Call_For_Fire: AIR_5_LINE
                 };
             };
         #undef ADJUSTMENT_MENU
+        #undef MOVE_Y_OFFSET
 
         // Fire Script
         /*_group = arty1 call dra_fnc_GroupVehiclesArty; 

@@ -734,10 +734,15 @@ class CfgFunctions
 			class TaskList_Changed;
 			class Reset_TaskList;
 			class NextTurretButton;
+
 			//- Registries
 				class RegisterMissionControls;
 				class onLoad_BCE_Holder;
-				class HandleTaskElementChange;
+
+			//- Menu Events (ToolBox, LB DropBox)
+				class onTaskElementChange;
+				class onLBTaskTypeChanged;
+				class onLBTaskUnitChanged;
 		};
 		//- Fire Mission
 		class Fire_Mission_Map_Infos
@@ -780,6 +785,10 @@ class CfgFunctions
 			//- Task Type
 				class get_TaskCurType;
 				class set_TaskCurType;
+			
+			//- Task Unit
+				class get_TaskCurUnit;
+				class set_TaskCurUnit;
 		};
 		class Fire_Mission_Events
 		{
@@ -788,6 +797,8 @@ class CfgFunctions
 			class TaskEvent_Enter;
 			class TaskEvent_Element_SelChanged;
 			class TaskEvent_Clear;
+			class TaskEvent_LBTaskTypeChanged;
+			class TaskEvent_LBTaskUnitChanged;
 		};
 		class Call_for_Fire_Menu
 		{
@@ -825,7 +836,8 @@ class CfgFunctions
 			class DblClick9line;
 			class DblClickCFF;
 
-			class TaskTypeChanged;
+			class LBTaskTypeChanged;
+			class LBTaskUnitChanged;
 		};
 		class Radio_Compat
 		{
