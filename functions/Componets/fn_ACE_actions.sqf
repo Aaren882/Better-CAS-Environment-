@@ -61,7 +61,7 @@ _action = ["BCE_Task_Show",localize "str_ca_show","\a3\ui_f\data\Map\Diary\Icons
 	(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) && 
 	(
 		(((vehicle _unit) getVariable ['BCE_Task_Receiver',""]) != "") ||
-		!isNull (_unit getVariable ['TGP_View_Selected_Vehicle',objNull])
+		alive ([_unit] call BCE_fnc_get_TaskCurUnit)
 	)
 }] call aceAction;
 
@@ -91,11 +91,11 @@ _action = ["BCE_Select_TGP",localize "STR_BCE_Select_AV_Camera","",{
 
 _action = ["BCE_Use_Selected_TGP",localize "STR_BCE_AV_Camera","\MG8\AVFEVFX\data\AV_Cam.paa",{
 		params ["_unit"];
-		(_unit getVariable "TGP_View_Selected_Vehicle") call BCE_fnc_TGP_Select_Confirm;
+		([_unit] call BCE_fnc_get_TaskCurUnit) call BCE_fnc_TGP_Select_Confirm;
 	},{
 	params ["_unit"];
 	private ["_selected","_condition"];
-	_selected = _unit getVariable ["TGP_View_Selected_Vehicle",objNull];
+	_selected = [_unit] call BCE_fnc_get_TaskCurUnit;
 	_condition = [
 		(alive _selected) && (isEngineOn _selected),
 		false

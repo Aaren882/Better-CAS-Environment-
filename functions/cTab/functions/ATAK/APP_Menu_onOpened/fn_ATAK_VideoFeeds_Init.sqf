@@ -68,7 +68,7 @@ private _hcam = ["cTab_Android_dlg", "hcam"] call cTab_fnc_getSettings;
 // if (_interfaceInit) exitWith {};
 
 //- View Box Status
-  private _veh = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+  private _veh = [] call BCE_fnc_get_TaskCurUnit;
   private _isHcam = _SubSel == 1;
   //- exit if display is on
   private _displayOn = (

@@ -37,11 +37,13 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
         private _taskCfg = _x;
         private _taskClass = configName _taskCfg;
         private _displayName = [_taskCfg, "displayName", ""] call BIS_fnc_returnConfigEntry;
+        private _var_Entry = _taskCfg >> "Variable";
 
         //- Variable Props
-          private _varName = [_taskCfg >> "Variable", "name", _taskClass] call BIS_fnc_returnConfigEntry;
-          private _default = [_taskCfg >> "Variable", "default", "[]"] call BIS_fnc_returnConfigEntry;
-          private _Map_Infos = [_taskCfg >> "Variable", "Map_Infos", []] call BIS_fnc_returnConfigEntry;
+          private _taskUnit_Var = [_var_Entry, "TaskUnit", _taskClass] call BIS_fnc_returnConfigEntry;
+          private _varName = [_var_Entry, "name", _taskClass] call BIS_fnc_returnConfigEntry;
+          private _default = [_var_Entry, "default", "[]"] call BIS_fnc_returnConfigEntry;
+          private _Map_Infos = [_var_Entry, "Map_Infos", []] call BIS_fnc_returnConfigEntry;
         
         //- Eventhandlers List
           private _events = _event_Func apply {
@@ -95,6 +97,7 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
             parseSimpleArray _default,
             createHashMapFromArray _events,
             _Map_Infos,
+            _taskUnit_Var,
             _displayName //- Less use, I think
             // _taskClass
           ]

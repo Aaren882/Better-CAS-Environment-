@@ -5,7 +5,7 @@ params [["_info",""]];
 //-Control Turret
 if (_info isNotEqualTo "") exitWith {
 	private ["_vehicle","_current_turret","_condition"];
-	_vehicle = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+	_vehicle = [] call BCE_fnc_get_TaskCurUnit;
 
 	if (isNull _vehicle) exitWith {
 		["UAV",localize "STR_BCE_Error_Vehicle",5] call cTab_fnc_addNotification;

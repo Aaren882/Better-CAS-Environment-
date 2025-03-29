@@ -69,7 +69,7 @@ switch _currentPage do {
 			};
 	};
 	case "mission": {
-		_vehicle = player getVariable ['TGP_View_Selected_Vehicle',objNull];
+		_vehicle = [] call BCE_fnc_get_TaskCurUnit;
 		_condition = (_vehicle getVariable ["BCE_Task_Receiver",""]) != "";
 
 		_bnt_back = _ctrls # 0;

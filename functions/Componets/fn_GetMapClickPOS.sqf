@@ -113,7 +113,7 @@ if (_button == 0) then {
 			};
 			case (_curSel isEqualType objNull): {
 				localNamespace setVariable ["cTab_BFT_CurSel",_curSel];
-				_curVeh = player getVariable ["TGP_View_Selected_Vehicle",objNull];
+				_curVeh = [] call BCE_fnc_get_TaskCurUnit;
 
 				[_IDC_offset + 3300, _IDC_offset + 33000] select (_curVeh == _curSel);
 			};

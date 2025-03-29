@@ -10,7 +10,7 @@ switch _curLine do {
 		_taskVar_0 = _taskVar # 0;
 
 		//-Weapon List
-		[ctrlParent _weap,_weap,player getVariable ['TGP_View_Selected_Vehicle',objNull],false,false,false] call BCE_fnc_checkList;
+		[ctrlParent _weap,_weap,[] call BCE_fnc_get_TaskCurUnit,false,false,false] call BCE_fnc_checkList;
 
 		//-Default
 		if ((_taskVar_0 # 0) != "NA") then {

@@ -41,8 +41,8 @@ _playerVehicle = vehicle cTab_player;
 _playerGroup = group cTab_player;
 _mountedLabels = [];
 _drawText = cTabBFTtxt;
-_Connected_veh = cTab_player getvariable ["TGP_View_Selected_Vehicle",objNull];
-_Connected_ARTY = cTab_player getvariable ["BCE_CFF_Selected_Group",objNull];
+_Connected_veh = [] call BCE_fnc_get_TaskCurUnit;
+_Connected_ARTY = cTab_player getvariable ["BCE_CFF_Selected_Veh",objNull];
 
 _playerVehicle_marker = [objNull, _playerVehicle] select ctab_core_useArmaMarker;
 

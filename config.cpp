@@ -239,7 +239,7 @@ class CfgVehicles
 			class BCE_Task_Receiver
 			{
 				displayName = "$STR_BCE_CAS_Task";
-				condition = "(((vehicle _player) getVariable ['BCE_Task_Receiver','']) != '') || !(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) || !(isNull (_player getVariable ['TGP_View_Selected_Vehicle',objNull]))";
+				condition = "(((vehicle _player) getVariable ['BCE_Task_Receiver','']) != '') || !(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) || !(isNull ([_player] call BCE_fnc_get_TaskCurUnit))";
 				exceptions[] = {"isNotInside","isNotSitting"};
 				icon = "\MG8\AVFEVFX\data\missions.paa";
 			};

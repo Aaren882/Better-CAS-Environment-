@@ -9,5 +9,5 @@ private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
   _ctrl,
   [9,5] # _curType,
   _taskVar,
-  player getVariable ["TGP_View_Selected_Vehicle",objNull]
+  [] call BCE_fnc_get_TaskCurUnit
 ] call BCE_fnc_SetTaskReceiver;

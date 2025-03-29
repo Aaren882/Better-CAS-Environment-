@@ -111,7 +111,7 @@ if (alive _veh) then {
 };
 
 //- ARTY Connection
-_veh = focusOn getVariable ["BCE_CFF_Selected_Group",objNull];
+_veh = focusOn getVariable ["BCE_CFF_Selected_Veh",objNull];
 if (alive _veh) then {
 	private _color = [1,1,0.3,0.8];
 	private _pos = getPosASLVisual _veh;

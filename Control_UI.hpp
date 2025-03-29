@@ -1201,7 +1201,7 @@ class RscDisplayAVTerminal
 			font = "RobotoCondensed_BCE";
 			sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 			Enable = 0;
-			onButtonClick = "[ctrlParent(_this#0), 1, false, player getVariable ['TGP_View_Selected_Vehicle',objNull]] call BCE_fnc_ListSwitch;";
+			onButtonClick = "[ctrlParent(_this#0), 1, false, [] call BCE_fnc_get_TaskCurUnit] call BCE_fnc_ListSwitch;";
 		};
 		class CAS_UI_LastPage: Create_Task
 		{
@@ -1247,7 +1247,7 @@ class RscDisplayAVTerminal
 			colorSelectBackground[] = {0.5,0.5,0.5,0.6};
 			wholeHeight = 0.8;
 			sizeEx = "0.028*SafezoneH";
-			onLBSelChanged = "call BCE_fnc_TaskTypeChanged";
+			onLBSelChanged = "call BCE_fnc_onLBTaskTypeChanged";
 			class Items
 			{
 				class 9line
