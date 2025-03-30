@@ -86,6 +86,7 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
           "Default Value",     : For Variable Editting
           "Events (HashMap)"   : Functions
           "Map Info (VarName)" : Map Info Display
+          "TaskUnit (VarName)" : TaskUnit variable name
           "displayName"        : - Less use, I think
         ] */
         private _varStore = format ["#PROP_%1", toUpperANSI _taskClass];

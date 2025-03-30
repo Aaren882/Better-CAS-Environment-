@@ -26,7 +26,7 @@ class BCE_Mission_Build_Controls
             class BCE_Mission: BCE_Mission_Default{};
         };
     
-    //- Air Mission Type
+    //- Mission Type
     class TaskType: RscCombo
     {
         REGISTER_FNC;
@@ -75,6 +75,28 @@ class BCE_Mission_Build_Controls
                 textRight = "";
                 value = 2;
             };
+        };
+    };
+
+    //- Vehicle Group DropBox
+    class Vehicle_Grp_Sel: RscCombo
+    {
+        REGISTER_FNC;
+
+        idc = PROP_IDC(2001);
+        wholeHeight = 0.8;
+        font = "PuristaMedium";
+        colorBackground[] = {0,0,0,1};
+        colorSelect[] = {1,1,1,1};
+        colorSelectBackground[] = {0.2,0.2,0.2,1};
+        class Items
+        {
+            class NA
+            {
+                text = "NA";
+                value = -1;
+                default = 1;
+            };   
         };
     };
     //-Description
