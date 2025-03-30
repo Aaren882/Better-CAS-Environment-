@@ -11,8 +11,17 @@ params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 
   //- Add EH
   _category ctrlAddEventHandler ["ToolBoxSelChanged", {
+    private _cateSel = ["Cate",0] call BCE_fnc_get_TaskCurSetup;
+
+    //- Vaildate Category 
     ["Cate", _this # 1] call BCE_fnc_set_TaskCurSetup;
-    [] call BCE_fnc_ATAK_updateTaskControl;
+    private _ctrl = [] call BCE_fnc_ATAK_updateTaskControl;
+
+
+    //- if error return value
+    if (isnull _ctrl) then {
+      ["Cate", _cateSel] call BCE_fnc_set_TaskCurSetup;
+    };
   }];
 
 //- Update Task controlGroup
