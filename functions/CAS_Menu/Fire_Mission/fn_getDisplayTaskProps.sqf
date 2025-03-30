@@ -14,6 +14,8 @@
     "Variable Name"      : Default is Class name
     "Default Value"      : For Variable Editting
     "Events (HashMap)"   : Functions
+    "Map Info (VarName)" : Map Info Display
+    "TaskUnit (VarName)" : TaskUnit variable name
     "displayName"        : just displayName
   ]
 */
