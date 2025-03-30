@@ -16,4 +16,8 @@ params [["_unit",focusOn],"_curType","_cateSel"];
 private _props = [displayNull, _curType, _cateSel] call BCE_fnc_getDisplayTaskProps;
 // _props params ["","","","","_taskUnit_Var"]
 
-_unit getVariable [_props # 4, objNull];
+private _taskUnit_Var = _props param [4,""];
+
+if (_taskUnit_Var == "") exitWith {objNull};
+
+_unit getVariable [_taskUnit_Var, objNull];
