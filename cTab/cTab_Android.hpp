@@ -256,6 +256,10 @@ PHONE_CLASS
 						9Line = "AIR_9_LINE_ATAK";
 						5Line = "AIR_5_LINE_ATAK";
 					};
+					class GND: GND //- Change UI Setups
+					{
+						CFF = "CFF_ATAK";
+					};
 				};
 			};
 		class screen: cTab_android_RscMapControl
