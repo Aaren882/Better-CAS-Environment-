@@ -76,13 +76,15 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
             
             //- Create ARTY List
               private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
+              private _vehSel = 0;
               {
                 private _add = _artyGrp lbAdd (groupId group _x);
                 _artyGrp lbSetData [_add, str _x];
                 if (_vehicle == _x) then {
-                  _artyGrp lbSetCurSel _add;
+                  _vehSel = _add;
                 };
               } forEach cTabARTYlist;
+              _artyGrp lbSetCurSel _vehSel;
           
           //- CFF TaskType Eventhandler
           private _missionType = "TaskType_GND" call BCE_fnc_getTaskSingleComponent;
