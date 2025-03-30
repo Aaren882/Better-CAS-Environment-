@@ -1,7 +1,7 @@
 /*
   NAME : BCE_fnc_set_TaskCurUnit
 
-  Set Current TaskUnit from current controlling unit
+  Set Current TaskUnit for current controlling unit
 
   Params : (will get from current setup by Default)
     _taskUnit <OBJECT> : The object will be stored
@@ -16,11 +16,19 @@ params ["_taskUnit","_curType","_cateSel"];
 if (isNil{_taskUnit}) exitWith {false};
 
 private _props = [displayNull, _curType, _cateSel] call BCE_fnc_getDisplayTaskProps;
-_props params ["_VarName","","","","_taskUnit_Var"];
+// _props params ["","","","","_taskUnit_Var"];
+private _taskUnit_Var = _props param [4,""];
 
-focusOn setVariable [_taskUnit_Var, _taskUnit];
+private _unit = call CBA_fnc_currentUnit;
+
+//- Check Vehicle Changed
+if (_taskUnit == (_unit getVariable [_taskUnit_Var, objNull])) exitWith {
+  false
+};
+
+_unit setVariable [_taskUnit_Var, _taskUnit];
 
 //- Fire BCE_Event
-  ["BCE_TaskBuilding_TaskUnitChanged", [_VarName, _taskUnit_Var, _taskUnit]] call CBA_fnc_localEvent;
+  ["BCE_TaskBuilding_TaskUnitChanged", [_unit, _taskUnit]] call CBA_fnc_localEvent;
 
 true

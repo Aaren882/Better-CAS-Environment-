@@ -797,6 +797,7 @@ class CfgFunctions
 			class TaskEvent_Enter;
 			class TaskEvent_Element_SelChanged;
 			class TaskEvent_Clear;
+			class TaskEvent_TaskUnitChanged;
 			class TaskEvent_LBTaskTypeChanged;
 			class TaskEvent_LBTaskUnitChanged;
 		};
@@ -838,6 +839,8 @@ class CfgFunctions
 
 			class LBTaskTypeChanged;
 			class LBTaskUnitChanged;
+
+			class TaskUnitChanged_CFF;
 		};
 		class Radio_Compat
 		{
@@ -901,6 +904,7 @@ class CfgFunctions
 					class ATAK_onVehicleChanged;
 					class ATAK_updateTaskControl;
 					class ATAK_getTaskCategoryInfo;
+					class ATAK_TaskUnitChanged_CFF;
 				};
 				class ATAK_Call_for_Fire_Menu
 				{
