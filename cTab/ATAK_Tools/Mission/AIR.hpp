@@ -431,7 +431,7 @@ class AIR_5_LINE: AIR_9_LINE
             class Attributes
             {
                 align = "center";
-                // valign = "middle";
+                valign = "middle";
                 font = "RobotoCondensedBold_BCE";
                 size = TextMenu(0.8);
             };
