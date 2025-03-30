@@ -258,7 +258,16 @@ class BCE_Mission_Property
                 Enter = "BCE_fnc_DataReceive_CFF";
                 Element_SelChanged = "BCE_fnc_SelChanged_CFF";
                 LBTaskUnitChanged = "BCE_fnc_LBTaskUnitChanged"; //- For the TaskUnit Selection
+                TaskUnitChanged = "BCE_fnc_TaskUnitChanged_CFF"; //- For the TaskUnit Selection
                 Clear = ""; //- Clear All the data
+            };
+        };
+        class CFF_ATAK: CFF
+        {
+            class Events: Events
+            {
+                TaskUnitChanged = "BCE_fnc_ATAK_TaskUnitChanged_CFF"; //- For the TaskUnit Selection
+                LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskUnit Selection
             };
         };
     };

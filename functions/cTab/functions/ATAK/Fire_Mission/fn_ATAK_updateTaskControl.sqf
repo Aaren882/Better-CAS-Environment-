@@ -70,20 +70,12 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
           private _MeterValue = ["Meter",1] call BCE_fnc_get_FireAdjustValues;
           _AdjustMeter ctrlSetText format ["<-- %1 m -->", _MeterValue * 10];
 
-          //- Set the first line (line 1)
-            private _firstLine = _MissionCtrl controlsGroupCtrl (17000 + 2040);
-            private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
-
-            _firstLine ctrlSetStructuredText parseText format [
-              "“%1” / “%2”",
-              [groupId group _vehicle, "None"] select isnull _vehicle,
-              groupId group player
-            ];
-
           //- Get Avaliable Arty Units
-            private _artyGrp = _MissionCtrl controlsGroupCtrl (17000 + 2000);
+            private _artyGrp = "Vehicle_Grp_Sel" call BCE_fnc_getTaskSingleComponent;
+            _artyGrp ctrlAddEventHandler ["LBSelChanged", BCE_fnc_onLBTaskUnitChanged];
             
             //- Create ARTY List
+              private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
               {
                 private _add = _artyGrp lbAdd (groupId group _x);
                 _artyGrp lbSetData [_add, str _x];
@@ -91,7 +83,6 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
                   _artyGrp lbSetCurSel _add;
                 };
               } forEach cTabARTYlist;
-            _artyGrp ctrlAddEventHandler ["LBSelChanged", BCE_fnc_onLBTaskUnitChanged];
           
           //- CFF TaskType Eventhandler
           private _missionType = "TaskType_GND" call BCE_fnc_getTaskSingleComponent;

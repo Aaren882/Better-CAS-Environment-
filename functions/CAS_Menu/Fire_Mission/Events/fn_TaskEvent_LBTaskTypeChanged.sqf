@@ -1,5 +1,5 @@
 /*
-  NAME : BCE_fnc_TaskEvent_TaskTypeChanged
+  NAME : BCE_fnc_TaskEvent_LBTaskTypeChanged
 
   On Task/Mission Type Changed "ex. (AIR_9_Line => AIR_5_Line)"
 */

@@ -14,20 +14,23 @@ class Call_For_Fire: AIR_5_LINE
                 text="Task Unit";
                 sizeEx = 0.95 * TextSize;
             };
-            class Vehicle_Grp_Sel: MOA_Combo
+            class Vehicle_Grp_Sel: Vehicle_Grp_Sel
             {
-                idc = idc_D(2000);
-                onLoad = "";
                 onLBSelChanged = "";
                 ATAK_POS(1,((0.35/2)),1.9,0.65);
-                class Items
+
+                sizeEx = 0.9 * TextSize;
+                colorBackground[] = {0.3,0.3,0.3,1};
+                colorSelect[]={1,1,1,1};
+                colorSelectBackground[]={0.4,0.4,0.4,1};
+                /* class Items
                 {
                     class NA
                     {
                         text = "NA";
                         default = 1;
                     };   
-                };
+                }; */
             };
 
         class Game_Plan_T: Game_Plan_T

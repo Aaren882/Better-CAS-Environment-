@@ -11,7 +11,11 @@
   Return :
     TaskUnit <OBJECT>
 */
-params [["_unit",focusOn],"_curType","_cateSel"];
+params [
+  ["_unit", call CBA_fnc_currentUnit],
+  "_curType",
+  "_cateSel"
+];
 
 private _props = [displayNull, _curType, _cateSel] call BCE_fnc_getDisplayTaskProps;
 // _props params ["","","","","_taskUnit_Var"]
