@@ -41,7 +41,10 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
 
         //- Variable Props
           private _taskUnit_Var = [_var_Entry, "TaskUnit", _taskClass] call BIS_fnc_returnConfigEntry;
-          private _TaskData_Vaild = [_var_Entry, "Vaild_Data", []] call BIS_fnc_returnConfigEntry;
+          
+          private _TaskData_Vaild = [_var_Entry, "Vaild_Lines", []] call BIS_fnc_returnConfigEntry;
+          private _TaskData_invaildMsg = [_var_Entry, "InvaildMsg", "Invaild MSG (EMPTY MSG)"] call BIS_fnc_returnConfigEntry;
+          
           private _varName = [_var_Entry, "name", _taskClass] call BIS_fnc_returnConfigEntry;
           private _default = [_var_Entry, "default", "[]"] call BIS_fnc_returnConfigEntry;
           private _Map_Infos = [_var_Entry, "Map_Infos", []] call BIS_fnc_returnConfigEntry;
@@ -101,7 +104,7 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
             createHashMapFromArray _events,
             _Map_Infos,
             _taskUnit_Var,
-            _TaskData_Vaild,
+            [_TaskData_Vaild, _TaskData_invaildMsg],
             _displayName //- Less use, I think
             // _taskClass
           ]
