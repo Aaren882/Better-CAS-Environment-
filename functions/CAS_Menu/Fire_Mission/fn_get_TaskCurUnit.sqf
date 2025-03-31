@@ -13,6 +13,10 @@
 */
 params [
   ["_unit", call CBA_fnc_currentUnit],
+  ["_index", []]
+];
+
+_index params [
   "_curType",
   "_cateSel"
 ];

@@ -41,8 +41,11 @@ _playerVehicle = vehicle cTab_player;
 _playerGroup = group cTab_player;
 _mountedLabels = [];
 _drawText = cTabBFTtxt;
-_Connected_veh = [] call BCE_fnc_get_TaskCurUnit;
-_Connected_ARTY = cTab_player getvariable ["BCE_CFF_Selected_Veh",objNull];
+_Connected_veh = [cTab_player,[nil,0]] call BCE_fnc_get_TaskCurUnit;
+_Connected_ARTY = [
+	cTab_player,
+	"CFF" call BCE_fnc_get_TaskIndex
+] call BCE_fnc_get_TaskCurUnit;
 
 _playerVehicle_marker = [objNull, _playerVehicle] select ctab_core_useArmaMarker;
 

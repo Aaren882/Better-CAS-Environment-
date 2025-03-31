@@ -20,7 +20,6 @@ _categories = localNamespace getVariable ["BCE_Mission_Cate", []];
       [toUpperANSI configName _x, _tasks]
     };
     localNamespace setVariable ["BCE_Mission_Cate", _categories]; //- Save Categories
-    _categories 
   };
 
 //- Return
