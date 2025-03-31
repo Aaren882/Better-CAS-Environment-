@@ -797,6 +797,8 @@ class CfgFunctions
 			class TaskEvent_Enter;
 			class TaskEvent_Element_SelChanged;
 			class TaskEvent_Clear;
+			class TaskEvent_SendData;
+			class TaskEvent_DataSent;
 			class TaskEvent_TaskUnitChanged;
 			class TaskEvent_LBTaskTypeChanged;
 			class TaskEvent_LBTaskUnitChanged;
@@ -832,6 +834,11 @@ class CfgFunctions
 			class DataReceive5line;
 			class DataReceive9line;
 			class DataReceive_CFF;
+
+			class DataSent_AIR;
+			
+			class SendData5line;
+			class SendData9line;
 
 			class DblClick5line;
 			class DblClick9line;

@@ -20,11 +20,13 @@ class BCE_Mission_Default
 };
 class BCE_Mission_Property
 {
-    //- Event Functions
+    //- Event Functions (PREFIX : "BCE_TaskBuilding_")
     Event_Functions[] = {
         "Opened",
         "Enter",
         "Clear",
+        "SendData", //- "Data Send" to the TaskUnit
+        "DataSent", //- "Data is Sent" to the TaskUnit
         "Element_SelChanged", //- For the ToolBox Selection
         "LBTaskUnitChanged", //- For the "TaskUnit <DROPBOX>" Selection
         "TaskUnitChanged", //- For the "TaskUnit <OBJECT>" Selection
@@ -54,6 +56,12 @@ class BCE_Mission_Property
                     "",
                     "FRD_Point",
                     "EGRS_Point"
+                };
+                
+                //- Check if the Task is able to send
+                // (VAR # 0) != "NA"
+                Vaild_Data[] = {
+                    0,6,8,9
                 };
             };
    
@@ -110,6 +118,8 @@ class BCE_Mission_Property
             {
                 Opened = "BCE_fnc_DblClick9line";
                 Enter = "BCE_fnc_DataReceive9line";
+                SendData = "BCE_fnc_SendData9line";
+                DataSent = "BCE_fnc_DataSent_AIR";
                 Element_SelChanged = "BCE_fnc_SelChanged_AIR";
                 LBTaskTypeChanged = "BCE_fnc_LBTaskTypeChanged"; //- For the TaskType Selection
                 LBTaskUnitChanged = "BCE_fnc_LBTaskUnitChanged"; //- For the TaskUnit Selection
@@ -195,6 +205,8 @@ class BCE_Mission_Property
             {
                 Opened = "BCE_fnc_DblClick5line";
                 Enter = "BCE_fnc_DataReceive5line";
+                SendData = "BCE_fnc_SendData5line";
+                DataSent = "BCE_fnc_DataSent_AIR";
                 Element_SelChanged = "BCE_fnc_SelChanged_AIR";
                 LBTaskTypeChanged = "BCE_fnc_LBTaskTypeChanged"; //- For the TaskType Selection
                 Clear = "BCE_fnc_clearTask5line"; //- Clear All the data
