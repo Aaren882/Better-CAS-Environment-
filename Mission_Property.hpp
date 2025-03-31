@@ -231,6 +231,7 @@ class BCE_Mission_Property
 
             class Events: Events
             {
+                TaskUnitChanged = "BCE_fnc_ATAK_TaskUnitChanged_AIR"; //- For the TaskUnit Selection
                 LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
             };
         };
