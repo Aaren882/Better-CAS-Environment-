@@ -8,5 +8,5 @@ params ["_unit","_taskUnit"];
 
 ([] call BCE_fnc_getDisplayTaskProps) params ["","","_events"];
 
-//- Fires Function (Get the Unit Object)
+//- Fire Function (Get the Unit Object)
   _this call (uiNamespace getVariable [(_events get "TaskUnitChanged"),{}]);

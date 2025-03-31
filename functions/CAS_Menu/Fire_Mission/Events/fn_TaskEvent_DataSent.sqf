@@ -9,7 +9,7 @@
 
 params ["_taskUnit","_data"];
 
-//- Fires Function
+//- Fire Function
   private _return = [_taskUnit,_data] call (uiNamespace getVariable [(_events get "DataSent"),{}]);
 
 if (isnil{_return}) exitWith {true};

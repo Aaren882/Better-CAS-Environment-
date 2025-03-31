@@ -8,5 +8,5 @@ params ["_control","_lbCurSel"];
 
 ([ctrlParent _control] call BCE_fnc_getDisplayTaskProps) params ["","","_events"];
 
-//- Fires Function
+//- Fire Function
   _this call (uiNamespace getVariable [(_events get "LBTaskTypeChanged"),{}]);
