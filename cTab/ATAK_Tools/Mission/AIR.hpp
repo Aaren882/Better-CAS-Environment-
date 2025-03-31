@@ -100,7 +100,7 @@ class AIR_9_LINE: ATAK_AppMenu_Base
             colorSelectBackground[]={0.4,0.4,0.4,1};
 
             sizeEx = 0.9 * TextSize;
-            onLBSelChanged = "(_this + [17000]) call BCE_fnc_CAS_SelWPN; call BCE_fnc_ATAK_AutoSaveTask;";
+            onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask; call BCE_fnc_CAS_SelWPN;";
         };
         class AI_Remark_ModeCombo: AI_Remark_ModeCombo
         {
@@ -124,25 +124,6 @@ class AIR_9_LINE: ATAK_AppMenu_Base
 
             sizeEx = 0.9 * TextSize;
             onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
-            class Items
-            {
-                class 2000m
-                {
-                    text = "2000m";
-                    value = 2000;
-                    default = 1;
-                };
-                class 1500m
-                {
-                    text = "1500m";
-                    value = 1500;
-                };
-                class 1000m
-                {
-                    text = "1000m";
-                    value = 1000;
-                };
-            };
         };
         class Round_Count_Box: Round_Count_Box
         {
