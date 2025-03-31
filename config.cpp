@@ -913,6 +913,7 @@ class CfgFunctions
 					class ATAK_updateTaskControl;
 					class ATAK_getTaskCategoryInfo;
 					class ATAK_TaskUnitChanged_CFF;
+					class ATAK_TaskUnitChanged_AIR;
 				};
 				class ATAK_Call_for_Fire_Menu
 				{
