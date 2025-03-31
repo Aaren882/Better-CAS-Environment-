@@ -1,10 +1,14 @@
 params["_display","_ctrl"];
 
 private _displayName = cTabIfOpen # 1;
-(focusOn getVariable ["TGP_View_Selected_Optic",[[],objNull]]) params ["_connected_Optic","_veh"];
+private _veh = [
+	cTab_player,
+	[nil,0]
+] call BCE_fnc_get_TaskCurUnit;
 
 //- Aerial vehicle
 if (alive _veh) then {
+	(cTab_player getVariable ["TGP_View_Selected_Optic",[[],objNull]]) params ["_connected_Optic"];
 	private _color = [1,1,0.3,0.8];
 	private _pos = getPosASLVisual _veh;
 
