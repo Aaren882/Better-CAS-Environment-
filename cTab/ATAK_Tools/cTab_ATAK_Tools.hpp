@@ -171,9 +171,9 @@
                     ATAK_POS(0.1,(0.65 + 0.35/2),1.4,0.65);
                     sizeEx = 0.85 * TextSize;
 
-                    colorBackground[] = {0,0,0,1};
+                    colorBackground[] = {0.3,0.3,0.3,1};
                     colorSelect[]={1,1,1,1};
-                    colorSelectBackground[]={0.2,0.2,0.2,1};
+                    colorSelectBackground[]={0.4,0.4,0.4,1};
                 };
                 class New_Task_IPExpression: New_Task_IPExpression
                 {
