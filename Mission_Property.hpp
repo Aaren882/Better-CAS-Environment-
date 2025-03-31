@@ -60,9 +60,8 @@ class BCE_Mission_Property
                 
                 //- Check if the Task is able to send
                 // (VAR # 0) != "NA"
-                Vaild_Data[] = {
-                    0,6,8,9
-                };
+                InvaildMsg = "$STR_BCE_Error_Task9";
+                Vaild_Lines[] = {0,6,8,9};
             };
    
             Controls[] = 
@@ -170,6 +169,9 @@ class BCE_Mission_Property
                 Drawn_Tasks[] = {
                     {}
                 };
+                //- Check if the Task is able to send
+                InvaildMsg = "$STR_BCE_Error_Task5";
+                Vaild_Lines[] = {0,1,2};
             };
 
             //- Maybe use UI Controls would be better
@@ -243,6 +245,12 @@ class BCE_Mission_Property
                 TaskUnit = "BCE_CFF_Selected_Veh"; //- Where the TaskUnit is stored
                 name = "BCE_CFF_Var"; //- Where the data is stored
                 default = "[[""NA"",0],[""NA"","""",[],[0,0],""""],[""NA"",""111222""],[""NA"",""--"",""""],[""NA"",[]]]";
+                Map_Infos[] = {};
+                
+                //- Check if the Task is able to send
+                // (VAR # 0) != "NA"
+                InvaildMsg = "";
+                Vaild_Lines[] = {0};
             };
 
             Controls[] = {

@@ -6,8 +6,7 @@
   Return : BOOL
 */
 
-params ["_curLine"];
-private _taskUnit = [] call BCE_fnc_get_TaskCurUnit;
+params [["_taskUnit", [] call BCE_fnc_get_TaskCurUnit]];
 
 //- if _taskUnit isn't selected
 if (isNull _taskUnit) exitWith {
@@ -18,21 +17,23 @@ if (isNull _taskUnit) exitWith {
 ([] call BCE_fnc_getTaskVar) params ["_taskVar"];
 private _props = [] call BCE_fnc_getDisplayTaskProps;
 
-private _events = _props param [2, createHashMap];
-private _TaskData_Vaild = _props param [5, []];
+private _TaskData = _props param [5, []];
+_TaskData params [
+  "_TaskData_Vaild",
+  "_TaskData_invaildMsg"
+];
 
-// #define CHECK_TASK(TASK) ((TASK select 0) != "NA")
-private _vaildation = {
-  (_taskVar # _x # 0) != "NA"
-} count _TaskData_Vaild;
+//- Vaildation
+  private _vaildation = _TaskData_Vaild findIf {
+    (_taskVar # _x # 0) == "NA"
+  };
 
 //- Vaildating the taskVar State
-if (
-  _vaildation != count _TaskData_Vaild
-) exitwith {
-  hint localize "STR_BCE_Error_Task9";
-  false
-};
+// #TODO - Custom ERROR Msg (Also CBA EH)
+  if (_vaildation > -1) exitwith {
+    hint _TaskData_invaildMsg;
+    false
+  };
 
 private _events = _props param [2, createHashMap];
 
