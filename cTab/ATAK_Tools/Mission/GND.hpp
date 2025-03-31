@@ -83,6 +83,7 @@ class Call_For_Fire: AIR_5_LINE
             {
                 ATAK_POS(0.7,(1.65 + (0.35/2) + MOVE_Y_OFFSET),1.1,0.63);
                 tooltip="Unit(s) to fire";
+                class Items{};
             };
             class Round_Count_Box: Round_Count_Box
             {
