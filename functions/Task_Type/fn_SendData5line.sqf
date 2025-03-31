@@ -10,17 +10,28 @@ private _FAD_NA = (_taskVar_4 # 1) == -1;
 //-FAD/H
 private _FRPOS = _taskVar_1 # 2;
 private _TGPOS = _taskVar_2 # 2;
+private _EGRS = -1;
 
 private _POS = if (_FAD_NA) then {
-  private _from = _taskUnit;
+  // private _from = _taskUnit;
   // call _drawT
+  []
 } else {
-  (_TGPOS getPos [
+  private _result = _TGPOS getPos [
     3000,
     _taskVar_4 # 1
-  ])
+  ];
+  _EGRS = round ((_taskVar_2 # 2) getDirVisual _result);
+  _result
 };
-private _EGRS = round ((_taskVar_2 # 2) getDirVisual _POS);
-// [_taskUnit, [], _POS, _TGPOS, _EGRS, [_class,_Mode,_turret,_Count,_muzzle,_ATK_range,_ATK_height],_taskVar,5] call BCE_fnc_Plane_CASEvent;
 
-[[], _POS, _TGPOS, _EGRS, [_class,_Mode,_turret,_Count,_muzzle,_ATK_range,_ATK_height],_taskVar,5]
+[
+  [],
+  _POS,
+  _TGPOS,
+  _EGRS,
+  [_class,_Mode,_turret,_Count,_muzzle,_ATK_range,_ATK_height],
+  _taskVar,
+  5,
+  [_taskUnit,_FRPOS,_TGPOS] //- ["_from","_FRPOS","_TGPOS"]
+]
