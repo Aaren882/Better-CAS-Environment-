@@ -4,9 +4,6 @@
 
 params ["_taskUnit","_data"];
 
-_data params [["_IP_POS",[]],"_FAD_POS","_posTarget","_EGRS","_weaponInfo","_taskVar","_type"];
-_weaponInfo params ["_WPNclass","_WPN_Mode","_WPN_turret","_WPN_count","_muzzle","_ATK_range","_ATK_height"];
-
 if (
 	!canMove _taskUnit ||
 	!alive driver _taskUnit ||
@@ -14,6 +11,37 @@ if (
 	unitIsUAV _taskUnit
 ) exitWith {false};
 
+_data params [["_IP_POS",[]],["_FAD_POS",[]],"_posTarget",["_EGRS",-1],"_weaponInfo","_taskVar","_type","_drawT_Compon"];
+_weaponInfo params ["_WPNclass","_WPN_Mode","_WPN_turret","_WPN_count","_muzzle","_ATK_range","_ATK_height"];
+
+//- Draw T Function (IF FADH doesn't exist)
+  if (_FAD_POS findIf {true} < 0) then {
+    private _drawT = {
+      params ["_from","_FRPOS","_TGPOS"];
+
+      private _HDG = _FRPOS getDirVisual _TGPOS;
+      private _POSs = [-90,90] apply {
+        _TGPOS getPos [
+          3000,
+          _HDG + _x
+        ]
+      };
+      // private _dis = _POSs apply {_from distance2D _x};
+
+      (_POSs select ((_from distance (_POSs # 0)) > (_from distance (_POSs # 1))))
+    };
+
+    _FAD_POS = _drawT_Compon call _drawT;
+    _data set [1, _FAD_POS]; 
+  };
+
+//- Fix Egress Heading (if the is invaild)
+  if (_EGRS < 0) then {
+    _EGRS = round (_posTarget getDirVisual _FAD_POS);
+    _data set [3, _EGRS]; 
+  };
+
+//- #SECTION - Execution  
 private ["_isAVT","_isGunShip","_has_IP","_remarks","_task_info","_grp"];
 
 //- Hint
@@ -48,7 +76,7 @@ private ["_isAVT","_isGunShip","_has_IP","_remarks","_task_info","_grp"];
 
 _isGunShip = (typeof _taskUnit) in ["B_T_VTOL_01_armed_F","USAF_AC130U"];
 
-//-GunShip
+//-GunShip #NOTE - Gunship
 if (_isGunShip) then {
 	[_taskUnit,_posTarget,_ATK_range,_ATK_height] call BCE_fnc_GunShip_Loiter;
 };
@@ -84,8 +112,11 @@ if (((_remarks # 0) == "NA") && !(_has_IP)) then {
   ];
   _taskUnit setVariable ["BCE_Task_Receiver", _task_info, true];
 
+//- #!SECTION
+
 if ((_taskUnit isKindOf "Helicopter") || !(BCE_AI_CAS_Support_fn) || (isplayer _vehicle) || (_isGunShip)) exitWith {};
 
+//- #ANCHOR - For AIs
 //- Execute CAS Mission (Execute)
   _data insert [0, [_taskUnit]];
   _data call BCE_fnc_Plane_CASEvent;
