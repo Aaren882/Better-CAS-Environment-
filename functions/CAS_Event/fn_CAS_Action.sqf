@@ -169,7 +169,7 @@ if ((_vehicle getVariable ["CAS_CounterMeasure",[]]) isEqualTo []) then {
 						default {
 							for "_i" from 1 to _WPN_count do {
 								_shooter forceWeaponFire [_WPNclass, _WPN_Mode];
-								uisleep (_sleep*2);
+								sleep (_sleep*2);
 							};
 						};
 					};
