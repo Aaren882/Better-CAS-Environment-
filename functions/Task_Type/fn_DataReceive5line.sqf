@@ -13,6 +13,7 @@ switch _curLine do {
 		_typeCAS = ["T1","T2","T3"] # (lbCurSel _ctrl);
 		_typeATK = ["BoT","BoC"] # (lbCurSel _type);
 
+		_ordance = _CTweap lbdata (lbcursel _CTweap);
 		_ordance = _CTmode lbdata (lbcursel _CTmode);
 		_ordnanceInfo = call compile _ordance;
 		_ordnanceInfo params ["_WeapName","_ModeName","_class","_Mode","_turret",["_Count",1,[0]]];
@@ -31,9 +32,10 @@ switch _curLine do {
 		//-so you can set it to whatever you want
 		_lowest = 0;
 
+		private _taskUnit = [] call BCE_fnc_get_TaskCurUnit;
 		//-if it isn't a player (AI)
-		if !(isPlayer _vehicle) then {
-			_lowest = [50,500] select (_vehicle isKindOf "plane");
+		if !(isPlayer _taskUnit) then {
+			_lowest = [50,500] select (_taskUnit isKindOf "plane");
 		};
 
 		if (_height < _lowest) then {
@@ -44,8 +46,6 @@ switch _curLine do {
 		//-Attack Range
 		_rangeIndex = lbCurSel _CTrange;
 		_ATK_range = _CTrange lbValue _rangeIndex;
-
-		_Count = _setCount;
 
 		_isnil = isnil {_ordnanceInfo};
 		_text = format ["%1 %2 %3 %4m",_typeCAS,_typeATK,[_WeapName,"NA"] select _isnil,_height];
@@ -59,6 +59,7 @@ switch _curLine do {
 		];
 
 		if !(isnil {_WeapName}) then {
+			_ordnanceInfo set [5, _setCount];
 			_result set [3,_ordnanceInfo + [_ATK_range,_height]];
 		};
 		
