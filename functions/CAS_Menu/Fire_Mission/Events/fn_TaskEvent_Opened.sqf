@@ -68,5 +68,5 @@ params ["_curLine"];
       _description ctrlCommit 0;
   };
 
-//- Fires Function
+//- Fire Function
   call (uiNamespace getVariable [(_events get "Opened"),{}]);

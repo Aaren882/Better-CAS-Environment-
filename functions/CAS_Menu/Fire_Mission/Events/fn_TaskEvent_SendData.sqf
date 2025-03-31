@@ -34,7 +34,9 @@ if (
   false
 };
 
-//- Fires Function
+private _events = _props param [2, createHashMap];
+
+//- Fire Function
   private _data = [_taskUnit, _taskVar] call (uiNamespace getVariable [(_events get "SendData"),{}]);
   private _return = ["BCE_TaskBuilding_DataSent", [_taskUnit,_data]] call CBA_fnc_localEvent;
 

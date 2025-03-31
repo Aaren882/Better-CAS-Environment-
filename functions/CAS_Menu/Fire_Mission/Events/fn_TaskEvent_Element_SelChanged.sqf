@@ -20,5 +20,5 @@ private _isOverwrite = false;
     ["No Task Infos are found - Make sure ""Vaild _curLine"" and ""Controls are created correctly"""] call BIS_fnc_error;
   };
 
-//- Fires Function
+//- Fire Function
   call (uiNamespace getVariable [(_events get "Element_SelChanged"),{}]);
