@@ -111,7 +111,11 @@ if (alive _veh) then {
 };
 
 //- ARTY Connection
-_veh = focusOn getVariable ["BCE_CFF_Selected_Veh",objNull];
+// _veh = focusOn getVariable ["BCE_CFF_Selected_Veh",objNull];
+_veh = [
+	cTab_player,
+	"CFF" call BCE_fnc_get_TaskIndex
+] call BCE_fnc_get_TaskCurUnit;
 if (alive _veh) then {
 	private _color = [1,1,0.3,0.8];
 	private _pos = getPosASLVisual _veh;

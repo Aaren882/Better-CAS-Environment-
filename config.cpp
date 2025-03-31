@@ -760,6 +760,7 @@ class CfgFunctions
 			file="MG8\AVFEVFX\functions\CAS_Menu\Fire_Mission";
 			class getTaskProps;
 			class getDisplayTaskProps;
+			class get_TaskIndex;
 
 			//- BCE handling Functions
 				class get_BCE_TaskClass;
