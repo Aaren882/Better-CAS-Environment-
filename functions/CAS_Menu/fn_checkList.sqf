@@ -115,7 +115,7 @@ if !(_include0) then {
 {
 	_x params ["_WeapName","_Count","_class","_mag","_modes","_turret","_muzzle"];
 
-	private _index = _checklist lbAdd (format ["%1",_WeapName]);
+	private _index = _checklist lbAdd _WeapName;
 
 	_checklist lbSetTextRight [_index, format ["x%1",_Count]];
 	_checklist lbSetData [_index, str ([_WeapName,_class] + [_modes] + [_turret] + [_Count,_muzzle,_mag])];

@@ -1,11 +1,10 @@
-params ["_control", "_lbCurSel",["_IDC_offset",0]];
+params ["_control", "_lbCurSel"];
 
-_deisplay = ctrlParent _control;
-_ctrlMode = _deisplay displayCtrl (_IDC_offset + 2021);
-_ctrlCount = _deisplay displayCtrl (_IDC_offset + 2023);
+private _ctrlMode = "AI_Remark_ModeCombo" call BCE_fnc_getTaskSingleComponent;
+private _ctrlCount = "Round_Count_Box" call BCE_fnc_getTaskSingleComponent;
 lbClear _ctrlMode;
 
-_data = call compile (_control lbdata _lbCurSel);
+private _data = call compile (_control lbdata _lbCurSel);
 _data params ["_WeapName","_class","_modes","_turret","_Count","_muzzle"];
 
 _ctrlCount ctrlShow !((_class isKindOf ["CannonCore", configFile >> "CfgWeapons"]) || (_class isKindOf ["MGunCore", configFile >> "CfgWeapons"]));
