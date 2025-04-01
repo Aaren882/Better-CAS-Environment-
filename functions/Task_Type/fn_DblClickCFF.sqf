@@ -72,21 +72,24 @@ switch _curLine do {
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
 		_taskVar_2 = _taskVar # 2;
 
-		//-Back to previous status
-		if ((_taskVar_2 # 0) != "NA") then {
-			_ctrl1 lbSetCurSel (_taskVar_2 # 3 # 0);
-			_ctrl2 lbSetCurSel (_taskVar_2 # 3 # 1);
-		};
+		(_taskVar_2 param [3,[]]) params [["_ctrlSel1",0],["_ctrlSel2",0]];
 
-		_ctrl1sel = lbCurSel _ctrl1;
-		_ctrl3 ctrlSetText (_taskVar_2 # 0);
-
-		if (_ctrl1sel == 0) then {
+		//- Generate Markers
+		if (_ctrlSel1 == 0) then {
 			_ctrl2 ctrlShow true;
 			_ctrl2 call BCE_fnc_IPMarkers;
 		} else {
 			_ctrl2 ctrlShow false;
 		};
+
+		//-Back to previous status
+		if ((_taskVar_2 # 0) != "NA") then {
+			_ctrl1 lbSetCurSel _ctrlSel1;
+			_ctrl2 lbSetCurSel _ctrlSel2;
+		};
+
+		_ctrl1sel = lbCurSel _ctrl1;
+		_ctrl3 ctrlSetText (_taskVar_2 # 0);
 	};
 
 	//-DESC
