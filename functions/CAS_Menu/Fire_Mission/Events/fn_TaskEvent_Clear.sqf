@@ -30,8 +30,9 @@ _IDC_offset = 17000; */
 
 ([] call BCE_fnc_getDisplayTaskProps) params ["","","_events"];
 
+//- #NOTE - This is the Pool for the lines the needs to be Cleared
   // Params : ["LINE", "VALUE"] -- e.g. [2,["NA"]]
-  private _clearPool = []; //- Pool for the lines the needs to be Cleared
+  private _clearPool = []; // <-- Da Pool
 
 //- Fire Function
   [_clearPool] call (uiNamespace getVariable [(_events get "Clear"),{}]);
