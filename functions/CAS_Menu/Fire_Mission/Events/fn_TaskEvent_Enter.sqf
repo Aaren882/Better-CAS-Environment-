@@ -24,7 +24,6 @@ private _isOverwrite = false;
   call (uiNamespace getVariable [(_events get "Enter"),{}]);
   
 //- Store TaskVar
-  // uiNamespace setVariable [_varName, _taskVar];
   [
     [],
     _curLine,
