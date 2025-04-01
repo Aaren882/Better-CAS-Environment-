@@ -99,7 +99,7 @@ switch _currentPage do {
 			]
 		] select _condition);
 
-		_bnt_result ctrlSetStructuredText parseText "<img image='a3\3den\data\displays\display3den\panelleft\entitylist_layershow_ca.paa' />";
+		_bnt_result ctrlSetStructuredText parseText "<img image='MG8\AVFEVFX\data\list.paa' />";
 		_bnt_result ctrlSetBackgroundColor ((["R","G","B"] apply {1 - (profilenamespace getvariable ('GUI_BCG_RGB_' + _x))}) + [0.5]);
 	};
 	case "Task_Building": {
