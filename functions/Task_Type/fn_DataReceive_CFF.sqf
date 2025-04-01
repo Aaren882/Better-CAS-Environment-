@@ -116,11 +116,11 @@ switch _curLine do {
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
 
 		if ((lbCurSel _ctrl1 == 0) && !(_isOverwrite)) then {
-			_TGPOS = call compile (_ctrl2 lbData (lbCurSel _ctrl2));
+			private _TGPOS = call compile (_ctrl2 lbData (lbCurSel _ctrl2));
 
 			//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5:Elevation(ASL), 6:RAM]
 			if !(_TGPOS isEqualTo []) then {
-				_markerInfo = format ["%1 [%2]", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8)];
+				private _markerInfo = format ["%1 [%2]", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8)];
 				_TGPOS resize [3, 0];
 				_taskVar set [2,
 					[
@@ -135,11 +135,11 @@ switch _curLine do {
 				_taskVar set [2,["NA",[]]];
 			};
 		} else {
-			_TGPOS = uinamespace getVariable [["BCE_MAP_ClickPOS","BCE_GRID"] select _isOverwrite,[]];
+			private _TGPOS = uinamespace getVariable [["BCE_MAP_ClickPOS","BCE_GRID"] select _isOverwrite,[]];
 
 			//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:Empty, 5:Elevation(ASL), 6:Marker info]
 			if !(_TGPOS isEqualTo []) then {
-				_markerInfo = format ["GRID: [%1]",GetGRID(_TGPOS,8)];
+				private _markerInfo = format ["GRID: [%1]",GetGRID(_TGPOS,8)];
 				_TGPOS resize [3, 0];
 				_taskVar set [2,
 					[

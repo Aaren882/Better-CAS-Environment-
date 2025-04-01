@@ -14,8 +14,6 @@ params ["_curLine"];
   ]
 */
 ([] call BCE_fnc_getDisplayTaskProps) params ["_varName","_default","_events"];
-([] call BCE_fnc_getTaskVar) params ["_taskVar"];
-
 (_curLine call BCE_fnc_getTaskComponents) params ["_shownCtrls","_desc_str"];
 
 // #SECTION - UPDATE CurLine
@@ -29,6 +27,7 @@ params ["_curLine"];
   ) exitWith {
     ["No task info is found, neither ""UI Controls"" nor ""Description""."] call BIS_fnc_error;
   };
+([] call BCE_fnc_getTaskVar) params ["_taskVar"];
 
 //- Setup Description and Layout
   private _description = "taskDesc" call BCE_fnc_getTaskSingleComponent;
