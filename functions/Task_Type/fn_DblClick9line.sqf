@@ -51,21 +51,22 @@ switch _curLine do {
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
 		_taskVar_1 = _taskVar # 1;
 
-		//-Back to previous status
-		if ((_taskVar_1 # 0) != "NA") then {
-			_ctrl1 lbSetCurSel (_taskVar_1 # 3 # 0);
-			_ctrl2 lbSetCurSel (_taskVar_1 # 3 # 1);
-		};
+		(_taskVar_1 param [3,[]]) params [["_ctrlSel1",0],["_ctrlSel2",0]];
 
-		_ctrl1sel = lbCurSel _ctrl1;
-		_ctrl3 ctrlSetText (_taskVar_1 # 0);
-
-		if (_ctrl1sel == 0) then {
+		if (_ctrlSel1 == 0) then {
 			_ctrl2 ctrlShow true;
 			_ctrl2 call BCE_fnc_IPMarkers;
 		} else {
 			_ctrl2 ctrlShow false;
 		};
+
+		//-Back to previous status
+		if ((_taskVar_1 # 0) != "NA") then {
+			_ctrl1 lbSetCurSel _ctrlSel1;
+			_ctrl2 lbSetCurSel _ctrlSel2;
+		};
+
+		_ctrl3 ctrlSetText (_taskVar_1 # 0);
 
 		//-Description POS
 		/*private _c = _titlePOS # 3;
@@ -127,21 +128,22 @@ switch _curLine do {
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
 		_taskVar_6 = _taskVar # 6;
 
-		//-Back to previous status
-		if ((_taskVar_6 # 0) != "NA") then {
-			_ctrl1 lbSetCurSel (_taskVar_6 # 3 # 0);
-			_ctrl2 lbSetCurSel (_taskVar_6 # 3 # 1);
-		};
+		(_taskVar_6 param [3,[]]) params [["_ctrlSel1",0],["_ctrlSel2",0]];
 
-		_ctrl1sel = lbCurSel _ctrl1;
-		_ctrl3 ctrlSetText (_taskVar_6 # 0);
-
-		if (_ctrl1sel == 0) then {
+		if (_ctrlSel1 == 0) then {
 			_ctrl2 ctrlShow true;
 			_ctrl2 call BCE_fnc_IPMarkers;
 		} else {
 			_ctrl2 ctrlShow false;
 		};
+
+		//-Back to previous status
+		if ((_taskVar_6 # 0) != "NA") then {
+			_ctrl1 lbSetCurSel _ctrlSel1;
+			_ctrl2 lbSetCurSel _ctrlSel2;
+		};
+
+		_ctrl3 ctrlSetText (_taskVar_6 # 0);
 
 		//-Description POS
 		/* private _c = _titlePOS # 3;
@@ -200,24 +202,24 @@ switch _curLine do {
 			localize "STR_BCE_MarkWith"
 		] select _isEmptyInfo;
 
-		//-Back to previous status
-		if ((_taskVar_8 # 0) != "NA") then {
-			_ctrl1 lbSetCurSel (_taskVar_8 # 3 # 0);
-			_ctrl2 lbSetCurSel (_taskVar_8 # 3 # 1);
-			_ctrl4 ctrlSetText _Info;
-		} else {
-			_ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
-		};
+		(_taskVar_8 param [3,[]]) params [["_ctrlSel1",0],["_ctrlSel2",0]];
 
-		_ctrl1sel = lbCurSel _ctrl1;
-		_ctrl3 ctrlSetText (_taskVar_8 # 0);
-
-		if (_ctrl1sel == 0) then {
+		if (_ctrlSel1 == 0) then {
 			_ctrl2 ctrlShow true;
 			_ctrl2 call BCE_fnc_IPMarkers;
 		} else {
 			_ctrl2 ctrlShow false;
 		};
+
+		//-Back to previous status
+		if ((_taskVar_8 # 0) != "NA") then {
+			_ctrl1 lbSetCurSel _ctrlSel1;
+			_ctrl2 lbSetCurSel _ctrlSel2;
+			_ctrl4 ctrlSetText _Info;
+		} else {
+			_ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
+		};
+		_ctrl3 ctrlSetText (_taskVar_8 # 0);
 
 		//-Description POS
 		/* private _c = _titlePOS # 3;
@@ -256,10 +258,33 @@ switch _curLine do {
 	case 9:{
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4","_ctrl5"];
 		_taskVar_9 = _taskVar # 9;
+		(_taskVar_9 param [3,[]]) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",0]];
+
+		call {
+			if (_cndtion1 == 0) exitWith {
+				_ctrl2 ctrlShow false;
+				_ctrl5 ctrlShow false;
+
+				_ctrl4 ctrlShow true;
+			};
+			if (_cndtion1 == 1) exitWith {
+				_ctrl5 ctrlShow false;
+
+				_ctrl2 ctrlShow true;
+				_ctrl4 ctrlShow false;
+			};
+			//-Map Markers
+			if (_cndtion1 == 2) exitWith {
+				_ctrl5 ctrlShow true;
+				_ctrl5 call BCE_fnc_IPMarkers;
+
+				_ctrl2 ctrlShow false;
+				_ctrl4 ctrlShow false;
+			};
+		};
 
 		//-Back to previous status
 		if ((_taskVar_9 # 0) != "NA") then {
-			(_taskVar_9 # 3) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",0]];
 			_ctrl1 lbSetCurSel _cndtion1;
 			_ctrl4 lbSetCurSel _cndtion2;
 			_ctrl5 lbSetCurSel _cndtion3;
@@ -269,29 +294,7 @@ switch _curLine do {
 			_ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
 		};
 
-		_ctrl1sel = lbCurSel _ctrl1;
 		_ctrl3 ctrlSetText (_taskVar_9 # 0);
-
-		if (_ctrl1sel == 0) then {
-			_ctrl2 ctrlShow false;
-			_ctrl5 ctrlShow false;
-
-			_ctrl4 ctrlShow true;
-		} else {
-			//-Map Markers
-			if (_ctrl1sel == 2) then {
-				_ctrl5 ctrlShow true;
-				_ctrl5 call BCE_fnc_IPMarkers;
-
-				_ctrl2 ctrlShow false;
-				_ctrl4 ctrlShow false;
-			} else {
-				_ctrl5 ctrlShow false;
-
-				_ctrl2 ctrlShow true;
-				_ctrl4 ctrlShow false;
-			};
-		};
 
 		//-Description POS
 		/* private _c = _titlePOS # 3;
