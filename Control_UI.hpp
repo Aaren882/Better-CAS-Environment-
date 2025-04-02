@@ -1102,7 +1102,7 @@ class RscDisplayAVTerminal
 			ExpPOS(6.65,0.5,1);
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 			onMouseButtonClick = "";
-			onLBSelChanged = "call BCE_fnc_CAS_SelWPN";
+			onLBSelChanged = "call BCE_fnc_SelWPN_AIR";
 			class Items{};
 		};
 		class AI_Remark_ModeCombo: AI_Remark_WeaponCombo

@@ -7,37 +7,49 @@ switch _curLine do {
 			"_taskType",
 			"_CTAmmo","_CTFuse","_CTFireUnits","_CTRounds","_CTRadius"
 		];
-		_ordance = _CTFuse lbdata (lbcursel _CTFuse);
-		_ordnanceInfo = call compile _ordance;
-		_ordnanceInfo params ["_WeapName","_ModeName","_class","_Mode","_turret",["_Count",1,[0]]];
 
-		//-Ammo Count
+		//-Get Data
+		_fireAmmo = _CTAmmo lbData (lbCurSel _CTAmmo);
+		_fireUnitSel = lbCurSel _CTFireUnits;
+
+		_fireUnits = _CTFireUnits lbValue _fireUnitSel;
 		_setCount = parseNumber (ctrlText _CTRounds);
-		_height = parseNumber (ctrlText _CTRadius);
+		_radius = parseNumber (ctrlText _CTRadius);
 
-		if (isnil{_setCount} || isnil{_height}) exitWith {};
+		private _mapValue = _CTAmmo getVariable ["CheckList",createHashMap];
+		private _data = _mapValue get _fireAmmo;
+		_data params ["",["_maxMagazine",1],"_count"];
 
-		if (_setCount > _Count) then {
-			_setCount = _Count;
-			_CTRounds ctrlSetText (str _Count);
-		};
+		//- Check Ammo Count 128 / 4
+			_maxFireEach = floor (_count / _maxMagazine); //- 32
+			_maxFireCount = floor (_count / _fireUnits);
+			
+			if (
+				_setCount > _maxFireEach ||
+				_setCount > _maxFireCount
+			) then {
+				_setCount = _maxFireEach;
+				_CTRounds ctrlSetText (str _setCount);
+			};
 
-		//-Attack Range
-		_rangeIndex = lbCurSel _CTFireUnits;
-		_ATK_range = _CTFireUnits lbValue _rangeIndex;
-
-		_isnil = isnil {_ordnanceInfo};
-		_text = format ["%1 %2",[_WeapName,"NA"] select _isnil,_height];
-
+		//- Save Selections
+		_text = format [
+			"%1 - %2x%3:%4 %5m",
+			_fireAmmo, //- Ammo
+			"", //- Fuze
+			_fireUnits,
+			_setCount,
+			_radius
+		];
 		_result = [
 			_text,
 			lbCurSel _taskType,
-			[lbCurSel _CTAmmo,lbCurSel _CTFuse,_rangeIndex,str _setCount,str _height]
+			[lbCurSel _CTAmmo,lbCurSel _CTFuse,_fireUnitSel,str _setCount,str _radius]
 		];
 
-		if !(isnil {_WeapName}) then {
-			_result set [3,_ordnanceInfo + [_ATK_range,_height]];
-		};
+		/* if (_fireAmmo != "") then {
+			_result set [3,[_fireAmmo,_fireUnits,_setCount,_radius]];
+		}; */
 		
 		_taskVar set [0,_result];
 	};
