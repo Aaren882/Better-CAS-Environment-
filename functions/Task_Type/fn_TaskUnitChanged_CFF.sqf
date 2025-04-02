@@ -35,3 +35,6 @@ lbClear _artyGrp;
 } forEach (call BCE_fnc_getCompatibleARTYs);
 
 _artyGrp lbSetCurSel _curSel;
+
+//- Refresh Weapons
+	["BCE_TaskBuilding_Opened", [0]] call CBA_fnc_localEvent;
