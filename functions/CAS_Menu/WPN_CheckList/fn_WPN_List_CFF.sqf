@@ -54,4 +54,3 @@ lbClear _ammo;
 
 //- Save HashMap
 _checklist setVariable ["CheckList", _result];
-

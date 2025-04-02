@@ -20,8 +20,8 @@ switch _curLine do {
 		private _data = _mapValue get _fireAmmo;
 		_data params ["",["_maxMagazine",1],"_count"];
 
-		//- Check Ammo Count 128 / 4
-			_maxFireEach = floor (_count / _maxMagazine); //- 32
+		//- Check Ammo Count
+			_maxFireEach = floor (_count / _maxMagazine);
 			_maxFireCount = floor (_count / _fireUnits);
 			
 			if (
@@ -34,7 +34,7 @@ switch _curLine do {
 
 		//- Save Selections
 		_text = format [
-			"%1 - %2x%3:%4 %5m",
+			"%1 (%2) - x%3:%4 %5m",
 			_fireAmmo, //- Ammo
 			"", //- Fuze
 			_fireUnits,
