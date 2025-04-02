@@ -1,7 +1,6 @@
 /*
 	NAME : BCE_fnc_ATAK_LBTaskUnitChanged
 */
-// params ["_unit","_taskUnit","_changed"];
 params ["_control","_lbCurSel"];
 
 _this call BCE_fnc_LBTaskUnitChanged;
@@ -14,7 +13,7 @@ private _MissionCtrl = _group getVariable "Mission_Control";
 	
 	private _unit = call CBA_fnc_currentUnit;
 	private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
-	
+
 	_firstLine ctrlSetStructuredText parseText format [
 		"“%1” / “%2”",
 		[groupId group _taskUnit, "None"] select isnull _taskUnit,
