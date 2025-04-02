@@ -716,10 +716,19 @@ class CfgFunctions
 			class GunShip_Loiter;
 			class Plane_CASEvent;
 		};
+		class WPN_CheckList
+		{
+			file="MG8\AVFEVFX\functions\CAS_Menu\WPN_CheckList";
+			class checkList;
+			class WPN_List_AIR;
+			class WPN_List_CFF;
+
+			class SelWPN_AIR;
+			class SelWPN_CFF;
+		};
 		class CAS_Menu
 		{
 			file="MG8\AVFEVFX\functions\CAS_Menu";
-			class checkList;
 			class DataReceiveButton;
 			class ListSwitch;
 			class TaskListDblCLick;
@@ -727,7 +736,6 @@ class CfgFunctions
 			class IPMarkers;
 			class clearTaskInfo;
 			class SendTaskData;
-			class CAS_SelWPN;
 			class Extended_Desc;
 			class unitList_info;
 			class Show_CurTaskCtrls;
@@ -903,6 +911,7 @@ class CfgFunctions
 					class ATAK_DescType_Changed;
 					class ATAK_set_TaskType;
 					class ATAK_TaskTypeChanged;
+					class ATAK_LBTaskUnitChanged;
 					class ATAK_DataReceiveButton;
 					class ATAK_AutoSaveTask;
 					class ATAK_Refresh_TaskInfos;
@@ -912,7 +921,6 @@ class CfgFunctions
 					class ATAK_onVehicleChanged;
 					class ATAK_updateTaskControl;
 					class ATAK_getTaskCategoryInfo;
-					class ATAK_TaskUnitChanged_CFF;
 					class ATAK_TaskUnitChanged_AIR;
 				};
 				class ATAK_Call_for_Fire_Menu

@@ -100,7 +100,7 @@ class AIR_9_LINE: ATAK_AppMenu_Base
             colorSelectBackground[]={0.4,0.4,0.4,1};
 
             sizeEx = 0.9 * TextSize;
-            onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask; call BCE_fnc_CAS_SelWPN;";
+            onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask; call BCE_fnc_SelWPN_AIR;";
         };
         class AI_Remark_ModeCombo: AI_Remark_ModeCombo
         {

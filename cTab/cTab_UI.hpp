@@ -1852,7 +1852,7 @@ class cTab_Tablet_dlg
 					ExpPOS(6.65,0.5,1);
 					sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 					onMouseButtonClick = "";
-					onLBSelChanged = (_this + [TASK_OFFSET]) call BCE_fnc_CAS_SelWPN;
+					onLBSelChanged = (_this + [TASK_OFFSET]) call BCE_fnc_SelWPN_AIR;
 					class Items{};
 				};
 				class AI_Remark_ModeCombo: AI_Remark_WeaponCombo

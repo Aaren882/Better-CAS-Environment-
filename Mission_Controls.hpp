@@ -243,6 +243,13 @@ class BCE_Mission_Build_Controls
                     };
                 };
             };
+            class Attack_CFF_FireUnit_Combo: AI_Remark_ModeCombo
+            {
+                REGISTER_FNC;
+
+                idc = PROP_IDC(2025);
+                tooltip = "Unit(s) to fire";
+            };
             class Round_Count_Box: RscEdit
             {
                 REGISTER_FNC;

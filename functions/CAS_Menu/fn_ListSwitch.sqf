@@ -172,6 +172,7 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
 		private _checklist = _display displayCtrl 2020;
 		_checklist lbSetCurSel 0;
 		[_display,_checklist,_vehicle,true] call BCE_fnc_checkList;
+		_checklist lbSetCurSel (uiNameSpace getVariable ["BCE_CAS_MainList_selected", 0]);
 	};
 
 } else {
@@ -225,6 +226,7 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
 	if !(isNull _vehicle) then {
 		private _checklist = _display displayCtrl 2100;
 		[_display,_checklist,_vehicle,false] call BCE_fnc_checkList;
+		_checklist lbSetCurSel (uiNameSpace getVariable ["BCE_CAS_MainList_selected", 0]);
 	};
 };
 

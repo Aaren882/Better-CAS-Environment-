@@ -122,7 +122,7 @@ class BCE_Mission_Property
                 Element_SelChanged = "BCE_fnc_SelChanged_AIR";
                 LBTaskTypeChanged = "BCE_fnc_LBTaskTypeChanged"; //- For the TaskType Selection
                 LBTaskUnitChanged = "BCE_fnc_LBTaskUnitChanged"; //- For the TaskUnit Selection
-                Clear = "BCE_fnc_clearTask9line"; //- Clear All the data
+                Clear = "BCE_fnc_clearTask9line"; //- Clear the data
             };
         };
         class AIR_9_LINE_ATAK: AIR_9_LINE
@@ -251,13 +251,13 @@ class BCE_Mission_Property
                 //- Check if the Task is able to send
                 // (VAR # 0) != "NA"
                 InvaildMsg = "";
-                Vaild_Lines[] = {0};
+                Vaild_Lines[] = {0,2,4};
             };
 
             Controls[] = {
                 {
                     "TaskType_GND",
-                    "AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
+                    "AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_CFF_FireUnit_Combo","Round_Count_Box","Attack_Height_Box"
                 },
                 {},
                 {"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
@@ -280,14 +280,15 @@ class BCE_Mission_Property
                 Element_SelChanged = "BCE_fnc_SelChanged_CFF";
                 LBTaskUnitChanged = "BCE_fnc_LBTaskUnitChanged"; //- For the TaskUnit Selection
                 TaskUnitChanged = "BCE_fnc_TaskUnitChanged_CFF"; //- For the TaskUnit Selection
-                Clear = ""; //- Clear All the data
+                Clear = ""; //- Clear the data
             };
         };
         class CFF_ATAK: CFF
         {
             class Events: Events
             {
-                TaskUnitChanged = "BCE_fnc_ATAK_TaskUnitChanged_CFF"; //- For the TaskUnit Selection
+                // TaskUnitChanged = "BCE_fnc_ATAK_TaskUnitChanged_CFF"; //- For the TaskUnit Selection
+                LBTaskUnitChanged = "BCE_fnc_ATAK_LBTaskUnitChanged"; //- For the TaskUnit Selection
                 LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskUnit Selection
             };
         };

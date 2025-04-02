@@ -71,6 +71,7 @@ class Call_For_Fire: AIR_5_LINE
             {
                 ATAK_POS(0.7,(1 + (0.35/2) + MOVE_Y_OFFSET),1.5,0.65);
                 tooltip="Ammunition"; //- e.g. “ICM” (projectile) or “VT in effect” (fuze). The term, “in effect”
+                onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask; call BCE_fnc_SelWPN_CFF";
             };
             class AI_Remark_ModeCombo: AI_Remark_ModeCombo
             {
@@ -79,11 +80,17 @@ class Call_For_Fire: AIR_5_LINE
                 ATAK_POS(2.2,(1 + (0.35/2) + MOVE_Y_OFFSET),0.7,0.63);
                 tooltip="The Ammunition Fuze";
             };
-            class Attack_Range_Combo: Attack_Range_Combo
+            class Attack_CFF_FireUnit_Combo: Attack_CFF_FireUnit_Combo
             {
                 ATAK_POS(0.7,(1.65 + (0.35/2) + MOVE_Y_OFFSET),1.1,0.63);
-                tooltip="Unit(s) to fire";
-                class Items{};
+                
+                colorBackground[] = {0.3,0.3,0.3,1};
+                colorSelect[]={1,1,1,1};
+                colorSelectBackground[]={0.4,0.4,0.4,1};
+
+                sizeEx = 0.9 * TextSize;
+                onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask;";
+                // onLBSelChanged = "";
             };
             class Round_Count_Box: Round_Count_Box
             {

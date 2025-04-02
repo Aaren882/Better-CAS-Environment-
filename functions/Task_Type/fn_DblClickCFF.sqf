@@ -7,26 +7,28 @@ switch _curLine do {
 		];
 		_taskVar_0 = _taskVar # 0;
 
+		private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
+
 		//-Weapon List
 		[
-			ctrlParent _ammo,
 			_ammo,
-			[] call BCE_fnc_get_TaskCurUnit,
-			false,
-			false,
-			false
-		] call BCE_fnc_checkList;
+			_taskUnit
+		] call BCE_fnc_WPN_List_CFF;
+
+		(_taskVar_0 param [2,[]]) params [
+			["_ctrlSel0",0],
+			["_ctrlSel1",0],
+			["_ctrlSel2",0],
+			["_ctrlSel3","1"],
+			["_ctrlSel4","200"]
+		];
 
 		//-Default
-		if ((_taskVar_0 # 0) != "NA") then {
-			private _taskVarSel = _taskVar_0 param [4,[]];
-
-			_ammo 	lbSetCurSel (_taskVarSel param [0, 0]);
-			_fuse 	lbSetCurSel (_taskVarSel param [1, 0]);
-			_fireUnits	lbSetCurSel (_taskVarSel param [2, 0]);
-			_rounds	ctrlSetText (_taskVarSel param [3, "1"]);
-			_radius	ctrlSetText (_taskVarSel param [4, "500"]);
-		};
+		_ammo 	lbSetCurSel _ctrlSel0;
+		_fuse 	lbSetCurSel _ctrlSel1;
+		_fireUnits	lbSetCurSel _ctrlSel2;
+		_rounds	ctrlSetText _ctrlSel3;
+		_radius	ctrlSetText _ctrlSel4;
 	};
 
 	//-Friendly
