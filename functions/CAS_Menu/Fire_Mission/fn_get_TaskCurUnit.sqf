@@ -5,8 +5,10 @@
 
   Params : (will get from current setup by Default)
     _unit    : (Optional) 
-    _curType : (Optional) 
-    _cateSel : (Optional)
+    _index : [
+      _curType : (Optional) 
+      _cateSel : (Optional)
+    ]
 
   Return :
     TaskUnit <OBJECT>
