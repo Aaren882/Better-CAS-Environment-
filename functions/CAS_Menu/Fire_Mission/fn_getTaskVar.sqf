@@ -21,8 +21,8 @@ params [
 
 //- Getting Values
 private _props = [_display,_curType,_cateSel] call BCE_fnc_getDisplayTaskProps;
-
-_props params ["_varName","_default"];
+_props params ["_varName","_default_Value"];
+private _default =+ _default_Value;
 
 [
   uiNamespace getVariable [_varName,_default],

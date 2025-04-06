@@ -49,7 +49,7 @@ call {
 	if (_type == 3) exitWith {
 
 		private _curSel = localNamespace getVariable ["cTab_BFT_CurSel",objNull];
-		
+
 		if !(isnull _curSel) then {
 			switch (true) do {
 
@@ -61,7 +61,10 @@ call {
 						["Task_Builder",localize "STR_BCE_Error_EngineOff",5] call cTab_fnc_addNotification;
 					};
 					_reset_Veh = true;
-       		[_curSel] call BCE_fnc_set_TaskCurUnit;
+       		[
+						_curSel,
+						[nil,0]
+					] call BCE_fnc_set_TaskCurUnit;
 					["cTab_Tablet_dlg",[["uavCam",str _curSel]],false] call cTab_fnc_setSettings;
 
 					_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
@@ -76,7 +79,10 @@ call {
 				};
 				//- Call For Fire (Artiliry) [Group Object]
 				case (_curSel in cTabARTYlist): {
-					_curSel call BCE_fnc_set_TaskCurUnit;
+					[
+						_curSel,
+						"CFF" call BCE_fnc_get_TaskIndex
+					] call BCE_fnc_set_TaskCurUnit;
 				};
 			};
 		};

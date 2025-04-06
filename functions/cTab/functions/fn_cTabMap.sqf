@@ -115,7 +115,6 @@ if (alive _veh) then {
 };
 
 //- ARTY Connection
-// _veh = focusOn getVariable ["BCE_CFF_Selected_Veh",objNull];
 _veh = [
 	cTab_player,
 	"CFF" call BCE_fnc_get_TaskIndex
@@ -142,6 +141,8 @@ if (alive _veh) then {
 //-Exit if it's not cTab or TAD
 if (_displayName find "Tablet" < 0 && _displayName find "Android" < 0) exitWith {};
 
+	[_ctrl] call BCE_fnc_drawEach_TaskMapInfo;
+
 //- CAS
 private _curCate = ["Cate",0] call BCE_fnc_get_TaskCurSetup;
 private _curType = [] call BCE_fnc_get_TaskCurType;
@@ -166,8 +167,6 @@ if (_curCate == 0) then {
 		};
 	};
 	_taskVar params ["_IPBP","_Target","_FRD","_EGRS","_remarks"];
-
-	[_ctrl] call BCE_fnc_drawEach_TaskMapInfo;
 
 	//-Draw IP/BP
 	/* if (!("Marker" in (_IPBP # 0))) then {

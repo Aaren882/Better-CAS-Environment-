@@ -11,9 +11,10 @@
   Return :
     <BOOL>
 */
-params ["_taskUnit","_curType","_cateSel"];
+params ["_taskUnit",["_index", []]];
 
 if (isNil{_taskUnit}) exitWith {false};
+_index params ["_curType","_cateSel"];
 
 private _props = [displayNull, _curType, _cateSel] call BCE_fnc_getDisplayTaskProps;
 // _props params ["","","","","_taskUnit_Var"];
