@@ -1,7 +1,8 @@
+// params ["_taskVar","_curLine","_shownCtrls"];
 #define GetGRID(POS,GRID) [POS,GRID] call BCE_fnc_POS2Grid
 
 switch _curLine do {
-	//-Control Type
+	//- Game Plan
 	case 0:{
 		_shownCtrls params [
 			"_taskType",
@@ -47,9 +48,9 @@ switch _curLine do {
 			[lbCurSel _CTAmmo,lbCurSel _CTFuse,_fireUnitSel,str _setCount,str _radius]
 		];
 
-		/* if (_fireAmmo != "") then {
+		if (_fireAmmo != "") then {
 			_result set [3,[_fireAmmo,_fireUnits,_setCount,_radius]];
-		}; */
+		};
 		
 		_taskVar set [0,_result];
 	};

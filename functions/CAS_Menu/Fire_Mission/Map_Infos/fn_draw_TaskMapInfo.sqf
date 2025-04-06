@@ -18,22 +18,22 @@ private _map_Infos = (_taskDetail call BCE_fnc_getDisplayTaskProps) # 3;
 private _entry = _map_Infos # _curLine;
 
 (_taskDetail call BCE_fnc_getTaskVar) params ["_taskVar","_default"];
+private _curValue = (_taskVar # _curLine) param [2, []];
 
-private _curValue = _taskVar # _curLine # 0;
 //- Exit if Task line is Emtpy
-  if (
-    _curValue == (_default # _curLine # 0) || 
-    _entry == ""
-  ) exitWith {};
+  if (_curValue isEqualTo []) exitWith {};
 
 //- format ["%1", _taskVar # 0]
-  private _text = format [[_entry,"display","%1"] call BCE_fnc_get_TaskMapInfo, _curValue];
+  private _text = format [
+    [_entry,"display","%1"] call BCE_fnc_get_TaskMapInfo,
+    _taskVar # _curLine # 0
+  ];
 
 //- Draw ICON #ANCHOR - DRAWING
 _map drawIcon [
   [_entry,"Icon"] call BCE_fnc_get_TaskMapInfo,
   [_entry,"color",[1,1,1,1]] call BCE_fnc_get_TaskMapInfo,
-  _taskVar # _curLine # 2, //- position
+  _curValue, //- position
   [_entry,"sizeW",40] call BCE_fnc_get_TaskMapInfo,
   [_entry,"sizeH",40] call BCE_fnc_get_TaskMapInfo,
   [_entry,"angle",0] call BCE_fnc_get_TaskMapInfo,

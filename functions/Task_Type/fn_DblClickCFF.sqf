@@ -138,5 +138,26 @@ switch _curLine do {
       };
       _ctrl2 ctrlShow false;
     };
+
+		//- Get ETA Time
+			private _ETA_txt = "ETA : ""NA""";
+			private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
+			private _AmmoInfos = (_taskVar # 0) param [3, []];
+			private _TG_POS = (_taskVar # 2) param [2, []];
+			if (
+				alive _taskUnit &&
+				_TG_POS isNotEqualTo [] &&
+				_AmmoInfos isNotEqualTo []
+			) then {
+				private _ETA = round (_taskUnit getArtilleryETA [_TG_POS,_AmmoInfos # 0]);
+
+				_ETA_txt = format [
+					"ETA - %1:%2",
+					floor (_ETA / 60),
+					_ETA % 60
+				];
+			};
+
+		_ctrl4 ctrlSetStructuredText parseText _ETA_txt;
 	};
 };

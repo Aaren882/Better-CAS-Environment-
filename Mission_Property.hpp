@@ -246,11 +246,15 @@ class BCE_Mission_Property
                 TaskUnit = "BCE_CFF_Selected_Veh"; //- Where the TaskUnit is stored
                 name = "BCE_CFF_Var"; //- Where the data is stored
                 default = "[[""NA"",0],[""NA"","""",[],[0,0],""""],[""NA"",""111222""],[""NA"",""--"",""""],[""NA"",[]]]";
-                Map_Infos[] = {};
+                Map_Infos[] = {
+                    "",
+                    "",
+                    "Air_TGT_Point"
+                };
                 
                 //- Check if the Task is able to send
                 // (VAR # 0) != "NA"
-                InvaildMsg = "";
+                InvaildMsg = "Task is incomplete!!";
                 Vaild_Lines[] = {0,2,4};
             };
 
