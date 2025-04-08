@@ -138,7 +138,7 @@
                 scrollSpeed=0;
             };
             
-            //- Inherit from "Mission_Controls.hpp"
+            //- Inherit from #LINK - cTab/ATAK_Tools/cTab_ATAK_Tools.hpp
             class controls: BCE_Mission_Build_Controls
             {
                 class taskDesc: taskDesc
