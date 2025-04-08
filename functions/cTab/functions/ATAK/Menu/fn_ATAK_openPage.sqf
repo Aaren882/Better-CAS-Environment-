@@ -1,10 +1,14 @@
-params ["_display","_page",["_Back", false],"_settings"];
-private ["_isHome","_group","_ctrls","_currentPage","_ctrlPOS_BG","_ctrlPOS"];
+/*
+	NAME : BCE_fnc_ATAK_openPage
 
-_isHome = false;
+*/
+params ["_display","_page",["_isHome", false],"_settings"];
+private ["_group","_ctrls","_currentPage","_ctrlPOS_BG","_ctrlPOS"];
+
+// _isHome = false;
 _group = _display displayCtrl 46600;
 _ctrls = allControls _group;
-_group ctrlShow _Back;
+_group ctrlShow !_isHome;
 _group ctrlEnable true;
 
 _currentPage = _page;
@@ -125,9 +129,9 @@ switch _currentPage do {
 
 		4662
 	};
-	case "Task_Result": {
+	/* case "Task_Result": {
 		4663
-	};
+	}; */
 	case "VideoFeeds": {
 		//- Arrange Bottons layout
 			{
@@ -214,17 +218,17 @@ switch _currentPage do {
 
 		4641
 	};
-	default {
+	/*default {
 		//- Clear up Menu Components
-			/*private _PgComponents = _settings param [3, []];
+			private _PgComponents = _settings param [3, []];
 			if (_PgComponents findIf {true} > -1) then {
 				_settings set [3,[]];
 				["cTab_Android_dlg",[["showMenu",_settings]],false] call cTab_fnc_setSettings;
-			};*/
+			};
 		
 		//- Check Home Page
-			_isHome = true;
-	};
+			// _isHome = true;
+	};*/
 };
 
 //- The return value
@@ -245,7 +249,7 @@ switch _currentPage do {
 		4650
 	];
 
-[_isHome] call BCE_fnc_ATAK_openMenu;
+[_page,_subMenu,_isHome] call BCE_fnc_ATAK_openMenu;
 
 // - Return "nil" or "Control Group"
 _return

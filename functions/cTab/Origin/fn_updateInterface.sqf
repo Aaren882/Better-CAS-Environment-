@@ -1103,7 +1103,7 @@ _settings apply {
 			private _group = [
 				_display,
 				_page,
-				(_page != "main"),
+				(_page == "main"),
 				_settings
 			] call BCE_fnc_ATAK_openPage;
 			_group ctrlEnable _show;
