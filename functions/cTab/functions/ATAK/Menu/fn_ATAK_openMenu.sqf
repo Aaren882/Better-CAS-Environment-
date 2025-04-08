@@ -1,5 +1,5 @@
 // - "BCE_fnc_ATAK_openMenu" (in "BCE_fnc_ATAK_openPage")
-params ["_HomePage"];
+params ["_page","_subMenu","_HomePage"];
 
 private _order = [] call BCE_fnc_ATAK_getAPPs;
 private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
