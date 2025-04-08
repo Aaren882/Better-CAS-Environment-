@@ -3,7 +3,9 @@ private _setting = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
 _setting params ["_page","","_subInfos"];
 _subInfos params ["_subMenu","_curLine"];
 
-private _return = switch _subMenu do {
+private _return = _subMenu call BCE_fnc_ATAK_getLastAPP;
+
+/* private _return = switch _subMenu do {
 	case "Task_Building": {
 		_subMenu = "";
 		_curline = -1;
@@ -18,12 +20,13 @@ private _return = switch _subMenu do {
 		_curline = -1;
 		"main"
 	};
-};
+}; */
+
 _setting set [0,_return];
 
 //- SubMenu Infos
-	_subInfos set [0, _subMenu];
-	_subInfos set [1, _curline];
+	_subInfos set [0, ""]; //- "_subMenu"
+	_subInfos set [1, -1]; //- "_curline"
 
 _setting set [2,_subInfos];
 ["cTab_Android_dlg",[["showMenu",_setting]],true,true] call cTab_fnc_setSettings;
