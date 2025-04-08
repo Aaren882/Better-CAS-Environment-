@@ -1,5 +1,5 @@
 params ["_control"];
-private ["_settings","_curType","_taskVar","_display","_ctrlTitle","_TaskList","_components","_isOverwrite","_DESC_Type"];
+private ["_settings","_curType","_display","_ctrlTitle","_TaskList","_components","_isOverwrite","_DESC_Type"];
 
 _settings = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
 _settings params ["_page","_shown","_subInfos"];
@@ -50,11 +50,6 @@ switch (_page) do {
 	//- Mission Builders
 	case "mission": {
 		call {
-
-			//- Task elements
-			/* private _curType = [] call BCE_fnc_get_TaskCurType;
-			private _taskVar = ([] call BCE_fnc_getTaskVar) # 0; */
-
 			//- Enter Infos (on Building Page)
 				if (_subMenu == "Task_Building") exitWith {
 
@@ -97,6 +92,8 @@ switch (_page) do {
 							5
 						] call cTab_fnc_addNotification;
 					};
+				
+				//- Finally Send
 				private _NotAVT = true;
 				if (call BCE_fnc_SendTaskData) then {
 					_bnt ctrlSetText localize "STR_BCE_Abort_Task";
