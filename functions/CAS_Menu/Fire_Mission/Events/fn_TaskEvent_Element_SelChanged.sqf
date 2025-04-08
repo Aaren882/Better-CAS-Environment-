@@ -1,12 +1,12 @@
 /*
-  NAME : BCE_fnc_TaskEvent_Enter
+  NAME : BCE_fnc_TaskEvent_Element_SelChanged
 
-  On Task/Mission Building Load OR Refresh
+  On Task/Mission Building Component editted e.g. "Mark Method"
 */
 
 params ["_curLine","_selectedIndex"];
 
-([] call BCE_fnc_getDisplayTaskProps) params ["_varName","_default","_events"];
+([] call BCE_fnc_getDisplayTaskProps) params ["","","_events"];
 ([] call BCE_fnc_getTaskVar) params ["_taskVar"];
 
 (_curLine call BCE_fnc_getTaskComponents) params ["_shownCtrls"];

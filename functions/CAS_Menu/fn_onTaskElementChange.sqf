@@ -1,13 +1,19 @@
 /* 
-  NAME : BCE_fnc_HandleTaskElementChange
+  NAME : BCE_fnc_onTaskElementChange
 
   Triggers on switching Task Element Changed
   e.g. 
 */
 
-params ["_control","_selectedIndex"];
+params [
+  "_control",
+  "_selectedIndex",
+  "_curLine"
+];
 
-private _curLine = (ctrlParent _control) call BCE_fnc_get_TaskCurLine;
+if (isnil {_curLine}) then {
+  _curLine = (ctrlParent _control) call BCE_fnc_get_TaskCurLine;
+};
 
 /* ([] call BCE_fnc_getTaskVar) params ["_taskVar"];
 (_curLine call BCE_fnc_getTaskComponents) params ["_shownCtrls","_desc_str"];

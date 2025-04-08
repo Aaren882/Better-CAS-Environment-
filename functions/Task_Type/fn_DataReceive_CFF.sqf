@@ -6,51 +6,76 @@ switch _curLine do {
 	case 0:{
 		_shownCtrls params [
 			"_taskType",
-			"_CTAmmo","_CTFuse","_CTFireUnits","_CTRounds","_CTRadius"
+			"_CTAmmo","_CTFuse","_CTFireUnits","_CTRounds","_CTRadius","_CTFuzeVal",
+			"_IA_ammo","_IA_fuse","_IA_fireUnits","_IA_rounds","_IA_radius","_IA_fuzeVal"
 		];
 
-		//-Get Data
-		_fireAmmo = _CTAmmo lbData (lbCurSel _CTAmmo);
-		_fireUnitSel = lbCurSel _CTFireUnits;
-
-		_fireUnits = _CTFireUnits lbValue _fireUnitSel;
-		_setCount = parseNumber (ctrlText _CTRounds);
-		_radius = parseNumber (ctrlText _CTRadius);
-
+		private _textVal = [];
+		private _storeVal = [];
 		private _mapValue = _CTAmmo getVariable ["CheckList",createHashMap];
-		private _data = _mapValue get _fireAmmo;
-		_data params ["",["_maxMagazine",1],"_count"];
 
-		//- Check Ammo Count
-			_maxFireEach = floor (_count / _maxMagazine);
-			_maxFireCount = floor (_count / _fireUnits);
+		{
+			_x params ["_lbAmmo","_lbFuse","_lbFireUnits","_editRounds","_editRadius","_editFuzeVal"];
+
+			//-Get Data
+				private _fireAmmo = _lbAmmo lbData (lbCurSel _lbAmmo);
+				private _fireUnitSel = lbCurSel _lbFireUnits;
+
+				private _fireUnits = 1 max (_lbFireUnits lbValue _fireUnitSel);
+				private _setCount = 1 max (parseNumber (ctrlText _editRounds));
+				private _radius = parseNumber (ctrlText _editRadius);
+				private _fuzeVal = parseNumber (ctrlText _editFuzeVal);
+
+				private _data = _mapValue get _fireAmmo;
+				_data params ["",["_maxMagazine",1],"_count"];
+
+				//- Check Ammo Count
+				if (_fireAmmo != "") then {
+					private _maxFireEach = floor (_count / _maxMagazine);
+					private _maxFireCount = floor (_count / _fireUnits);
+					
+					if (
+						_setCount > _maxFireEach ||
+						_setCount > _maxFireCount
+					) then {
+						_setCount = _maxFireEach;
+						_editRounds ctrlSetText (str _setCount);
+					};
+				} else {
+					_setCount = 1;
+					_editRounds ctrlSetText "";
+				};
 			
-			if (
-				_setCount > _maxFireEach ||
-				_setCount > _maxFireCount
-			) then {
-				_setCount = _maxFireEach;
-				_CTRounds ctrlSetText (str _setCount);
-			};
+			//- Save Selections
+			_storeVal set [
+				_forEachIndex,
+				[lbCurSel _lbAmmo,lbCurSel _lbFuse,_fireUnitSel,str _setCount,str _radius,str _fuzeVal]
+			];
 
-		//- Save Selections
-		_text = format [
-			"%1 (%2) - x%3:%4 %5m",
-			_fireAmmo, //- Ammo
-			"", //- Fuze
-			_fireUnits,
-			_setCount,
-			_radius
+			private _text = format [
+				"%1 (%2) - x%3:%4 %5m",
+				_fireAmmo, //- Ammo
+				"", //- Fuze
+				_fireUnits,
+				_setCount,
+				_radius
+			];
+			_textVal pushBack _text;
+
+		} forEach [
+			[_CTAmmo,_CTFuse,_CTFireUnits,_CTRounds,_CTRadius,_CTFuzeVal],
+			[_IA_ammo,_IA_fuse,_IA_fireUnits,_IA_rounds,_IA_radius,_IA_fuzeVal]
 		];
-		_result = [
-			_text,
+
+		private _result = [
+			_textVal joinString "/",
 			lbCurSel _taskType,
-			[lbCurSel _CTAmmo,lbCurSel _CTFuse,_fireUnitSel,str _setCount,str _radius]
+			_storeVal
 		];
 
-		if (_fireAmmo != "") then {
-			_result set [3,[_fireAmmo,_fireUnits,_setCount,_radius]];
-		};
+		/* if (_storeVal findIf {true} > -1) then {
+			_result set [3, _storeVal];
+		}; */
 		
 		_taskVar set [0,_result];
 	};
@@ -131,7 +156,7 @@ switch _curLine do {
 		if ((lbCurSel _ctrl1 == 0) && !(_isOverwrite)) then {
 			private _TGPOS = call compile (_ctrl2 lbData (lbCurSel _ctrl2));
 
-			//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5:Elevation(ASL), 6:RAM]
+			//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5:Elevation(ASL)]
 			if !(_TGPOS isEqualTo []) then {
 				private _markerInfo = format ["%1 [%2]", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8)];
 				_TGPOS resize [3, 0];
