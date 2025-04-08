@@ -6,7 +6,7 @@ class Call_For_Fire: AIR_5_LINE
         #define MOVE_Y_OFFSET 1
         class Background: Background
         {
-            ATAK_POS(0,0,0,(10.3 + 0.35 + (0.7 * (ADJUSTMENT_MENU + 1.2)) + MOVE_Y_OFFSET));
+            ATAK_POS(0,0,0,(8.85 + 1.05 + 2 + 0.35 + MOVE_Y_OFFSET));
         };
         //- ARTY Group DropBox
             class Vehicle_Grp_T: Game_Plan_T
@@ -62,66 +62,133 @@ class Call_For_Fire: AIR_5_LINE
             sizeEx = 0.95 * TextSize;
         };*/
 
-        //- Weapons
+        //- In Effect (IE) Section
             class Weapon_T: Weapon_T
             {
                 ATAK_POS(0,(1 + (0.35/2) + MOVE_Y_OFFSET),1,0.63);
             };
-            class AI_Remark_WeaponCombo: AI_Remark_WeaponCombo
+            class CFF_IE_WeaponCombo: CFF_IE_WeaponCombo
             {
                 ATAK_POS(0.7,(1 + (0.35/2) + MOVE_Y_OFFSET),1.5,0.65);
-                tooltip="Ammunition"; //- e.g. “ICM” (projectile) or “VT in effect” (fuze). The term, “in effect”
                 onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask; call BCE_fnc_SelWPN_CFF";
+                //- Style
+                    colorBackground[] = {0.3,0.3,0.3,1};
+                    colorSelect[]={1,1,1,1};
+                    colorSelectBackground[]={0.4,0.4,0.4,1};
+                    sizeEx = 0.9 * TextSize;
             };
-            class AI_Remark_ModeCombo: AI_Remark_ModeCombo
+            class CFF_IE_FuzeCombo: CFF_IE_FuzeCombo
             {
-                //- VT : (Variable Time) - Delay Fuze
-                //- ICM : (Improved-Conventional-Munition) - Cluster
                 ATAK_POS(2.2,(1 + (0.35/2) + MOVE_Y_OFFSET),0.7,0.63);
-                tooltip="The Ammunition Fuze";
+                onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask; (_this+[0]) call BCE_fnc_onTaskElementChange;";
+                //- Style
+                    colorBackground[] = {0.3,0.3,0.3,1};
+                    colorSelect[]={1,1,1,1};
+                    colorSelectBackground[]={0.4,0.4,0.4,1};
+                    sizeEx = 0.8 * TextSize;
             };
-            class Attack_CFF_FireUnit_Combo: Attack_CFF_FireUnit_Combo
+            class CFF_IE_FireUnit_Combo: CFF_IE_FireUnit_Combo
             {
-                ATAK_POS(0.7,(1.65 + (0.35/2) + MOVE_Y_OFFSET),1.1,0.63);
-                
-                colorBackground[] = {0.3,0.3,0.3,1};
-                colorSelect[]={1,1,1,1};
-                colorSelectBackground[]={0.4,0.4,0.4,1};
-
-                sizeEx = 0.9 * TextSize;
+                ATAK_POS(0.7,(1.65 + (0.35/2) + MOVE_Y_OFFSET),(1.1/2),0.63);
                 onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask;";
-                // onLBSelChanged = "";
+                //- Style
+                    colorBackground[] = {0.3,0.3,0.3,1};
+                    colorSelect[]={1,1,1,1};
+                    colorSelectBackground[]={0.4,0.4,0.4,1};
+                    sizeEx = 0.9 * TextSize;
             };
-            class Round_Count_Box: Round_Count_Box
+            class CFF_IE_Round_Box: CFF_IE_Round_Box
             {
-                ATAK_POS(1.8,(1.65 + (0.35/2) + MOVE_Y_OFFSET),(1.1/3),0.63);
-                tooltip="Rounds to fire for each Unit";
+                ATAK_POS((0.7 + (1.1/2)),(1.65 + (0.35/2) + MOVE_Y_OFFSET),(1.1/3),0.63);
+                sizeEx = 0.9 * TextSize;
+                onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
             };
-            class Attack_Height_Box: Attack_Height_Box
+            class CFF_IE_Radius_Box: CFF_IE_Radius_Box
             {
-                ATAK_POS((1.8 + (1.1/3)),(1.65 + (0.35/2) + MOVE_Y_OFFSET),(2.2/3),0.63);
-                tooltip="Impact Radius when ""Fire for Effect""";
+                ATAK_POS((0.7 + (1.1/2) + (1.1/3)),(1.65 + (0.35/2) + MOVE_Y_OFFSET),(2.2/3),0.63);
+                sizeEx = 0.9 * TextSize;
+                onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
             };
-
+            class CFF_IE_FuzeValue_Box: CFF_IE_FuzeValue_Box
+            {
+                ATAK_POS((0.7 + (1.1/2) + (1.1/3) + (2.2/3)),(1.65 + (0.35/2) + MOVE_Y_OFFSET),(1.1/2),0.63);
+                sizeEx = 0.9 * TextSize;
+                onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+            };
+        //- In Adjust (IA) (OPTIONAL)
+            class Weapon_IA_T: Weapon_T
+            {
+                ATAK_POS(0,(2.6 + (0.35/2) + MOVE_Y_OFFSET),1,0.63);
+                text = "(Adjust)";
+                tooltip="Setting up ""In Adjust"" (OPTIONAL).";
+            };
+            class CFF_IA_WeaponCombo: CFF_IA_WeaponCombo
+            {
+                ATAK_POS(0.7,(2.6 + (0.35/2) + MOVE_Y_OFFSET),1.5,0.65);
+                onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+                //- Style
+                    colorBackground[] = {0.3,0.3,0.3,1};
+                    colorSelect[]={1,1,1,1};
+                    colorSelectBackground[]={0.4,0.4,0.4,1};
+                    sizeEx = 0.9 * TextSize;
+            };
+            class CFF_IA_FuzeCombo: CFF_IA_FuzeCombo
+            {
+                ATAK_POS(2.2,(2.6 + (0.35/2) + MOVE_Y_OFFSET),0.7,0.63);
+                onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask; (_this+[0]) call BCE_fnc_onTaskElementChange;";
+                //- Style
+                    colorBackground[] = {0.3,0.3,0.3,1};
+                    colorSelect[]={1,1,1,1};
+                    colorSelectBackground[]={0.4,0.4,0.4,1};
+                    sizeEx = 0.8 * TextSize;
+            };
+            class CFF_IA_FireUnit_Combo: CFF_IA_FireUnit_Combo
+            {
+                ATAK_POS(0.7,(3.25 + (0.35/2) + MOVE_Y_OFFSET),(1.1/2),0.63);
+                onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask;";
+                //- Style
+                    colorBackground[] = {0.3,0.3,0.3,1};
+                    colorSelect[]={1,1,1,1};
+                    colorSelectBackground[]={0.4,0.4,0.4,1};
+                    sizeEx = 0.9 * TextSize;
+            };
+            class CFF_IA_Round_Box: CFF_IA_Round_Box
+            {
+                ATAK_POS((0.7 + (1.1/2)),(3.25 + (0.35/2) + MOVE_Y_OFFSET),(1.1/3),0.63);
+                sizeEx = 0.9 * TextSize;
+                onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+            };
+            class CFF_IA_Radius_Box: CFF_IA_Radius_Box
+            {
+                ATAK_POS((0.7 + (1.1/2) + (1.1/3)),(3.25 + (0.35/2) + MOVE_Y_OFFSET),(2.2/3),0.63);
+                sizeEx = 0.9 * TextSize;
+                onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+            };
+            class CFF_IA_FuzeValue_Box: CFF_IA_FuzeValue_Box
+            {
+                ATAK_POS((0.7 + (1.1/2) + (1.1/3) + (2.2/3)),(3.25 + (0.35/2) + MOVE_Y_OFFSET),(1.1/2),0.63);
+                sizeEx = 0.9 * TextSize;
+                onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+            };
         //- Callouts
             class Line1_T5: Line1_T5
             {
-                ATAK_POS(0,(2.6 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
+                ATAK_POS(0,(4.25 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
             };
             class L51_EditBnt: L51_EditBnt
             {
-                ATAK_POS(0.2,(2.6 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
+                ATAK_POS(0.2,(4.25 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
             };
 
         //- Target
             class Line2_T5: Line2_T5
             {
-                ATAK_POS(0,(3.6 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
+                ATAK_POS(0,(5.25 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
                 tooltip="$STR_BCE_TIP_GRID";
             };
             class L52_EditBnt: L52_EditBnt
             {
-                ATAK_POS(0.2,(3.6 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
+                ATAK_POS(0.2,(5.25 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
                 text = "Target";
                 tooltip="$STR_BCE_TIP_GRID";
                 onButtonClick = "[nil,'Task_Building',2] call BCE_fnc_ATAK_ChangeTool";
@@ -132,39 +199,39 @@ class Call_For_Fire: AIR_5_LINE
             class Line3_T5: Line3_T5
             {
                 text="3";
-                ATAK_POS(0,(4.6 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
+                ATAK_POS(0,(6.25 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
                 tooltip="$STR_BCE_TIP_DESC";
             };
             class L53_EditBnt: L54_EditBnt
             {
-                ATAK_POS(0.2,(4.6 + (0.35/2) + MOVE_Y_OFFSET),2.3,0.7);
+                ATAK_POS(0.2,(6.25 + (0.35/2) + MOVE_Y_OFFSET),2.3,0.7);
                 tooltip="$STR_BCE_TIP_DESC";
             };
             class L53_PullBnt: L54_PullBnt
             {
-                ATAK_POS(2.55,(4.6 + (0.35/2) + MOVE_Y_OFFSET),0.35,0.7);
+                ATAK_POS(2.55,(6.25 + (0.35/2) + MOVE_Y_OFFSET),0.35,0.7);
                 action = "2 call BCE_fnc_ATAK_PullData";
             };
 
             //-Text EditBox
             class New_Task_TG_DESC: New_Task_TG_DESC
             {
-                ATAK_POS(0.15,(5.5 + (0.35/2) + MOVE_Y_OFFSET),2.75,0.7);
+                ATAK_POS(0.15,(7.15 + (0.35/2) + MOVE_Y_OFFSET),2.75,0.7);
             };
             class New_Task_GRID_DESC: New_Task_GRID_DESC
             {
-                ATAK_POS(0.15,(6.2 + (0.35/2) + MOVE_Y_OFFSET),2.75,0.7);
+                ATAK_POS(0.15,(7.85 + (0.35/2) + MOVE_Y_OFFSET),2.75,0.7);
             };
         
         //- Control Method
             class Line4_T5: Line4_T5
             {
-                ATAK_POS(0,(7.2 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
+                ATAK_POS(0,(8.85 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
                 tooltip="Method of Control";
             };
             class L54_EditBnt: Remark_EditBnt
             {
-                ATAK_POS(0.2,(7.2 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
+                ATAK_POS(0.2,(8.85 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
                 toolTip="Method of Control";
                 onButtonClick = "[nil,'Task_Building',4] call BCE_fnc_ATAK_ChangeTool";
             };
@@ -172,11 +239,73 @@ class Call_For_Fire: AIR_5_LINE
         //- Separator -//
             class Separator: Separator
             {
-                ATAK_POS(0.1,(8.25 + (0.35/2) + MOVE_Y_OFFSET),2.8,0.001);
+                ATAK_POS(0.1,(8.85 + 1.05 + (0.35/2) + MOVE_Y_OFFSET),2.8,0.001);
+            };
+        
+        //- Submit
+            class Submit_Mission_Type: RscToolbox
+            {
+                idc = 5000;
+                
+                ATAK_POS(0.1,(8.85 + 1.05 + (3*0.35/2) + MOVE_Y_OFFSET),2.8,0.7);
+                shadow = 2;
+                rows = 1;
+                columns = 3;
+                strings[] =
+                {
+                    "SUBMIT",
+                    "SUB & EXEC",
+                    "DRAFT"
+                };
+                tooltips[] =
+                {
+                    "",
+                    "",
+                    ""
+                };
+                colorBackground[] = {0,0,0,0.3};
+                sizeEx = 0.8 * TextSize;
+            };
+            class Submit_Fire_Mission: BCE_RscButtonMenu
+            {
+                idc = 5001;
+                ATAK_POS(0.1,(8.85 + 1.05 + 0.7 + (3*0.35/2) + MOVE_Y_OFFSET),2.8,1.2 * 0.7);
+                text = "<img image='\MG8\AVFEVFX\data\explosion.paa' /> Press To XMIT";
+
+                //- Style
+                    animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
+                    animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+                    animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.65)";
+
+                    colorBackground[] = 
+                    {
+                        0.45,0,0,0.8
+                    };
+                    colorBackground2[] = 
+                    {
+                        0.45,0,0,0.8
+                    };
+                    colorBackgroundFocused[] = 
+                    {
+                        0.45,0,0,0.5
+                    };
+
+                size = TextSize;
+
+                class TextPos: TextPos
+                {
+                    top = 0.15 * ATAK_POS_H;
+                };
+                class Attributes: Attributes
+                {
+                    align="center";
+                    valign="middle";
+                    size = TextMenu(0.8);
+                };
             };
         
         //- Adjustments
-            class Adjust_Section: Remark
+            /* class Adjust_Section: Remark
             {
                 ATAK_POS(0,(8.3 + (0.35/2) + MOVE_Y_OFFSET),3,1);
 
@@ -456,7 +585,7 @@ class Call_For_Fire: AIR_5_LINE
                     valign="middle";
                     size = TextMenu(0.8);
                 };
-            };
+            }; */
         #undef ADJUSTMENT_MENU
         #undef MOVE_Y_OFFSET
 

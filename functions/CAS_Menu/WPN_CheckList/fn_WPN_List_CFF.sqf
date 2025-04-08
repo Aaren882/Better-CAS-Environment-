@@ -5,7 +5,6 @@ private _taskGroupId = groupId group _vehicle;
 private _group_vehs = (units _vehicle) apply {vehicle _x}; 
 _group_vehs = _group_vehs ArrayIntersect _group_vehs;
 
-lbClear _ammo;
 {
   private _veh = _x;
   private _magazines = magazinesAmmo _veh;

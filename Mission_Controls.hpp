@@ -52,31 +52,6 @@ class BCE_Mission_Build_Controls
             };
         };
     };
-    class TaskType_GND: TaskType
-    {
-        class Items
-        {
-            class CallForFire
-            {
-                text = "Adjust Fire";
-                textRight = "";
-                value = 0;
-                default = 1;
-            };
-            class Suppress
-            {
-                text = "Suppress";
-                textRight = "";
-                value = 1;
-            };
-            class immediate_Suppress
-            {
-                text = "Immediate Suppress";
-                textRight = "";
-                value = 2;
-            };
-        };
-    };
 
     //- Vehicle Group DropBox
     class Vehicle_Grp_Sel: RscCombo
@@ -242,13 +217,6 @@ class BCE_Mission_Build_Controls
                         value = 1000;
                     };
                 };
-            };
-            class Attack_CFF_FireUnit_Combo: AI_Remark_ModeCombo
-            {
-                REGISTER_FNC;
-
-                idc = PROP_IDC(2025);
-                tooltip = "Unit(s) to fire";
             };
             class Round_Count_Box: RscEdit
             {
@@ -498,6 +466,131 @@ class BCE_Mission_Build_Controls
             textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
         };
     //- CFF
+        class TaskType_GND: TaskType
+        {
+            class Items
+            {
+                class CallForFire
+                {
+                    text = "Adjust Fire";
+                    textRight = "";
+                    value = 0;
+                    default = 1;
+                };
+                class Suppress
+                {
+                    text = "Suppress";
+                    textRight = "";
+                    value = 1;
+                };
+                class immediate_Suppress
+                {
+                    text = "Immediate Suppress";
+                    textRight = "";
+                    value = 2;
+                };
+            };
+        };
+        
+        //- In Effect (IE) Section
+            class CFF_IE_WeaponCombo: AI_Remark_WeaponCombo
+            {
+                idc = PROP_IDC(1013);
+                tooltip="Ammunition"; //- e.g. “ICM” (projectile) or “VT in effect” (fuze). The term, “in effect”
+            };
+            class CFF_IE_FuzeCombo: AI_Remark_ModeCombo
+            {
+                //- MT  : (Mechanical Time) - Time Fuze
+                //- VT  : (Variable Time) - Proximity Fuze
+                //- ICM : (Improved-Conventional-Munition) - Cluster
+                idc = PROP_IDC(1015);
+                tooltip="The Ammunition Fuze";
+                class Items
+                {
+                    class Impact
+                    {
+                        text = "IMPT";
+                        textRight = "";
+                        value = 0;
+                        default = 1;
+                    };
+                    class VT
+                    {
+                        text = "VT";
+                        textRight = "";
+                        value = 1;
+                    };
+                    class Delay
+                    {
+                        text = "DELY";
+                        textRight = "";
+                        value = 2;
+                    };
+                };
+            };
+            class CFF_IE_FireUnit_Combo: AI_Remark_ModeCombo
+            {
+                REGISTER_FNC;
+
+                idc = PROP_IDC(1014);
+                tooltip = "Unit(s) to fire";
+            };
+            class CFF_IE_Round_Box: Round_Count_Box
+            {
+                idc = PROP_IDC(1016);
+                tooltip="Rounds to fire for each Unit";
+            };
+            class CFF_IE_Radius_Box: Attack_Height_Box
+            {
+                idc = PROP_IDC(1017);
+                tooltip="Impact Radius when ""Fire for Effect""";
+            };
+            class CFF_IE_FuzeValue_Box: CFF_IE_Round_Box
+            {
+                idc = PROP_IDC(1018);
+                tooltip="Fuze Value";
+            };
+        //- In Adjust (IA) Section
+            class CFF_IA_WeaponCombo: CFF_IE_WeaponCombo
+            {
+                idc = PROP_IDC(1113);
+            };
+            class CFF_IA_FuzeCombo: CFF_IE_FuzeCombo
+            {
+                idc = PROP_IDC(1114);
+                onLBSelChanged = "(_this+[0]) call BCE_fnc_onTaskElementChange";
+                class Items: Items
+                {
+                    class Empty
+                    {
+                        text = "--";
+                        textRight = "";
+                        value = -1;
+                        default = 1;
+                    };
+                    class Impact: Impact{};
+                    class VT: VT{};
+                    class Delay: Delay{};
+                };
+            };
+            class CFF_IA_FireUnit_Combo: CFF_IE_FireUnit_Combo
+            {
+                idc = PROP_IDC(1115);
+            };
+            class CFF_IA_Round_Box: CFF_IE_Round_Box
+            {
+                idc = PROP_IDC(1116);
+            };
+            class CFF_IA_Radius_Box: CFF_IE_Radius_Box
+            {
+                idc = PROP_IDC(1117);
+                tooltip="Impact Radius for ""Adjust Fire""";
+            };
+            class CFF_IA_FuzeValue_Box: CFF_IE_FuzeValue_Box
+            {
+                idc = PROP_IDC(1118);
+            };
+        
         class New_Task_CFF_CtrlType: New_Task_IPtype
         {
             REGISTER_FNC;

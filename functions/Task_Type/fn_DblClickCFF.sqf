@@ -3,32 +3,49 @@ switch _curLine do {
 	case 0:{
 		_shownCtrls params [
 			"_taskType",
-			"_ammo","_fuse","_fireUnits","_rounds","_radius"
+			"_ammo","_fuse","_fireUnits","_rounds","_radius","_fuzeVal",
+			"_IA_ammo","_IA_fuse","_IA_fireUnits","_IA_rounds","_IA_radius","_IA_fuzeVal"
 		];
 		_taskVar_0 = _taskVar # 0;
-
 		private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
 
-		//-Weapon List
-		[
-			_ammo,
-			_taskUnit
-		] call BCE_fnc_WPN_List_CFF;
+		private _storeVal = _taskVar_0 param [2,[]];
+		{
+			_x params ["_lbAmmo","_lbFuse","_lbFireUnits","_editRounds","_editRadius","_editFuzeVal"];
 
-		(_taskVar_0 param [2,[]]) params [
-			["_ctrlSel0",0],
-			["_ctrlSel1",0],
-			["_ctrlSel2",0],
-			["_ctrlSel3","1"],
-			["_ctrlSel4","200"]
+			private _isIA = _lbAmmo == _IA_ammo;
+
+			//- Create Weapon List
+				lbClear _lbAmmo;
+				if (_isIA) then {
+					_lbAmmo lbAdd "--";
+					_lbAmmo lbSetValue [0, -1];	
+				};
+				[
+					_lbAmmo,
+					_taskUnit
+				] call BCE_fnc_WPN_List_CFF;
+			
+			//- Get Values
+			(_storeVal param [_forEachIndex, []]) params [
+				["_ctrlSel0",0],
+				["_ctrlSel1",0],
+				["_ctrlSel2",0],
+				["_ctrlSel3",["1",""] select _isIA],
+				["_ctrlSel4",["200",""] select _isIA],
+				["_ctrlSel5",["0",""] select _isIA]
+			];
+
+			_lbAmmo 	lbSetCurSel _ctrlSel0;
+			_lbFuse 	lbSetCurSel _ctrlSel1;
+			_lbFireUnits	lbSetCurSel _ctrlSel2;
+			_editRounds	ctrlSetText _ctrlSel3;
+			_editRadius	ctrlSetText _ctrlSel4;
+			_editFuzeVal	ctrlSetText _ctrlSel5;
+		} forEach [
+			[_ammo,_fuse,_fireUnits,_rounds,_radius,_fuzeVal],
+			[_IA_ammo,_IA_fuse,_IA_fireUnits,_IA_rounds,_IA_radius,_IA_fuzeVal]
 		];
-
-		//-Default
-		_ammo 	lbSetCurSel _ctrlSel0;
-		_fuse 	lbSetCurSel _ctrlSel1;
-		_fireUnits	lbSetCurSel _ctrlSel2;
-		_rounds	ctrlSetText _ctrlSel3;
-		_radius	ctrlSetText _ctrlSel4;
 	};
 
 	//-Friendly
