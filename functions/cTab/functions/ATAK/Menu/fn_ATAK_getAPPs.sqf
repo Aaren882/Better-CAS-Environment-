@@ -1,3 +1,6 @@
+/*
+  NAME : BCE_fnc_ATAK_getAPPs
+*/
 params [["_Reset_Value",false],["_onInit",false]];
 
 private _ATAK_APPs = profileNamespace getVariable ["BCE_ATAK_APPs", []];

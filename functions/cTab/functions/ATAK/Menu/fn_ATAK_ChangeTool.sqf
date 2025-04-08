@@ -21,7 +21,7 @@ switch (true) do {
       _setting set [3, _PgComponents];
   };
 
-  //- if "_ctrl" is Null (Switching APP)
+  //- if "_ctrl" NOT Null (Switching APP)
   case !(isnull _ctrl): {
     private _page = ctrlClassName _ctrl;
     (_page call BCE_fnc_ATAK_getAPPs_props) params ["","_function"];
