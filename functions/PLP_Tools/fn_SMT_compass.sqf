@@ -99,7 +99,7 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 					_map drawIcon [
 						"#(argb,1,1,1)color(0,0,0,0)",
 						[1,1,1,1],_origPos vectorAdd [(sin _i)*_leng,(cos _i)*_leng],
-						0,0,0,format ["%1",_i/360*64],1,0.04,"PuristaLight","center"
+						0,0,0, str (_i/360*64),1,0.04,"PuristaLight","center"
 					] ;
 				} ;
 			} ;
