@@ -473,6 +473,7 @@ class BCE_Mission_Build_Controls
                 class CallForFire
                 {
                     text = "Adjust Fire";
+                    data = "ADJUST FIRE";
                     textRight = "";
                     value = 0;
                     default = 1;
@@ -480,12 +481,14 @@ class BCE_Mission_Build_Controls
                 class Suppress
                 {
                     text = "Suppress";
+                    data = "SUPPRESS";
                     textRight = "";
                     value = 1;
                 };
                 class immediate_Suppress
                 {
                     text = "Immediate Suppress";
+                    data = "IMMEDIATE SUPPRESS";
                     textRight = "";
                     value = 2;
                 };
