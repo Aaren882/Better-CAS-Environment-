@@ -290,6 +290,38 @@
                 };
             };
         };
+        class Task_CFF_List: ATAK_Message
+        {
+            class controls: controls
+            {
+                class ListCategory: RscToolbox
+                {
+                    idc = idc_D(2102);
+                    ATAK_POS(0,0,3,0.8);
+                    colorBackground[] = {0,0,0,0.3};
+                    rows = 1;
+                    columns = 3;
+                    sizeEx = 0.9 * TextSize;
+                    strings[] =
+                    {
+                        "MSN",
+                        "History",
+                        "DRAFT"
+                    };
+                    tooltips[] =
+                    {
+                        "Missions",
+                        "Saved History",
+                        "Saved Drafts"
+                    };
+                };
+                class Group_Box: Group_Box
+                {
+                    idc = 10;
+                    h = phoneSizeH - 1.55 * ATAK_POS_H;
+                };
+            };
+        };
 //- Video Feeds Interface
     #define EMPT_SPAC (0.15 * ((60)) / 2048 * CustomPhoneH)
     class ATAK_Video: ATAK_Message

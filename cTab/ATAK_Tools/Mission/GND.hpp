@@ -175,9 +175,12 @@ class Call_For_Fire: AIR_5_LINE
             {
                 ATAK_POS(0,(4.25 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
             };
-            class L51_EditBnt: L51_EditBnt
+            class L51_EditBnt: L52_EditBnt
             {
+                idc = idc_D(2040);
+                text = "“Alpha 1-1” / “Alpha 1-2”";
                 ATAK_POS(0.2,(4.25 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
+                onButtonClick = "[nil,'Task_Building',1] call BCE_fnc_ATAK_ChangeTool";
             };
 
         //- Target
