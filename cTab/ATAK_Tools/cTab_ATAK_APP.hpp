@@ -27,6 +27,7 @@ class ATAK_APPs
                 Pages[] = {
                     // { "CTRL_CLASS" , "OPENED" }
                     {"Task_Building", "BCE_fnc_ATAK_mission_SUB_TaskBuilding"},
+                    {"Task_CFF_List", "BCE_fnc_ATAK_mission_SUB_TaskCFFList"},
                     {"Task_Result", "BCE_fnc_ATAK_mission_SUB_TaskResult"}
                 };
             };
