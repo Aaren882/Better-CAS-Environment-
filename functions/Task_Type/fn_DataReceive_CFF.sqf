@@ -12,6 +12,7 @@ switch _curLine do {
 
 		private _textVal = [];
 		private _storeVal = [];
+		private _setUpVal = [];
 		private _mapValue = _CTAmmo getVariable ["CheckList",createHashMap];
 
 		{
@@ -20,6 +21,8 @@ switch _curLine do {
 			//-Get Data
 				private _fireAmmo = _lbAmmo lbData (lbCurSel _lbAmmo);
 				private _fireUnitSel = lbCurSel _lbFireUnits;
+				private _FuseSel = lbCurSel _lbFuse;
+				private _FuseData = _lbFuse lbData _FuseSel;
 
 				private _fireUnits = 1 max (_lbFireUnits lbValue _fireUnitSel);
 				private _setCount = 1 max (parseNumber (ctrlText _editRounds));
@@ -47,15 +50,19 @@ switch _curLine do {
 				};
 			
 			//- Save Selections
-			_storeVal set [
+			_storeVal set [ //- for UI selection recover
 				_forEachIndex,
-				[lbCurSel _lbAmmo,lbCurSel _lbFuse,_fireUnitSel,str _setCount,str _radius,str _fuzeVal]
+				[lbCurSel _lbAmmo,_FuseSel,_fireUnitSel,str _setCount,str _radius,str _fuzeVal]
+			];
+			_setUpVal set [ //- for Data transfer
+				_forEachIndex,
+				[_fireAmmo,_FuseData,_fireUnitSel,_setCount,_radius,_fuzeVal]
 			];
 
 			private _text = format [
 				"%1 (%2) - x%3:%4 %5m",
 				_fireAmmo, //- Ammo
-				"", //- Fuze
+				_FuseData, //- Fuze
 				_fireUnits,
 				_setCount,
 				_radius
@@ -67,10 +74,13 @@ switch _curLine do {
 			[_IA_ammo,_IA_fuse,_IA_fireUnits,_IA_rounds,_IA_radius,_IA_fuzeVal]
 		];
 
+		private _taskTypeSel = lbCurSel _taskType;
+		
 		private _result = [
 			_textVal joinString "/",
-			lbCurSel _taskType,
-			_storeVal
+			[_taskTypeSel, _taskType lbData _taskTypeSel],
+			_storeVal,
+			_setUpVal
 		];
 
 		/* if (_storeVal findIf {true} > -1) then {
@@ -80,74 +90,67 @@ switch _curLine do {
 		_taskVar set [0,_result];
 	};
 
-	//-Friendly
-	/* case 1:{
-		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
+	//- Observer-Target
+	case 1:{
+		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
 
-		private _text = ctrlText _ctrl4;
-		private _isEmptyInfo = ((_text == localize "STR_BCE_MarkWith") || (_text == ""));
-		private _info = format ["%1 :[%2]", localize "STR_BCE_With", [toUpper _text, "NA"] select _isEmptyInfo];
-
-		if _isEmptyInfo then {
-			_ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
-		};
-
-		if ((lbCurSel _ctrl1 == 0) && !(_isOverwrite)) then {
-			_TGPOS = call compile (_ctrl2 lbData (lbCurSel _ctrl2));
-
-			//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5: Mark Info]
-			if !(_TGPOS isEqualTo []) then {
-				_markerInfo = format ["FRND: %1 [%2] %3", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8), _info];
-				_TGPOS resize [3, 0];
-				_taskVar set [1,
-					[
-						_markerInfo,
-						_ctrl2 lbText (lbCurSel _ctrl2),
-						_TGPOS,
-						[lbCurSel _ctrl1,lbCurSel _ctrl2],
-						_text
-					]
-				];
-			} else {
-				_taskVar set [1,["NA","",[],[0,0],""]];
-			};
-		} else {
-			if ((lbCurSel _ctrl1 == 1) || (_isOverwrite)) then {
-				_TGPOS = uinamespace getVariable [["BCE_MAP_ClickPOS","BCE_FRND"] select _isOverwrite,[]];
+		call {
+			//- ON CLICK
+			if (lbCurSel _ctrl1 == 1) exitWith {
+				private _TGPOS = uinamespace getVariable [["BCE_MAP_ClickPOS","BCE_FRND"] select _isOverwrite,[]];
 
 				//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:CurSel, 5: Mark Info]
 				if !(_TGPOS isEqualTo []) then {
-					_markerInfo = format ["FRND: %1", _info];
+					private _markerInfo = format ["FRND: %1", GetGRID(_TGPOS,8)];
 					_TGPOS resize [3, 0];
 					_taskVar set [1,
 						[
 							_markerInfo,
 							"GRID",
 							_TGPOS,
-							[lbCurSel _ctrl1,lbCurSel _ctrl2],
-							_text
+							[lbCurSel _ctrl1,lbCurSel _ctrl2]
 						]
 					];
 				} else {
 					_taskVar set [1,["NA","",[],[0,0],""]];
 				};
-			} else {
-				_TGPOS = getpos cameraOn;
-				_TGPOS set [2,0];
-				_markerInfo = format ["FRND: [%1] %2",mapGridPosition _TGPOS, _info];
-				_taskVar set [1,
-					[
-						_markerInfo,
-						"GRID",
-						_TGPOS,
-						[lbCurSel _ctrl1,lbCurSel _ctrl2],
-						_text
-					]
-				];
 			};
+
+			//- Current POS
+			/* if (lbCurSel _ctrl1 == 2) exitWith {
+				private _TGPOS = call compile (_ctrl2 lbData (lbCurSel _ctrl2));
+
+				//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5: Mark Info]
+				if !(_TGPOS isEqualTo []) then {
+					private _markerInfo = format ["FRND: %1 [%2]", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8)];
+					_TGPOS resize [3, 0];
+					_taskVar set [1,
+						[
+							_markerInfo,
+							_ctrl2 lbText (lbCurSel _ctrl2),
+							_TGPOS,
+							[lbCurSel _ctrl1,lbCurSel _ctrl2]
+						]
+					];
+				} else {
+					_taskVar set [1,["NA","",[],[0,0],""]];
+				};
+			}; */
+			private _TGPOS = getpos cameraOn;
+			_TGPOS set [2,0];
+			private _markerInfo = format ["FRND: %1",GetGRID(_TGPOS,6)];
+			_taskVar set [1,
+				[
+					_markerInfo,
+					"GRID",
+					_TGPOS,
+					[lbCurSel _ctrl1,lbCurSel _ctrl2]
+				]
+			];
 		};
-		_ctrl3 ctrlSetText (_taskVar # 1 # 0);
-	}; */
+
+		_ctrl3 ctrlSetText ((_taskVar # 1) param [0,""]);
+	};
 
 	//-Target POS
 	case 2:{
@@ -199,10 +202,10 @@ switch _curLine do {
 	case 3:{
 		_shownCtrls params ["_ctrl1","_ctrl2"];
 
-		_text = ctrlText _ctrl1;
-		_InfoText = ctrlText _ctrl2;
+		private _text = ctrlText _ctrl1;
+		private _InfoText = ctrlText _ctrl2;
 		
-		_isEmptyInfo = {
+		private _isEmptyInfo = {
 			params ["_txt","_empty"];
 			[
 				_txt,
@@ -210,7 +213,7 @@ switch _curLine do {
 			] select ((_txt == _empty) || (_txt == ""));
 		};
 		
-		_Info = [["","NA"] select (_text == "")] + (
+		private _Info = [["","NA"] select (_text == "")] + (
 			[
 				[_text, "--"],
 				[_InfoText, localize "STR_BCE_MarkWith"]
