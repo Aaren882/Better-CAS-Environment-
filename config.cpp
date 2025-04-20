@@ -635,6 +635,7 @@ class CfgFunctions
 			class VecRot;
 
 			class getAzimuth;
+			class getAzimuthMil;
 			class getTurretDir;
 			class getUnitParams;
 			
@@ -845,9 +846,11 @@ class CfgFunctions
 			class DataReceive_CFF;
 
 			class DataSent_AIR;
+			class DataSent_CFF;
 			
 			class SendData5line;
 			class SendData9line;
+			class SendDataCFF;
 
 			class DblClick5line;
 			class DblClick9line;
@@ -926,6 +929,8 @@ class CfgFunctions
 				class ATAK_Call_for_Fire_Menu
 				{
 					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission\Call_for_Fire";
+					class ATAK_CFF_TaskList_Init;
+
 					class ATAK_onFireAdjusted;
 					class ATAK_FireAdjustMeter;
 					class ATAK_CleanFireAdjust;
@@ -935,6 +940,15 @@ class CfgFunctions
 					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Init";
 					class ATAK_setAPPs_props;
 					class ATAK_getAPPs_props;
+				};
+				class ATAK_Menu_Custom_Controls
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Custom_Controls";
+					class ATAK_Custom_DropMenu_Init;
+					class ATAK_Custom_DropMenu_Click;
+
+					class Create_ATAK_Custom_DropMenu; //- Create Custom DropMenu
+					class Init_ATAK_Custom_DropMenu; //- Initiate Custom DropMenu
 				};
 				class ATAK_Menu
 				{
@@ -947,6 +961,7 @@ class CfgFunctions
 					class ATAK_getAPP_Config;
 					class ATAK_toggleSubListMenu;
 					class ATAK_getCurrentAPP;
+					class ATAK_getLastAPP;
 					class ATAK_ignoreFade_Transform;
 				};
 				class ATAK_Menu_onOpened
@@ -958,6 +973,7 @@ class CfgFunctions
 					class ATAK_VideoFeeds_Init;
 					class ATAK_mission_SUB_TaskBuilding;
 					class ATAK_mission_SUB_TaskResult;
+					class ATAK_mission_SUB_TaskCFFList;
 				};
 				class ATAK_CAM
 				{
@@ -974,7 +990,7 @@ class CfgFunctions
 				class ATAK_Group_Menu
 				{
 					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Group";
-					class ATAK_onGroupClicked;
+					class ATAK_GroupList_Init;
 				};
 		#endif
 	};
