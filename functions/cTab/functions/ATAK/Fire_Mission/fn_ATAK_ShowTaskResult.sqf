@@ -12,5 +12,18 @@ if (ctrlshown _description) then {
 
 	["BCE_TaskBuilding_Clear", [_curLine]] call CBA_fnc_localEvent;
 } else {
-	[nil,"Task_Result",-1] call BCE_fnc_ATAK_ChangeTool;
+
+	//- Check Category Selection
+	private _cateSel = ["Cate",0] call BCE_fnc_get_TaskCurSetup;
+
+	switch (_cateSel) do {
+		//- AIR
+		case 0: {
+			[nil,"Task_Result",-1] call BCE_fnc_ATAK_ChangeTool;
+		};
+		//- CFF
+		case 1: {
+			[nil,"Task_CFF_List",-1] call BCE_fnc_ATAK_ChangeTool;
+		};
+	};
 };
