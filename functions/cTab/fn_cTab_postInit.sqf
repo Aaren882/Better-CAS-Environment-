@@ -42,7 +42,7 @@
 	["PLP_mapTools",false],
 	["nightMode",2],
 	["hCam",""],
-	["group_Info",[]],
+	["Custom_DropMenu",createHashMap],
 	
 	//- Define Size
 		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.443437)])
