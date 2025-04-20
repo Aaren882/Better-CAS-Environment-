@@ -555,7 +555,7 @@
                 {
                     class All_Groups: ATAK_Group_Manage_System
                     {
-                        idc = 98;
+                        idc = 100;
                         class controls: controls
                         {
                             class Tag_Bnt: Tag_Bnt
@@ -567,7 +567,8 @@
                     };
                     class My_Team: All_Groups
                     {
-                        idc = 99;
+                        idc = 101;
+                        y = 0.7 * (((60)) / 2048 * CustomPhoneH);
                         class controls: controls
                         {
                             class Tag_Bnt: Tag_Bnt
