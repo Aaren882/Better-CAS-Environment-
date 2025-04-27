@@ -1,8 +1,15 @@
+/*
+	NAME : BCE_fnc_SelWPN_CFF
+
+	Set fireUnit DropMenu contents
+*/
+
 params ["_control", "_lbCurSel"];
 
 private _mapValue = _control getVariable ["CheckList",createHashMap];
 private _data = _mapValue get (_control lbData _lbCurSel);
-_data params ["",["_magazineCount",0]];
+// _data params ["",["_magazineCount",0]];
+_data params ["","","","_unitCount"];
 
 {
 	private _fireUnits = _x call BCE_fnc_getTaskSingleComponent;
@@ -14,7 +21,7 @@ _data params ["",["_magazineCount",0]];
 		_fireUnits lbSetValue [_add, -1];
 	};
 
-	for "_i" from 1 to _magazineCount do {
+	for "_i" from 1 to _unitCount do {
 		private _add = _fireUnits lbAdd (str _i);
 		_fireUnits lbSetValue [_add, _i];
 	};

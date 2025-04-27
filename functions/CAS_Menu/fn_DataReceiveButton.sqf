@@ -27,7 +27,7 @@ _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 
 //-Send Data
 if ((tolower _button_text) == localize "STR_BCE_SendData") exitWith {
-	call BCE_fnc_SendTaskData;
+	[] call BCE_fnc_SendTaskData;
 
 	if !(_NotAVT) then {
 		_control ctrlSetText localize "STR_BCE_Abort_Task";

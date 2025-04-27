@@ -1,12 +1,16 @@
 params ["_checklist","_vehicle"];
 
+// private _veh_Index = -1;
 private _result = createHashMap;
 private _taskGroupId = groupId group _vehicle; 
-private _group_vehs = (units _vehicle) apply {vehicle _x}; 
+private _group_vehs = (units _vehicle) apply {vehicle _x};
 _group_vehs = _group_vehs ArrayIntersect _group_vehs;
+// private _unitCount = count _group_vehs;
 
 {
   private _veh = _x;
+  private _newVehicle = true;
+  private _unitCount_F = 0;
   private _magazines = magazinesAmmo _veh;
 
   // Create a list of all magazine types.
@@ -29,12 +33,19 @@ _group_vehs = _group_vehs ArrayIntersect _group_vehs;
         
         private _magazineCount = (_value param [1,0]) + 1;
         private _count = (_value param [2,0]) + (_x # 1);
+        
+        if (_newVehicle) then {
+          private _unitCount = _value param [3,0]; //- Default = 1
+          _unitCount_F = _unitCount + 1;
+          _newVehicle = false;
+        };
 
         _result set [
           _magazine, [
             _displayName,    //- DisplayName
             _magazineCount,  //- Magazine Count (how many vehicles have this magazine)
-            _count           //- Ammo Counts
+            _count,          //- Ammo Counts
+            _unitCount_F       //- fireUnit Counts
           ]
         ];
       };
