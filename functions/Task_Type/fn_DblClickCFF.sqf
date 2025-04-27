@@ -32,7 +32,7 @@ switch _curLine do {
 				["_ctrlSel1",0],
 				["_ctrlSel2",0],
 				["_ctrlSel3",["1",""] select _isIA],
-				["_ctrlSel4",["200",""] select _isIA],
+				["_ctrlSel4",["50",""] select _isIA],
 				["_ctrlSel5",["0",""] select _isIA]
 			];
 
@@ -166,7 +166,7 @@ switch _curLine do {
 				_TG_POS isNotEqualTo [] &&
 				_AmmoInfos isNotEqualTo []
 			) then {
-				private _ETA = round (_taskUnit getArtilleryETA [_TG_POS,_AmmoInfos # 0]);
+				private _ETA = round (_taskUnit getArtilleryETA [_TG_POS,_AmmoInfos # 0 # 0]);
 
 				_ETA_txt = format [
 					"ETA - %1:%2",
