@@ -174,9 +174,10 @@
 				class Tag_Bnt: Tag_Bnt{};
 				class Exec_bnt: Msg_bnt
 				{
-					text = "<img image='MG8\AVFEVFX\data\chat.paa'/>";
+					text = "<img image='MG8\AVFEVFX\data\locating.paa'/>";
+					onButtonClick = "call BCE_fnc_CFF_Mission_XMIT";
 				};
-				class Abort_bnt: Edit_bnt
+				class Edit_bnt: Edit_bnt
 				{
 					text = "<img image='MG8\AVFEVFX\data\edit.paa'/>";
 				};

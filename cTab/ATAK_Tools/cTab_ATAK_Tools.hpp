@@ -166,6 +166,11 @@
                     sizeEx = 0.9 * TextSize;
                     // onToolBoxSelChanged = _this + [false,TASK_OFFSET,'cTab_Android_dlg'] call BCE_fnc_ToolBoxChanged;
                 };
+                /* class New_Task_CFF_OT_Info: New_Task_CFF_OT_Info
+                {
+                    ATAK_POS(0.1,0.35/2,2.8,0.65);
+                    sizeEx = 0.9 * TextSize;
+                }; */
                 class New_Task_MarkerCombo: New_Task_MarkerCombo
                 {
                     ATAK_POS(0.1,(0.65 + 0.35/2),1.4,0.65);
