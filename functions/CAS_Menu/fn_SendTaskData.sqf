@@ -1,5 +1,38 @@
-private _return = ["BCE_TaskBuilding_SendData", []] call CBA_fnc_localEvent;
-_return
+/*
+	NAME : BCE_fnc_SendTaskData
+
+	Send Data
+
+	PARAMS :
+		"_taskUnit" 		- Data will be sent to this Unit
+		"_cate" 				- Task Category Index (0,1,2...)
+		"_type"					- Task Type Index (0,1,2...)
+		"_customInfos"	- Custom Infos which will be send for further data customization
+
+	Return : BOOL
+*/
+params [
+	["_taskUnit", [] call BCE_fnc_get_TaskCurUnit],
+	["_cate", ["Cate"] call BCE_fnc_get_TaskCurSetup],
+	["_type", -1],
+  "_customInfos"
+];
+
+if (_type < 0) then {
+	_type = [_cate] call BCE_fnc_get_TaskCurType;
+};
+
+private _cateName = _cate call BCE_fnc_get_BCE_TaskCateClass;
+private _return = ["BCE_TaskBuilding_SendData", [
+	_taskUnit,		//- Data will be sent to this Unit
+	_cateName,		//- Task Cate Name ("AIR", "CFF"...)
+	_type,				//- Index of the "Task Type"
+	_customInfos	//- custom Infos
+]] call CBA_fnc_localEvent;
+
+//- Return
+	true
+
 //-H-60
 /*[
 	"TESTMESSAGE",//TITLE

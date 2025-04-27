@@ -1,4 +1,4 @@
-params ["_taskUnit","_taskVar"];
+params ["_taskUnit","_cateName","_taskType","_taskVar",["_customInfos",-1]];
 
 _taskVar params ["_taskVar_0","_taskVar_1","_taskVar_2","_taskVar_3","_taskVar_4"];
 
@@ -7,18 +7,44 @@ _taskVar params ["_taskVar_0","_taskVar_1","_taskVar_2","_taskVar_3","_taskVar_4
 
 //- Processing (Get i/e & i/a values)
 _taskVar_0 params ["","_Task_Type","","_Wpn_setup"];
+// _Wpn_setup params ["_Wpn_setup_IE","_Wpn_setup_IA"];
+
+
+/* private _WPN_exec = switch (_customInfos) do {
+  //- SUBMIT
+  case 0: {
+    []
+  };
+  //- SUB & EXEC
+  case 1: { //- Adjust Fire
+    
+  };
+  //- DRAFT
+  case 2: {
+    []
+  };
+  //- FIRE FOR EFFECT (if no _curSel is found)
+  case -1: {
+    _Wpn_setup_IE
+  };
+  Default {
+    []
+  };
+}; */
 
 //- Positions
-private _FO_POS = _taskVar_1 # 2;
+// private _FO_POS = _taskVar_1 # 2;
 private _TGPOS = _taskVar_2 # 2;
 
-private _OT_Dis = round ((_FO_POS distance _TGPOS) / 100) * 100;
-private _OT_Dir = (_FO_POS getDir _TGPOS) call BCE_fnc_getAzimuthMil;
+// private _OT_Dis = round ((_FO_POS distance _TGPOS) / 100) * 100;
+// private _OT_Dir = (_FO_POS getDir _TGPOS) call BCE_fnc_getAzimuthMil;
 
 //- Pass into "DataSent" EH
 [
   _Task_Type # 1,
-  [_TGPOS,_OT_Dir], //- OT Infos
-  _Wpn_setup, //- WPN Values
+  _TGPOS,
+  // [_TGPOS,_OT_Dir], //- OT Infos
+  [], //- WPN Values
+  _customInfos,
   _taskVar
 ]
