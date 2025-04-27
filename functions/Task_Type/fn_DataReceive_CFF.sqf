@@ -54,10 +54,25 @@ switch _curLine do {
 				_forEachIndex,
 				[lbCurSel _lbAmmo,_FuseSel,_fireUnitSel,str _setCount,str _radius,str _fuzeVal]
 			];
-			_setUpVal set [ //- for Data transfer
-				_forEachIndex,
-				[_fireAmmo,_FuseData,_fireUnitSel,_setCount,_radius,_fuzeVal]
-			];
+
+			//- for Data transfer
+				private _valueCheck = [
+					[_fireAmmo,""],
+					[_FuseData,""],
+					[_fireUnits,0],
+					[_setCount,0],
+					[_radius,-1],
+					[_fuzeVal,0]
+				] apply {
+					[_x # 0, nil] select (
+						(_x # 0) == (_x # 1) &&
+						_forEachIndex == 1
+					)
+				};
+				_setUpVal set [ 
+					_forEachIndex,
+					_valueCheck
+				];
 
 			private _text = format [
 				"%1 (%2) - x%3:%4 %5m",
@@ -95,34 +110,13 @@ switch _curLine do {
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
 
 		call {
-			//- ON CLICK
+			//- Observer via BFT Network
 			if (lbCurSel _ctrl1 == 1) exitWith {
-				private _TGPOS = uinamespace getVariable [["BCE_MAP_ClickPOS","BCE_FRND"] select _isOverwrite,[]];
-
-				//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:CurSel, 5: Mark Info]
-				if !(_TGPOS isEqualTo []) then {
-					private _markerInfo = format ["FRND: %1", GetGRID(_TGPOS,8)];
-					_TGPOS resize [3, 0];
-					_taskVar set [1,
-						[
-							_markerInfo,
-							"GRID",
-							_TGPOS,
-							[lbCurSel _ctrl1,lbCurSel _ctrl2]
-						]
-					];
-				} else {
-					_taskVar set [1,["NA","",[],[0,0],""]];
-				};
-			};
-
-			//- Current POS
-			/* if (lbCurSel _ctrl1 == 2) exitWith {
 				private _TGPOS = call compile (_ctrl2 lbData (lbCurSel _ctrl2));
 
 				//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5: Mark Info]
 				if !(_TGPOS isEqualTo []) then {
-					private _markerInfo = format ["FRND: %1 [%2]", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8)];
+					private _markerInfo = format ["FO: %1 [%2]", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8)];
 					_TGPOS resize [3, 0];
 					_taskVar set [1,
 						[
@@ -135,10 +129,12 @@ switch _curLine do {
 				} else {
 					_taskVar set [1,["NA","",[],[0,0],""]];
 				};
-			}; */
-			private _TGPOS = getpos cameraOn;
+			};
+
+			//- 
+			/* private _TGPOS = getpos cameraOn;
 			_TGPOS set [2,0];
-			private _markerInfo = format ["FRND: %1",GetGRID(_TGPOS,6)];
+			private _markerInfo = format ["FO: %1",GetGRID(_TGPOS,6)];
 			_taskVar set [1,
 				[
 					_markerInfo,
@@ -146,7 +142,7 @@ switch _curLine do {
 					_TGPOS,
 					[lbCurSel _ctrl1,lbCurSel _ctrl2]
 				]
-			];
+			]; */
 		};
 
 		_ctrl3 ctrlSetText ((_taskVar # 1) param [0,""]);
