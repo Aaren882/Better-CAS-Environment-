@@ -175,12 +175,12 @@ class Call_For_Fire: AIR_5_LINE
             {
                 ATAK_POS(0,(4.25 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
             };
-            class L51_EditBnt: L52_EditBnt
+            class L51_EditBnt: L51_EditBnt //L52_EditBnt
             {
                 idc = idc_D(2040);
                 text = "“Alpha 1-1” / “Alpha 1-2”";
                 ATAK_POS(0.2,(4.25 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
-                onButtonClick = "[nil,'Task_Building',1] call BCE_fnc_ATAK_ChangeTool";
+                // onButtonClick = "[nil,'Task_Building',1] call BCE_fnc_ATAK_ChangeTool";
             };
 
         //- Target
@@ -246,53 +246,16 @@ class Call_For_Fire: AIR_5_LINE
             };
         
         //- Submit
-            class Submit_Mission_Type: RscToolbox
+            class Submit_Mission_Type: New_Task_Submit_CFF_Mission_Type
             {
-                idc = 5000;
-                
+                // idc = 5000;                
                 ATAK_POS(0.1,(8.85 + 1.05 + (3*0.35/2) + MOVE_Y_OFFSET),2.8,0.7);
-                shadow = 2;
-                rows = 1;
-                columns = 3;
-                strings[] =
-                {
-                    "SUBMIT",
-                    "SUB & EXEC",
-                    "DRAFT"
-                };
-                tooltips[] =
-                {
-                    "",
-                    "",
-                    ""
-                };
-                colorBackground[] = {0,0,0,0.3};
                 sizeEx = 0.8 * TextSize;
             };
-            class Submit_Fire_Mission: BCE_RscButtonMenu
+            class Submit_Fire_Mission: New_Task_Submit_CFF_Mission
             {
-                idc = 5001;
+                // idc = 5001;
                 ATAK_POS(0.1,(8.85 + 1.05 + 0.7 + (3*0.35/2) + MOVE_Y_OFFSET),2.8,1.2 * 0.7);
-                text = "<img image='\MG8\AVFEVFX\data\explosion.paa' /> Press To XMIT";
-
-                //- Style
-                    animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
-                    animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
-                    animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.65)";
-
-                    colorBackground[] = 
-                    {
-                        0.45,0,0,0.8
-                    };
-                    colorBackground2[] = 
-                    {
-                        0.45,0,0,0.8
-                    };
-                    colorBackgroundFocused[] = 
-                    {
-                        0.45,0,0,0.5
-                    };
-
                 size = TextSize;
 
                 class TextPos: TextPos
@@ -301,8 +264,6 @@ class Call_For_Fire: AIR_5_LINE
                 };
                 class Attributes: Attributes
                 {
-                    align="center";
-                    valign="middle";
                     size = TextMenu(0.8);
                 };
             };
