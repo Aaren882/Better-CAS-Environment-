@@ -94,8 +94,7 @@ switch (_page) do {
 					};
 				
 				//- Finally Send
-				private _NotAVT = true;
-				if (call BCE_fnc_SendTaskData) then {
+				if ([_vehicle] call BCE_fnc_SendTaskData) then {
 					_bnt ctrlSetText localize "STR_BCE_Abort_Task";
 					_bnt ctrlSetBackgroundColor [1,0,0,0.5];
 				};

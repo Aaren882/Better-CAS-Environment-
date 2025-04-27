@@ -1,4 +1,4 @@
-params ["_taskUnit","_taskVar"];
+params ["_taskUnit","_cateName","_taskType","_taskVar"];
 
 _taskVar params [
   "_taskVar_0",
