@@ -594,6 +594,24 @@ class BCE_Mission_Build_Controls
                 idc = PROP_IDC(1118);
             };
         
+        class New_Task_CFF_OT_Info: New_Task_IPtype
+        {
+            REGISTER_FNC;
+
+            idc = PROP_IDC(2205);
+            
+            columns = 2;
+            strings[] =
+            {
+                "GRID",
+                "POLAR"
+            };
+            tooltips[] =
+            {
+                "Target GRID",
+                "POLAR from Observer to Target" //- Observer can be other FOs
+            };
+        };
         class New_Task_CFF_CtrlType: New_Task_IPtype
         {
             REGISTER_FNC;
@@ -626,6 +644,60 @@ class BCE_Mission_Build_Controls
             idc = PROP_IDC(2205);
             colorBackground[] = {0,0,0,0.3};
             text = "ETA TOF : 1m20s";
+        };
+
+        class New_Task_Submit_CFF_Mission_Type: RscToolbox
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2206);
+            
+            shadow = 2;
+            rows = 1;
+            columns = 3;
+            strings[] =
+            {
+                "SUBMIT",
+                "SUB & EXEC",
+                "DRAFT"
+            };
+            tooltips[] =
+            {
+                "",
+                "",
+                ""
+            };
+            colorBackground[] = {0,0,0,0.3};
+        };
+        class New_Task_Submit_CFF_Mission: BCE_RscButtonMenu
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2207);
+            text = "<img image='\MG8\AVFEVFX\data\explosion.paa' /> Press To XMIT";
+            onButtonClick = "call BCE_fnc_CFF_Mission_XMIT";
+            
+            //- Style
+                animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
+                animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+                animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.65)";
+
+                colorBackground[] = 
+                {
+                    0.45,0,0,0.8
+                };
+                colorBackground2[] = 
+                {
+                    0.45,0,0,0.8
+                };
+                colorBackgroundFocused[] = 
+                {
+                    0.45,0,0,0.5
+                };
+
+            class Attributes: Attributes
+            {
+                align="center";
+                valign="middle";
+            };
         };
 };
 

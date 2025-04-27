@@ -255,7 +255,7 @@ class BCE_Mission_Property
                 //- Check if the Task is able to send
                 // (VAR # 0) != "NA"
                 InvaildMsg = "Task is incomplete!!";
-                Vaild_Lines[] = {0,1,2,4};
+                Vaild_Lines[] = {0,2,4};
             };
 
             Controls[] = {
@@ -264,7 +264,8 @@ class BCE_Mission_Property
                     "CFF_IE_WeaponCombo","CFF_IE_FuzeCombo","CFF_IE_FireUnit_Combo","CFF_IE_Round_Box","CFF_IE_Radius_Box","CFF_IE_FuzeValue_Box",
                     "CFF_IA_WeaponCombo","CFF_IA_FuzeCombo","CFF_IA_FireUnit_Combo","CFF_IA_Round_Box","CFF_IA_Radius_Box","CFF_IA_FuzeValue_Box"
                 },
-                {"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_FRND_DESC"},
+                {},
+                // {"New_Task_CFF_OT_Info","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_FRND_DESC"},
                 {"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
                 {"New_Task_TG_DESC","New_Task_GRID_DESC"},
                 {"New_Task_CFF_CtrlType","New_Task_CFF_TOT","New_Task_IPExpression","New_Task_CFF_ETA"}
