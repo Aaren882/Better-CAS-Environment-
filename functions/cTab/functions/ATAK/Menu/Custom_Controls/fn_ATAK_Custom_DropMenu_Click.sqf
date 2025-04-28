@@ -46,11 +46,10 @@ private _open = _findIndex < 0;
 
 //- set Control Height
   private _tagH = (ctrlPosition _ctrl) # 3;
-  private _expend_H = _groupSel getVariable ["Expand_Height",1]; //- Get Expand Height
 
   // - Check if is SYSTEM TAG
     private _height = if (_open) then {
-      _tagH * _expend_H
+      _tagH * (_groupSel getVariable ["Expand_Height",1]) //- Get Expand Height
     } else {
       _tagH
     };
