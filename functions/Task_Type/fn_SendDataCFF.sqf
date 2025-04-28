@@ -41,7 +41,7 @@ private _TGPOS = _taskVar_2 # 2;
 
 //- Pass into "DataSent" EH
 [
-  _Task_Type # 1,
+  _Task_Type,
   _TGPOS,
   // [_TGPOS,_OT_Dir], //- OT Infos
   [], //- WPN Values
