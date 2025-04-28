@@ -305,19 +305,17 @@
                     ATAK_POS(0,0,3,0.8);
                     colorBackground[] = {0,0,0,0.3};
                     rows = 1;
-                    columns = 3;
+                    columns = 2;
                     sizeEx = 0.9 * TextSize;
                     strings[] =
                     {
-                        "MSN",
-                        "History",
-                        "DRAFT"
+                        "MISSION",
+                        "ARCHIVES"
                     };
                     tooltips[] =
                     {
                         "Missions",
-                        "Saved History",
-                        "Saved Drafts"
+                        "Archives"
                     };
                 };
                 class Group_Box: Group_Box

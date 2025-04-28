@@ -653,16 +653,14 @@ class BCE_Mission_Build_Controls
             
             shadow = 2;
             rows = 1;
-            columns = 3;
+            columns = 2;
             strings[] =
             {
                 "SUBMIT",
-                "SUB & EXEC",
-                "DRAFT"
+                "SUB & EXEC"
             };
             tooltips[] =
             {
-                "",
                 "",
                 ""
             };
@@ -692,12 +690,6 @@ class BCE_Mission_Build_Controls
                 {
                     0.45,0,0,0.5
                 };
-
-            class Attributes: Attributes
-            {
-                align="center";
-                valign="middle";
-            };
         };
 };
 
