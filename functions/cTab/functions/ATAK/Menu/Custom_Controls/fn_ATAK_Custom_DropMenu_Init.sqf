@@ -9,8 +9,8 @@ _config = _config >> "DropMenu_Props";
 
 //- #NOTE - Data is Saved in "_controlGroup" (Tag Group)
 //- Set "Expand_Height" value
-  private _expand = [_config,"Expand_Height",2] call BIS_fnc_returnConfigEntry;
-  _controlGroup setVariable ["Expand_Height",_expand];
+  private _expand = [_config,"Expand_Height",1] call BIS_fnc_returnConfigEntry;
+  _controlGroup setVariable ["Expand_Height",1 + _expand];
 
 //- Set "Index" value
   _controlGroup setVariable ["Index", (ctrlIDC _controlGroup) % 100]; //- Set Ctrl Index
