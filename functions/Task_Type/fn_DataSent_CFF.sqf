@@ -11,18 +11,15 @@ if (
 ) exitWith {false};
 
 _data params [
-  "_Task_Type",
+  "_taskTypeInfo",
   "_TGPOS", //- OT Infos
   "_WPN_exec",
   "_customInfos",
   "_taskVar"
 ];
+_taskTypeInfo params ["_taskType_ID","_taskType"];
 
 private _group = group _taskUnit;
-// (_Wpn_setup # 0) params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE","_radius_IE","_fuzeVal_IE"];
-// (_Wpn_setup # 1) params ["_lbAmmo_IA","_lbFuse_IA",["_fireUnitSel_IA",1],"_setCount_IA","_radius_IA","_fuzeVal_IA"];
-
-// _OT_Infos params ["_TGPOS","_OT_Dir"];
 
 //- Hint
   private _isAVT = !isnull (finddisplay 160);
@@ -58,27 +55,30 @@ private _group = group _taskUnit;
 //- Send over Task
   /* private _task_info = str [
     format ["%2 [%3]", localize "STR_BCE_Caller", name player, groupId group player],
-    _Task_Type,
+    _taskType,
     _taskVar,
     [daytime] call BIS_fnc_timeToString
   ]; */
 
 
-//- #NOTE - Register Task
+//- #NOTE - Record Task
   private _CFF_Map = _group getVariable ["BCE_CFF_Task_Pool", createHashMap];
 
   private _random_POS = if !(_customInfos in _CFF_Map) then {
     //- 10000 Task Budget
-    private _Task_CNT = missionNamespace getVariable ["BCE_CFF_Task_ID", -1];
+    private _Task_CNT = missionNamespace getVariable ["BCE_CFF_Task_ID", 0];
 
-    _Task_CNT = [
-      _Task_CNT + 1,
-      0
-    ] select (_Task_CNT == 10000); //- Limit 10000
+    private _taskTypeBravo = 1 max floor (_Task_CNT / 10000);
+    
+    private _MSN_Key =  [
+      [_taskType_ID + 1, true] call BIS_fnc_phoneticalWord,
+      [_taskTypeBravo, true] call BIS_fnc_phoneticalWord,
+      [_Task_CNT mod 10000, 4] call CBA_fnc_formatNumber //- Limit 10000
+    ] joinString "";
 
     missionNamespace setVariable [
       "BCE_CFF_Task_ID", //- Update Count
-      _Task_CNT,
+      _Task_CNT + 1,
       true
     ];
     
@@ -92,9 +92,9 @@ private _group = group _taskUnit;
   
   //- #NOTE - Set Mission ID e.g.(AB1001)
     _CFF_Map set [
-      format ["AB%1", [_Task_CNT, 4] call CBA_fnc_formatNumber],
+      _MSN_Key,
       [
-        _Task_Type,
+        _taskType,
         [_TGPOS,8] call BCE_fnc_POS2Grid,
         player,
         [
@@ -102,7 +102,7 @@ private _group = group _taskUnit;
           (_Wpn_setup # 1),
           _random_POS
         ],
-        false //- "MSN_State"
+        0 //- "MSN_State"
       ]
     ];
 
@@ -116,17 +116,26 @@ private _group = group _taskUnit;
       "_TG_Grid",
       "_requester",
       "_MSN_infos",
-      ["_MSN_State",false] //- "MSN_State"
+      ["_MSN_State",0]
     ];
+
+    /* 
+      #ANCHOR - "MSN_State" descriptions
+      - 0 : on "Registered" (Default)
+      - 1 : on "Fire For Effect"
+      - 2 : Mission is Ended "EOM"
+      - 3 : Mission is "Archived"
+    */
+
     _MSN_infos params [
       "_Wpn_setup_IE",
       "_Wpn_setup_IA",
       "_random_POS"
     ];
-
+    
     //- #NOTE - Replace "_WPN_exec"
     //- ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_radius","_fuzeVal"]
-    _WPN_exec = if (_MSN_State) then {
+    _WPN_exec = if (_MSN_State == 1) then {
       //- EFFECTIVE ROUNDS
       _Wpn_setup_IE
     } else {
@@ -322,5 +331,5 @@ private _group = group _taskUnit;
         0.1
       ] call CBA_fnc_waitAndExecute;
   } forEach (_MagFire_ARR apply {_x # 0});
-// #!SECTION
+//- #!SECTION
 nil
