@@ -265,6 +265,8 @@ class Call_For_Fire: AIR_5_LINE
                 class Attributes: Attributes
                 {
                     size = TextMenu(0.8);
+                    align="center";
+                    valign="middle";
                 };
             };
         
