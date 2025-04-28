@@ -817,6 +817,7 @@ class CfgFunctions
 		{
 			file="MG8\AVFEVFX\functions\CAS_Menu\Call_for_fire";
 			class CFF_Mission_XMIT;
+			class CFF_Mission_EOM;
 			class UpdateFireAdjust;
 			class get_FireAdjustValues;
 			class set_FireAdjustValues;
