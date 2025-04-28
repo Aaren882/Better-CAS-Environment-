@@ -25,7 +25,7 @@
 		class DropMenu_Props
 		{
 			Variable_Name = "group_Info"; //- Variable in cTab_fnc_getSettings
-			Expand_Height = 2; //- Height of Drop Menu ("Tag_Bnt" Height * Expand_Height)
+			Expand_Height = 1; //- Height of Drop Menu ("Tag_Bnt" Height * (1 + Expand_Height))
 			MaxOpened = -1;
 			//- Functions
 			onTagLoad = "BCE_fnc_ATAK_GroupList_Init";
@@ -90,7 +90,7 @@
 	{
 		class DropMenu_Props: DropMenu_Props
 		{
-			Expand_Height = 3;
+			Expand_Height = 2;
 		};
 		// h = (3 * 0.7) * (((60)) / 2048 * CustomPhoneH); // - Display with 3 lines
 		class controls: controls
@@ -134,6 +134,25 @@
 
 				font = "RobotoCondensed_BCE";
 				columns[] = {0.01,0.99};
+				class ScrollBar
+				{
+					color[] = {1,1,1,0};
+					colorActive[] = {1,1,1,0};
+					colorDisabled[] = {1,1,1,0};
+					thumb = "";
+					arrowEmpty = "";
+					arrowFull = "";
+					border = "";
+					shadow = 0;
+					scrollSpeed = 0;
+					width = 0;
+					height = 0;
+					autoScrollEnabled = 0;
+					autoScrollSpeed = -1;
+					autoScrollDelay = 5;
+					autoScrollRewind = 0;
+				};
+				class ListScrollBar: ScrollBar{};
 			};
 			class Tag_Bnt: Tag_Bnt
 			{
@@ -162,24 +181,52 @@
 			class DropMenu_Props: DropMenu_Props
 			{
 				Variable_Name = "CFF_TaskList";
-				Expand_Height = 3;
+				Expand_Height = 4;
 				MaxOpened = 1;
 				onTagLoad = "BCE_fnc_ATAK_CFF_TaskList_Init";
 				onTagClick = "";
 			};
 			class controls: controls
 			{
-				class menuBackground: menuBackground{};
-				class List_Info: List_Info{};
+				class menuBackground: menuBackground
+				{
+					h = (3 * 0.7) * (((60)) / 2048 * CustomPhoneH);
+				};
+				class List_Info: List_Info
+				{
+					h = (3 * 0.7) * (((60)) / 2048 * CustomPhoneH);
+				};
 				class Tag_Bnt: Tag_Bnt{};
 				class Exec_bnt: Msg_bnt
 				{
-					text = "<img image='MG8\AVFEVFX\data\locating.paa'/>";
+					text = "<img image='MG8\AVFEVFX\data\start.paa'/>";
 					onButtonClick = "call BCE_fnc_CFF_Mission_XMIT";
 				};
-				class Edit_bnt: Edit_bnt
+				class adjust_bnt: Edit_bnt
 				{
-					text = "<img image='MG8\AVFEVFX\data\edit.paa'/>";
+					text = "<img image='MG8\AVFEVFX\data\ruler.paa'/>";
+				};
+				class archive_bnt: Edit_bnt
+				{
+					idc = 18;
+					x = 0;
+					y = 4 * (0.7 * (((60)) / 2048 * CustomPhoneH));
+					W = PhoneBFTContainerW(1);
+					text = "<img image='MG8\AVFEVFX\data\archive.paa'/>";
+					tooltip = "Archive Mission";
+					onButtonClick = "";
+				};
+				class EOM_bnt: archive_bnt
+				{
+					idc = 20;
+					x = PhoneBFTContainerW(2);
+					text = "EOM";
+					tooltip = "End of Mission";
+					
+					onButtonClick = "call BCE_fnc_CFF_Mission_EOM";
+					colorBackground[] = {0.45,0,0,0.8};
+					colorBackground2[] = {0.45,0,0,0.8};
+					colorBackgroundFocused[] = {0.45,0,0,0.5};
 				};
 			};
 		};
