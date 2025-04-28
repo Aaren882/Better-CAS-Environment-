@@ -19,7 +19,7 @@ private _CFF_Missions = (
     ["AB0002",["Suppress","33334456", player,5,3]]
   ] */
 ) toArray false;
-reverse _CFF_Missions;
+// reverse _CFF_Missions;
 
 //- Create DropMenu 
   [
