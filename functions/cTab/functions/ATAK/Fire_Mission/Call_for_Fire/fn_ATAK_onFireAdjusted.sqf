@@ -1,4 +1,4 @@
-params ["_group","_vector"];
+params ["_group","_vector","_isOnLoad"];
 
 private _indecator = _group controlsGroupCtrl 5001;
 private _adjustBnt = _group controlsGroupCtrl 5002;
@@ -25,6 +25,6 @@ _indecator ctrlSetText format [
 
 //- Update Indications
   _indecator ctrlSetAngle [_result,0.5, 0.5,false];
-  _indecator ctrlCommit 0.15;
+  _indecator ctrlCommit ([0.15, 0] select _isOnLoad);
 
   _adjustBnt ctrlSetStructuredText parseText _text;
