@@ -27,7 +27,11 @@ private _curAdjust = _curAdjust vectorAdd _vector;
 //- Update value
 ["Adjust", _curAdjust joinString ","] call BCE_fnc_set_FireAdjustValues;
 
-["BCE_onFireAdjusted", [_group, _curAdjust]] call CBA_fnc_localEvent;
+["BCE_onFireAdjusted", [
+  _group,
+  _curAdjust,
+  _vector isEqualTo [] //- Check is onLoad
+]] call CBA_fnc_localEvent;
 
 //- Return
 _curAdjust
