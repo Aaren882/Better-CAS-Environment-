@@ -83,10 +83,9 @@ private _ctrls = (allControls _display) apply {
 },
   [
     format [
-      "%1%2.%3", 
+      "%1%2.jpg", 
       [(BCE_PicFilePath_edit trim ["\", 2]) + "\",""] select (BCE_PicFilePath_edit == ""), 
-      _time joinString "_", 
-      ["jpg","png"] # BCE_PicFile_list
+      _time joinString "_"
     ], 
     _ctrls, 
     _grid
