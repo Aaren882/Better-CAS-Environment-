@@ -61,14 +61,6 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
             _missionType ctrlAddEventHandler ["LBSelChanged", BCE_fnc_onLBTaskTypeChanged];
         };
         case 1: { //- Ground Fire Support ("Call For Fire")
-          private _AdjustGrp = _MissionCtrl controlsGroupCtrl 5400;
-          private _AdjustBnt = _AdjustGrp controlsGroupCtrl 5100;
-          private _AdjustMeter = _AdjustGrp controlsGroupCtrl 5004;
-          
-          _AdjustBnt call BCE_fnc_UpdateFireAdjust; //- Refresh UI Values
-
-          private _MeterValue = ["Meter",1] call BCE_fnc_get_FireAdjustValues;
-          _AdjustMeter ctrlSetText format ["<-- %1 m -->", _MeterValue * 10];
 
           //- Get Avaliable Arty Units
             private _artyGrp = "Vehicle_Grp_Sel" call BCE_fnc_getTaskSingleComponent;

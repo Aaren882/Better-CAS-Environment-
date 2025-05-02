@@ -691,6 +691,46 @@ class BCE_Mission_Build_Controls
                     0.45,0,0,0.5
                 };
         };
+        class New_Task_Adjust_Method_CFF: RscToolbox
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2208);
+            shadow = 2;
+            rows = 1;
+            columns = 3;
+            strings[] =
+            {
+                "POLAR",
+                "IMPACT",
+                "GUN-LINE"
+            };
+            tooltips[] =
+            {
+                "",
+                "",
+                ""
+            };
+            colorBackground[] = {0,0,0,0.3};
+        }; 
+        class New_Task_MissionType_ADJUST_CFF: New_Task_Adjust_Method_CFF
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2209);
+            shadow = 2;
+            rows = 1;
+            columns = 2;
+            strings[] =
+            {
+                "ADJUST FIRE",
+                "FIRE FOR EFFECT"
+            };
+            tooltips[] =
+            {
+                "",
+                ""
+            };
+            colorBackground[] = {0,0,0,0.5};
+        }; 
 };
 
 #undef PROP_IDC_OFFSET
