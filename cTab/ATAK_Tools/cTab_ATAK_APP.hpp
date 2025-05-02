@@ -28,6 +28,7 @@ class ATAK_APPs
                     // { "CTRL_CLASS" , "OPENED" }
                     {"Task_Building", "BCE_fnc_ATAK_mission_SUB_TaskBuilding"},
                     {"Task_CFF_List", "BCE_fnc_ATAK_mission_SUB_TaskCFFList"},
+                    {"Task_CFF_Action", "BCE_fnc_ATAK_mission_SUB_TaskCFF_Action"},
                     {"Task_Result", "BCE_fnc_ATAK_mission_SUB_TaskResult"}
                 };
             };

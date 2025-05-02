@@ -200,11 +200,12 @@
 				class Exec_bnt: Msg_bnt
 				{
 					text = "<img image='MG8\AVFEVFX\data\start.paa'/>";
-					onButtonClick = "call BCE_fnc_CFF_Mission_XMIT";
+					onButtonClick = "[_this # 0, 0] call BCE_fnc_CFF_Mission_XMIT";
 				};
 				class adjust_bnt: Edit_bnt
 				{
 					text = "<img image='MG8\AVFEVFX\data\ruler.paa'/>";
+					onButtonClick = "[_this # 0, 1] call BCE_fnc_CFF_Mission_XMIT";
 				};
 				class archive_bnt: Edit_bnt
 				{

@@ -976,6 +976,7 @@ class CfgFunctions
 					class ATAK_mission_SUB_TaskBuilding;
 					class ATAK_mission_SUB_TaskResult;
 					class ATAK_mission_SUB_TaskCFFList;
+					class ATAK_mission_SUB_TaskCFF_Action;
 				};
 				class ATAK_CAM
 				{

@@ -3,7 +3,7 @@
   
   On CFF XMIT pressed #LINK - functions/cTab/functions/ATAK/Fire_Mission/Call_for_Fire/fn_ATAK_CFF_TaskList_Init.sqf
 */
-params ["_control"];
+params ["_control",["_transmitType",-1]];
 
 //- Check Task Unit 
 private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
@@ -13,29 +13,31 @@ if (isnull _taskUnit) exitWith {};
 private _tagGrp = ctrlParentControlsGroup _control;
 private _taskData = _tagGrp getVariable ["CFF_Task_Mission",""];
 
-private _customData = if (_taskData == "") then {
-  private _typeCtrl = "New_Task_Submit_CFF_Mission_Type" call BCE_fnc_getTaskSingleComponent;
-  lbCurSel _typeCtrl
+private _customData = if (_taskData != "") then {
+  switch (_transmitType) do { //- Check XMIT type
+    //- Start Mission
+    case 0: {_taskData};
 
-  //- XMIT Type
-  /* private _customInfos = switch (_curSel) do {
-    //- FIRE FOR EFFECT (if no _curSel is found)
-    case -1: {
+    //- Open Adjust Menu
+    case 1: {
+      private _value = ["CFF_Mission",[],true] call BCE_fnc_get_TaskCurSetup;
+      _value set [0,_taskData];
+      ["CFF_Mission",_value] call BCE_fnc_set_TaskCurSetup;
 
+      //- #TODO - Add CBA localEvent
+      [nil,"Task_CFF_Action",-1] call BCE_fnc_ATAK_ChangeTool;
+      
+      nil //- Return
     };
-    //- SUBMIT
-    case 0: {
-
-    };
-    //- SUB & EXEC
-    case 1: { };
-    //- DRAFT
-    case 2: { };
-  }; */
+  };
 } else {
-  _taskData
+  //- Submit & SUB/EXEC Mission
+  private _typeCtrl = "New_Task_Submit_CFF_Mission_Type" call BCE_fnc_getTaskSingleComponent;
+  lbCurSel _typeCtrl //- Return
 };
 
+//- #NOTE - Exit if there's no "_customData"
+if (isNil{_customData}) exitWith {};
 
 //- Send Data
   [

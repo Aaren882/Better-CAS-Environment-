@@ -6,6 +6,10 @@
 params [["_ctrl",controlNull],"_page","_curLine",["_subList",false]];
 
 private _displayName = "cTab_Android_dlg";
+private _display = uiNamespace getVariable [_displayName,displayNull];
+
+if (isnull _display) exitWith {};
+
 private _setting = [_displayName, "showMenu"] call cTab_fnc_getSettings;
 private _subInfos = _setting param [2,[]];
 
@@ -46,7 +50,6 @@ switch (true) do {
 
 //- Pass POS for Animation Tramsformation
   if (!isNull _ctrl && 1 > (_setting # 2) param [1, -1]) then {
-    private _display = ctrlParent _ctrl;
     private _background = _display displayCtrl 4660;
     _background setVariable ["Anim_SwitchTool", true];
   };
