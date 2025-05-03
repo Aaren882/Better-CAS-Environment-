@@ -214,7 +214,7 @@
 					y = 4 * (0.7 * (((60)) / 2048 * CustomPhoneH));
 					W = PhoneBFTContainerW(1);
 					text = "<img image='MG8\AVFEVFX\data\archive.paa'/>";
-					tooltip = "Archive Mission";
+					tooltip = "Record as Target";
 					onButtonClick = "";
 				};
 				class EOM_bnt: archive_bnt
