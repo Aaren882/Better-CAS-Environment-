@@ -312,12 +312,12 @@
                         strings[] =
                         {
                             "MISSION",
-                            "ARCHIVES"
+                            "RECORD"
                         };
                         tooltips[] =
                         {
                             "Missions",
-                            "Archives"
+                            "Recorded Targets"
                         };
                     };
                     class Group_Box: Group_Box
@@ -335,11 +335,11 @@
                     //- Titles
                         class Page_Title: RscText
                         {
-                            text="Mission Adjustments";
+                            text="Mission #NA";
                             ATAK_POS(0,0,3,TITLE_HEIGHT);
                             tooltip="";
 
-                            idc = -1;
+                            idc = 3600;
                             shadow=2;
                             style = 0x02 + 0xC0;
                             sizeEx = 1.2 * TextSize;
@@ -621,6 +621,18 @@
                                 #undef ADJUST_BNT_W
                                 #undef ADJUST_INTERVAL
                                 #undef ADJUST_BNT_POS
+                        };
+                    };
+
+                    class New_Task_MTO_Display: New_Task_MTO_Display
+                    {
+                        ATAK_POS(0.1,(2 * (0.35/2) + 0.1 + 1 + TITLE_HEIGHT + (ADJUSTMENT_MENU * 0.7) + (3 * 0.7)),2.8,(2 * 0.7));
+                        size = TextSize;
+                        tooltip = "Send back from FDC.";
+                        class Attributes: Attributes
+                        {
+                            align = "center";
+                            size = 0.65;
                         };
                     };
                     #undef ADJUSTMENT_MENU

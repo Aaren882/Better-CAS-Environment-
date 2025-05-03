@@ -731,6 +731,17 @@ class BCE_Mission_Build_Controls
             };
             colorBackground[] = {0,0,0,0.5};
         }; 
+        class New_Task_MTO_Display: RscStructuredText
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2210);
+            colorBackground[] = {0,0,0,0.3};
+            class Attributes
+            {
+                font = "RobotoCondensed_BCE";
+                valign="middle";
+            };
+        };
 };
 
 #undef PROP_IDC_OFFSET
