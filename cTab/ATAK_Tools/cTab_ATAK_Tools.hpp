@@ -440,7 +440,7 @@
                                     style = "0x02 + 0x30 + 0x800";
                                     shadow = 1;
                                     text = "<img image='\MG8\AVFEVFX\data\gabage.paa' />";
-                                    onButtonClick = "_this call BCE_fnc_ATAK_CleanFireAdjust";
+                                    onButtonClick = "_this call BCE_fnc_CleanFireAdjustValues";
 
                                     class TextPos: TextPos
                                     {

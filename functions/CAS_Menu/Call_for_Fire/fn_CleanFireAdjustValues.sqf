@@ -1,5 +1,5 @@
 /*
-  NAME : BCE_fnc_ATAK_CleanFireAdjust
+  NAME : BCE_fnc_CleanFireAdjustValues
 
   Return : [0,0]
 */

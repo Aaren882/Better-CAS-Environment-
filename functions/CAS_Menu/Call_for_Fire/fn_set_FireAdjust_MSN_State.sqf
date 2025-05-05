@@ -41,7 +41,7 @@ private _taskValues = _CFF_Map get _taskData;
       
       private _cur = ["Adjust", "0,0"] call BCE_fnc_get_FireAdjustValues;
       private _curAdjust = (_cur splitString ",") apply {parseNumber _x};
-      _Control call BCE_fnc_ATAK_CleanFireAdjust; //- Clear ADJUST Value
+      _Control call BCE_fnc_CleanFireAdjustValues; //- Clear ADJUST Value
 
       private _FO = call CBA_fnc_currentUnit;
       private _TG_POS = (_taskValues # 1) call BCE_fnc_Grid2POS;
