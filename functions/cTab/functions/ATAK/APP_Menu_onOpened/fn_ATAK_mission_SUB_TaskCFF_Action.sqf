@@ -48,7 +48,7 @@ _PageTitle ctrlSetText ("Mission #" + _taskData);
 //- Controls
   private _MissionType_dsp = "New_Task_MissionType_ADJUST_CFF" call BCE_fnc_getTaskSingleComponent;
   _MissionType_dsp lbSetCurSel _MSN_State;
-  
+
   private _MTO_dsp = "New_Task_MTO_Display" call BCE_fnc_getTaskSingleComponent;
   private _OtherInfo_dsp = "New_Task_OtherInfo_Display" call BCE_fnc_getTaskSingleComponent;
 
@@ -126,3 +126,4 @@ _PageTitle ctrlSetText ("Mission #" + _taskData);
     [floor (_ETA/60), _ETA % 60] joinString ":",
     _fuzeVal
   ];
+  [_OtherInfo_dsp] call BIS_fnc_ctrlFitToTextHeight
