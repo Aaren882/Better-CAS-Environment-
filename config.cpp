@@ -937,7 +937,6 @@ class CfgFunctions
 
 					class ATAK_onFireAdjusted;
 					class ATAK_FireAdjustMeter;
-					class ATAK_CleanFireAdjust;
 				};
 				class ATAK_Menu_Init
 				{
