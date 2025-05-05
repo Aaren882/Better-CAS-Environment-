@@ -169,9 +169,8 @@ switch _curLine do {
 				private _ETA = round (_taskUnit getArtilleryETA [_TG_POS,_AmmoInfos # 0 # 0]);
 
 				_ETA_txt = format [
-					"ETA - %1:%2",
-					floor (_ETA / 60),
-					_ETA % 60
+					"ETA - %1",
+					[floor (_ETA/60), _ETA % 60] joinString ":"
 				];
 			};
 

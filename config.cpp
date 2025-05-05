@@ -819,6 +819,7 @@ class CfgFunctions
 			class CFF_Mission_XMIT;
 			class CFF_Mission_EOM;
 			class UpdateFireAdjust;
+			class set_FireAdjust_MSN_State;
 			class get_FireAdjustValues;
 			class set_FireAdjustValues;
 		};

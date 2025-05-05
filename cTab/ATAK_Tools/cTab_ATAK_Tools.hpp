@@ -374,6 +374,7 @@
                         {
                             WPN_COMBO_STYLE;
                             ATAK_POS(0.7,(1 + TITLE_HEIGHT + (0.35/2)),1.5,0.65);
+                            onLBSelChanged = "call BCE_fnc_SelWPN_CFF";
                         };
                         class CFF_IE_FuzeCombo: CFF_IE_FuzeCombo
                         {
@@ -541,6 +542,7 @@
                                     shadow=1;
                                     size = TextSize;
                                     text = "<img image='\MG8\AVFEVFX\data\ruler.paa' /> ADJUST";
+                                    onButtonClick = "['MSN_ADJUST_P',nil,_this#0] call BCE_fnc_set_FireAdjust_MSN_State";
 
                                     class TextPos: TextPos
                                     {
@@ -626,13 +628,26 @@
 
                     class New_Task_MTO_Display: New_Task_MTO_Display
                     {
-                        ATAK_POS(0.1,(2 * (0.35/2) + 0.1 + 1 + TITLE_HEIGHT + (ADJUSTMENT_MENU * 0.7) + (3 * 0.7)),2.8,(2 * 0.7));
+                        ATAK_POS(0.1,(2 * (0.35/2) + 0.1 + 1 + TITLE_HEIGHT + ((ADJUSTMENT_MENU + 3) * 0.7)),2.8,(2 * 0.7));
                         size = TextSize;
                         tooltip = "Send back from FDC.";
                         class Attributes: Attributes
                         {
                             align = "center";
                             size = 0.65;
+                        };
+                    };
+                    class New_Task_OtherInfo_Display: New_Task_OtherInfo_Display
+                    {
+                        ATAK_POS(0.1,(2 * (0.35/2) + 0.1 + 1 + TITLE_HEIGHT + ((ADJUSTMENT_MENU + 3 + 2) * 0.7)),2.8,0.6);
+                        size = TextSize;
+                        tooltip = "Other Infos";
+                        shadow = 2;
+                        class Attributes: Attributes
+                        {
+                            valign="middle";
+                            align = "center";
+                            size = 0.75;
                         };
                     };
                     #undef ADJUSTMENT_MENU
