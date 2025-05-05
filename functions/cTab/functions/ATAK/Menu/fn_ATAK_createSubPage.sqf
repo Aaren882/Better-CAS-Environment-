@@ -1,3 +1,9 @@
+/*
+  NAME : BCE_fnc_ATAK_createSubPage
+
+  Create page/control inside ATAK panel
+*/
+
 params ["_currentMenu","_menuIDC","_Apps_Group","_isDialog",["_reset",false]];
 
 // private _ctrl = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
