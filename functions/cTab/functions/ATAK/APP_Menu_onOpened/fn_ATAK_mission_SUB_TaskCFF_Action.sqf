@@ -6,6 +6,7 @@ private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_Task
 if (isnull _taskUnit) exitWith {
   
 };
+
 //- Get TaskUnit group infos
   private _taskUnit_Grp = group _taskUnit;
   private _CFF_Map = _taskUnit_Grp getVariable ["BCE_CFF_Task_Pool", createHashMap];
@@ -40,19 +41,88 @@ _MSN_infos params [
 
 _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE","_radius_IE","_fuzeVal_IE"];
 
-
+//- TOP TITLE
 private _PageTitle = _group controlsGroupCtrl 3600;
 _PageTitle ctrlSetText ("Mission #" + _taskData);
 
-private _MTO_dsp = "New_Task_MTO_Display" call BCE_fnc_getTaskSingleComponent;
-private _default_FUZE = [configFile >> "CfgMagazines" >> _lbAmmo_IE, "displayNameMFDFormat", "NO SPEC"] call BIS_fnc_returnConfigEntry;
+//- Controls
+  private _MissionType_dsp = "New_Task_MissionType_ADJUST_CFF" call BCE_fnc_getTaskSingleComponent;
+  _MissionType_dsp lbSetCurSel _MSN_State;
+  
+  private _MTO_dsp = "New_Task_MTO_Display" call BCE_fnc_getTaskSingleComponent;
+  private _OtherInfo_dsp = "New_Task_OtherInfo_Display" call BCE_fnc_getTaskSingleComponent;
 
-_MTO_dsp ctrlSetStructuredText parseText format [
-  "<t color='#FFBC05' size='0.9'>%1</t><br/>""%2 x%3, %4 in Effect, %5 ROUNDS, TARGET NUMBER %6""",
-  "Message to Observer :",
-  str groupId _taskUnit_Grp,
-  _fireUnitSel_IE,
-  [_lbFuse_IE,_default_FUZE] select (_lbFuse_IE == ""),
-  _setCount_IE,
-  _taskData
-];
+//- MTO (Message to Observer)
+  private _default_FUZE = [configFile >> "CfgMagazines" >> _lbAmmo_IE, "displayNameMFDFormat", "NO SPEC"] call BIS_fnc_returnConfigEntry;
+
+  _MTO_dsp ctrlSetStructuredText parseText format [
+    "<t color='#FFBC05' size='0.9'>%1</t><br/>""%2 x%3, %4 in Effect, %5 ROUNDS, TARGET NUMBER %6""",
+    "Message to Observer :",
+    str groupId _taskUnit_Grp,
+    _fireUnitSel_IE,
+    [_lbFuse_IE,_default_FUZE] select (_lbFuse_IE == ""),
+    _setCount_IE,
+    _taskData
+  ];
+
+//- #NOTE - Specify WPN setup & Info (TOF...)
+  private _wpn_Cate = [_Wpn_setup_IA, _Wpn_setup_IE] # _MSN_State;
+  _wpn_Cate params [
+    ["_Ammo",_lbAmmo_IE],
+    ["_Fuse",_lbFuse_IE],
+    "_fireUnitSel",
+    "_setCount",
+    "_radius",
+    ["_fuzeVal",_fuzeVal_IE]
+  ];
+
+  call { //- Won't be used twice
+    private _wpn_Ctrls = [ //- Get Ctrls
+      "WeaponCombo",
+      "FuzeCombo",
+      "FireUnit_Combo",
+      "Round_Box",
+      "Radius_Box",
+      "FuzeValue_Box"
+    ] apply {("CFF_IE_" + _x) call BCE_fnc_getTaskSingleComponent};
+
+    _wpn_Ctrls params ["_lbAmmo","_lbFuse","_lbFireUnits","_editRounds","_editRadius","_editFuzeVal"];
+
+    //- Create Weapon List
+      lbClear _lbAmmo;
+      [
+        _lbAmmo,
+        _taskUnit
+      ] call BCE_fnc_WPN_List_CFF;
+
+    //- Get Selection functions
+      private _GetDataSel = {
+        params ["_ctrl", "_value"];
+        private _return = 0;
+        for "_i" from 0 to (lbSize _ctrl) - 1 do {
+          if (_value == (_ctrl lbData _i)) exitWith {_return = _i};
+        };
+        _return
+      };
+      private _GetValueSel = {
+        params ["_ctrl", "_value"];
+        private _return = 0;
+        for "_i" from 0 to (lbSize _ctrl) - 1 do {
+          if (_value == (_ctrl lbValue _i)) exitWith {_return = _i};
+        };
+        _return
+      };
+    _lbAmmo 	lbSetCurSel ([_lbAmmo,_Ammo] call _GetDataSel);
+    _lbFuse 	lbSetCurSel ([_lbFuse,_Fuse] call _GetDataSel);
+    _lbFireUnits	lbSetCurSel ([_lbFireUnits,_fireUnitSel] call _GetValueSel);
+    _editRounds	ctrlSetText str _setCount;
+    _editRadius	ctrlSetText str _radius;
+    _editFuzeVal	ctrlSetText str _fuzeVal;
+  };
+  
+  private _ETA = round (_taskUnit getArtilleryETA [_TG_Grid call BCE_fnc_Grid2POS, _Ammo]);
+  _OtherInfo_dsp ctrlSetStructuredText parseText format [
+    "TOF - %1 || Fuze - %2",
+    [floor (_ETA/60), _ETA % 60] joinString ":",
+    _fuzeVal
+  ];

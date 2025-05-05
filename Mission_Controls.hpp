@@ -730,6 +730,7 @@ class BCE_Mission_Build_Controls
                 ""
             };
             colorBackground[] = {0,0,0,0.5};
+            onToolBoxSelChanged = "['MSN_STATE',_this#1] call BCE_fnc_set_FireAdjust_MSN_State";
         }; 
         class New_Task_MTO_Display: RscStructuredText
         {
@@ -741,6 +742,12 @@ class BCE_Mission_Build_Controls
                 font = "RobotoCondensed_BCE";
                 valign="middle";
             };
+        };
+        class New_Task_OtherInfo_Display: New_Task_MTO_Display
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2211);
+            colorBackground[] = {0,0,0,0.5};
         };
 };
 
