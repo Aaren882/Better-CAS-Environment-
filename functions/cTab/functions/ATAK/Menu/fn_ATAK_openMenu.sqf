@@ -42,10 +42,10 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
 //- Set APP Menu
   (_page call BCE_fnc_ATAK_getAPPs_props) params ["_currentMenu","_function","_subMenus"];
 
-  //- if subMenu exist then overwrite [_currentMenu, _function]
+  //- if subMenu exist then overwrite [_currentMenu, [_function, _Config]]
     if (_subMenu != "") then {
       _currentMenu = _subMenu;
-      _function = _subMenus get _subMenu;
+      _function = (_subMenus get _subMenu) param [0,""];
     };
 
   //- Check Ctrls
@@ -62,4 +62,8 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
       ] call BCE_fnc_ATAK_createSubPage;
 
   //- Opened
-    [_ctrl,_interfaceInit,_isDialog,_settings] call (uiNamespace getVariable _function);
+    [_ctrl,_interfaceInit,_isDialog,_settings] call {
+      privateAll;
+      import ["_function"];
+      _this call (uiNamespace getVariable _function);
+    };
