@@ -966,6 +966,16 @@ class CfgFunctions
 					class ATAK_getCurrentAPP;
 					class ATAK_getLastAPP;
 					class ATAK_ignoreFade_Transform;
+					
+				};
+				class ATAK_Menu_Buttons
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Init_Buttons";
+					class ATAK_bnt_SendMission;
+					class ATAK_bnt_Group;
+					class ATAK_bnt_Message;
+					class ATAK_bnt_TaskBuilding;
+					class ATAK_bnt_VideoFeeds;
 				};
 				class ATAK_Menu_onOpened
 				{

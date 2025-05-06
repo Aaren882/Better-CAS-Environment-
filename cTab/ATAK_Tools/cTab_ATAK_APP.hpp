@@ -1,4 +1,5 @@
 #include "ATAK_MACRO.hpp"
+#include "ATAK_Buttons.hpp"
 
 class ATAK_APPs
 {
@@ -10,6 +11,7 @@ class ATAK_APPs
                 ORDER = 0; //- Default Order (Customizable)
                 PAGE_CTRL = "ATAK_Message"; //- which "Control Class" switch to
                 Opened = "BCE_fnc_ATAK_message_Init";
+                ATAK_Buttons = "Message_Menu"; //- #LINK - cTab/ATAK_Tools/ATAK_Buttons.hpp
             };
             
             onButtonClick = "[_this # 0] call BCE_fnc_ATAK_ChangeTool;";
@@ -24,12 +26,41 @@ class ATAK_APPs
                 ORDER = 1;
                 PAGE_CTRL = "Task_Builder";
                 Opened = "BCE_fnc_ATAK_mission_Init";
-                Pages[] = {
-                    // { "CTRL_CLASS" , "OPENED" }
+                ATAK_Buttons = "MissionSend_Menu";
+                /* Pages[] = {
+                    // { "CTRL_CLASS" , "OPENED" , "ATAK_Buttons" }
                     {"Task_Building", "BCE_fnc_ATAK_mission_SUB_TaskBuilding"},
                     {"Task_CFF_List", "BCE_fnc_ATAK_mission_SUB_TaskCFFList"},
                     {"Task_CFF_Action", "BCE_fnc_ATAK_mission_SUB_TaskCFF_Action"},
                     {"Task_Result", "BCE_fnc_ATAK_mission_SUB_TaskResult"}
+                }; */
+                class Pages
+                {
+                    class Task_Building
+                    {
+                        PAGE_CTRL = "Task_Building";
+                        Opened = "BCE_fnc_ATAK_mission_SUB_TaskBuilding";
+                        ATAK_Buttons = "TaskBuilding_Menu";
+                    };
+                    class Task_CFF_List
+                    {
+                        PAGE_CTRL = "Task_CFF_List";
+                        Opened = "BCE_fnc_ATAK_mission_SUB_TaskCFFList";
+                        // ATAK_Buttons = "TaskBuilding_Menu";
+                    };
+                    class Task_CFF_Action
+                    {
+                        PAGE_CTRL = "Task_CFF_Action";
+                        Opened = "BCE_fnc_ATAK_mission_SUB_TaskCFF_Action";
+                        LastPage = "Task_CFF_List"; //- ClassName of the page
+                        // ATAK_Buttons = "TaskBuilding_Menu";
+                    };
+                    class Task_Result
+                    {
+                        PAGE_CTRL = "Task_Result";
+                        Opened = "BCE_fnc_ATAK_mission_SUB_TaskResult";
+                        // ATAK_Buttons = "TaskBuilding_Menu";
+                    };
                 };
             };
 
@@ -43,6 +74,7 @@ class ATAK_APPs
                 ORDER = 2;
                 PAGE_CTRL = "ATAK_Video";
                 Opened = "BCE_fnc_ATAK_VideoFeeds_Init";
+                ATAK_Buttons = "VideoFeeds_Menu";
             };
 
             text = ATAK_APP(Video Feeds);
@@ -69,6 +101,7 @@ class ATAK_APPs
                 ORDER = 4;
                 PAGE_CTRL = "ATAK_Group";
                 Opened = "BCE_fnc_ATAK_Group_Init";
+                ATAK_Buttons = "Group_Menu";
             };
 
             onButtonClick = "[_this # 0] call BCE_fnc_ATAK_ChangeTool;";
