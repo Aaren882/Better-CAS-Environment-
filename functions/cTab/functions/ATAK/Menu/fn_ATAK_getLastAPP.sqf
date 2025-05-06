@@ -29,9 +29,16 @@ if (count _map == 0) then {
   {
     private _name = _x;
     private _cfg = configFile >> "ATAK_APPs" >> _x >> "Menu_Property";
+    private _pages = configProperties [_cfg >> "Pages"];
     {
-      _map set [_x param [0,""], _name];
-    } forEach (getArray (_cfg >> "Pages"));
+      //- #NOTE - [PAGE_NAME, MAIN_PAGE_NAME]
+      private _pageName = [
+        _name,
+        getText (_x >> "LastPage")
+      ] select isText(_x >> "LastPage");
+
+      _map set [configName _x, _pageName];
+    } forEach _pages;
   } forEach _configNames;
 
   localNamespace setVariable ["BCE_ATAK_SubMenu_HashMap", _map];
