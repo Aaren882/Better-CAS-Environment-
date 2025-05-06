@@ -5,7 +5,6 @@
 params ["_display","_page",["_isHome", false],"_settings"];
 private ["_group","_ctrls","_currentPage","_ctrlPOS_BG","_ctrlPOS"];
 
-// _isHome = false;
 _group = _display displayCtrl 46600;
 _ctrls = allControls _group;
 _group ctrlShow !_isHome;
@@ -28,45 +27,6 @@ _ctrlPOS set [2, (_ctrlPOS # 2) / 4];
 	if (_subMenu != "") then {
 		_currentPage = _subMenu;
 	};
-//- Comments
-	// switch _currentPage do {
-	// 	case "message": {
-			
-	// 	};
-	// 	case "mission": {
-	// 		[_ctrls,_ctrlPOS,_interfaceInit] call {
-	// 			privateAll;
-	// 			_this call BCE_fnc_ATAK_bnt_SendMission;
-	// 		};
-	// 	};
-	// 	case "Task_Building": {
-			
-
-	// 		4662
-	// 	};
-	// 	/* case "Task_Result": {
-	// 		4663
-	// 	}; */
-	// 	case "VideoFeeds": {
-			
-	// 	};
-	// 	case "Group": {
-			
-
-	// 		4641
-	// 	};
-	// 	/*default {
-	// 		//- Clear up Menu Components
-	// 			private _PgComponents = _settings param [3, []];
-	// 			if (_PgComponents findIf {true} > -1) then {
-	// 				_settings set [3,[]];
-	// 				["cTab_Android_dlg",[["showMenu",_settings]],false] call cTab_fnc_setSettings;
-	// 			};
-			
-	// 		//- Check Home Page
-	// 			// _isHome = true;
-	// 	};*/
-	// };
 
 //- Get "ATAK_Buttons"
 	[_ctrls,_ctrlPOS,_interfaceInit] call {
