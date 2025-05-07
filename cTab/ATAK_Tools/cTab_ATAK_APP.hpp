@@ -53,7 +53,7 @@ class ATAK_APPs
                         PAGE_CTRL = "Task_CFF_Action";
                         Opened = "BCE_fnc_ATAK_mission_SUB_TaskCFF_Action";
                         LastPage = "Task_CFF_List"; //- ClassName of the page
-                        // ATAK_Buttons = "TaskBuilding_Menu";
+                        ATAK_Buttons = "Task_CFF_Action_Menu";
                     };
                     class Task_Result
                     {
