@@ -970,9 +970,10 @@ class CfgFunctions
 				class ATAK_Menu_Buttons
 				{
 					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Button_Events";
-					class ATAK_bnt_MessageSend_Click;
 					class ATAK_DataReceiveButton;
+					class ATAK_bnt_MessageSend_Click;
 					class ATAK_bnt_VideoFeeds_Click;
+					class ATAK_bnt_CFF_Action_Click;
 				};
 				class ATAK_Menu_Buttons_Init
 				{
