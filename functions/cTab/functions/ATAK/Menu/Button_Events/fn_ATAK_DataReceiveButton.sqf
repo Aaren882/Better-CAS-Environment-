@@ -10,7 +10,6 @@ private _ctrlTitle = ctrlText _control;
 private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
 private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 
-systemChat str [_curLine,_subMenu,time];
 //- Enter Infos (on Building Page)
 	if (_subMenu == "Task_Building") exitWith {
 		///-Enter Data
