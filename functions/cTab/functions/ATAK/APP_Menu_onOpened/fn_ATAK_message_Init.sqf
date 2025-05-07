@@ -85,7 +85,7 @@ private _contactor = if (lbSize _contacts > 0) then {
         };
         false
       } count _plrList;
-      uiNamespace setVariable ['cTab_msg_playerList', _plrList];
+      localNamespace setVariable ['cTab_msg_playerList', _plrList];
   };
   
 
