@@ -5,10 +5,7 @@ _ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
   {
     _x ctrlShow false;
     false
-  } count (_ctrls select [2]);
-
-  _bnt_back = _ctrls # 0;
-  _bnt_Ent = _ctrls # 1;
+  } count (_ctrlBnts select [2]);
 
   _size = (2 * (_ctrlPOS # 2));
 

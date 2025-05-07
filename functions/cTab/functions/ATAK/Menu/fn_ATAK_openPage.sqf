@@ -37,11 +37,20 @@ _ctrlPOS set [2, (_ctrlPOS # 2) / 4];
 				_config = (_subMenus get _subMenu) param [1,configNull];
 			};
 		private _BntName = getText (_config >> "ATAK_Buttons");
-		private _functionName = getText (configFile >> "ATAK_Buttons" >> _BntName >> "onLoad");
+		private _function = getText (configFile >> "ATAK_Buttons" >> _BntName >> "onLoad");
 
+		//- #LINK - functions/cTab/functions/ATAK/fn_ATAK_bnt_clickEvent.sqf
+			private _clickEvents = getArray (configFile >> "ATAK_Buttons" >> _BntName >> "clickEvents");
+			{
+				if (_forEachIndex == 0) then {continue}; //- Skip "LastPage" button
+				private _e = _clickEvents param [_forEachIndex - 1, ""];
+				_x setVariable ["clickEvent",_e];
+			} forEach _ctrls;
+
+		//- call Function
 		privateAll;
-		import ["_functionName"];
-		_this call (uiNamespace getVariable [_functionName,{}]);
+		import ["_function"];
+		_this call (missionNamespace getVariable [_function,{}]);
 	};
 
 //- The return value
