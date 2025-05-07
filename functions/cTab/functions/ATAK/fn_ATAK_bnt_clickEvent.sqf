@@ -13,6 +13,5 @@ private _settings = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
 [_control,_MenuGroup,_settings] call {
   privateAll;
   import ["_function"];
-  hintSilent str [_this,_function,time];
   _this call (missionNamespace getVariable [_function,{}]);
 };
