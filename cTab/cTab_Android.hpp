@@ -765,10 +765,10 @@ PHONE_CLASS
 							ATAK_POS(0.75,0,0.75,0.75);
 						#endif
 
-						onButtonClick = "call BCE_fnc_ATAK_DataReceiveButton";
+						onButtonClick = "call BCE_fnc_ATAK_bnt_clickEvent";
 					};
 					
-					class Live_Feed: Back
+					class Live_Feed: Send
 					{
 						idc = 12;
 						
@@ -781,10 +781,10 @@ PHONE_CLASS
 							ATAK_POS(1.5,0,0.75,0.75);
 						#endif
 						
-						action = "call cTab_Tablet_btnACT";
-						onButtonClick = "";
+						// action = "";
+						onButtonClick = "call BCE_fnc_ATAK_bnt_clickEvent";
 					};
-					class Show_Result: Back
+					class Show_Result: Send
 					{
 						idc = 13;
 						
@@ -819,7 +819,7 @@ PHONE_CLASS
 							ATAK_POS(2.25,0,0.75,0.75);
 						#endif
 						
-						onButtonClick = "[] call BCE_fnc_ATAK_ShowTaskResult";
+						onButtonClick = "call BCE_fnc_ATAK_bnt_clickEvent";
 					};
 				};
 			};

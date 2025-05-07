@@ -907,6 +907,7 @@ class CfgFunctions
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK";
 				class ATAK_LastPage;
+				class ATAK_bnt_clickEvent;
 				class ATAK_getScrollValue;
 				class ATAK_Check_Layout;
 				class ATAK_Camera_Controls;
@@ -919,7 +920,6 @@ class CfgFunctions
 					class ATAK_set_TaskType;
 					class ATAK_TaskTypeChanged;
 					class ATAK_LBTaskUnitChanged;
-					class ATAK_DataReceiveButton;
 					class ATAK_AutoSaveTask;
 					class ATAK_Refresh_TaskInfos;
 					class ATAK_Refresh_Weapons;
@@ -966,9 +966,15 @@ class CfgFunctions
 					class ATAK_getCurrentAPP;
 					class ATAK_getLastAPP;
 					class ATAK_ignoreFade_Transform;
-					
 				};
 				class ATAK_Menu_Buttons
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Button_Events";
+					class ATAK_bnt_MessageSend_Click;
+					class ATAK_DataReceiveButton;
+					class ATAK_bnt_VideoFeeds_Click;
+				};
+				class ATAK_Menu_Buttons_Init
 				{
 					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Init_Buttons";
 					class ATAK_bnt_SendMission;
