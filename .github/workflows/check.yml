@@ -10,22 +10,12 @@ jobs:
               uses: actions/checkout@v4.2.0
               with:
                 fetch-depth: 1
-            - name: Set up A3Tools
-              uses: arma-actions/arma3-tools@master
-              with:
-                toolsUrl: ${{ secrets.A3TOOLS_URL }}
+            # - name: Set up A3Tools
+            #   uses: arma-actions/arma3-tools@master
+            #   with:
+            #     toolsUrl: ${{ secrets.A3TOOLS_URL }}
             - uses: actions/checkout@v2
             - name: Setup HEMTT
               uses: arma-actions/hemtt@v1
             - name: Run HEMTT Check
               run: hemtt check
-            # - uses: actions/checkout@v2
-            # - name: Setup HEMTT
-            #   uses: arma-actions/hemtt@v1
-            # - name: Run HEMTT build
-            #   run: hemtt release
-            # - name: Upload Release
-            #   uses: actions/upload-artifact@v4
-            #   with:
-            #       name: BCE-latest
-            #       path: release/BCE-latest.zip
