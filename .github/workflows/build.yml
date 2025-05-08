@@ -2,15 +2,15 @@ name: Build
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: "Repository branch (don't touch it if you don't know what it is!!!)"
-        required: false
-        type: choice
-        options:
-        - main
-        - test
-        default: main
+    # inputs:
+    #   branch:
+    #     description: "Repository branch (don't touch it if you don't know what it is!!!)"
+    #     required: false
+    #     type: choice
+    #     options:
+    #     - main
+    #     - test
+    #     default: main
   push:
     branches:
       - main

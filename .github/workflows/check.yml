@@ -3,19 +3,15 @@ name: Check
 on: [push]
 
 jobs:
-    Check:
-        runs-on: windows-latest
-        steps:
-            - name: Checkout the source code
-              uses: actions/checkout@v4.2.0
-              with:
-                fetch-depth: 1
-            # - name: Set up A3Tools
-            #   uses: arma-actions/arma3-tools@master
-            #   with:
-            #     toolsUrl: ${{ secrets.A3TOOLS_URL }}
-            - uses: actions/checkout@v2
-            - name: Setup HEMTT
-              uses: arma-actions/hemtt@v1
-            - name: Run HEMTT Check
-              run: hemtt check
+  Check:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout the source code
+        uses: actions/checkout@v4.2.0
+        with:
+          fetch-depth: 1
+      - uses: actions/checkout@v2
+      - name: Setup HEMTT
+        uses: arma-actions/hemtt@v1
+      - name: Run HEMTT Check
+        run: hemtt check
