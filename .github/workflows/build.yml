@@ -1,14 +1,15 @@
 name: Build
 
 on:
+  workflow_dispatch:
   push:
     branches:
     - main
   pull_request_target:
-
 jobs:
     build:
       runs-on: ubuntu-latest
+      
       steps:
         - name: Checkout the source code
           uses: actions/checkout@v4
