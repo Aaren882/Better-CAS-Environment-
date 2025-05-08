@@ -1,0 +1,9 @@
+name = "Better CAS Environment"
+prefix = "BCE"
+
+[version]
+major = 1 # Overrides path when set
+minor = 0
+patch = 0
+
+git_hash = 0 # Default: 8
