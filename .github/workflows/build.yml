@@ -1,9 +1,10 @@
 name: Build
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
+    branches:
+    - main0.
+  pull_request_target:
 
 jobs:
     Build:
