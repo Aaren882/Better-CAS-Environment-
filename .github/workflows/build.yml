@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches:
-    - main0.
+    - main
   pull_request_target:
 
 jobs:
@@ -14,9 +14,12 @@ jobs:
             - name: Setup HEMTT
               uses: arma-actions/hemtt@v1
             - name: Run HEMTT build
-              run: hemtt release
+              run: hemtt build
+            - name: Rename build folder
+              run: mv .hemttout/build .hemttout/@BCE
             - name: Upload Release
               uses: actions/upload-artifact@v4
               with:
-                  name: BCE-latest
-                  path: release/BCE-latest.zip
+                name: 'BCE-${{github.sha}}-nobin'
+                path: '.hemttout/@*'
+                include-hidden-files: true # Because .hemttout is a hidden directory
