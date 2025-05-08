@@ -1,9 +1,9 @@
-name: Build
+name: Check
 
 on: [push]
 
 jobs:
-    build:
+    Check:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
