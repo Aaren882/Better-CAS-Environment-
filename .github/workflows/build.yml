@@ -7,22 +7,22 @@ on:
   pull_request_target:
 
 jobs:
-    Build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout the source code
-              uses: actions/checkout@v4
-            - name: Setup HEMTT
-              uses: arma-actions/hemtt@v1
-              with:
-                annotate: false
-            - name: Run HEMTT build
-              run: hemtt build
-            - name: Rename build folder
-              run: mv .hemttout/build .hemttout/@BCE
-            - name: Upload Release
-              uses: actions/upload-artifact@v4
-              with:
-                name: 'BCE-${{github.sha}}-nobin'
-                path: '.hemttout/@*'
-                include-hidden-files: true # Because .hemttout is a hidden directory
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout the source code
+          uses: actions/checkout@v4
+        - name: Setup HEMTT
+          uses: arma-actions/hemtt@v1
+          with:
+            annotate: false
+        - name: Run HEMTT Build
+          run: hemtt build
+        - name: Rename build folder
+          run: mv .hemttout/build .hemttout/@bce
+        - name: Upload Release
+          uses: actions/upload-artifact@v4
+          with:
+            name: 'bce-${{github.sha}}-nobin'
+            path: '.hemttout/@*'
+            include-hidden-files: true # Because .hemttout is a hidden directory
