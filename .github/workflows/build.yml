@@ -10,9 +10,12 @@ jobs:
     Build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - name: Checkout the source code
+              uses: actions/checkout@v4
             - name: Setup HEMTT
               uses: arma-actions/hemtt@v1
+              with:
+                annotate: false
             - name: Run HEMTT build
               run: hemtt build
             - name: Rename build folder
