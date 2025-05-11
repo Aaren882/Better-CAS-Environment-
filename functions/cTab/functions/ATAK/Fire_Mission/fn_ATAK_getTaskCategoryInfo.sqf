@@ -22,6 +22,7 @@ private _cateData = _cateSel call BCE_fnc_get_BCE_TaskCateClass;
   private _subData = _subMenu_Map getOrDefault [_cateData, []];
   _subData params [["_subSel",0]];
 
+//- #TODO - Make a framework 👇 (At the moment, it is referenced manually.)
 private _taskMenu = switch (_cateSel) do {
   case 0: {
     ["AIR_9_LINE","AIR_5_LINE"] # _subSel
