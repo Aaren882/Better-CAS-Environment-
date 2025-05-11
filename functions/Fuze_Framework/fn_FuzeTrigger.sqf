@@ -5,8 +5,9 @@ params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projecti
 
 private _fuzeData = _unit getVariable ["#NextFuze",[]];
 _fuzeData params ["_fuzeType","_fuzeValue"];
+private _Cfg = configfile >> "Additional_Fuze" >> _fuzeType;
 
-private _conditionName = [configfile >> "Additional_Fuze" >> _fuzeType ,"condition", "#EMPTY"] call BIS_fnc_returnConfigEntry;
+private _conditionName = [_Cfg ,"condition", "#EMPTY"] call BIS_fnc_returnConfigEntry;
 private _condition = uiNamespace getVariable _conditionName;
 _unit setVariable ["#NextFuze",nil]; //- Clean UP
 
