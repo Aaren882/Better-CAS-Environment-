@@ -157,7 +157,7 @@ private _group = group _taskUnit;
 
 //- #SECTION - Execution
   _WPN_exec params ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_radius","_fuzeVal"];
-  private _CFF_info = [_random_POS, _lbAmmo,_setCount,_radius];
+  private _CFF_info = [_random_POS, _lbAmmo,_setCount,_radius,[_lbFuse,_fuzeVal]];
   private _MagData = createHashMap;
   private _MagFire = createHashMap;
 
@@ -273,8 +273,11 @@ private _group = group _taskUnit;
 
                 //- Add Fired EH
                   _unit addEventHandler ["Fired", {
-                    params ["_unit"];
+                    params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
                     private _progress = _unit getVariable ["BCE_CFF_MISSION_PROGRESS",[0,0]];
+
+                    // private _fuzeType = _unit getVariable ["#NextFuze",[]];
+                    _this call BCE_fnc_FuzeTrigger;
 
                     _progress params ["_current","_end"];
                     _current = _current + 1;
@@ -300,7 +303,7 @@ private _group = group _taskUnit;
                 }; */
                 [{
                   params ["_unit","_CFF_info"];
-                  _CFF_info params ["_random_POS","_lbAmmo","_setCount","_radius"];
+                  _CFF_info params ["_random_POS","_lbAmmo","_setCount","_radius","_fuzeData"];
 
                   if (unitReady _unit) then {
                     private _pos = [
@@ -310,10 +313,16 @@ private _group = group _taskUnit;
                       []
                     ] call BIS_fnc_randomPos;
 
+                    //- #NOTE - Save fuzeData
+                    [_unit,_fuzeData,_pos] call BCE_fnc_FuzeInit;
                     _unit doArtilleryFire [_pos,_lbAmmo,1];
                   };
+                  
                   isNil{_unit getVariable "BCE_CFF_MISSION_PROGRESS"}
-                }, {}, _this] call CBA_fnc_waitUntilAndExecute;
+                }, {
+                  params ["_unit"];
+                  _unit setVariable ["#NextFuze",nil];
+                }, _this] call CBA_fnc_waitUntilAndExecute;
               },
               [_unit,_CFF_info],
               2 + (random 0.2)

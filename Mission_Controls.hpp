@@ -521,12 +521,14 @@ class BCE_Mission_Build_Controls
                     {
                         text = "VT";
                         textRight = "";
+                        Data = "VT";
                         value = 1;
                     };
                     class Delay
                     {
                         text = "DELY";
                         textRight = "";
+                        Data = "DELAY";
                         value = 2;
                     };
                 };

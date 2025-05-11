@@ -1,4 +1,5 @@
 #include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
+#include "Additional_Fuze.hpp"
 
 class CfgPatches
 {
@@ -661,6 +662,13 @@ class CfgFunctions
 			class setMFDValue;
 			class filtered_compass;
 			class call_Compass;
+		};
+		class Fuze_Framework
+		{
+			file="MG8\AVFEVFX\Functions\Fuze_Framework";
+			class FuzeInit;
+			class FuzeTrigger;
+			class FuzeVT;
 		};
 		class Gunner_Action
 		{
