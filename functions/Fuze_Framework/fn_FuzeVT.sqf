@@ -1,4 +1,10 @@
+/*
+  NAME : BCE_fnc_FuzeVT
+
+  VT fuze trigger condition
+*/
+
 params ["_fuzeValue","_projectile"];
 
-private _h = (getPosASLVisual _projectile) # 2;
-_h < _fuzeValue
+((vectorDirVisual _projectile) # 2) < 0 && //- Check _projectile is point downward
+((getPosASLVisual _projectile) # 2) < _fuzeValue
