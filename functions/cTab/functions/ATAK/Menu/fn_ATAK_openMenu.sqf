@@ -66,4 +66,12 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
       privateAll;
       import ["_function"];
       _this call (uiNamespace getVariable _function);
+
+      //- Set "Init" State (after "OPENED" function is called)
+      [
+        {_this setVariable ["Init", true]},
+        (_this # 0)
+      ] call CBA_fnc_execNextFrame;
     };
+  
+  
