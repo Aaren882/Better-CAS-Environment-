@@ -1,15 +1,10 @@
 params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 
 private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
+private _taskUnit_Grp = group _taskUnit;
 
-//- Check _taskUnit exist
-if (isnull _taskUnit) exitWith {
-  
-};
-
-//- Get TaskUnit group infos
-  private _taskUnit_Grp = group _taskUnit;
-  private _CFF_Map = _taskUnit_Grp getVariable ["BCE_CFF_Task_Pool", createHashMap];
+//- Exit If there's no taskUnit Exist
+  if (isNull _taskUnit) exitWith {};
 
 //- #NOTE - Setup Adjustment Control Interface
   private _AdjustGrp = _group controlsGroupCtrl 5400;
@@ -21,11 +16,10 @@ if (isnull _taskUnit) exitWith {
   private _MeterValue = ["Meter",1] call BCE_fnc_get_FireAdjustValues;
   _AdjustMeter ctrlSetText format ["<-- %1 m -->", _MeterValue * 10];
 
-//- Get current CFF mission infos
-  private _value = ["CFF_Mission",[]] call BCE_fnc_get_TaskCurSetup;
-  _value params [["_taskData",""]];
+private _values = ["CFF_Mission",[]] call BCE_fnc_get_TaskCurSetup;
+_values params [["_taskID",""]];
 
-(_CFF_Map get _taskData) params [
+([_taskID,_taskUnit] call BCE_fnc_CFF_Mission_Get_Values) params [
   "_MSN_Type",
   "_TG_Grid",
   "_requester",
@@ -43,7 +37,7 @@ _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE"
 
 //- TOP TITLE
 private _PageTitle = _group controlsGroupCtrl 3600;
-_PageTitle ctrlSetText ("Mission #" + _taskData);
+_PageTitle ctrlSetText ("Mission #" + _taskID);
 
 //- Controls
   private _MissionType_dsp = "New_Task_MissionType_ADJUST_CFF" call BCE_fnc_getTaskSingleComponent;
@@ -62,7 +56,7 @@ _PageTitle ctrlSetText ("Mission #" + _taskData);
     _fireUnitSel_IE,
     [_lbFuse_IE,_default_FUZE] select (_lbFuse_IE == ""),
     _setCount_IE,
-    _taskData
+    _taskID
   ];
 
 //- #NOTE - Specify WPN setup & Info (TOF...)
@@ -112,12 +106,15 @@ _PageTitle ctrlSetText ("Mission #" + _taskData);
         };
         _return
       };
-    _lbAmmo 	lbSetCurSel ([_lbAmmo,_Ammo] call _GetDataSel);
-    _lbFuse 	lbSetCurSel ([_lbFuse,_Fuse] call _GetDataSel);
-    _lbFireUnits	lbSetCurSel ([_lbFireUnits,_fireUnitSel] call _GetValueSel);
-    _editRounds	ctrlSetText str _setCount;
-    _editRadius	ctrlSetText str _radius;
-    _editFuzeVal	ctrlSetText str _fuzeVal;
+
+    //- Select Current Values
+      _lbAmmo 	    lbSetCurSel ([_lbAmmo,_Ammo] call _GetDataSel);
+      _lbFuse 	    lbSetCurSel ([_lbFuse,_Fuse] call _GetDataSel);
+      _lbFireUnits	lbSetCurSel ([_lbFireUnits,_fireUnitSel] call _GetValueSel);
+      _editRounds	  ctrlSetText str _setCount;
+      _editRadius	  ctrlSetText str _radius;
+      _editFuzeVal	ctrlSetText str _fuzeVal;
+      _editFuzeVal  ctrlshow (_Fuse != "");
   };
   
   private _ETA = round (_taskUnit getArtilleryETA [_TG_Grid call BCE_fnc_Grid2POS, _Ammo]);
@@ -126,4 +123,4 @@ _PageTitle ctrlSetText ("Mission #" + _taskData);
     [floor (_ETA/60), _ETA % 60] joinString ":",
     _fuzeVal
   ];
-  [_OtherInfo_dsp] call BIS_fnc_ctrlFitToTextHeight
+  [_OtherInfo_dsp] call BIS_fnc_ctrlFitToTextHeight;
