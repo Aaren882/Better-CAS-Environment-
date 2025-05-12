@@ -9,9 +9,9 @@ params ["_control",["_transmitType",-1]];
 private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
 if (isnull _taskUnit) exitWith {};
 
-//- Check Custom Button
-private _tagGrp = ctrlParentControlsGroup _control;
-private _taskData = _tagGrp getVariable ["CFF_Task_Mission",""];
+//- Check Custom Button (Current Selected TaskID)
+  private _tagGrp = ctrlParentControlsGroup _control;
+  private _taskData = _tagGrp getVariable ["CFF_Task_Mission",""];
 
 private _customData = if (_taskData != "") then {
   switch (_transmitType) do { //- Check XMIT type

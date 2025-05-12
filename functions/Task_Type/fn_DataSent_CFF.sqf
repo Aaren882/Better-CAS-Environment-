@@ -91,7 +91,7 @@ private _group = group _taskUnit;
     ] call BIS_fnc_randomPos;
   
   //- #NOTE - Set Mission ID e.g.(AB1001)
-    _CFF_Map set [
+    /* _CFF_Map set [
       _MSN_Key,
       [
         _taskType,
@@ -106,12 +106,25 @@ private _group = group _taskUnit;
       ]
     ];
 
-    _group setVariable ["BCE_CFF_Task_Pool", _CFF_Map];
+    _group setVariable ["BCE_CFF_Task_Pool", _CFF_Map]; */
+    private _MSN_Values = [
+      _taskType,
+      [_TGPOS,8] call BCE_fnc_POS2Grid,
+      player,
+      [
+        (_Wpn_setup # 0),
+        (_Wpn_setup # 1),
+        _random_POS
+      ],
+      0 //- "MSN_State"
+    ];
+    [_MSN_Key,_MSN_Values,_taskUnit] call BCE_fnc_CFF_Mission_Set_Value;
 
     //- RETURN
       _random_POS
   } else {
-    (_CFF_Map get _customInfos) params [
+    
+    ([_customInfos,_taskUnit] call BCE_fnc_CFF_Mission_Get_Values) params [
       "_MSN_Type",
       "_TG_Grid",
       "_requester",
@@ -276,7 +289,6 @@ private _group = group _taskUnit;
                     params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
                     private _progress = _unit getVariable ["BCE_CFF_MISSION_PROGRESS",[0,0]];
 
-                    // private _fuzeType = _unit getVariable ["#NextFuze",[]];
                     _this call BCE_fnc_FuzeTrigger;
 
                     _progress params ["_current","_end"];
@@ -308,7 +320,7 @@ private _group = group _taskUnit;
                   if (unitReady _unit) then {
                     private _pos = [
                       [
-                        [_random_POS, (_radius - 50) max 0]
+                        [_random_POS, _radius max 0]
                       ],
                       []
                     ] call BIS_fnc_randomPos;
