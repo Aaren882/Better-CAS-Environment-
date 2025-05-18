@@ -615,6 +615,7 @@ class CfgFunctions
 			file="MG8\AVFEVFX\Functions";
 			class Init;
 		};
+		
 		class Componets
 		{
 			file="MG8\AVFEVFX\Functions\Componets";
@@ -718,10 +719,20 @@ class CfgFunctions
 			class DrawFOV;
 			class TAC_Map;
 		};
+		class CFF_Actions
+		{
+			file="MG8\AVFEVFX\functions\CAS_Event\Call_for_Fire";
+			class FindBestCharge;
+			class doFireMission;
+			class findCharge;
+			class getAllCharges;
+			class UnstuckUnit;
+		};
 		class CAS_Event
 		{
 			file="MG8\AVFEVFX\functions\CAS_Event";
 			class CAS_Action;
+			class CFF_Action;
 			class GunShip_Loiter;
 			class Plane_CASEvent;
 		};
