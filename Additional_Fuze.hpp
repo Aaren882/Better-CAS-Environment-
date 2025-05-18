@@ -5,6 +5,7 @@ class Additional_Fuze
     displayName = "VT Fuze";
     displayNameShort = "VT";
     description = "Variable Time Fuze";
+    Tooltip = "Burst Height (m)";
     condition = "BCE_fnc_FuzeVT";
     class Events
     {

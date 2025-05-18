@@ -19,10 +19,7 @@ _unit setVariable ["#NextFuze",nil]; //- Clean UP
   };
 
 //- Detection function
-  [{
-    params ["_condition","_fuzeValue","_projectile"];
-
-    ([_fuzeValue,_projectile] call _condition)
-  }, {
-    triggerAmmo (_this # 2);
-  }, [_condition,_fuzeValue,_projectile]] call CBA_fnc_waitUntilAndExecute;
+  [
+    _condition, {
+    triggerAmmo (_this # 1);
+  }, [_fuzeValue,_projectile]] call CBA_fnc_waitUntilAndExecute;
