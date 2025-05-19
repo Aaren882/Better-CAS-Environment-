@@ -26,7 +26,7 @@ private _weapon = _taskUnit currentWeaponTurret _turretPath;
 private _chargesArray = [_taskUnit, _lbAmmo_IA, _TGPOS, false, _weapon] call BCE_Fnc_GetAllCharges;
 
 // - findBestCharge
-[_taskUnit, _TGPOS, _chargesArray] call BCE_Fnc_findBestCharge;
+[_taskUnit, _TGPOS, _chargesArray] call BCE_fnc_findCharge;
 
 
 ////////////////// #TODO - FIX fn_findCharge

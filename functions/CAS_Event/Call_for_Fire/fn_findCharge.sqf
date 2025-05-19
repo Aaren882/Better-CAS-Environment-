@@ -26,23 +26,20 @@ params[
 		["CFF no Charge found ""_chargesArray"" = []; !!"] call BIS_fnc_error;
 	};
 
-// private _chosenCharge = ["",0,0];
 _chosenTargetPos params ["_posX","_posY"];
 
 // private _chargeFound = false;
 // private _parents = [configOf _taskUnit, true] call BIS_fnc_returnParents;
 
-private _gunner = gunner _taskUnit;
 // private _group = group _taskUnit;
+private _gunner = gunner _taskUnit;
 private _turretPath = (assignedVehicleRole _gunner) # 1;
 private _turretConfig = [_taskUnit, _turretPath] call CBA_fnc_getTurret;
 
 private _posUnit = getPosASL _taskUnit; 							// Point of angle A.
 private _heightArtyToSeaLvl = _posUnit # 2;						// Height between triangle and sea level.
 
-//- Get Config properties
-
-
+//- Get AimPOS
 private _aimPOS = _chargesArray apply {
 	_x params ["_charge", "_angleA", "_ETA"];
 
@@ -167,29 +164,3 @@ _taskUnit setVariable ["#CFF_Aim_Index",0];
 		]
 	]
 ] call CBA_fnc_addPerFrameHandler;
-
-/* {
-	// Calculate triangle opposite side. Add that to the height between the triangle and the sea level. 
-	// 	private _angleA = _x # 1;															// Angle A.
-		
-	// 	private _posC = [_posX, _posY, _heightArtyToSeaLvl];	// Point of angle C.
-	// 	private _distanceAdj = _posUnit vectorDistance _posC;	// Adjacent side
-
-	// // HYPOTENUSE * sin angleA [OPPOSITE/HYPOTENUSE] = OPPOSITE
-	// 	private _distanceOp = (_distanceAdj / cos _angleA) * (sin _angleA);	// Opposite side.
-	// 	private _z = _distanceOp + _heightArtyToSeaLvl;											// Add the two height numbers together to get the altitude above sea level.
-
-	// 	private _pos = [_posX,_posY,_z];
-	
-	// Make unit aim.
-		// _gunner doWatch (ASLtoAGL _pos);
-	
-	//- IF ABORT
-	// if (_abort || _endMission || _checkFire) exitWith {};
-	
-	
-
-	
-	
-	
-} forEach _chargesArray; */
