@@ -14,6 +14,7 @@ _data params [
   "_taskTypeInfo",
   "_TGPOS", //- OT Infos
   "_WPN_exec",
+  "_Control_Function",
   "_customInfos",
   "_taskVar"
 ];
@@ -83,9 +84,10 @@ private _group = group _taskUnit;
     ];
     
     private _Wpn_setup = _taskVar # 0 # 3;
+    // private _random_POS = _TGPOS;
     private _random_POS = [
       [
-        [_TGPOS, 100]
+        [_TGPOS, 0]
       ],
       []
     ] call BIS_fnc_randomPos;
@@ -170,7 +172,7 @@ private _group = group _taskUnit;
 
 //- #SECTION - Execution
   _WPN_exec params ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_radius","_fuzeVal"];
-  private _CFF_info = [_random_POS, _lbAmmo,_setCount,_radius,[_lbFuse,_fuzeVal]];
+  private _CFF_info = [_random_POS, _lbAmmo,_setCount,_radius,[_lbFuse,_fuzeVal],_Control_Function];
   private _MagData = createHashMap;
   private _MagFire = createHashMap;
 
@@ -274,71 +276,9 @@ private _group = group _taskUnit;
           } forEach _magsToAdd;
           {_unit addMagazine _x} forEach _otherMags;
 
-          _gunner doWatch (ASLtoAGL (_CFF_info # 0));
-
-          //- Execute Fire Mission (wait 2 Seconds)
-            [{
-                params ["_unit","_CFF_info"];
-                _CFF_info params ["_random_POS","_lbAmmo","_setCount","_radius"];
-                
-                private _group = group _unit;
-                _unit setVariable ["BCE_CFF_MISSION_PROGRESS",[0,_setCount]];
-
-                //- Add Fired EH
-                  _unit addEventHandler ["Fired", {
-                    params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
-                    private _progress = _unit getVariable ["BCE_CFF_MISSION_PROGRESS",[0,0]];
-
-                    _this call BCE_fnc_FuzeTrigger;
-
-                    _progress params ["_current","_end"];
-                    _current = _current + 1;
-
-                    if (_current < _end) then {
-                      _unit setVariable ["BCE_CFF_MISSION_PROGRESS",[_current,_end]];
-                    } else {
-                      _unit setVariable ["BCE_CFF_MISSION_PROGRESS",nil];
-                      _unit removeEventHandler [_thisEvent, _thisEventHandler];
-                    };
-                  }];
-
-                //- Fire Mission
-                /* if !(isnull (_group getVariable ["BCE_CFF_MISSION",scriptNull])) exitWith {
-                  private _mission = _this spawn {
-                    params ["_unit","_CFF_info"];
-                    _CFF_info params ["_random_POS","_lbAmmo","_setCount","_radius"];
-
-                    private _group = group _unit;
-                    
-                  };
-                  _group setVariable ["BCE_CFF_MISSION",_mission];
-                }; */
-                [{
-                  params ["_unit","_CFF_info"];
-                  _CFF_info params ["_random_POS","_lbAmmo","_setCount","_radius","_fuzeData"];
-
-                  if (unitReady _unit) then {
-                    private _pos = [
-                      [
-                        [_random_POS, _radius max 0]
-                      ],
-                      []
-                    ] call BIS_fnc_randomPos;
-
-                    //- #NOTE - Save fuzeData
-                    [_unit,_fuzeData,_pos] call BCE_fnc_FuzeInit;
-                    _unit doArtilleryFire [_pos,_lbAmmo,1];
-                  };
-                  
-                  isNil{_unit getVariable "BCE_CFF_MISSION_PROGRESS"}
-                }, {
-                  params ["_unit"];
-                  _unit setVariable ["#NextFuze",nil];
-                }, _this] call CBA_fnc_waitUntilAndExecute;
-              },
-              [_unit,_CFF_info],
-              2 + (random 0.2)
-            ] call CBA_fnc_waitAndExecute;
+          // _gunner doWatch (ASLtoAGL (_CFF_info # 0));
+          //- Do Fire mission
+          call BCE_fnc_CFF_Action;
         },
         [
           _unit,
@@ -348,9 +288,8 @@ private _group = group _taskUnit;
           _magsToAdd,
           _otherMags,
           _CFF_info //- "_CFF_info"
-        ],
-        0.1
-      ] call CBA_fnc_waitAndExecute;
+        ]
+      ] call CBA_fnc_execNextFrame;
   } forEach (_MagFire_ARR apply {_x # 0});
 //- #!SECTION
 nil

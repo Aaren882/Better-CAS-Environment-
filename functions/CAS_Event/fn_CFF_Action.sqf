@@ -1,97 +1,100 @@
 /*
   NAME : BCE_fnc_CFF_Action
 */
-params ["_taskUnit","_data"];
-
-private _group = group _taskUnit;
-
-_data params [
-  "_Task_Type",
-  "_TGPOS", //- OT Infos
-  "_Wpn_setup",
-  "_taskVar"
-];
-(_Wpn_setup # 0) params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE","_radius_IE","_fuzeVal_IE"];
-(_Wpn_setup # 1) params ["_lbAmmo_IA","_lbFuse_IA",["_fireUnitSel_IA",1],"_setCount_IA","_radius_IA","_fuzeVal_IA"];
+params ["_taskUnit","_gunner","_weapon","_turret","_magsToAdd","_otherMags","_CFF_info"];
 
 //- #TODO - Integrate 
-private _abort = false;
+/* private _abort = false;
 private _endMission = false;
-private _checkFire = false;
+private _checkFire = false; */
 
 //- FROM "StartMission.sqf"
 
-private _turretPath = (assignedVehicleRole (gunner _taskUnit)) # 1;
-private _weapon = _taskUnit currentWeaponTurret _turretPath;
-private _chargesArray = [_taskUnit, _lbAmmo_IA, _TGPOS, false, _weapon] call BCE_Fnc_GetAllCharges;
-
-// - findBestCharge
-[_taskUnit, _TGPOS, _chargesArray] call BCE_fnc_findCharge;
-
-
-////////////////// #TODO - FIX fn_findCharge
-  /* _taskUnit = h3;
-  _TGPOS = getposASL h2;
-
-  [_taskUnit, "12Rnd_230mm_rockets", _TGPOS, true] call BCE_Fnc_GetAllCharges; 
-
-  //- OR
-  _taskUnit = h3; 
-  _chosenTargetPos = getPosASL h2; 
-
-  private _turretPath = (assignedVehicleRole (gunner _taskUnit)) # 1; 
-  private _weapon = _taskUnit currentWeaponTurret _turretPath;
-
-
-  private _unitPOS = getPosASL _taskUnit; 
-  
-  private _distance = _unitPOS distance2D _chosenTargetPos; 
-  private _alt = (_chosenTargetPos # 2) - (_unitPOS # 2);  // Altitude difference
-  
-  [_taskUnit, _weapon,"12Rnd_230mm_rockets",_distance, _alt] call T1AM_Fnc_GetAllCharges;
-
-
-//- SETUP
-  [] spawn {
-    _taskUnit = h1; 
-    _TGPOS = getPosASL h2; 
-    private _chargesArray = [_taskUnit, "32Rnd_155mm_Mo_shells", _TGPOS, true, ""] call BCE_Fnc_GetAllCharges;
-    hint str ([_taskUnit, _TGPOS, _chargesArray] call BCE_Fnc_findBestCharge);
+//- Check Mission exist
+  if (!isNil{_taskUnit getVariable "BCE_CFF_MISSION_PROGRESS"}) exitWith {
+    hint "MISSION PROGRESS !!";
   };
-//- FIRE
-  _taskUnit = h1;
 
-  private _turretPath = (assignedVehicleRole (gunner _taskUnit)) # 1; 
-  private _weapon = _taskUnit currentWeaponTurret _turretPath;
+// Set crew properties.
+  /* {
+    _x disableAI "TARGET";
+    _x disableAI "AUTOTARGET";
+  } forEach crew _taskUnit; */
 
-  _gunner = gunner _taskUnit;
-  _taskUnit setWeaponReloadingTime [_gunner,(currentMuzzle _gunner), 0];
-  _taskUnit fire [_weapon, "Single2"];
+//- Execute Fire Mission (wait 2 Seconds)
+  [
+    {
+      params ["_taskUnit","_weapon","_CFF_info"];
+      _CFF_info params ["_random_POS","_lbAmmo","_setCount","_radius",""];
+      
+      // private _group = group _taskUnit;
+      _taskUnit setVariable ["BCE_CFF_MISSION_PROGRESS",0];
+      ["CFF_MSN",_CFF_info,_taskUnit] call BCE_fnc_set_CFF_Value;
 
-  // "32Rnd_155mm_Mo_shells"
-  // "12Rnd_230mm_rockets"
+      //- Setup First Round
+      private _chargesArray = [_taskUnit, _lbAmmo, AGLToASL _random_POS, false, _weapon] call BCE_fnc_GetAllCharges;
+      [_taskUnit, AGLToASL _random_POS, _chargesArray] call BCE_fnc_findCharge;
 
-//--- Vector Test
-  _taskUnit = h3;
+      //- Add Fired EH
+        _taskUnit addEventHandler ["Fired", {
+          params ["_taskUnit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
 
-  private _turretPath = (assignedVehicleRole (gunner _taskUnit)) # 1;   
-  private _turretConfig = [_taskUnit, _turretPath] call CBA_fnc_getTurret;
+          //- Check rounds completed 
+            private _CFF_MSN = ["CFF_MSN",[],_taskUnit] call BCE_fnc_get_CFF_Value;
+            _CFF_MSN params ["_random_POS","_lbAmmo","_setCount","_radius","_fuzeData"];
 
-  _sel_A = _taskUnit selectionPosition getText(_turretConfig >> "gunBeg"); 
-  _sel_B = _taskUnit selectionPosition getText(_turretConfig >> "gunEnd"); 
+          private _current = _taskUnit getVariable ["BCE_CFF_MISSION_PROGRESS",0];
+          _current = _current + 1;
 
-  //- Default
-  private _posA2 = _taskUnit modelToWorldWorld _sel_A; 
-  private _posC2 = _taskUnit modelToWorldWorld _sel_B; 
-  private _posB2 = [_posC2 # 0, _posC2 # 1, _posA2 # 2]; 
+          //- #NOTE - Save fuzeData
+            private _pos = [
+              [
+                [_random_POS, _radius max 0]
+              ],
+              []
+            ] call BIS_fnc_randomPos;
 
-  private _adjacent = _posA2 vectorDistance _posB2;
-  private _opposite = _posB2 vectorDistance _posC2;
-  private _hypotenuse = _posA2 vectorDistance _posC2;
+            //- set Fuze trigger
+              [_taskUnit, _fuzeData, _pos] call BCE_fnc_FuzeInit;
+              call BCE_fnc_FuzeTrigger;
 
-  private _verDegrees = acos((_adjacent^2 + _hypotenuse^2 - _opposite^2) / (2*_adjacent*_hypotenuse));
+          //- Next round
+          if (_current < _setCount && _CFF_MSN findIf {true} > -1) then {
+            _taskUnit setVariable ["BCE_CFF_MISSION_PROGRESS",_current];
 
-  private _posB2B = [_sel_B # 0, _sel_B # 1, 0]; 
-  private _verDegreesB = acos((_sel_A vectorFromTo _sel_B) vectorCos (_sel_B vectorFromTo _posB2B));
+            //- Prepare next round
+                private _chargesArray = [_taskUnit, _lbAmmo, AGLToASL _pos, false, _weapon] call BCE_fnc_GetAllCharges;
+                [_taskUnit, AGLToASL _pos, _chargesArray] call BCE_fnc_findCharge;
+          } else {
+            //- Finish CFF MSN
+            ["NextFuze",nil,_taskUnit] call BCE_fnc_set_CFF_Value;
+            _taskUnit setVariable ["BCE_CFF_MISSION_PROGRESS",nil];
+            _taskUnit removeEventHandler [_thisEvent, _thisEventHandler];
+          };
+        }];
 
-  [_verDegrees,_verDegreesB] */
+      //- Exec Fire mission
+        // [{
+          
+          
+        //   isNil{_taskUnit getVariable "BCE_CFF_MISSION_PROGRESS"}
+        // }, {
+        //   params ["_taskUnit"];
+        //   ["NextFuze",nil,_taskUnit] call BCE_fnc_set_CFF_Value;
+        // }, _this] call CBA_fnc_waitUntilAndExecute;
+
+        /* [{
+          params ["_taskUnit","_weapon","_CFF_info"];
+          _CFF_info params ["_random_POS","_lbAmmo","_setCount","_radius","_fuzeData"];
+
+          private _chargeInfo = ["chargeInfo", [], _taskUnit] call BCE_fnc_get_CFF_Value;
+          if (_chargeInfo findIf {true} < 0) then {
+
+            
+            // [_chargeInfo, _taskUnit, 2] call BCE_fnc_doFireMission;
+          };
+        }, 0.5, _this] call CBA_fnc_addPerFrameHandler; */
+    },
+    [_taskUnit,_weapon,_CFF_info],
+    2 + (random 0.2)
+  ] call CBA_fnc_waitAndExecute;

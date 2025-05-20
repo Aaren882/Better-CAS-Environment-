@@ -245,7 +245,8 @@ switch _curLine do {
 		//- Update ouput display
 			_ctrl3 ctrlSetText _type;
 
-		_taskVar set [4, [_type, [_ctrlMethod,_value]]];
+    private _functions = [_ctrl1,"functions",[]] call BCE_fnc_get_Control_Data;
+		_taskVar set [4, [_type, [_ctrlMethod,_value], _functions param [_ctrlMethod, ""]]];
 	};
 };
 

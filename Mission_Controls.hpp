@@ -625,6 +625,15 @@ class BCE_Mission_Build_Controls
                 "TOT",
                 "AMC"
             };
+            class BCE_Data
+            {
+                functions[] =
+                {
+                    "BCE_fnc_CFF_AT_READY",
+                    "BCE_fnc_CFF_TOT",
+                    "BCE_fnc_CFF_AMC"
+                };
+            };
             tooltips[] =
             {
                 "Fire When Ready",
