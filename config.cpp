@@ -727,6 +727,15 @@ class CfgFunctions
 			class findCharge;
 			class getAllCharges;
 			class UnstuckUnit;
+			class get_CFF_Value;
+			class set_CFF_Value;
+		};
+		class CFF_Method_of_Controls
+		{
+			file="MG8\AVFEVFX\functions\CAS_Event\Call_for_Fire\MOC";
+			class CFF_AT_READY;
+			class CFF_AMC;
+			class CFF_ToT;
 		};
 		class CAS_Event
 		{
@@ -766,6 +775,7 @@ class CfgFunctions
 			//- Registries
 				class RegisterMissionControls;
 				class onLoad_BCE_Holder;
+				class get_Control_Data; //- "BCE_Data"
 
 			//- Menu Events (ToolBox, LB DropBox)
 				class onTaskElementChange;

@@ -31,7 +31,7 @@ switch _curLine do {
 				["_ctrlSel0",0],
 				["_ctrlSel1",0],
 				["_ctrlSel2",0],
-				["_ctrlSel3",["1",""] select _isIA],
+				["_ctrlSel3",["5","1"] select _isIA],
 				["_ctrlSel4",["50",""] select _isIA],
 				["_ctrlSel5",["0",""] select _isIA]
 			];

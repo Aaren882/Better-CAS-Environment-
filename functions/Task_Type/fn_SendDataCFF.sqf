@@ -45,6 +45,7 @@ private _TGPOS = _taskVar_2 # 2;
   _TGPOS,
   // [_TGPOS,_OT_Dir], //- OT Infos
   [], //- WPN Values
+  _taskVar_4 param [2,""], //- Get Control Method Function Name
   _customInfos,
   _taskVar
 ]
