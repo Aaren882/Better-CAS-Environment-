@@ -3,7 +3,7 @@
   
   On CFF XMIT pressed #LINK - functions/cTab/functions/ATAK/Fire_Mission/Call_for_Fire/fn_ATAK_CFF_TaskList_Init.sqf
 */
-params ["_control",["_transmitType",-1]];
+params ["_control",["_transmitType",""]];
 
 //- Check Task Unit 
 private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
@@ -14,12 +14,12 @@ if (isnull _taskUnit) exitWith {};
   private _taskData = _tagGrp getVariable ["CFF_Task_Mission",""];
 
 private _customData = if (_taskData != "") then {
-  switch (_transmitType) do { //- Check XMIT type
+  switch (toUpperANSI _transmitType) do { //- Check XMIT type
     //- Start Mission
-    case 0: {_taskData};
+    case "START": {_taskData};
 
     //- Open Adjust Menu
-    case 1: {
+    case "ADJUST_MENU": {
       private _value = ["CFF_Mission",[],true] call BCE_fnc_get_TaskCurSetup;
       _value set [0,_taskData];
       ["CFF_Mission",_value] call BCE_fnc_set_TaskCurSetup;
