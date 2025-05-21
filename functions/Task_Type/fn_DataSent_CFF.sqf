@@ -87,7 +87,7 @@ private _group = group _taskUnit;
     // private _random_POS = _TGPOS;
     private _random_POS = [
       [
-        [_TGPOS, 0]
+        [_TGPOS, 100]
       ],
       []
     ] call BIS_fnc_randomPos;

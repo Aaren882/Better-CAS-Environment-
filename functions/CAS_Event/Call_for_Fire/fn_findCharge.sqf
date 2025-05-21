@@ -5,16 +5,6 @@
 // maxDifference = 0.15;	// Ideal number.
 // maxDifference = 1;			// Number that works better with the AI aiming bugs, mainly the one where the AI takes a while to aim at low angle shots.
 #define MAX_DIFFERENCE 1
-
-/* params[
-	"_taskUnit",
-	"_chosenTargetPos",
-	"_chargesArray",
-	["_abort",false],
-	["_endMission",false],
-	["_checkFire",false]
-]; */
-
 params[
 	"_taskUnit",
 	"_chosenTargetPos",
@@ -22,7 +12,9 @@ params[
 ];
 
 //- Check Charge exist
-	if (_chargesArray findIf {true} < 0) exitWith {
+	if (
+		_chargesArray findIf {true} < 0
+	) exitWith {
 		["CFF no Charge found ""_chargesArray"" = []; !!"] call BIS_fnc_error;
 	};
 
@@ -31,7 +23,6 @@ _chosenTargetPos params ["_posX","_posY"];
 // private _chargeFound = false;
 // private _parents = [configOf _taskUnit, true] call BIS_fnc_returnParents;
 
-// private _group = group _taskUnit;
 private _gunner = gunner _taskUnit;
 private _turretPath = (assignedVehicleRole _gunner) # 1;
 private _turretConfig = [_taskUnit, _turretPath] call CBA_fnc_getTurret;
@@ -52,10 +43,9 @@ private _aimPOS = _chargesArray apply {
 		private _z = _distanceOp + _heightArtyToSeaLvl;											// Add the two height numbers together to get the altitude above sea level.
 
 	//- ARRAY of AGL POS
-		[_charge, _angleA, _ETA, ASLtoAGL [_posX,_posY,_z]]
+		_x pushBack (ASLtoAGL [_posX,_posY,_z]);
+		_x
 };
-
-_taskUnit setVariable ["#CFF_Aim_Index",0];
 
 [
 	{
@@ -70,10 +60,11 @@ _taskUnit setVariable ["#CFF_Aim_Index",0];
 		//- Check ARTY Exist
 		if !(alive _taskUnit) exitWith {[_handlerID] call CBA_fnc_removePerFrameHandler};
 
-		_cfgProps params ["_gunBeg","_gunEnd","_minElev","_maxElev"];
+		_cfgProps params ["_gunAnim","_gunBeg","_gunEnd","_minElev","_maxElev"];
 
 		//- Check ARTY Charge is able to find
-		private _aimIndex = _taskUnit getVariable ["#CFF_Aim_Index",0];
+		private _aimIndex = ["Aim_Index",0,_taskUnit] call BCE_fnc_get_CFF_Value;
+
 		if (_aimIndex >= count _aimPOS) exitWith {
 			hint "Unable to shoot (No charge were Found)!!";
 			[_handlerID] call CBA_fnc_removePerFrameHandler;
@@ -81,34 +72,40 @@ _taskUnit setVariable ["#CFF_Aim_Index",0];
 
 		//- Start with 0
 			private _chargeFound = false;
-			(_aimPOS # _aimIndex) params ["_charge", "_angleA", "_ETA", "_pos"];
+			private _chargeInfo = _aimPOS # _aimIndex;
+			_chargeInfo params ["_charge", "_angleA", "_ETA", "_pos"];
 
+		private _posUnit = getPosASLVisual _taskUnit;
+		private _vecToAim = _posUnit vectorFromTo _pos;
+		private _degVehToAim = 90 - acos (_vecToAim vectorCos (vectorUpVisual _taskUnit));
+		
 		if (
-			_angleA < _minElev ||	//- Over MIN
-			_angleA > _maxElev 		//- Over MAX
+			_degVehToAim < _minElev ||	//- Over MIN
+			_degVehToAim > _maxElev 		//- Over MAX
 		) exitWith {
-			_taskUnit setVariable ["#CFF_Aim_Index", _aimIndex + 1];
+			["Aim_Index", _aimIndex + 1, _taskUnit] call BCE_fnc_set_CFF_Value;
 		};
 
 		// Make unit aim.
 			(gunner _taskUnit) doWatch _pos;
 
 		// Calculate the vertical angle of the unit by using triangle calculations.
-			private _posUnit = getPosASLVisual _taskUnit;
 			private _posA2 = _taskUnit modelToWorldVisualWorld (_taskUnit selectionPosition _gunBeg);
 			private _posC2 = _taskUnit modelToWorldVisualWorld (_taskUnit selectionPosition _gunEnd);
-			private _posB2 = [_posC2 # 0, _posC2 # 1, _posA2 # 2];
+			/* private _posB2 = [_posC2 # 0, _posC2 # 1, _posA2 # 2];
 			
 			private _adjacent = _posA2 vectorDistance _posB2;
 			private _opposite = _posB2 vectorDistance _posC2;
-			private _hypotenuse = _posA2 vectorDistance _posC2;
+			private _hypotenuse = _posA2 vectorDistance _posC2;  */
 	
 		//-  Law of Cosines
-			private _verDegrees = acos((_adjacent^2 + _hypotenuse^2 - _opposite^2) / (2*_adjacent*_hypotenuse));
-		
+			// private _verDegrees = acos((_adjacent^2 + _hypotenuse^2 - _opposite^2) / (2*_adjacent*_hypotenuse));
+		private _verDegrees = deg (_taskUnit animationPhase _gunAnim);
+
 		// Find direction difference between the direction to the target and the direction of the unit.
 		// If difference is too high, then skip this charge.
 			private _dirToTarget = _posUnit getDirVisual _chosenTargetPos;
+
 			private _aimDir = _posC2 getDirVisual _posA2;
 			private _diff = (_aimDir - _dirToTarget) % 180;
 			private _goodDir = abs _diff < 5; //- it's pointing correct direction
@@ -117,14 +114,14 @@ _taskUnit setVariable ["#CFF_Aim_Index",0];
 		// _angleA is the requested angle that the unit should aim with.
 		// _verDegrees is the actual angle that the unit is aiming with at the moment.
 		// MAX_DIFFERENCE is the maximum allowed difference between the above two.
-		private _difference = abs(_angleA - _verDegrees);
-
+		private _difference = abs(_verDegrees - _degVehToAim);
+		systemChat str [_gunAnim,_verDegrees,_degVehToAim,_difference,time];
+		// private _difference = abs(_angleA - _verDegrees);
 		if (_goodDir && _difference < MAX_DIFFERENCE) then {
 			_chosenCharge = _x;
 			_chargeFound = true;
 
-			_taskUnit setVariable ["#CFF_Aim_Index", _aimIndex + 1];
-			
+			["Aim_Index",_aimIndex + 1,_taskUnit] call BCE_fnc_set_CFF_Value;
 			// Check if there's an obstruction.
 			// Draw a line from the barrel to a point 1000 meters down the barrel.
 			// If target pos is closer than 1000m, then draw from the muzzle to the target pos.
@@ -143,12 +140,20 @@ _taskUnit setVariable ["#CFF_Aim_Index",0];
 				_chargeFound = false;
 			};
 		};
-		systemChat str ["CHECK : ",_goodDir, _difference < MAX_DIFFERENCE, _difference,_chargeFound,time];
 		
 		//- if _chargeFound Exit
 		if (_chargeFound) exitWith {
-			_taskUnit setVariable ["#CFF_Aim_Index", nil];
-			[_charge, _taskUnit, 2] call BCE_fnc_doFireMission;
+			["Aim_Index",nil,_taskUnit] call BCE_fnc_set_CFF_Value;
+			["chargeInfo", _chargeInfo, _taskUnit] call BCE_fnc_set_CFF_Value;
+
+			//- Run Fire Mission
+				private _CFF_MSN = ["CFF_MSN",[],_taskUnit] call BCE_fnc_get_CFF_Value;
+				[
+					uiNamespace getVariable [_CFF_MSN param [5,""],{}],
+					[_taskUnit,_chargeInfo]
+				] call CBA_fnc_execNextFrame;
+
+			//- Exit Loop
 			[_handlerID] call CBA_fnc_removePerFrameHandler;
 		};
 
@@ -157,6 +162,7 @@ _taskUnit setVariable ["#CFF_Aim_Index",0];
 		_taskUnit,
 		_chosenTargetPos,
 		_aimPOS, [
+			getText(_turretConfig >> "gun"),
 			getText(_turretConfig >> "gunBeg"),
 			getText(_turretConfig >> "gunEnd"),
 			getNumber(_turretConfig >> "minElev"),

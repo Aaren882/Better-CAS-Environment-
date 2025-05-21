@@ -13,7 +13,7 @@ if (_weapon == "") then {
 	_weapon = _unit currentWeaponTurret _turretPath;
 };
 
-private _g = 9.78;
+private _g = 9.8066; //- 9.8066 , 9.78
 private _profile = [-1,1] select _angleType; //- [LOW, HIGH]
 private _unitPOS = getPosASL _unit;
 
@@ -30,15 +30,16 @@ private _chargesArray = [];
 	if (getNumber (_config >> "showToPlayer") == 1) then {
 
 		private _vel = _ammoInitSpeed * getNumber(_config >> "artilleryCharge");
-		private _calc = _vel^4-_g*(_g*_distance^2+2*_alt*_vel^2);
+		private _calc = _vel^4 - _g*(_g * _distance^2 + 2*_alt*_vel^2);
 		
 		if (_calc < 0) exitWith {};
 		
 		// Angle
-		private _A = atan((_vel^2 + (_profile * sqrt _calc)) / (_g*_distance));
+		private _A = atan ((_vel^2 + (_profile * sqrt _calc)) / (_g*_distance));
 		
 		// ETA
-		private _ETA = _distance/(_vel*cos(_A)); 
+		// private _ETA = _distance / (_vel* cos(_A));
+		private _ETA = (2 * _vel * sin _A) / _g;
 		
 		_chargesArray pushback [_charge, _A, _ETA];
 	};
