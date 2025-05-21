@@ -75,9 +75,10 @@ private _aimPOS = _chargesArray apply {
 			private _chargeInfo = _aimPOS # _aimIndex;
 			_chargeInfo params ["_charge", "_angleA", "_ETA", "_pos"];
 
-		private _posUnit = getPosASLVisual _taskUnit;
-		private _vecToAim = _posUnit vectorFromTo _pos;
-		private _degVehToAim = 90 - acos (_vecToAim vectorCos (vectorUpVisual _taskUnit));
+		//- Check Vectors from _posUnit "VecUp" to "VecAim"
+			private _posUnit = getPosASLVisual _taskUnit;
+			private _vecToAim = _posUnit vectorFromTo _pos;
+			private _degVehToAim = 90 - acos (_vecToAim vectorCos (vectorUpVisual _taskUnit));
 		
 		if (
 			_degVehToAim < _minElev ||	//- Over MIN
@@ -92,14 +93,8 @@ private _aimPOS = _chargesArray apply {
 		// Calculate the vertical angle of the unit by using triangle calculations.
 			private _posA2 = _taskUnit modelToWorldVisualWorld (_taskUnit selectionPosition _gunBeg);
 			private _posC2 = _taskUnit modelToWorldVisualWorld (_taskUnit selectionPosition _gunEnd);
-			/* private _posB2 = [_posC2 # 0, _posC2 # 1, _posA2 # 2];
-			
-			private _adjacent = _posA2 vectorDistance _posB2;
-			private _opposite = _posB2 vectorDistance _posC2;
-			private _hypotenuse = _posA2 vectorDistance _posC2;  */
-	
-		//-  Law of Cosines
-			// private _verDegrees = acos((_adjacent^2 + _hypotenuse^2 - _opposite^2) / (2*_adjacent*_hypotenuse));
+
+		//- Get Turrect ELEV
 		private _verDegrees = deg (_taskUnit animationPhase _gunAnim);
 
 		// Find direction difference between the direction to the target and the direction of the unit.
@@ -108,15 +103,11 @@ private _aimPOS = _chargesArray apply {
 
 			private _aimDir = _posC2 getDirVisual _posA2;
 			private _diff = (_aimDir - _dirToTarget) % 180;
-			private _goodDir = abs _diff < 5; //- it's pointing correct direction
+			private _goodDir = abs _diff < 5; //- it's pointing correct direction.
 		
 		// Check if the unit is aiming with the correct angle.
-		// _angleA is the requested angle that the unit should aim with.
-		// _verDegrees is the actual angle that the unit is aiming with at the moment.
-		// MAX_DIFFERENCE is the maximum allowed difference between the above two.
-		private _difference = abs(_verDegrees - _degVehToAim);
-		systemChat str [_gunAnim,_verDegrees,_degVehToAim,_difference,time];
-		// private _difference = abs(_angleA - _verDegrees);
+			private _difference = abs(_verDegrees - _degVehToAim);
+
 		if (_goodDir && _difference < MAX_DIFFERENCE) then {
 			_chosenCharge = _x;
 			_chargeFound = true;
