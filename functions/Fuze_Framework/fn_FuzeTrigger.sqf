@@ -3,13 +3,14 @@
 */
 params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
 
-private _fuzeData = _unit getVariable ["#NextFuze",[]];
+private _fuzeData = ["NextFuze",[],_unit] call BCE_fnc_get_CFF_Value;
 _fuzeData params ["_fuzeType","_fuzeValue"];
-private _Cfg = configfile >> "Additional_Fuze" >> _fuzeType;
 
+private _Cfg = configfile >> "Additional_Fuze" >> _fuzeType;
 private _conditionName = [_Cfg ,"condition", "#EMPTY"] call BIS_fnc_returnConfigEntry;
 private _condition = uiNamespace getVariable _conditionName;
-_unit setVariable ["#NextFuze",nil]; //- Clean UP
+
+["NextFuze", nil, _unit] call BCE_fnc_set_CFF_Value; //- Clean UP
 
 //- Catch Error
   if (isNil {_condition}) exitWith {
