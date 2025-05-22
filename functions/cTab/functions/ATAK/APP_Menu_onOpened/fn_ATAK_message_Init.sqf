@@ -2,9 +2,11 @@ params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 _settings params ["_page","","",["_PgComponents",createHashMap]];
 
 //- Get Page data
+  private _displayName = cTabIfOpen # 1;
   private _PG_data = _PgComponents getOrDefault [_page,[]];
   _PG_data params ["_line"];
 
+private _display = ctrlParent _group;
 private _title = _group controlsGroupCtrl 5;
 private _contacts = _group controlsGroupCtrl 6;
 private _list = _group controlsGroupCtrl 10;
@@ -96,9 +98,9 @@ private _contactor = if (lbSize _contacts > 0) then {
     };
   } count ([cTab_player] + playableUnits);
 
-//- exit on none "_contactor" Selected
+//- none "_contactor" Selected (exitWith)
   if (_contactor == "") exitWith {
-    _title ctrlSetStructuredText parseText format ['"%1"',localize "STR_BCE_None"];
+    _title ctrlSetStructuredText parseText str (localize "STR_BCE_None");
   };
 _title ctrlSetStructuredText parseText _contactor;
 
@@ -132,11 +134,11 @@ _title ctrlSetStructuredText parseText _contactor;
 
       if ((_time_s - _time_AC) >= 30) then {
         private _size = 0.8;
-        private _ctrlMsg = [_list,4, ["--",_time,"--"] joinString " "] call BCE_fnc_ATAK_msg_Line_Create;
+        private _ctrlMsg = [_list,4, "-- " + _time + " --"] call BCE_fnc_ATAK_msg_Line_Create;
         private _ctrl_H = (ctrlPosition _ctrlMsg) # 3;
 
         _ctrlMsg ctrlSetPositionY _size_H;
-        _ctrlMsg ctrlSetPositionH (_ctrl_H * _size);
+        // _ctrlMsg ctrlSetPositionH (_ctrl_H * _size);
         _ctrlMsg ctrlCommit 0;
         
         _size_H = _size_H + (_ctrl_H * _size);
@@ -177,7 +179,7 @@ _title ctrlSetStructuredText parseText _contactor;
     private _ctrl_H = (ctrlPosition _ctrlMsg) # 3;
 
     _ctrlMsg ctrlSetPositionY _size_H;
-    _ctrlMsg ctrlSetPositionH (_ctrl_H * _size);
+    // _ctrlMsg ctrlSetPositionH (_ctrl_H * _size);
     _ctrlMsg ctrlCommit 0;
     
     //- sorting Data
