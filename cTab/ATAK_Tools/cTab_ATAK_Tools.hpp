@@ -407,6 +407,12 @@
                         ATAK_POS((0.7 + (1.1/2) + (1.1/3) + (2.2/3)),(0.65 + 1 + TITLE_HEIGHT + (0.35/2)),(1.1/2),0.63);
                         onEditChanged = "(['MSN_WPN|5'] + _this) call BCE_fnc_CFF_Mission_AutoSaveTask";
                     };
+                    class CFF_FireAngle_Combo: CFF_FireAngle_Combo
+                    {
+                        WPN_COMBO_STYLE;
+                        ATAK_POS(0,(0.65 + 1 + TITLE_HEIGHT + (0.35/2)),0.7,0.63);
+                        onLBSelChanged = "(['FIRE_ANGLE'] + _this) call BCE_fnc_CFF_Mission_AutoSaveTask";
+                    };
                     #undef WPN_COMBO_STYLE
                 
                 #define ADJUSTMENT_MENU 3

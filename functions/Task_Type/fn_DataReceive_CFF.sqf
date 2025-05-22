@@ -6,9 +6,10 @@ switch _curLine do {
 	case 0:{
 		_shownCtrls params [
 			"_taskType",
-			"_CTAmmo","_CTFuse","_CTFireUnits","_CTRounds","_CTRadius","_CTFuzeVal",
+			"_CTAmmo","_CTFuse","_CTFireUnits","_CTRounds","_CTRadius","_CTFuzeVal","_fireAngle",
 			"_IA_ammo","_IA_fuse","_IA_fireUnits","_IA_rounds","_IA_radius","_IA_fuzeVal"
 		];
+
 
 		private _textVal = [];
 		private _storeVal = [];
@@ -90,12 +91,15 @@ switch _curLine do {
 		];
 
 		private _taskTypeSel = lbCurSel _taskType;
-		
+		private _fireAngleSel = lbCurSel _fireAngle;
+		_storeVal pushBack _fireAngleSel;
+
 		private _result = [
 			_textVal joinString "/",
 			[_taskTypeSel, _taskType lbData _taskTypeSel],
 			_storeVal,
-			_setUpVal
+			_setUpVal,
+			_fireAngle lbValue _fireAngleSel == 1 //- "0 = Low Angle (false)" / "1 = High Angle (true)"
 		];
 
 		/* if (_storeVal findIf {true} > -1) then {

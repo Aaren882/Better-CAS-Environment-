@@ -6,7 +6,7 @@ _taskVar params ["_taskVar_0","_taskVar_1","_taskVar_2","_taskVar_3","_taskVar_4
 // (_Wpn_setup # 1) params ["_WeapName_IA","_ModeName_IA","_Mode_IA","_turret_IA","_Count_IA","_muzzle_IA","_ATK_range_IA","_ATK_height_IA"];
 
 //- Processing (Get i/e & i/a values)
-_taskVar_0 params ["","_Task_Type","","_Wpn_setup"];
+_taskVar_0 params ["","_Task_Type","","_Wpn_setup","_angleType"];
 // _Wpn_setup params ["_Wpn_setup_IE","_Wpn_setup_IA"];
 
 
@@ -46,6 +46,7 @@ private _TGPOS = _taskVar_2 # 2;
   // [_TGPOS,_OT_Dir], //- OT Infos
   [], //- WPN Values
   _taskVar_4 param [2,""], //- Get Control Method Function Name
+  _angleType, //- Fire Angle type
   _customInfos,
   _taskVar
 ]
