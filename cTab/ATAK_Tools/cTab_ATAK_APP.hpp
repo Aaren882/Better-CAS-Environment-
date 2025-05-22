@@ -16,7 +16,7 @@ class ATAK_APPs
             
             onButtonClick = "[_this # 0] call BCE_fnc_ATAK_ChangeTool;";
             
-            text = ATAK_APP(Missions);
+            text = ATAK_APP(Message);
             textureNoShortcut=APP_MSG;
         };
         class mission: message
