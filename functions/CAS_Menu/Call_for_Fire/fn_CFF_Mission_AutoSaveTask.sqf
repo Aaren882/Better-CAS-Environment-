@@ -31,7 +31,8 @@ if !(_Key isEqualType "") exitWith {
     _MSN_infos params [
       "_Wpn_setup_IE",
       "_Wpn_setup_IA",
-      "_random_POS"
+      "_random_POS",
+      "_angleType"
     ];
   */
 
@@ -128,6 +129,12 @@ if !(_Key isEqualType "") exitWith {
       _MSN_infos set [(1 - _MSN_State), _WPN_Set];
       
       [3,_MSN_infos]
+    };
+    case "FIRE_ANGLE": { //- Angle of Fire
+      //- #NOTE - "0 = Low Angle (false)" / "1 = High Angle (true)"
+      _MSN_infos set [3, (_control lbValue _input) == 1];
+
+      [3, _MSN_infos]
     };
     default {
       []

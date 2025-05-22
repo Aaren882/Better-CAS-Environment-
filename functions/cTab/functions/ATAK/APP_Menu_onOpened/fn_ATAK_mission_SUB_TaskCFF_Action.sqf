@@ -30,7 +30,8 @@ _values params [["_taskID",""]];
 _MSN_infos params [
   "_Wpn_setup_IE",
   "_Wpn_setup_IA",
-  "_random_POS"
+  "_random_POS",
+  "_angleType"
 ];
 
 _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE","_radius_IE","_fuzeVal_IE"];
@@ -50,7 +51,7 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
   private _default_FUZE = [configFile >> "CfgMagazines" >> _lbAmmo_IE, "displayNameMFDFormat", "NO SPEC"] call BIS_fnc_returnConfigEntry;
 
   _MTO_dsp ctrlSetStructuredText parseText format [
-    "<t color='#FFBC05' size='0.9'>%1</t><br/>""%2 x%3, %4 in Effect, %5 ROUNDS, TARGET NUMBER %6""",
+    "<t color='#FFBC05' size='0.9'>%1</t><br/>""%2 , %3 Guns, %5 ROUNDS, %4 in Effect, TARGET NUMBER %6""",
     "Message to Observer :",
     str groupId _taskUnit_Grp,
     _fireUnitSel_IE,
@@ -63,7 +64,7 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
   private _wpn_Cate = [_Wpn_setup_IA, _Wpn_setup_IE] # _MSN_State;
   _wpn_Cate params [
     ["_Ammo",_lbAmmo_IE],
-    ["_Fuse",_lbFuse_IE],
+    ["_Fuse",""],
     "_fireUnitSel",
     "_setCount",
     "_radius",
@@ -71,6 +72,8 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
   ];
 
   call { //- Won't be used twice
+
+    private _fireAngle = "CFF_FireAngle_Combo" call BCE_fnc_getTaskSingleComponent;
     private _wpn_Ctrls = [ //- Get Ctrls
       "WeaponCombo",
       "FuzeCombo",
@@ -79,8 +82,15 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
       "Radius_Box",
       "FuzeValue_Box"
     ] apply {("CFF_IE_" + _x) call BCE_fnc_getTaskSingleComponent};
-
-    _wpn_Ctrls params ["_lbAmmo","_lbFuse","_lbFireUnits","_editRounds","_editRadius","_editFuzeVal"];
+    
+    _wpn_Ctrls params [
+      "_lbAmmo",
+      "_lbFuse",
+      "_lbFireUnits",
+      "_editRounds",
+      "_editRadius",
+      "_editFuzeVal"
+    ];
 
     //- Create Weapon List
       lbClear _lbAmmo;
@@ -111,10 +121,12 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
       _lbAmmo 	    lbSetCurSel ([_lbAmmo,_Ammo] call _GetDataSel);
       _lbFuse 	    lbSetCurSel ([_lbFuse,_Fuse] call _GetDataSel);
       _lbFireUnits	lbSetCurSel ([_lbFireUnits,_fireUnitSel] call _GetValueSel);
+      _fireAngle	  lbSetCurSel ([0,1] select _angleType);
       _editRounds	  ctrlSetText str _setCount;
       _editRadius	  ctrlSetText str _radius;
       _editFuzeVal	ctrlSetText str _fuzeVal;
       _editFuzeVal  ctrlshow (_Fuse != "");
+      
   };
   
   private _ETA = round (_taskUnit getArtilleryETA [_TG_Grid call BCE_fnc_Grid2POS, _Ammo]);

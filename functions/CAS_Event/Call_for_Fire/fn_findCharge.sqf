@@ -58,7 +58,10 @@ private _aimPOS = _chargesArray apply {
 		];
 
 		//- Check ARTY Exist
-		if !(alive _taskUnit) exitWith {[_handlerID] call CBA_fnc_removePerFrameHandler};
+		if !(alive _taskUnit) exitWith {
+			_taskUnit setVariable ["BCE_CFF_MISSION_PROGRESS",nil];
+			[_handlerID] call CBA_fnc_removePerFrameHandler;
+		};
 
 		_cfgProps params ["_gunAnim","_gunBeg","_gunEnd","_minElev","_maxElev"];
 
@@ -67,6 +70,7 @@ private _aimPOS = _chargesArray apply {
 
 		if (_aimIndex >= count _aimPOS) exitWith {
 			hint "Unable to shoot (No charge were Found)!!";
+			_taskUnit setVariable ["BCE_CFF_MISSION_PROGRESS",nil];
 			[_handlerID] call CBA_fnc_removePerFrameHandler;
 		};
 
@@ -140,7 +144,7 @@ private _aimPOS = _chargesArray apply {
 			//- Run Fire Mission
 				private _CFF_MSN = ["CFF_MSN",[],_taskUnit] call BCE_fnc_get_CFF_Value;
 				[
-					uiNamespace getVariable [_CFF_MSN param [5,""],{}],
+					uiNamespace getVariable [_CFF_MSN param [6,""],{}],
 					[_taskUnit,_chargeInfo]
 				] call CBA_fnc_execNextFrame;
 

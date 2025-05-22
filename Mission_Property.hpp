@@ -261,7 +261,7 @@ class BCE_Mission_Property
             Controls[] = {
                 {
                     "TaskType_GND",
-                    "CFF_IE_WeaponCombo","CFF_IE_FuzeCombo","CFF_IE_FireUnit_Combo","CFF_IE_Round_Box","CFF_IE_Radius_Box","CFF_IE_FuzeValue_Box",
+                    "CFF_IE_WeaponCombo","CFF_IE_FuzeCombo","CFF_IE_FireUnit_Combo","CFF_IE_Round_Box","CFF_IE_Radius_Box","CFF_IE_FuzeValue_Box","CFF_FireAngle_Combo",
                     "CFF_IA_WeaponCombo","CFF_IA_FuzeCombo","CFF_IA_FireUnit_Combo","CFF_IA_Round_Box","CFF_IA_Radius_Box","CFF_IA_FuzeValue_Box"
                 },
                 {},

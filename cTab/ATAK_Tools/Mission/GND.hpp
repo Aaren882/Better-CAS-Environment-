@@ -115,6 +115,16 @@ class Call_For_Fire: AIR_5_LINE
                 sizeEx = 0.9 * TextSize;
                 onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
             };
+            class CFF_FireAngle_Combo: CFF_FireAngle_Combo
+            {
+                ATAK_POS(0,(1.65 + (0.35/2) + MOVE_Y_OFFSET),0.7,0.63);
+                onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+                //- Style
+                    colorBackground[] = {0.3,0.3,0.3,1};
+                    colorSelect[]={1,1,1,1};
+                    colorSelectBackground[]={0.4,0.4,0.4,1};
+                    sizeEx = 0.9 * TextSize;
+            };
         //- In Adjust (IA) (OPTIONAL)
             class Weapon_IA_T: Weapon_T
             {

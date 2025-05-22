@@ -555,6 +555,31 @@ class BCE_Mission_Build_Controls
                 idc = PROP_IDC(1018);
                 tooltip="Fuze Value";
             };
+            class CFF_FireAngle_Combo: AI_Remark_ModeCombo
+            {
+                REGISTER_FNC;
+
+                idc = PROP_IDC(1019);
+                tooltip = "Angle of Fire";
+                class Items
+                {
+                    class low
+                    {
+                        text = "Low";
+                        textRight = "";
+                        value = 0;
+                        default = 1;
+                        tooltip = "Low Angle";
+                    };
+                    class high
+                    {
+                        text = "High";
+                        textRight = "";
+                        value = 1;
+                        tooltip = "High Angle";
+                    };
+                };
+            };
         //- In Adjust (IA) Section
             class CFF_IA_WeaponCombo: CFF_IE_WeaponCombo
             {

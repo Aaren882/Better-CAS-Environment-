@@ -15,6 +15,7 @@ _data params [
   "_TGPOS", //- OT Infos
   "_WPN_exec",
   "_Control_Function",
+  "_angleType",
   "_customInfos",
   "_taskVar"
 ];
@@ -116,7 +117,8 @@ private _group = group _taskUnit;
       [
         (_Wpn_setup # 0),
         (_Wpn_setup # 1),
-        _random_POS
+        _random_POS,
+        _angleType
       ],
       0 //- "MSN_State"
     ];
@@ -145,9 +147,10 @@ private _group = group _taskUnit;
     _MSN_infos params [
       "_Wpn_setup_IE",
       "_Wpn_setup_IA",
-      "_random_POS"
+      "_random_POS",
+      "__angleType"
     ];
-    
+
     //- #NOTE - Replace "_WPN_exec"
     //- ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_radius","_fuzeVal"]
     _WPN_exec = if (_MSN_State == 1) then {
@@ -161,6 +164,7 @@ private _group = group _taskUnit;
         [_x,_Wpn_setup_IE # _i] select (isnil {_x})
       };
     };
+    _angleType = __angleType; //- Match the Value
     
     //- RETURN
       _random_POS
@@ -172,7 +176,7 @@ private _group = group _taskUnit;
 
 //- #SECTION - Execution
   _WPN_exec params ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_radius","_fuzeVal"];
-  private _CFF_info = [_random_POS, _lbAmmo,_setCount,_radius,[_lbFuse,_fuzeVal],_Control_Function];
+  private _CFF_info = [_random_POS,_lbAmmo,_setCount,_angleType,_radius,[_lbFuse,_fuzeVal],_Control_Function];
   private _MagData = createHashMap;
   private _MagFire = createHashMap;
 
@@ -276,7 +280,6 @@ private _group = group _taskUnit;
           } forEach _magsToAdd;
           {_unit addMagazine _x} forEach _otherMags;
 
-          // _gunner doWatch (ASLtoAGL (_CFF_info # 0));
           //- Do Fire mission
           call BCE_fnc_CFF_Action;
         },
