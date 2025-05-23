@@ -22,7 +22,16 @@ class Additional_Fuze
     };
     class Default
     {
-      maxRange = 300;
+      minValue = 5;
+      maxValue = 50;
     };
+  };
+  class Delay
+  {
+    displayName = "Delay Fuze";
+    displayNameShort = "Delay";
+    description = "Delay Fuze";
+    Tooltip = "Delay Time (Sec)";
+    condition = "BCE_fnc_FuzeDelay";
   };
 };

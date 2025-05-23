@@ -670,6 +670,7 @@ class CfgFunctions
 			class FuzeInit;
 			class FuzeTrigger;
 			class FuzeVT;
+			class FuzeDelay;
 		};
 		class Gunner_Action
 		{
