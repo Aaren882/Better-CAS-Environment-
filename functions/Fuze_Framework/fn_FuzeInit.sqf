@@ -8,6 +8,9 @@ private _triggerValue = switch (_fuzeType) do {
   case "VT": { //- IN ASL HEIGHT
     _fuzeValue
   };
+  case "DELAY": { //- 
+    0.05
+  };
   default {0};
 };
 
