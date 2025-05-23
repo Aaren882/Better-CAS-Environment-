@@ -316,7 +316,7 @@ class CfgVehicles
 			{
 				class HUD
 				{
-					getin="if (((_this # 0) animationPhase 'Addcrosshair') != 0 && BCE_HUD_fn ) then {(_this # 0) animate ['Addcrosshair', 0];} else {(_this # 0) animate ['Addcrosshair', 1]};";
+					getin="if (((_this # 0) animationPhase 'Addcrosshair') != 0 && {BCE_HUD_fn}) then {(_this # 0) animate ['Addcrosshair', 0];} else {(_this # 0) animate ['Addcrosshair', 1];};";
 				};
 			};
 		};
@@ -344,7 +344,7 @@ class CfgVehicles
 			{
 				class HUD
 				{
-					getin="if (((_this # 0) animationPhase 'Addcrosshair') != 0) then{(_this # 0) animate ['Addcrosshair', 0];};";
+					getin="if (((_this # 0) animationPhase 'Addcrosshair') != 0 && {BCE_HUD_fn}) then {(_this # 0) animate ['Addcrosshair', 0];} else {(_this # 0) animate ['Addcrosshair', 1];};";
 				};
 			};
 		};
