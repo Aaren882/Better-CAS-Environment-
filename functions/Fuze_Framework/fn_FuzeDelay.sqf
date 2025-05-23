@@ -1,7 +1,7 @@
 /*
   NAME : BCE_fnc_FuzeDelay
 
-  VT fuze trigger condition
+  Delay fuze trigger condition
 */
 
 params ["_fuzeValue","_projectile"];
