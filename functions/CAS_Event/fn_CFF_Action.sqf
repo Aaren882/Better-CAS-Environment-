@@ -15,12 +15,6 @@ private _checkFire = false; */
     hint "MISSION PROGRESS !!";
   };
 
-// Set crew properties.
-  /* {
-    _x disableAI "TARGET";
-    _x disableAI "AUTOTARGET";
-  } forEach crew _taskUnit; */
-
 //- Execute Fire Mission (wait 2 Seconds)
   [
     {
