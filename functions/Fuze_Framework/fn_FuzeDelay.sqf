@@ -19,4 +19,4 @@ if (
   true
 };
 
-!(alive _projectile)
+false

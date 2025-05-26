@@ -6,8 +6,5 @@
 
 params ["_fuzeValue","_projectile"];
 
-!(alive _projectile) ||
-(
-  ((vectorDirVisual _projectile) # 2) < 0 && //- Check _projectile is point downward
-  ((getPosVisual _projectile) # 2) < _fuzeValue
-)
+((vectorDirVisual _projectile) # 2) < 0 && //- Check _projectile is point downward
+((getPosVisual _projectile) # 2) < _fuzeValue

@@ -21,6 +21,9 @@ private _condition = uiNamespace getVariable _conditionName;
 
 //- Detection function
   [
-    _condition, {
+    {
+      params ["","_projectile","_condition"];
+      call _condition || !(alive _projectile)
+    }, {
     triggerAmmo (_this # 1);
-  }, [_fuzeValue,_projectile]] call CBA_fnc_waitUntilAndExecute;
+  }, [_fuzeValue,_projectile,_condition]] call CBA_fnc_waitUntilAndExecute;
