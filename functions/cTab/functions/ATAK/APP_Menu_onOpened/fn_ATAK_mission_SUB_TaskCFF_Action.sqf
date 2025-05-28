@@ -73,14 +73,14 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
 
   call { //- Won't be used twice
 
-    private _fireAngle = "CFF_FireAngle_Combo" call BCE_fnc_getTaskSingleComponent;
     private _wpn_Ctrls = [ //- Get Ctrls
       "WeaponCombo",
       "FuzeCombo",
       "FireUnit_Combo",
       "Round_Box",
       "Radius_Box",
-      "FuzeValue_Box"
+      "FuzeValue_Box",
+      "FireAngle_Bnt"
     ] apply {("CFF_IE_" + _x) call BCE_fnc_getTaskSingleComponent};
     
     _wpn_Ctrls params [
@@ -89,7 +89,8 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
       "_lbFireUnits",
       "_editRounds",
       "_editRadius",
-      "_editFuzeVal"
+      "_editFuzeVal",
+      "_fireAngle"
     ];
 
     //- Create Weapon List
@@ -121,7 +122,9 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
       _lbAmmo 	    lbSetCurSel ([_lbAmmo,_Ammo] call _GetDataSel);
       _lbFuse 	    lbSetCurSel ([_lbFuse,_Fuse] call _GetDataSel);
       _lbFireUnits	lbSetCurSel ([_lbFireUnits,_fireUnitSel] call _GetValueSel);
-      _fireAngle	  lbSetCurSel ([0,1] select _angleType);
+      _fireAngle    setVariable ["Mode", _angleType];
+      _fireAngle    ctrlSetStructuredText parseText localize (["STR_BCE_LO_Angle","STR_BCE_HI_Angle"] select _angleType);
+
       _editRounds	  ctrlSetText str _setCount;
       _editRadius	  ctrlSetText str _radius;
       _editFuzeVal	ctrlSetText str _fuzeVal;

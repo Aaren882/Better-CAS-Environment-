@@ -549,13 +549,57 @@ class BCE_Mission_Build_Controls
             {
                 idc = PROP_IDC(1017);
                 tooltip="Impact Radius when ""Fire for Effect""";
+                text = "100";
             };
             class CFF_IE_FuzeValue_Box: CFF_IE_Round_Box
             {
                 idc = PROP_IDC(1018);
                 tooltip="Fuze Value";
             };
-            class CFF_FireAngle_Combo: AI_Remark_ModeCombo
+            class CFF_IE_FireAngle_Bnt: BCE_RscButtonMenu
+            {
+                REGISTER_FNC;
+                idc = PROP_IDC(1019);
+                text = "";
+                tooltip = "$STR_BCE_FireAngle_Tip";
+                
+                //- Style
+                    animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
+                    animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
+                    animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.65)";
+
+                    colorBackground[] = 
+                    {
+                        "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.13])",
+                        "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.54])",
+                        "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.21])",
+                        0.8
+                    };
+                    colorBackground2[] = 
+                    {
+                        "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.13])",
+                        "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.54])",
+                        "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.21])",
+                        0.8
+                    };
+                    colorBackgroundFocused[] = 
+                    {
+                        "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.13])",
+                        "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.54])",
+                        "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.21])",
+                        0.5
+                    };
+                
+                class Attributes
+                {
+                    font = "RobotoCondensed_BCE";
+                    color = "#E5E5E5";
+                    align = "center";
+                    shadow = "true";
+                    size = 0.9;
+                };
+            };
+            /* class CFF_FireAngle_Combo: AI_Remark_ModeCombo
             {
                 REGISTER_FNC;
 
@@ -579,7 +623,7 @@ class BCE_Mission_Build_Controls
                         tooltip = "High Angle";
                     };
                 };
-            };
+            }; */
         //- In Adjust (IA) Section
             class CFF_IA_WeaponCombo: CFF_IE_WeaponCombo
             {
@@ -747,7 +791,7 @@ class BCE_Mission_Build_Controls
                 ""
             };
             colorBackground[] = {0,0,0,0.3};
-        }; 
+        };
         class New_Task_MissionType_ADJUST_CFF: New_Task_Adjust_Method_CFF
         {
             REGISTER_FNC;
@@ -784,6 +828,60 @@ class BCE_Mission_Build_Controls
             REGISTER_FNC;
             idc = PROP_IDC(2211);
             colorBackground[] = {0,0,0,0.5};
+        };
+        class New_Task_IE_Sheaf_Mode: New_Task_IPtype
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2212);
+            columns = 4;
+            strings[] =
+            {
+                "STAND",  // No input = 100m
+                "OPEN",   // Cycle radius > 100m
+                "LINEAR", // Length/Width
+                "POINT"   // No input
+            };
+            tooltips[] =
+            {
+                "",
+                "",
+                "",
+                ""
+            };
+        };
+        class New_Task_IE_Sheaf_LINE_L: CFF_IE_Radius_Box
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2213);
+            tooltip = "Length in meters";
+        };
+        class New_Task_IE_Sheaf_LINE_W: New_Task_IE_Sheaf_LINE_L
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2214);
+            tooltip = "Width in meters";
+        };
+        class New_Task_IE_Sheaf_LINE_L_T: RscText
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2215);
+            shadow = 2;
+            style = 2;
+            // style = 0x22;
+            
+            text = "L";
+            tooltip = "Length in meters";
+
+            colorText[]={1,0.737255,0.0196078,1};
+            colorBackground[] = {0,0,0,0};
+        };
+        class New_Task_IE_Sheaf_LINE_W_T: New_Task_IE_Sheaf_LINE_L_T
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2216);
+
+            text = "W";
+            tooltip = "Width in meters";
         };
 };
 

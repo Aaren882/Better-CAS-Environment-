@@ -777,6 +777,7 @@ class CfgFunctions
 				class RegisterMissionControls;
 				class onLoad_BCE_Holder;
 				class get_Control_Data; //- "BCE_Data"
+				class set_Control_Data; //- "BCE_Data"
 
 			//- Menu Events (ToolBox, LB DropBox)
 				class onTaskElementChange;

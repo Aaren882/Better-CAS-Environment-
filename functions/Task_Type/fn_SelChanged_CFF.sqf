@@ -1,3 +1,5 @@
+params ["_shownCtrls","_curLine","_selectedIndex","_taskVar"];
+
 switch _curLine do {
   case 0:{
     _shownCtrls params [
@@ -32,32 +34,27 @@ switch _curLine do {
       [_IA_fuse,_IA_fuzeVal]
     ];
   };
-  /* case 1:{
-    _shownCtrls params ["_toolBox","_combo"];
-    if (_selectedIndex == 1) then {
-      _combo ctrlShow true;
+  case 1: {
+    _shownCtrls params [
+      "_toolBox",
+      "_output",
+      "_Radius",
+      "_LINE_L","_LINE_W","_Title_L","_Title_W"
+    ];
 
-      private _color = [
-        (profilenamespace getvariable ['Map_BLUFOR_R',0]),
-        (profilenamespace getvariable ['Map_BLUFOR_G',1]),
-        (profilenamespace getvariable ['Map_BLUFOR_B',1]),
-        (profilenamespace getvariable ['Map_BLUFOR_A',0.8])
-      ];
-      
-      lbClear _combo;
-      {
-        if (isNull leader _x) then {continue};
-        private _index = _combo lbAdd (groupId _x);
-        _combo lbSetData [_index, str _x];
-
-        _combo lbSetPicture [_index, "\a3\ui_f\data\Map\Markers\NATO\b_inf.paa"];
-        _combo lbSetPictureColor [_index, _color];
-      } forEach (groups playerSide);
-      
-    } else {
-      _combo ctrlShow false;
+    private _ctrls = _shownCtrls select [2];
+    private _show = call {
+      if (_selectedIndex == 1) exitWith {
+        [_Radius]
+      };
+      if (_selectedIndex == 2) exitWith {
+        [_LINE_L,_LINE_W,_Title_L,_Title_W]
+      };
+      []
     };
-  }; */
+    
+    {_x ctrlshow (_x in _show)} count _ctrls;
+  };
   //- Control Method  [Toolbox, EditBox, output, ETA(StructuredText)]
   case 4:{
     _shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];

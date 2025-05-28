@@ -261,10 +261,10 @@ class BCE_Mission_Property
             Controls[] = {
                 {
                     "TaskType_GND",
-                    "CFF_IE_WeaponCombo","CFF_IE_FuzeCombo","CFF_IE_FireUnit_Combo","CFF_IE_Round_Box","CFF_IE_Radius_Box","CFF_IE_FuzeValue_Box","CFF_FireAngle_Combo",
+                    "CFF_IE_WeaponCombo","CFF_IE_FuzeCombo","CFF_IE_FireUnit_Combo","CFF_IE_Round_Box","CFF_IE_Radius_Box","CFF_IE_FuzeValue_Box","CFF_IE_FireAngle_Bnt",
                     "CFF_IA_WeaponCombo","CFF_IA_FuzeCombo","CFF_IA_FireUnit_Combo","CFF_IA_Round_Box","CFF_IA_Radius_Box","CFF_IA_FuzeValue_Box"
                 },
-                {},
+                {"New_Task_IE_Sheaf_Mode","New_Task_IPExpression","CFF_IE_Radius_Box","New_Task_IE_Sheaf_LINE_L","New_Task_IE_Sheaf_LINE_W","New_Task_IE_Sheaf_LINE_L_T","New_Task_IE_Sheaf_LINE_W_T"},
                 // {"New_Task_CFF_OT_Info","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_FRND_DESC"},
                 {"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
                 {"New_Task_TG_DESC","New_Task_GRID_DESC"},
@@ -272,7 +272,7 @@ class BCE_Mission_Property
             };
             Descriptions[] = {
                 "$STR_BCE_DECS_GAMEPLAN",
-                "Observer-Target (OT) Direction. OT direction is the azimuth from the FO to the target.<br/><br/>It does not transifer FO's location.",
+                "$STR_BCE_DECS_CFF_Sheaf",
                 "$STR_BCE_DECS_TGT",
                 "$STR_BCE_DECS_DESCMark",
                 "在沒有指定管制方法的情況下，射擊任務將以「準備就緒時」(When Ready) 執行。<br/><br/>在基礎學校您可能會使用的另外兩個選項是「聽我口令」(At My Command, AMC) 和「目標時間」(Time on Target, TOT)。"
