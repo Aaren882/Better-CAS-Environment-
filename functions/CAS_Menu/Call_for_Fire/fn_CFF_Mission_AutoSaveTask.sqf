@@ -131,8 +131,11 @@ if !(_Key isEqualType "") exitWith {
       [3,_MSN_infos]
     };
     case "FIRE_ANGLE": { //- Angle of Fire
-      //- #NOTE - "0 = Low Angle (false)" / "1 = High Angle (true)"
-      _MSN_infos set [3, (_control lbValue _input) == 1];
+      //- #NOTE - "false = Low Angle" / "true = High Angle"
+      private _angleType = !(_MSN_infos # 3);
+      _control ctrlSetStructuredText parseText localize (["STR_BCE_LO_Angle","STR_BCE_HI_Angle"] select _angleType);
+      _control setVariable ["Mode", _angleType];
+      _MSN_infos set [3, _angleType];
 
       [3, _MSN_infos]
     };

@@ -1,3 +1,5 @@
+params ["_shownCtrls","_curLine","_selectedIndex","_taskVar"];
+
 //- Check if it's last line (Remarks)
 private _remarks = (count _taskVar) - 1;
 

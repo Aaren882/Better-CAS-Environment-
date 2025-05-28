@@ -1,5 +1,10 @@
+params ["_control"];
+
+if !((ctrlParentControlsGroup _control) getVariable ["Init",false]) exitWith {};
+
 [{
 	params ["_control","_input",["_type",-1]];
+
 	privateAll;
 
 	_curType = [] call BCE_fnc_get_TaskCurType;

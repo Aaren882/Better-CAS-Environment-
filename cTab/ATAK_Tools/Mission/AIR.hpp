@@ -161,11 +161,11 @@ class AIR_9_LINE: ATAK_AppMenu_Base
             colorBackground2[] = {0,0,0,0};
             colorBackgroundFocused[] = {0,0,0,0};
 
-            animTextureDefault="#(argb,8,8,3)color(0,0,0,0.8)";
-            animTextureNormal="#(argb,8,8,3)color(0,0,0,0.8)";
-            animTextureOver = "#(argb,8,8,3)color(0,0,0,0.5)";
-            animTextureFocused = "#(argb,8,8,3)color(0,0,0,0.8)";
-            animTexturePressed = "#(argb,8,8,3)color(0,0,0,0.3)";
+            animTextureDefault="#(argb,8,8,3)color(1,1,1,0.8)";
+            animTextureNormal="#(argb,8,8,3)color(1,1,1,0.8)";
+            animTextureOver = "#(argb,8,8,3)color(1,1,1,0.5)";
+            animTextureFocused = "#(argb,8,8,3)color(1,1,1,0.8)";
+            animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.3)";
 
             size = 0.7 * (((60) - (20))) / 2048 * CustomPhoneH;
             

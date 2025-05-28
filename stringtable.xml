@@ -843,6 +843,11 @@
 			<Chinese>提供額外重要資訊。&lt;br/&gt;&lt;br/&gt; 1. &lt;t underline='true'&gt;處於交戰&lt;/t&gt; 或 &lt;t underline='true'&gt;Danger Close&lt;/t&gt;&lt;br/&gt; 2. 最終攻擊方向 (FAH) 或 高度限制 &lt;br/&gt; 3. 區域威脅 &lt;br/&gt; 4. 正在使用的射擊槍線 &lt;br/&gt;等等</Chinese>
 			<Chinesesimp>提供额外重要信息。&lt;br/&gt;&lt;br/&gt; 1. &lt;t underline='true'&gt;处于交战&lt;/t&gt; 或 &lt;t underline='true'&gt;Danger Close&lt;/t&gt;&lt;br/&gt; 2. 最终攻击方向 (FAH) 或 高度限制 &lt;br/&gt; 3. 区域威胁 &lt;br/&gt; 4. 正在使用的射击枪线 &lt;br/&gt;等等</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_DECS_CFF_Sheaf">
+			<Original>Sheaf is a spatial pattern of fire over a target area that has parameters or is referred to differently depending on the pattern desired. &lt;br/&gt;&lt;br/&gt; - Standard :&lt;br/&gt; The default radius 100m. &lt;br/&gt; - Open :&lt;br/&gt; Which is greater than 100m radius and provides wider coverages.&lt;br/&gt; - Linear :&lt;br/&gt;   &lt;br/&gt; - Point :&lt;br/&gt;   </Original>
+			<Chinese>Sheaf 是火力在目標區域的空間模式，其參數或呼叫方式取決於所需的具體模式。&lt;br/&gt;&lt;br/&gt; - 標準 (Standard) : &lt;br/&gt;   預設 100m 半徑。&lt;br/&gt; - 開放 (Open) : &lt;br/&gt;   半徑大於100米，覆蓋範圍更廣。&lt;br/&gt; - 線形 (Linear) :&lt;br/&gt;   &lt;br/&gt; - 單點 (Point) :&lt;br/&gt;  &lt;br/&gt;</Chinese>
+			<Chinesesimp>集束射击（Sheaf）是一种在目标区域上的火力空间模式，其参数和称谓因所需模式而异：&lt;br/&gt;&lt;br/&gt; - 标准 (Standard) ：默认半径100米。&lt;br/&gt; - 开放 (Open)：半径大于100米，提供更广阔覆盖。&lt;br/&gt; - 线性 (Linear) :&lt;br/&gt;   &lt;br/&gt; - 点 (Point) :&lt;br/&gt;   </Chinesesimp>
+		</Key>
 		
 		
 		
@@ -1583,6 +1588,22 @@
 			<Original>Incoming Message from %1</Original>
 			<Chinese>新訊息: %1</Chinese>
 			<Chinesesimp>新讯息: %1</Chinesesimp>
+		</Key>
+
+		<Key ID="STR_BCE_FireAngle_Tip">
+			<Original>Angle of Fire</Original>
+			<Chinese>攻擊角度</Chinese>
+			<Chinesesimp>攻擊角度</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_LO_Angle">
+			<Original>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; Low ANG</Original>
+			<Chinese>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 低角</Chinese>
+			<Chinesesimp>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 低角</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_HI_Angle">
+			<Original>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; High ANG</Original>
+			<Chinese>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 高角</Chinese>
+			<Chinesesimp>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 高角</Chinesesimp>
 		</Key>
 		
 	</Package>

@@ -11,8 +11,6 @@ params ["_curLine","_selectedIndex"];
 
 (_curLine call BCE_fnc_getTaskComponents) params ["_shownCtrls"];
 
-private _isOverwrite = false;
-
 //- On Empty Returns
   if (
     (_shownCtrls findIf {true} < 0)
@@ -20,5 +18,21 @@ private _isOverwrite = false;
     ["No Task Infos are found - Make sure ""Vaild _curLine"" and ""Controls are created correctly"""] call BIS_fnc_error;
   };
 
+private _function = uiNamespace getVariable (_events get "Element_SelChanged");
+
+//- No function exist
+  if (isNil{_function}) exitWith {
+    ["No function exist"] call BIS_fnc_error;
+  };
+
+privateAll;
+Import [
+  "_function",
+  "_shownCtrls",
+  "_curLine",
+  "_selectedIndex",
+  "_taskVar"
+];
+
 //- Fire Function
-  call (uiNamespace getVariable [(_events get "Element_SelChanged"),{}]);
+  [_shownCtrls,_curLine,_selectedIndex,_taskVar] call _function;

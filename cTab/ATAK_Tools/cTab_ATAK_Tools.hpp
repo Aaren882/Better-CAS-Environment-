@@ -166,6 +166,38 @@
                     sizeEx = 0.9 * TextSize;
                     // onToolBoxSelChanged = _this + [false,TASK_OFFSET,'cTab_Android_dlg'] call BCE_fnc_ToolBoxChanged;
                 };
+                // - Sheafs
+                    class New_Task_IE_Sheaf_Mode: New_Task_IE_Sheaf_Mode
+                    {
+                        ATAK_POS(0.1,0.35/2,2.8,0.65);
+                        sizeEx = 0.9 * TextSize;
+                    };
+                    class CFF_IE_Radius_Box: CFF_IE_Radius_Box
+                    {
+                        ATAK_POS(0.1,(0.65 + 0.35/2),1.4,0.65);
+                        sizeEx = 0.9 * TextSize;
+                    };
+                    class New_Task_IE_Sheaf_LINE_L: New_Task_IE_Sheaf_LINE_L
+                    {
+                        ATAK_POS(0.3,(0.65 + 0.35/2),1.2,0.65);
+                        sizeEx = 0.9 * TextSize;
+                    };
+                    class New_Task_IE_Sheaf_LINE_W: New_Task_IE_Sheaf_LINE_W
+                    {
+                        ATAK_POS(0.3,(2*0.65 + 0.35/2),1.2,0.65);
+                        sizeEx = 0.9 * TextSize;
+                    };
+                    class New_Task_IE_Sheaf_LINE_L_T: New_Task_IE_Sheaf_LINE_L_T
+                    {
+                        //- #NOTE - Push Title 0.1 forward
+                        ATAK_POS(0,(0.65 + 0.35/2),0.3,0.65);
+                        sizeEx = 0.9 * TextSize;
+                    };
+                    class New_Task_IE_Sheaf_LINE_W_T: New_Task_IE_Sheaf_LINE_W_T
+                    {
+                        ATAK_POS(0,(2*0.65 + 0.35/2),0.3,0.65);
+                        sizeEx = 0.9 * TextSize;
+                    };
                 /* class New_Task_CFF_OT_Info: New_Task_CFF_OT_Info
                 {
                     ATAK_POS(0.1,0.35/2,2.8,0.65);
@@ -407,11 +439,11 @@
                         ATAK_POS((0.7 + (1.1/2) + (1.1/3) + (2.2/3)),(0.65 + 1 + TITLE_HEIGHT + (0.35/2)),(1.1/2),0.63);
                         onEditChanged = "(['MSN_WPN|5'] + _this) call BCE_fnc_CFF_Mission_AutoSaveTask";
                     };
-                    class CFF_FireAngle_Combo: CFF_FireAngle_Combo
+                    class CFF_IE_FireAngle_Bnt: CFF_IE_FireAngle_Bnt
                     {
-                        WPN_COMBO_STYLE;
+                        size = 0.9 * TextSize;
                         ATAK_POS(0,(0.65 + 1 + TITLE_HEIGHT + (0.35/2)),0.7,0.63);
-                        onLBSelChanged = "(['FIRE_ANGLE'] + _this) call BCE_fnc_CFF_Mission_AutoSaveTask";
+                        onButtonClick = "(['FIRE_ANGLE'] + _this) call BCE_fnc_CFF_Mission_AutoSaveTask";
                     };
                     #undef WPN_COMBO_STYLE
                 

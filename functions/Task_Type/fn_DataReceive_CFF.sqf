@@ -10,9 +10,8 @@ switch _curLine do {
 			"_IA_ammo","_IA_fuse","_IA_fireUnits","_IA_rounds","_IA_radius","_IA_fuzeVal"
 		];
 
-
 		private _textVal = [];
-		private _storeVal = [];
+		private _storeVal = (_taskVar # 0) param [2,[]]; 		//- ["IEs","IAs","fireAngle"]
 		private _setUpVal = [];
 		private _mapValue = _CTAmmo getVariable ["CheckList",createHashMap];
 
@@ -91,20 +90,26 @@ switch _curLine do {
 		];
 
 		private _taskTypeSel = lbCurSel _taskType;
-		private _fireAngleSel = lbCurSel _fireAngle;
-		_storeVal pushBack _fireAngleSel;
+		/* private _fireAngleSel = [
+			_fireAngle,
+			"mode",
+			0
+		] call BCE_fnc_get_Control_Data; */
 
+		private _angleType = _fireAngle getVariable ["Mode", true];
+		_fireAngle ctrlSetStructuredText parseText localize ([
+			"STR_BCE_LO_Angle",
+			"STR_BCE_HI_Angle"
+		] select _angleType);
+		_storeVal set [2, _angleType];
+		
 		private _result = [
 			_textVal joinString "/",
 			[_taskTypeSel, _taskType lbData _taskTypeSel],
 			_storeVal,
 			_setUpVal,
-			_fireAngle lbValue _fireAngleSel == 1 //- "0 = Low Angle (false)" / "1 = High Angle (true)"
+			_angleType //- "false = Low Angle" / "true = High Angle"
 		];
-
-		/* if (_storeVal findIf {true} > -1) then {
-			_result set [3, _storeVal];
-		}; */
 		
 		_taskVar set [0,_result];
 	};

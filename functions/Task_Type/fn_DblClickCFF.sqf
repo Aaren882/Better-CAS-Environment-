@@ -10,7 +10,14 @@ switch _curLine do {
 		private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
 
 		private _storeVal = _taskVar_0 param [2,[]]; 		//- ["IEs","IAs","fireAngle"]
-		_fireAngle lbSetCurSel (_storeVal param [2,0]); //- Fire Angle Selection
+		// _fireAngle lbSetCurSel (_storeVal param [2,0]); 
+		//- Fire Angle Selection
+		private _fireAngleType = _storeVal param [2, false];
+		_fireAngle setVariable ["Mode", _fireAngleType];
+		_fireAngle ctrlSetStructuredText parseText localize ([
+			"STR_BCE_LO_Angle",
+			"STR_BCE_HI_Angle"
+		] select _fireAngleType);
 		
 		{
 			_x params ["_lbAmmo","_lbFuse","_lbFireUnits","_editRounds","_editRadius","_editFuzeVal"];
@@ -50,6 +57,18 @@ switch _curLine do {
 		];
 	};
 
+	//- Sheaf
+	case 1:{
+		_shownCtrls params [
+      "_toolBox",
+      "_output",
+      "_Radius",
+      "_LINE_L","_LINE_W"
+    ];
+
+		_toolBox lbSetCurSel 2;
+		[_toolBox,2,_curLine] call BCE_fnc_onTaskElementChange;
+	};
 	//-Friendly
 	/* case 1:{
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
@@ -96,12 +115,7 @@ switch _curLine do {
 		(_taskVar_2 param [3,[]]) params [["_ctrlSel1",0],["_ctrlSel2",0]];
 
 		//- Generate Markers
-		if (_ctrlSel1 == 0) then {
-			_ctrl2 ctrlShow true;
-			_ctrl2 call BCE_fnc_IPMarkers;
-		} else {
-			_ctrl2 ctrlShow false;
-		};
+		[_ctrl2,_ctrlSel1,_curLine] call BCE_fnc_onTaskElementChange;
 
 		//-Back to previous status
 		if ((_taskVar_2 # 0) != "NA") then {
@@ -150,13 +164,7 @@ switch _curLine do {
 		};
 		
 		_ctrl3 ctrlSetText (_taskVar_4 # 0);
-
-		call {
-      if (_cndtion1 == 1) exitWith {
-        _ctrl2 ctrlShow true;
-      };
-      _ctrl2 ctrlShow false;
-    };
+		[_ctrl2,_cndtion1,_curLine] call BCE_fnc_onTaskElementChange;
 
 		//- Get ETA Time
 			private _ETA_txt = "ETA : ""NA""";
