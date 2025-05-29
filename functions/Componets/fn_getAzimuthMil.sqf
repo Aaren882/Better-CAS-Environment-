@@ -11,4 +11,4 @@ if (isnil{_HDG}) exitWith {nil};
 // #NOTE - According to "B2C2497 Call For Indirect Fire"
   // 17.777777... ~= 17.8
 
-[_dir/360*6400, 4] call CBA_fnc_formatNumber;
+[_HDG/360*6400, 4] call CBA_fnc_formatNumber;
