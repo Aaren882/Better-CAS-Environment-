@@ -187,9 +187,13 @@
                         ATAK_POS(0.3,(2*0.65 + 0.35/2),1.2,0.65);
                         sizeEx = 0.9 * TextSize;
                     };
+                    class New_Task_IE_Sheaf_LINE_Mil: New_Task_IE_Sheaf_LINE_Mil
+                    {
+                        ATAK_POS(0.3,(3*0.65 + 0.35/2),1.2,0.65);
+                        sizeEx = 0.9 * TextSize;
+                    };
                     class New_Task_IE_Sheaf_LINE_L_T: New_Task_IE_Sheaf_LINE_L_T
                     {
-                        //- #NOTE - Push Title 0.1 forward
                         ATAK_POS(0,(0.65 + 0.35/2),0.3,0.65);
                         sizeEx = 0.9 * TextSize;
                     };
@@ -198,11 +202,12 @@
                         ATAK_POS(0,(2*0.65 + 0.35/2),0.3,0.65);
                         sizeEx = 0.9 * TextSize;
                     };
-                /* class New_Task_CFF_OT_Info: New_Task_CFF_OT_Info
-                {
-                    ATAK_POS(0.1,0.35/2,2.8,0.65);
-                    sizeEx = 0.9 * TextSize;
-                }; */
+                    class New_Task_IE_Sheaf_LINE_Dir_T: New_Task_IE_Sheaf_LINE_Dir_T
+                    {
+                        ATAK_POS(0,(3*0.65 + 0.35/2),0.3,0.65);
+                        sizeEx = 0.9 * TextSize;
+                    };
+                
                 class New_Task_MarkerCombo: New_Task_MarkerCombo
                 {
                     ATAK_POS(0.1,(0.65 + 0.35/2),1.4,0.65);
@@ -427,16 +432,16 @@
                         ATAK_POS((0.7 + (1.1/2)),(0.65 + 1 + TITLE_HEIGHT + (0.35/2)),(1.1/3),0.63);
                         onEditChanged = "(['MSN_WPN|3'] + _this) call BCE_fnc_CFF_Mission_AutoSaveTask";
                     };
-                    class CFF_IE_Radius_Box: CFF_IE_Radius_Box
+                    /* class CFF_IE_Radius_Box: CFF_IE_Radius_Box
                     {
                         WPN_COMBO_STYLE;
                         ATAK_POS((0.7 + (1.1/2) + (1.1/3)),(0.65 + 1 + TITLE_HEIGHT + (0.35/2)),(2.2/3),0.63);
                         onEditChanged = "(['MSN_WPN|4'] + _this) call BCE_fnc_CFF_Mission_AutoSaveTask";
-                    };
+                    }; */
                     class CFF_IE_FuzeValue_Box: CFF_IE_FuzeValue_Box
                     {
                         WPN_COMBO_STYLE;
-                        ATAK_POS((0.7 + (1.1/2) + (1.1/3) + (2.2/3)),(0.65 + 1 + TITLE_HEIGHT + (0.35/2)),(1.1/2),0.63);
+                        ATAK_POS(2.2,(0.65 + 1 + TITLE_HEIGHT + (0.35/2)),0.7,0.63);
                         onEditChanged = "(['MSN_WPN|5'] + _this) call BCE_fnc_CFF_Mission_AutoSaveTask";
                     };
                     class CFF_IE_FireAngle_Bnt: CFF_IE_FireAngle_Bnt

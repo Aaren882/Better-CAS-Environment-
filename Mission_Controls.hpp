@@ -848,6 +848,15 @@ class BCE_Mission_Build_Controls
                 "",
                 ""
             };
+            class BCE_Data
+            {
+                modes[] = {
+                    "Standard Sheaf",
+                    "Open Sheaf ""%1m""",
+                    "Linear Sheaf ""%1x%2 - %3""",
+                    "Point/Destruction"
+                };
+            };
         };
         class New_Task_IE_Sheaf_LINE_L: CFF_IE_Radius_Box
         {
@@ -861,13 +870,18 @@ class BCE_Mission_Build_Controls
             idc = PROP_IDC(2214);
             tooltip = "Width in meters";
         };
-        class New_Task_IE_Sheaf_LINE_L_T: RscText
+        class New_Task_IE_Sheaf_LINE_Mil: New_Task_IE_Sheaf_LINE_L
         {
             REGISTER_FNC;
             idc = PROP_IDC(2215);
+            tooltip = "Direction (Azimuth/Mil) \n- ex. ""350 / 6222""";
+        };
+        class New_Task_IE_Sheaf_LINE_L_T: RscText
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2216);
             shadow = 2;
             style = 2;
-            // style = 0x22;
             
             text = "L";
             tooltip = "Length in meters";
@@ -878,10 +892,18 @@ class BCE_Mission_Build_Controls
         class New_Task_IE_Sheaf_LINE_W_T: New_Task_IE_Sheaf_LINE_L_T
         {
             REGISTER_FNC;
-            idc = PROP_IDC(2216);
+            idc = PROP_IDC(2217);
 
             text = "W";
             tooltip = "Width in meters";
+        };
+        class New_Task_IE_Sheaf_LINE_Dir_T: New_Task_IE_Sheaf_LINE_L_T
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2218);
+
+            text = "D";
+            tooltip = "Direction (Azimuth/Mil) \n- ex. ""350 / 6222""";
         };
 };
 

@@ -878,6 +878,7 @@ class CfgFunctions
 
 			class clearTask5line;
 			class clearTask9line;
+			class clearTaskCFF;
 
 			class DataReceive5line;
 			class DataReceive9line;

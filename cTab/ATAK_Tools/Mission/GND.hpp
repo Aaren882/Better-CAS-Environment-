@@ -103,15 +103,9 @@ class Call_For_Fire: AIR_5_LINE
                 sizeEx = 0.9 * TextSize;
                 onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
             };
-            class CFF_IE_Radius_Box: CFF_IE_Radius_Box
-            {
-                ATAK_POS((0.7 + (1.1/2) + (1.1/3)),(1.65 + (0.35/2) + MOVE_Y_OFFSET),(2.2/3),0.63);
-                sizeEx = 0.9 * TextSize;
-                onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
-            };
             class CFF_IE_FuzeValue_Box: CFF_IE_FuzeValue_Box
             {
-                ATAK_POS((0.7 + (1.1/2) + (1.1/3) + (2.2/3)),(1.65 + (0.35/2) + MOVE_Y_OFFSET),(1.1/2),0.63);
+                ATAK_POS(2.2,(1.65 + (0.35/2) + MOVE_Y_OFFSET),0.7,0.63);
                 sizeEx = 0.9 * TextSize;
                 onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
             };
@@ -164,15 +158,9 @@ class Call_For_Fire: AIR_5_LINE
                 sizeEx = 0.9 * TextSize;
                 onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
             };
-            class CFF_IA_Radius_Box: CFF_IA_Radius_Box
-            {
-                ATAK_POS((0.7 + (1.1/2) + (1.1/3)),(3.25 + (0.35/2) + MOVE_Y_OFFSET),(2.2/3),0.63);
-                sizeEx = 0.9 * TextSize;
-                onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
-            };
             class CFF_IA_FuzeValue_Box: CFF_IA_FuzeValue_Box
             {
-                ATAK_POS((0.7 + (1.1/2) + (1.1/3) + (2.2/3)),(3.25 + (0.35/2) + MOVE_Y_OFFSET),(1.1/2),0.63);
+                ATAK_POS(2.2,(3.25 + (0.35/2) + MOVE_Y_OFFSET),0.7,0.63);
                 sizeEx = 0.9 * TextSize;
                 onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
             };
@@ -182,12 +170,13 @@ class Call_For_Fire: AIR_5_LINE
             {
                 ATAK_POS(0,(4.25 + (0.35/2) + MOVE_Y_OFFSET),1,0.63);
                 text = "(Sheaf)";
+                tooltip="Sheaf Type (OPTIONAL)";
             };
             class Sheaf_EditBnt: L52_EditBnt
             {
                 idc = idc_D(2039);
                 text = "Standard Sheaf";
-                ATAK_POS(0.6,(4.25 + (0.35/2) + MOVE_Y_OFFSET),2.3,0.7);
+                ATAK_POS(0.7,(4.25 + (0.35/2) + MOVE_Y_OFFSET),2.2,0.7);
                 tooltip="Sheaf Type (OPTIONAL)";
                 onButtonClick = "[nil,'Task_Building',1] call BCE_fnc_ATAK_ChangeTool";
                 

@@ -7,33 +7,9 @@ _taskVar params ["_taskVar_0","_taskVar_1","_taskVar_2","_taskVar_3","_taskVar_4
 
 //- Processing (Get i/e & i/a values)
 _taskVar_0 params ["","_Task_Type","","_Wpn_setup","_angleType"];
-// _Wpn_setup params ["_Wpn_setup_IE","_Wpn_setup_IA"];
-
-
-/* private _WPN_exec = switch (_customInfos) do {
-  //- SUBMIT
-  case 0: {
-    []
-  };
-  //- SUB & EXEC
-  case 1: { //- Adjust Fire
-    
-  };
-  //- DRAFT
-  case 2: {
-    []
-  };
-  //- FIRE FOR EFFECT (if no _curSel is found)
-  case -1: {
-    _Wpn_setup_IE
-  };
-  Default {
-    []
-  };
-}; */
+// (_taskVar_1 param [2, []]) params ["_Sheaf_ModeSel","_SheafValue"];
 
 //- Positions
-// private _FO_POS = _taskVar_1 # 2;
 private _TGPOS = _taskVar_2 # 2;
 
 // private _OT_Dis = round ((_FO_POS distance _TGPOS) / 100) * 100;
@@ -44,7 +20,7 @@ private _TGPOS = _taskVar_2 # 2;
   _Task_Type,
   _TGPOS,
   // [_TGPOS,_OT_Dir], //- OT Infos
-  [], //- WPN Values
+  _taskVar_1 param [2, []], //- WPN Values
   _taskVar_4 param [2,""], //- Get Control Method Function Name
   _angleType, //- Fire Angle type
   _customInfos,

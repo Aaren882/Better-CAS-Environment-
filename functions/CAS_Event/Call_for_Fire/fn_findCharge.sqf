@@ -144,7 +144,7 @@ private _aimPOS = _chargesArray apply {
 			//- Run Fire Mission
 				private _CFF_MSN = ["CFF_MSN",[],_taskUnit] call BCE_fnc_get_CFF_Value;
 				[
-					uiNamespace getVariable [_CFF_MSN param [6,""],{}],
+					uiNamespace getVariable [_CFF_MSN param [5,""],{}],
 					[_taskUnit,_chargeInfo]
 				] call CBA_fnc_execNextFrame;
 
