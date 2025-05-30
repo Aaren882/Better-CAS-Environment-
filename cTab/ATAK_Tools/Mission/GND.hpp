@@ -6,7 +6,7 @@ class Call_For_Fire: AIR_5_LINE
         #define MOVE_Y_OFFSET 1
         class Background: Background
         {
-            ATAK_POS(0,0,0,(8.85 + 1.05 + 2 + 0.35 + MOVE_Y_OFFSET));
+            ATAK_POS(0,0,0,(9.85 + 1.05 + 2 + 0.35 + MOVE_Y_OFFSET));
         };
         //- ARTY Group DropBox
             class Vehicle_Grp_T: Game_Plan_T
