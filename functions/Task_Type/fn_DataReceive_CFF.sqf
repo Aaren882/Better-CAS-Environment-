@@ -6,8 +6,8 @@ switch _curLine do {
 	case 0:{
 		_shownCtrls params [
 			"_taskType",
-			"_CTAmmo","_CTFuse","_CTFireUnits","_CTRounds","_CTRadius","_CTFuzeVal","_fireAngle",
-			"_IA_ammo","_IA_fuse","_IA_fireUnits","_IA_rounds","_IA_radius","_IA_fuzeVal"
+			"_CTAmmo","_CTFuse","_CTFireUnits","_CTRounds","_CTFuzeVal","_fireAngle",
+			"_IA_ammo","_IA_fuse","_IA_fireUnits","_IA_rounds","_IA_fuzeVal"
 		];
 
 		private _textVal = [];
@@ -16,7 +16,7 @@ switch _curLine do {
 		private _mapValue = _CTAmmo getVariable ["CheckList",createHashMap];
 
 		{
-			_x params ["_lbAmmo","_lbFuse","_lbFireUnits","_editRounds","_editRadius","_editFuzeVal"];
+			_x params ["_lbAmmo","_lbFuse","_lbFireUnits","_editRounds","_editFuzeVal"];
 
 			//-Get Data
 				private _fireAmmo = _lbAmmo lbData (lbCurSel _lbAmmo);
@@ -26,7 +26,6 @@ switch _curLine do {
 
 				private _fireUnits = 1 max (_lbFireUnits lbValue _fireUnitSel);
 				private _setCount = 1 max (parseNumber (ctrlText _editRounds));
-				private _radius = parseNumber (ctrlText _editRadius);
 				private _fuzeVal = parseNumber (ctrlText _editFuzeVal);
 
 				private _data = _mapValue get _fireAmmo;
@@ -52,7 +51,7 @@ switch _curLine do {
 			//- Save Selections
 			_storeVal set [ //- for UI selection recover
 				_forEachIndex,
-				[lbCurSel _lbAmmo,_FuseSel,_fireUnitSel,str _setCount,str _radius,str _fuzeVal]
+				[lbCurSel _lbAmmo,_FuseSel,_fireUnitSel,str _setCount,str _fuzeVal]
 			];
 
 			//- for Data transfer
@@ -61,7 +60,6 @@ switch _curLine do {
 					[_FuseData,""],
 					[_fireUnits,0],
 					[_setCount,0],
-					[_radius,-1],
 					[_fuzeVal,0]
 				] apply {
 					[_x # 0, nil] select (
@@ -75,28 +73,22 @@ switch _curLine do {
 				];
 
 			private _text = format [
-				"%1 (%2) - x%3:%4 %5m",
+				"%1 (%2) - x%3:%4",
 				_fireAmmo, //- Ammo
 				_FuseData, //- Fuze
 				_fireUnits,
-				_setCount,
-				_radius
+				_setCount
 			];
 			_textVal pushBack _text;
 
 		} forEach [
-			[_CTAmmo,_CTFuse,_CTFireUnits,_CTRounds,_CTRadius,_CTFuzeVal],
-			[_IA_ammo,_IA_fuse,_IA_fireUnits,_IA_rounds,_IA_radius,_IA_fuzeVal]
+			[_CTAmmo,_CTFuse,_CTFireUnits,_CTRounds,_CTFuzeVal],
+			[_IA_ammo,_IA_fuse,_IA_fireUnits,_IA_rounds,_IA_fuzeVal]
 		];
 
 		private _taskTypeSel = lbCurSel _taskType;
-		/* private _fireAngleSel = [
-			_fireAngle,
-			"mode",
-			0
-		] call BCE_fnc_get_Control_Data; */
-
 		private _angleType = _fireAngle getVariable ["Mode", true];
+		
 		_fireAngle ctrlSetStructuredText parseText localize ([
 			"STR_BCE_LO_Angle",
 			"STR_BCE_HI_Angle"
@@ -116,45 +108,54 @@ switch _curLine do {
 
 	//- Observer-Target
 	case 1:{
-		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
+		_shownCtrls params [
+      "_toolBox",
+      "_output",
+      "_Radius",
+      "_LINE_L","_LINE_W","_LINE_Dir"
+    ];
 
-		call {
-			//- Observer via BFT Network
-			if (lbCurSel _ctrl1 == 1) exitWith {
-				private _TGPOS = call compile (_ctrl2 lbData (lbCurSel _ctrl2));
+		private _Sheaf_ModeSel = lbCurSel _toolBox;
+		private _Radius_V = ctrlText _Radius;
+		private _LINE_V = [ctrlText _LINE_L, ctrlText _LINE_W, ctrlText _LINE_Dir];
 
-				//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5: Mark Info]
-				if !(_TGPOS isEqualTo []) then {
-					private _markerInfo = format ["FO: %1 [%2]", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8)];
-					_TGPOS resize [3, 0];
-					_taskVar set [1,
-						[
-							_markerInfo,
-							_ctrl2 lbText (lbCurSel _ctrl2),
-							_TGPOS,
-							[lbCurSel _ctrl1,lbCurSel _ctrl2]
-						]
-					];
-				} else {
-					_taskVar set [1,["NA","",[],[0,0],""]];
-				};
+		//- Get localized Sheaf info format
+			private _sheaf_strArr = [
+				_toolBox,
+				"modes",
+				[]
+			] call BCE_fnc_get_Control_Data;
+
+		private _sheaf_str = _sheaf_strArr param [_Sheaf_ModeSel,""];
+		private _SheafRaw = call {
+			//- Standard Sheaf
+			if (_Sheaf_ModeSel == 0) exitWith {
+				["100"]
 			};
-
-			//- 
-			/* private _TGPOS = getpos cameraOn;
-			_TGPOS set [2,0];
-			private _markerInfo = format ["FO: %1",GetGRID(_TGPOS,6)];
-			_taskVar set [1,
-				[
-					_markerInfo,
-					"GRID",
-					_TGPOS,
-					[lbCurSel _ctrl1,lbCurSel _ctrl2]
-				]
-			]; */
+			//- Open Sheaf
+			if (_Sheaf_ModeSel == 1) exitWith {
+				[_Radius_V] //- Return
+			};
+			//- Linear Sheaf
+			if (_Sheaf_ModeSel == 2) exitWith {
+				_LINE_V //- Return
+			};
+			["50"]
 		};
+		
+		//- Parse Numbers
+			private _SheafValue = _SheafRaw apply {floor (parseNumber _x)};
+			_sheaf_str = format ([_sheaf_str] + _SheafValue);
+				
+		//- Set output
+			_output ctrlSetText _sheaf_str;
 
-		_ctrl3 ctrlSetText ((_taskVar # 1) param [0,""]);
+		//- Save Value
+			_taskVar set [1, [
+				_sheaf_str,
+				[_Sheaf_ModeSel, _Radius_V, _LINE_V], //- Selection Store
+				[_Sheaf_ModeSel, _SheafValue]
+			]];
 	};
 
 	//-Target POS

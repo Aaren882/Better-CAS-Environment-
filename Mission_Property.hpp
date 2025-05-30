@@ -245,7 +245,7 @@ class BCE_Mission_Property
             {
                 TaskUnit = "BCE_CFF_Selected_Veh"; //- Where the TaskUnit is stored
                 name = "BCE_CFF_Var"; //- Where the data is stored
-                default = "[[""NA"",0],[""NA"","""",[],[0,0],""""],[""NA"",""111222""],[""NA"",""--"",""""],[""NA"",[]]]";
+                default = "[[""NA"",[]],[""NA"",[]],[""NA"",[]],[""NA"",""--"",""""],[""NA"",[]]]";
                 Map_Infos[] = {
                     "",
                     "",
@@ -261,10 +261,14 @@ class BCE_Mission_Property
             Controls[] = {
                 {
                     "TaskType_GND",
-                    "CFF_IE_WeaponCombo","CFF_IE_FuzeCombo","CFF_IE_FireUnit_Combo","CFF_IE_Round_Box","CFF_IE_Radius_Box","CFF_IE_FuzeValue_Box","CFF_IE_FireAngle_Bnt",
-                    "CFF_IA_WeaponCombo","CFF_IA_FuzeCombo","CFF_IA_FireUnit_Combo","CFF_IA_Round_Box","CFF_IA_Radius_Box","CFF_IA_FuzeValue_Box"
+                    "CFF_IE_WeaponCombo","CFF_IE_FuzeCombo","CFF_IE_FireUnit_Combo","CFF_IE_Round_Box","CFF_IE_FuzeValue_Box","CFF_IE_FireAngle_Bnt",
+                    "CFF_IA_WeaponCombo","CFF_IA_FuzeCombo","CFF_IA_FireUnit_Combo","CFF_IA_Round_Box","CFF_IA_FuzeValue_Box"
                 },
-                {"New_Task_IE_Sheaf_Mode","New_Task_IPExpression","CFF_IE_Radius_Box","New_Task_IE_Sheaf_LINE_L","New_Task_IE_Sheaf_LINE_W","New_Task_IE_Sheaf_LINE_L_T","New_Task_IE_Sheaf_LINE_W_T"},
+                {
+                    "New_Task_IE_Sheaf_Mode","New_Task_IPExpression","CFF_IE_Radius_Box",
+                    "New_Task_IE_Sheaf_LINE_L","New_Task_IE_Sheaf_LINE_W","New_Task_IE_Sheaf_LINE_Mil",
+                    "New_Task_IE_Sheaf_LINE_L_T","New_Task_IE_Sheaf_LINE_W_T","New_Task_IE_Sheaf_LINE_Dir_T"
+                },
                 // {"New_Task_CFF_OT_Info","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_FRND_DESC"},
                 {"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
                 {"New_Task_TG_DESC","New_Task_GRID_DESC"},
@@ -288,7 +292,7 @@ class BCE_Mission_Property
                 TaskUnitChanged = "BCE_fnc_TaskUnitChanged_CFF"; //- For the TaskUnit Selection
                 SendData = "BCE_fnc_SendDataCFF";
                 DataSent = "BCE_fnc_DataSent_CFF";
-                Clear = ""; //- Clear the data
+                Clear = "BCE_fnc_clearTaskCFF"; //- Clear the data
             };
         };
         class CFF_ATAK: CFF

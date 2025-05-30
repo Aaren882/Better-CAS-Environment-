@@ -13,15 +13,18 @@ if (
 _data params [
   "_taskTypeInfo",
   "_TGPOS", //- OT Infos
-  "_WPN_exec",
+  "_Sheaf_Info",
   "_Control_Function",
   "_angleType",
   "_customInfos",
   "_taskVar"
 ];
+
 _taskTypeInfo params ["_taskType_ID","_taskType"];
 
 private _group = group _taskUnit;
+private _WPN_exec = [];
+private _MSN_State = 0;
 
 //- Hint
   private _isAVT = !isnull (finddisplay 160);
@@ -85,7 +88,6 @@ private _group = group _taskUnit;
     ];
     
     private _Wpn_setup = _taskVar # 0 # 3;
-    // private _random_POS = _TGPOS;
     private _random_POS = [
       [
         [_TGPOS, 100]
@@ -94,22 +96,6 @@ private _group = group _taskUnit;
     ] call BIS_fnc_randomPos;
   
   //- #NOTE - Set Mission ID e.g.(AB1001)
-    /* _CFF_Map set [
-      _MSN_Key,
-      [
-        _taskType,
-        [_TGPOS,8] call BCE_fnc_POS2Grid,
-        player,
-        [
-          (_Wpn_setup # 0),
-          (_Wpn_setup # 1),
-          _random_POS
-        ],
-        0 //- "MSN_State"
-      ]
-    ];
-
-    _group setVariable ["BCE_CFF_Task_Pool", _CFF_Map]; */
     private _MSN_Values = [
       _taskType,
       [_TGPOS,8] call BCE_fnc_POS2Grid,
@@ -117,10 +103,11 @@ private _group = group _taskUnit;
       [
         (_Wpn_setup # 0),
         (_Wpn_setup # 1),
-        _random_POS,
-        _angleType
+        _random_POS, //- try to aim the center First
+        _angleType,
+        _Sheaf_Info
       ],
-      0 //- "MSN_State"
+      _MSN_State //- "MSN_State"
     ];
     [_MSN_Key,_MSN_Values,_taskUnit] call BCE_fnc_CFF_Mission_Set_Value;
 
@@ -133,7 +120,7 @@ private _group = group _taskUnit;
       "_TG_Grid",
       "_requester",
       "_MSN_infos",
-      ["_MSN_State",0]
+      ["__MSN_State",0]
     ];
 
     /* 
@@ -148,12 +135,13 @@ private _group = group _taskUnit;
       "_Wpn_setup_IE",
       "_Wpn_setup_IA",
       "_random_POS",
-      "__angleType"
+      "__angleType",
+      "__Sheaf_Info"
     ];
 
     //- #NOTE - Replace "_WPN_exec"
-    //- ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_radius","_fuzeVal"]
-    _WPN_exec = if (_MSN_State == 1) then {
+    //- ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_fuzeVal"]
+    _WPN_exec = if (__MSN_State == 1) then {
       //- EFFECTIVE ROUNDS
       _Wpn_setup_IE
     } else {
@@ -165,6 +153,8 @@ private _group = group _taskUnit;
       };
     };
     _angleType = __angleType; //- Match the Value
+    _Sheaf_Info = __Sheaf_Info; //- Match the Value
+    _MSN_State = __MSN_State; //- Match the Value
     
     //- RETURN
       _random_POS
@@ -175,8 +165,87 @@ private _group = group _taskUnit;
   if ((count _WPN_exec) == 0) exitWith {};
 
 //- #SECTION - Execution
-  _WPN_exec params ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_radius","_fuzeVal"];
-  private _CFF_info = [_random_POS,_lbAmmo,_setCount,_angleType,_radius,[_lbFuse,_fuzeVal],_Control_Function];
+  _WPN_exec params ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_fuzeVal"];
+
+  //- #SECTION - Set Distribution
+    private _Sheaf_Pattern = [];
+
+    //- #NOTE - Replace "_random_POS" to first parameter of "_Sheaf_Pattern"
+    if (_MSN_State == 1) then { //- When FFE
+      call {
+        _Sheaf_Info params ["_Sheaf_ModeSel","_SheafValue"];
+        
+        private _rounds = _fireUnitSel * _setCount;
+
+        //- Linear Sheaf : [center, [a, b, angle, rect]]
+        if (_Sheaf_ModeSel == 2) exitWith {
+          _SheafValue params ["_a","_b","_dir"];
+
+          //- Hexagonal Distribution (Evenly Spacing)
+            private _isOdd = _rounds % 2 != 0;
+            private _ammo = getText (configfile >> "CfgMagazines" >> _lbAmmo >> "ammo");
+            private _effectRadius = getNumber (configfile >> "CfgAmmo" >> _ammo >> "indirectHitRange");
+          
+          //- Pick Width & Length
+            private _width = _a min _b;
+            private _length = _a max _b;
+
+          //- Get middle lines (correcting offsets)
+            private _mid_W = _width / 2;
+            private _mid_L = _length / 2;
+
+            private _rows = ceil (_width / _effectRadius);
+            private _columns = (_rounds + ([0,1] select _isOdd)) / _rows;
+
+          //- Offsets
+            private _step_w = _width / (1 + _rows);
+
+            for "_i" from 1 to _rows do {
+              private _step_l = _length / (1 + _columns);
+              for "_j" from 1 to _columns do {
+                private _s = [(_step_l * _j) - _mid_L, (_step_w * _i) - _mid_W];
+                _Sheaf_Pattern pushBack [vectorMagnitude _s, (([0,0] getDir _s) + _dir) % 360];
+              };
+              _columns = (_rounds - _columns) min _columns;
+            };
+        };
+
+        //- #NOTE - Default
+          _SheafValue params [["_radius",100]];
+          
+          for "_i" from 1 to _rounds do {
+            private _s = [
+              [
+                [_random_POS, _radius max 0]
+              ],
+              []
+            ] call BIS_fnc_randomPos;
+            _Sheaf_Pattern pushBack [_random_POS distance2D _s, _random_POS getDir _s];
+          };
+      };
+
+      /* private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;  
+      private _vehs = (units group _taskUnit) apply {vehicle _x}; 
+
+      { 
+        private _v = _forEachIndex; 
+        private _CFF_info = ["CFF_MSN",[],_x] call BCE_fnc_get_CFF_Value;   
+        _CFF_info params ["_random_POS","","","","","","_Sheaf_Info"];  
+ 
+        {  
+          private _marker = format [  
+            "|marker_%1%3|%2|mil_pickup|ICON|[1,1]|0|Solid|Default|1|%3:%1",  
+            _forEachIndex,  
+            _random_POS getPos _x, 
+            _v 
+          ];  
+          _marker call BIS_fnc_stringToMarker;  
+        } forEach _Sheaf_Info; 
+      } forEach (_vehs arrayIntersect _vehs); */
+    };
+
+  //- #!SECTION
+
   private _MagData = createHashMap;
   private _MagFire = createHashMap;
 
@@ -258,6 +327,10 @@ private _group = group _taskUnit;
       _unit removeWeaponTurret [_weapon, _turret];
       {_unit removeMagazinesTurret [(_x # 0), _turret]} forEach _allMags;
     
+    //- Specify Sheaf for Guns
+      private _CFF_info = [_random_POS,_lbAmmo,_setCount,_angleType,[_lbFuse,_fuzeVal],_Control_Function];
+      _CFF_info set [6, _Sheaf_Pattern select [(_forEachIndex * _setCount), _setCount]];
+
     // Removing mags is not instant and the code continues before removal is finished.
       [
         {

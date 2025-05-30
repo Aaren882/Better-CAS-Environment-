@@ -12,22 +12,30 @@ private _checkFire = false; */
 
 //- Check Mission exist
   if (!isNil{_taskUnit getVariable "BCE_CFF_MISSION_PROGRESS"}) exitWith {
-    hint "MISSION PROGRESS !!";
+    systemChat "MISSION PROGRESS !!";
   };
 
 //- Execute Fire Mission (wait 2 Seconds)
   [
     {
       params ["_taskUnit","_weapon","_CFF_info"];
-      _CFF_info params ["_random_POS","_lbAmmo","_setCount","_angleType"/*,"_radius","_fuzeData","_Control_Function"*/];
+      _CFF_info params ["_random_POS","_lbAmmo","_setCount","_angleType","","","_Sheaf_Info"];
       
-      // private _group = group _taskUnit;
+      
       _taskUnit setVariable ["BCE_CFF_MISSION_PROGRESS",0];
-      ["CFF_MSN",_CFF_info,_taskUnit] call BCE_fnc_set_CFF_Value;
+      
+      //- Save Mission Values
+        ["CFF_MSN", _CFF_info, _taskUnit] call BCE_fnc_set_CFF_Value;
+      
+      //- #NOTE - Specify TG POS
+      private _TGPOS = _random_POS getPos (_Sheaf_Info param [0, [0,0]]); //- Starts from first Sheaf POS;
+      _TGPOS set [2,0];
+      
+      diag_log str _Sheaf_Info;
 
       //- Setup First Round
-      private _chargesArray = [_taskUnit, _lbAmmo, AGLToASL _random_POS, _angleType, _weapon] call BCE_fnc_GetAllCharges;
-      [_taskUnit, AGLToASL _random_POS, _chargesArray] call BCE_fnc_findCharge;
+      private _chargesArray = [_taskUnit, _lbAmmo, AGLToASL _TGPOS, _angleType, _weapon] call BCE_fnc_GetAllCharges;
+      [_taskUnit, AGLToASL _TGPOS, _chargesArray] call BCE_fnc_findCharge;
 
       //- Add Fired EH
         _taskUnit addEventHandler ["Fired", {
@@ -35,18 +43,20 @@ private _checkFire = false; */
 
           //- Check rounds completed 
             private _CFF_info = ["CFF_MSN",[],_taskUnit] call BCE_fnc_get_CFF_Value;
-            _CFF_info params ["_random_POS","_lbAmmo","_setCount","_angleType","_radius","_fuzeData","_Control_Function"];
+            _CFF_info params ["_random_POS","_lbAmmo","_setCount","_angleType","_fuzeData","_Control_Function","_Sheaf_Info"];
 
           private _current = _taskUnit getVariable ["BCE_CFF_MISSION_PROGRESS",0];
+          private _pos = _random_POS getPos (_Sheaf_Info param [_current, [0,0]]);
+          _pos set [2,0];
           _current = _current + 1;
-
+            
           //- #NOTE - Save fuzeData
-            private _pos = [
+            /* _pos = [
               [
-                [_random_POS, _radius max 0]
+                [_pos, 0] //- ["POS", "PER"]
               ],
               []
-            ] call BIS_fnc_randomPos;
+            ] call BIS_fnc_randomPos; */
 
             //- set Fuze trigger
               [_taskUnit, _fuzeData, _pos] call BCE_fnc_FuzeInit;
@@ -64,6 +74,7 @@ private _checkFire = false; */
             ["NextFuze",nil,_taskUnit] call BCE_fnc_set_CFF_Value;
             _taskUnit setVariable ["BCE_CFF_MISSION_PROGRESS",nil];
             _taskUnit removeEventHandler [_thisEvent, _thisEventHandler];
+            _taskUnit sideChat "Rounds Completed."
           };
         }];
     },

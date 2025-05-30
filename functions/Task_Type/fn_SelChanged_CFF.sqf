@@ -4,8 +4,8 @@ switch _curLine do {
   case 0:{
     _shownCtrls params [
 			"",
-			"","_CTFuse","","","","_CTFuzeVal",
-			"","_IA_fuse","","","","_IA_fuzeVal"
+			"","_CTFuse","","","_CTFuzeVal","",
+			"","_IA_fuse","","","_IA_fuzeVal"
 		];
 
     {
@@ -21,9 +21,9 @@ switch _curLine do {
         if (_value == 1) exitWith {
           "Burst Height (m)"
         };
-        if (_value == 2) exitWith {
+        /* if (_value == 2) exitWith { //- IRL it cannot be changed
           "Delay Time (Sec)"
-        };
+        }; */
         ""
       };
 
@@ -39,7 +39,8 @@ switch _curLine do {
       "_toolBox",
       "_output",
       "_Radius",
-      "_LINE_L","_LINE_W","_Title_L","_Title_W"
+      "_LINE_L","_LINE_W","_LINE_Dir",
+      "_Title_L","_Title_W","_Title_Dir"
     ];
 
     private _ctrls = _shownCtrls select [2];
@@ -48,7 +49,7 @@ switch _curLine do {
         [_Radius]
       };
       if (_selectedIndex == 2) exitWith {
-        [_LINE_L,_LINE_W,_Title_L,_Title_W]
+        _shownCtrls select [_shownCtrls findIf {_x == _LINE_L}]
       };
       []
     };
