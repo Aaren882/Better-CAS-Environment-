@@ -19,7 +19,6 @@ switch _curLine do {
 			"STR_BCE_HI_Angle"
 		] select _fireAngleType);
 		
-		systemChat str [_fireAngleType,ctrlShown _fireAngle,time];
 		{
 			_x params ["_lbAmmo","_lbFuse","_lbFireUnits","_editRounds","_editFuzeVal"];
 
