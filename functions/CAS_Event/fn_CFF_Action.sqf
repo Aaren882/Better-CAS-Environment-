@@ -31,8 +31,6 @@ private _checkFire = false; */
       private _TGPOS = _random_POS getPos (_Sheaf_Info param [0, [0,0]]); //- Starts from first Sheaf POS;
       _TGPOS set [2,0];
       
-      diag_log str _Sheaf_Info;
-
       //- Setup First Round
       private _chargesArray = [_taskUnit, _lbAmmo, AGLToASL _TGPOS, _angleType, _weapon] call BCE_fnc_GetAllCharges;
       [_taskUnit, AGLToASL _TGPOS, _chargesArray] call BCE_fnc_findCharge;
