@@ -1,8 +1,5 @@
 /*
-  NAME : BCE_fnc_getDisplayTaskProps
-  
-  Get Mission/Task from "BCE_Mission_Property"
-  # LINK .\fn_getTaskProps.sqf
+  NAME : BCE_fnc_get_BCE_TaskUI
 
   Params : 
     "_display" :  Display object for desire custom setup
@@ -11,11 +8,8 @@
   
   #NOTE - via BCE_fnc_getTaskProps
   RETURN : [
-    "Variable Name"      : Default is Class name
-    "Default Value"      : For Variable Editting
-    "Events (HashMap)"   : Functions
-    "Map Info (VarName)" : Map Info Display
-    "TaskUnit (VarName)" : TaskUnit variable name
+    "Control Group"      : UI "Control_Group" to Create
+    "display Name"       : Localized displayName
   ]
 */
 
@@ -29,6 +23,15 @@ if (isNil{_curType}) then {
   _curType = [_cateSel] call BCE_fnc_get_TaskCurType;
 };
 
+private _cateData = [_cateSel] call BCE_fnc_get_BCE_TaskCateClass;
 private _taskType = [_display,_curType,_cateSel] call BCE_fnc_get_BCE_TaskClass;
 
-_taskType call BCE_fnc_getTaskProps;
+private _config = configFile >> "BCE_Mission_Property" >> _cateData >> _taskType;
+
+//- Return
+  [
+    "Control_Group",
+    "displayName"
+  ] apply {
+    [_config, _x, ""] call BIS_fnc_returnConfigEntry
+  };

@@ -806,6 +806,7 @@ class CfgFunctions
 				class get_BCE_TaskClass;
 				class get_BCE_TaskCateClass;
 				class get_BCE_TaskCateClasses;
+				class get_BCE_TaskUI;
 			
 			//- Task Setup
 				class get_TaskCurSetup;
