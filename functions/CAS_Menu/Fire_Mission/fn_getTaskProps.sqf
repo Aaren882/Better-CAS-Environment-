@@ -11,7 +11,8 @@
     "Variable Name"      : Default is Class name
     "Default Value"      : For Variable Editting
     "Events (HashMap)"   : Functions
-    "displayName"        : just displayName
+    "Map Info (VarName)" : Map Info Display
+    "TaskUnit (VarName)" : TaskUnit variable name
   ]
 */
 params [
@@ -36,7 +37,6 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
         
         private _taskCfg = _x;
         private _taskClass = configName _taskCfg;
-        private _displayName = [_taskCfg, "displayName", ""] call BIS_fnc_returnConfigEntry;
         private _var_Entry = _taskCfg >> "Variable";
 
         //- Variable Props
@@ -86,13 +86,12 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
         /* 
         #NOTE - Save => localNamespace "#PROP_AIR_9_LINE_ATAK"
         [
-          "Variable Name",     : Default is Class name
-          "Default Value",     : For Variable Editting
-          "Events (HashMap)"   : Functions
-          "Map Info (VarName)" : Map Info Display
-          "TaskUnit (VarName)" : TaskUnit variable name
+          "Variable Name",         : Default is Class name
+          "Default Value",         : For Variable Editting
+          "Events (HashMap)"       : Functions
+          "Map Info (VarName)"     : Map Info Display
+          "TaskUnit (VarName)"     : TaskUnit variable name
           "TaskData_Vaild (ARRAY)" : Vaildation lines for Data that being sent
-          "displayName"        : - Less use, I think
         ] */
         private _varStore = format ["#PROP_%1", toUpperANSI _taskClass];
         
@@ -104,9 +103,7 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
             createHashMapFromArray _events,
             _Map_Infos,
             _taskUnit_Var,
-            [_TaskData_Vaild, _TaskData_invaildMsg],
-            _displayName //- Less use, I think
-            // _taskClass
+            [_TaskData_Vaild, _TaskData_invaildMsg]
           ]
         ];
 

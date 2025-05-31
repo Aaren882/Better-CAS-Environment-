@@ -39,6 +39,7 @@ class BCE_Mission_Property
         class AIR_9_LINE
         {
             displayName = "9 Line"; //- Localiziable displayName
+            Control_Group = "AIR_9_LINE";
 
             class Variable
             {
@@ -156,6 +157,7 @@ class BCE_Mission_Property
         class AIR_5_LINE
         {
             displayName = "5 Line"; //- Localiziable displayName
+            Control_Group = "AIR_5_LINE";
 
             class Variable
             {
@@ -241,6 +243,8 @@ class BCE_Mission_Property
         class CFF
         {
             displayName = "Call For Fire"; //- Localiziable displayName
+            Control_Group = "Call_For_Fire";
+
             class Variable
             {
                 TaskUnit = "BCE_CFF_Selected_Veh"; //- Where the TaskUnit is stored
