@@ -17,6 +17,13 @@ class ATAK_Buttons
             "BCE_fnc_ATAK_ShowTaskResult"
         };
     };
+    class Task_CFF_List_Menu: MissionSend_Menu
+    {
+        onLoad = "BCE_fnc_ATAK_bnt_CFF_List"; //- [ALL the Buttons]
+        clickEvents[] = {
+            ""
+        };
+    };
     class TaskBuilding_Menu
     {
         onLoad = "BCE_fnc_ATAK_bnt_TaskBuilding"; //- [ALL the Buttons]

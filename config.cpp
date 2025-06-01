@@ -1015,6 +1015,7 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Init_Buttons";
 					class ATAK_bnt_SendMission;
+					class ATAK_bnt_CFF_List;
 					class ATAK_bnt_Group;
 					class ATAK_bnt_Message;
 					class ATAK_bnt_TaskBuilding;

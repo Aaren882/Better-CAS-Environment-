@@ -1,4 +1,5 @@
 params ["_control","_MenuGroup","_settings"];
+_ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
 
 //- Mission Builders
 _settings params ["","","_subInfos"];
@@ -7,8 +8,11 @@ _subInfos params ["_subMenu","_curLine"];
 private _display = ctrlParent _control;
 private _ctrlTitle = ctrlText _control;
 
-private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
+// private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
 private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
+
+//- Get task UI infos
+  ([_display] call BCE_fnc_get_BCE_TaskUI) params ["_taskMenu","_displayName"];
 
 //- Enter Infos (on Building Page)
 	if (_subMenu == "Task_Building") exitWith {
@@ -29,8 +33,8 @@ private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 			};
 			_grp addWaypoint [getpos _vehicle, 0];
 			
-			_bnt ctrlSetText localize "STR_BCE_SendData";
-			_bnt ctrlSetBackgroundColor ([
+			_bnt_Ent ctrlSetText localize "STR_BCE_SendData";
+			_bnt_Ent ctrlSetBackgroundColor ([
 				(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77]),
 				(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51]),
 				(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08]),
@@ -53,6 +57,6 @@ private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 		
 		//- Finally Send
 		if ([_vehicle] call BCE_fnc_SendTaskData) then {
-			_bnt ctrlSetText localize "STR_BCE_Abort_Task";
-			_bnt ctrlSetBackgroundColor [1,0,0,0.5];
+			_bnt_Ent ctrlSetText localize "STR_BCE_Abort_Task";
+			_bnt_Ent ctrlSetBackgroundColor [1,0,0,0.5];
 		};
