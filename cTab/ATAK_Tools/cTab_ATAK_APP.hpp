@@ -46,7 +46,7 @@ class ATAK_APPs
                     {
                         PAGE_CTRL = "Task_CFF_List";
                         Opened = "BCE_fnc_ATAK_mission_SUB_TaskCFFList";
-                        // ATAK_Buttons = "TaskBuilding_Menu";
+                        ATAK_Buttons = "Task_CFF_List_Menu";
                     };
                     class Task_CFF_Action
                     {
