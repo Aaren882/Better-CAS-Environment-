@@ -30,6 +30,6 @@ params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 //- Update Scroll value
 [
   {
-    _this ctrlSetScrollValues [uiNamespace getVariable ["BCE_ATAK_Scroll_Value",0], -1];
+    _this ctrlSetScrollValues [localNamespace getVariable ["BCE_ATAK_Scroll_Value",0], -1];
   }, _ctrl
 ] call CBA_fnc_execNextFrame;

@@ -19,5 +19,5 @@ private _ctrl = switch _page do {
 };
 
 if !(isnull _ctrl) then {
-	uiNamespace setVariable ["BCE_ATAK_Scroll_Value",(ctrlScrollValues _ctrl) # 0];
+	localNamespace setVariable ["BCE_ATAK_Scroll_Value",(ctrlScrollValues _ctrl) # 0];
 };
