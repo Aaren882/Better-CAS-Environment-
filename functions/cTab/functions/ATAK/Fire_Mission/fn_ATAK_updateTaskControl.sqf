@@ -34,7 +34,7 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
   private _MissionCtrl = [
     _taskMenu,  //- Create Menu className
     21000,   //- Desire IDC
-    _group,     //- Group will Attached to
+    _group,     //- Group will Attach to
     _isDialog,  //- (MUST) "BOOL"
     true       //- Reset Page (OPTIONAL) : false
   ] call BCE_fnc_ATAK_createSubPage;
