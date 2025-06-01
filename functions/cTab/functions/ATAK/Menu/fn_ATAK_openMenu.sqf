@@ -56,7 +56,7 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
       private _ctrl = [
         _currentMenu, //- Create Menu className
         _menuIDC,     //- Desire IDC
-        _Apps_Group,  //- Group will Attached to
+        _Apps_Group,  //- Group will Attach to
         _isDialog,    //- (MUST) "BOOL"
         true          //- Reset Page (OPTIONAL) : false
       ] call BCE_fnc_ATAK_createSubPage;
