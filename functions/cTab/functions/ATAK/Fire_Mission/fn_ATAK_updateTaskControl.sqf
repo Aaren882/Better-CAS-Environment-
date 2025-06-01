@@ -51,6 +51,9 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
     //- Refresh Task Values
       call BCE_fnc_ATAK_Refresh_TaskInfos;
 
+    //- Rearrange Buttons
+      [_settings,true] call BCE_fnc_ATAK_Invoke_ButtonLayoutArrange;
+
     //- New control's Initation Refresh Values
       switch (_cateSel) do {
         case 0: { //- Air Fire Support

@@ -1021,6 +1021,11 @@ class CfgFunctions
 					class ATAK_bnt_TaskBuilding;
 					class ATAK_bnt_VideoFeeds;
 				};
+				class ATAK_Menu_Invokes
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Invoke";
+					class ATAK_Invoke_ButtonLayoutArrange;
+				};
 				class ATAK_Menu_onOpened
 				{
 					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\APP_Menu_onOpened";

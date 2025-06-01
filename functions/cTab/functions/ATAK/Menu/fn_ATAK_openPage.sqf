@@ -5,31 +5,32 @@
 params ["_display","_page",["_isHome", false],"_settings"];
 private ["_group","_ctrls","_currentPage","_ctrlPOS_BG","_ctrlPOS"];
 
-_group = _display displayCtrl 46600;
+/* _group = _display displayCtrl 46600;
 _ctrls = allControls _group;
 _group ctrlShow !_isHome;
-_group ctrlEnable true;
+_group ctrlEnable true; */
 
-_currentPage = _page;
+// _currentPage = _page;
 _ctrlPOS_BG = ctrlPosition _background;
-_ctrlPOS =+ _ctrlPOS_BG; // - Copy Value
-_ctrlPOS set [2, (_ctrlPOS # 2) / 4];
+/* _ctrlPOS =+ _ctrlPOS_BG; // - Copy Value
+_ctrlPOS set [2, (_ctrlPOS # 2) / 4]; */
+
 
 //- Menu Elements
 	//- Get Sub-Menu
 		_subInfos params ["_subMenu","_curLine"];
 
 	//- Get Sub-List
-		private _PG_data = _PgComponents getOrDefault [_page,[]];
-		_PG_data params ["_line"];
+		/* private _PG_data = _PgComponents getOrDefault [_page,[]];
+		_PG_data params ["_line"]; */
 
 //- Overwrite (--temporary--)
-	if (_subMenu != "") then {
+	/* if (_subMenu != "") then {
 		_currentPage = _subMenu;
-	};
+	}; */
 
 //- Get "ATAK_Buttons"
-	[_ctrls,_ctrlPOS,_interfaceInit] call {
+	/* [_ctrls,_ctrlPOS,_interfaceInit] call {
 
 		//- Get "ATAK_Buttons" from Config
 			(_page call BCE_fnc_ATAK_getAPPs_props) params ["","","_subMenus","_config"];
@@ -51,7 +52,9 @@ _ctrlPOS set [2, (_ctrlPOS # 2) / 4];
 		privateAll;
 		import ["_function"];
 		_this call (missionNamespace getVariable [_function,{}]);
-	};
+	}; */
+//- Rearrange Buttons
+	[_settings,_interfaceInit] call BCE_fnc_ATAK_Invoke_ButtonLayoutArrange;
 
 //- The return value
 	private _returnIDC = [4650, 4660] select _isHome;
