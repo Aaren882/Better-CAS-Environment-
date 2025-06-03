@@ -67,7 +67,6 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
     ["_Fuse",""],
     "_fireUnitSel",
     "_setCount",
-    "_radius",
     ["_fuzeVal",_fuzeVal_IE]
   ];
 
@@ -78,7 +77,6 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
       "FuzeCombo",
       "FireUnit_Combo",
       "Round_Box",
-      "Radius_Box",
       "FuzeValue_Box",
       "FireAngle_Bnt"
     ] apply {("CFF_IE_" + _x) call BCE_fnc_getTaskSingleComponent};
@@ -88,7 +86,6 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
       "_lbFuse",
       "_lbFireUnits",
       "_editRounds",
-      "_editRadius",
       "_editFuzeVal",
       "_fireAngle"
     ];
@@ -126,7 +123,6 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
       _fireAngle    ctrlSetStructuredText parseText localize (["STR_BCE_LO_Angle","STR_BCE_HI_Angle"] select _angleType);
 
       _editRounds	  ctrlSetText str _setCount;
-      _editRadius	  ctrlSetText str _radius;
       _editFuzeVal	ctrlSetText str _fuzeVal;
       _editFuzeVal  ctrlshow (_Fuse != "");
       

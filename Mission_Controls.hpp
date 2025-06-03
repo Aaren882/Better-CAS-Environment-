@@ -655,11 +655,6 @@ class BCE_Mission_Build_Controls
             {
                 idc = PROP_IDC(1116);
             };
-            class CFF_IA_Radius_Box: CFF_IE_Radius_Box
-            {
-                idc = PROP_IDC(1117);
-                tooltip="Impact Radius for ""Adjust Fire""";
-            };
             class CFF_IA_FuzeValue_Box: CFF_IE_FuzeValue_Box
             {
                 idc = PROP_IDC(1118);

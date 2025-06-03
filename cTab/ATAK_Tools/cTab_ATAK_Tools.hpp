@@ -432,17 +432,11 @@
                         ATAK_POS((0.7 + (1.1/2)),(0.65 + 1 + TITLE_HEIGHT + (0.35/2)),(1.1/3),0.63);
                         onEditChanged = "(['MSN_WPN|3'] + _this) call BCE_fnc_CFF_Mission_AutoSaveTask";
                     };
-                    /* class CFF_IE_Radius_Box: CFF_IE_Radius_Box
-                    {
-                        WPN_COMBO_STYLE;
-                        ATAK_POS((0.7 + (1.1/2) + (1.1/3)),(0.65 + 1 + TITLE_HEIGHT + (0.35/2)),(2.2/3),0.63);
-                        onEditChanged = "(['MSN_WPN|4'] + _this) call BCE_fnc_CFF_Mission_AutoSaveTask";
-                    }; */
                     class CFF_IE_FuzeValue_Box: CFF_IE_FuzeValue_Box
                     {
                         WPN_COMBO_STYLE;
                         ATAK_POS(2.2,(0.65 + 1 + TITLE_HEIGHT + (0.35/2)),0.7,0.63);
-                        onEditChanged = "(['MSN_WPN|5'] + _this) call BCE_fnc_CFF_Mission_AutoSaveTask";
+                        onEditChanged = "(['MSN_WPN|4'] + _this) call BCE_fnc_CFF_Mission_AutoSaveTask";
                     };
                     class CFF_IE_FireAngle_Bnt: CFF_IE_FireAngle_Bnt
                     {
