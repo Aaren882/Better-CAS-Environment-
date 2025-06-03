@@ -54,7 +54,6 @@ if !(_Key isEqualType "") exitWith {
         _lbFuse 	    <STRING | LB_DATA>
         _lbFireUnits	<NUMBER | LB_VALUE>
         _editRounds	  <NUMBER | editText>
-        _editRadius	  <NUMBER | editText>
         _editFuzeVal	<NUMBER | editText>
       */
       private _index = parseNumber _index_Str;
