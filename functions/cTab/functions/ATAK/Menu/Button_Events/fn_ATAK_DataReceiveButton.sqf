@@ -8,7 +8,9 @@ _subInfos params ["_subMenu","_curLine"];
 private _display = ctrlParent _control;
 private _ctrlTitle = ctrlText _control;
 
+
 // private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
+private _cateClass = [] call BCE_fnc_get_BCE_TaskCateClass; //- AIR, GND, OTH
 private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 
 //- Get task UI infos
@@ -56,7 +58,7 @@ private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 			};
 		
 		//- Finally Send
-		if ([_vehicle] call BCE_fnc_SendTaskData) then {
+		if ([_vehicle] call BCE_fnc_SendTaskData && _cateClass == "AIR") then {
 			_bnt_Ent ctrlSetText localize "STR_BCE_Abort_Task";
 			_bnt_Ent ctrlSetBackgroundColor [1,0,0,0.5];
 		};
