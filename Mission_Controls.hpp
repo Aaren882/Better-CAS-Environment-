@@ -721,7 +721,7 @@ class BCE_Mission_Build_Controls
             text = "ETA TOF : 1m20s";
         };
 
-        class New_Task_Submit_CFF_Mission_Type: RscToolbox
+        /* class New_Task_Submit_CFF_Mission_Type: RscToolbox
         {
             REGISTER_FNC;
             idc = PROP_IDC(2206);
@@ -765,7 +765,7 @@ class BCE_Mission_Build_Controls
                 {
                     0.45,0,0,0.5
                 };
-        };
+        }; */
         class New_Task_Adjust_Method_CFF: RscToolbox
         {
             REGISTER_FNC;
@@ -848,7 +848,7 @@ class BCE_Mission_Build_Controls
                 modes[] = {
                     "Standard Sheaf",
                     "Open Sheaf ""%1m""",
-                    "Linear Sheaf ""%1x%2 - %3""",
+                    "Linear Sheaf ""%1x%2 - %3°""",
                     "Point/Destruction"
                 };
             };
@@ -869,7 +869,7 @@ class BCE_Mission_Build_Controls
         {
             REGISTER_FNC;
             idc = PROP_IDC(2215);
-            tooltip = "Direction (Azimuth/Mil) \n- ex. ""350 / 6222""";
+            tooltip = "Direction (Azimuth/Mil) \n- ex. ""350° / 6222""";
         };
         class New_Task_IE_Sheaf_LINE_L_T: RscText
         {
@@ -898,7 +898,7 @@ class BCE_Mission_Build_Controls
             idc = PROP_IDC(2218);
 
             text = "D";
-            tooltip = "Direction (Azimuth/Mil) \n- ex. ""350 / 6222""";
+            tooltip = "Direction (Azimuth/Mil) \n- ex. ""350° / 6222""";
         };
 };
 
