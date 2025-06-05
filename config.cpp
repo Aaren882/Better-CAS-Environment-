@@ -616,9 +616,9 @@ class CfgFunctions
 			class Init;
 		};
 		
-		class Componets
+		class Components
 		{
-			file="MG8\AVFEVFX\Functions\Componets";
+			file="MG8\AVFEVFX\Functions\Components";
 			class ServerClientSide;
 			class ClientSide;
 
@@ -648,9 +648,9 @@ class CfgFunctions
 				class Discord_GetWebhooks;
 			#endif
 		};
-		class Anim_Componets
+		class Anim_Components
 		{
-			file="MG8\AVFEVFX\Functions\Componets\Animation_Transform";
+			file="MG8\AVFEVFX\Functions\Components\Animation_Transform";
 			class Anim_Type;
 			class Anim_Init;
 			class Anim_CustomOffset;
