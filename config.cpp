@@ -854,7 +854,7 @@ class CfgFunctions
 			class CFF_Mission_EOM;
 			class CFF_Mission_AutoSaveTask;
 			class CFF_Mission_Get_Values;
-			class CFF_Mission_Set_Value;
+			class CFF_Mission_Set_Values;
 			class UpdateFireAdjust;
 			class set_FireAdjust_MSN_State;
 			class CleanFireAdjustValues;
