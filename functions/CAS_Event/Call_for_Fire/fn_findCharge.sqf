@@ -142,9 +142,10 @@ private _aimPOS = _chargesArray apply {
 			["chargeInfo", _chargeInfo, _taskUnit] call BCE_fnc_set_CFF_Value;
 
 			//- Run Fire Mission
-				private _CFF_MSN = ["CFF_MSN",[],_taskUnit] call BCE_fnc_get_CFF_Value;
+				private _MSN_Key = ["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value;
+				private _CFF_info = [["CFF_MSN",_MSN_Key] joinString ":", [], _taskUnit] call BCE_fnc_get_CFF_Value;
 				[
-					uiNamespace getVariable [_CFF_MSN param [5,""],{}],
+					uiNamespace getVariable [_CFF_info param [5,""],{}],
 					[_taskUnit,_chargeInfo]
 				] call CBA_fnc_execNextFrame;
 

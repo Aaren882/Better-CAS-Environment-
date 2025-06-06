@@ -106,7 +106,7 @@ switch _curLine do {
 		_taskVar set [0,_result];
 	};
 
-	//- Observer-Target
+	//- Sheaf Type
 	case 1:{
 		_shownCtrls params [
       "_toolBox",
@@ -236,27 +236,51 @@ switch _curLine do {
 		//- [Toolbox, EditBox, output, ETA(StructuredText)]
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
 
+		private _pop_reason = "";
 		private _ctrlMethod = lbCurSel _ctrl1; //- [At-Ready, TOT, AMC].
 
 		private _ctrlParse = call {
 			if (_ctrlMethod == 0) exitWith {
-				["At-Ready"]
+				["At-Ready", 0]
 			};
 			if (_ctrlMethod == 1) exitWith {
-				private _TOT_time = parseNumber (ctrlText _ctrl2);
+				private _input = ctrlText _ctrl2;
+				private _TOT_time = if (count _input != 4) then {
+					private _output = parseNumber _input;
+
+					//- Check Min Value
+					if (_output < 5) then {
+						_pop_reason = "ToT(minutes) Must be >= 5 mins";
+					};
+
+					_output
+				} else {
+					private _clock_Hour = parseNumber (_input select [0,2]);
+
+					//- Check Min Value (24hr)
+					if (_clock_Hour - floor dayTime < 1) then {
+						_pop_reason = "ToT(Clock) Must be >= 1 Hour";
+					};
+					_input //- Clock Time
+				};
+
 				["TOT - " + str _TOT_time, _TOT_time]
 			};
 			if (_ctrlMethod == 2) exitWith {
-				["At My Command"]
+				["At My Command", -1]
 			};
 		};
 		_ctrlParse params ["_type",["_value",-1]];
 		
+		if (_pop_reason != "") exitWith {
+			hintSilent _pop_reason;
+		};
+
 		//- Update ouput display
 			_ctrl3 ctrlSetText _type;
 
     private _functions = [_ctrl1,"functions",[]] call BCE_fnc_get_Control_Data;
-		_taskVar set [4, [_type, [_ctrlMethod,_value], _functions param [_ctrlMethod, ""]]];
+		_taskVar set [4, [_type, [_ctrlMethod, _value], _functions param [_ctrlMethod, ""]]];
 	};
 };
 

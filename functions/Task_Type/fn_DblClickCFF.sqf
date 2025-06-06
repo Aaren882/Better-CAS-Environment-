@@ -133,15 +133,21 @@ switch _curLine do {
 		(_taskVar_4 # 1) params [["_cndtion1",0],["_cndtion2",-1]];
 		_ctrl1 lbSetCurSel _cndtion1;
 
-		if (_cndtion2 != -1) then {
-			_ctrl2 ctrlSetText (str _cndtion2);
+		private _typeTOT = typeName _cndtion2;
+		private _TOT = call {
+			if (_typeTOT == "STRING") exitWith {_cndtion2};
+			["",str _cndtion2] select (_cndtion2 != -1) //- Return
+		};
+
+		if (_TOT != "") then {
+			_ctrl2 ctrlSetText _TOT;
 		};
 		
 		_ctrl3 ctrlSetText (_taskVar_4 # 0);
 		[_ctrl2,_cndtion1,_curLine] call BCE_fnc_onTaskElementChange;
 
 		//- Get ETA Time
-			private _ETA_txt = "ETA : ""NA""";
+			/* private _ETA_txt = "ETA : ""NA""";
 			private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
 			private _AmmoInfos = (_taskVar # 0) param [3, []];
 			private _TG_POS = (_taskVar # 2) param [2, []];
@@ -158,6 +164,6 @@ switch _curLine do {
 				];
 			};
 
-		_ctrl4 ctrlSetStructuredText parseText _ETA_txt;
+		_ctrl4 ctrlSetStructuredText parseText _ETA_txt; */
 	};
 };
