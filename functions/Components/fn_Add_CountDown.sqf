@@ -36,7 +36,7 @@ private _time = switch (typeName _InputTime) do {
   };
 };
 
-_map set [_TimerName, [dateToNumber _time, _callBack] joinString ":"];
+_map set [_TimerName, [dateToNumber _time, _callBack] joinString "|"];
 localNamespace setVariable ["#BCE_COUNTDOWN_HashMap",_map];
 
 //- Check Variable exist
@@ -53,14 +53,15 @@ if (count _map > 1) exitWith {};
       };
 
     {
-      (_y splitString ":") params ["_dateStr","_callBack"];
+      (_y splitString "|") params ["_dateStr","_callBack"];
 
       if ((dateToNumber date - parseNumber _dateStr) > 0) then {
 
         //- Fire Event
           [_x] call {
             privateAll;
-            _this call compile _callBack;
+            import ["_callBack"];
+            _this call (compile _callBack);
           };
 
         //- Remove Counter
