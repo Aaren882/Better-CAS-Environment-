@@ -640,6 +640,8 @@ class CfgFunctions
 			class getAzimuthMil;
 			class getTurretDir;
 			class getUnitParams;
+
+			class Add_CountDown;
 			
 			class getCompatibleAVs;
 			class getCompatibleARTYs;
