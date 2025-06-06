@@ -12,18 +12,27 @@ if (
 
 _data params [
   "_taskTypeInfo",
-  "_TGPOS", //- OT Infos
+  "_TGPOS",
   "_Sheaf_Info",
-  "_Control_Function",
+  "_MOC_Values",
   "_angleType",
-  "_customInfos",
+  "_MSN_Key",
   "_taskVar"
 ];
 
 _taskTypeInfo params ["_taskType_ID","_taskType"];
 
+/* 
+  _MOC_Value    : Delay Value [-1,0, ...]
+  _MOC_Function : Function after Charge is found
+*/
+_MOC_Values params ["_MOC_Value","_MOC_Function","_MSN_Prepare"];
+
 private _group = group _taskUnit;
+private _CFF_Map = [_MSN_Key] call BCE_fnc_CFF_Mission_Get_Values;
+
 private _WPN_exec = [];
+private _random_POS = nil;
 private _MSN_State = 0;
 
 //- Hint
@@ -66,16 +75,14 @@ private _MSN_State = 0;
   ]; */
 
 
-//- #NOTE - Record Task
-  private _CFF_Map = _group getVariable ["BCE_CFF_Task_Pool", createHashMap];
+//- #NOTE - Record Task [RETURNS]
+  private _MSN_Values = if (count _CFF_Map == 0) then {
 
-  private _random_POS = if !(_customInfos in _CFF_Map) then {
     //- 10000 Task Budget
     private _Task_CNT = missionNamespace getVariable ["BCE_CFF_Task_ID", 0];
-
     private _taskTypeBravo = 1 max floor (_Task_CNT / 10000);
     
-    private _MSN_Key =  [
+    _MSN_Key = [
       [_taskType_ID + 1, true] call BIS_fnc_phoneticalWord,
       [_taskTypeBravo, true] call BIS_fnc_phoneticalWord,
       [_Task_CNT mod 10000, 4] call CBA_fnc_formatNumber //- Limit 10000
@@ -109,13 +116,21 @@ private _MSN_State = 0;
       ],
       _MSN_State //- "MSN_State"
     ];
-    [_MSN_Key,_MSN_Values,_taskUnit] call BCE_fnc_CFF_Mission_Set_Value;
 
     //- RETURN
-      _random_POS
+      [_MSN_Key,_MSN_Values,_taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
   } else {
     
-    ([_customInfos,_taskUnit] call BCE_fnc_CFF_Mission_Get_Values) params [
+    _MSN_Prepare = true; //- //- #NOTE - on "Command"
+
+    //- RETURN
+      [_MSN_Key] call BCE_fnc_CFF_Mission_Get_Values;
+  };
+  
+  //- #NOTE - Replace "_WPN_exec"
+  //- ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_fuzeVal"]
+  if (_MSN_Prepare) then {
+    _MSN_Values params [
       "_MSN_Type",
       "_TG_Grid",
       "_requester",
@@ -124,7 +139,7 @@ private _MSN_State = 0;
     ];
 
     /* 
-      #ANCHOR - "MSN_State" descriptions
+      #NOTE - "MSN_State" descriptions
       - 0 : on "Registered" (Default)
       - 1 : on "Fire For Effect"
       - 2 : Mission is Ended "EOM"
@@ -134,39 +149,37 @@ private _MSN_State = 0;
     _MSN_infos params [
       "_Wpn_setup_IE",
       "_Wpn_setup_IA",
-      "_random_POS",
+      "__random_POS",
       "__angleType",
       "__Sheaf_Info"
     ];
 
+    //- Match the Values
+    _angleType = __angleType;
+    _Sheaf_Info = __Sheaf_Info;
+    _MSN_State = __MSN_State; 
+    _random_POS = __random_POS;
+
     //- #NOTE - Replace "_WPN_exec"
     //- ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_fuzeVal"]
-    _WPN_exec = if (__MSN_State == 1) then {
-      //- EFFECTIVE ROUNDS
+    _WPN_exec = if (_MSN_State == 1) then { //- EFFECTIVE ROUNDS
       _Wpn_setup_IE
-    } else {
-      //- ADJUST ROUNDS
+    } else { //- ADJUST ROUNDS
       private _i = -1;
       _Wpn_setup_IA apply { //- Replace the Empty Values with IE
         _i = _i + 1;
         [_x,_Wpn_setup_IE # _i] select (isnil {_x})
       };
     };
-    _angleType = __angleType; //- Match the Value
-    _Sheaf_Info = __Sheaf_Info; //- Match the Value
-    _MSN_State = __MSN_State; //- Match the Value
-    
-    //- RETURN
-      _random_POS
   };
-   // ["BCE_Task_CFF_Sent", [_taskUnit,_data], _group] call CBA_fnc_targetEvent;
+
+  _WPN_exec params ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_fuzeVal"];
   
 //- #NOTE - Submit Data Only (Check "_WPN_exec" is empty)
   if ((count _WPN_exec) == 0) exitWith {};
 
 //- #SECTION - Execution
-  _WPN_exec params ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_fuzeVal"];
-
+  
   //- #SECTION - Set Distribution
     private _Sheaf_Pattern = [];
 
@@ -223,25 +236,6 @@ private _MSN_State = 0;
             _Sheaf_Pattern pushBack [_random_POS distance2D _s, _random_POS getDir _s];
           };
       };
-
-      /* private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;  
-      private _vehs = (units group _taskUnit) apply {vehicle _x}; 
-
-      { 
-        private _v = _forEachIndex; 
-        private _CFF_info = ["CFF_MSN",[],_x] call BCE_fnc_get_CFF_Value;   
-        _CFF_info params ["_random_POS","","","","","","_Sheaf_Info"];  
- 
-        {  
-          private _marker = format [  
-            "|marker_%1%3|%2|mil_pickup|ICON|[1,1]|0|Solid|Default|1|%3:%1",  
-            _forEachIndex,  
-            _random_POS getPos _x, 
-            _v 
-          ];  
-          _marker call BIS_fnc_stringToMarker;  
-        } forEach _Sheaf_Info; 
-      } forEach (_vehs arrayIntersect _vehs); */
     };
 
   //- #!SECTION
@@ -328,8 +322,11 @@ private _MSN_State = 0;
       {_unit removeMagazinesTurret [(_x # 0), _turret]} forEach _allMags;
     
     //- Specify Sheaf for Guns
-      private _CFF_info = [_random_POS,_lbAmmo,_setCount,_angleType,[_lbFuse,_fuzeVal],_Control_Function];
+      private _CFF_info = [_random_POS,_lbAmmo,_setCount,_angleType,[_lbFuse,_fuzeVal],_MOC_Function];
       _CFF_info set [6, _Sheaf_Pattern select [(_forEachIndex * _setCount), _setCount]];
+
+    //- Save Mission Values
+      [["CFF_MSN",_MSN_Key] joinString ":", _CFF_info, _unit] call BCE_fnc_set_CFF_Value;
 
     // Removing mags is not instant and the code continues before removal is finished.
       [
@@ -353,8 +350,7 @@ private _MSN_State = 0;
           } forEach _magsToAdd;
           {_unit addMagazine _x} forEach _otherMags;
 
-          //- Do Fire mission
-          call BCE_fnc_CFF_Action;
+          
         },
         [
           _unit,
@@ -366,6 +362,23 @@ private _MSN_State = 0;
           _CFF_info //- "_CFF_info"
         ]
       ] call CBA_fnc_execNextFrame;
+
+    //- Do Fire mission
+    //- Setup ToT Timer
+      if (_MOC_Value isNotEqualTo "") then {
+        [
+          _MSN_Key,
+          _MOC_Value,
+          format [
+            "[""%1"",""%2"",_this # 0,0] call BCE_fnc_CFF_Action",
+            _unit,
+            _weapon
+          ],
+          0 //- BaseTime
+        ] call BCE_fnc_Add_CountDown;
+      } else {
+        [_unit,_weapon,_MSN_Key] call BCE_fnc_CFF_Action;
+      };
   } forEach (_MagFire_ARR apply {_x # 0});
 //- #!SECTION
 nil
