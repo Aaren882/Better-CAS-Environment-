@@ -249,7 +249,7 @@ class BCE_Mission_Property
             {
                 TaskUnit = "BCE_CFF_Selected_Veh"; //- Where the TaskUnit is stored
                 name = "BCE_CFF_Var"; //- Where the data is stored
-                default = "[[""NA"",[]],[""NA"",[]],[""NA"",[]],[""NA"",""--"",""""],[""NA"",[]]]";
+                default = "[[""NA"",[]],[""--"",[]],[""NA"",[]],[""NA"",""--"",""""],[""NA"",[]]]";
                 Map_Infos[] = {
                     "",
                     "",
@@ -303,7 +303,6 @@ class BCE_Mission_Property
         {
             class Events: Events
             {
-                // TaskUnitChanged = "BCE_fnc_ATAK_TaskUnitChanged_CFF"; //- For the TaskUnit Selection
                 LBTaskUnitChanged = "BCE_fnc_ATAK_LBTaskUnitChanged"; //- For the TaskUnit Selection
                 LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskUnit Selection
             };
