@@ -12,10 +12,14 @@
 	Return : BOOL
 */
 params [
-	["_taskUnit", [] call BCE_fnc_get_TaskCurUnit],
-	["_cate", ["Cate"] call BCE_fnc_get_TaskCurSetup],
-	["_type", -1],
+	"_taskUnit",
+  ["_index", []],
   "_customInfos"
+];
+
+_index params [
+	["_type", -1],
+	["_cate",["Cate"] call BCE_fnc_get_TaskCurSetup]
 ];
 
 if (_type < 0) then {
@@ -23,7 +27,13 @@ if (_type < 0) then {
 };
 
 private _cateName = _cate call BCE_fnc_get_BCE_TaskCateClass;
-private _return = ["BCE_TaskBuilding_SendData", [
+
+if (isNil{_taskUnit}) then {
+	_taskUnit = [nil, [_type,_cate]] call BCE_fnc_get_TaskCurUnit;
+};
+
+
+["BCE_TaskBuilding_SendData", [
 	_taskUnit,		//- Data will be sent to this Unit
 	_cateName,		//- Task Cate Name ("AIR", "CFF"...)
 	_type,				//- Index of the "Task Type"
