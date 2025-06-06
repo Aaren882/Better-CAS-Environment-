@@ -6,6 +6,8 @@
 
 params ["_unit","_taskUnit"];
 
+if (isnull (["BCE_Holder"] call BCE_fnc_getTaskSingleComponent)) exitWith {};
+
 ([] call BCE_fnc_getDisplayTaskProps) params ["","","_events"];
 
 //- Fire Function (Get the Unit Object)

@@ -14,11 +14,18 @@
 params ["_taskUnit",["_index", []]];
 
 if (isNil{_taskUnit}) exitWith {false};
-_index params ["_curType","_cateSel"];
+_index params [
+	["_type", -1],
+	["_cate",["Cate"] call BCE_fnc_get_TaskCurSetup]
+];
 
-private _props = [displayNull, _curType, _cateSel] call BCE_fnc_getDisplayTaskProps;
-// _props params ["","","","","_taskUnit_Var"];
-private _taskUnit_Var = _props param [4,""];
+if (_type < 0) then {
+	_type = [_cate] call BCE_fnc_get_TaskCurType;
+};
+
+// private _props = [displayNull, _curType, _cateSel] call BCE_fnc_getDisplayTaskProps;
+// private _taskUnit_Var = _props param [4,""];
+private _taskUnit_Var = "#BCE_TaskUnit:" + ([_type,_cate] joinString "|");
 
 private _unit = call CBA_fnc_currentUnit;
 
@@ -29,7 +36,7 @@ if (_taskUnit == (_unit getVariable [_taskUnit_Var, objNull])) exitWith {
 
 _unit setVariable [_taskUnit_Var, _taskUnit];
 
-//- Fire BCE_Event
+//- Fire UI BCE_Event
   ["BCE_TaskBuilding_TaskUnitChanged", [_unit, _taskUnit]] call CBA_fnc_localEvent;
 
 true
