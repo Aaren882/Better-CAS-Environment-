@@ -19,7 +19,7 @@ if !(_Key isEqualType "") exitWith {
   private _taskID = _values # 0;
 
   //- Update Inner values
-  private _curValues = [_taskID,_taskUnit] call BCE_fnc_CFF_Mission_Get_Values;
+  private _curValues = [_taskID] call BCE_fnc_CFF_Mission_Get_Values;
   _curValues params [
     "_MSN_Type",
     "_TG_Grid",
@@ -147,7 +147,7 @@ if !(_Key isEqualType "") exitWith {
 
   //- Update Value
     _curValues set _result;
-    [_taskID,_curValues,_taskUnit] call BCE_fnc_CFF_Mission_Set_Value;
+    [_taskID,_curValues,_taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
   
 	}, _this
 ] call CBA_fnc_execNextFrame;
