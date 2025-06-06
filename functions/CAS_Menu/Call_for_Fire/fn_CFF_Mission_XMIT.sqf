@@ -43,6 +43,5 @@ if (isNil{_customData}) exitWith {};
   [
     _taskUnit,
     nil,
-    nil,
     _customData
   ] call BCE_fnc_SendTaskData;
