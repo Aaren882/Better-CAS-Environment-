@@ -19,4 +19,4 @@ private _executed = _chargeInfo findIf {true} < 0;
   _chargeInfo params ["_charge", "_angleA", "_ETA", "_pos"];
 
 //- Execute Fire Mission
-  [_chargeInfo, _taskUnit, 60 - _ETA] call BCE_fnc_doFireMission;
+  [_chargeInfo, _taskUnit, (3 * 60 - _ETA) max 0] call BCE_fnc_doFireMission;

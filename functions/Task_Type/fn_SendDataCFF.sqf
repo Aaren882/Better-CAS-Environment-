@@ -17,10 +17,11 @@ private _TGPOS = _taskVar_2 # 2;
 
 private _MOC_Value = _MOC_Values # 1;
 private _MSN_Prepare = true;
+private _prepare_Minutes = 3;
 
 private _MOC = switch (typeName _MOC_Value) do {
   case "STRING": { //- STRING "164800"
-    private _time = (parseNumber _MOC_Value) - 1;
+    private _time = (parseNumber _MOC_Value) - _prepare_Minutes;
     ([_time, 4] call CBA_fnc_formatNumber) + "00"
   };
   default { //- NUMBER
@@ -32,7 +33,7 @@ private _MOC = switch (typeName _MOC_Value) do {
       private _hours = floor _daytime;
       private _minutes = floor ((_daytime - _hours) * 60);
       
-      [_hours,_minutes + _MOC_Value - 1, 0]
+      [_hours,_minutes + _MOC_Value - _prepare_Minutes, 0]
     } else {
       ""
     }
