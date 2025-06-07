@@ -803,6 +803,7 @@ class CfgFunctions
 			class getTaskProps;
 			class getDisplayTaskProps;
 			class get_TaskIndex;
+			class get_TaskCateIndex;
 
 			//- BCE handling Functions
 				class get_BCE_TaskClass;
