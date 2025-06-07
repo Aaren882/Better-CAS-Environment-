@@ -15,7 +15,7 @@ class BCE_Mission_Default
     };
     class GND
     {
-        CFF = "CFF";
+        ADJ = "ADJ";
     };
 };
 class BCE_Mission_Property
@@ -240,10 +240,10 @@ class BCE_Mission_Property
     };
     class GND //- Ground Fire Support
     {
-        class CFF
+        class ADJ
         {
-            displayName = "Call For Fire"; //- Localiziable displayName
-            Control_Group = "Call_For_Fire";
+            displayName = "Adjust For"; //- Localiziable displayName
+            Control_Group = "CFF_ADJ_FIRE";
 
             class Variable
             {
@@ -299,7 +299,7 @@ class BCE_Mission_Property
                 Clear = "BCE_fnc_clearTaskCFF"; //- Clear the data
             };
         };
-        class CFF_ATAK: CFF
+        class ADJ_ATAK: ADJ
         {
             class Events: Events
             {

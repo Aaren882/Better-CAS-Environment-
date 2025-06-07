@@ -5,7 +5,7 @@
 
   PARAMS :
     "_taskUnit"	    - Data will be sent to this Unit
-    "_cateName"	    - Task Cate Name ("AIR", "CFF")
+    "_cateName"	    - Task Cate Name ("AIR", "ADJ")
     "_taskType"		  - Index of the "Task Type"
     "_customInfos"	- Custom Infos can be anything (OPTIONAL)
 

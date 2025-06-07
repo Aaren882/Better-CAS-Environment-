@@ -35,7 +35,7 @@ if (isNil{_taskUnit}) then {
 
 ["BCE_TaskBuilding_SendData", [
 	_taskUnit,		//- Data will be sent to this Unit
-	_cateName,		//- Task Cate Name ("AIR", "CFF"...)
+	_cateName,		//- Task Cate Name ("AIR", "ADJ"...)
 	_type,				//- Index of the "Task Type"
 	_customInfos	//- custom Infos
 ]] call CBA_fnc_localEvent;
