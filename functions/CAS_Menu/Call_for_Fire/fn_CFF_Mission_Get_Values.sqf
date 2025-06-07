@@ -4,7 +4,6 @@
 */
 params [
   "_taskID"
-  // ["_taskUnit", [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit]
 ];
 
 private _pool = localNamespace getVariable ["#BCE_CFF_Task_Pool", createHashMap];
