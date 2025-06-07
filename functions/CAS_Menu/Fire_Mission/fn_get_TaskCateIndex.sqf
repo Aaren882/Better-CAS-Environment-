@@ -1,8 +1,8 @@
 /*
   NAME : BCE_fnc_get_TaskCateIndex
 
-  Params : [["CFF",[0,1]],["5LINE",[1,0]],["9LINE",[0,0]]]
-    _key : e.g. "CFF", "5LINE"
+  Params : [["AIR",[nil,0]],["GND",[1,0]]]
+    _key : e.g. "ADJ", "GND"
 
   Return :
     ["Type", "Cate"]
