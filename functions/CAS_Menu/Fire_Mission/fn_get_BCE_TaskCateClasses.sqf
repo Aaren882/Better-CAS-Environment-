@@ -4,7 +4,7 @@
   Get BCE Holding task categories from #LINK - Mission_Property.hpp
 
   Return : #LINK - Mission_Property.hpp
-    "BCE_Task_Category_Values" : ex. [["AIR",["9LINE","5LINE"]],["GND",["CFF"]]] (ARRAY)
+    "BCE_Task_Category_Values" : ex. [["AIR",["9LINE","5LINE"]],["GND",["ADJ"]]] (ARRAY)
 */
 
 privateAll;

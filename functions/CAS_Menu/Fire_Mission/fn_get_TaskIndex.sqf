@@ -1,12 +1,12 @@
 /*
   NAME : BCE_fnc_get_TaskIndex
 
-  Params : [["CFF",[0,1]],["5LINE",[1,0]],["9LINE",[0,0]]]
-    _key : e.g. "CFF", "5LINE"
+  Params : [["ADJ",[0,1]],["5LINE",[1,0]],["9LINE",[0,0]]]
+    _key : e.g. "ADJ", "5LINE"
 
   Return :
     ["Type", "Cate"]
-    ARRAY of Indexes : ex. [0,1] -- CFF
+    ARRAY of Indexes : ex. [0,1] -- ADJ
 */
 params [["_key",""]];
 

@@ -42,7 +42,7 @@ if (isnull _display) exitWith {
 */
   private _BCE_Holder = _display getVariable ["BCE_onLoad_BCE_Holder", createHashMap];
 
-// ex. [["AIR",["9LINE","5LINE"]],["GND",["CFF"]]] (ARRAY)
+// ex. [["AIR",["9LINE","5LINE"]],["GND",["ADJ"]]] (ARRAY)
   private _categories = call BCE_fnc_get_BCE_TaskCateClasses;
 
 //- Get Desire Task Type

@@ -1,4 +1,4 @@
-class Call_For_Fire: AIR_5_LINE
+class CFF_ADJ_FIRE: AIR_5_LINE
 {
     class controls: controls
     {
