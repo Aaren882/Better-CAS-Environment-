@@ -38,8 +38,8 @@ private _chargesArray = [];
 		private _A = atan ((_vel^2 + (_profile * sqrt _calc)) / (_g*_distance));
 		
 		// ETA
-		// private _ETA = _distance / (_vel* cos(_A));
-		private _ETA = (2 * _vel * sin _A) / _g;
+		private _ETA = _distance / (_vel* cos(_A));
+		// private _ETA = (2 * _vel * sin _A) / _g;
 		
 		_chargesArray pushback [_charge, _A, _ETA];
 	};
