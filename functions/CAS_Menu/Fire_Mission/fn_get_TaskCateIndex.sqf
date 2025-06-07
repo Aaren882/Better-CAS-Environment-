@@ -1,14 +1,14 @@
 /*
   NAME : BCE_fnc_get_TaskCateIndex
-  
-  ** WARNING PERFORMANCE **
 
   Params : [["CFF",[0,1]],["5LINE",[1,0]],["9LINE",[0,0]]]
     _key : e.g. "CFF", "5LINE"
 
   Return :
     ["Type", "Cate"]
-    ARRAY of Indexes : ex. [0,1] -- CFF
+    ARRAY of Indexes : 
+      -- ex. [nil,0] -- AIR
+      -- ex. [nil,1] -- GND
 */
 params [["_key",""]];
 

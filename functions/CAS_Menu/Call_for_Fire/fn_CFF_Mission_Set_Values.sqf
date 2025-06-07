@@ -8,7 +8,7 @@
 params [
   "_taskID",
   "_values",
-  ["_taskUnit", [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit]
+  ["_taskUnit", [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit]
 ];
 
 if (isnull _taskUnit) exitWith {};

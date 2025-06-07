@@ -3,7 +3,7 @@ params["_display","_ctrl"];
 private _displayName = cTabIfOpen # 1;
 private _veh = [
 	cTab_player,
-	[nil,0]
+	"AIR" call BCE_fnc_get_TaskCateIndex
 ] call BCE_fnc_get_TaskCurUnit;
 
 //- Aerial vehicle
@@ -117,7 +117,7 @@ if (alive _veh) then {
 //- ARTY Connection
 _veh = [
 	cTab_player,
-	"CFF" call BCE_fnc_get_TaskIndex
+	"GND" call BCE_fnc_get_TaskCateIndex
 ] call BCE_fnc_get_TaskCurUnit;
 if (alive _veh) then {
 	private _color = [1,1,0.3,0.8];

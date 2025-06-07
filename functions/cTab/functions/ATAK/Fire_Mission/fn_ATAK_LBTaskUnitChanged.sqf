@@ -12,7 +12,7 @@ private _MissionCtrl = _group getVariable "Mission_Control";
 	private _firstLine = _MissionCtrl controlsGroupCtrl (17000 + 2040);
 	
 	private _unit = call CBA_fnc_currentUnit;
-	private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
+	private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 	_firstLine ctrlSetStructuredText parseText format [
 		"“%1” / “%2”",

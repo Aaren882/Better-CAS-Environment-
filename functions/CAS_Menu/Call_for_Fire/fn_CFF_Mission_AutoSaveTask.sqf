@@ -13,7 +13,7 @@ if !(_Key isEqualType "") exitWith {
 [{
 	params ["_Key","_control","_input"];
 
-  private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
+  private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
   private _values = ["CFF_Mission",[]] call BCE_fnc_get_TaskCurSetup;
   private _taskID = _values # 0;
