@@ -63,7 +63,7 @@ call {
 					_reset_Veh = true;
        		[
 						_curSel,
-						[nil,0]
+						"AIR" call BCE_fnc_get_TaskCateIndex
 					] call BCE_fnc_set_TaskCurUnit;
 					["cTab_Tablet_dlg",[["uavCam",str _curSel]],false] call cTab_fnc_setSettings;
 
@@ -81,7 +81,7 @@ call {
 				case (_curSel in cTabARTYlist): {
 					[
 						_curSel,
-						"CFF" call BCE_fnc_get_TaskIndex
+						"GND" call BCE_fnc_get_TaskCateIndex
 					] call BCE_fnc_set_TaskCurUnit;
 				};
 			};

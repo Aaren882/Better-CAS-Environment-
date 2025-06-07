@@ -1,6 +1,6 @@
 params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 
-private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
+private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 private _taskUnit_Grp = group _taskUnit;
 
 //- Exit If there's no taskUnit Exist

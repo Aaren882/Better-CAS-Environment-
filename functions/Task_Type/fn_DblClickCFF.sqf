@@ -7,7 +7,7 @@ switch _curLine do {
 			"_IA_ammo","_IA_fuse","_IA_fireUnits","_IA_rounds","_IA_fuzeVal"
 		];
 		_taskVar_0 = _taskVar # 0;
-		private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
+		private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 		private _storeVal = _taskVar_0 param [2,[]]; 		//- ["IEs","IAs","fireAngle"]
 
@@ -148,7 +148,7 @@ switch _curLine do {
 
 		//- Get ETA Time
 			/* private _ETA_txt = "ETA : ""NA""";
-			private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
+			private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 			private _AmmoInfos = (_taskVar # 0) param [3, []];
 			private _TG_POS = (_taskVar # 2) param [2, []];
 			if (

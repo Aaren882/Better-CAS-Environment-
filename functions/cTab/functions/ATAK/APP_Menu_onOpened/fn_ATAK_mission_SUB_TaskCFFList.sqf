@@ -8,7 +8,7 @@ private _data = [];
 private _checkedGroup = ["cTab_Android_dlg", "CFF_TaskList"] call cTab_fnc_getSettings; */
 
 private _listGroup = _group controlsGroupCtrl 10;
-private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
+private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 private _grp = group _taskUnit;
 
 //- get custom Groups

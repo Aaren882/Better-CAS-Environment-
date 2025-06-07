@@ -9,7 +9,7 @@
 params ["_key","_value",["_Control",controlNull]];
 
 //- Check Task Unit 
-private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
+private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 if (isnull _taskUnit) exitWith {};
 
 private _taskUnit_Grp = group _taskUnit;
