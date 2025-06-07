@@ -6,8 +6,6 @@
 
 params ["_taskUnit",["_chargeInfo",[]]];
 
-// private _taskUnit = [nil,"CFF" call BCE_fnc_get_TaskIndex] call BCE_fnc_get_TaskCurUnit;
-// private _chargeInfo = ["chargeInfo", [], _taskUnit] call BCE_fnc_get_CFF_Value;
 private _executed = _chargeInfo findIf {true} < 0;
 
 //- Trigger EH
