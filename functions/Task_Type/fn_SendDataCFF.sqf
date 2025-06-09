@@ -20,7 +20,7 @@ private _MSN_Prepare = true;
 private _prepare_Minutes = 3;
 
 private _MOC = switch (typeName _MOC_Value) do {
-  case "STRING": { //- STRING "164800"
+  case "STRING": { //- STRING "164800" => "HHMMSS"
     private _time = (parseNumber _MOC_Value) - _prepare_Minutes;
     ([_time, 4] call CBA_fnc_formatNumber) + "00"
   };
