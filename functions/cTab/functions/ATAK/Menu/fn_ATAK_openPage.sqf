@@ -5,54 +5,13 @@
 params ["_display","_page",["_isHome", false],"_settings"];
 private ["_group","_ctrls","_currentPage","_ctrlPOS_BG","_ctrlPOS"];
 
-/* _group = _display displayCtrl 46600;
-_ctrls = allControls _group;
-_group ctrlShow !_isHome;
-_group ctrlEnable true; */
-
 // _currentPage = _page;
 _ctrlPOS_BG = ctrlPosition _background;
-/* _ctrlPOS =+ _ctrlPOS_BG; // - Copy Value
-_ctrlPOS set [2, (_ctrlPOS # 2) / 4]; */
-
 
 //- Menu Elements
 	//- Get Sub-Menu
 		_subInfos params ["_subMenu","_curLine"];
 
-	//- Get Sub-List
-		/* private _PG_data = _PgComponents getOrDefault [_page,[]];
-		_PG_data params ["_line"]; */
-
-//- Overwrite (--temporary--)
-	/* if (_subMenu != "") then {
-		_currentPage = _subMenu;
-	}; */
-
-//- Get "ATAK_Buttons"
-	/* [_ctrls,_ctrlPOS,_interfaceInit] call {
-
-		//- Get "ATAK_Buttons" from Config
-			(_page call BCE_fnc_ATAK_getAPPs_props) params ["","","_subMenus","_config"];
-			if (_subMenu != "") then {
-				_config = (_subMenus get _subMenu) param [1,configNull];
-			};
-		private _BntName = getText (_config >> "ATAK_Buttons");
-		private _function = getText (configFile >> "ATAK_Buttons" >> _BntName >> "onLoad");
-
-		//- #LINK - functions/cTab/functions/ATAK/fn_ATAK_bnt_clickEvent.sqf
-			private _clickEvents = getArray (configFile >> "ATAK_Buttons" >> _BntName >> "clickEvents");
-			{
-				if (_forEachIndex == 0) then {continue}; //- Skip "LastPage" button
-				private _e = _clickEvents param [_forEachIndex - 1, ""];
-				_x setVariable ["clickEvent",_e];
-			} forEach _ctrls;
-
-		//- call Function
-		privateAll;
-		import ["_function"];
-		_this call (missionNamespace getVariable [_function,{}]);
-	}; */
 //- Rearrange Buttons
 	[_settings,_interfaceInit] call BCE_fnc_ATAK_Invoke_ButtonLayoutArrange;
 
