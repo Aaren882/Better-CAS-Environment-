@@ -104,7 +104,8 @@ PHONE_CLASS
 					};
 					class GND: GND //- Change UI Setups
 					{
-						CFF = "ADJ_ATAK";
+						ADJ = "ADJ_ATAK";
+						SUP = "SUP_ATAK";
 					};
 				};
 			};
