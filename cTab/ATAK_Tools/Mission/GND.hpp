@@ -305,3 +305,87 @@ class CFF_ADJ_FIRE: AIR_5_LINE
         #undef MOVE_Y_OFFSET
     };
 };
+
+//- CFF Suppression Fire
+    class CFF_SUP_FIRE: CFF_ADJ_FIRE
+    {
+        class controls: controls
+        {
+            #define MOVE_Y_OFFSET 1
+            class Background: Background
+            {
+                ATAK_POS(0,0,0,(8.25 + 1.05 + 0.35 + MOVE_Y_OFFSET));
+            };
+            //- ARTY Group DropBox
+                class Vehicle_Grp_T: Vehicle_Grp_T {};
+                class Vehicle_Grp_Sel: Vehicle_Grp_Sel {};
+
+            class Game_Plan_T: Game_Plan_T {};
+
+            //- FFE, Suppress ...
+                class TaskType_GND: TaskType_GND {};
+            
+            //- In Effect (IE) Section
+                class Weapon_T: Weapon_T {};
+                class CFF_IE_WeaponCombo: CFF_IE_WeaponCombo {};
+                class CFF_IE_FuzeCombo: CFF_IE_FuzeCombo {};
+                class CFF_IE_FireUnit_Combo: CFF_IE_FireUnit_Combo {};
+                class CFF_IE_Round_Box: CFF_IE_Round_Box {};
+                class CFF_IE_FuzeValue_Box: CFF_IE_FuzeValue_Box {};
+                class CFF_IE_FireAngle_Bnt: CFF_IE_FireAngle_Bnt {};
+
+            //- In Adjust (IA) (OPTIONAL)
+                class Weapon_IA_T: Weapon_IA_T {};
+                class CFF_IA_WeaponCombo: CFF_IA_WeaponCombo {};
+                class CFF_IA_FuzeCombo: CFF_IA_FuzeCombo {};
+                class CFF_IA_FireUnit_Combo: CFF_IA_FireUnit_Combo {};
+                class CFF_IA_Round_Box: CFF_IA_Round_Box {};
+                class CFF_IA_FuzeValue_Box: CFF_IA_FuzeValue_Box {};
+
+            //- Sheaf (OPTIONAL)
+                class Line_Sheaf: Line_Sheaf {};
+                class Sheaf_EditBnt: Sheaf_EditBnt {};
+
+            //- Callouts
+                class Line1_T5: Line1_T5 {};
+                class L51_EditBnt: L51_EditBnt {};
+
+            //- Target
+                class Line2_T5: Line2_T5 {};
+                class L52_EditBnt: L52_EditBnt {};
+
+            //- Description
+                class Line3_T5: Line3_T5 {};
+                class L53_EditBnt: L52_EditBnt
+                {
+                    idc = idc_D(2042);
+                    ATAK_POS(0.2,(7.25 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
+                    text = "Desc";
+                    tooltip="$STR_BCE_TIP_DESC";
+                    onButtonClick = "[nil,'Task_Building',3] call BCE_fnc_ATAK_ChangeTool";
+                };
+                /* class L53_EditBnt: L53_EditBnt {};
+                class L53_PullBnt: L53_PullBnt {}; */
+
+                //-Text EditBox
+                /* class New_Task_TG_DESC: New_Task_TG_DESC {};
+                class New_Task_GRID_DESC: New_Task_GRID_DESC {}; */
+
+            //- Control Method
+                class Line4_T5: Line4_T5
+                {
+                    ATAK_POS(0,(8.25 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
+                };
+                class L54_EditBnt: L54_EditBnt
+                {
+                    ATAK_POS(0.2,(8.25 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
+                };
+
+            //- Separator -//
+                class Separator: Separator
+                {
+                    ATAK_POS(0.1,(8.25 + 1.05 + (0.35/2) + MOVE_Y_OFFSET),2.8,0.001);
+                };
+            #undef MOVE_Y_OFFSET
+        };
+    };
