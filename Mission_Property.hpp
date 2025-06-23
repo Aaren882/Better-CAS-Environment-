@@ -16,6 +16,7 @@ class BCE_Mission_Default
     class GND
     {
         ADJ = "ADJ";
+        SUP = "SUP";
     };
 };
 class BCE_Mission_Property
