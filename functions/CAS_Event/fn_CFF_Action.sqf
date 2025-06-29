@@ -1,7 +1,12 @@
 /*
   NAME : BCE_fnc_CFF_Action
 
+  Description:
   Do Artillery Mission for individuals
+  
+  Handles the logic for an Adjust Fire mission in Call for Fire.
+  This includes setting up the initial shot, handling subsequent shots based on sheaf information,
+  and managing the mission progress.
 */
 params ["_unit","_weapon","_MSN_Key",["_delay",2 + (random 0.2)]];
 

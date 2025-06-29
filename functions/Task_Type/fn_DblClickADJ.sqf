@@ -44,8 +44,8 @@ switch _curLine do {
 				["_ctrlSel5",["0",""] select _isIA]
 			];
 
-			_lbAmmo 			lbSetCurSel _ctrlSel0;
-			_lbFuse 			lbSetCurSel _ctrlSel1;
+			_lbAmmo				lbSetCurSel _ctrlSel0;
+			_lbFuse				lbSetCurSel _ctrlSel1;
 			_lbFireUnits	lbSetCurSel _ctrlSel2;
 			_editRounds		ctrlSetText _ctrlSel3;
 			_editFuzeVal	ctrlSetText _ctrlSel5;

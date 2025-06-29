@@ -543,6 +543,7 @@ class BCE_Mission_Build_Controls
             class CFF_IE_Round_Box: Round_Count_Box
             {
                 idc = PROP_IDC(1016);
+                text = "";
                 tooltip="Rounds to fire for each Unit";
             };
             class CFF_IE_Radius_Box: Attack_Height_Box
@@ -712,7 +713,7 @@ class BCE_Mission_Build_Controls
             idc = PROP_IDC(2204);
             text = "Enter Minutes...";
         };
-        class New_Task_CFF_ETA: taskDesc
+        class New_Task_CFF_StructText: taskDesc
         {
             REGISTER_FNC;
 
@@ -899,6 +900,91 @@ class BCE_Mission_Build_Controls
 
             text = "D";
             tooltip = "Direction (Azimuth/Mil) \n- ex. ""350° / 6222""";
+        };
+
+        //- SUPPRESSION Description
+        class New_Task_SUP_DESC_Checkboxes: ctrlCheckboxes
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2219);
+            style = 2;
+            shadow = 2;
+            rows = 1;
+            columns = 3;
+			font = "RobotoCondensed_BCE";
+            strings[] = {"Duration: [X]","Rounds: [X]","Interval: [X]"};
+            checked_strings[] = {"Duration: [O]","Rounds: [O]","Interval: [O]"};
+            tooltips[] = {"Duration in minutes","Rounds per Tube in each Interval","Interval in seconds/minutes"};
+            // tooltips[] = {"Duration in minutes","Interval in seconds/minutes"};
+        };
+        class New_Task_SUP_DESC_Duration: New_Task_GRID_DESC
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2220);
+            text = ""; //- In minutes
+            tooltip = "Duration in minutes";
+        };
+        class New_Task_SUP_RND_Interval: New_Task_SUP_DESC_Duration
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2221);
+            text = ""; //- foreach Tube each round In Seconds/Minutes (min 10 seconds)
+            tooltip = "Rounds per Tube in each Interval";
+        };
+        class New_Task_SUP_DESC_Interval: New_Task_SUP_DESC_Duration
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2222);
+            text = "";
+            tooltip = "Interval in seconds/minutes";
+        };
+        class New_Task_SUP_DESC_SkipAdjust: New_Task_SUP_DESC_Checkboxes
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2223);
+
+            columns = 1;
+            strings[] = {"Skip Adjust [X]"};
+            checked_strings[] = {"Skip Adjust [O]"};
+            tooltips[] = {"This will skip the Adjust Fire phase and go straight to FFE (Still able to adjust, but takes more ammo)"};
+
+            colorSelectedBg[] = {0.5,0,0,0.3};
+        };
+        class New_Task_SUP_DESC_MinSec: New_Task_SUP_DESC_Checkboxes
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2224);
+
+            columns = 1;
+            strings[] = {"Min"};
+            checked_strings[] = {"Sec"};
+            tooltips[] = {"Toggle between Minutes and Seconds for the Interval"};
+            
+            colorBackground[] = 
+            {
+                "1 - (profilenamespace getvariable ['GUI_BCG_RGB_R',0.13])",
+                "1 - (profilenamespace getvariable ['GUI_BCG_RGB_G',0.54])",
+                "1 - (profilenamespace getvariable ['GUI_BCG_RGB_B',0.21])",
+                0.3
+            };
+            colorSelectedBg[] = {
+                "1 - (profilenamespace getvariable ['GUI_BCG_RGB_R',0.13])",
+                "1 - (profilenamespace getvariable ['GUI_BCG_RGB_G',0.54])",
+                "1 - (profilenamespace getvariable ['GUI_BCG_RGB_B',0.21])",
+                0.3
+            };
+        };
+        class New_Task_CFF_SUP_StructText: New_Task_CFF_StructText
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2225);
+        };
+        class New_Task_Expression_CFF: New_Task_IPExpression
+        {
+            REGISTER_FNC;
+            idc = PROP_IDC(2226);
+            style = 2;
+            colorText[] = {0.8,0.8,0.8,1};
         };
 };
 

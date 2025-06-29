@@ -4,7 +4,8 @@
 
   Return :
     "_taskMenu" : Task ControlGroup class (e.g. "AIR_9_LINE","AIR_5_LINE" etc)
-    "_subSel" : Type Index
+    "_cateSel"  : Category Index
+    "_subSel"   : Type Index
 */
 
 params ["_group","_settings"];
@@ -21,7 +22,7 @@ private _cateData = _cateSel call BCE_fnc_get_BCE_TaskCateClass;
 
 //- Get task UI infos
   private _UI_Infos = [ctrlParent _group,_subSel,_cateSel] call BCE_fnc_get_BCE_TaskUI;
-  _UI_Infos params ["_taskMenu","_displayName"];
+  _UI_Infos params ["_taskMenu"/*,"_displayName"*/];
 
 //- Return
   [_taskMenu,_cateSel,_subSel]

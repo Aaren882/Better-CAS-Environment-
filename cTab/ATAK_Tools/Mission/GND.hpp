@@ -329,8 +329,12 @@ class CFF_ADJ_FIRE: AIR_5_LINE
                 class Weapon_T: Weapon_T {};
                 class CFF_IE_WeaponCombo: CFF_IE_WeaponCombo {};
                 class CFF_IE_FuzeCombo: CFF_IE_FuzeCombo {};
-                class CFF_IE_FireUnit_Combo: CFF_IE_FireUnit_Combo {};
-                class CFF_IE_Round_Box: CFF_IE_Round_Box {};
+                class CFF_IE_FireUnit_Combo: CFF_IE_FireUnit_Combo
+                {
+                    ATAK_POS(0.7,(1.65 + (0.35/2) + MOVE_Y_OFFSET),((1.1/2) + (1.1/3)),0.63);
+                };
+                //- #NOTE - Skip IE rounds bc the third line is already defined
+                    // class CFF_IE_Round_Box: CFF_IE_Round_Box {};
                 class CFF_IE_FuzeValue_Box: CFF_IE_FuzeValue_Box {};
                 class CFF_IE_FireAngle_Bnt: CFF_IE_FireAngle_Bnt {};
 
