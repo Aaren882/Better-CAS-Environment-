@@ -14,13 +14,16 @@ _settings params ["_page","_show","_subInfos",["_PgComponents",createHashMap]];
 
 private _display = uiNamespace getVariable [_displayName,displayNull];
 
+private _backgroundGroup = _display displayCtrl 4660;
+private _background = _backgroundGroup controlsGroupCtrl 9;
+
 private _buttonGrp = _display displayCtrl 46600;
 private _ctrls = allControls _buttonGrp;
 
 _buttonGrp ctrlShow !_isHome;
 _buttonGrp ctrlEnable true;
 
-private _ctrlPOS = ctrlPosition _buttonGrp;
+private _ctrlPOS = ctrlPosition _background;
 _ctrlPOS set [2, (_ctrlPOS # 2) / 4];
 
 //- Menu Elements
