@@ -166,8 +166,10 @@ switch _curLine do {
 		
 		//- #NOTE - Replace Rounds (if reach maximum)
 			if (_rounds_V > _maxRounds) then {
-				_rounds_V = _maxRounds;
+				_result set [1, _rounds_V];
 				_rounds ctrlSetText str _rounds_V;
+				
+				_rounds_V = _maxRounds;
 			};
 			
 		//- Check if the "duration" and "interval" are reasonable.
