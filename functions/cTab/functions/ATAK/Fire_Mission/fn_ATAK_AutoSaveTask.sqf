@@ -18,7 +18,7 @@ if !((ctrlParentControlsGroup _control) getVariable ["Init",false]) exitWith {};
 	_curLine = switch _type do {
 		//-Save DESC
 		case 0: {
-			[[5,3],[3]] # _curCate # _curType; //- Get Description Line
+			[[5,3],[3,3]] # _curCate # _curType; //- Get Description Line
 		};
 		//-Save Game Plan
 		default {

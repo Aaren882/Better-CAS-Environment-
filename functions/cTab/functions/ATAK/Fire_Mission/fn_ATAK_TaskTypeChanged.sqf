@@ -28,8 +28,16 @@ switch (_curCate) do {
 		};
 	};
 	case 1: { //- Call for Fire
-		// private _MissionCtrl = [_group,_settings] call BCE_fnc_ATAK_updateTaskControl;
 		
+		//- Save Type Selection (use for UI changes AIR_9, AIR_5)
+			_lbCurSel call BCE_fnc_set_TaskCurType;
+
+		//- Update Task Control
+		private _MissionCtrl = [_group,_settings] call BCE_fnc_ATAK_updateTaskControl;
+		
+		if (isNull _MissionCtrl) exitWith {};
+		
+		//- Initiate 
 		["BCE_TaskBuilding_Enter", [0]] call CBA_fnc_localEvent;
 	};
 };

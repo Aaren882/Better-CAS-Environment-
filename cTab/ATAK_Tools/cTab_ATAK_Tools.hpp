@@ -212,37 +212,37 @@
                     {
                         ATAK_POS(0.1,0.35/2,2.8,0.65);
                         sizeEx = 0.9 * TextSize;
-                        onCheckBoxesSelChanged = "[_this#0,_this#1,3] call BCE_fnc_onTaskElementChange; [_this#0,_this#1,0] call BCE_fnc_ATAK_AutoSaveTask;";
+                        onCheckBoxesSelChanged = "[_this#0,_this#1,3] call BCE_fnc_onTaskElementChange;";
                     };
                     class New_Task_SUP_DESC_Duration: New_Task_SUP_DESC_Duration
                     {
                         ATAK_POS(0.1,(0.65 + 0.35/2),(2.8/3),0.65);
                         sizeEx = 0.9 * TextSize;
-                        onEditChanged = "[_this#0,0,3] call BCE_fnc_onTaskElementChange";
+                        onEditChanged = "[_this#0,0,3] call BCE_fnc_onTaskElementChange;";
                     };
                     class New_Task_SUP_RND_Interval: New_Task_SUP_RND_Interval
                     {
                         ATAK_POS((0.1 + (2.8/3)),(0.65 + 0.35/2),(2.8/3),0.65);
                         sizeEx = 0.9 * TextSize;
-                        onEditChanged = "[_this#0,0,3] call BCE_fnc_onTaskElementChange";
+                        onEditChanged = "[_this#0,0,3] call BCE_fnc_onTaskElementChange;";
                     };
                     class New_Task_SUP_DESC_Interval: New_Task_SUP_DESC_Interval
                     {
                         ATAK_POS((0.1 + 2*(2.8/3)),(0.65 + 0.35/2),(2.8/3/2),0.65);
                         sizeEx = 0.9 * TextSize;
-                        onEditChanged = "[_this#0,0,3] call BCE_fnc_onTaskElementChange";
+                        onEditChanged = "[_this#0,0,3] call BCE_fnc_onTaskElementChange;";
                     };
                     class New_Task_SUP_DESC_MinSec: New_Task_SUP_DESC_MinSec
                     {
                         ATAK_POS((0.1 + 2*(2.8/3) + (2.8/3/2)),(0.65 + 0.35/2),(2.8/3/2),0.65);
                         sizeEx = 0.8 * TextSize;
-                        onCheckBoxesSelChanged = "[_this#0,0,3] call BCE_fnc_onTaskElementChange; [_this#0,_this#1,0] call BCE_fnc_ATAK_AutoSaveTask;";
+                        onCheckBoxesSelChanged = "[_this#0,0,3] call BCE_fnc_onTaskElementChange;";
                     };
                     class New_Task_SUP_DESC_SkipAdjust: New_Task_SUP_DESC_SkipAdjust
                     {
                         ATAK_POS((0.1 + 2*(2.8/3)),(0.35/2 + 3*0.65),(2.8/3),0.65);
                         sizeEx = 0.8 * TextSize;
-                        onCheckBoxesSelChanged = "[_this#0,_this#1,0] call BCE_fnc_ATAK_AutoSaveTask;";
+                        onCheckBoxesSelChanged = "[_this#0,_this#1,3] call BCE_fnc_onTaskElementChange;";
                     };
                     class New_Task_CFF_SUP_StructText: New_Task_CFF_SUP_StructText
                     {
@@ -256,6 +256,11 @@
                             align = "center";
                             valign = "middle";
                         };
+                    };
+                    class New_Task_Expression_CFF: New_Task_Expression_CFF
+                    {
+                        ATAK_POS(0.1,(0.35/2 + 3*0.65),(2*(2.8/3)),0.65);
+                        sizeEx = 0.8 * TextSize;
                     };
 
                 class New_Task_MarkerCombo: New_Task_MarkerCombo

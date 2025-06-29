@@ -878,7 +878,8 @@ class CfgFunctions
 		{
 			file="MG8\AVFEVFX\functions\Task_Type";
 			class SelChanged_AIR;
-			class SelChanged_CFF;
+			class SelChanged_ADJ;
+			class SelChanged_SUP;
 
 			class clearTask5line;
 			class clearTask9line;
@@ -886,7 +887,8 @@ class CfgFunctions
 
 			class DataReceive5line;
 			class DataReceive9line;
-			class DataReceive_CFF;
+			class DataReceive_ADJ;
+			class DataReceive_SUP;
 
 			class DataSent_AIR;
 			class DataSent_CFF;
@@ -897,7 +899,8 @@ class CfgFunctions
 
 			class DblClick5line;
 			class DblClick9line;
-			class DblClickCFF;
+			class DblClickADJ;
+			class DblClickSUP;
 
 			class LBTaskTypeChanged;
 			class LBTaskUnitChanged;
@@ -1397,6 +1400,7 @@ class RscMapControl
 	showCountourInterval = 2;
 };
 class RscCheckBox;
+class ctrlCheckboxes;
 class RscBackground;
 class BCE_RscButtonMenu: RscButtonMenu
 {

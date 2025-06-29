@@ -44,7 +44,6 @@ class BCE_Mission_Property
 
             class Variable
             {
-                TaskUnit = "TGP_View_Selected_Vehicle"; //- Where the TaskUnit is stored
                 name = "BCE_CAS_9Line_Var"; //- Where the data is stored
                 default = "[[""NA"",0],[""NA"","""",[],[0,0]],[""NA"",180],[""NA"",200],[""NA"",15],[""NA"",""--""],[""NA"","""",[],[0,0],[]],[""NA"",""1111""],[""NA"","""",[],[0,0],""""],[""NA"",0,[],nil,nil],[""NA"",-1,[]]]";
                 Map_Infos[] = {
@@ -243,13 +242,12 @@ class BCE_Mission_Property
     {
         class ADJ
         {
-            displayName = "Adjust For"; //- Localiziable displayName
+            displayName = "Adjust Fire"; //- Localiziable displayName
             Control_Group = "CFF_ADJ_FIRE";
 
             class Variable
             {
-                TaskUnit = "BCE_CFF_Selected_Veh"; //- Where the TaskUnit is stored
-                name = "BCE_CFF_Var"; //- Where the data is stored
+                name = "BCE_ADJ_Var"; //- Where the data is stored
                 default = "[[""NA"",[]],[""--"",[]],[""NA"",[]],[""NA"",""--"",""""],[""NA"",[]]]";
                 Map_Infos[] = {
                     "",
@@ -277,7 +275,7 @@ class BCE_Mission_Property
                 // {"New_Task_CFF_OT_Info","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_FRND_DESC"},
                 {"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
                 {"New_Task_TG_DESC","New_Task_GRID_DESC"},
-                {"New_Task_CFF_CtrlType","New_Task_CFF_TOT","New_Task_IPExpression","New_Task_CFF_ETA"}
+                {"New_Task_CFF_CtrlType","New_Task_CFF_TOT","New_Task_IPExpression","New_Task_CFF_StructText"}
             };
             Descriptions[] = {
                 "$STR_BCE_DECS_GAMEPLAN",
@@ -290,9 +288,9 @@ class BCE_Mission_Property
             //- Events
             class Events
             {
-                Opened = "BCE_fnc_DblClickCFF";
-                Enter = "BCE_fnc_DataReceive_CFF";
-                Element_SelChanged = "BCE_fnc_SelChanged_CFF";
+                Opened = "BCE_fnc_DblClickADJ";
+                Enter = "BCE_fnc_DataReceive_ADJ";
+                Element_SelChanged = "BCE_fnc_SelChanged_ADJ";
                 LBTaskUnitChanged = "BCE_fnc_LBTaskUnitChanged"; //- For the TaskUnit Selection
                 TaskUnitChanged = "BCE_fnc_TaskUnitChanged_CFF"; //- For the TaskUnit Selection
                 SendData = "BCE_fnc_SendDataCFF";
@@ -305,7 +303,70 @@ class BCE_Mission_Property
             class Events: Events
             {
                 LBTaskUnitChanged = "BCE_fnc_ATAK_LBTaskUnitChanged"; //- For the TaskUnit Selection
-                LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskUnit Selection
+                LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
+            };
+        };
+        class SUP: ADJ
+        {
+            displayName = "Suppression"; //- Localiziable displayName
+            Control_Group = "CFF_SUP_FIRE";
+
+            class Variable: Variable
+            {
+                name = "BCE_SUP_Var"; //- Where the data is stored
+                default = "[[""NA"",[]],[""--"",[]],[""NA"",[]],[""NA"",[],[[0,0],[]]],[""NA"",[]]]";
+                Map_Infos[] = {
+                    "",
+                    "",
+                    "Air_TGT_Point"
+                };
+                
+                //- Check if the Task is able to send
+                // (VAR # 0) != "NA"
+                InvaildMsg = "Task is incomplete!!";
+                Vaild_Lines[] = {0,2,3,4};
+            };
+
+            Controls[] = {
+                {
+                    "TaskType_GND",
+                    "CFF_IE_WeaponCombo","CFF_IE_FuzeCombo","CFF_IE_FireUnit_Combo","","CFF_IE_FuzeValue_Box","CFF_IE_FireAngle_Bnt",
+                    "CFF_IA_WeaponCombo","CFF_IA_FuzeCombo","CFF_IA_FireUnit_Combo","CFF_IA_Round_Box","CFF_IA_FuzeValue_Box"
+                },
+                {
+                    "New_Task_IE_Sheaf_Mode","New_Task_IPExpression","CFF_IE_Radius_Box",
+                    "New_Task_IE_Sheaf_LINE_L","New_Task_IE_Sheaf_LINE_W","New_Task_IE_Sheaf_LINE_Mil",
+                    "New_Task_IE_Sheaf_LINE_L_T","New_Task_IE_Sheaf_LINE_W_T","New_Task_IE_Sheaf_LINE_Dir_T"
+                },
+                {"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
+                {
+                    "New_Task_SUP_DESC_Checkboxes",
+                    "New_Task_SUP_DESC_Duration","New_Task_SUP_RND_Interval","New_Task_SUP_DESC_Interval",
+                    "New_Task_SUP_DESC_SkipAdjust","New_Task_SUP_DESC_MinSec",
+                    "New_Task_CFF_SUP_StructText","New_Task_Expression_CFF"
+                },
+                {"New_Task_CFF_CtrlType","New_Task_CFF_TOT","New_Task_IPExpression","New_Task_CFF_StructText"}
+            };
+            Descriptions[] = {
+                "$STR_BCE_DECS_GAMEPLAN",
+                "$STR_BCE_DECS_CFF_Sheaf",
+                "$STR_BCE_DECS_TGT",
+                "Suppression 3mins, 4 rounds per minute, HE in Effect",
+                "在沒有指定管制方法的情況下，射擊任務將以「準備就緒時」(When Ready) 執行。<br/><br/>在基礎學校您可能會使用的另外兩個選項是「聽我口令」(At My Command, AMC) 和「目標時間」(Time on Target, TOT)。"
+            };
+            class Events: Events
+            {
+                Opened = "BCE_fnc_DblClickSUP";
+                Enter = "BCE_fnc_DataReceive_SUP";
+                Element_SelChanged = "BCE_fnc_SelChanged_SUP";
+            };
+        };
+        class SUP_ATAK: SUP
+        {
+            class Events: Events
+            {
+                LBTaskUnitChanged = "BCE_fnc_ATAK_LBTaskUnitChanged"; //- For the TaskUnit Selection
+                LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
             };
         };
     };
