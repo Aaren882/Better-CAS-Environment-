@@ -78,7 +78,7 @@ switch _curLine do {
 				[
 					format [" (%1)", _FuseData],
 					""
-				] select (_FuseData == ""), //- Fuze, //- Fuze
+				] select (_FuseData == ""), //- Fuze
 				_fireUnits,
 				_setCount
 			];
