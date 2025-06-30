@@ -73,9 +73,12 @@ switch _curLine do {
 				];
 
 			private _text = format [
-				"%1 (%2) - x%3:%4",
+				"%1%2 - x%3:%4",
 				_fireAmmo, //- Ammo
-				_FuseData, //- Fuze
+				[
+					format [" (%1)", _FuseData],
+					""
+				] select (_FuseData == ""), //- Fuze, //- Fuze
 				_fireUnits,
 				_setCount
 			];
