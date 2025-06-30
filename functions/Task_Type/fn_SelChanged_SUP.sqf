@@ -3,12 +3,7 @@ params ["_shownCtrls","_curLine","_selectedIndex","_taskVar"];
 switch _curLine do {
   case 3:{
 		_shownCtrls params ["_Checkboxes","_Duration","_Rounds","_Interval","_SkipAdjust","_MinSec","_StructText"];
-    
-    private _taskVar_0 = _taskVar # 0;
-		private _storeVal_0 = _taskVar_0 param [2, []]; 		//- ["IEs","IAs","fireAngle"]
-		private _IE_storeVal = _storeVal_0 param [0, []];
-		private _RoundTxt = _IE_storeVal param [3, "0"];
-
+  
     private _taskVar_3 = _taskVar # 3;
     private _varStore = _taskVar_3 param [2, []];
 
@@ -56,6 +51,16 @@ switch _curLine do {
         _output pushBack _txt;
       } forEach _inputs;
 
+    //- Check "_output" exist
+      if (count _output == 0) then {
+        private _T = [
+          ["%1 Round(s)", 1],
+          ["per %1 Min(s)", 1]
+        ];
+        //- it will be "1 Round, Per 1 Min"
+        _output = _T apply {format _x};
+      };
+    
     _StructText ctrlSetStructuredText parseText str (_output joinString ", ");
 
     //- Save Task value

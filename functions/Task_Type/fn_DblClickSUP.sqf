@@ -73,10 +73,10 @@ switch _curLine do {
 			_rounds_V != 0 && _rnds_Cnt != 0
 		) then {
 			format [
-				"%1 Shell(s)/Rnd -- %2 Rnd(s)",
+				"Total : %1 Shell(s) & %2 Rnd(s)", //- Total (Shots / Rounds)
 				round _rounds_V * _rnds_Cnt,
 				_rnds_Cnt
-			]
+			];
 		} else {
 			"--"
 		};

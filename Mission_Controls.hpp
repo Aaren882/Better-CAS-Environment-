@@ -985,6 +985,7 @@ class BCE_Mission_Build_Controls
             idc = PROP_IDC(2226);
             style = 2;
             colorText[] = {0.8,0.8,0.8,1};
+            tooltip = "Total of (Shells will be shot) -- (Rounds will be executed)";
         };
 };
 
