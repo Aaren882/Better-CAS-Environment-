@@ -640,7 +640,7 @@
                                 shadow=1;
                                 size = TextSize;
                                 text = "<img image='\MG8\AVFEVFX\data\ruler.paa' /> ADJUST";
-                                onButtonClick = "['MSN_ADJUST_P',nil,_this#0] call BCE_fnc_set_FireAdjust_MSN_State";
+                                onButtonClick = "['MSN_ADJUST_POLAR',nil,_this#0] call BCE_fnc_set_FireAdjust_MSN_State";
 
                                 class TextPos: TextPos
                                 {

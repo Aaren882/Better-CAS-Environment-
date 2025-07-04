@@ -37,7 +37,7 @@ private _taskValues = _CFF_Map get _taskData;
 //- Convert #NOTE - Convert into index
   private _result = switch (_key) do {
     case "MSN_STATE": {4};
-    case "MSN_ADJUST_P": {
+    case "MSN_ADJUST_POLAR": { //- "POLAR ADJUST"
       
       private _cur = ["Adjust", "0,0"] call BCE_fnc_get_FireAdjustValues;
       private _curAdjust = (_cur splitString ",") apply {parseNumber _x};
