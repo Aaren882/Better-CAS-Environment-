@@ -4,7 +4,15 @@
   VT fuze trigger condition
 */
 
-params ["_fuzeValue","_projectile"];
+params ["_fuzeValue","_projectile","_taskUnit"];
 
-((vectorDirVisual _projectile) # 2) < 0 && //- Check _projectile is point downward
-((getPosVisual _projectile) # 2) < _fuzeValue
+private _pos = getPosASLVisual _projectile;
+private _ins = lineIntersectsSurfaces [
+  _pos,
+  _pos vectorAdd ((vectorDirVisual _projectile) vectorMultiply _fuzeValue),
+  _projectile,
+  _taskUnit
+];
+
+//- Check there anything in front "_fuzeValue" meters
+  _ins findIf {true} > -1
