@@ -128,6 +128,15 @@ if (0 < ["MSN_FIRE_EH",-1,_taskUnit] call BCE_fnc_get_CFF_Value) exitWith {};
     //- Fired first round & Must be the leader
       if (_current == 1 && isformationLeader _taskUnit) then {
         _taskUnit sideChat "Shot, over.";
+
+        private _chargeInfo = ["chargeInfo",[],_taskUnit] call BCE_fnc_get_CFF_Value;
+        [_taskUnit,_chargeInfo param [2,-1]] spawn {
+          params ["_taskUnit", "_ETA"];
+          if (_ETA < 0) exitWith {};
+          sleep (_ETA - 5); //- Wait
+          if (!alive _taskUnit) exitWith {};
+          _taskUnit sideChat "Splash, over.";
+        };
       };
 
     private _pos = _random_POS getPos (_Sheaf_Info param [_current, [0,0]]);
