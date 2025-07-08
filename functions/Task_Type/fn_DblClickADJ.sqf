@@ -165,8 +165,8 @@ switch _curLine do {
 					_angleType
 				] call BCE_fnc_getCharge;
 
-				_chargeInfo params ["", "", "_ETA"];
-
+				_chargeInfo params ["", "", ["_ETA", 0]];
+				
 				// private _ETA = round (_taskUnit getArtilleryETA [_TG_POS,_AmmoInfos # 0 # 0]);
 
 				_ETA_txt = format [

@@ -201,6 +201,25 @@ private _random_POS = nil;
 
     //- #NOTE - Replace "_random_POS" to first parameter of "_Sheaf_Pattern"
     if (_MSN_State == 1) then { //- When FFE
+      
+      //- Send MTO (Message to Observer)
+        private _default_FUZE = [
+          configFile >> "CfgMagazines" >> _lbAmmo,
+          "displayNameMFDFormat",
+          "NO SPEC"
+        ] call BIS_fnc_returnConfigEntry;
+
+        (formationLeader _taskUnit) sideChat format [
+          "%1 %2 , %3 Guns, %5 ROUNDS, %4 in Effect, TARGET NUMBER %6.",
+          "Message to Observer :",
+          str groupId group _taskUnit,
+          _fireUnitSel,
+          [_lbFuse,_default_FUZE] select (_lbFuse == ""),
+          _setCount,
+          _MSN_Key //- Mission ID
+        ];
+
+      //- Get Sheaf Pattern
       call {
         _Sheaf_Info params ["_Sheaf_ModeSel","_SheafValue"];
         

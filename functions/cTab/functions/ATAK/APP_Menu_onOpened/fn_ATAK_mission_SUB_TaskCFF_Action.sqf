@@ -67,7 +67,7 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
     ["_Fuse",""],
     "_fireUnitSel",
     "_setCount",
-    ["_fuzeVal",_fuzeVal_IE]
+    ["_fuzeVal",0]
   ];
 
   call { //- Won't be used twice
@@ -128,10 +128,27 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
       
   };
   
-  private _ETA = round (_taskUnit getArtilleryETA [_TG_Grid call BCE_fnc_Grid2POS, _Ammo]);
+  private _chargeInfo = [
+    _taskUnit,
+    _Ammo,
+    _TG_Grid call BCE_fnc_Grid2POS,
+    _angleType
+  ] call BCE_fnc_getCharge;
+  _chargeInfo params ["", "", ["_ETA", 0]];
+
+  if (_ETA == 0) exitWith {};
+
+  private _ETA_txt = format [
+    "ETA - %1",
+    [floor (_ETA/60), round (_ETA % 60)] joinString ":"
+  ];
+
   _OtherInfo_dsp ctrlSetStructuredText parseText format [
-    "TOF - %1 || Fuze - %2",
-    [floor (_ETA/60), _ETA % 60] joinString ":",
-    _fuzeVal
+    "%1 %2",
+    _ETA_txt,
+    [
+      format ["|| Fuze - %1",_fuzeVal],
+      ""
+    ] select (_fuzeVal == 0)
   ];
   [_OtherInfo_dsp] call BIS_fnc_ctrlFitToTextHeight;
