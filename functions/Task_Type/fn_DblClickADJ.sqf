@@ -147,7 +147,7 @@ switch _curLine do {
 		[_ctrl2,_cndtion1,_curLine] call BCE_fnc_onTaskElementChange;
 
 		//- Get ETA Time
-			/* private _ETA_txt = "ETA : ""NA""";
+			private _ETA_txt = "ETA : ""NA""";
 			private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 			private _AmmoInfos = (_taskVar # 0) param [3, []];
 			private _TG_POS = (_taskVar # 2) param [2, []];
@@ -156,14 +156,25 @@ switch _curLine do {
 				_TG_POS isNotEqualTo [] &&
 				_AmmoInfos isNotEqualTo []
 			) then {
-				private _ETA = round (_taskUnit getArtilleryETA [_TG_POS,_AmmoInfos # 0 # 0]);
+				private _angleType = (_taskVar # 0) param [4, false];
+
+				private _chargeInfo = [
+					_taskUnit,
+					_AmmoInfos # 0 # 0,
+					AGLToASL _TG_POS,
+					_angleType
+				] call BCE_fnc_getCharge;
+
+				_chargeInfo params ["", "", "_ETA"];
+
+				// private _ETA = round (_taskUnit getArtilleryETA [_TG_POS,_AmmoInfos # 0 # 0]);
 
 				_ETA_txt = format [
 					"ETA - %1",
-					[floor (_ETA/60), _ETA % 60] joinString ":"
+					[floor (_ETA/60), round (_ETA % 60)] joinString ":"
 				];
 			};
 
-		_ctrl4 ctrlSetStructuredText parseText _ETA_txt; */
+		_ctrl4 ctrlSetStructuredText parseText _ETA_txt;
 	};
 };

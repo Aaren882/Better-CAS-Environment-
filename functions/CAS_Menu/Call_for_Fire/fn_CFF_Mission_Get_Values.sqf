@@ -1,6 +1,22 @@
 /*
   NAME : BCE_fnc_CFF_Mission_Get_Values
 
+  Get Task Unit's Call for Fire Mission Values
+
+  #LINK - functions/Task_Type/fn_DataSent_CFF.sqf
+  [
+    _taskType,            //- ADJUST, SUPRESS
+    "11110000",           //- Grid
+    player,               //- Requester
+    [
+      (_Wpn_setup # 0),   //- "_Wpn_setup_IE"
+      (_Wpn_setup # 1),   //- "_Wpn_setup_IA"
+      _random_POS,        //- Current targeting POS (Won't be spot on)
+      _angleType,         //- false: "LOW", true: "High"
+      _Sheaf_Info         //- ["_Sheaf_ModeSel", "_SheafValue"]: [2, [50,100]]
+    ],
+    _MSN_State            //- 0 : on "Registered", 1 : on "Fire For Effect", 2 : Mission is Ended
+  ]
 */
 params [
   "_taskID"

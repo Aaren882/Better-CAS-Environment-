@@ -1,5 +1,12 @@
 /*
   NAME : BCE_fnc_DataSent_CFF
+
+  Description :
+    Send Data to the Unit for CFF Mission
+    This function is used to send data to the unit for a CFF mission.
+    It processes the task variables and prepares the data to be Executed.
+    
+    Returns an array containing the processed data.
 */
 
 params ["_taskUnit","_data"];
@@ -20,20 +27,29 @@ _data params [
   "_taskVar"
 ];
 
-_taskTypeInfo params ["_taskType_ID","_taskType"];
+/*
+  _taskTypeInfo : Array of Task Type Information
+    _taskType_ID    : ID of the Task Type (0,1,2)
+    _taskType       : Name of the Task Type ("ADJUST","SUPPRESS"...)
+    _MSN_Prepare    : If true, prepare the mission (default is false)
+    _MSN_State      : Current state of the mission (0 = Registered, 1 = FFE, 2 = EOM, 3 = Archived)
+    _RECURSION_INFO : Recursion Information
+      _RECUR_COUNT    : Count of Recursion (0 = No Recursion)
+      _RECUR_INTERVAL : Interval of Recursion (in seconds, negative = no delay)
+*/
+_taskTypeInfo params ["_taskType_ID","_taskType","_MSN_Prepare","_MSN_State","_RECURSION_INFO"];
 
 /* 
   _MOC_Value    : Delay Value [-1,0, ...]
   _MOC_Function : Function after Charge is found
 */
-_MOC_Values params ["_MOC_Value","_MOC_Function","_MSN_Prepare"];
+_MOC_Values params ["_MOC_Value","_MOC_Function"];
 
 private _group = group _taskUnit;
 private _CFF_Map = [_MSN_Key] call BCE_fnc_CFF_Mission_Get_Values;
 
 private _WPN_exec = [];
 private _random_POS = nil;
-private _MSN_State = 0;
 
 //- Hint
   private _isAVT = !isnull (finddisplay 160);
@@ -200,8 +216,8 @@ private _MSN_State = 0;
             private _effectRadius = getNumber (configfile >> "CfgAmmo" >> _ammo >> "indirectHitRange");
           
           //- Pick Width & Length
-            private _width = _a min _b;
-            private _length = _a max _b;
+            private _width = _a max _b;
+            private _length = _a min _b;
 
           //- Get middle lines (correcting offsets)
             private _mid_W = _width / 2;
@@ -304,6 +320,7 @@ private _MSN_State = 0;
     _MagFire_ARR = [_MagFire_ARR, 1, false] call CBA_fnc_sortNestedArray;
     _MagFire_ARR = _MagFire_ARR select [0, _fireUnitSel];
 
+    
   //- Apply Fire Mission
   {
     (_MagData get _x) params [
@@ -321,10 +338,11 @@ private _MSN_State = 0;
       _unit removeWeaponTurret [_weapon, _turret];
       {_unit removeMagazinesTurret [(_x # 0), _turret]} forEach _allMags;
     
-    //- Specify Sheaf for Guns
+    //- Save Sheaf Data (Specify Sheaf for Guns)
       private _CFF_info = [_random_POS,_lbAmmo,_setCount,_angleType,[_lbFuse,_fuzeVal],_MOC_Function];
       _CFF_info set [6, _Sheaf_Pattern select [(_forEachIndex * _setCount), _setCount]];
-
+      _CFF_info set [7, _RECURSION_INFO];
+    
     //- Save Mission Values
       [["CFF_MSN",_MSN_Key] joinString ":", _CFF_info, _unit] call BCE_fnc_set_CFF_Value;
 
@@ -363,21 +381,21 @@ private _MSN_State = 0;
         ]
       ] call CBA_fnc_execNextFrame;
 
-    //- Do Fire mission
+    //- #ANCHOR - Do Fire mission
     //- Setup ToT Timer
       if (_MOC_Value isNotEqualTo "") then {
         [
           _MSN_Key,
           _MOC_Value,
           format [
-            "[""%1"",""%2"",_this # 0,0] call BCE_fnc_CFF_Action",
+            "[""%1"",""%2"",_this # 0,0] spawn BCE_fnc_CFF_Action",
             _unit,
             _weapon
           ],
           0 //- BaseTime
         ] call BCE_fnc_Add_CountDown;
       } else {
-        [_unit,_weapon,_MSN_Key] call BCE_fnc_CFF_Action;
+        [_unit,_weapon,_MSN_Key] spawn BCE_fnc_CFF_Action;
       };
   } forEach (_MagFire_ARR apply {_x # 0});
 //- #!SECTION

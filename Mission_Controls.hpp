@@ -879,8 +879,8 @@ class BCE_Mission_Build_Controls
             shadow = 2;
             style = 2;
             
-            text = "L";
-            tooltip = "Length in meters";
+            text = "A";
+            tooltip = "A in meters";
 
             colorText[]={1,0.737255,0.0196078,1};
             colorBackground[] = {0,0,0,0};
@@ -890,8 +890,8 @@ class BCE_Mission_Build_Controls
             REGISTER_FNC;
             idc = PROP_IDC(2217);
 
-            text = "W";
-            tooltip = "Width in meters";
+            text = "B";
+            tooltip = "B in meters";
         };
         class New_Task_IE_Sheaf_LINE_Dir_T: New_Task_IE_Sheaf_LINE_L_T
         {

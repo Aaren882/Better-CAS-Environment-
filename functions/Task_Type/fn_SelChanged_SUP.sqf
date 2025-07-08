@@ -20,10 +20,18 @@ switch _curLine do {
         private _val = parseNumber (ctrlText _x);
         
         if (
-          !(ctrlEnabled _x) ||
-          !(_val > 0)
+          //- except for Interval and Rounds
+          _forEachIndex == 0 &&
+          (
+            !(ctrlEnabled _x) ||
+            (_val < 1)
+          )
         ) then {continue};
         
+        if (_val < 1) then {
+          _val = 1;
+        };
+
         _info set [_forEachIndex, _val];
 
         //- Setup Text

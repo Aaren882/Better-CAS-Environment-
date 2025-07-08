@@ -12,21 +12,22 @@ params ["_key","_value",["_Control",controlNull]];
 private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 if (isnull _taskUnit) exitWith {};
 
-private _taskUnit_Grp = group _taskUnit;
-private _CFF_Map = _taskUnit_Grp getVariable ["BCE_CFF_Task_Pool", createHashMap];
-
 //- Get current CFF mission infos
   private _curMSN = ["CFF_Mission",[]] call BCE_fnc_get_TaskCurSetup;
   _curMSN params [["_taskData",""]];
 
-/* (_CFF_Map get _taskData) params [
+private _taskValues = _taskData call BCE_fnc_CFF_Mission_Get_Values;
+// private _taskUnit_Grp = group _taskUnit;
+// private _CFF_Map = _taskUnit_Grp getVariable ["BCE_CFF_Task_Pool", createHashMap];
+
+_taskValues params [
   "_MSN_Type",
   "_TG_Grid",
   "_requester",
   "_MSN_infos",
   ["_MSN_State",0]
-]; */
-private _taskValues = _CFF_Map get _taskData;
+];
+// private _taskValues = _CFF_Map get _taskData;
 
 /* _MSN_infos params [
   "_Wpn_setup_IE",
@@ -35,8 +36,8 @@ private _taskValues = _CFF_Map get _taskData;
 ]; */
 
 //- Convert #NOTE - Convert into index
-  private _result = switch (_key) do {
-    case "MSN_STATE": {4};
+  private _changeIndex = switch (_key) do {
+    case "MSN_STATE": {4}; //- Set "Fire for Effect"
     case "MSN_ADJUST_POLAR": { //- "POLAR ADJUST"
       
       private _cur = ["Adjust", "0,0"] call BCE_fnc_get_FireAdjustValues;
@@ -62,10 +63,18 @@ private _taskValues = _CFF_Map get _taskData;
     };
   };
 
-if (isnil{_result}) exitWith {};
+if (isnil{_changeIndex}) exitWith {};
 
 //- Update Value
-  _taskValues set [_result, _value];
-  _CFF_Map set [_taskData, _taskValues];
+  if ( //-- Must be set Fire Adjustment
+    _changeIndex == 3 &&
+    _taskData == (["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value)
+  ) then {
+    ["ADD_Delay",5,_taskUnit] call BCE_fnc_set_CFF_Value;
+  };
 
-  _taskUnit_Grp setVariable ["BCE_CFF_Task_Pool", _CFF_Map];
+_taskValues set [_changeIndex, _value];
+[_taskData,_taskValues,_taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
+
+  // _CFF_Map set [_taskData, _taskValues];
+  // _taskUnit_Grp setVariable ["BCE_CFF_Task_Pool", _CFF_Map];

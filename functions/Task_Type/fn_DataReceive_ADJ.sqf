@@ -1,4 +1,18 @@
-// params ["_taskVar","_curLine","_shownCtrls"];
+/*
+	PARAMS :
+		"_taskVar"		- Task Variables
+		"_curLine"		- Current Line Index
+		"_shownCtrls"	- Shown Controls (Array of Controls)
+	
+	Description :
+		Receive Data from UI for Task Type
+		This function processes the task variables and updates the task data based on the current line.
+		It handles different task types and updates the task variables accordingly.
+		
+		Returns nothing, but updates the `_taskVar` with processed data.
+*/
+
+params ["_taskUnit","_taskVar","_curLine","_shownCtrls"];
 #define GetGRID(POS,GRID) [POS,GRID] call BCE_fnc_POS2Grid
 
 switch _curLine do {
@@ -89,7 +103,7 @@ switch _curLine do {
 			[_IA_ammo,_IA_fuse,_IA_fireUnits,_IA_rounds,_IA_fuzeVal]
 		];
 
-		private _taskTypeSel = lbCurSel _taskType;
+		// private _taskTypeSel = lbCurSel _taskType;
 		private _angleType = _fireAngle getVariable ["Mode", true];
 		
 		_fireAngle ctrlSetStructuredText parseText localize ([
@@ -100,7 +114,8 @@ switch _curLine do {
 		
 		private _result = [
 			_textVal joinString "/",
-			[_taskTypeSel, _taskType lbData _taskTypeSel],
+			// [_taskTypeSel, _taskType lbData _taskTypeSel],
+			_taskType lbData (lbCurSel _taskType),
 			_storeVal,
 			_setUpVal,
 			_angleType //- "false = Low Angle" / "true = High Angle"

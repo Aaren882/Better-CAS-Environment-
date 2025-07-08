@@ -1,12 +1,18 @@
 /*
   NAME : BCE_fnc_CFF_Action
 
+  PARAMS :
+    "_unit"     - Unit to perform the action
+    "_weapon"   - Weapon to use for the mission
+    "_MSN_Key"  - Key for the mission
+    "_delay"    - Delay before executing the mission (default 2 seconds)
+
   Description:
-  Do Artillery Mission for individuals
-  
-  Handles the logic for an Adjust Fire mission in Call for Fire.
-  This includes setting up the initial shot, handling subsequent shots based on sheaf information,
-  and managing the mission progress.
+    Do Artillery Mission for individuals
+    
+    Handles the logic for an Adjust Fire mission in Call for Fire.
+    This includes setting up the initial shot, handling subsequent shots based on sheaf information,
+    and managing the mission progress.
 */
 params ["_unit","_weapon","_MSN_Key",["_delay",2 + (random 0.2)]];
 
@@ -30,82 +36,207 @@ private _checkFire = false; */
 //- FROM "StartMission.sqf"
 
 //- Check _taskUnit
-  if (isNull _taskUnit) exitWith {
+  if !(alive _taskUnit) exitWith {
     ["_taskUnit doesn't exist."] call BIS_fnc_error;
   };
 
 //- Check Mission exist
-  if (!isNil{_taskUnit getVariable "BCE_CFF_MISSION_PROGRESS"}) exitWith {
+  if (0 < (["MSN_PROG", -1, _taskUnit] call BCE_fnc_get_CFF_Value)) exitWith {
     systemChat "MISSION PROGRESS !!";
   };
 
-//- Execute Fire Mission (wait 2 Seconds)
-  [
-    {
-      params ["_taskUnit","_weapon","_MSN_Key"];
+//- Save CFF spawn ACTION
+  ["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
 
-      //- Get CFF Mission Info
-      private _CFF_info = [["CFF_MSN",_MSN_Key] joinString ":",[],_taskUnit] call BCE_fnc_get_CFF_Value;
-        if (count _CFF_info == 0) exitWith {};
+//- Additional Delay time
+  private _customDelay = ["ADD_Delay", 0, _taskUnit] call BCE_fnc_get_CFF_Value;
+  if (_customDelay > 0) then {
+    ["ADD_Delay", nil, _taskUnit] call BCE_fnc_set_CFF_Value;
+    _delay = _delay + _customDelay;
+  };
 
-      _CFF_info params ["_random_POS","_lbAmmo","_setCount","_angleType","","","_Sheaf_Info"];
+sleep _delay;
+
+//- Get CFF Mission Info
+  private _MSN_NAME = ["CFF_MSN",_MSN_Key] joinString ":";
+  private _CFF_info = [_MSN_NAME,[],_taskUnit] call BCE_fnc_get_CFF_Value;
+    if (count _CFF_info == 0) exitWith {};
+
+  _CFF_info params ["_random_POS","_lbAmmo","_setCount","_angleType","","_MOC_Function","_Sheaf_Info"];
+
+//- Replace MOC with "At-Ready"
+  if (
+    _MOC_Function != "BCE_fnc_CFF_AT_READY"
+  ) then {
+    _CFF_info set [5, "BCE_fnc_CFF_AT_READY"]; //- So the shells can rain like crazy
+    [_MSN_NAME, _CFF_info, _taskUnit] call BCE_fnc_set_CFF_Value;
+  };
+
+//- Save Mission Values
+  ["CFF_MSN", _MSN_Key, _taskUnit] call BCE_fnc_set_CFF_Value;
+  ["MSN_PROG", 0, _taskUnit] call BCE_fnc_set_CFF_Value;
+
+//- #NOTE - Specify TG POS
+private _TGPOS = _random_POS getPos (_Sheaf_Info param [0, [0,0]]); //- Starts from first Sheaf POS;
+_TGPOS set [2,0];
+
+//- Setup First Round
+private _chargeInfo = [
+  _taskUnit,
+  _lbAmmo,
+  AGLToASL _TGPOS,
+  _angleType,
+  _weapon
+] call BCE_fnc_getCharge;
+
+[_taskUnit, _chargeInfo] call BCE_fnc_doAim_CFF;
+
+//- Add Fired EH
+if (0 < ["MSN_FIRE_EH",-1,_taskUnit] call BCE_fnc_get_CFF_Value) exitWith {};
+
+  private _ehID = _taskUnit addEventHandler ["Fired", {
+    params ["_taskUnit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
+
+    //- Check rounds completed 
+      private _MSN_Key = ["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value;
+      private _MSN_NAME = ["CFF_MSN",_MSN_Key] joinString ":";
+      private _CFF_info = [_MSN_NAME, [], _taskUnit] call BCE_fnc_get_CFF_Value;
+      _CFF_info params [
+        "_random_POS",
+        "_lbAmmo",
+        "_setCount",
+        "_angleType",
+        "_fuzeData",
+        "_MOC_Function",
+        "_Sheaf_Info",
+        ["_MSN_RECUR",[0,60]] //- #NOTE - [ROUNDS, Interval]
+      ];
+
+    //- Check Ammo
+      private _AmmoCount = _taskUnit magazineTurretAmmo [_magazine, _taskUnit unitTurret _gunner];
+      private _hasAmmo = _AmmoCount > 0;
+      /* systemChat str [
+        _current < _setCount,
+        _CFF_info findIf {true} > -1,
+        _hasAmmo
+      ]; */
+
+    //- "MSN_PROG" Progression of Mission
+    private _current = ["MSN_PROG", 0, _taskUnit] call BCE_fnc_get_CFF_Value;
+    _current = _current + 1; 
+    
+    //- Fired first round & Must be the leader
+      if (_current == 1 && isformationLeader _taskUnit) then {
+        _taskUnit sideChat "Shot, over.";
+      };
+
+    private _pos = _random_POS getPos (_Sheaf_Info param [_current, [0,0]]);
+    _pos set [2,0];
+    
+    //- set Fuze trigger
+      [_taskUnit, _fuzeData, _pos] call BCE_fnc_FuzeInit;
+      call BCE_fnc_FuzeTrigger;
+    
+    //- #NOTE - Save fuzeData
+      /* _pos = [
+        [
+          [_pos, 0] //- ["POS", "CEP"]
+        ],
+        []
+      ] call BIS_fnc_randomPos; */
+
+    //- Next round
+    if (
+      _current < _setCount &&
+      _CFF_info findIf {true} > -1 &&
+      _hasAmmo
+    ) then {
+      ["MSN_PROG", _current, _taskUnit] call BCE_fnc_set_CFF_Value;
+
+      //- Prepare next round
+        private _chargeInfo = [_taskUnit, _lbAmmo, AGLToASL _pos, _angleType, _weapon] call BCE_fnc_getCharge;
+        [_taskUnit, _chargeInfo] call BCE_fnc_doAim_CFF;
+    } else {
+      _MSN_RECUR params [["_RECUR_COUNT",0],["_RECUR_INTERVAL",60]];
       
-      _taskUnit setVariable ["BCE_CFF_MISSION_PROGRESS",0];
-      
-      //- Save Mission Values
-        ["CFF_MSN", _MSN_Key, _taskUnit] call BCE_fnc_set_CFF_Value;
+      //- Finish CFF MSN
+      [["MSN_PROG","NextFuze"], nil, _taskUnit] call BCE_fnc_set_CFF_Value;
 
-      //- #NOTE - Specify TG POS
-      private _TGPOS = _random_POS getPos (_Sheaf_Info param [0, [0,0]]); //- Starts from first Sheaf POS;
-      _TGPOS set [2,0];
-      
-      //- Setup First Round
-      private _chargesArray = [_taskUnit, _lbAmmo, AGLToASL _TGPOS, _angleType, _weapon] call BCE_fnc_GetAllCharges;
-      [_taskUnit, AGLToASL _TGPOS, _chargesArray] call BCE_fnc_findCharge;
+      //- Recursion (FOR SUPPRESSION)
+        if (_RECUR_COUNT > 0 && _hasAmmo) then {
+          _MSN_RECUR set [0, _RECUR_COUNT - 1];
+          _CFF_info set [7, _MSN_RECUR];
+          [_MSN_NAME, _CFF_info, _taskUnit] call BCE_fnc_set_CFF_Value;
+          
+          [
+            _taskUnit,
+            _weapon,
+            _MSN_Key,
+            _RECUR_INTERVAL
+          ] spawn BCE_fnc_CFF_Action;
+        } else {
+          // (gunner _taskUnit) doWatch objNull; //- Turn Away if Fire Mission End
+          _taskUnit call BCE_fnc_UnstuckUnit;
 
-      //- Add Fired EH
-        _taskUnit addEventHandler ["Fired", {
-          params ["_taskUnit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
+          //- Remove Stored infos
+          _taskUnit removeEventHandler [_thisEvent, _thisEventHandler];
+          [["chargeInfo","MSN_FIRE_EH"], nil, _taskUnit] call BCE_fnc_set_CFF_Value;
 
-          //- Check rounds completed 
-            private _MSN_Key = ["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value;
-            private _CFF_info = [["CFF_MSN",_MSN_Key] joinString ":", [], _taskUnit] call BCE_fnc_get_CFF_Value;
-            _CFF_info params ["_random_POS","_lbAmmo","_setCount","_angleType","_fuzeData","_MOC_Function","_Sheaf_Info"];
-
-          private _current = _taskUnit getVariable ["BCE_CFF_MISSION_PROGRESS",0];
-          private _pos = _random_POS getPos (_Sheaf_Info param [_current, [0,0]]);
-          _pos set [2,0];
-          _current = _current + 1;
-            
-          //- #NOTE - Save fuzeData
-            /* _pos = [
-              [
-                [_pos, 0] //- ["POS", "CEP"]
-              ],
-              []
-            ] call BIS_fnc_randomPos; */
-
-            //- set Fuze trigger
-              [_taskUnit, _fuzeData, _pos] call BCE_fnc_FuzeInit;
-              call BCE_fnc_FuzeTrigger;
-
-          //- Next round
-          if (_current < _setCount && _CFF_info findIf {true} > -1) then {
-            _taskUnit setVariable ["BCE_CFF_MISSION_PROGRESS",_current];
-
-            //- Prepare next round
-              private _chargesArray = [_taskUnit, _lbAmmo, AGLToASL _pos, _angleType, _weapon] call BCE_fnc_GetAllCharges;
-              [_taskUnit, AGLToASL _pos, _chargesArray] call BCE_fnc_findCharge;
-          } else {
-            //- Finish CFF MSN
-            ["NextFuze",nil,_taskUnit] call BCE_fnc_set_CFF_Value;
-            (gunner _taskUnit) doWatch objNull;
-            _taskUnit setVariable ["BCE_CFF_MISSION_PROGRESS",nil];
-            _taskUnit removeEventHandler [_thisEvent, _thisEventHandler];
-            _taskUnit sideChat "Rounds Completed."
+          if (isformationLeader _taskUnit) then {
+            _taskUnit sideChat "Rounds Completed.";
           };
-        }];
-    },
+        };
+    };
+  }];
+
+  //- Save EH ID
+    ["MSN_FIRE_EH", _ehID, _taskUnit] call BCE_fnc_set_CFF_Value;
+
+/* [_taskUnit,_weapon,_MSN_Key] call {
+  params ["_taskUnit","_weapon","_MSN_Key"];
+
+  
+}; */
+
+//- Execute Fire Mission (wait 2 Seconds)
+  /* [
+    ,
     [_taskUnit,_weapon,_MSN_Key],
     _delay
-  ] call CBA_fnc_waitAndExecute;
+  ] call CBA_fnc_waitAndExecute; */
+
+
+/* 
+  *** DRAW MARKER ON SHEAF POS ***
+
+  {deleteMarker _x} count allMapMarkers;
+  
+  private _taskUnit = [ 
+    nil, 
+    "GND" call BCE_fnc_get_TaskCateIndex 
+  ] call BCE_fnc_get_TaskCurUnit;
+
+  private _MSN_Key = ["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value;
+  private _MSN_NAME = ["CFF_MSN",_MSN_Key] joinString ":";
+  private _CFF_info = [_MSN_NAME, [], _taskUnit] call BCE_fnc_get_CFF_Value;
+  _CFF_info params [
+    "_random_POS",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "_Sheaf_Info"
+  ];
+
+  {
+    private _pos = _random_POS getPos _x;
+    private _format = format [
+      "|marker_%2|%1|mil_pickup|ICON|[1,1]|0|Solid|Default|1|%2",
+      _pos,
+      _forEachIndex
+    ];
+    _format call BIS_fnc_stringToMarker;
+  } forEach _Sheaf_Info; 
+
+*/
