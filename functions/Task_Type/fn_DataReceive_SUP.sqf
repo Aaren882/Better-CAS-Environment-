@@ -1,50 +1,63 @@
-// params ["_taskVar","_curLine","_shownCtrls"];
+params ["_taskUnit","_taskVar","_curLine","_shownCtrls"];
 #define GetGRID(POS,GRID) [POS,GRID] call BCE_fnc_POS2Grid
 
 switch _curLine do {
 	//-DESC
 	case 3:{
 		// #NOTE - Suppression 3mins, 4 rounds per minute, HE in Effect
-		_shownCtrls params ["_Checkboxes","","_rounds","","_SkipAdjust","_MinSec","_StructText","_outputText"];
-			
+		_shownCtrls params ["_Checkboxes","","_rounds","_interval","_SkipAdjust","_MinSec","_StructText","_outputText"];
+
+		//- Check if Task Unit is selected
+			if (isNull _taskUnit) exitWith {
+				systemChat "No Unit is Selected. Please select a unit first.";
+			};
+		
+		private _taskVar_0 = _taskVar # 0;
+		_taskVar_0 params ["_taskVar_Output","","","_setUpVal"];
+
+		//- Check if Task Unit is selected
+			if (_taskVar_Output == "NA") exitWith {
+				systemChat "Please select the ordance first";
+			};
+		
 		private _taskVar_3 = _taskVar # 3;
 		private _varStore = _taskVar_3 param [2, [[],[]]];
 
 		//- ex. ["NA",[],[[8,1,8],[1,1,1,1,0]]]
-		_varStore params ["_SUP_vals","_SUP_Checks"];
-		_SUP_Checks params ["_duration_C","_rounds_C","_interval_C","_SkipAdjust_C","_MinSec_C"];
+			_varStore params ["_SUP_vals","_SUP_Checks"];
+			_SUP_Checks params ["_duration_C","_rounds_C","_interval_C","_SkipAdjust_C","_MinSec_C"];
 
-		//- Get weapon info (if "_interval_C" is checked)
-		private _reloadTime = if (_interval_C == 1) then {
+		//- #SECTION - Get Ammo Infos
+			private _gunner = gunner _taskUnit;
+			private _turret = _taskUnit unitTurret _gunner;
+			private _Wpn_setup_IE = _setUpVal param [0,[]];
+			private _fireAmmo = _Wpn_setup_IE param [0,""];
+			private _ammoCount = _taskUnit magazineTurretAmmo [_fireAmmo, _turret];
 
-				private _taskUnit = [
-					nil,
-					"GND" call BCE_fnc_get_TaskCateIndex
-				] call BCE_fnc_get_TaskCurUnit;
+			//- Get weapon info (if "_interval_C" is checked)
+			private _reloadTime = if (_interval_C == 1) then {
+					private _weapon = _taskUnit currentWeaponTurret _turret;
+					private _weaponCfg = configFile >> "CfgWeapons" >> _weapon;
 
-				private _gunner = gunner _taskUnit;
-				private _turret = _taskUnit unitTurret _gunner;
-				private _weapon = _taskUnit currentWeaponTurret _turret;
-				private _weaponCfg = configFile >> "CfgWeapons" >> _weapon;
+					// - Get Reload time from CfgWeapons
+						[
+							_weaponCfg >> currentWeaponMode _gunner,
+							"reloadTime",
+							getNumber (_weaponCfg >> "reloadTime")
+						] call BIS_fnc_returnConfigEntry;
+				} else {
+					60
+				};
 
-				// - Get Reload time from CfgWeapons
-					[
-						_weaponCfg >> currentWeaponMode _gunner,
-						"reloadTime",
-						getNumber (_weaponCfg >> "reloadTime")
-					] call BIS_fnc_returnConfigEntry;
-			} else {
-				60
-			};
-
-			//- Roll back to default reload time if not exist
-			if (_reloadTime == 0) then {
-				_reloadTime = 60;
-			};
+				//- Roll back to default reload time if not exist
+				if (_reloadTime == 0) then {
+					_reloadTime = 60;
+				};
+		// #!SECTION
 
 		//- #NOTE - ["DURATION (min)","ROUNDS","INTERVAL (min)"]
 			private _result =+ _SUP_vals;
-			private _default_Val = [1,1,([_reloadTime/60, _reloadTime] select (_MinSec_C == 1))];
+			private _default_Val = [1, 1, 1];
 			{
 				if (_x == 1) then {continue};
 				_result set [
@@ -53,19 +66,34 @@ switch _curLine do {
 				];
 			} forEach (_SUP_Checks select [0,3]);
 
+		//- #NOTE - ["DURATION (min)","ROUNDS","INTERVAL (min)"]
 		_result params ["_duration_V","_rounds_V","_interval_V"];
 
 		//- ex. 30 sec => 30/60 = 0.5 min
-			private _inval = _interval_V / ([1,60] select (_MinSec_C == 1));
-			private _rnds_Cnt = floor (_duration_V / _inval); //- ex. 3 min 3 rounds every 30sec
-			private _maxRounds = floor ((_inval * 60) / _reloadTime); //- Max shells for each interval
+			private _inval = _interval_V / ([1,60] select (_MinSec_C == 1));	//- Transform second => minute
+			private _maxRounds = 1 max (floor ((_inval * 60) / _reloadTime)); //- Max shells for each interval
+			private _rnds_Cnt = [ 					//- ex. 3 min 3 rounds every 30sec
+				_ammoCount, 									//- #NOTE - If "duration" is not specified => "Maximum rounds"
+				floor (_duration_V / _inval)
+			] select (_duration_C == 1);
 		
-		//- #NOTE - Replace Rounds (if reach maximum)
+		//- #NOTE - Replace "Rounds" (if reach maximum)
 			if (_rounds_V > _maxRounds) then {
-				_result set [1, _rounds_V];
-				_rounds ctrlSetText str _rounds_V;
+				_result set [1, _maxRounds];
+				_rounds ctrlSetText str _maxRounds;
 				
 				_rounds_V = _maxRounds;
+			};
+		
+		//- #NOTE - Replace "Interval" (if reach maximum)
+			systemChat str [_inval, _reloadTime, _interval_C == 1,time];
+			if (_inval * 60 < _reloadTime) then {
+				_result set [2, _reloadTime];
+
+				if (_interval_C == 1) then {
+					_MinSec ctrlSetChecked [0, true]; //- Set to Seconds
+					_interval ctrlSetText str _reloadTime;
+				};
 			};
 			
 		//- Check if the "duration" and "interval" are reasonable.
@@ -81,10 +109,6 @@ switch _curLine do {
 				_outputText ctrlSetText "--";
 			};
 
-		_rnds_Cnt = [
-			5,
-			_rnds_Cnt
-		] select (_duration_C == 1);
 		_result pushBack _rnds_Cnt; //- PushBack how many rounds will be executed
 
 		_outputText ctrlSetText format [
@@ -110,11 +134,11 @@ switch _curLine do {
 private _taskVar_0 = _taskVar # 0;
 private _taskVar_3 = _taskVar # 3;
 
-//- Overwrite the IE round counts
+//- Overwrite the IE round counts with Description (3rd Line)
 	if (
-		_curLine == 3 && 
-		((_taskVar_3 # 0) != "NA") && 
-		((_taskVar_0 # 0) != "NA")
+		(_curLine == 3 || _curLine == 0) && 
+		((_taskVar_0 # 0) != "NA") &&
+		((_taskVar_3 # 0) != "NA")
 	) then {
 		(_taskVar_3 # 1) params ["","_rounds_V"];
 		

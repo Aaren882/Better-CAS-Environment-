@@ -727,8 +727,9 @@ class CfgFunctions
 			file="MG8\AVFEVFX\functions\CAS_Event\Call_for_Fire";
 			class FindBestCharge;
 			class doFireMission;
-			class findCharge;
+			class doAim_CFF;
 			class getAllCharges;
+			class getCharge;
 			class UnstuckUnit;
 			class get_CFF_Value;
 			class set_CFF_Value;
