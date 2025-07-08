@@ -28,10 +28,7 @@ private _taskUnit = switch (typeName _unit) do {
   default {objNull};
 };
 
-//- #TODO - Integrate 
-/* private _abort = false;
-private _endMission = false;
-private _checkFire = false; */
+//- #TODO - Integrate
 
 //- FROM "StartMission.sqf"
 
@@ -42,7 +39,7 @@ private _checkFire = false; */
 
 //- Check Mission exist
   if (0 < (["MSN_PROG", -1, _taskUnit] call BCE_fnc_get_CFF_Value)) exitWith {
-    systemChat "MISSION PROGRESS !!";
+    _taskUnit sideChat "MISSION PROGRESS !!";
   };
 
 //- Save CFF spawn ACTION
