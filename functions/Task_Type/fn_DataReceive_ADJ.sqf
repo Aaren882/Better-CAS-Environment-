@@ -103,7 +103,6 @@ switch _curLine do {
 			[_IA_ammo,_IA_fuse,_IA_fireUnits,_IA_rounds,_IA_fuzeVal]
 		];
 
-		// private _taskTypeSel = lbCurSel _taskType;
 		private _angleType = _fireAngle getVariable ["Mode", true];
 		
 		_fireAngle ctrlSetStructuredText parseText localize ([
@@ -114,7 +113,6 @@ switch _curLine do {
 		
 		private _result = [
 			_textVal joinString "/",
-			// [_taskTypeSel, _taskType lbData _taskTypeSel],
 			_taskType lbData (lbCurSel _taskType),
 			_storeVal,
 			_setUpVal,
