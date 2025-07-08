@@ -52,7 +52,10 @@ private _chargeInfo = [];
 		// Check if there's an obstruction.
 		// Draw a line from the barrel to a point 1000 meters down the barrel.
 		// If target pos is closer than 1000m, then draw from the muzzle to the target pos.
-		if (_lineIntersectsSurfaces findIf {true} > -1) then {continue};
+		if (_lineIntersectsSurfaces findIf {true} > -1) then {
+			(_lineIntersectsSurfaces # 0) params [["_intersectASL",_posUnit]];
+			if ((_posUnit vectorDistance _intersectASL) > 1) then {continue};
+		};
 
 		_chargeInfo = _x + [ASLtoAGL _pos];
 		break;
