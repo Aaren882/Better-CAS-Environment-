@@ -4,8 +4,8 @@
 
 // maxDifference = 0.15;	// Ideal number.
 // maxDifference = 1;			// Number that works better with the AI aiming bugs, mainly the one where the AI takes a while to aim at low angle shots.
-#define MAX_DIFFERENCE 1
-#define TIMEOUT_SECONDS 40
+// #define MAX_DIFFERENCE 1
+// #define TIMEOUT_SECONDS 40
 params[
 	"_taskUnit",
 	"_chargeInfo"
@@ -55,33 +55,35 @@ private _turretConfig = [_taskUnit, _turretPath] call CBA_fnc_getTurret;
 
 		// Make unit aim.
 			(gunner _taskUnit) doWatch _pos;
+			_pos = AGLToASL _pos; //- Replace with ASL
 
 		//- Check Vectors from _posUnit "VecUp" to "VecAim"
-			private _posUnit = getPosASLVisual _taskUnit;
-			private _vecToAim = _posUnit vectorFromTo _pos;
-			private _degVehToAim = 90 - acos (_vecToAim vectorCos (vectorUpVisual _taskUnit));
+			// private _posUnit = getPosASLVisual _taskUnit;
+			// private _vecToAim = _posUnit vectorFromTo _pos;
+			// private _degVehToAim = 90 - acos (_vecToAim vectorCos (vectorUpVisual _taskUnit));
 
 		// Calculate the vertical angle of the unit by using triangle calculations.
 			private _posA2 = _taskUnit modelToWorldVisualWorld (_taskUnit selectionPosition _gunBeg);
 			private _posC2 = _taskUnit modelToWorldVisualWorld (_taskUnit selectionPosition _gunEnd);
 
 		//- Get Turrect ELEV
-		private _verDegrees = deg (_taskUnit animationPhase _gunAnim);
+		// private _verDegrees = deg (_taskUnit animationPhase _gunAnim);
 
 		// Find direction difference between the direction to the target and the direction of the unit.
 		// If difference is too high, then skip this charge.
-			private _dirToTarget = _posUnit getDirVisual _pos;
+			// private _dirToTarget = _posUnit getDirVisual _pos;
 
-			private _aimDir = _posC2 getDirVisual _posA2;
-			private _diff = (_aimDir - _dirToTarget) % 180;
-			private _goodDir = abs _diff < 5; //- it's pointing correct direction.
-		
+			// private _aimDir = _posC2 getDirVisual _posA2;
+			// private _diff = (_aimDir - _dirToTarget) % 180;
+			// private _goodDir = abs _diff < 5; //- it's pointing correct direction.
+
 		// Check if the unit is aiming with the correct angle.
-			private _difference = abs(_verDegrees - _degVehToAim);
+			// private _difference = abs(_verDegrees - _degVehToAim);
 		
+			private _aimDir = (_posC2 vectorFromTo _pos) vectorDistance (_posC2 vectorFromTo _posA2);
 		//- if _chargeFound Exit
-		private _chargeFound = _goodDir && _difference < MAX_DIFFERENCE;
-		if (_chargeFound) exitWith {
+		// private _chargeFound = _goodDir && _difference < MAX_DIFFERENCE;
+		if (_aimDir < 0.1) exitWith {
 			
 			//- Send ETA to FO
 				if (
