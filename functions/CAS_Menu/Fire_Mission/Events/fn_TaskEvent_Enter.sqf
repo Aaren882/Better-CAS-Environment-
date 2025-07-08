@@ -11,8 +11,6 @@ params ["_curLine"];
 
 ([_curLine, _varName] call BCE_fnc_getTaskComponents) params ["_shownCtrls"];
 
-private _isOverwrite = false;
-
 //- On Empty Returns
   if (
     (_shownCtrls findIf {true} < 0)
@@ -21,7 +19,21 @@ private _isOverwrite = false;
   };
 
 //- Fire Function
-  call (uiNamespace getVariable [(_events get "Enter"),{}]);
+  privateAll;
+  Import [
+    "_events",
+    "_taskVar",
+    "_curLine",
+    "_shownCtrls"
+  ];
+  private _isOverwrite = false;
+  private _taskUnit = [] call BCE_fnc_get_TaskCurUnit;
+  [
+    _taskUnit,
+    _taskVar,
+    _curLine,
+    _shownCtrls
+  ] call (uiNamespace getVariable [(_events get "Enter"),{}]);
 
 //- Store TaskVar
   [
