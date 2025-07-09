@@ -1606,5 +1606,42 @@
 			<Chinesesimp>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 高角</Chinesesimp>
 		</Key>
 		
+		<!-- CFF Messages -->
+			<Key ID="STR_BCE_CFF_MSG_MISSION_PROGRESS">
+				<Original>MISSION PROGRESS !!</Original>
+			</Key>
+			<Key ID="STR_BCE_CFF_MSG_SHOT">
+				<Original>Shot, over.</Original>
+			</Key>
+			<Key ID="STR_BCE_CFF_MSG_SPLASH">
+				<Original>Splash, over.</Original>
+			</Key>
+			<Key ID="STR_BCE_CFF_MSG_COMPLETED">
+				<Original>Rounds Completed.</Original>
+			</Key>
+			<Key ID="STR_BCE_CFF_MSG_EOM">
+				<Original>Roger. End of Mission.</Original>
+			</Key>
+			<Key ID="STR_BCE_CFF_MSG_RAT">
+				<Original>Roger. Record as Target.</Original>
+			</Key>
+			<Key ID="STR_BCE_CFF_MSG_RAT_FAIL">
+				<Original>"Record as Target" failed. invaild TaskID!!</Original>
+			</Key>
+			<Key ID="STR_BCE_CFF_MSG_NO_CARGE">
+				<Original>%1 - Unable to shoot (No charge were Found)!!</Original>
+			</Key>
+			<Key ID="STR_BCE_CFF_MSG_ETA_SPLASH">
+				<Original>ETA "%1" seconds, over.</Original>
+			</Key>
+			<Key ID="STR_BCE_CFF_MSG_MTO">
+				<Original>%1 %2 , %3 Guns, %5 ROUNDS, %4 in Effect, TARGET NUMBER %6.</Original>
+			</Key>
+			<Key ID="STR_BCE_CFF_MSG_MTO_STRUCTURED">
+				<Original>&lt;t color='#FFBC05' size='0.9'&gt;%1&lt;/t&gt;&lt;br/&gt;"%2 , %3 Guns, %5 ROUNDS, %4 in Effect, TARGET NUMBER %6"</Original>
+			</Key>
+			<Key ID="STR_BCE_CFF_MTO_TITLE">
+				<Original>Message to Observer :</Original>
+			</Key>
 	</Package>
 </Project>
