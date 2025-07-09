@@ -19,7 +19,7 @@ private _taskUnit_Grp = group _taskUnit;
 private _values = ["CFF_Mission",[]] call BCE_fnc_get_TaskCurSetup;
 _values params [["_taskID",""]];
 
-([_taskID] call BCE_fnc_CFF_Mission_Get_Values) params [
+(_taskID call BCE_fnc_CFF_Mission_Get_Values) params [
   "_MSN_Type",
   "_TG_Grid",
   "_requester",

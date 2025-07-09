@@ -13,7 +13,7 @@ params [
 ];
 
 //- Get "_MSN_Values"
-private _MSN_Values = [_taskID] call BCE_fnc_CFF_Mission_Get_Values;
+private _MSN_Values = _taskID call BCE_fnc_CFF_Mission_Get_Values;
 
 if (_MSN_Values findIf {true} < 0) exitWith {[]};
 private _pool = localNamespace getVariable ["#BCE_CFF_Task_RAT_Pool", createHashMap];

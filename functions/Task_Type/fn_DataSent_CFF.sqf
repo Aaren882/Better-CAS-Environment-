@@ -46,7 +46,7 @@ _taskTypeInfo params ["_taskType_ID","_taskType","_MSN_Prepare","_MSN_State","_R
 _MOC_Values params ["_MOC_Value","_MOC_Function"];
 
 private _group = group _taskUnit;
-private _CFF_Map = [_MSN_Key] call BCE_fnc_CFF_Mission_Get_Values;
+private _CFF_Map = _MSN_Key call BCE_fnc_CFF_Mission_Get_Values;
 
 private _WPN_exec = [];
 private _random_POS = nil;
@@ -140,7 +140,7 @@ private _random_POS = nil;
     _MSN_Prepare = true; //- //- #NOTE - on "Command"
 
     //- RETURN
-      [_MSN_Key] call BCE_fnc_CFF_Mission_Get_Values;
+      _MSN_Key call BCE_fnc_CFF_Mission_Get_Values;
   };
   
   //- #NOTE - Replace "_WPN_exec"
