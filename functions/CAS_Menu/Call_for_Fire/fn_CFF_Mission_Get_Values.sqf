@@ -15,7 +15,7 @@
       _angleType,         //- false: "LOW", true: "High"
       _Sheaf_Info         //- ["_Sheaf_ModeSel", "_SheafValue"]: [2, [50,100]]
     ],
-    _MSN_State            //- 0 : on "Registered", 1 : on "Fire For Effect", 2 : Mission is Ended
+    _MSN_State            //- 0 : on "Registered", 1 : on "Fire For Effect"
   ]
 */
 params [
