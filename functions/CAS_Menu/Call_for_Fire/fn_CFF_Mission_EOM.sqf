@@ -12,7 +12,8 @@ private _taskData = _tagGrp getVariable ["CFF_Task_Mission",""];
 private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 //- Remove Task From Unit
-  [_taskData, nil, _taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
+  //- #NOTE - Remove mission
+    [_taskData, nil, _taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
   _taskUnit removeEventHandler ["Fired", ["MSN_FIRE_EH", -1, _taskUnit] call BCE_fnc_get_CFF_Value];
   terminate (["CFF_Action",scriptNull,_taskUnit] call BCE_fnc_get_CFF_Value);
   [
