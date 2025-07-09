@@ -39,7 +39,7 @@ private _taskUnit = switch (typeName _unit) do {
 
 //- Check Mission exist
   if (0 < (["MSN_PROG", -1, _taskUnit] call BCE_fnc_get_CFF_Value)) exitWith {
-    _taskUnit sideChat "MISSION PROGRESS !!";
+    [_taskUnit,localize "STR_BCE_CFF_MSG_MISSION_PROGRESS", "CFF_IN_PROGRESS"] call BCE_fnc_Send_Task_RadioMsg;
   };
 
 //- Save CFF spawn ACTION
@@ -124,7 +124,7 @@ if (0 < ["MSN_FIRE_EH",-1,_taskUnit] call BCE_fnc_get_CFF_Value) exitWith {};
     
     //- Fired first round & Must be the leader
       if (_current == 1 && isformationLeader _taskUnit) then {
-        _taskUnit sideChat "Shot, over.";
+        [_taskUnit,localize "STR_BCE_CFF_MSG_SHOT", "CFF_SHOT"] call BCE_fnc_Send_Task_RadioMsg;
 
         private _chargeInfo = ["chargeInfo",[],_taskUnit] call BCE_fnc_get_CFF_Value;
         [_taskUnit,_chargeInfo param [2,-1]] spawn {
@@ -132,7 +132,7 @@ if (0 < ["MSN_FIRE_EH",-1,_taskUnit] call BCE_fnc_get_CFF_Value) exitWith {};
           if (_ETA < 0) exitWith {};
           sleep (_ETA - 5); //- Wait
           if (!alive _taskUnit) exitWith {};
-          _taskUnit sideChat "Splash, over.";
+          [_taskUnit, localize "STR_BCE_CFF_MSG_SPLASH", "CFF_SPLASH"] call BCE_fnc_Send_Task_RadioMsg;
         };
       };
 
@@ -189,7 +189,7 @@ if (0 < ["MSN_FIRE_EH",-1,_taskUnit] call BCE_fnc_get_CFF_Value) exitWith {};
           [["chargeInfo","MSN_FIRE_EH"], nil, _taskUnit] call BCE_fnc_set_CFF_Value;
 
           if (isformationLeader _taskUnit) then {
-            _taskUnit sideChat "Rounds Completed.";
+            [_taskUnit, localize "STR_BCE_CFF_MSG_COMPLETED", "CFF_COMPLETED"] call BCE_fnc_Send_Task_RadioMsg;
           };
         };
     };

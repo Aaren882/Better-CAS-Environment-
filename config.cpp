@@ -748,6 +748,7 @@ class CfgFunctions
 			class CFF_Action;
 			class GunShip_Loiter;
 			class Plane_CASEvent;
+			class Send_Task_RadioMsg;
 		};
 		class WPN_CheckList
 		{

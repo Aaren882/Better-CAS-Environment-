@@ -51,8 +51,8 @@ _PageTitle ctrlSetText ("Mission #" + _taskID);
   private _default_FUZE = [configFile >> "CfgMagazines" >> _lbAmmo_IE, "displayNameMFDFormat", "NO SPEC"] call BIS_fnc_returnConfigEntry;
 
   _MTO_dsp ctrlSetStructuredText parseText format [
-    "<t color='#FFBC05' size='0.9'>%1</t><br/>""%2 , %3 Guns, %5 ROUNDS, %4 in Effect, TARGET NUMBER %6""",
-    "Message to Observer :",
+    localize "STR_BCE_CFF_MSG_MTO_STRUCTURED",
+    localize "STR_BCE_CFF_MTO_TITLE",
     str groupId _taskUnit_Grp,
     _fireUnitSel_IE,
     [_lbFuse_IE,_default_FUZE] select (_lbFuse_IE == ""),

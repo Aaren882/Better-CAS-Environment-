@@ -29,7 +29,11 @@ private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_
   _taskUnit call BCE_fnc_UnstuckUnit;
 //- Send Msg
   if (isFormationLeader _taskUnit) then {
-    _taskUnit sideChat "Roger. End of Mission.";
+    [
+      _taskUnit,
+      localize "STR_BCE_CFF_MSG_EOM",
+      "CFF_EOM"
+    ] call BCE_fnc_Send_Task_RadioMsg;
   };
 
 //- Refresh CFF Mission list
