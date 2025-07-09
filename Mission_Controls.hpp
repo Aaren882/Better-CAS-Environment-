@@ -478,19 +478,19 @@ class BCE_Mission_Build_Controls
                     // value = 0;
                     default = 1;
                 };
-                class immediate_Suppress
-                {
-                    text = "Immediate Suppress";
-                    data = "IMMEDIATE SUPPRESS";
-                    textRight = "";
-                    // value = 1;
-                };
                 class Suppress
                 {
                     text = "Suppress";
                     data = "SUPPRESS";
                     textRight = "";
                     // value = 2;
+                };
+                class immediate_Suppress
+                {
+                    text = "Immediate Suppress";
+                    data = "IMMEDIATE SUPPRESS";
+                    textRight = "";
+                    // value = 1;
                 };
             };
         };
