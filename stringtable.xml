@@ -1609,39 +1609,63 @@
 		<!-- CFF Messages -->
 			<Key ID="STR_BCE_CFF_MSG_MISSION_PROGRESS">
 				<Original>MISSION PROGRESS !!</Original>
+				<Chinese>任務進行中 !!</Chinese>
+				<Chinesesimp>任务进行中 !!</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_SHOT">
 				<Original>Shot, over.</Original>
+				<Chinese>已發射。</Chinese>
+				<Chinesesimp>已发射。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_SPLASH">
 				<Original>Splash, over.</Original>
+				<Chinese>彈著, 完畢。</Chinese>
+				<Chinesesimp>弹着, 完毕。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_COMPLETED">
 				<Original>Rounds Completed.</Original>
+				<Chinese>砲彈射擊完畢。</Chinese>
+				<Chinesesimp>炮弹射击完毕。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_EOM">
 				<Original>Roger. End of Mission.</Original>
+				<Chinese>收到。任務結束。</Chinese>
+				<Chinesesimp>收到。任务结束。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_RAT">
 				<Original>Roger. Record as Target.</Original>
+				<Chinese>收到。紀錄為目標。</Chinese>
+				<Chinesesimp>收到。纪录为目标。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_RAT_FAIL">
 				<Original>"Record as Target" failed. invaild TaskID!!</Original>
+				<Chinese>"紀錄為目標" 失敗。無效的任務ID!!</Chinese>
+				<Chinesesimp>"纪录为目标" 失败。无效的任务ID!!</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_NO_CARGE">
 				<Original>%1 - Unable to shoot (No charge were Found)!!</Original>
+				<Chinese>%1 - 無法射擊 (找不到可用的彈藥)!!</Chinese>
+				<Chinesesimp>%1 - 无法射击 (找不到可用的弹药)!!</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_ETA_SPLASH">
 				<Original>ETA "%1" seconds, over.</Original>
+				<Chinese>預計彈著時間 "%1" 秒, 完畢。</Chinese>
+				<Chinesesimp>预计弹着时间 "%1" 秒, 完毕。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_MTO">
 				<Original>%1 %2 , %3 Guns, %5 ROUNDS, %4 in Effect, TARGET NUMBER %6.</Original>
+				<Chinese>%1 %2 , %3 門砲, %5 發, %4 生效中, 目標編號 %6。</Chinese>
+				<Chinesesimp>%1 %2 , %3 门炮, %5 发, %4 生效中, 目标编号 %6。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_MTO_STRUCTURED">
 				<Original>&lt;t color='#FFBC05' size='0.9'&gt;%1&lt;/t&gt;&lt;br/&gt;"%2 , %3 Guns, %5 ROUNDS, %4 in Effect, TARGET NUMBER %6"</Original>
+				<Chinese>&lt;t color='#FFBC05' size='0.9'&gt;%1&lt;/t&gt;&lt;br/&gt;"%2 , %3 門砲, %5 發, %4 生效中, 目標編號 %6"</Chinese>
+				<Chinesesimp>&lt;t color='#FFBC05' size='0.9'&gt;%1&lt;/t&gt;&lt;br/&gt;"%2 , %3 门炮, %5 发, %4 生效中, 目标编号 %6"</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MTO_TITLE">
 				<Original>Message to Observer :</Original>
+				<Chinese>給觀測員的訊息 :</Chinese>
+				<Chinesesimp>给观测员的讯息 :</Chinesesimp>
 			</Key>
 	</Package>
 </Project>
