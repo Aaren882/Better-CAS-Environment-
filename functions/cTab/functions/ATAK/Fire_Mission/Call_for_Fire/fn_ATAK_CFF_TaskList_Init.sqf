@@ -1,6 +1,7 @@
 /* 
   NAME : BCE_fnc_ATAK_CFF_TaskList_Init
   
+  Init Task List tags for CFF Missions
   Fire up after created
 */
 params ["_tagGroup","_MenuData"];
