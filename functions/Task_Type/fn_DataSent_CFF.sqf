@@ -209,15 +209,20 @@ private _random_POS = nil;
           "NO SPEC"
         ] call BIS_fnc_returnConfigEntry;
 
-        (formationLeader _taskUnit) sideChat format [
-          "%1 %2 , %3 Guns, %5 ROUNDS, %4 in Effect, TARGET NUMBER %6.",
-          "Message to Observer :",
-          str groupId group _taskUnit,
-          _fireUnitSel,
-          [_lbFuse,_default_FUZE] select (_lbFuse == ""),
-          _setCount,
-          _MSN_Key //- Mission ID
-        ];
+
+        [
+          formationLeader _taskUnit,
+          format [
+            localize "STR_BCE_CFF_MSG_MTO",
+            localize "STR_BCE_CFF_MTO_TITLE",
+            str groupId group _taskUnit,
+            _fireUnitSel,
+            [_lbFuse,_default_FUZE] select (_lbFuse == ""),
+            _setCount,
+            _MSN_Key //- Mission ID
+          ],
+          "CFF_MTO"
+        ] call BCE_fnc_Send_Task_RadioMsg;
 
       //- Get Sheaf Pattern
       call {

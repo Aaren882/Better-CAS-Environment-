@@ -15,10 +15,11 @@ private _gunner = gunner _taskUnit;
 
 //- check "_chargeInfo" exist
 	if (_chargeInfo findIf {true} < 0) exitWith {
-		_gunner sideChat format [
-			"%1 - Unable to shoot (No charge were Found)!!",
+		[_gunner, format [
+			localize "STR_BCE_CFF_MSG_NO_CARGE",
 			str groupId _taskUnit
-		];
+		], "CFF_NO_CARGE"] call BCE_fnc_Send_Task_RadioMsg;
+
 		[["MSN_FIRE_EH","MSN_PROG"], nil,_taskUnit] call BCE_fnc_set_CFF_Value;
 	};
 
@@ -90,7 +91,11 @@ private _turretConfig = [_taskUnit, _turretPath] call CBA_fnc_getTurret;
 					isformationLeader _taskUnit &&
 					0 == count (["chargeInfo",[],_taskUnit] call BCE_fnc_get_CFF_Value)
 				) then {
-					_taskUnit sideChat format ["ETA ""%1"" seconds, over.", round _ETA];
+					[
+						_taskUnit,
+						format [localize "STR_BCE_CFF_MSG_ETA_SPLASH",round _ETA],
+						"CFF_ETA_SPLASH"
+					] call BCE_fnc_Send_Task_RadioMsg;
 				};
 			["chargeInfo",_chargeInfo,_taskUnit] call BCE_fnc_set_CFF_Value;
 
