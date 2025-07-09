@@ -180,9 +180,9 @@
 		{
 			class DropMenu_Props: DropMenu_Props
 			{
-				Variable_Name = "CFF_TaskList";
-				Expand_Height = 4;
-				MaxOpened = 1;
+				Variable_Name = "CFF_TaskList"; //- Variable in cTab_fnc_getSettings
+				Expand_Height = 4;							//- height after expanded
+				MaxOpened = 1;									//- Maximum number of opened tags
 				onTagLoad = "BCE_fnc_ATAK_CFF_TaskList_Init";
 				onTagClick = "";
 			};
