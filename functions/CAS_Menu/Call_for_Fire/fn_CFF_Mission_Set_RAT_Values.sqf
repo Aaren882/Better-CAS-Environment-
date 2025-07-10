@@ -9,7 +9,8 @@
 */
 
 params [
-  "_taskID"
+  "_taskID",
+  ["_removeRAT",false]
 ];
 
 //- Get "_MSN_Values"
@@ -18,7 +19,8 @@ private _MSN_Values = _taskID call BCE_fnc_CFF_Mission_Get_Values;
 if (_MSN_Values findIf {true} < 0) exitWith {[]};
 private _pool = localNamespace getVariable ["#BCE_CFF_Task_RAT_Pool", createHashMap];
   
-if (isnil{_values}) then {
+//- #NOTE - Remove RAT
+if (_removeRAT) then {
   _pool deleteAt _taskID;
 } else {
   _pool set [_taskID, _MSN_Values];

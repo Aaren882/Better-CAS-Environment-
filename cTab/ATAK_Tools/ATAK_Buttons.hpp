@@ -21,7 +21,7 @@ class ATAK_Buttons
     {
         onLoad = "BCE_fnc_ATAK_bnt_CFF_List"; //- [ALL the Buttons]
         clickEvents[] = {
-            ""
+            "BCE_fnc_ATAK_ShowTaskResult" //- Refresh CFF List
         };
     };
     class TaskBuilding_Menu
