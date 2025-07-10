@@ -215,7 +215,7 @@
 					W = PhoneBFTContainerW(1);
 					text = "<img image='MG8\AVFEVFX\data\archive.paa'/>";
 					tooltip = "Record as Target";
-					onButtonClick = "";
+					onButtonClick = "call BCE_fnc_CFF_Mission_RAT";
 				};
 				class EOM_bnt: archive_bnt
 				{
@@ -228,6 +228,27 @@
 					colorBackground[] = {0.45,0,0,0.8};
 					colorBackground2[] = {0.45,0,0,0.8};
 					colorBackgroundFocused[] = {0.45,0,0,0.5};
+				};
+			};
+		};
+	//- CFF Record as Target (RAT)
+		class ATAK_CFF_RAT: ATAK_CFF_STD
+		{
+			class controls: controls
+			{
+				class menuBackground: menuBackground{};
+				class List_Info: List_Info{};
+				class Tag_Bnt: Tag_Bnt{};
+				class Exec_bnt: Exec_bnt{};
+				class adjust_bnt: adjust_bnt{};
+				delete archive_bnt;
+				class EOM_bnt: EOM_bnt
+				{
+					idc = 20;
+					text = "DEL";
+					tooltip = "Remove Recorded Target";
+					
+					onButtonClick = "[_this # 0, true] call BCE_fnc_CFF_Mission_RAT; call BCE_fnc_ATAK_ShowTaskResult;";
 				};
 			};
 		};

@@ -1624,13 +1624,13 @@
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_COMPLETED">
 				<Original>Rounds Completed.</Original>
-				<Chinese>砲彈射擊完畢。</Chinese>
-				<Chinesesimp>炮弹射击完毕。</Chinesesimp>
+				<Chinese>砲擊完畢。</Chinese>
+				<Chinesesimp>炮击完毕。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_EOM">
 				<Original>Roger. End of Mission.</Original>
-				<Chinese>收到。任務結束。</Chinese>
-				<Chinesesimp>收到。任务结束。</Chinesesimp>
+				<Chinese>收到。結束任務。</Chinese>
+				<Chinesesimp>收到。结束任务。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_RAT">
 				<Original>Roger. Record as Target.</Original>
