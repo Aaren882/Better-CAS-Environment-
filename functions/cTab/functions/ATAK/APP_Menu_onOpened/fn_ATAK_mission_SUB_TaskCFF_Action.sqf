@@ -38,7 +38,7 @@ _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE"
 
 //- TOP TITLE
 private _PageTitle = _group controlsGroupCtrl 3600;
-_PageTitle ctrlSetText ("Mission #" + _taskID);
+_PageTitle ctrlSetText format [localize "STR_BCE_CFF_MSN_TITLE", _taskID];
 
 //- Controls
   private _MissionType_dsp = "New_Task_MissionType_ADJUST_CFF" call BCE_fnc_getTaskSingleComponent;
