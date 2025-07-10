@@ -1667,5 +1667,10 @@
 				<Chinese>給觀測員的訊息 :</Chinese>
 				<Chinesesimp>给观测员的讯息 :</Chinesesimp>
 			</Key>
+			<Key ID="STR_BCE_CFF_MSN_TITLE">
+				<Original>Target #%1</Original>
+				<Chinese>目標編號 #%1</Chinese>
+				<Chinesesimp>目标编号 #%1</Chinesesimp>
+			</Key>
 	</Package>
 </Project>
