@@ -1644,8 +1644,8 @@
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_NO_CARGE">
 				<Original>%1 - Unable to shoot (No charge were Found)!!</Original>
-				<Chinese>%1 - 無法射擊 (找不到可用的彈藥)!!</Chinese>
-				<Chinesesimp>%1 - 无法射击 (找不到可用的弹药)!!</Chinesesimp>
+				<Chinese>%1 - 無法射擊 (找不到可用的裝藥)!!</Chinese>
+				<Chinesesimp>%1 - 无法射击 (找不到可用的装药)!!</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_ETA_SPLASH">
 				<Original>ETA "%1" seconds, over.</Original>
