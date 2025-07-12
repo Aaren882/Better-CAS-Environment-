@@ -979,37 +979,6 @@
             {
                 idc = 10;
                 h = phoneSizeH - 1.55 * ATAK_POS_H;
-
-                /* #define TAG_TITLE(NAME,SIZE,ICON) #<img size=SIZE image='a3\ui_f\data\map\markers\military\dot_ca.paa'/><img size=SIZE align='center' image=ICON/><t align='center'> NAME</t>
-                class controls
-                {
-                    class All_Groups: ATAK_Group_Manage_System
-                    {
-                        idc = 100;
-                        class controls: controls
-                        {
-                            class Tag_Bnt: Tag_Bnt
-                            {
-                                text = TAG_TITLE(All Groups,'0.8','a3\3den\data\displays\display3den\toolbar\widget_global_ca.paa');
-                            };
-                            class Msg_bnt: Msg_bnt{};
-                        };
-                    };
-                    class My_Team: All_Groups
-                    {
-                        idc = 101;
-                        y = 0.7 * (((60)) / 2048 * CustomPhoneH);
-                        class controls: controls
-                        {
-                            class Tag_Bnt: Tag_Bnt
-                            {
-                                text = TAG_TITLE(My Team,'0.8','a3\3den\data\displays\display3den\panelright\modegroups_ca.paa');
-                            };
-                            class Msg_bnt: Msg_bnt{};
-                        };
-                    };
-                };
-                #undef TAG_TITLE */
             };
         };
     };
