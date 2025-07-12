@@ -12,9 +12,6 @@ _config = _config >> "DropMenu_Props";
   private _expand = [_config,"Expand_Height",1] call BIS_fnc_returnConfigEntry;
   _controlGroup setVariable ["Expand_Height",1 + _expand];
 
-//- Set "Index" value
-  _controlGroup setVariable ["Index", (ctrlIDC _controlGroup) % 100]; //- Set Ctrl Index
-
 //- #SECTION - Registor EH
     private _tagBnt = _controlGroup controlsGroupCtrl 15;
 

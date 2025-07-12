@@ -25,10 +25,10 @@
 		class DropMenu_Props
 		{
 			Variable_Name = "group_Info"; //- Variable in cTab_fnc_getSettings
-			Expand_Height = 1; //- Height of Drop Menu ("Tag_Bnt" Height * (1 + Expand_Height))
+			Expand_Height = 0; //- Height of Drop Menu ("Tag_Bnt" Height * (1 + Expand_Height))
 			MaxOpened = -1;
 			//- Functions
-			onTagLoad = "BCE_fnc_ATAK_GroupList_Init";
+			onTagLoad = "BCE_fnc_ATAK_GroupList_SYSTEM_Init";
 			onTagClick = "";
 		};
 		class controls
@@ -71,7 +71,7 @@
 					x = PhoneBFTContainerW(TAG_BNT_W(1));
 					w = PhoneBFTContainerW(BNT_W);
 					// size = 0.65 * (((60)) / 2048 * CustomPhoneH);
-                    size = TextSize;
+					size = TextSize;
 					
 					colorBackground[] = {0.26,0.26,0.26,0.86};
 					colorBackground2[] = {0.26,0.26,0.26,0.86};
@@ -90,6 +90,7 @@
 	{
 		class DropMenu_Props: DropMenu_Props
 		{
+			onTagLoad = "BCE_fnc_ATAK_GroupList_Init";
 			Expand_Height = 2;
 		};
 		// h = (3 * 0.7) * (((60)) / 2048 * CustomPhoneH); // - Display with 3 lines
@@ -234,6 +235,10 @@
 	//- CFF Record as Target (RAT)
 		class ATAK_CFF_RAT: ATAK_CFF_STD
 		{
+			class DropMenu_Props: DropMenu_Props
+			{
+				Variable_Name = "CFF_RAT_TaskList"; //- Variable in cTab_fnc_getSettings
+			};
 			class controls: controls
 			{
 				class menuBackground: menuBackground{};
