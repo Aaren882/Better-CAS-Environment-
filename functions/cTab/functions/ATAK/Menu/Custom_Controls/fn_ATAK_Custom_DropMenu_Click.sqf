@@ -11,9 +11,9 @@ if (_displayName == "") exitWith {
 };
 
 private _groupSel = ctrlParentControlsGroup _ctrl;
-private _ctrlIndex = _groupSel getVariable ["Index",-1];
+private _ctrlIndex = _groupSel getVariable ["Index",""];
 
-if (_ctrlIndex < 0) exitWith {
+if (_ctrlIndex isEqualTo "") exitWith {
   ["""_ctrlIndex"" isn't exist (cTab/BCE Custom UI Control)"] call BIS_fnc_error;
 };
 
@@ -44,21 +44,21 @@ private _open = _findIndex < 0;
     _checkedGroup deleteAt 0;
   };
 
-//- set Control Height
+//- Get Control Height
   private _tagH = (ctrlPosition _ctrl) # 3;
-
-  // - Check if is SYSTEM TAG
-    private _height = if (_open) then {
-      _tagH * (_groupSel getVariable ["Expand_Height",1]) //- Get Expand Height
-    } else {
-      _tagH
-    };
 
 //- Expend List Element
 private _Sum_H = 0;
 {
   private _grpCtrl = _listGroup controlsGroupCtrl _x;
-  private _Index = _grpCtrl getVariable ["Index",-1];
+  private _Index = _grpCtrl getVariable ["Index",""];
+
+  // - Move Other tagGroups
+  private _h = if (_Index in _checkedGroup) then {
+    _tagH * (_grpCtrl getVariable ["Expand_Height",1])
+  } else {
+    _tagH
+  };
 
   [
     _grpCtrl, // - Ctrl
@@ -68,22 +68,12 @@ private _Sum_H = 0;
         nil,
         _Sum_H,
         nil,
-        [_tagH, _height] select (_Index in _checkedGroup)
+        _h
       ]
     ], // - [End]
     ["ATAK_Toggle_Fast_Spring",false, 1200, [2]] // - [Anim_Type, _instant, _BG_IDC, _ignore]
   ] call BCE_fnc_Anim_CustomOffset;
-  
-  private _h = if (_ctrlIndex == _forEachIndex) then {
-    _height
-  } else {
-    // - Move Other tagGroups
-    if (_forEachIndex in _checkedGroup) then {
-      _tagH * (_grpCtrl getVariable ["Expand_Height",1])
-    } else {
-      _tagH
-    };
-  };
+
   _Sum_H = _Sum_H + _h;
 } forEach (_listGroup getVariable ["data",[]]); //- get List Group IDCs
 

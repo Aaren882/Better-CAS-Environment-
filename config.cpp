@@ -998,6 +998,7 @@ class CfgFunctions
 					class ATAK_Custom_DropMenu_Click;
 
 					class Create_ATAK_Custom_DropMenu; //- Create Custom DropMenu
+					class Clear_ATAK_Custom_DropMenu; //- Clear Custom DropMenu
 					class Init_ATAK_Custom_DropMenu; //- Initiate Custom DropMenu
 				};
 				class ATAK_Menu
@@ -1065,6 +1066,7 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Group";
 					class ATAK_GroupList_Init;
+					class ATAK_GroupList_SYSTEM_Init;
 				};
 		#endif
 	};

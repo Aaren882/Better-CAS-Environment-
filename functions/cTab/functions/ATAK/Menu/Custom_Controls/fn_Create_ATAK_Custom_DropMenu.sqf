@@ -1,10 +1,27 @@
 /*
   NAME : BCE_fnc_Create_ATAK_Custom_DropMenu
+
+  Create Custom Drop Menu for cTab
+
+  param :
+    "_tag_Name"   : Class Name of the Tag Group
+    "_listGroup"  : controlsGroupCtrl of the Group
+    "_isDialog"   : <BOOL>
+    "_MenuData"   : HashMap data for creating the list
+    "_data"       : IDC Data pool to be stored
+      
 */
 
-params ["_tag_Name","_listGroup","_isDialog","_MenuData"];
+params [
+  "_tag_Name",
+  "_listGroup",
+  "_isDialog",
+  "_MenuData",
+  ["_data", []] //- IDC Data pool to be stored
+];
 
-{ctrlDelete _x} count (allControls _listGroup);
+//- Check if isn't appending 
+  if (count _data == 0) then {[_listGroup] call BCE_fnc_Clear_ATAK_Custom_DropMenu};
 
 private _tag_class = [configFile >> "RscTitles" >> _tag_Name, configFile >> _tag_Name] select _isDialog;
 
@@ -18,7 +35,7 @@ private _displayName = cTabIfOpen param [1,""];
 private _display = uiNamespace getVariable _displayName;
 
 //- Get List Data
-  private _data = _listGroup getVariable ["data", []];
+  // private _data = []; 
   private _startIndex = count _data;
 
   private _lastIDC = _data param [_startIndex - 1,-1];
@@ -52,13 +69,14 @@ private _display = uiNamespace getVariable _displayName;
     _IDC, 
     _listGroup
   ];
+  _ctrl setVariable ["Index", _Key]; //- Set Ctrl Index with "KEY"
   _data pushBack _IDC; //- Push IDC into Data
 
   //- Expend Control Group
     private _expand = _ctrl getVariable ["Expand_Height", 1];
     private _tag = _ctrl controlsGroupCtrl 15;
     private _tagH = (ctrlPosition _tag) # 3;
-    private _ctrlH = _tagH * ([1,_expand] select (_index in _checkedGroup));
+    private _ctrlH = _tagH * ([1,_expand] select (_Key in _checkedGroup));
     _ctrl ctrlSetPositionH _ctrlH;
 
   //- Sorting Position
@@ -77,3 +95,5 @@ private _display = uiNamespace getVariable _displayName;
 
 //- Save Data (Convinient to grab)
   _listGroup setVariable ["data", _data];
+
+  _data

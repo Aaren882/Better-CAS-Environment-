@@ -980,7 +980,7 @@
                 idc = 10;
                 h = phoneSizeH - 1.55 * ATAK_POS_H;
 
-                #define TAG_TITLE(NAME,SIZE,ICON) #<img size=SIZE image='a3\ui_f\data\map\markers\military\dot_ca.paa'/><img size=SIZE align='center' image=ICON/><t align='center'> NAME</t>
+                /* #define TAG_TITLE(NAME,SIZE,ICON) #<img size=SIZE image='a3\ui_f\data\map\markers\military\dot_ca.paa'/><img size=SIZE align='center' image=ICON/><t align='center'> NAME</t>
                 class controls
                 {
                     class All_Groups: ATAK_Group_Manage_System
@@ -1009,7 +1009,7 @@
                         };
                     };
                 };
-                #undef TAG_TITLE
+                #undef TAG_TITLE */
             };
         };
     };
