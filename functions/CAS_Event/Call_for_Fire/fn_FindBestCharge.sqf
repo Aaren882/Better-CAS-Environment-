@@ -32,12 +32,16 @@ private _chargeInfo = [];
 	_x params ["_charge", "_angleA", "_ETA"];
 
 	//- Get the ARTY surface angle between the target |/_
-		private _degVehToAim = acos (_posC vectorCos _vecUp);
-		private _pitchDeg = _degVehToAim - 90;
-	
+	// * Calculate pitch angle: vehicle's up vector angle to target minus 90 degrees
+	// * This gives us the required elevation angle relative to the vehicle's orientation
+	private _degVehToAim = acos (_posC vectorCos _vecUp);
+	private _pitchDeg = _degVehToAim - 90;
+
+	//- Check if the required angle is within the turret's elevation limits
+	// * accounting for the vehicle's current pitch
 	if (
-		_pitchDeg + _minElev > _angleA ||		//- unable Reach MIN
-		_maxElev - _pitchDeg < _angleA 			//- unable Reach MAX
+		_pitchDeg + _minElev > _angleA ||        //- unable Reach MIN
+		_maxElev - _pitchDeg < _angleA           //- unable Reach MAX
 	) then {continue};
 
 	// HYPOTENUSE * sin angleA [OPPOSITE/HYPOTENUSE] = OPPOSITE
