@@ -19,14 +19,14 @@ if (_ctrlIndex isEqualTo "") exitWith {
 
 //- Get Settings
   private _listGroup = ctrlParentControlsGroup _groupSel;
-  private _VarName = _listGroup getVariable ["Variable_Name",""];
+  private _Variable_Name = _listGroup getVariable ["Variable_Name",""];
   private _MaxOpened = _listGroup getVariable ["MaxOpened",-1];
 
 //- Set Variable
 private _className = ctrlClassName _groupSel;
 private _groupSel_IDC = ctrlIDC _groupSel;
 private _cTab_Setting = [_displayName, "Custom_DropMenu"] call cTab_fnc_getSettings;
-private _checkedGroup = _cTab_Setting getOrDefault [_VarName,[]];
+private _checkedGroup = _cTab_Setting getOrDefault [_Variable_Name,[]];
 private _findIndex = _checkedGroup find _ctrlIndex;
 private _open = _findIndex < 0;
 
@@ -78,7 +78,7 @@ private _Sum_H = 0;
 } forEach (_listGroup getVariable ["data",[]]); //- get List Group IDCs
 
 //- Save cTab Variable
-  _cTab_Setting set [_VarName,_checkedGroup];
+  _cTab_Setting set [_Variable_Name,_checkedGroup];
   [_displayName,[["Custom_DropMenu",_cTab_Setting]],false] call cTab_fnc_setSettings;
 
 //- Get Custom Event #NOTE - "onTagClick"
