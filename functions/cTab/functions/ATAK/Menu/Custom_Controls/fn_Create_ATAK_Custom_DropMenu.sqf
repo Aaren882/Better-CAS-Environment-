@@ -35,7 +35,6 @@ private _displayName = cTabIfOpen param [1,""];
 private _display = uiNamespace getVariable _displayName;
 
 //- Get List Data
-  // private _data = []; 
   private _startIndex = count _data;
 
   private _lastIDC = _data param [_startIndex - 1,-1];
@@ -50,15 +49,14 @@ private _display = uiNamespace getVariable _displayName;
   
 //- Get cTab Variable
   private _Variable_Name = _listGroup getVariable "Variable_Name";
-  private _checkedGroup = ([_displayName, "Custom_DropMenu"] call cTab_fnc_getSettings) getOrDefault [
-    _Variable_Name,
-    []
-  ];
+  private _cTab_Setting = [_displayName, "Custom_DropMenu"] call cTab_fnc_getSettings;
+  private _checkedGroup = _cTab_Setting getOrDefault [_Variable_Name,[]];
 
+private _keyPool = [];
 //- Create Option Tags
 {
   _x params [["_Key",""],["_values",[]]];
-
+  
   if (_Key == "") then {continue};
 
   private _index = _startIndex + _forEachIndex; //- Correct Index
@@ -70,6 +68,8 @@ private _display = uiNamespace getVariable _displayName;
     _listGroup
   ];
   _ctrl setVariable ["Index", _Key]; //- Set Ctrl Index with "KEY"
+
+  _keyPool pushBack _Key; //- Keys that created
   _data pushBack _IDC; //- Push IDC into Data
 
   //- Expend Control Group
@@ -92,6 +92,20 @@ private _display = uiNamespace getVariable _displayName;
       ]
     );
 } forEach _MenuData;
+
+//- Clear Checked Keys that don't exist anymore
+  private _delChecked = false;
+  {
+    if !(_x in _keyPool) then {
+      _checkedGroup deleteAt _forEachIndex;
+      _delChecked = true;
+    };
+  } forEach _checkedGroup;
+
+  if (_delChecked) then { //- Save variable if there's anything Changed
+    _cTab_Setting set [_Variable_Name,_checkedGroup];
+    [_displayName,[["Custom_DropMenu",_cTab_Setting]],false] call cTab_fnc_setSettings;
+  };
 
 //- Save Data (Convinient to grab)
   _listGroup setVariable ["data", _data];
