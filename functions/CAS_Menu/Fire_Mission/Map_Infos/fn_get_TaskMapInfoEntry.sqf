@@ -5,8 +5,7 @@
     _entry,   : The Class in #LINK - Mission_Map_Infos.hpp
 
   Return :
-    Variable Name : Entry Varialbe Name e.g. "#ClassName"
-*/
+    Variable Name : Entry Variable Name e.g. "#ClassName"*/
 params ["_entry"];
 
 //- HashMap
