@@ -1,3 +1,10 @@
+class cTab_RscText_Android: cTab_RscText
+{
+  sizeEx = ((38)) / 2048 * CustomPhoneH;
+  
+  w = ((((PHONE_MOD) - (20) * 6) / 5)) / 2048 * PhoneW;
+  h = (((60) - (20))) / 2048 * CustomPhoneH;
+};
 class cTab_android_background: cTab_RscPicture
 {
 	x = CustomPhoneX;
