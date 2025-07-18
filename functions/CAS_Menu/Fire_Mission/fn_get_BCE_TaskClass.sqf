@@ -23,7 +23,7 @@ if (
   _display isEqualTo displayNull ||
   _display isEqualTo ""
 ) then {
-  call BCE_fnc_get_BCE_curDisplay;
+  _display = call BCE_fnc_get_BCE_curDisplay;
 };
 
 /*
