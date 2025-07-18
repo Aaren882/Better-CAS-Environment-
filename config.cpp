@@ -629,7 +629,6 @@ class CfgFunctions
 			class Check_Optics;
 			class Set_EnvironmentList;
 			class Turret_interSurface;
-			class GetMapClickPOS;
 
 			class POS2Grid;
 			class Grid2POS;
@@ -759,6 +758,11 @@ class CfgFunctions
 
 			class SelWPN_AIR;
 			class SelWPN_CFF;
+		};
+		class Map_Click
+		{
+			file="MG8\AVFEVFX\functions\CAS_Menu\Map_Click";
+			class GetMapClickPOS;
 		};
 		class CAS_Menu
 		{
@@ -1448,9 +1452,50 @@ class BCE_RscButtonMenu: RscButtonMenu
 };
 
 //- Mission Property + Controls + Map Infos
-	#include "Mission_Property.hpp"
-	#include "Mission_Controls.hpp"
 	#include "Mission_Map_Infos.hpp"
+	#include "Mission_Property.hpp"
+
+  //-cTab UI
+  #ifdef cTAB_Installed
+    class cTab_RscMapControl;
+    class cTab_RscFrame;
+    class cTab_RscPicture;
+    class cTab_RscControlsGroup
+    {
+      class VScrollbar;
+      class HScrollbar;
+    };
+    class cTab_RscText;
+    class cTab_RscButtonInv;
+    class cTab_ActiveText;
+    class cTab_RscListBox;
+    class cTab_RscListbox_Tablet;
+    class cTab_RscEdit;
+    class cTab_RscEdit_Tablet;
+    class cTab_RscButton_Tablet;
+    class cTab_Tablet_btnF2;
+    class cTab_Tablet_btnF5;
+    class cTab_Tablet_window_back_BR;
+    class cTab_RscText_Tablet;
+    class cTab_IGUIBack;
+    class cTab_RscButton;
+    class cTab_RscText_WindowTitle;
+    class cTab_Tablet_btnMouse;
+    //- cTab controls
+      #include "cTab\cTab_Macros.hpp"
+      #include "cTab\cTab_Macros_Interface.hpp"
+      #include "cTab\cTab_classes.hpp"
+  #endif
+
+	#include "Mission_Controls.hpp" //- BCE Interface framework
+  
+  #ifdef cTAB_Installed
+    #include "cTab\cTab_UI.hpp" //- cTab Interfaces
+  #endif
+
+//UI
+  #include "Control_UI.hpp"
+  #include "Dialog.hpp"
 
 //-POLPOX Map Tools Control
 #if cTAB_Installed == PLP_TOOL
@@ -1512,13 +1557,6 @@ class BCE_RscButtonMenu: RscButtonMenu
 	};
 #endif
 
-#include "cTab\cTab_Macros.hpp"
-
-//-cTab UI
-#ifdef cTAB_Installed
-	#include "cTab\cTab_UI.hpp"
-#endif
-
 class CfgFontFamilies
 {
 	//-Default Font for BCE
@@ -1531,10 +1569,6 @@ class CfgFontFamilies
 		fonts[] = {{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold9","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light6"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold10","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light7"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold11","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light8"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold12","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light9"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold13","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light10"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold14","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light11"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold15","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light12"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold16","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light13"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold17","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light14"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold18","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light15"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold19","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light16"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold20","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light17"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold21","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light18"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold22","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light19"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold23","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light20"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold24","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light21"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold25","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light22"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold26","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light23"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold27","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light24"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold28","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light25"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold29","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light26"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold30","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light27"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold31","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light28"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold34","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light29"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold35","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light30"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold37","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light31"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light34"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light35"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light37"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light46"}};
 	};
 };
-
-//UI
-#include "Control_UI.hpp"
-#include "Dialog.hpp"
 
 class CfgScriptPaths
 {
