@@ -17,7 +17,7 @@
 params ["_input"];
 
 private _key = switch (typeName _input) do {
-  case "DISPLAY": {_input getVariable ["BCE_onLoad_BCE_Holder", ""]};
+  case "DISPLAY": {_input getVariable ["BCE_Holder_Name", ""]};
   case "STRING": {_input};
 };
 
