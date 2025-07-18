@@ -11,9 +11,6 @@ private _ctrlTitle = ctrlText _control;
 private _cateClass = [] call BCE_fnc_get_BCE_TaskCateClass; //- AIR, GND, OTH
 private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 
-//- Get task UI infos
-  ([_display] call BCE_fnc_get_BCE_TaskUI) params ["_taskMenu","_displayName"];
-
 //- Enter Infos (on Building Page)
 	if (_subMenu == "Task_Building") exitWith {
 		///-Enter Data
