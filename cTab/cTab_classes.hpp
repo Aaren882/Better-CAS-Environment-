@@ -8,18 +8,37 @@
   class cTab_TAD_OSD_txtToggleIcon;
   class cTab_TAD_RscMapControl_BLACK;
 
-//-Clean up
-#if MAP_MODE > 0
-	//-Change TOPO -> Enhanced GPS
-	class cTab_Tablet_RscMapControl: RscMapControl{};
-	class cTab_microDAGR_RscMapControl: RscMapControl{};
-	class cTab_TAD_RscMapControl: RscMapControl{};
-#else
-	class cTab_Tablet_RscMapControl: cTab_RscMapControl{};
-	class cTab_microDAGR_RscMapControl: cTab_RscMapControl{};
-	class cTab_TAD_RscMapControl: cTab_RscMapControl{};
-#endif
-
 //- Phone
-  #include "cTab_Android_Widgets.hpp"
   #include "cTab_Android_Layout.hpp"
+
+/* 
+  #SECTION - [MAP_MODE] is used to determine the map control type.
+  - 0: Default
+  - 1: Map DarkMode
+  - 2: Enhanced Map
+  - 3: Enhanced GPS
+*/
+  #if MAP_MODE > 0
+    //-Change TOPO -> Enhanced GPS
+    class cTab_Tablet_RscMapControl: RscMapControl{};
+    class cTab_microDAGR_RscMapControl: RscMapControl{};
+    class cTab_TAD_RscMapControl: RscMapControl{};
+    class cTab_android_RscMapControl: cTab_RscMapControl
+    {
+      x = (((452))) / 2048  * 	PhoneW + 	CustomPhoneX;
+      y = (((713) + (60))) / 2048  * 	CustomPhoneH + 	CustomPhoneY;
+      w = (((PHONE_MOD))) / 2048  * 	PhoneW;
+      h = (((626) - (60) - (0))) / 2048  * 	CustomPhoneH;
+    };
+  #else
+    class cTab_Tablet_RscMapControl: cTab_RscMapControl{};
+    class cTab_microDAGR_RscMapControl: cTab_RscMapControl{};
+    class cTab_TAD_RscMapControl: cTab_RscMapControl{};
+    class cTab_android_RscMapControl: cTab_RscMapControl
+    {
+      x = (((452))) / 2048  * 	PhoneW + 	CustomPhoneX;
+      y = (((713) + (60))) / 2048  * 	CustomPhoneH + 	CustomPhoneY;
+      w = (((PHONE_MOD))) / 2048  * 	PhoneW;
+      h = (((626) - (60) - (0))) / 2048  * 	CustomPhoneH;
+    };
+  #endif
