@@ -33,7 +33,7 @@ class BCE_Mission_Build_Controls
     };
     //- cTab only 
     // 🔴 #NOTE - "controlBackground" have to inherit "BCE_Mission_Build_Controls" 
-    #ifdef cTAB_Installed
+    /* #ifdef cTAB_Installed
       class cTab_RscMapControl: cTab_RscMapControl
       {
         REGISTER_FNC;
@@ -58,7 +58,7 @@ class BCE_Mission_Build_Controls
       {
         REGISTER_FNC;
       };
-    #endif
+    #endif */
 
   //- Mission Type
   class TaskType: RscCombo
