@@ -13,6 +13,10 @@
     "Events (HashMap)"   : Functions
     "Map Info (VarName)" : Map Info Display
     "TaskUnit (VarName)" : TaskUnit variable name
+    [ #SECTION - Vaildation data
+      _TaskData_Vaild ,
+      _TaskData_invaildMsg
+    ] : Vaildation lines for Data that being sent
   ]
 */
 params [
@@ -91,7 +95,10 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
           "Events (HashMap)"       : Functions
           "Map Info (VarName)"     : Map Info Display
           "TaskUnit (VarName)"     : TaskUnit variable name
-          "TaskData_Vaild (ARRAY)" : Vaildation lines for Data that being sent
+          [ #SECTION - Vaildation data
+            _TaskData_Vaild ,
+            _TaskData_invaildMsg
+          ] : Vaildation lines for Data that being sent
         ] */
         private _varStore = format ["#PROP_%1", toUpperANSI _taskClass];
         
