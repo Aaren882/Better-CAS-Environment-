@@ -6,8 +6,15 @@ class cTab_RscText_Android: cTab_RscText
 	h = (((60) - (20))) / 2048 * CustomPhoneH;
 };
 
+/* 
+  MAP_MODE is used to determine the map control type.
+  - 0: Default
+  - 1: Map DarkMode
+  - 2: Enhanced Map
+  - 3: Enhanced GPS
+*/
 #if MAP_MODE > 0
-	class cTab_android_RscMapControl: RscMapControl
+	class cTab_android_RscMapControl: cTab_RscMapControl
 	{
 		x = (((452))) / 2048  * 	PhoneW + 	CustomPhoneX;
 		y = (((713) + (60))) / 2048  * 	CustomPhoneH + 	CustomPhoneY;

@@ -1,5 +1,14 @@
+/*
+	NAME : BCE_fnc_GetMapClickPOS
+
+	DESCRIPTION : Get the position of the map click and create a marker.
+		- If [Alt + left click], create a marker with the position.
+		- If right click, open the marker menu for the selected marker.
+
+*/
+
 params ["_control", "_button", "_xPos", "_yPos", "_shift", "_ctrl", "_alt",["_IDC_offset",0]];
-private ["_display","_mark","_BCE_MapTool","_cTab_show","_IDC_Offset","_type","_task","_ctrlEnter","_curSel","_idc"];
+private ["_display","_mark","_BCE_MapTool","_task","_ctrlEnter","_curSel","_idc"];
 _display = ctrlparent _control;
 
 _mark = {
@@ -29,13 +38,13 @@ _mark = {
 };
 
 if (_button == 0) then {
-	_cTab_show = ["cTab_Android_dlg" in cTabIfOpen, true] select (isnil {cTabIfOpen});
+	private _cTab_show = "cTab_Android_dlg" in cTabIfOpen || isnil {cTabIfOpen};
 	
 	//- "AV Terminal" or "Andorid Phone" or "cTab Tablet"
 	if ((!(isnull findDisplay 160) || (_IDC_Offset > 0)) && _cTab_show) then {
 
-		_ctrlCombo = _display displayctrl (_IDC_Offset + 2013);
-		_type = _display displayctrl (_IDC_Offset + 2012);
+		private _ctrlCombo = _display displayctrl (_IDC_Offset + 2013);
+		private _type = _display displayctrl (_IDC_Offset + 2012);
 		if (
 				_alt &&
 				!(ctrlshown _ctrlCombo) &&

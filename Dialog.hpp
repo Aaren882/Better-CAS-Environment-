@@ -62,8 +62,6 @@ class RscTitles
 		
 		//-Phone Layout
 		#include "cTab\cTab_classes.hpp"
-		#include "cTab\cTab_Android_Widgets.hpp"
-		#include "cTab\cTab_Android_Layout.hpp"
 		
 		//-Phone display
 		#include "cTab\cTab_Android.hpp"

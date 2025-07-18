@@ -117,7 +117,7 @@ PHONE_CLASS
 			};
 		class screen: cTab_android_RscMapControl
 		{
-			// mapOrientation = 1; //- Map Follew player's Orientation 
+			// mapOrientation = 1; //- #TODO - Map Follew player's Orientation 
 			#ifdef MOUSE_CLICK_EH
 				style = 48 + 512;
 				onMouseButtonClick = MOUSE_CLICK_EH;

@@ -1,19 +1,15 @@
-class cTab_TAD_OSD_navModeOrScale;
-class cTab_TAD_OSD_txtToggleIconBg;
-class cTab_TAD_OSD_txtToggleIcon;
-class cTab_TAD_RscMapControl_BLACK;
 TAD_CLASS
 {
-	class controlsBackground
+	class controlsBackground: BCE_Mission_Build_Controls
 	{
 		class screen: cTab_TAD_RscMapControl
 		{
 			onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
 		};
-        class screenBlack: cTab_TAD_RscMapControl_BLACK
-        {
+    class screenBlack: cTab_TAD_RscMapControl_BLACK
+    {
 			onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
-        };
+    };
 		#if MAP_MODE > 2
 			class screenTopo: screen
 			{
@@ -23,9 +19,9 @@ TAD_CLASS
 	};
 	class controls
 	{
-        #ifdef MOUSE_CLICK_EH
-            cTab_Set_SubMenu(SubMenuH_TAD);
-        #endif
+    #ifdef MOUSE_CLICK_EH
+      cTab_Set_SubMenu(SubMenuH_TAD);
+    #endif
 		class txtToggleMarker: cTab_TAD_OSD_navModeOrScale
 		{
 			idc = idc_D(1600);
