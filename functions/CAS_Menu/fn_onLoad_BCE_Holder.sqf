@@ -64,4 +64,4 @@ if (_KeyName == "") then { //- if displayName is not set
   };
 
 //- Store into _display Object
-  _display setVariable ["BCE_onLoad_BCE_Holder", _KeyName];
+  _display setVariable ["BCE_Holder_Name", _KeyName];
