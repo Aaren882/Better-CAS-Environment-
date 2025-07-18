@@ -1,5 +1,8 @@
 /*
-  NAME : BCE_fnc_get_BCE_TaskUI
+  NAME : BCE_fnc_get_BCE_Task_Interface
+
+  Get Mission/Task from "BCE_Mission_Property"
+  # LINK .\fn_getTaskProps.sqf
 
   Params : 
     "_display" :  Display object for desire custom setup

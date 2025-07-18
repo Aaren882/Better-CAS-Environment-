@@ -21,7 +21,7 @@ private _cateData = _cateSel call BCE_fnc_get_BCE_TaskCateClass;
   _subData params [["_subSel",0]];
 
 //- Get task UI infos
-  private _UI_Infos = [ctrlParent _group,_subSel,_cateSel] call BCE_fnc_get_BCE_TaskUI;
+  private _UI_Infos = [ctrlParent _group,_subSel,_cateSel] call BCE_fnc_get_BCE_Task_Interface;
   _UI_Infos params ["_taskMenu"/*,"_displayName"*/];
 
 //- Return
