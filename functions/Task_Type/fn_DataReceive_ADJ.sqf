@@ -1,5 +1,6 @@
 /*
 	PARAMS :
+		"_taskUnit"		- Task Unit <OBJECT>
 		"_taskVar"		- Task Variables
 		"_curLine"		- Current Line Index
 		"_shownCtrls"	- Shown Controls (Array of Controls)
