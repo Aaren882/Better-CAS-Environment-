@@ -8,6 +8,7 @@
 // #LINK - functions/CAS_Menu/fn_onLoad_BCE_Holder.sqf
 class BCE_Mission_Default
 {
+    displayName = ""; //- #NOTE - Key to varify the display is opened
     class AIR
     {
         9Line = "AIR_9_LINE";

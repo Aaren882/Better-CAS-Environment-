@@ -94,6 +94,12 @@ PHONE_CLASS
 		//- BCE Mission Holder (Init BCE Properties)
 			class BCE_Holder: BCE_Holder
 			{
+				//- Key to varify the display is opened
+				// * in this case the "displayName" can be the same for its dialog or display type
+				// * because the displayName is used to check if the display's stored properties
+				// * #NOTE - cTab displayName => cTabDisplayPropertyGroups
+				displayName = "Android"; // from ☝️ here
+				
 				// #LINK - Mission_Property.hpp
 				class BCE_Mission: BCE_Mission
 				{
