@@ -29,6 +29,7 @@ if (isNil{_curType}) then {
   _curType = [_cateSel] call BCE_fnc_get_TaskCurType;
 };
 
+//- Get Current Task_Type" ex. "AIR_9_LINE", "AIR_5_LINE"...
 private _taskType = [_display,_curType,_cateSel] call BCE_fnc_get_BCE_TaskClass;
 
 _taskType call BCE_fnc_getTaskProps;

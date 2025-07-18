@@ -18,8 +18,13 @@ params ["_Ctrl_Holder","_config"];
   call BCE_fnc_RegisterMissionControls;
 
 private _display = ctrlParent _Ctrl_Holder;
-private _KeyName = format ["%1#%2", ctrlClassName _Ctrl_Holder, CtrlIDD _display];
-private _map = localNamespace getVariable ["BCE_onLoad_BCE_Holder", createHashMap];
+private _map = localNamespace getVariable ["#BCE_onLoad_BCE_Holder", createHashMap];
+
+//- Get Display Name
+private _KeyName = [_config, "displayName", ""] call BIS_fnc_returnConfigEntry;
+if (_KeyName == "") then { //- if displayName is not set
+  _KeyName = "display#" + str CtrlIDD _display;
+};
 
 // if _KeyName haven't register yet
   if !(_KeyName in _map) then {
@@ -55,8 +60,8 @@ private _map = localNamespace getVariable ["BCE_onLoad_BCE_Holder", createHashMa
     };
 
     _map set [_KeyName, createHashMapFromArray _result];
-    localNamespace setVariable ["BCE_onLoad_BCE_Holder", _map];
+    localNamespace setVariable ["#BCE_onLoad_BCE_Holder", _map];
   };
 
 //- Store into _display Object
-  _display setVariable ["BCE_onLoad_BCE_Holder", _map get _KeyName];
+  _display setVariable ["BCE_onLoad_BCE_Holder", _KeyName];

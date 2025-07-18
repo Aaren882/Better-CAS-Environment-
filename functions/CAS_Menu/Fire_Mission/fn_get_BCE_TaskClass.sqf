@@ -13,20 +13,17 @@
 */
 
 params [
-  ["_display", displayNull],
+  ["_display", displayNull], //- #NOTE - This can be <STRING> or <DISPLAY>
   ["_curType", [] call BCE_fnc_get_TaskCurType],
   ["_cateSel", ["Cate"] call BCE_fnc_get_TaskCurSetup]
 ];
 
 //- Get Current Display Via "BCE_Holder"
-if (isnull _display) then {
-  private _BCE_Holder = ["BCE_Holder"] call BCE_fnc_getTaskSingleComponent;
-  _display = ctrlParent _BCE_Holder;
-};
-
-if (isnull _display) exitWith {
-  ["Cannot find in ""BCE_Holder"" display. Unable to get display properties due to null ""_display"""] call BIS_fnc_error;
-  []; //- Return Value
+if (
+  _display isEqualTo displayNull ||
+  _display isEqualTo ""
+) then {
+  call BCE_fnc_get_BCE_curDisplay;
 };
 
 /*
@@ -40,8 +37,8 @@ if (isnull _display) exitWith {
     ]
   ]
 */
-  private _BCE_Holder = _display getVariable ["BCE_onLoad_BCE_Holder", createHashMap];
-
+  private _BCE_Holder = _display call BCE_fnc_get_BCE_Holder;
+  
 // ex. [["AIR",["9LINE","5LINE"]],["GND",["ADJ"]]] (ARRAY)
   private _categories = call BCE_fnc_get_BCE_TaskCateClasses;
 

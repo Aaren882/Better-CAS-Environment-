@@ -780,6 +780,8 @@ class CfgFunctions
 			//- Registries
 				class RegisterMissionControls;
 				class onLoad_BCE_Holder;
+				class get_BCE_Holder;
+				class get_BCE_curDisplay;
 				class get_Control_Data; //- "BCE_Data"
 				class set_Control_Data; //- "BCE_Data"
 
