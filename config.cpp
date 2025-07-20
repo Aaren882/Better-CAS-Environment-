@@ -785,6 +785,7 @@ class CfgFunctions
 				class RegisterMissionControls;
         //- BCE Interface control Holder
           class onLoad_BCE_Holder;
+          class onLoad_BCE_Map_Holder;
           class get_BCE_Holder;
           class get_BCE_Holder_Name;
 

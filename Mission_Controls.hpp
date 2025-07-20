@@ -29,7 +29,13 @@ class BCE_Mission_Build_Controls
   //- Map Control
     class Rsc_BCE_MapControl: RscMapControl
     {
-      REGISTER_FNC;
+      onLoad = "call BCE_fnc_onLoad_BCE_Map_Holder";
+      idc = PROP_IDC(1100);
+      class BCE_Map_Events //- #NOTE - use SQF UI addEventhandlers
+      {
+        onMouseButtonClick = "";
+        onMouseButtonDblClick = "";
+      };
     };
     //- cTab only 
     // 🔴 #NOTE - "controlBackground" have to inherit "BCE_Mission_Build_Controls" 
