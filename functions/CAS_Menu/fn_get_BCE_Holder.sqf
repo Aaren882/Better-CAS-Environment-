@@ -14,10 +14,10 @@
     ]
 */
 
-params ["_input"];
+params [["_input", displayNull,[displayNull,""]]];
 
 private _key = switch (typeName _input) do {
-  case "DISPLAY": {_input getVariable ["BCE_Holder_Name", ""]};
+  case "DISPLAY": {_input call BCE_fnc_get_BCE_Holder_Name};
   case "STRING": {_input};
 };
 
