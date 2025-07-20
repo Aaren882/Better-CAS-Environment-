@@ -8,7 +8,7 @@
   For Custom-ability can use different setups => "BCE_Mission_Property"
 
   params :
-    _display : IMPROTANT on display "onload" only
+    _Ctrl_Holder : IMPROTANT on display "onload" only
     _config  : The Config of the BCE_Holder
 */
 
