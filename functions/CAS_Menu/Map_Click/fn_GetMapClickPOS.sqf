@@ -43,26 +43,28 @@ if (_button == 0) then {
 	//- "AV Terminal" or "Andorid Phone" or "cTab Tablet"
 	if ((!(isnull findDisplay 160) || (_IDC_Offset > 0)) && _cTab_show) then {
 
-		private _ctrlCombo = _display displayctrl (_IDC_Offset + 2013);
-		private _type = _display displayctrl (_IDC_Offset + 2012);
+		// private _ctrlCombo = _display displayctrl (_IDC_Offset + 2013);
+		// private _type = _display displayctrl (_IDC_Offset + 2012);
+		private _ctrlCombo = "New_Task_MarkerCombo" call BCE_fnc_getTaskSingleComponent;
+		private _type = "New_Task_IPtype" call BCE_fnc_getTaskSingleComponent;
 		if (
 				_alt &&
 				!(ctrlshown _ctrlCombo) &&
 				(
 					ctrlshown _type ||
-					ctrlshown (_display displayctrl (_IDC_Offset + 20121)) ||
-					ctrlshown (_display displayctrl (_IDC_Offset + 4662))
+					ctrlshown ("New_Task_TGT" call BCE_fnc_getTaskSingleComponent)
 				) &&
 				(
 					!(ctrlshown _type) ||
-					!(_type lbText (lbCurSel _type) == (localize "STR_BCE_Tit_OverHead"))
+					!(_type lbText (lbCurSel _type) == (localize "STR_BCE_Tit_OverHead")) /*||
+          ctrlshown (_display displayctrl (_IDC_Offset + 4662))*/
 				)
 			) then {
 			"MAP_ClickPOS" call _mark;
 		};
 
-	//-Others
 	} else {
+    //- BCE cTab click short-cut
 		_BCE_MapTool = _display displayctrl (_IDC_offset + 12010);
 		if (_alt && (ctrlShown _BCE_MapTool)) then {
 
