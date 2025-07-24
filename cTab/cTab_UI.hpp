@@ -160,6 +160,29 @@
 
     class controlsBackground: BCE_Mission_Build_Controls
     {
+      class BCE_Holder: BCE_Holder
+			{
+				//- Key to varify the display is opened
+				// * in this case the "displayName" can be the same for its dialog or display type
+				// * because the displayName is used to check if the display's stored properties
+				// * #NOTE - cTab displayName => "cTabDisplayPropertyGroups" variable from cTab
+				displayName = "Tablet"; // from ☝️ here
+				
+				// #LINK - Mission_Property.hpp
+				/* class BCE_Mission: BCE_Mission
+				{
+					class Air: Air //- Change UI Setups
+					{
+						9Line = "AIR_9_LINE";
+						5Line = "AIR_5_LINE";
+					};
+					class GND: GND //- Change UI Setups
+					{
+						ADJ = "ADJ";
+						SUP = "SUP";
+					};
+				}; */
+			};
       delete MiniMapBG;
       class screen: cTab_Tablet_RscMapControl
       {
@@ -206,7 +229,7 @@
       };
 
     };
-    class controls
+    class controls: BCE_Mission_Build_Controls
     {
       class btnACT: cTab_Tablet_btnMouse
       {
@@ -1262,20 +1285,19 @@
         Y = MainFrameY + MainFrameH / 2 + FrameUY / 2;
         W = MainFrameW;
         H = MainFrameH / 2;
+        
+        #define BUILDER_LINE_H (0.65 * (MainFrameH / 2 / 10))
         class controls
         {
           //- Content (Task Type)
-          class TaskType: RscCombo
+          class TaskType: TaskType
           {
             idc = idc_D(2107);
             x = FrameLX + smalFmW + smalSpc;
             y = 0;
             w = ContW;
             h = ContH;
-            colorBackground[] = {0,0,0,1};
-            colorSelectBackground[] = {0.5,0.5,0.5,1};
-            wholeHeight = 0.8;
-            sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+            sizeEx = BUILDER_LINE_H;
             onLBSelChanged = "(_this + [17000]) call BCE_fnc_onLBTaskTypeChanged";
             class Items
             {
@@ -1298,7 +1320,7 @@
           // -Description
           class Descframe: cTab_RscFrame
           {
-            sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8";
+            sizeEx = BUILDER_LINE_H;
             text = "$STR_BCE_Description";
             x = FrameLX;
             y = 0;
@@ -1308,6 +1330,7 @@
           class taskDesc: RscStructuredText
           {
             idc = idc_D(2004);
+            size = 0.9 * BUILDER_LINE_H;
             text = "Desc :";
             colorBackground[] = {0,0,0,0};
             x = FrameLX;
@@ -1325,7 +1348,7 @@
           // -List
           class taskframe: Descframe
           {
-            sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8";
+            sizeEx = 1.05 * BUILDER_LINE_H;
             text = "Task List : ";
             x = FrameLX + smalFmW + ContW + (2 * smalSpc);
           };
@@ -1487,7 +1510,7 @@
             x = FrameLX + smalFmW + smalSpc;\
             y = ((MULTIY + 1.2) * ContH) + (ContH / 3);\
             w = MULTIW * ContW;\
-            h = MULTIH * ContH
+            h = MULTIH * BUILDER_LINE_H
 
           #define ExpBOX(MULTIY,MULTIH,MULTIW,OFFSETX) \
             x = (FrameLX + smalFmW + smalSpc) + (OFFSETX * (safezoneH/safezonew) * (safezoneH / 70));\
@@ -1500,7 +1523,7 @@
           {
             idc = idc_D(2003);
             text = "Task Title:";
-            sizeEx = "0.7 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+            sizeEx = BUILDER_LINE_H min ContH;
             x = FrameLX + smalFmW + (smalSpc / 2.5);
             y = ContH + (ContH / 3);
             w = ContW;
@@ -1513,8 +1536,7 @@
           class Clear_TaskInfo: BCE_RscButtonMenu
           {
             idc = idc_D(2106);
-            size = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8";
-            sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+            size = BUILDER_LINE_H;
             x = FrameLX + smalFmW + smalSpc + (0.5 * ContW);
             y = ContH + (ContH / 3);
             w = 0.5 * ContW;
@@ -1522,7 +1544,7 @@
             text = "$STR_BCE_ClearTaskInfo";
             textureNoShortcut = "\a3\3den\data\cfg3den\history\deleteitems_ca.paa";
             //tooltip = "Clear Task Info";
-            onButtonClick = "(_this + [false,'cTab_Tablet_dlg',17000]) call BCE_fnc_clearTaskInfo";
+            onButtonClick = (_this + [false,'cTab_Tablet_dlg',TASK_OFFSET]) call BCE_fnc_clearTaskInfo;
 
             colorBackground[] = {1,0,0,0.5};
             colorBackground2[] = {1,0,0,0.5};
@@ -1548,7 +1570,7 @@
             h = "safezoneH / 40";
             text = "$STR_BCE_SendData";
             font = "RobotoCondensed_BCE";
-            sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+            sizeEx = BUILDER_LINE_H;
             colorBackground[] = {0.5,0.5,0.5,0.5};
             onButtonClick = "(_this + [17000,true]) call BCE_fnc_DataReceiveButton";
           };
@@ -1561,7 +1583,7 @@
             h = "safezoneH / 53";
             text = "$STR_BCE_Abort_Task";
             font = "PuristaMedium";
-            sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+            sizeEx = BUILDER_LINE_H;
             colorBackground[] = {1,0.25,0.25,0.5};
             colorBackgroundDisabled[] = {0,0,0,0.5};
           };
@@ -1574,7 +1596,7 @@
           };
 
           //-Game Plan
-          class New_Task_CtrlType: RscToolbox
+          class New_Task_CtrlType: New_Task_CtrlType
           {
             idc = idc_D(2011);
             ExpPOS(2.15,1,1);
@@ -1588,29 +1610,34 @@
             };
             font = "RobotoCondensed_BCE";
             colorBackground[] = {0,0,0,0.3};
-            sizeEx = "0.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+            sizeEx = BUILDER_LINE_H;
           };
-          class New_Task_Ctrl_Title: Clear_TaskInfo
+          class New_Task_Ctrl_Title: New_Task_Ctrl_Title
           {
             idc = idc_D(20110);
-            text = "$STR_BCE_ControlType_BNT";
-            colorBackground[] = {0,0,0,0.4};
-            tooltip = "$STR_BCE_more_Details";
+            size = BUILDER_LINE_H;
             onButtonClick = (_this + [17000+2004,'"cTab_Tablet_dlg" >> "controls" >> "Task_Builder" >> "controls"']) call BCE_fnc_ctab_ChangeTask_Desc;
-            BCE_Desc = "$STR_BCE_DECS_sm_CtrlType";
             ExpPOS(1,0.5,1);
-            periodFocus = 0;
-            periodOver = 0;
+
             textureNoShortcut="\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa";
+            class ShortcutPos: ShortcutPos
+            {
+              left = 0.5 * ContW - (1.5 * 0.0175);
+            };
           };
-          class New_Task_AttackType_Title: New_Task_Ctrl_Title
+          class New_Task_AttackType_Title: New_Task_AttackType_Title
           {
             idc = idc_D(20111);
-            text = "$STR_BCE_AttackType_BNT";
-            BCE_Desc = "$STR_BCE_DECS_sm_AttackType";
             ExpPOS(3.25,0.5,1);
+            onButtonClick = (_this + [17000+2004,'"cTab_Tablet_dlg" >> "controls" >> "Task_Builder" >> "controls"']) call BCE_fnc_ctab_ChangeTask_Desc;
+            
+            textureNoShortcut="\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa";
+            class ShortcutPos: ShortcutPos
+            {
+              left = 0.5 * ContW - (1.5 * 0.0175);
+            };
           };
-          class New_Task_AttackType: New_Task_CtrlType
+          class New_Task_AttackType: New_Task_AttackType
           {
             idc = idc_D(20112);
             ExpPOS(4.4,1,1);
@@ -1621,13 +1648,13 @@
               "BoC"
             };
           };
-          class New_Task_Ordnance_Title: New_Task_Ctrl_Title
+          class New_Task_Ordnance_Title: New_Task_Ordnance_Title
           {
             idc = idc_D(20113);
-            text = "$STR_BCE_OrdnanceREQ_BNT";
-            BCE_Desc = "$STR_BCE_DECS_sm_Ordnance";
             ExpPOS(5.5,0.575,1);
+            onButtonClick = (_this + [17000+2004,'"cTab_Tablet_dlg" >> "controls" >> "Task_Builder" >> "controls"']) call BCE_fnc_ctab_ChangeTask_Desc;
             
+            textureNoShortcut="\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa";
             class ShortcutPos: ShortcutPos
             {
               left = 0.575 * ContW - (1.5 * 0.0175);
@@ -1635,7 +1662,7 @@
           };
 
           //-IP
-          class New_Task_IPtype: New_Task_CtrlType
+          class New_Task_IPtype: New_Task_IPtype
           {
             idc = idc_D(2012);
             ExpPOS(1,1,1);
@@ -1649,9 +1676,10 @@
             };
             onToolBoxSelChanged = _this + [false,TASK_OFFSET] call BCE_fnc_ToolBoxChanged;
           };
-          class New_Task_TGT: New_Task_IPtype
+          class New_Task_TGT: New_Task_TGT
           {
             idc = idc_D(20121);
+            ExpPOS(1,1,1);
             columns = 2;
             strings[] =
             {
@@ -1659,7 +1687,7 @@
               "$STR_BCE_Tit_BFT_marker"
             };
           };
-          class New_Task_MarkerCombo: RscCombo
+          class New_Task_MarkerCombo: New_Task_MarkerCombo
           {
             idc = idc_D(2013);
             ExpPOS(2,0.5,1);
@@ -1669,7 +1697,7 @@
             //colorPictureSelected[] = {1,1,1,0};
             wholeHeight = 0.8;
             font = "PuristaMedium";
-            sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+            sizeEx = BUILDER_LINE_H;
             onMouseButtonClick = "(_this # 0) call BCE_fnc_IPMarkers;";
             class Items
             {
@@ -1681,39 +1709,40 @@
               };
             };
           };
-          class New_Task_IPExpression: RscEdit
+          class New_Task_IPExpression: New_Task_IPExpression
           {
             idc = idc_D(2014);
             ExpPOS(2,0.5,1);
             text = "";
             canModify = 0;
-            sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+            sizeEx = BUILDER_LINE_H;
             show = 0;
             colorBackground[] = {0,0,0,0};
             tooltip = "$STR_BCE_tip_ShowResult";
           };
 
           //-TG Description
-          class New_Task_TG_DESC: RscEditMulti
+          class New_Task_TG_DESC: New_Task_TG_DESC
           {
             idc = idc_D(2015);
             ExpPOS(1,1,8);
-            sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+            sizeEx = BUILDER_LINE_H;
             text = "";
             show = 0;
           };
 
           //-Mark
-          class New_Task_GRID_DESC: RscEdit
+          class New_Task_GRID_DESC: New_Task_GRID_DESC
           {
             idc = idc_D(2016);
+            sizeEx = BUILDER_LINE_H;
             ExpPOS(1,1,1);
             text = "$STR_BCE_MarkWith";
             show = 0;
           };
 
           //-ERGS
-          class New_Task_EGRS_Azimuth: New_Task_CtrlType
+          class New_Task_EGRS_Azimuth: New_Task_EGRS_Azimuth
           {
             idc = idc_D(2017);
             ExpPOS(3,1,1);
@@ -1742,18 +1771,19 @@
               315
             };
             show = 0;
-            sizeEx = "0.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+            sizeEx = BUILDER_LINE_H;
           };
-          class New_Task_EGRS_Bearing: RscEdit
+          class New_Task_EGRS_Bearing: New_Task_EGRS_Bearing
           {
             idc = idc_D(2018);
             ExpPOS(2,0.5,1);
             text = "$STR_BCE_Bearing_ENT";
             show = 0;
           };
-          class New_Task_EGRS: New_Task_IPtype
+          class New_Task_EGRS: New_Task_EGRS
           {
             idc = idc_D(2019);
+            ExpPOS(1,1,1);
             columns = 4;
             strings[] =
             {
@@ -1762,13 +1792,14 @@
               "$STR_BCE_Tit_Map_marker",
               "$STR_BCE_Tit_OverHead"
             };
-            sizeEx = "0.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+            sizeEx = BUILDER_LINE_H;
           };
 
           //-Remarks
-          class New_Task_FADH: New_Task_IPtype
+          class New_Task_FADH: New_Task_FADH
           {
             idc = idc_D(2200);
+            ExpPOS(1,1,1);
             columns = 3;
             strings[] =
             {
@@ -1777,15 +1808,15 @@
               "$STR_BCE_Default"
             };
           };
-          class New_Task_DangerClose_Text: RscText
+          class New_Task_DangerClose_Text: New_Task_DangerClose_Text
           {
             idc = idc_D(2201);
             ExpBOX(4,1,17,1);
             text = ": Danger Close";
             show = 0;
-            sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+            sizeEx = BUILDER_LINE_H;
           };
-          class New_Task_DangerClose_Box: RscCheckBox
+          class New_Task_DangerClose_Box: New_Task_DangerClose_Box
           {
             idc = idc_D(2202);
             textureChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
@@ -1798,25 +1829,26 @@
           };
 
           //-Ordnance
-          class AI_Remark_WeaponCombo: New_Task_MarkerCombo
+          class AI_Remark_WeaponCombo: AI_Remark_WeaponCombo
           {
             idc = idc_D(2020);
             ExpPOS(6.65,0.5,1);
-            sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+            sizeEx = BUILDER_LINE_H;
             onMouseButtonClick = "";
             onLBSelChanged = (_this + [TASK_OFFSET]) call BCE_fnc_SelWPN_AIR;
             class Items{};
           };
-          class AI_Remark_ModeCombo: AI_Remark_WeaponCombo
+          class AI_Remark_ModeCombo: AI_Remark_ModeCombo
           {
             idc = idc_D(2021);
-            onLBSelChanged = "";
+            ExpPOS(6.65,0.5,1);
+            sizeEx = BUILDER_LINE_H;
           };
-          class Attack_Range_Combo: AI_Remark_ModeCombo
+          class Attack_Range_Combo: Attack_Range_Combo
           {
             idc = idc_D(2022);
             ExpPOS(7.65,1/3,1);
-            sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
+            sizeEx = BUILDER_LINE_H;
             tooltip = "$STR_BCE_tip_Attack_Range";
             class Items
             {
@@ -1838,22 +1870,25 @@
               };
             };
           };
-          class Round_Count_Box: RscEdit
+          class Round_Count_Box: Round_Count_Box
           {
             idc = idc_D(2023);
+            sizeEx = BUILDER_LINE_H;
             Style = 2;
             show = 0;
             text = "1";
             tooltip = "$STR_BCE_tip_Round_Count";
-            sizeEx = "0.6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
           };
-          class Attack_Height_Box: Round_Count_Box
+          class Attack_Height_Box: Attack_Height_Box
           {
             idc = idc_D(2024);
+            sizeEx = BUILDER_LINE_H;
             tooltip = "$STR_BCE_tip_Attack_Height";
             text = "2000";
           };
         };
+
+        #undef BUILDER_LINE_H
       };
 
       //-SubMenu + lerGTD SubMenu + BCE Submenu

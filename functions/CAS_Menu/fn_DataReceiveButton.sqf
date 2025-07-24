@@ -1,5 +1,5 @@
 params ["_control",["_IDC_offset",0],["_updateList",false],["_overwrite",-1]];
-// private ["_display","_button_text","_NotAVT","_curType","_isOverwrite","_curLine","_vehicle","_condition","_text"];
+// private ["_display","_button_text","_NotAVT","_curType","_isOverwrite","_curLine","_vehicle","_condition"];
 privateAll;
 
 _display = ctrlParent _control;
@@ -62,18 +62,18 @@ if ((localize "STR_BCE_Abort_Task") in (tolower _button_text)) exitWith {
 
 //-Task Expressions
 ([_display,_curLine,[0,1] select _NotAVT,false,true,true] call BCE_fnc_Show_CurTaskCtrls) params ["_shownCtrls","_TextR"];
+// ([_curLine, _varName] call BCE_fnc_getTaskComponents) params ["_shownCtrls","_desc_Sel"];
 
 _condition = [[],[0]] select (isNull _vehicle);
-_text = nil;
-
 if !(_curLine in _condition) then {
-	private _fnc = ["BCE_fnc_DataReceive9line", "BCE_fnc_DataReceive5line"] # _curType;
-	call (uiNamespace getVariable _fnc);
+  ["BCE_TaskBuilding_Enter", [_curLine,_isOverwrite]] call CBA_fnc_localEvent;
+	/* private _fnc = ["BCE_fnc_DataReceive9line", "BCE_fnc_DataReceive5line"] # _curType;
+	call (uiNamespace getVariable _fnc); */
 };
 
 //-Update List
 if (_updateList) then {
-	private _writeDown = (_TextR # _curLine) param [1,""];;
+	private _writeDown = (_TextR # _curLine) param [1,""];
 	_TaskList lbSetTextRight [_curLine, [_taskVar # _curLine # 0, _writeDown] select (_writeDown != "")];
 };
 

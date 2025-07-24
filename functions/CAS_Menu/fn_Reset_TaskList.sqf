@@ -31,7 +31,7 @@ _all_Tasks = ["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"];
 if (_clear_index > -1) then {
 	[(_display displayCtrl (17000 + 12010)), false, 'cTab_Tablet_dlg', 17000, _clear_index] call BCE_fnc_clearTaskInfo;
 } else {
-	private _text = format ["<t size='%1'>%2</t>",[0.6,0.8] select ("chinese" in language),_Tasklist lbdata (lbCurSel _Tasklist)];
+	private _text = format ["<t size='1'>%2</t>",[0.6,0.8] select ("chinese" in language),_Tasklist lbdata (lbCurSel _Tasklist)];
 
 	//-Set Description
 	_description ctrlSetStructuredText parseText _text;

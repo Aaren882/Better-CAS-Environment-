@@ -28,7 +28,7 @@ switch _curType do {
 
 //-Write down Description
 _description = _display displayctrl (_IDC_offset + 2004);
-_text = format ["<t size='%1'>%2</t>",[0.6,0.8] select ("chinese" in language),_TaskList lbData _curLine];
+_text = format ["<t size='1'>%2</t>",[0.6,0.8] select ("chinese" in language),_TaskList lbData _curLine];
 _description ctrlSetStructuredText parseText _text;
 
 //-hide "Clear" + "Abort Mission" + "Enter" buttons
