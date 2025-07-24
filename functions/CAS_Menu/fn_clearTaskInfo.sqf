@@ -1,43 +1,45 @@
 params ["_control",["_Veh_Changed",false],["_config","RscDisplayAVTerminal"],["_IDC_offset",0],["_overwrite",-1]];
 
-_display = ctrlparent _control;
-_isAVT = _IDC_offset == 0;
+private _display = ctrlparent _control;
+private _isAVT = _IDC_offset == 0;
 
 //-get Which interface should be applied
-_curInterface = switch _IDC_offset do {
+private _curInterface = switch _IDC_offset do {
 	case 17000: {1};
 	default {0};
 };
 
 _clearAction = {
-	_description = _display displayctrl (_IDC_offset + 2004);
-	_Task_Type = _display displayCtrl (_IDC_offset + 2107);
+	/* private _description = _display displayctrl (_IDC_offset + 2004);
+	private _Task_Type = _display displayCtrl (_IDC_offset + 2107); */
+	private _description = "taskDesc" call BCE_fnc_getTaskSingleComponent;
+	private _Task_Type = "TaskType" call BCE_fnc_getTaskSingleComponent;
 
-	_curType = [] call BCE_fnc_get_TaskCurType;
+	private _curType = [] call BCE_fnc_get_TaskCurType;
 
-	_list_result = switch _curType do {
+	private _list_result = switch _curType do {
 		//-5 line
 		case 1: {
-			_TaskList = _display displayCtrl (_IDC_offset + 2005);
-			_name = "BCE_CAS_5Line_Var";
-			_default = [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]];
-			_taskVar = uiNamespace getVariable [_name, _default];
+			private _TaskList = _display displayCtrl (_IDC_offset + 2005);
+			private _name = "BCE_CAS_5Line_Var";
+			private _default = [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]];
+			private _taskVar = uiNamespace getVariable [_name, _default];
 
 			[_TaskList,_taskVar,_default,_name]
 		};
 		//-9 line
 		default {
-			_TaskList = _display displayCtrl (_IDC_offset + 2002);
-			_name = "BCE_CAS_9Line_Var";
-			_default = [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]];
-			_taskVar = uiNamespace getVariable [_name, _default];
+			private _TaskList = _display displayCtrl (_IDC_offset + 2002);
+			private _name = "BCE_CAS_9Line_Var";
+			private _default = [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]];
+			private _taskVar = uiNamespace getVariable [_name, _default];
 			[_TaskList,_taskVar,_default,_name]
 		};
 	};
 	_list_result params ["_TaskList","_taskVar","_default","_TaskVarName"];
 
-	_isOverwrite = _overwrite > -1;
-	_curLine = if (_isOverwrite) then {
+	private _isOverwrite = _overwrite > -1;
+	private _curLine = if (_isOverwrite) then {
 		_overwrite
 	} else {
 		[lbCurSel _taskList,0] select _Veh_Changed;
@@ -117,6 +119,6 @@ _MenuChanged = {
 	_desc ctrlSetStructuredText parseText (_text joinString "<br/>");
 };
 
-_ismenu = lbCurSel (_display displayCtrl 2102) == 1;
+private _ismenu = lbCurSel (_display displayCtrl 2102) == 1;
 
 call ([_clearAction,_MenuChanged] select _ismenu);

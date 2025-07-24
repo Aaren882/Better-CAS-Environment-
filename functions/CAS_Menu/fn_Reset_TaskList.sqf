@@ -17,8 +17,11 @@ _all_lists apply {
 
 _curType = [] call BCE_fnc_get_TaskCurType;
 
-_TaskType = _display displayctrl (_IDC_offset + 2107);
-_description = _display displayctrl (_IDC_offset + 2004);
+/* _TaskType = _display displayctrl (_IDC_offset + 2107);
+_description = _display displayctrl (_IDC_offset + 2004); */
+private _TaskType = "TaskType" call BCE_fnc_getTaskSingleComponent;
+private _description = "taskDesc" call BCE_fnc_getTaskSingleComponent;
+
 _Tasklist = _display displayctrl (_all_lists # _curType);
 
 _TaskType lbSetCurSel _curType;
