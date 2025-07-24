@@ -97,7 +97,7 @@ PHONE_CLASS
 				//- Key to varify the display is opened
 				// * in this case the "displayName" can be the same for its dialog or display type
 				// * because the displayName is used to check if the display's stored properties
-				// * #NOTE - cTab displayName => cTabDisplayPropertyGroups
+				// * #NOTE - cTab displayName => "cTabDisplayPropertyGroups" variable from cTab
 				displayName = "Android"; // from ☝️ here
 				
 				// #LINK - Mission_Property.hpp
