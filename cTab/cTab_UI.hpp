@@ -1327,23 +1327,14 @@
             w = smalFmW;
             h = smalFmH;
           };
-          class taskDesc: RscStructuredText
+          class taskDesc: taskDesc
           {
             idc = idc_D(2004);
             size = 0.9 * BUILDER_LINE_H;
-            text = "Desc :";
-            colorBackground[] = {0,0,0,0};
             x = FrameLX;
             y = (ContC * 1.1);
             w = smalFmW;
             h = smalFmH - ContC;
-            class Attributes
-            {
-              font = "RobotoCondensed_BCE";
-              color = "#ffffff";
-              align = "left";
-              shadow = 1;
-            };
           };
           // -List
           class taskframe: Descframe
