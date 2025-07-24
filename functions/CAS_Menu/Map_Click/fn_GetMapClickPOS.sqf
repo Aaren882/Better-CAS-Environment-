@@ -11,6 +11,9 @@ params ["_control", "_button", "_xPos", "_yPos", "_shift", "_ctrl", "_alt",["_ID
 private ["_display","_mark","_BCE_MapTool","_task","_ctrlEnter","_curSel","_idc"];
 _display = ctrlparent _control;
 
+//- #TODO - Implement BCE Map Control framework !!!!
+  // private _HolderName = _display call BCE_fnc_get_BCE_Holder_Name;
+
 _mark = {
 	params ["_id",["_color","ColorYellow"]];
 	private ["_POS","_marker"];

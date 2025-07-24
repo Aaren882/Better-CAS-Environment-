@@ -130,7 +130,7 @@ class BCE_Mission_Build_Controls
       shadow = 1;
     };
   };
-  class New_Task_Ctrl_Title: RscButtonMenu
+  class New_Task_Ctrl_Title: BCE_RscButtonMenu
   {
     idc = PROP_IDC(20110);
     style = 2;
@@ -143,6 +143,7 @@ class BCE_Mission_Build_Controls
     tooltip = "$STR_BCE_more_Details";
     onButtonClick = "call BCE_fnc_Extended_Desc";
     BCE_Desc = "$STR_BCE_DECS_sm_CtrlType";
+    
     class Attributes
     {
       font = "RobotoCondensed_BCE";

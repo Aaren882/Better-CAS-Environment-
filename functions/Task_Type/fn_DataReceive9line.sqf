@@ -93,7 +93,7 @@ switch _curLine do {
 
 				//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:Elevation]
 				if !(_TGPOS isEqualTo []) then {
-					private _TGPOS resize [3, 0];
+					_TGPOS resize [3, 0];
 					private _markerInfo = format ["GRID: [%1]",mapGridPosition _TGPOS];
 					_taskVar set [1,
 						[

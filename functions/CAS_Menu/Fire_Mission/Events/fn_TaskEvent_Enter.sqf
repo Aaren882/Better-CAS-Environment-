@@ -4,7 +4,7 @@
   On Task/Mission Building Value manually Updated
 */
 
-params ["_curLine"];
+params ["_curLine",["_isOverwrite",false,[true]]];
 
 ([] call BCE_fnc_getDisplayTaskProps) params ["_varName","","_events"];
 ([] call BCE_fnc_getTaskVar) params ["_taskVar"];
@@ -24,9 +24,9 @@ params ["_curLine"];
     "_events",
     "_taskVar",
     "_curLine",
+    "_isOverwrite",
     "_shownCtrls"
   ];
-  private _isOverwrite = false;
   private _taskUnit = [] call BCE_fnc_get_TaskCurUnit;
   [
     _taskUnit,

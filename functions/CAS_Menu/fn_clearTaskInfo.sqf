@@ -47,8 +47,9 @@ _clearAction = {
 	//-check current Controls
 	([_display,_curLine,_curInterface,false,true,true] call BCE_fnc_Show_CurTaskCtrls) params ["_shownCtrls","_TextR"];
 
-	private _fnc = ["BCE_fnc_clearTask5line", "BCE_fnc_clearTask9line"] # _curType;
-	call (uiNamespace getVariable _fnc);
+  ["BCE_TaskBuilding_Clear", [_curLine]] call CBA_fnc_localEvent;
+	/* private _fnc = ["BCE_fnc_clearTask5line", "BCE_fnc_clearTask9line"] # _curType;
+	call (uiNamespace getVariable _fnc); */
 
 	//-Set Clear button color (except AV Terminal)
 	if (_IDC_offset != 0) then {

@@ -104,6 +104,7 @@ call {
 		};
 	};
 
+  //- Delete Marker
 	if (_type == -4) exitWith {
 		_list = _display displayCtrl (17000 + 12010);
 
