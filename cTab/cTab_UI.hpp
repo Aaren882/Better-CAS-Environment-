@@ -1514,7 +1514,7 @@
           {
             idc = idc_D(2003);
             text = "Task Title:";
-            sizeEx = BUILDER_LINE_H min ContH;
+            sizeEx = BUILDER_LINE_H;
             x = FrameLX + smalFmW + (smalSpc / 2.5);
             y = ContH + (ContH / 3);
             w = ContW;
@@ -1716,7 +1716,8 @@
           class New_Task_TG_DESC: New_Task_TG_DESC
           {
             idc = idc_D(2015);
-            ExpPOS(1,1,8);
+            ExpPOS(1,1,6);
+            style = 16;
             sizeEx = BUILDER_LINE_H;
             text = "";
             show = 0;
