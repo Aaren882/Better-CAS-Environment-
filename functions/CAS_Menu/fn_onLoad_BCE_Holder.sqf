@@ -57,6 +57,7 @@ if (_KeyName == "") then { //- if displayName is not set
         ]
        */
       [toUpperANSI (configName _cate), createHashMapFromArray _return]
+      //- #!SECTION
     };
 
     _map set [_KeyName, createHashMapFromArray _result];

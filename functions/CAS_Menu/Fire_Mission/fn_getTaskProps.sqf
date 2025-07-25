@@ -131,6 +131,7 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
     //- Save Components
       localNamespace setVariable ["BCE_Mission_Build_Components", _build_Components];
   };
+//- #!SECTION
 
 //- Return
 localNamespace getVariable [format ["#PROP_%1", _taskType], []];
