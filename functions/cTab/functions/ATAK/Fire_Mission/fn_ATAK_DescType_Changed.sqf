@@ -8,6 +8,8 @@
 */
 params ["_control", "_lbCurSel","_curLine"];
 
+if (isnull _control) exitWith {};
+
 //- Update Description Sel preset
 ["Desc",_lbCurSel] call BCE_fnc_set_TaskCurSetup;
 
