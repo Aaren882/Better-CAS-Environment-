@@ -15,10 +15,8 @@ params ["_control", "_lbCurSel","_curLine"];
 	(_curLine call BCE_fnc_getTaskComponents) params ["_shownCtrls"];
 	_shownCtrls params ["_EditBox"];
 
-_show = _lbCurSel < 1;
+private _show = _lbCurSel < 1;
 _EditBox ctrlShow _show;
-
-// call BCE_fnc_ATAK_Refresh_TaskInfos;
 
 //- Set DESC Text (Enter DESC value)
 if !(_show) then {
