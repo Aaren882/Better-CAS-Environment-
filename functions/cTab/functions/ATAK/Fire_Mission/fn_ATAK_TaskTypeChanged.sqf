@@ -34,10 +34,5 @@ switch (_curCate) do {
 
 		//- Update Task Control
 		private _MissionCtrl = [_group,_settings] call BCE_fnc_ATAK_updateTaskControl;
-		
-		if (isNull _MissionCtrl) exitWith {};
-		
-		//- Initiate 
-		["BCE_TaskBuilding_Enter", [0]] call CBA_fnc_localEvent;
 	};
 };

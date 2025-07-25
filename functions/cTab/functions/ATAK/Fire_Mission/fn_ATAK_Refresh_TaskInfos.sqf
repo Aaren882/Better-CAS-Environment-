@@ -30,18 +30,10 @@ private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 	} foreach _List;
 
 //- Get description DropList Selection
-	// private _ctrlDESC = _MissionCtrl controlsGroupCtrl (17000 + 2027);
 	private _ctrlDESC = "New_Task_TG_DESC_Combo" call BCE_fnc_getTaskSingleComponent;
 	private _DESC_Type = ["Desc",0] call BCE_fnc_get_TaskCurSetup;
 	_ctrlDESC lbSetCurSel _DESC_Type;
-
-//- Set DESC Infos -// "Game Plan" or so -//
-		/* (["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_subInfos"];
-		_subInfos params ["_subMenu","_curLine"];
-
-	if (_curLine > count _taskVar) then {
-		_curLine = (count _taskVar) - 1;
-	}; */
+	};
 
 	//- Display TaskVar values
 	private _descLine = [[5,3],[3]] # _curCate # _curType; //- Get Description Line
