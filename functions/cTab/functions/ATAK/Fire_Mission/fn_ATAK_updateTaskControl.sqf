@@ -48,8 +48,8 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
     //- Update task type in cTab Variable
       _subSel call BCE_fnc_ATAK_set_TaskType;
 
-    //- Refresh Task Values
-      call BCE_fnc_ATAK_Refresh_TaskInfos;
+    //- Refresh Task Values #NOTE - Seems like the create Menu will delay one frame 😐
+			[BCE_fnc_ATAK_Refresh_TaskInfos,[]] call CBA_fnc_execNextFrame; //- on Next Frame
 
     //- Rearrange Buttons
       [_settings,true] call BCE_fnc_ATAK_Invoke_ButtonLayoutArrange;

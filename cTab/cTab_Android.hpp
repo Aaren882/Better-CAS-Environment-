@@ -112,6 +112,7 @@ PHONE_CLASS
 					{
 						ADJ = "ADJ_ATAK";
 						SUP = "SUP_ATAK";
+						IMM_SUP = "IMM_SUP_ATAK";
 					};
 				};
 			};

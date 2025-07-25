@@ -18,10 +18,11 @@ private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 		],
 		[
 			[[2039,1],[2041,2],[3002,-1]],
-			[[2039,1],[2041,2],[2042,3],[3002,-1]]
+			[[2039,1],[2041,2],[2042,3],[3002,-1]],
+			[[2039,1],[2041,2]]
 		]
 	] # _curCate # _curType;
-
+	
 //-Appling Infos to each line
 	{
 		_x params ["_idc","_index"];
@@ -31,12 +32,14 @@ private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 
 //- Get description DropList Selection
 	private _ctrlDESC = "New_Task_TG_DESC_Combo" call BCE_fnc_getTaskSingleComponent;
-	private _DESC_Type = ["Desc",0] call BCE_fnc_get_TaskCurSetup;
-	_ctrlDESC lbSetCurSel _DESC_Type;
+	if !(isNull _ctrlDESC) then {
+		private _DESC_Type = ["Desc",0] call BCE_fnc_get_TaskCurSetup;
+		_ctrlDESC lbSetCurSel _DESC_Type;
 	};
 
-	//- Display TaskVar values
-	private _descLine = [[5,3],[3]] # _curCate # _curType; //- Get Description Line
+//- Display TaskVar values
+	private _descLine = ([[5,3],[3]] # _curCate) param [_curType, -1]; //- Get Description Line
 	{
+		if (_x < 0) exitWith {};
 		["BCE_TaskBuilding_Opened", [_x]] call CBA_fnc_localEvent;
 	} count [0,_descLine];
