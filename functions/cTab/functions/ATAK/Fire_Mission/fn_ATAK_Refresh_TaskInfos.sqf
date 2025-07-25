@@ -13,8 +13,8 @@ private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 //- If "_curLine" isn't selected 
 	private _List = [
 		[
-			[[2025,1],[2026,4],[2029,6],[2030,7],[2031,8],[2032,9],[3002,-1]],
-			[[2041,1],[2042,2],[3002,-1]]
+			[[2025,1],[2026,4,true],[2029,6,true],[2030,7],[2031,8,true],[2032,9],[3002,-1,true]],
+			[[2041,1],[2042,2],[3002,-1,true]]
 		],
 		[
 			[[2039,1],[2041,2],[3002,-1]],
@@ -25,9 +25,13 @@ private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 	
 //-Appling Infos to each line
 	{
-		_x params ["_idc","_index"];
+		_x params ["_idc","_index",["_readBack",false]];
 		private _title = _MissionCtrl controlsGroupCtrl ([17000 + _idc, _idc] select (_index < 0));
 		_title ctrlSetStructuredText parseText (_taskVar # _index # 0);
+		
+		if (_readBack) then {
+			_title ctrlSetBackgroundColor [0.19,0.61,0.34,0.65];
+		};
 	} foreach _List;
 
 //- Get description DropList Selection
