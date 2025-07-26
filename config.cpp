@@ -639,6 +639,7 @@ class CfgFunctions
 			class getAzimuthMil;
 			class getTurretDir;
 			class getUnitParams;
+			class getAmmoType;
 
 			class Add_CountDown;
 			
