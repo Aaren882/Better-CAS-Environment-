@@ -33,12 +33,11 @@ if (_submunition isNotEqualTo "") exitWith {
 	};
 
 	//- #NOTE - Peek the "_submunition" (Recursive)
-	private _return = "TRANS";
+	private _return = "TRANS"; //- #NOTE - the "_ammoClass" just transform into other munition
 	if (_deepSearch) then {
 		_return = [_submunition,_deepSearch] call BCE_fnc_getAmmoType;
 	};
 
-	//- #NOTE - the "_ammoClass" just transform into other munition
 	_return
 };
 
