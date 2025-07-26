@@ -22,6 +22,7 @@ switch _curLine do {
 		{
 			_x params ["_lbAmmo","_lbFuse","_lbFireUnits","_editRounds","_editFuzeVal"];
 
+			if (isNull _lbAmmo) then {continue};
 			private _isIA = _lbAmmo == _IA_ammo;
 
 			//- Create Weapon List

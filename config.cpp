@@ -904,6 +904,7 @@ class CfgFunctions
 			class DataReceive9line;
 			class DataReceive_ADJ;
 			class DataReceive_SUP;
+			class DataReceive_IMM_SUP;
 
 			class DataSent_AIR;
 			class DataSent_CFF;

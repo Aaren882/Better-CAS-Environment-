@@ -86,7 +86,6 @@ switch _curLine do {
 			};
 		
 		//- #NOTE - Replace "Interval" (if reach maximum)
-			systemChat str [_inval, _reloadTime, _interval_C == 1,time];
 			if (_inval * 60 < _reloadTime) then {
 				_result set [2, _reloadTime];
 

@@ -394,7 +394,7 @@
 			#define MOVE_Y_OFFSET 1
       class Background: Background
       {
-        ATAK_POS(0,0,0,(6.25 + 1.05 + 0.35 + MOVE_Y_OFFSET));
+        ATAK_POS(0,0,0,(4.6 + 1.05 + 0.35 + MOVE_Y_OFFSET));
       };
       //- ARTY Group DropBox
         class Vehicle_Grp_T: Vehicle_Grp_T {};
@@ -418,29 +418,39 @@
         class CFF_IE_FuzeValue_Box: CFF_IE_FuzeValue_Box {};
         class CFF_IE_FireAngle_Bnt: CFF_IE_FireAngle_Bnt {};
 
-      //- In Adjust (IA) (OPTIONAL)
-        class Weapon_IA_T: Weapon_IA_T {};
-        class CFF_IA_WeaponCombo: CFF_IA_WeaponCombo {};
-        class CFF_IA_FuzeCombo: CFF_IA_FuzeCombo {};
-        class CFF_IA_FireUnit_Combo: CFF_IA_FireUnit_Combo {};
-        class CFF_IA_Round_Box: CFF_IA_Round_Box {};
-        class CFF_IA_FuzeValue_Box: CFF_IA_FuzeValue_Box {};
-
       //- Sheaf (OPTIONAL)
-        class Line_Sheaf: Line_Sheaf {};
-        class Sheaf_EditBnt: Sheaf_EditBnt {};
+        class Line_Sheaf: Line_Sheaf
+				{
+					ATAK_POS(0,(2.6 + (0.35/2) + MOVE_Y_OFFSET),1,0.63);
+				};
+        class Sheaf_EditBnt: Sheaf_EditBnt
+				{
+					ATAK_POS(0.7,(2.6 + (0.35/2) + MOVE_Y_OFFSET),2.2,0.7);
+				};
 
       //- Callouts
-        class Line1_T5: Line1_T5 {};
-        class L51_EditBnt: L51_EditBnt {};
+        class Line1_T5: Line1_T5
+				{
+					ATAK_POS(0,(3.6 + (0.35/2) + MOVE_Y_OFFSET),1,0.63);
+				};
+        class L51_EditBnt: L51_EditBnt
+				{
+					ATAK_POS(0.2,(3.6 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
+				};
 
       //- Target
-        class Line2_T5: Line2_T5 {};
-        class L52_EditBnt: L52_EditBnt {};
+        class Line2_T5: Line2_T5
+				{
+					ATAK_POS(0,(4.6 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
+				};
+        class L52_EditBnt: L52_EditBnt
+				{
+					ATAK_POS(0.2,(4.6 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
+				};
       //- Separator -//
         class Separator: Separator
         {
-          ATAK_POS(0.1,(6.25 + 1.05 + (0.35/2) + MOVE_Y_OFFSET),2.8,0.001);
+          ATAK_POS(0.1,(4.6 + 1.05 + (0.35/2) + MOVE_Y_OFFSET),2.8,0.001);
         };
 		};
 	};

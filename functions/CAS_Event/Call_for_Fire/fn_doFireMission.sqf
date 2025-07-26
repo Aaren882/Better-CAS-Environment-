@@ -15,6 +15,9 @@ if (isnil{_delay}) then {
     "reloadTime",
     getNumber (_weaponCfg >> "reloadTime")
   ] call BIS_fnc_returnConfigEntry;
+
+	//- #NOTE - Save Reload time
+	["RELOAD", _delay, _taskUnit] call BCE_fnc_set_CFF_Value;
 };
 
 [
