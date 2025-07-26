@@ -229,7 +229,6 @@ private _random_POS = nil;
         _Sheaf_Info params ["_Sheaf_ModeSel","_SheafValue"];
         
         private _rounds = _fireUnitSel * _setCount;
-
         //- Linear Sheaf : [center, [a, b, angle, rect]]
         if (_Sheaf_ModeSel == 2) exitWith {
           _SheafValue params ["_a","_b","_dir"];
@@ -237,15 +236,21 @@ private _random_POS = nil;
           //- Hexagonal Distribution (Evenly Spacing)
             private _isOdd = _rounds % 2 != 0;
             private _ammo = getText (configfile >> "CfgMagazines" >> _lbAmmo >> "ammo");
-            private _effectRadius = getNumber (configfile >> "CfgAmmo" >> _ammo >> "indirectHitRange");
+						private _submunition = getText (configfile >> "CfgAmmo" >> _ammo >> "submunitionAmmo");
+						
+            if (_submunition != "") then { //- Replace _ammo by _submun"ition
+							_ammo = _submunition;
+						};
+
+						private _effectRadius = getNumber (configfile >> "CfgAmmo" >> _ammo >> "indirectHitRange");
           
-          //- Pick Width & Length
-            private _width = _a max _b;
-            private _length = _a min _b;
+          //- Pick Length & Width
+            private _length = _a;
+            private _width = _b;
 
           //- Get middle lines (correcting offsets)
-            private _mid_W = _width / 2;
             private _mid_L = _length / 2;
+            private _mid_W = _width / 2;
 
             private _rows = ceil (_width / _effectRadius);
             private _columns = (_rounds + ([0,1] select _isOdd)) / _rows;
@@ -365,6 +370,7 @@ private _random_POS = nil;
     //- Save Sheaf Data (Specify Sheaf for Guns)
       private _CFF_info = [_random_POS,_lbAmmo,_setCount,_angleType,[_lbFuse,_fuzeVal],_MOC_Function];
       _CFF_info set [6, _Sheaf_Pattern select [(_forEachIndex * _setCount), _setCount]];
+			// systemChat str [_Sheaf_Pattern,_CFF_info # 6, _forEachIndex,_setCount,(_forEachIndex * _setCount)];
       _CFF_info set [7, _RECURSION_INFO];
     
     //- Save Mission Values
@@ -373,7 +379,7 @@ private _random_POS = nil;
     // Removing mags is not instant and the code continues before removal is finished.
       [
         {
-          params ["_unit","_gunner","_weapon","_turret","_magsToAdd","_otherMags","_CFF_info"];
+          params ["_unit","_gunner","_weapon","_turret","_magsToAdd","_otherMags"];
 
           //- Adding Weapons
           if !(alive _unit) exitWith {};
@@ -400,8 +406,7 @@ private _random_POS = nil;
           _weapon,
           _turret,
           _magsToAdd,
-          _otherMags,
-          _CFF_info //- "_CFF_info"
+          _otherMags
         ]
       ] call CBA_fnc_execNextFrame;
 
