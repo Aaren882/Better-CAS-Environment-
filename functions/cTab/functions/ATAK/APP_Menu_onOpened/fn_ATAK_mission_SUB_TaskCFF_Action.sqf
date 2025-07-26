@@ -48,7 +48,8 @@ _PageTitle ctrlSetText format [localize "STR_BCE_CFF_MSN_TITLE", _taskID];
   private _OtherInfo_dsp = "New_Task_OtherInfo_Display" call BCE_fnc_getTaskSingleComponent;
 
 //- MTO (Message to Observer)
-  private _default_FUZE = [configFile >> "CfgMagazines" >> _lbAmmo_IE, "displayNameMFDFormat", "NO SPEC"] call BIS_fnc_returnConfigEntry;
+	private _ammo = getText (configfile >> "CfgMagazines" >> _lbAmmo_IE >> "ammo");
+	private _default_FUZE = [_ammo,true] call BCE_fnc_getAmmoType; 
 
   _MTO_dsp ctrlSetStructuredText parseText format [
     localize "STR_BCE_CFF_MSG_MTO_STRUCTURED",

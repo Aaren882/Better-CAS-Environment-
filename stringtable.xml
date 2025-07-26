@@ -1657,6 +1657,11 @@
 				<Chinese>%1 %2 , %3 門砲, %5 發, %4 生效中, 目標編號 %6。</Chinese>
 				<Chinesesimp>%1 %2 , %3 门炮, %5 发, %4 生效中, 目标编号 %6。</Chinesesimp>
 			</Key>
+			<Key ID="STR_BCE_CFF_MSG_IMM_SUP">
+				<Original>Roger, "Immediate Suppression".</Original>
+				<Chinese>收到。 "立即抑制"。</Chinese>
+				<Chinesesimp>收到。 "立即抑制"。</Chinesesimp>
+			</Key>
 			<Key ID="STR_BCE_CFF_MSG_MTO_STRUCTURED">
 				<Original>&lt;t color='#FFBC05' size='0.9'&gt;%1&lt;/t&gt;&lt;br/&gt;"%2 , %3 Guns, %5 ROUNDS, %4 in Effect, TARGET NUMBER %6"</Original>
 				<Chinese>&lt;t color='#FFBC05' size='0.9'&gt;%1&lt;/t&gt;&lt;br/&gt;"%2 , %3 門砲, %5 發, %4 生效中, 目標編號 %6"</Chinese>
