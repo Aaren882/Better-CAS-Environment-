@@ -203,16 +203,14 @@ private _random_POS = nil;
     if (_MSN_State == 1) then { //- When FFE
       
       //- Send MTO (Message to Observer)
-        private _default_FUZE = [
-          configFile >> "CfgMagazines" >> _lbAmmo,
-          "displayNameMFDFormat",
-          "NO SPEC"
-        ] call BIS_fnc_returnConfigEntry;
+				//- Find the ammo type 
+				private _ammo = getText (configfile >> "CfgMagazines" >> _lbAmmo >> "ammo");
+				private _default_FUZE = [_ammo,true] call BCE_fnc_getAmmoType; 
 
-
-        [
-          formationLeader _taskUnit,
-          format [
+				private _msg = if (_taskType_ID == 1) then {
+					localize "STR_BCE_CFF_MSG_IMM_SUP"
+				} else {
+					format [
             localize "STR_BCE_CFF_MSG_MTO",
             localize "STR_BCE_CFF_MTO_TITLE",
             str groupId group _taskUnit,
@@ -220,9 +218,10 @@ private _random_POS = nil;
             [_lbFuse,_default_FUZE] select (_lbFuse == ""),
             _setCount,
             _MSN_Key //- Mission ID
-          ],
-          "CFF_MTO"
-        ] call BCE_fnc_Send_Task_RadioMsg;
+          ]
+				};
+
+        [formationLeader _taskUnit,_msg,"CFF_MTO"] call BCE_fnc_Send_Task_RadioMsg;
 
       //- Get Sheaf Pattern
       call {
@@ -235,9 +234,9 @@ private _random_POS = nil;
 
           //- Hexagonal Distribution (Evenly Spacing)
             private _isOdd = _rounds % 2 != 0;
-            private _ammo = getText (configfile >> "CfgMagazines" >> _lbAmmo >> "ammo");
-						private _submunition = getText (configfile >> "CfgAmmo" >> _ammo >> "submunitionAmmo");
 						
+						private _ammo = _ammo;
+						private _submunition = getText (configfile >> "CfgAmmo" >> _ammo >> "submunitionAmmo");
             if (_submunition != "") then { //- Replace _ammo by _submun"ition
 							_ammo = _submunition;
 						};
