@@ -112,11 +112,6 @@ if (0 < ["MSN_FIRE_EH",-1,_taskUnit] call BCE_fnc_get_CFF_Value) exitWith {};
     //- Check Ammo
       private _AmmoCount = _taskUnit magazineTurretAmmo [_magazine, _taskUnit unitTurret _gunner];
       private _hasAmmo = _AmmoCount > 0;
-      /* systemChat str [
-        _current < _setCount,
-        _CFF_info findIf {true} > -1,
-        _hasAmmo
-      ]; */
 
     //- "MSN_PROG" Progression of Mission
     private _current = ["MSN_PROG", 0, _taskUnit] call BCE_fnc_get_CFF_Value;
@@ -142,14 +137,6 @@ if (0 < ["MSN_FIRE_EH",-1,_taskUnit] call BCE_fnc_get_CFF_Value) exitWith {};
     //- set Fuze trigger
       [_taskUnit, _fuzeData, _pos] call BCE_fnc_FuzeInit;
       call BCE_fnc_FuzeTrigger;
-    
-    //- #NOTE - Save fuzeData
-      /* _pos = [
-        [
-          [_pos, 0] //- ["POS", "CEP"]
-        ],
-        []
-      ] call BIS_fnc_randomPos; */
 
     //- Next round
     if (
@@ -197,20 +184,6 @@ if (0 < ["MSN_FIRE_EH",-1,_taskUnit] call BCE_fnc_get_CFF_Value) exitWith {};
 
   //- Save EH ID
     ["MSN_FIRE_EH", _ehID, _taskUnit] call BCE_fnc_set_CFF_Value;
-
-/* [_taskUnit,_weapon,_MSN_Key] call {
-  params ["_taskUnit","_weapon","_MSN_Key"];
-
-  
-}; */
-
-//- Execute Fire Mission (wait 2 Seconds)
-  /* [
-    ,
-    [_taskUnit,_weapon,_MSN_Key],
-    _delay
-  ] call CBA_fnc_waitAndExecute; */
-
 
 /* 
   *** DRAW MARKER ON SHEAF POS ***

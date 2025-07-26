@@ -395,7 +395,7 @@ class BCE_Mission_Property
 				{
 					"TaskType_GND",
 					"CFF_IE_WeaponCombo","CFF_IE_FuzeCombo","CFF_IE_FireUnit_Combo","","CFF_IE_FuzeValue_Box","CFF_IE_FireAngle_Bnt",
-					"CFF_IA_WeaponCombo","CFF_IA_FuzeCombo","CFF_IA_FireUnit_Combo","CFF_IA_Round_Box","CFF_IA_FuzeValue_Box"
+					"","","","","" //- NULL controls
 				},
 				{
 					"New_Task_IE_Sheaf_Mode","New_Task_IPExpression","CFF_IE_Radius_Box",
@@ -414,7 +414,7 @@ class BCE_Mission_Property
 			class Events: Events
 			{
 				Opened = "BCE_fnc_DblClickSUP";
-				Enter = "BCE_fnc_DataReceive_SUP";
+				Enter = "BCE_fnc_DataReceive_IMM_SUP";
 				Element_SelChanged = "BCE_fnc_SelChanged_SUP";
 			};
 		};

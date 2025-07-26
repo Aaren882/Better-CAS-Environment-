@@ -33,6 +33,8 @@ switch _curLine do {
 		{
 			_x params ["_lbAmmo","_lbFuse","_lbFireUnits","_editRounds","_editFuzeVal"];
 
+			if (isNull _lbAmmo) then {continue};
+			
 			//-Get Data
 				private _fireAmmo = _lbAmmo lbData (lbCurSel _lbAmmo);
 				private _fireUnitSel = lbCurSel _lbFireUnits;

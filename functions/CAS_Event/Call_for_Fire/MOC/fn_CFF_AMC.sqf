@@ -17,4 +17,8 @@ private _executed = _chargeInfo findIf {true} < 0;
   };
 
 //- Execute Fire Mission
-  [_chargeInfo, _taskUnit, 0] call BCE_fnc_doFireMission;
+  [
+		_chargeInfo,
+		_taskUnit,
+		["RELOAD", 0, _taskUnit] call BCE_fnc_get_CFF_Value
+	] call BCE_fnc_doFireMission;

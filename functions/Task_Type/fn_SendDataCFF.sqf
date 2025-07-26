@@ -18,12 +18,13 @@ params ["_taskUnit","_cateName","_taskType","_taskVar",["_customInfos",-1]];
 
 _taskVar params ["_taskVar_0","_taskVar_1","_taskVar_2","_taskVar_3","_taskVar_4"];
 
-// (_Wpn_setup # 0) params ["_WeapName_IE","_ModeName_IE","_Mode_IE","_turret_IE","_Count_IE","_muzzle_IE","_ATK_range_IE","_ATK_height_IE"];
-// (_Wpn_setup # 1) params ["_WeapName_IA","_ModeName_IA","_Mode_IA","_turret_IA","_Count_IA","_muzzle_IA","_ATK_range_IA","_ATK_height_IA"];
-
 //- Processing (Get i/e & i/a values)
 _taskVar_0 params ["","_taskTypeInfo","","","_angleType"];
-_taskVar_4 params ["","_MOC_Values","_MOC_Function"];
+_taskVar_4 params [
+	"",
+	["_MOC_Values",[0,0]],
+	["_MOC_Function","BCE_fnc_CFF_AT_READY",[""]]
+];
 
 //- Positions
 private _TGPOS = _taskVar_2 # 2;
@@ -34,9 +35,11 @@ private _TGPOS = _taskVar_2 # 2;
 private _MSN_State = 0;
 private _MSN_Prepare = true;
 
-private _MOC_Value = _MOC_Values # 1;
+//- #NOTE - "At-Ready" by default
+_MOC_Values params [["_MOC_Type",0,[0]],["_MOC_Value",0,[0]]];
+
 private _prepare_Minutes = 3;
-private _RECURSION_INFO = [0,0]; //- [RECUR_COUNT, RECUR_INTERVAL]
+private _RECURSION_INFO = [0,0]; //- [RECUR_COUNT, RECUR_INTERVAL (Sec)] #NOTE - For each unit
 
 //- Method of control
   private _MOC = switch (typeName _MOC_Value) do {
@@ -62,7 +65,7 @@ private _RECURSION_INFO = [0,0]; //- [RECUR_COUNT, RECUR_INTERVAL]
 
 //- Mission Type
   switch (_taskType) do {
-    case 1: {
+    case 1: { //- Suppression
       //- ex. ["NA",[],[[8,1,8],[1,1,1,1,0]]]
       private _taskVals = _taskVar_3 param [1, []];
       private _varStore = _taskVar_3 param [2, [[],[]]];
@@ -75,6 +78,24 @@ private _RECURSION_INFO = [0,0]; //- [RECUR_COUNT, RECUR_INTERVAL]
         _RECURSION_INFO = [_rnds_Cnt, _interval_V * ([60, 1] select (_MinSec_C == 1))];
       };
     };
+		case 2: { //- Imm-Suppression
+			_MSN_State = 1;
+
+			//- get Reload time
+				private _gunner = gunner _taskUnit;
+				private _turret = _taskUnit unitTurret _gunner;
+				private _weapon = _taskUnit currentWeaponTurret _turret;
+				private _weaponCfg = configFile >> "CfgWeapons" >> _weapon;
+
+			// - Get Reload time from CfgWeapons
+			_delay = [
+					_weaponCfg >> currentWeaponMode _gunner,
+					"reloadTime",
+					getNumber (_weaponCfg >> "reloadTime")
+				] call BIS_fnc_returnConfigEntry;
+
+			["RELOAD", _delay max (floor random [10,12,15]), _taskUnit] call BCE_fnc_set_CFF_Value;
+		};
   };
 
 //- Pass into "DataSent" EH
