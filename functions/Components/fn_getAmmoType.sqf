@@ -68,7 +68,7 @@ if ("shotilluminating" == _simulation) exitWith {
 //- GUIDED
 	private _lockSystem = [_config, "weaponLockSystem",""] call BIS_fnc_returnConfigEntry;
 	if (
-		"" isNotEqualTo _lockSystem ||
+		"" isNotEqualTo _lockSystem &&
 		0 isNotEqualTo _lockSystem
 	) exitWith {
 		_lockSystem = nil;
