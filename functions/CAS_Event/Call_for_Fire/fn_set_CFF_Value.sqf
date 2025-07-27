@@ -11,7 +11,6 @@
       "_Sheaf_Info",
       ["_MSN_RECUR", [0,60]] //- #NOTE - [ROUNDS, Interval]
     ]
-  NextFuze      : 
   Aim_Index     : 
   chargeInfo    : 
 */

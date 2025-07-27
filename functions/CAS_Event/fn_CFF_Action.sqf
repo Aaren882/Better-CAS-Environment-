@@ -135,9 +135,24 @@ if (0 < ["MSN_FIRE_EH",-1,_taskUnit] call BCE_fnc_get_CFF_Value) exitWith {};
     _pos set [2,0];
     
     //- set Fuze trigger
-      [_taskUnit, _fuzeData, _pos] call BCE_fnc_FuzeInit;
-      call BCE_fnc_FuzeTrigger;
+			[_projectile, _fuzeData] call BCE_fnc_FuzeInit;
 
+			//- #NOTE - Check "TRANS" (Transform) Ammo type
+				if ("TRANS" == (_ammo call BCE_fnc_getAmmoType)) then {
+					_projectile addEventHandler ["SubmunitionCreated", {
+						params ["_projectile", "_submunitionProjectile"];
+						(getShotParents _projectile) params ["_taskUnit", ""];
+
+						[
+							_taskUnit,
+							_submunitionProjectile,
+							_projectile
+						] call BCE_fnc_FuzeTrigger;
+					}];
+				} else {
+					[_taskUnit, _projectile] call BCE_fnc_FuzeTrigger;
+				};
+			
     //- Next round
     if (
       _current < _setCount &&
@@ -153,7 +168,7 @@ if (0 < ["MSN_FIRE_EH",-1,_taskUnit] call BCE_fnc_get_CFF_Value) exitWith {};
       _MSN_RECUR params [["_RECUR_COUNT",0],["_RECUR_INTERVAL",60]];
       
       //- Finish CFF MSN
-      [["MSN_PROG","NextFuze"], nil, _taskUnit] call BCE_fnc_set_CFF_Value;
+      ["MSN_PROG", nil, _taskUnit] call BCE_fnc_set_CFF_Value;
 
       //- Recursion (FOR SUPPRESSION)
         if (_RECUR_COUNT > 0 && _hasAmmo) then {
