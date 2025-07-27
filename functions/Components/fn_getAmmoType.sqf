@@ -18,11 +18,7 @@ if (_submunition isNotEqualTo "") exitWith {
 		
 	//- CLUSTER
 	if (
-		_submunition isEqualType [] || //- #NOTE - Force Return if the submunitionAmmo is Mixed
-		(
-			!_deepSearch &&
-			"shotsubmunitions" == _simulation
-		)
+		_submunition isEqualType [] //- #NOTE - Force Return if the submunitionAmmo is Mixed
 	) exitWith {
 		"CLUSTER"
 	};
