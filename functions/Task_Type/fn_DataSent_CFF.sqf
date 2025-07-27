@@ -205,7 +205,7 @@ private _random_POS = nil;
       //- Send MTO (Message to Observer)
 				//- Find the ammo type 
 				private _ammo = getText (configfile >> "CfgMagazines" >> _lbAmmo >> "ammo");
-				private _default_FUZE = [_ammo,true] call BCE_fnc_getAmmoType; 
+				private _default_FUZE = _ammo call BCE_fnc_CFF_getAmmoType; 
 
 				private _msg = if (_taskType_ID == 1) then {
 					localize "STR_BCE_CFF_MSG_IMM_SUP"
@@ -225,7 +225,7 @@ private _random_POS = nil;
 
       //- Get Sheaf Pattern
       call {
-        _Sheaf_Info params ["_Sheaf_ModeSel","_SheafValue"];
+        _Sheaf_Info params ["_Sheaf_ModeSel",["_SheafValue",[]]];
         
         private _rounds = _fireUnitSel * _setCount;
         //- Linear Sheaf : [center, [a, b, angle, rect]]
@@ -237,7 +237,7 @@ private _random_POS = nil;
 						
 						private _ammo = _ammo;
 						private _submunition = getText (configfile >> "CfgAmmo" >> _ammo >> "submunitionAmmo");
-            if (_submunition != "") then { //- Replace _ammo by _submun"ition
+            if (_submunition != "") then { //- Replace "_ammo" with "_submunition"
 							_ammo = _submunition;
 						};
 
@@ -257,9 +257,9 @@ private _random_POS = nil;
           //- Offsets
             private _step_w = _width / (1 + _rows);
 
-            for "_i" from 1 to _rows do {
+            for "_i" from 0 to _rows do {
               private _step_l = _length / (1 + _columns);
-              for "_j" from 1 to _columns do {
+              for "_j" from 0 to _columns do {
                 private _s = [(_step_l * _j) - _mid_L, (_step_w * _i) - _mid_W];
                 _Sheaf_Pattern pushBack [vectorMagnitude _s, (([0,0] getDir _s) + _dir) % 360];
               };
@@ -268,7 +268,7 @@ private _random_POS = nil;
         };
 
         //- #NOTE - Default
-          _SheafValue params [["_radius",100]];
+          private _radius = _SheafValue param [0, 50];
           
           for "_i" from 1 to _rounds do {
             private _s = [
