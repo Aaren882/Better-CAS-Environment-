@@ -640,6 +640,7 @@ class CfgFunctions
 			class getTurretDir;
 			class getUnitParams;
 			class getAmmoType;
+			class CFF_getAmmoType;
 
 			class Add_CountDown;
 			
