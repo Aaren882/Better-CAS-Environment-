@@ -734,6 +734,9 @@ class CfgFunctions
 			class UnstuckUnit;
 			class get_CFF_Value;
 			class set_CFF_Value;
+
+			class getCurUnit_CFF;
+			class getPos_Sheaf;
 		};
 		class CFF_Method_of_Controls
 		{
