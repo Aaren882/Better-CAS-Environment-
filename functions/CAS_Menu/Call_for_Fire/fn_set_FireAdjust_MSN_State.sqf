@@ -61,6 +61,7 @@ _taskValues params [
       _value = _MSN_infos;
       3
     };
+		//- #TODO - Add GunLine & Impact Point adjustment medthods
   };
 
 if (isnil{_changeIndex}) exitWith {};

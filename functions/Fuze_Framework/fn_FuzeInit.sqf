@@ -1,5 +1,6 @@
 /*
   NAME : BCE_fnc_FuzeInit
+	#TODO - Fuze Framework
 */
 params ["_projectile","_fuzeData","_targetPOS"];
 _fuzeData params ["_fuzeType","_fuzeValue"];
