@@ -56,7 +56,7 @@ sleep _delay;
 
 //- Get CFF Mission Info
   private _MSN_NAME = ["CFF_MSN",_MSN_Key] joinString ":";
-  private _CFF_info = [_MSN_NAME,[],_taskUnit] call BCE_fnc_get_CFF_Value;
+  private _CFF_info = [_taskUnit, _MSN_Key] call BCE_fnc_getCurUnit_CFF;
     if (count _CFF_info == 0) exitWith {};
 
   _CFF_info params ["_random_POS","_lbAmmo","_setCount","_angleType","","_MOC_Function","_Sheaf_Info"];
@@ -97,7 +97,7 @@ if (0 < ["MSN_FIRE_EH",-1,_taskUnit] call BCE_fnc_get_CFF_Value) exitWith {};
     //- Check rounds completed 
       private _MSN_Key = ["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value;
       private _MSN_NAME = ["CFF_MSN",_MSN_Key] joinString ":";
-      private _CFF_info = [_MSN_NAME, [], _taskUnit] call BCE_fnc_get_CFF_Value;
+      private _CFF_info = [_taskUnit,_MSN_Key] call BCE_fnc_getCurUnit_CFF;
       _CFF_info params [
         "_random_POS",
         "_lbAmmo",

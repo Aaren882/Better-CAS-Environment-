@@ -48,8 +48,7 @@ private _turretConfig = [_taskUnit, _turretPath] call CBA_fnc_getTurret;
 		_cfgProps params ["_gunAnim","_gunBeg","_gunEnd"];
 
 		///- Get Mission Infos
-			private _MSN_Key = ["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value;
-			private _CFF_info = [["CFF_MSN",_MSN_Key] joinString ":", [], _taskUnit] call BCE_fnc_get_CFF_Value;
+			private _CFF_info = _taskUnit call BCE_fnc_getCurUnit_CFF;
 
 		//- Start with 0
 			_chargeInfo params ["_charge", "_angleA", "_ETA", "_pos"];
