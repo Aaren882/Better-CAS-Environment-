@@ -244,7 +244,11 @@
 				class menuBackground: menuBackground{};
 				class List_Info: List_Info{};
 				class Tag_Bnt: Tag_Bnt{};
-				class Exec_bnt: Exec_bnt{};
+				class Exec_bnt: Exec_bnt
+				{
+					//- #TODO - Add back to the list
+					tooltip = "Add to Fire Mission.";
+				};
 				class adjust_bnt: adjust_bnt{};
 				delete archive_bnt;
 				class EOM_bnt: EOM_bnt

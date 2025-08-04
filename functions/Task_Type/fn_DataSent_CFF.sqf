@@ -94,6 +94,7 @@ private _random_POS = nil;
 //- #NOTE - Record Task [RETURNS]
   private _MSN_Values = if (count _CFF_Map == 0) then {
 
+		//- #TODO - More realistic Mission numbers
     //- 10000 Task Budget
     private _Task_CNT = missionNamespace getVariable ["BCE_CFF_Task_ID", 0];
     private _taskTypeBravo = 1 max floor (_Task_CNT / 10000);
