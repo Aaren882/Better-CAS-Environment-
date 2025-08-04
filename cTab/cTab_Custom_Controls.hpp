@@ -216,7 +216,7 @@
 					W = PhoneBFTContainerW(1);
 					text = "<img image='MG8\AVFEVFX\data\archive.paa'/>";
 					tooltip = "Record as Target";
-					onButtonClick = "call BCE_fnc_CFF_Mission_RAT";
+					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_RAT";
 				};
 				class EOM_bnt: archive_bnt
 				{
@@ -225,7 +225,7 @@
 					text = "EOM";
 					tooltip = "End of Mission";
 					
-					onButtonClick = "call BCE_fnc_CFF_Mission_EOM";
+					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_EOM";
 					colorBackground[] = {0.45,0,0,0.8};
 					colorBackground2[] = {0.45,0,0,0.8};
 					colorBackgroundFocused[] = {0.45,0,0,0.5};
@@ -253,7 +253,7 @@
 					text = "DEL";
 					tooltip = "Remove Recorded Target";
 					
-					onButtonClick = "[_this # 0, true] call BCE_fnc_CFF_Mission_RAT; call BCE_fnc_ATAK_ShowTaskResult;";
+					onButtonClick = "[_this # 0, true] call BCE_fnc_ATAK_CFF_Mission_RAT; call BCE_fnc_ATAK_ShowTaskResult;";
 				};
 			};
 		};

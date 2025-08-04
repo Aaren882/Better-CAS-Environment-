@@ -3,15 +3,13 @@
   
   On CFF "Record as Target" pressed
 */
-params ["_control",["_removeRAT",false]];
+params ["_taskID",["_removeRAT",false]];
 
-//- Remove the Hash Key
-private _tagGrp = ctrlParentControlsGroup _control;
-private _taskData = _tagGrp getVariable ["CFF_Task_Mission",""];
-
+//- Unit
 private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
-private _RAT_val = [_taskData, _removeRAT] call BCE_fnc_CFF_Mission_Set_RAT_Values;
+//- Set RAT value TaskID
+private _RAT_val = [_taskID, _removeRAT] call BCE_fnc_CFF_Mission_Set_RAT_Values;
 private _RAT_saved = _RAT_val findIf {true} > -1;
 
 //- Send Msg

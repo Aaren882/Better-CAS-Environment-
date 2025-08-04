@@ -1000,6 +1000,9 @@ class CfgFunctions
 
 					class ATAK_onFireAdjusted;
 					class ATAK_FireAdjustMeter;
+
+					class ATAK_CFF_Mission_RAT;	//- Record as Target
+					class ATAK_CFF_Mission_EOM;	//- End of Mission
 				};
 				class ATAK_Menu_Init
 				{
