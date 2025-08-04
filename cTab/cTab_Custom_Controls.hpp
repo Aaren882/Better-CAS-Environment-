@@ -243,13 +243,18 @@
 			{
 				class menuBackground: menuBackground{};
 				class List_Info: List_Info{};
-				class Tag_Bnt: Tag_Bnt{};
+				class Tag_Bnt: Tag_Bnt
+				{
+					w = PhoneBFTContainerW(TAG_BNT_W(1));
+				};
 				class Exec_bnt: Exec_bnt
 				{
-					//- #TODO - Add back to the list
+					//- #TODO - Better-looking UI
 					tooltip = "Add to Fire Mission.";
+					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_RAT_2_ADD";
 				};
-				class adjust_bnt: adjust_bnt{};
+				// class adjust_bnt: adjust_bnt{};
+				delete adjust_bnt;
 				delete archive_bnt;
 				class EOM_bnt: EOM_bnt
 				{
