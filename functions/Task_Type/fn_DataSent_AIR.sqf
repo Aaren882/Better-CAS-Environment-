@@ -105,7 +105,7 @@ if (((_remarks # 0) == "NA") && !(_has_IP)) then {
 
 //- Send over Task
   _task_info = str [
-    format ["%2 [%3]", localize "STR_BCE_Caller", name player, groupId group player],
+    format ["%2 [%1]", localize "STR_BCE_Caller", name player, groupId group player],
     _type,
     _taskVar,
     [daytime] call BIS_fnc_timeToString
