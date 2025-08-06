@@ -1,13 +1,19 @@
+#include "script_component.hpp"
 class CfgPatches
 {
-	class AVFEVFX_Hemtt
+	class MAIN_ADDON
 	{
-		units[]={};
-		weapons[]={};
-		requiredVersion=2.20;
+		authors[] = {"Aaren"};
+		url = ECSTRING(main,url); //- Localized String
+		name = CSTRING(COMPONENT);
+		addonRootClass = QUOTE(ADDON);
+		requiredVersion = REQUIRED_VERSION;
+		units[] = {};
+		weapons[] = {};
 		requiredAddons[]=
 		{
 			"A3_Ui_F"
 		};
+		VERSION_CONFIG;
 	};
 };
