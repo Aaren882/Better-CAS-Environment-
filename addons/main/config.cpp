@@ -1,4 +1,5 @@
 #include "script_component.hpp"
+
 class CfgPatches
 {
 	class MAIN_ADDON
@@ -6,7 +7,6 @@ class CfgPatches
 		authors[] = {"Aaren"};
 		url = ECSTRING(main,url); //- Localized String
 		name = CSTRING(COMPONENT);
-		addonRootClass = QUOTE(ADDON);
 		requiredVersion = REQUIRED_VERSION;
 		units[] = {};
 		weapons[] = {};

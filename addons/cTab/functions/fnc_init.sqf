@@ -1,3 +1,28 @@
+#include "..\script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_fnc_init
+Description:
+		Description.
+
+Parameters:
+		_param  - Parameter description <OBJECT>
+
+Returns:
+		Return description <NONE>
+
+Examples
+		(begin example)
+				[params] call BCE_cTab_fnc_init
+		(end)
+
+Author:
+		You
+---------------------------------------------------------------------------- */
+
+params [];
+TRACE_1("fnc_init",_this);
+
+
 #define getOpticVars ([_unit,0] call BCE_fnc_Check_Optics)
 
 //HUD Compass
@@ -68,7 +93,7 @@ call BCE_fnc_ClientSide;
 		556 cutRsc ["default","PLAIN"];
 		cutText ["", "BLACK IN",0.5];
 
-		#if __has_include("\z\ace\addons\hearing\config.bin")
+		/* #if __has_include("\z\ace\addons\hearing\config.bin")
 			if !(BCE_have_ACE_earPlugs) then {
 				player setVariable ["ACE_hasEarPlugsIn", false, true];
 				[true] call ace_hearing_fnc_updateVolume;
@@ -76,7 +101,7 @@ call BCE_fnc_ClientSide;
 			};
 		#else
 			1.5 fadeSound 1;
-		#endif
+		#endif */
 
 		removeMissionEventHandler [_thisEvent, _thisEventHandler];
 
