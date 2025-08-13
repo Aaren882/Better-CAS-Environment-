@@ -153,15 +153,14 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 			};
 		};
 		
-
 		private _color = if (_iscTab) then {
 			private _colorLb = _display displayCtrl (17000 + 1090);
-			private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
-
-			_MarkerColorCache # lbCurSel _colorLb # 0
+			_colorLb lbData (lbCurSel _colorLb)
 		} else {
+			// private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090;
+			// configName (("true" configClasses (configFile >> "CfgMarkerColors")) # (_colorLb lbValue lbCurSel _colorLb));
 			private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090;
-			configName (("true" configClasses (configFile >> "CfgMarkerColors")) # (_colorLb lbValue lbCurSel _colorLb));
+			(uiNamespace getVariable ["BCE_Marker_Color_Array",[]]) # (_colorLb lbValue lbCurSel _colorLb);
 		};
 
 		_markers apply {
@@ -207,15 +206,17 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 	//-Get Color RGBs
 	private _color = if (_iscTab) then {
 		private _colorLb = _display displayCtrl (17000 + 1090);
-		private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
-
-		_MarkerColorCache # lbCurSel _colorLb # 1
+    (_colorLb lbData (lbCurSel _colorLb)) call BCE_fnc_getMarkerColor
 	} else {
+		// private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090;
+		// private _class = configName (("true" configClasses (configFile >> "CfgMarkerColors")) # (_colorLb lbValue lbCurSel _colorLb));
+		// (getArray (configFile >> "CfgMarkerColors" >> _class >> "color")) apply {
+		// 	if (_x isEqualType "") then {call compile _x} else {_x};
+		// };
+
 		private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090;
-		private _class = configName (("true" configClasses (configFile >> "CfgMarkerColors")) # (_colorLb lbValue lbCurSel _colorLb));
-		(getArray (configFile >> "CfgMarkerColors" >> _class >> "color")) apply {
-			if (_x isEqualType "") then {call compile _x} else {_x};
-		};
+		private _class = (uiNamespace getVariable ["BCE_Marker_Color_Array",[]]) # (_colorLb lbValue lbCurSel _colorLb);
+		_class call BCE_fnc_getMarkerColor # 0;
 	};
 	_color set [3,1];
 

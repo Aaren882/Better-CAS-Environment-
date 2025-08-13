@@ -23,9 +23,10 @@ private _list = [];
 {
   private _marker = _x;
 
-  //- Skip on (Prefix "-") or (Marker is already in "_list")
+  //- Skip on (Prefix "-") or (POLPOX's MapTool Markers)
 		if (
-      _marker select [0,1] == "-"
+      _marker select [0,1] == "-" ||
+			(_marker find "PLP_" > -1)
     ) then {continue};
   
   private _markerShape = ["ICON","RECTANGLE","ELLIPSE","POLYLINE"] find (MarkerShape _marker);
@@ -40,7 +41,7 @@ private _list = [];
   private _texture = getText (_config >> "icon");
 
   //- Check if it's Editable
-  private _editable = !(_marker find "PLP" > -1) && (
+  private _editable = /*!(_marker find "PLP" > -1) && */(
     (_marker find "_cTab" > -1) || 
     (_marker find BCE_cTab_Marker_Sync > -1) || 
     (_marker find "mtsmarker" > -1) ||
@@ -76,7 +77,8 @@ cTabMarkerList = _list;
 _list = nil;
 
 //- Get Marker Data for SIT
-  private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
+	private _MarkerColorArr = uiNamespace getVariable ["BCE_Marker_Color_Array",[]];
+  // private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
   private _rawMarkersList = [cTab_userMarkerLists,call cTab_fnc_getPlayerEncryptionKey,[]] call cTab_fnc_getFromPairs;
 
   cTabUserMarkerList = _rawMarkersList apply {
@@ -97,7 +99,7 @@ _list = nil;
       private _dir = floor (markerDir _marker / 45); //- Transiform Dir to Index (N, NE, E, ...)
       private _align = ["right","left"] select ((_dir > 0) && (_dir < 4));
       //- Get Icon Info
-      private _color = _MarkerColorCache # _colorSel # 1;
+      private _color = _MarkerColorArr # _colorSel;
       private _texture = getText (configFile >> "CfgMarkers" >> markerType _marker >> "icon");
 
     [_x # 0, [_pos,_texture,"",_dir,_color,_text,_align], _RawData]

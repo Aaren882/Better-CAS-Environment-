@@ -20,8 +20,12 @@
  	Example:
 		_markerIndex = [_ctrlScreen,[0,0]] call cTab_fnc_findUserMarker;
 */
+
 params ["_ctrl","_searchPos"];
 
+//- #TODO - Use ctrlMapMouseOver
+//  : https://community.bistudio.com/wiki/ctrlMapMouseOver?useskin=darkvector
+// private _mouseover = ctrlMapMouseOver _ctrl;
 
 private ["_return","_targetRadius","_maxDistance"];
 _return = -1;

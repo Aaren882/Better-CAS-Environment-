@@ -202,17 +202,3 @@ cTabTxtSize = 0.06;
 		};
 	};
 	uiNamespace setVariable ["BCE_Marker_Map",(_classes apply {configName _x}) createHashMapFromArray _result];
-
-//- Marker Color Cache
-	private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkerColors");
-
-	//- Save Marker Color Cache
-	uiNamespace setVariable ["BCE_Marker_Color",
-		_cfg apply {
-			private _name = getText (_x >> "name");
-			private _color = (getArray (_x >> "color")) apply {
-				if (_x isEqualType "") then {call compile _x} else {_x};
-			};
-			[configName _x,_color,getText (_x >> "name")]
-		}
-	];

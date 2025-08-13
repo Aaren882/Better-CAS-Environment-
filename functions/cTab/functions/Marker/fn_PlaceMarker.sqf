@@ -3,7 +3,7 @@ params ["_position"];
 private [
   "_id",
   "_group","_dropBox",
-  "_MarkerColorCache","_class","_color",
+  "_MarkerColorArr","_class","_color",
   "_name","_markerData","_marker"
 ];
 
@@ -14,17 +14,17 @@ private [
 _group = _display displayCtrl (17000 + 1300);
 _dropBox = _group controlsGroupCtrl 10;
 
-_MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
+_MarkerColorArr = uiNamespace getVariable ["BCE_Marker_Color_Array", []];
 _class = ("true" configClasses (configFile >> "cTab_CfgMarkers")) # _curSel;
 _color = getText (_class >> "MarkerColor");
 
 //- For generic Markers
 private _colorSel = if (_color == "") then {
   private _colorSel = [_displayName,"markerColor"] call cTab_fnc_getSettings;
-  _color = _MarkerColorCache # _colorSel # 0;
+  _color = _MarkerColorArr # _colorSel;
   _colorSel
 } else {
-  _MarkerColorCache findIf {(_x # 0) == _color}
+  _MarkerColorArr findIf {_x == _color}
 };
 
 //- MARKER #<PlayerID>/<MarkerID>/#<SEPARATOR>#/<Hide Direction> .. /<ChannelID> must Be last
