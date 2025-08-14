@@ -1642,6 +1642,16 @@
 				<Chinese>"紀錄為目標" 失敗。無效的任務ID!!</Chinese>
 				<Chinesesimp>"纪录为目标" 失败。无效的任务ID!!</Chinesesimp>
 			</Key>
+			<Key ID="STR_BCE_CFF_MSG_RAT2ADD">
+				<Original>Fire Mission Added.</Original>
+				<Chinese>任務已新增。</Chinese>
+				<Chinesesimp>任务已新增。</Chinesesimp>
+			</Key>
+			<Key ID="STR_BCE_CFF_MSG_RAT2ADD_NO_AMMO">
+				<Original>Does not have the required ordnance "%2" to perform this mission.</Original>
+				<Chinese>沒有執行此任務所需的彈藥 "%2"。</Chinese>
+				<Chinesesimp>没有执行此任务所需的弹药 "%2"。</Chinesesimp>
+			</Key>
 			<Key ID="STR_BCE_CFF_MSG_NO_CARGE">
 				<Original>%1 - Unable to shoot (No charge were Found)!!</Original>
 				<Chinese>%1 - 無法射擊 (找不到可用的裝藥)!!</Chinese>
