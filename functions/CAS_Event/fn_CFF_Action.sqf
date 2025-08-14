@@ -28,23 +28,25 @@ private _taskUnit = switch (typeName _unit) do {
   default {objNull};
 };
 
-//- #TODO - Integrate
+// #SECTION Vailding mission can be executed
+	//- Check _taskUnit
+		if !(alive _taskUnit) exitWith {
+			["""_taskUnit"" doesn't exist."] call BIS_fnc_error;
+		};
 
-//- FROM "StartMission.sqf"
+	//- Check Mission exist
+		if (0 < (["MSN_PROG", -1, _taskUnit] call BCE_fnc_get_CFF_Value)) exitWith {
+			[_taskUnit, localize "STR_BCE_CFF_MSG_MISSION_PROGRESS", "CFF_IN_PROGRESS"] call BCE_fnc_Send_Task_RadioMsg;
+		};
 
-//- Check _taskUnit
-  if !(alive _taskUnit) exitWith {
-    ["_taskUnit doesn't exist."] call BIS_fnc_error;
-  };
+	//- Save Mission Values
+		["CFF_MSN", _MSN_Key, _taskUnit] call BCE_fnc_set_CFF_Value;
+		["MSN_PROG", 0, _taskUnit] call BCE_fnc_set_CFF_Value; //- Make sure the Mission is applied.
 
-//- Check Mission exist
-  if (0 < (["MSN_PROG", -1, _taskUnit] call BCE_fnc_get_CFF_Value)) exitWith {
-    [_taskUnit,localize "STR_BCE_CFF_MSG_MISSION_PROGRESS", "CFF_IN_PROGRESS"] call BCE_fnc_Send_Task_RadioMsg;
-  };
+	//- Save CFF spawn ACTION
+		["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
 
-//- Save CFF spawn ACTION
-  ["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
-
+//#!SECTION
 //- Additional Delay time
   private _customDelay = ["ADD_Delay", 0, _taskUnit] call BCE_fnc_get_CFF_Value;
   if (_customDelay > 0) then {
@@ -68,10 +70,6 @@ sleep _delay;
     _CFF_info set [5, "BCE_fnc_CFF_AT_READY"]; //- So the shells can rain like crazy
     [_MSN_NAME, _CFF_info, _taskUnit] call BCE_fnc_set_CFF_Value;
   };
-
-//- Save Mission Values
-  ["CFF_MSN", _MSN_Key, _taskUnit] call BCE_fnc_set_CFF_Value;
-  ["MSN_PROG", 0, _taskUnit] call BCE_fnc_set_CFF_Value;
 
 //- #NOTE - Specify TG POS
 private _TGPOS = _random_POS getPos (_Sheaf_Info param [0, [0,0]]); //- Starts from first Sheaf POS;
