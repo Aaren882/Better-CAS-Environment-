@@ -208,21 +208,21 @@
 					text = "<img image='MG8\AVFEVFX\data\ruler.paa'/>";
 					onButtonClick = "[_this # 0, 'ADJUST_MENU'] call BCE_fnc_CFF_Mission_XMIT";
 				};
-				class archive_bnt: Edit_bnt
+				class RAT_bnt: Edit_bnt
 				{
 					idc = 18;
 					x = 0;
 					y = 4 * (0.7 * (((60)) / 2048 * CustomPhoneH));
-					W = PhoneBFTContainerW(1);
-					text = "<img image='MG8\AVFEVFX\data\archive.paa'/>";
+					W = PhoneBFTContainerW(1.5);
+					text = "<img image='MG8\AVFEVFX\data\archive.paa'/> RAT";
 					tooltip = "Record as Target";
 					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_RAT";
 				};
-				class EOM_bnt: archive_bnt
+				class EOM_bnt: RAT_bnt
 				{
 					idc = 20;
-					x = PhoneBFTContainerW(2);
-					text = "EOM";
+					x = PhoneBFTContainerW(1.5);
+					text = "<img image='\MG8\AVFEVFX\data\gabage.paa'/> EOM";
 					tooltip = "End of Mission";
 					
 					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_EOM";
@@ -255,13 +255,15 @@
 				};
 				// class adjust_bnt: adjust_bnt{};
 				delete adjust_bnt;
-				delete archive_bnt;
+				delete RAT_bnt;
 				class EOM_bnt: EOM_bnt
 				{
 					idc = 20;
-					text = "DEL";
-					tooltip = "Remove Recorded Target";
-					
+					x = 0;
+					w = PhoneBFTContainerW(3);
+
+					text = "<img image='\MG8\AVFEVFX\data\gabage.paa'/> Delete";
+					tooltip = "Remove Recorded Target.";
 					onButtonClick = "[_this # 0, true] call BCE_fnc_ATAK_CFF_Mission_RAT; call BCE_fnc_ATAK_ShowTaskResult;";
 				};
 			};
