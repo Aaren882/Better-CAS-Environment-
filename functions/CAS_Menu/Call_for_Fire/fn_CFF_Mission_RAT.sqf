@@ -12,11 +12,25 @@ private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_
 private _RAT_val = [_taskID, _removeRAT] call BCE_fnc_CFF_Mission_Set_RAT_Values;
 private _RAT_saved = _RAT_val findIf {true} > -1;
 
+private _msgData = switch (true) do {
+	case (_removeRAT) : {
+		["STR_BCE_CFF_MSG_RAT_REMOVE","CFF_RAT_DEL"]
+	};
+	case (_RAT_saved) : {
+		["STR_BCE_CFF_MSG_RAT","CFF_RAT"]
+	};
+	default {
+		["STR_BCE_CFF_MSG_RAT_FAIL","CFF_RAT_FAIL"]
+	};
+};
+
+_msgData params ["_msg","_eventName"];
+
 //- Send Msg
 [
   FormationLeader _taskUnit,
-  localize (["STR_BCE_CFF_MSG_RAT_FAIL","STR_BCE_CFF_MSG_RAT"] select _RAT_saved),
-  ["CFF_RAT_FAIL","CFF_RAT"] select _RAT_saved
+  localize _msg,
+  _eventName
 ] call BCE_fnc_Send_Task_RadioMsg;
 
 //- Record the data on owner side

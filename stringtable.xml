@@ -1637,6 +1637,11 @@
 				<Chinese>收到。紀錄為目標。</Chinese>
 				<Chinesesimp>收到。纪录为目标。</Chinesesimp>
 			</Key>
+			<Key ID="STR_BCE_CFF_MSG_RAT_REMOVE">
+				<Original>Roger. Delete Recorded Target.</Original>
+				<Chinese>收到。刪除已記錄的目標。</Chinese>
+				<Chinesesimp>删除已记录的目标。</Chinesesimp>
+			</Key>
 			<Key ID="STR_BCE_CFF_MSG_RAT_FAIL">
 				<Original>"Record as Target" failed. invaild TaskID!!</Original>
 				<Chinese>"紀錄為目標" 失敗。無效的任務ID!!</Chinese>
