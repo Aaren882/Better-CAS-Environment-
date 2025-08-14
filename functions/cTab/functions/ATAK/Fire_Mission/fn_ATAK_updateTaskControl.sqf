@@ -8,7 +8,7 @@
   Return : ControlNull or "_MissionCtrl"
 */
 
-params ["_group","_settings"];
+params ["_group","_settings",["_reset",true]];
 
 //- Get "controlGroup" automatically (this takes time)
   if (isNil "_group") then {
@@ -36,7 +36,7 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
     21000,   //- Desire IDC
     _group,     //- Group will Attach to
     _isDialog,  //- (MUST) "BOOL"
-    true       //- Reset Page (OPTIONAL) : false
+    _reset       //- Reset Page (OPTIONAL) : false
   ] call BCE_fnc_ATAK_createSubPage;
 
 //- Save "_ctrl" easier to find
