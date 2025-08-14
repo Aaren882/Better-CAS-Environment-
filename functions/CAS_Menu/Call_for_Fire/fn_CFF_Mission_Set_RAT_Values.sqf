@@ -26,8 +26,6 @@ if (_removeRAT) then {
   _pool set [_taskID, _MSN_Values];
 };
 
-//- #TODO - Add CBA Event trigger
-
 localNamespace setVariable ["#BCE_CFF_Task_RAT_Pool", _pool];
 
 _MSN_Values
