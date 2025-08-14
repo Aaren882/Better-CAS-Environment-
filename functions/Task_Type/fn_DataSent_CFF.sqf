@@ -204,7 +204,7 @@ private _random_POS = nil;
 				private _ammo = getText (configfile >> "CfgMagazines" >> _lbAmmo >> "ammo");
 				private _default_FUZE = _ammo call BCE_fnc_CFF_getAmmoType; 
 
-				private _msg = if (_taskType_ID == 1) then {
+				private _msg = if (_taskType_ID == 2) then {
 					localize "STR_BCE_CFF_MSG_IMM_SUP"
 				} else {
 					format [
