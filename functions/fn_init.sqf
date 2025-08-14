@@ -29,7 +29,7 @@ if (isMultiplayer) then {
 //PostInit Perf_EH
 call BCE_fnc_ClientSide;
 
-//- Init Task/Mission Builder Items
+//- #SECTION - Init Task/Mission Builder Items
 	[] call BCE_fnc_getTaskProps;
 	[] call BCE_fnc_get_TaskMapInfoEntry;
 
@@ -48,6 +48,13 @@ call BCE_fnc_ClientSide;
 		] call CBA_fnc_addEventHandler;
 	} forEach _event_Func;
 
+	//- #NOTE - This is for saving the mission data that is ready to be processed/Executed
+	//- #TODO - Add this event for CAS (9-lines, 5-Lines)
+		[
+			"BCE_Send_Mission",
+			uiNamespace getVariable ["BCE_fnc_Send_Task_Event",{}]
+		] call CBA_fnc_addEventHandler;
+//- #!SECTION
 //////////////////////////////////////////////////////////////////////////////////////////////////
 ["turret", {
 	params ["_unit", "_turret", "_turretPrev"];

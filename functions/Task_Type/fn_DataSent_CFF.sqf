@@ -53,17 +53,6 @@ private _random_POS = nil;
 
 //- Hint
   private _isAVT = !isnull (finddisplay 160);
-  /* if (() != "") exitWith {
-    if (_isAVT) then {
-      hint localize "STR_BCE_Error_Unavailable";
-    } else {
-      [
-        "TASK_Builder",
-        localize "STR_BCE_Error_Unavailable",
-        5
-      ] call cTab_fnc_addNotification;
-    };
-  }; */
 
   if (_isAVT) then {
     hint localize "STR_BCE_DataSent";
@@ -98,6 +87,7 @@ private _random_POS = nil;
     //- 10000 Task Budget
     private _Task_CNT = missionNamespace getVariable ["BCE_CFF_Task_ID", 0];
     private _taskTypeBravo = 1 max floor (_Task_CNT / 10000);
+    private _Wpn_setup = _taskVar # 0 # 3;
     
     _MSN_Key = [
       [_taskType_ID + 1, true] call BIS_fnc_phoneticalWord,
@@ -111,10 +101,9 @@ private _random_POS = nil;
       true
     ];
     
-    private _Wpn_setup = _taskVar # 0 # 3;
-    private _random_POS = [
+    private _random_POS = [ 
       [
-        [_TGPOS, 100]
+        [_TGPOS, 100] //- #TODO - Linear interpolate the radius base the distance
       ],
       []
     ] call BIS_fnc_randomPos;
@@ -134,8 +123,11 @@ private _random_POS = nil;
       _MSN_State //- "MSN_State"
     ];
 
+		//- Save Mission Data
+			[_taskUnit, [_MSN_Key,_MSN_Values,_taskUnit]] call BCE_fnc_Send_MSN_CFF;
+
     //- RETURN
-      [_MSN_Key,_MSN_Values,_taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
+			_MSN_Values
   } else {
     
     _MSN_Prepare = true; //- //- #NOTE - on "Command"

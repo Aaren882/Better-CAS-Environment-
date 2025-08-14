@@ -147,7 +147,8 @@ if !(_Key isEqualType "") exitWith {
 
   //- Update Value
     _curValues set _result;
-    [_taskID,_curValues,_taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
+		[_taskUnit, [_taskID,_curValues,_taskUnit]] call BCE_fnc_Send_MSN_CFF;
+    // [_taskID,_curValues,_taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
   
 	}, _this
 ] call CBA_fnc_execNextFrame;

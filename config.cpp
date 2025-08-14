@@ -753,6 +753,7 @@ class CfgFunctions
 			class GunShip_Loiter;
 			class Plane_CASEvent;
 			class Send_Task_RadioMsg;
+			class Send_Task_Event;
 		};
 		class WPN_CheckList
 		{
@@ -930,6 +931,9 @@ class CfgFunctions
 			class LBTaskUnitChanged;
 
 			class TaskUnitChanged_CFF;
+
+			//- Send Missions
+				class Send_MSN_CFF;
 		};
 		class Radio_Compat
 		{

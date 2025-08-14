@@ -9,7 +9,8 @@ private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_
 private _curMSN = ["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value;
 
 //- #NOTE - Remove mission
-	[_taskID, nil, _taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
+	// [_taskID, nil, _taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
+	[_taskUnit, [_taskID, nil, _taskUnit]] call BCE_fnc_Send_MSN_CFF;
 	
 //- Refresh CFF Mission list
 	[nil,"Task_CFF_List",-1] call BCE_fnc_ATAK_ChangeTool;

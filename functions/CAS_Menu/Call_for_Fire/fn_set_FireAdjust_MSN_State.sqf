@@ -75,7 +75,4 @@ if (isnil{_changeIndex}) exitWith {};
   };
 
 _taskValues set [_changeIndex, _value];
-[_taskData,_taskValues,_taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
-
-  // _CFF_Map set [_taskData, _taskValues];
-  // _taskUnit_Grp setVariable ["BCE_CFF_Task_Pool", _CFF_Map];
+[_taskUnit, [_taskData,_taskValues,_taskUnit]] call BCE_fnc_Send_MSN_CFF;
