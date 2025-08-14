@@ -50,10 +50,12 @@ call BCE_fnc_ClientSide;
 
 	//- #NOTE - This is for saving the mission data that is ready to be processed/Executed
 	//- #TODO - Add this event for CAS (9-lines, 5-Lines)
-		[
-			"BCE_Send_Mission",
-			uiNamespace getVariable ["BCE_fnc_Send_Task_Event",{}]
-		] call CBA_fnc_addEventHandler;
+		{
+			[
+				format ["BCE_%1_Mission", _x], 
+				uiNamespace getVariable format ["BCE_fnc_%1_Task_Event", _x]
+			] call CBA_fnc_addEventHandler;
+		} forEach ["Send","Delete","Record"];
 //- #!SECTION
 //////////////////////////////////////////////////////////////////////////////////////////////////
 ["turret", {

@@ -75,4 +75,8 @@ if (isnil{_changeIndex}) exitWith {};
   };
 
 _taskValues set [_changeIndex, _value];
-[_taskUnit, [_taskData,_taskValues,_taskUnit]] call BCE_fnc_Send_MSN_CFF;
+[
+	"Send",
+	_taskUnit,
+	[_taskData,_taskValues,_taskUnit]
+] call BCE_fnc_Send_MSN_CFF;

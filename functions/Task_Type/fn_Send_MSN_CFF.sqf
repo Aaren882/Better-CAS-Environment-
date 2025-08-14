@@ -5,17 +5,20 @@
 
 	Params : 
 		[
+			<STRING> "_type" : ex. Send, Record
 			<OBJECT> "_taskUnit"
 			<ARRAY> "_value"
 		]
 	
 	Return : nil
 */
-params ["_taskUnit", "_value"];
+params ["_type","_taskUnit","_value"];
+
+private _event = format ["BCE_%1_Mission",_type];
 
 //- Save locally
 	[
-		"BCE_Send_Mission",
+		_event,
 		[
 			"CFF",	//: _type
 			_value,	//: _value
@@ -26,7 +29,7 @@ params ["_taskUnit", "_value"];
 	//- Send over
 	if !(local _taskUnit) then {
 		[
-			"BCE_Send_Mission",
+			_event,
 			[
 				"CFF",		//: _type
 				_value,		//: _value

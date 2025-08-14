@@ -753,7 +753,13 @@ class CfgFunctions
 			class GunShip_Loiter;
 			class Plane_CASEvent;
 			class Send_Task_RadioMsg;
+		};
+		class CAS_Events
+		{
+			file="MG8\AVFEVFX\functions\CAS_Event\Events";
 			class Send_Task_Event;
+			class Delete_Task_Event;
+			class Record_Task_Event;
 		};
 		class WPN_CheckList
 		{
