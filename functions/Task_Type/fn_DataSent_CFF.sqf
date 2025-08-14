@@ -103,7 +103,7 @@ private _random_POS = nil;
     
     private _random_POS = [ 
       [
-        [_TGPOS, 100] //- #TODO - Linear interpolate the radius base the distance
+        [_TGPOS, 100] //- #TODO - Linear interpolate the radius base on the distance
       ],
       []
     ] call BIS_fnc_randomPos;
