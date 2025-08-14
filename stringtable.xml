@@ -1595,6 +1595,26 @@
 			<Chinese>攻擊角度</Chinese>
 			<Chinesesimp>攻擊角度</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Add_Fire_MSN_Tip">
+			<Original>Add to Fire Mission.</Original>
+			<Chinese>新增到火力任務。</Chinese>
+			<Chinesesimp>新增到火力任务。</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_RAT_Fire_MSN_Tip">
+			<Original>Record as Target.</Original>
+			<Chinese>紀錄為目標。</Chinese>
+			<Chinesesimp>纪录为目标。</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_EOM_Fire_MSN_Tip">
+			<Original>End of Mission.</Original>
+			<Chinese>結束任務。</Chinese>
+			<Chinesesimp>结束任务。</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_DEL_RAT_Fire_MSN_Tip">
+			<Original>Remove Recorded Target.</Original>
+			<Chinese>移除已記錄的目標。</Chinese>
+			<Chinesesimp>移除已记录的目标。</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_LO_Angle">
 			<Original>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; Low ANG</Original>
 			<Chinese>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 低角</Chinese>

@@ -215,7 +215,7 @@
 					y = 4 * (0.7 * (((60)) / 2048 * CustomPhoneH));
 					W = PhoneBFTContainerW(1.5);
 					text = "<img image='MG8\AVFEVFX\data\archive.paa'/> RAT";
-					tooltip = "Record as Target";
+					tooltip = "$STR_BCE_RAT_Fire_MSN_Tip";
 					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_RAT";
 				};
 				class EOM_bnt: RAT_bnt
@@ -223,7 +223,7 @@
 					idc = 20;
 					x = PhoneBFTContainerW(1.5);
 					text = "<img image='\MG8\AVFEVFX\data\gabage.paa'/> EOM";
-					tooltip = "End of Mission";
+					tooltip = "$STR_BCE_EOM_Fire_MSN_Tip";
 					
 					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_EOM";
 					colorBackground[] = {0.45,0,0,0.8};
@@ -249,8 +249,7 @@
 				};
 				class Exec_bnt: Exec_bnt
 				{
-					//- #TODO - Better-looking UI
-					tooltip = "Add to Fire Mission.";
+					tooltip = "$STR_BCE_Add_Fire_MSN_Tip";
 					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_RAT_2_ADD";
 				};
 				// class adjust_bnt: adjust_bnt{};
@@ -263,7 +262,7 @@
 					w = PhoneBFTContainerW(3);
 
 					text = "<img image='\MG8\AVFEVFX\data\gabage.paa'/> Delete";
-					tooltip = "Remove Recorded Target.";
+					tooltip = "$STR_BCE_DEL_RAT_Fire_MSN_Tip";
 					onButtonClick = "[_this # 0, true] call BCE_fnc_ATAK_CFF_Mission_RAT; call BCE_fnc_ATAK_ShowTaskResult;";
 				};
 			};
