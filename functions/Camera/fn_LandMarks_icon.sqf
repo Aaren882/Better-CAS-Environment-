@@ -1,10 +1,9 @@
 private _obj = [cameraon,TGP_View_Camera # 0] select ((player getVariable ["TGP_View_EHs", -1]) != -1);
 
-(uiNamespace getVariable ["BCE_LandMarks",[]]) apply {
+{
 	_x params ["_tex","_color","_pos","_text","_size"];
-	if (
-			(_obj distance _pos) <= (viewDistance - 1000)
-		) then {
+	
+	if ((_obj distance _pos) <= (viewDistance - 1000)) then {
 		drawIcon3D [
 			_tex,
 			_color,
@@ -20,4 +19,4 @@ private _obj = [cameraon,TGP_View_Camera # 0] select ((player getVariable ["TGP_
 			false
 		];
 	};
-};
+} foreach (localNamespace getVariable ["BCE_LandMarks",[]]);
