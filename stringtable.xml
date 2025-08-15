@@ -1595,6 +1595,21 @@
 			<Chinese>攻擊角度</Chinese>
 			<Chinesesimp>攻擊角度</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_FUZE_IMPT_Tip">
+			<Original>Impact Fuze</Original>
+			<Chinese>碰撞引信</Chinese>
+			<Chinesesimp>碰撞引信</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_FUZE_VT_Tip">
+			<Original>Burst Height (m)</Original>
+			<Chinese>空爆高度 (公尺)</Chinese>
+			<Chinesesimp>空爆高度 (公尺)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_FUZE_DELAY_Tip">
+			<Original>Delay for 0.1 Sec</Original>
+			<Chinese>延遲 0.1 秒</Chinese>
+			<Chinesesimp>延迟 0.1 秒</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_Add_Fire_MSN_Tip">
 			<Original>Add to Fire Mission.</Original>
 			<Chinese>新增到火力任務。</Chinese>
@@ -1628,9 +1643,9 @@
 		
 		<!-- CFF Messages -->
 			<Key ID="STR_BCE_CFF_MSG_MISSION_PROGRESS">
-				<Original>MISSION PROGRESS !!</Original>
-				<Chinese>任務進行中 !!</Chinese>
-				<Chinesesimp>任务进行中 !!</Chinesesimp>
+				<Original>Negative, MISSION PROGRESS !!</Original>
+				<Chinese>否決，任務進行中 !!</Chinese>
+				<Chinesesimp>否决，任务进行中 !!</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_SHOT">
 				<Original>Shot, over.</Original>

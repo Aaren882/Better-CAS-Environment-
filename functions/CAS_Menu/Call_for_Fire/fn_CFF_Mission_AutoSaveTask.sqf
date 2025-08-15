@@ -67,21 +67,15 @@ if !(_Key isEqualType "") exitWith {
           if (_index == 1) then {
             private _editFuzeVal = "CFF_IE_FuzeValue_Box" call BCE_fnc_getTaskSingleComponent;
 
-            //-  0 : Impact Fuze
-            //-  1 : VT Fuze
-            //-  2 : Delay Fuze
-            private _tip = call {
-              if (_v == "VT") exitWith {
-                "Burst Height (m)"
-              };
-              if (_v == "DELAY") exitWith {
-                "Delay Time (Sec)"
-              };
-              ""
-            };
-            
-            _editFuzeVal ctrlSetTooltip _tip;
-            _editFuzeVal ctrlShow (_tip != "");
+						//-  0 : Impact Fuze
+						//-  1 : VT Fuze
+						//-  2 : Delay Fuze
+						private _value = _control lbValue _input;
+						_editFuzeVal ctrlShow (_value > 0); //- Hide when Select "IMPT", "DELAY"
+						if (_value > 0) then {
+							private _tip = localize (format ["STR_BCE_FUZE_%1_Tip",_v]);
+							_editFuzeVal ctrlSetTooltip _tip;
+						};
           };
 
           _v

@@ -555,7 +555,7 @@ class BCE_Mission_Build_Controls
           {
             text = "IMPT";
             textRight = "";
-            value = 0;
+            // value = 0;
             default = 1;
           };
           class VT
@@ -570,7 +570,7 @@ class BCE_Mission_Build_Controls
             text = "DELY";
             textRight = "";
             Data = "DELAY";
-            value = 2;
+            // value = -1;
           };
         };
       };

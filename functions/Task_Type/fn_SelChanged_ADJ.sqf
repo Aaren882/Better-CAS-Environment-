@@ -11,24 +11,18 @@ switch _curLine do {
     {
       _x params ["_lbFuze","_lbFuzeVal"];
 
-      private _value = _lbFuze lbValue (lbCurSel _lbFuze);
-
       //- -1 : As IE Setup ("IN Adjust" Section only)
       //-  0 : Impact Fuze
       //-  1 : VT Fuze
       //-  2 : Delay Fuze
-      private _tip = call {
-        if (_value == 1) exitWith {
-          "Burst Height (m)"
-        };
-        /* if (_value == 2) exitWith { //- IRL it cannot be changed
-          "Delay Time (Sec)"
-        }; */
-        ""
-      };
-
-      _lbFuzeVal ctrlSetTooltip _tip;
-      _lbFuzeVal ctrlShow (_tip != "");
+      private _value = _lbFuze lbValue (lbCurSel _lbFuze);
+			_lbFuzeVal ctrlShow (_value > 0); //- Hide when Select "IMPT", "DELAY"
+			if (_value > 0) then {
+				private _data = _lbFuze lbData (lbCurSel _lbFuze);
+				private _tip = localize (format ["STR_BCE_FUZE_%1_Tip",_data]);
+				_lbFuzeVal ctrlSetTooltip _tip;
+			};
+      
     } forEach [
       [_CTFuse,_CTFuzeVal],
       [_IA_fuse,_IA_fuzeVal]

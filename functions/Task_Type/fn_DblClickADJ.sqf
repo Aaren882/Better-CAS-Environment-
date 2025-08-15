@@ -25,6 +25,16 @@ switch _curLine do {
 			if (isNull _lbAmmo) then {continue};
 			private _isIA = _lbAmmo == _IA_ammo;
 
+			//- Ammo type select EH
+				/* private _ammoSel_EH = _lbAmmo getVariable ["BCE_AMMO_SEL_EH", -1];
+				if (_ammoSel_EH < 0) then {
+					private _eh = _lbAmmo ctrlAddEventHandler ["LBSelChanged", {
+						params ["_ctrl","_lbCurSel"];
+						private _data = 
+					}]; 
+					_lbAmmo setVariable ["BCE_AMMO_SEL_EH", _eh];
+				}; */
+
 			//- Create Weapon List
 				lbClear _lbAmmo;
 				if (_isIA) then {

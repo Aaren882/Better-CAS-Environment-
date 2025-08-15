@@ -30,6 +30,7 @@ _group_vehs = _group_vehs ArrayIntersect _group_vehs;
       if (_magazine == (_x # 0)) then {
         private _value = _result getOrDefault [_magazine, []];
         private _displayName = [configFile >> "CfgMagazines" >> _magazine] call BIS_fnc_displayName;
+				private _ammo = getText (configFile >> "CfgMagazines" >> _magazine >> "ammo");
         
         private _magazineCount = (_value param [1,0]) + 1;
         private _count = (_value param [2,0]) + (_x # 1);
@@ -42,10 +43,11 @@ _group_vehs = _group_vehs ArrayIntersect _group_vehs;
 
         _result set [
           _magazine, [
-            _displayName,    //- DisplayName
-            _magazineCount,  //- Magazine Count (how many vehicles have this magazine)
-            _count,          //- Ammo Counts
-            _unitCount_F       //- fireUnit Counts
+            _displayName,    	//- DisplayName
+            _magazineCount,  	//- Magazine Count (how many vehicles have this magazine)
+            _count,          	//- Ammo Counts
+            _unitCount_F,     //- fireUnit Counts
+						_ammo call BCE_fnc_CFF_getAmmoType // : Get the ammo type 
           ]
         ];
       };
@@ -64,3 +66,15 @@ _group_vehs = _group_vehs ArrayIntersect _group_vehs;
 
 //- Save HashMap
 _checklist setVariable ["CheckList", _result];
+
+/*
+	_result <HASHMAP> : [
+		"magazineClass", [ : #NOTE - This is also saved in LB's DATA (easier to query)
+			_displayName,    : DisplayName
+			_magazineCount,  : Magazine Count (how many vehicles have this magazine)
+			_count,          : Ammo Counts
+			_unitCount_F     : fireUnit Counts
+			_Type 					 : Type of ammo in CFF perspective
+		]
+	]
+*/
