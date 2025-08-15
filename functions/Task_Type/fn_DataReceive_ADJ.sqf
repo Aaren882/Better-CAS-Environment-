@@ -165,7 +165,7 @@ switch _curLine do {
 			};
 			//- Open Sheaf
 			if (_Sheaf_ModeSel == 1) exitWith {
-				[_Radius_V] //- Return
+				[_Radius_V max 100] //- Return
 			};
 			//- Linear Sheaf
 			if (_Sheaf_ModeSel == 2) exitWith {
