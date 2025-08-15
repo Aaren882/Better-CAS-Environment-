@@ -101,9 +101,11 @@ private _random_POS = nil;
       true
     ];
     
+		//- a fking simple conversion
+		private _radius = LinearConversion [3000,20000,_taskUnit distance2D _TGPOS,0,200,true];
     private _random_POS = [ 
       [
-        [_TGPOS, 100] //- #TODO - Linear interpolate the radius base on the distance
+        [_TGPOS, _radius]
       ],
       []
     ] call BIS_fnc_randomPos;
