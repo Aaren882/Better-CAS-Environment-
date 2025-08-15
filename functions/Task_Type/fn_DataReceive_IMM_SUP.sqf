@@ -20,34 +20,30 @@ switch _curLine do {
 
 			//-Get Data
 				private _fireAmmo = _lbAmmo lbData (lbCurSel _lbAmmo);
+				private _data = _mapValue getOrDefault [_fireAmo, []];
+				_data params ["",["_maxMagazine",1],"_count", "",["_ammoType",""]];
+
 				private _fireUnitSel = lbCurSel _lbFireUnits;
 				private _FuseSel = lbCurSel _lbFuse;
-				private _FuseData = _lbFuse lbData _FuseSel;
 
 				private _fireUnits = 1 max (_lbFireUnits lbValue _fireUnitSel);
-				private _fuzeVal = parseNumber (ctrlText _editFuzeVal);
 
-				private _data = _mapValue get _fireAmmo;
-				_data params ["",["_maxMagazine",1],"_count"];
-
-				//- They will keep shooting
+				//- #NOTE - They will keep shooting
 				private _setCount = floor (_count / _maxMagazine);
-				//- Check Ammo Count
-				/* if (_fireAmmo != "") then {
-					private _maxFireEach = floor (_count / _maxMagazine);
-					private _maxFireCount = floor (_count / _fireUnits);
-					
-					if (
-						_setCount > _maxFireEach ||
-						_setCount > _maxFireCount
-					) then {
-						_setCount = _maxFireEach;
-						_editRounds ctrlSetText (str _setCount);
+
+				//- #TODO - Check ordnance available fuzes
+					private _fuzeInfos = if (_ammoType == "HE") then {
+						_lbFuse ctrlShow true;
+						// _editFuzeVal ctrlShow true; #LINK - functions/Task_Type/fn_SelChanged_ADJ.sqf
+
+						[_lbFuse lbData _FuseSel, parseNumber (ctrlText _editFuzeVal)];
+					} else {
+						_lbFuse ctrlShow false;
+						_editFuzeVal ctrlShow false;
+
+						[_ammoType, 0]
 					};
-				} else {
-					_setCount = 1;
-					_editRounds ctrlSetText "";
-				}; */
+				_fuzeInfos params ["_FuseData", "_fuzeVal"];
 			
 			//- Save Selections
 			_storeVal set [ //- for UI selection recover
