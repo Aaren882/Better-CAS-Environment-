@@ -1969,9 +1969,9 @@
 				<Chinesesimp>给观测员的讯息 :</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MTO_Tip">
-				<Original>A concise message from the Fire Direction Center (FDC) to the Forward Observer (FO) communicating the decision to engage a target.\n  - Firing Unit: States the fire unit that will execute the mission.\n  - Number of Guns: States the number of guns of the firing unit that will execute the mission.\n  - Number of Rounds: The number of rounds per tube for each fire for effect.\n  - Target Number: The target number assigned to the mission to facilitate subsequent adjustments.</Original>
-				<Chinese>是由火力支援中心（FDC）向前方觀察員（FO）傳達其針對目標攻擊決策的簡明訊息。\n - 射擊單位：說明將執行任務的火力單位。\n - 單位數量：說明將執行任務的火力單位的火炮數量。\n  - 彈藥數量：指每次有效火力(FFE)時每管的彈藥數量。\n  - 目標編號：為任務分配的目標編號，以利後續修正處理。</Chinese>
-				<Chinesesimp>是由火力支援中心（FDC）向前方观察员（FO）传达其针对目标攻击决策的简明讯息。\n  - 射击单位：说明将执行任务的火力单位。\n - 单位数量：说明将执行任务的火力单位的火炮数量。\n  - 弹药数量：指每次有效火力 (FFE)时每管的弹药数量。\n  - 目标编号：为任务分配的目标编号，以利后续修正处理。</Chinesesimp>
+				<Original>A concise message from the Fire Direction Center (FDC) to the Forward Observer (FO) communicating the decision to engage a target.\n - Firing Unit: States the fire unit that will execute the mission.\n - Number of Guns: States the number of guns of the firing unit that will execute the mission.\n - Number of Rounds: The number of rounds per tube for each fire for effect.\n - Target Number: The target number assigned to the mission to facilitate subsequent adjustments.</Original>
+				<Chinese>是由火力支援中心（FDC）向前方觀察員（FO）傳達其針對目標攻擊決策的簡明訊息。\n - 射擊單位：說明將執行任務的火力單位。\n - 單位數量：說明將執行任務的火力單位的火炮數量。\n - 彈藥數量：指每次有效火力(FFE)時每管的彈藥數量。\n - 目標編號：為任務分配的目標編號，以利後續修正處理。</Chinese>
+				<Chinesesimp>是由火力支援中心（FDC）向前方观察员（FO）传达其针对目标攻击决策的简明讯息。\n - 射击单位：说明将执行任务的火力单位。\n - 单位数量：说明将执行任务的火力单位的火炮数量。\n - 弹药数量：指每次有效火力 (FFE)时每管的弹药数量。\n - 目标编号：为任务分配的目标编号，以利后续修正处理。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSN_TITLE">
 				<Original>Target #%1</Original>
