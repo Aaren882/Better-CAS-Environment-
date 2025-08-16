@@ -844,9 +844,19 @@
 			<Chinesesimp>提供额外重要信息。&lt;br/&gt;&lt;br/&gt; 1. &lt;t underline='true'&gt;处于交战&lt;/t&gt; 或 &lt;t underline='true'&gt;Danger Close&lt;/t&gt;&lt;br/&gt; 2. 最终攻击方向 (FAH) 或 高度限制 &lt;br/&gt; 3. 区域威胁 &lt;br/&gt; 4. 正在使用的射击枪线 &lt;br/&gt;等等</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_CFF_Sheaf">
-			<Original>Sheaf is a spatial pattern of fire over a target area that has parameters or is referred to differently depending on the pattern desired. &lt;br/&gt;&lt;br/&gt; - Standard :&lt;br/&gt; The default radius 100m. &lt;br/&gt; - Open :&lt;br/&gt; Which is greater than 100m radius and provides wider coverages.&lt;br/&gt; - Linear :&lt;br/&gt;   &lt;br/&gt; - Point :&lt;br/&gt;   </Original>
-			<Chinese>Sheaf 是火力在目標區域的空間模式，其參數或呼叫方式取決於所需的具體模式。&lt;br/&gt;&lt;br/&gt; - 標準 (Standard) : &lt;br/&gt;   預設 100m 半徑。&lt;br/&gt; - 開放 (Open) : &lt;br/&gt;   半徑大於100米，覆蓋範圍更廣。&lt;br/&gt; - 線形 (Linear) :&lt;br/&gt;   &lt;br/&gt; - 單點 (Point) :&lt;br/&gt;  &lt;br/&gt;</Chinese>
-			<Chinesesimp>集束射击（Sheaf）是一种在目标区域上的火力空间模式，其参数和称谓因所需模式而异：&lt;br/&gt;&lt;br/&gt; - 标准 (Standard) ：默认半径100米。&lt;br/&gt; - 开放 (Open)：半径大于100米，提供更广阔覆盖。&lt;br/&gt; - 线性 (Linear) :&lt;br/&gt;   &lt;br/&gt; - 点 (Point) :&lt;br/&gt;   </Chinesesimp>
+			<Original>Sheaf is the spatial pattern of fire in a target area, with its parameters or method of call depending on the specific pattern desired.&lt;br/&gt; - Standard: &lt;t color='#CCCCCC' size='0.9'&gt;A preset circular target with a 100-meter radius, with aiming points determined for each weapon to achieve optimal coverage.&lt;/t&gt;&lt;br/&gt; - Open: &lt;t color='#CCCCCC' size='0.9'&gt;With a radius greater than 100 meters, an open distribution is generally used to engage targets more dispersed than what a standard sheaf can cover.&lt;/t&gt;&lt;br/&gt; - Linear: &lt;t color='#CCCCCC' size='0.9'&gt;Its length, width (in meters), and attitude (the azimuth of the A-axis, in Mils) will be provided.&lt;/t&gt;&lt;br/&gt; - Point: &lt;t color='#CCCCCC' size='0.9'&gt;This distribution is used for a single point target and is typically employed against small, hardened targets like bunkers or machine gun nests.&lt;/t&gt;</Original>
+			<Chinese>Sheaf 是火力在目標區域的空間模式，其參數或呼叫方式取決於所需的具體模式。&lt;br/&gt;&lt;br/&gt; - 標準 (Standard)：&lt;t color='#CCCCCC' size='0.9'&gt;預設圓形目標的半徑為100公尺，並確定各武器的瞄準點以實現對此類目標的最佳覆蓋。&lt;/t&gt;&lt;br/&gt; - 開放 (Open)：&lt;t color='#CCCCCC' size='0.9'&gt;半徑大於100米，開放式彈著分佈通常用於攻擊比標準彈著分佈可覆蓋範圍更廣的目標。&lt;/t&gt;&lt;br/&gt; - 線形 (Linear)：&lt;t color='#CCCCCC' size='0.9'&gt;會提供其長度、寬度（以公尺為單位）和方位（A 軸的方位角，以 Mil 為單位）。&lt;/t&gt;&lt;br/&gt; - 單點 (Point)：&lt;t color='#CCCCCC' size='0.9'&gt;分佈通常用於單一點的目標，這種彈著分佈通常用於小型、堅硬的目標，例如碉堡或機槍陣地。&lt;t/&gt;</Chinese>
+			<Chinesesimp>Sheaf 是火力在目标区域的空间模式，其参数或呼叫方式取决于所需的具体模式。 &lt;br/&gt;&lt;br/&gt; - 标准 (Standard)：&lt;t color='#CCCCCC' size='0.9'&gt;预设圆形目标的半径为100公尺，并确定各武器的瞄准点以实现对此类目标的最佳覆盖。&lt;/t&gt;&lt;br/&gt; - 开放 (Open)：&lt;t color='#CCCCCC' size='0.9'&gt;半径大于100米，开放式弹着分布通常用于攻击比标准弹着分布可覆盖范围更广的目标。&lt;/t&gt;&lt;br/&gt; - 线形 (Linear)：&lt;t color='#CCCCCC' size='0.9'&gt;会提供其长度、宽度（以公尺为单位）和方位（A 轴的方位角，以 Mil 为单位）。&lt;/t&gt;&lt;br/&gt; - 单点 (Point)：&lt;t color='#CCCCCC' size='0.9'&gt;分布通常用于单一点的目标，这种弹着分布通常用于小型、坚硬的目标，例如碉堡或机枪阵地。 &lt;t/&gt;</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_DECS_CFF_MOC">
+			<Original>Method of Control (MOC).&lt;br/&gt;&lt;br/&gt;When no method of control is specified, the fire mission will be executed “At-Ready”.&lt;br/&gt;&lt;br/&gt;The other two options you may use in basic school are “At My Command” (AMC) and “Time on Target” (TOT).</Original>
+			<Chinese>控制方法（MOC）。 &lt;br/&gt;&lt;br/&gt;未指定控制方法時，射擊任務將在「準備就緒時」執行。 &lt;br/&gt;&lt;br/&gt;您可以在基礎學校使用的另外兩個選項是「在我的指揮下」（AMC）和「目標時間」（TOT）。</Chinese>
+			<Chinesesimp>控制方法（MOC）。 &lt;br/&gt;&lt;br/&gt;未指定控制方法时，射击任务将在“准备就绪时”执行。 &lt;br/&gt;&lt;br/&gt;您可以在基础学校使用的另外两个选项是“在我的指挥下”（AMC）和“目标时间”（TOT）。</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_DECS_CFF_SUP">
+			<Original>&lt;t align='center'&gt;Suppress 3mins, 4 rounds per minute, HE in Effect.&lt;/t&gt;&lt;br/&gt;&lt;br/&gt;- Suppress:&lt;br/&gt;  &lt;t color='#CCCCCC' size='0.9'&gt;This is a warning command for the mission type.&lt;/t&gt;&lt;br/&gt;- 3 minutes (3mins):&lt;br/&gt;  &lt;t color='#CCCCCC' size='0.9'&gt;This refers to the duration.&lt;/t&gt;&lt;br/&gt;- 4 rounds per minute:&lt;br/&gt;  &lt;t color='#CCCCCC' size='0.9'&gt;This refers to the rate of fire for the mission. During the duration, each gun will fire 4 rounds per minute.&lt;/t&gt;&lt;br/&gt;- HE in Effect:&lt;br/&gt;  &lt;t color='#CCCCCC' size='0.9'&gt;This specifies that High Explosive ammunition will be used, and indicates that the target will directly receive "Fire for Effect" (FFE).</Original>
+			<Chinese>&lt;t align='center' size='1.1'&gt;壓制(Suppress) 3 分鐘，每分鐘 4 發，HE 生效。&lt;/t&gt;&lt;br/&gt;&lt;br/&gt;- 壓制 (Suppress)：&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;這是警告命令，指示任務類型是「壓制」。&lt;/t&gt;&lt;br/&gt;- 3分鐘 (3mins)：&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;這指的是壓制火力將「持續」的時間長度（Duration）。&lt;/t&gt;&lt;br/&gt;- 每分鐘4發 (4 rounds per minute)：&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;這是任務的射速（Rate of Fire），在「持續」時間內，每門砲將以每分鐘4發的速度發射彈藥。&lt;/t&gt;&lt;br/&gt;- HE 生效 (HE in Effect)：&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;這指定了將要使用的彈藥類型為高爆彈（HE），且表明目標將直接接受「有效火力」（Fire for Effect, FFE）。&lt;/t&gt;</Chinese>
+			<Chinesesimp>&lt;t align='center'&gt;压制(Suppress) 3 分钟，每分钟 4 发，HE 生效。&lt;/t&gt;&lt;br/&gt;&lt;br/&gt;- 压制 (Suppress)：&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;这是警告命令，指示任务类型是「压制」。&lt;/t&gt;&lt;br/&gt;- 3分钟 (3mins)：&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;这指的是压制火力将「持续」的时间长度（Duration）。&lt;/t&gt;&lt;br/&gt;- 每分钟4发 (4 rounds per minute)：&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;这是任务的射速（Rate of Fire），在「持续」时间内，每门炮将以每分钟4发的速度发射弹药。&lt;/t&gt;&lt;br/&gt;- HE 生效 (HE in Effect)：&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;这指定了将要使用的弹药类型为高爆弹（HE），且表明目标将直接接受「有效火力」（Fire for Effect, FFE）。&lt;/t&gt;</Chinesesimp>
 		</Key>
 		
 		
@@ -901,6 +911,11 @@
 			<Original>Method of Attack</Original>
 			<Chinese>攻擊方式</Chinese>
 			<Chinesesimp>攻击方式</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_TIP_MOC">
+			<Original>Method of Control</Original>
+			<Chinese>控制方式</Chinese>
+			<Chinesesimp>控制方式</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_TIP_Weapon">
 			<Original>Weapon Selection</Original>
@@ -979,9 +994,9 @@
 		</Key>
 		
 		<Key ID="STR_BCE_TIP_5Line">
-			<Original>“Aircraft call sign” / “Yours”</Original>
-			<Chinese>“空中單位代號” / “你的代號”</Chinese>
-			<Chinesesimp>“空中单位代号” / “你的代号”</Chinesesimp>
+			<Original>“Unit call sign” / “Yours”</Original>
+			<Chinese>“單位代號” / “你的代號”</Chinese>
+			<Chinesesimp>“单位代号” / “你的代号”</Chinesesimp>
 		</Key>
 		
 		
@@ -1590,10 +1605,150 @@
 			<Chinesesimp>新讯息: %1</Chinesesimp>
 		</Key>
 
+		<Key ID="STR_BCE_CFF_SHEAF_STD">
+			<Original>Standard Sheaf</Original>
+			<Chinese>標準集束</Chinese>
+			<Chinesesimp>标准集束</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SHEAF_OPEN">
+			<Original>Open Sheaf "%1m"</Original>
+			<Chinese>開放集束 "%1m"</Chinese>
+			<Chinesesimp>开放集束 "%1m"</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SHEAF_LINEAR">
+			<Original>Linear Sheaf "%1x%2 - %3°"</Original>
+			<Chinese>線性集束 "%1x%2 - %3°"</Chinese>
+			<Chinesesimp>线性集束 "%1x%2 - %3°"</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SHEAF_POINT">
+			<Original>Point/Destruction</Original>
+			<Chinese>單點/摧毀</Chinese>
+			<Chinesesimp>单点/摧毁</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SHEAF_LINEAR_A_Tip">
+			<Original>A in meters</Original>
+			<Chinese>A (公尺)</Chinese>
+			<Chinesesimp>A (公尺)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SHEAF_LINEAR_B_Tip">
+			<Original>B in meters</Original>
+			<Chinese>B (公尺)</Chinese>
+			<Chinesesimp>B (公尺)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SHEAF_LINEAR_D_Tip">
+			<Original>Direction (Azimuth/Mil) \n- ex. "350° / 6222"</Original>
+			<Chinese>方位 (方位角/Mil) \n- 例如 "350° / 6222"</Chinese>
+			<Chinesesimp>方位 (方位角/Mil) \n- 例如 "350° / 6222"</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_FireAngle_Tip">
 			<Original>Angle of Fire</Original>
 			<Chinese>攻擊角度</Chinese>
-			<Chinesesimp>攻擊角度</Chinesesimp>
+			<Chinesesimp>攻击角度</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Ammunition_Tip">
+			<Original>Ammunition</Original>
+			<Chinese>彈藥</Chinese>
+			<Chinesesimp>弹药</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_Ammunition_Fuze_Tip">
+			<Original>The Ammunition Fuze</Original>
+			<Chinese>彈藥引信</Chinese>
+			<Chinesesimp>弹药引信</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_FireUnit_Tip">
+			<Original>Unit(s) to fire</Original>
+			<Chinese>單位射擊 (幾個單位進行任務)</Chinese>
+			<Chinesesimp>单位射击 (几个单位进行任务)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_Round_Tip">
+			<Original>Rounds to fire for each Unit</Original>
+			<Chinese>每個單位射擊多少發</Chinese>
+			<Chinesesimp>每个单位射击多少发</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_Radius_Tip">
+			<Original>Impact Radius when "Fire for Effect"</Original>
+			<Chinese>攻擊半徑當進行 "有效火力 (FFE)"</Chinese>
+			<Chinesesimp>攻击半径当进行 "有效火力 (FFE)"</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_FuzeValue_Tip">
+			<Original>Fuze Value</Original>
+			<Chinese>引信輸入值</Chinese>
+			<Chinesesimp>引信输入值</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_Output_Expression_Tip">
+			<Original>Total of (Shells will be shot) -- (Rounds will be executed)</Original>
+			<Chinese>總共 (將發射的砲彈) -- (將執行的次數)</Chinese>
+			<Chinesesimp>总共 (将发射的炮弹) -- (将执行的次数)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_Output_Expression_Tip">
+			<Original>Total of (Shells will be shot) -- (Rounds will be executed)</Original>
+			<Chinese>總共 (將發射的砲彈) -- (將執行的次數)</Chinese>
+			<Chinesesimp>总共 (将发射的炮弹) -- (将执行的次数)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_OT_INFO_GRID_Tip">
+			<Original>Target GRID</Original>
+			<Chinese>目標 GRID</Chinese>
+			<Chinesesimp>目标 GRID</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_OT_INFO_POLAR_Tip">
+			<Original>POLAR from Observer to Target</Original>
+			<Chinese>觀察者到目標的 POLAR</Chinese>
+			<Chinesesimp>观察者到目标的 POLAR</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_EFFECTIVE_RADIUS">
+			<Original>Effective Radius</Original>
+			<Chinese>有效半徑</Chinese>
+			<Chinesesimp>有效半径</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_CtrlType_AT_READY_Tip">
+			<Original>Fire When Ready</Original>
+			<Chinese>準備好就開火</Chinese>
+			<Chinesesimp>准备好就开火</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_CtrlType_TOT_Tip">
+			<Original>"Impact" Time on Target</Original>
+			<Chinese>彈著至目標的時間 (Time on Target)</Chinese>
+			<Chinesesimp>弹着至目标的时间 (Time on Target)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_CtrlType_AMC_Tip">
+			<Original>At My Command</Original>
+			<Chinese>以我指令 (At My Command)</Chinese>
+			<Chinesesimp>以我指令 (At My Command)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_CtrlType_AT_READY_TITLE">
+			<Original>At-Ready</Original>
+			<Chinese>準備就緒時 (At-Ready)</Chinese>
+			<Chinesesimp>准备就绪时 (At-Ready)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_CtrlType_AMC_TITLE">
+			<Original>At My Command</Original>
+			<Chinese>以我指令 (AMC)</Chinese>
+			<Chinesesimp>以我指令 (AMC)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SHEAF_OPTIONAL_TITLE">
+			<Original>Sheaf Type (OPTIONAL)</Original>
+			<Chinese>Sheaf 類型 (可選)</Chinese>
+			<Chinesesimp>Sheaf 类型 (可选)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_AF_TITLE">
+			<Original>ADJUST FIRE</Original>
+			<Chinese>校準火炮 AF</Chinese>
+			<Chinesesimp>校准火炮 AF</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_AF_Tip">
+			<Original>ADJUST FIRE</Original>
+			<Chinese>校準火炮 (AF)</Chinese>
+			<Chinesesimp>校准火炮 (AF)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_FFE_TITLE">
+			<Original>FIRE FOR EFFECT</Original>
+			<Chinese>有效火力 FFE</Chinese>
+			<Chinesesimp>有效火力 FFE</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_FFE_Tip">
+			<Original>FIRE FOR EFFECT</Original>
+			<Chinese>有效火力 (FFE)</Chinese>
+			<Chinesesimp>有效火力 (FFE)</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_FUZE_IMPT_Tip">
 			<Original>Impact Fuze</Original>
@@ -1603,7 +1758,7 @@
 		<Key ID="STR_BCE_FUZE_VT_Tip">
 			<Original>Burst Height (m)</Original>
 			<Chinese>空爆高度 (公尺)</Chinese>
-			<Chinesesimp>空爆高度 (公尺)</Chinesesimp>
+			<Chinesesimp>空炸高度 (公尺)</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_FUZE_DELAY_Tip">
 			<Original>Delay for 0.1 Sec</Original>
@@ -1630,6 +1785,86 @@
 			<Chinese>移除已記錄的目標。</Chinese>
 			<Chinesesimp>移除已记录的目标。</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_CFF_TOT_INPUT">
+			<Original>Enter Minutes...</Original>
+			<Chinese>輸入分鐘...</Chinese>
+			<Chinesesimp>输入分钟...</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_DURATION_X">
+			<Original>Duration: [X]</Original>
+			<Chinese>持續時間: [X]</Chinese>
+			<Chinesesimp>持续时间: [X]</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_ROUNDS_X">
+			<Original>Rounds: [X]</Original>
+			<Chinese>砲彈發數: [X]</Chinese>
+			<Chinesesimp>炮弹发数: [X]</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_INTERVAL_X">
+			<Original>Interval: [X]</Original>
+			<Chinese>間隔: [X]</Chinese>
+			<Chinesesimp>間隔: [X]</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_SKIP_AF_X">
+			<Original>Skip Adjust [X]</Original>
+			<Chinese>略過校準: [X]</Chinese>
+			<Chinesesimp>跳过校准: [X]</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_DURATION_O">
+			<Original>Duration: [O]</Original>
+			<Chinese>持續時間: [O]</Chinese>
+			<Chinesesimp>持续时间: [O]</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_ROUNDS_O">
+			<Original>Rounds: [O]</Original>
+			<Chinese>砲彈發數: [O]</Chinese>
+			<Chinesesimp>炮弹发数: [O]</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_INTERVAL_O">
+			<Original>Interval: [O]</Original>
+			<Chinese>間隔: [O]</Chinese>
+			<Chinesesimp>間隔: [O]</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_SKIP_AF_O">
+			<Original>Skip Adjust [O]</Original>
+			<Chinese>略過校準: [O]</Chinese>
+			<Chinesesimp>跳过校准: [O]</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_DURATION_Tip">
+			<Original>Duration in minutes</Original>
+			<Chinese>持續時間 (分鐘)</Chinese>
+			<Chinesesimp>持续时间 (分钟)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_ROUNDS_Tip">
+			<Original>Rounds per Tube in each Interval</Original>
+			<Chinese>每個間隔中每管的射擊發數</Chinese>
+			<Chinesesimp>每个间隔中每管的射击发数</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_SKIP_AF_Tip">
+			<Original>This will skip the Adjust Fire phase and go straight to FFE (Still able to adjust, but takes more ammo)</Original>
+			<Chinese>這將跳過校準射擊階段，直接進入有效火力射擊 (仍然可以調整，但會消耗更多彈藥)</Chinese>
+			<Chinesesimp>这会跳过校准射击阶段，直接进入有效火力射击（仍然可以调整，但会消耗更多弹药）</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_INTERVAL_Tip">
+			<Original>Interval in seconds/minutes</Original>
+			<Chinese>間隔 (秒/分鐘)</Chinese>
+			<Chinesesimp>间隔 (秒/分钟)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_INTERVAL_Unit_Tip">
+			<Original>Toggle between Minutes and Seconds for the Interval</Original>
+			<Chinese>切換間隔的時間單位 (分鐘/秒)</Chinese>
+			<Chinesesimp>切换间隔的时间单位 (分钟/秒)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_TOT_GREATER_Error">
+			<Original>ToT(Clock) Must be &gt;= 1 Hour</Original>
+			<Chinese>ToT(時鐘) 必須 &gt;= 1 小時</Chinese>
+			<Chinesesimp>ToT(时钟) 必须 &gt;= 1 小时</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_TOT_LESS_Error">
+			<Original>ToT(minutes) Must be &gt;= 5 mins</Original>
+			<Chinese>ToT(分鐘) 必須 &gt;= 5 分鐘</Chinese>
+			<Chinesesimp>ToT(分钟) 必须 &gt;= 5 分钟</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_LO_Angle">
 			<Original>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; Low ANG</Original>
 			<Chinese>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 低角</Chinese>
@@ -1640,6 +1875,17 @@
 			<Chinese>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 高角</Chinese>
 			<Chinesesimp>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 高角</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_MINUTE_Short">
+			<Original>Min</Original>
+			<Chinese>分</Chinese>
+			<Chinesesimp>分</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_SECOND_Short">
+			<Original>Sec</Original>
+			<Chinese>秒</Chinese>
+			<Chinesesimp>秒</Chinesesimp>
+		</Key>
+		
 		
 		<!-- CFF Messages -->
 			<Key ID="STR_BCE_CFF_MSG_MISSION_PROGRESS">
@@ -1721,6 +1967,11 @@
 				<Original>Message to Observer :</Original>
 				<Chinese>給觀測員的訊息 :</Chinese>
 				<Chinesesimp>给观测员的讯息 :</Chinesesimp>
+			</Key>
+			<Key ID="STR_BCE_CFF_MTO_Tip">
+				<Original>A concise message from the Fire Direction Center (FDC) to the Forward Observer (FO) communicating the decision to engage a target.\n  - Firing Unit: States the fire unit that will execute the mission.\n  - Number of Guns: States the number of guns of the firing unit that will execute the mission.\n  - Number of Rounds: The number of rounds per tube for each fire for effect.\n  - Target Number: The target number assigned to the mission to facilitate subsequent adjustments.</Original>
+				<Chinese>是由火力支援中心（FDC）向前方觀察員（FO）傳達其針對目標攻擊決策的簡明訊息。\n - 射擊單位：說明將執行任務的火力單位。\n - 單位數量：說明將執行任務的火力單位的火炮數量。\n  - 彈藥數量：指每次有效火力(FFE)時每管的彈藥數量。\n  - 目標編號：為任務分配的目標編號，以利後續修正處理。</Chinese>
+				<Chinesesimp>是由火力支援中心（FDC）向前方观察员（FO）传达其针对目标攻击决策的简明讯息。\n  - 射击单位：说明将执行任务的火力单位。\n - 单位数量：说明将执行任务的火力单位的火炮数量。\n  - 弹药数量：指每次有效火力 (FFE)时每管的弹药数量。\n  - 目标编号：为任务分配的目标编号，以利后续修正处理。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSN_TITLE">
 				<Original>Target #%1</Original>

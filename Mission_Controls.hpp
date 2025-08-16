@@ -540,7 +540,7 @@ class BCE_Mission_Build_Controls
       class CFF_IE_WeaponCombo: AI_Remark_WeaponCombo
       {
         idc = PROP_IDC(1013);
-        tooltip="Ammunition"; //- e.g. “ICM” (projectile) or “VT in effect” (fuze). The term, “in effect”
+        tooltip="$STR_BCE_Ammunition_Tip"; //- e.g. “ICM” (projectile) or “VT in effect” (fuze). The term, “in effect”
       };
       class CFF_IE_FuzeCombo: AI_Remark_ModeCombo
       {
@@ -548,7 +548,7 @@ class BCE_Mission_Build_Controls
         //- VT  : (Variable Time) - Proximity Fuze
         //- ICM : (Improved-Conventional-Munition) - Cluster
         idc = PROP_IDC(1015);
-        tooltip="The Ammunition Fuze";
+        tooltip="$STR_BCE_Ammunition_Fuze_Tip";
         class Items
         {
           class Impact
@@ -579,24 +579,24 @@ class BCE_Mission_Build_Controls
         REGISTER_FNC;
 
         idc = PROP_IDC(1014);
-        tooltip = "Unit(s) to fire";
+        tooltip = "$STR_BCE_CFF_FireUnit_Tip";
       };
       class CFF_IE_Round_Box: Round_Count_Box
       {
         idc = PROP_IDC(1016);
         text = "";
-        tooltip="Rounds to fire for each Unit";
+        tooltip="$STR_BCE_CFF_Round_Tip";
       };
       class CFF_IE_Radius_Box: Attack_Height_Box
       {
         idc = PROP_IDC(1017);
-        tooltip="Impact Radius when ""Fire for Effect""";
-        text = "100";
+        tooltip="$STR_BCE_CFF_Radius_Tip";
+        text = "150";
       };
       class CFF_IE_FuzeValue_Box: CFF_IE_Round_Box
       {
         idc = PROP_IDC(1018);
-        tooltip="Fuze Value";
+        tooltip="$STR_BCE_CFF_FuzeValue_Tip";
       };
       class CFF_IE_FireAngle_Bnt: BCE_RscButtonMenu
       {
@@ -716,8 +716,8 @@ class BCE_Mission_Build_Controls
       };
       tooltips[] =
       {
-        "Target GRID",
-        "POLAR from Observer to Target" //- Observer can be other FOs
+        "$STR_BCE_CFF_OT_INFO_GRID_Tip",
+        "$STR_BCE_CFF_OT_INFO_POLAR_Tip" //- Observer can be other FOs
       };
     };
     class New_Task_CFF_CtrlType: New_Task_IPtype
@@ -742,9 +742,9 @@ class BCE_Mission_Build_Controls
       };
       tooltips[] =
       {
-        "Fire When Ready",
-        """Impact"" Time on Target",
-        "At My Command"
+        "$STR_BCE_CFF_CtrlType_AT_READY_Tip",
+        "$STR_BCE_CFF_CtrlType_TOT_Tip",
+        "$STR_BCE_CFF_CtrlType_AMC_Tip"
       };
     };
     class New_Task_CFF_TOT: New_Task_EGRS_Bearing
@@ -752,7 +752,7 @@ class BCE_Mission_Build_Controls
       REGISTER_FNC;
 
       idc = PROP_IDC(2204);
-      text = "Enter Minutes...";
+      text = "$STR_BCE_CFF_TOT_INPUT";
     };
     class New_Task_CFF_StructText: taskDesc
     {
@@ -838,13 +838,13 @@ class BCE_Mission_Build_Controls
       columns = 2;
       strings[] =
       {
-        "ADJUST FIRE",
-        "FIRE FOR EFFECT"
+        "$STR_BCE_CFF_AF_TITLE",
+        "$STR_BCE_CFF_FFE_TITLE"
       };
       tooltips[] =
       {
-        "",
-        ""
+        "$STR_BCE_CFF_AF_Tip",
+        "$STR_BCE_CFF_FFE_Tip"
       };
       colorBackground[] = {0,0,0,0.5};
       onToolBoxSelChanged = "['MSN_STATE',_this#1] call BCE_fnc_set_FireAdjust_MSN_State";
@@ -854,6 +854,7 @@ class BCE_Mission_Build_Controls
       REGISTER_FNC;
       idc = PROP_IDC(2210);
       colorBackground[] = {0,0,0,0.3};
+			tooltip = "$STR_BCE_CFF_MTO_Tip";
       class Attributes
       {
         font = "RobotoCondensed_BCE";
@@ -888,10 +889,10 @@ class BCE_Mission_Build_Controls
       class BCE_Data
       {
         modes[] = {
-          "Standard Sheaf",
-          "Open Sheaf ""%1m""",
-          "Linear Sheaf ""%1x%2 - %3°""",
-          "Point/Destruction"
+          "$STR_BCE_CFF_SHEAF_STD",
+          "$STR_BCE_CFF_SHEAF_OPEN",
+          "$STR_BCE_CFF_SHEAF_LINEAR",
+          "$STR_BCE_CFF_SHEAF_POINT"
         };
       };
     };
@@ -899,19 +900,19 @@ class BCE_Mission_Build_Controls
     {
       REGISTER_FNC;
       idc = PROP_IDC(2213);
-      tooltip = "Length in meters";
+      tooltip = "$STR_BCE_CFF_SHEAF_LINEAR_A_Tip";
     };
     class New_Task_IE_Sheaf_LINE_W: New_Task_IE_Sheaf_LINE_L
     {
       REGISTER_FNC;
       idc = PROP_IDC(2214);
-      tooltip = "Width in meters";
+      tooltip = "$STR_BCE_CFF_SHEAF_LINEAR_B_Tip";
     };
     class New_Task_IE_Sheaf_LINE_Mil: New_Task_IE_Sheaf_LINE_L
     {
       REGISTER_FNC;
       idc = PROP_IDC(2215);
-      tooltip = "Direction (Azimuth/Mil) \n- ex. ""350° / 6222""";
+      tooltip = "$STR_BCE_CFF_SHEAF_LINEAR_D_Tip";
     };
     class New_Task_IE_Sheaf_LINE_L_T: RscText
     {
@@ -921,7 +922,7 @@ class BCE_Mission_Build_Controls
       style = 2;
       
       text = "A";
-      tooltip = "A in meters";
+      tooltip = "$STR_BCE_CFF_SHEAF_LINEAR_A_Tip";
 
       colorText[]={1,0.737255,0.0196078,1};
       colorBackground[] = {0,0,0,0};
@@ -932,7 +933,7 @@ class BCE_Mission_Build_Controls
       idc = PROP_IDC(2217);
 
       text = "B";
-      tooltip = "B in meters";
+      tooltip = "$STR_BCE_CFF_SHEAF_LINEAR_B_Tip";
     };
     class New_Task_IE_Sheaf_LINE_Dir_T: New_Task_IE_Sheaf_LINE_L_T
     {
@@ -940,7 +941,7 @@ class BCE_Mission_Build_Controls
       idc = PROP_IDC(2218);
 
       text = "D";
-      tooltip = "Direction (Azimuth/Mil) \n- ex. ""350° / 6222""";
+      tooltip = "$STR_BCE_CFF_SHEAF_LINEAR_D_Tip";
     };
 
     //- SUPPRESSION Description
@@ -953,31 +954,30 @@ class BCE_Mission_Build_Controls
       rows = 1;
       columns = 3;
 			font = "RobotoCondensed_BCE";
-      strings[] = {"Duration: [X]","Rounds: [X]","Interval: [X]"};
-      checked_strings[] = {"Duration: [O]","Rounds: [O]","Interval: [O]"};
-      tooltips[] = {"Duration in minutes","Rounds per Tube in each Interval","Interval in seconds/minutes"};
-      // tooltips[] = {"Duration in minutes","Interval in seconds/minutes"};
+      strings[] = {"$STR_BCE_CFF_SUP_DURATION_X","$STR_BCE_CFF_SUP_ROUNDS_X","$STR_BCE_CFF_SUP_INTERVAL_X"};
+      checked_strings[] = {"$STR_BCE_CFF_SUP_DURATION_O","$STR_BCE_CFF_SUP_ROUNDS_O","$STR_BCE_CFF_SUP_INTERVAL_O"};
+      tooltips[] = {"$STR_BCE_CFF_SUP_DURATION_Tip","$STR_BCE_CFF_SUP_ROUNDS_Tip","$STR_BCE_CFF_SUP_INTERVAL_Tip"};
     };
     class New_Task_SUP_DESC_Duration: New_Task_GRID_DESC
     {
       REGISTER_FNC;
       idc = PROP_IDC(2220);
       text = ""; //- In minutes
-      tooltip = "Duration in minutes";
+      tooltip = "$STR_BCE_CFF_SUP_DURATION_Tip";
     };
     class New_Task_SUP_RND_Interval: New_Task_SUP_DESC_Duration
     {
       REGISTER_FNC;
       idc = PROP_IDC(2221);
       text = ""; //- foreach Tube each round In Seconds/Minutes (min 10 seconds)
-      tooltip = "Rounds per Tube in each Interval";
+      tooltip = "$STR_BCE_CFF_SUP_ROUNDS_Tip";
     };
     class New_Task_SUP_DESC_Interval: New_Task_SUP_DESC_Duration
     {
       REGISTER_FNC;
       idc = PROP_IDC(2222);
       text = "";
-      tooltip = "Interval in seconds/minutes";
+      tooltip = "$STR_BCE_CFF_SUP_INTERVAL_Tip";
     };
     class New_Task_SUP_DESC_SkipAdjust: New_Task_SUP_DESC_Checkboxes
     {
@@ -985,9 +985,9 @@ class BCE_Mission_Build_Controls
       idc = PROP_IDC(2223);
 
       columns = 1;
-      strings[] = {"Skip Adjust [X]"};
-      checked_strings[] = {"Skip Adjust [O]"};
-      tooltips[] = {"This will skip the Adjust Fire phase and go straight to FFE (Still able to adjust, but takes more ammo)"};
+      strings[] = {"$STR_BCE_CFF_SUP_SKIP_AF_X"};
+      checked_strings[] = {"$STR_BCE_CFF_SUP_SKIP_AF_O"};
+      tooltips[] = {"$STR_BCE_CFF_SUP_SKIP_AF_Tip"};
 
       colorSelectedBg[] = {0.5,0,0,0.3};
     };
@@ -997,9 +997,9 @@ class BCE_Mission_Build_Controls
       idc = PROP_IDC(2224);
 
       columns = 1;
-      strings[] = {"Min"};
-      checked_strings[] = {"Sec"};
-      tooltips[] = {"Toggle between Minutes and Seconds for the Interval"};
+      strings[] = {"$STR_BCE_MINUTE_Short"};
+      checked_strings[] = {"$STR_BCE_SECOND_Short"};
+      tooltips[] = {"$STR_BCE_CFF_SUP_INTERVAL_Unit_Tip"};
       
       colorBackground[] = 
       {
@@ -1015,18 +1015,24 @@ class BCE_Mission_Build_Controls
         0.3
       };
     };
-    class New_Task_CFF_SUP_StructText: New_Task_CFF_StructText
+    class New_Task_CFF_SHEAF_StructText: New_Task_CFF_StructText
     {
       REGISTER_FNC;
       idc = PROP_IDC(2225);
+			tooltip = "$STR_BCE_EFFECTIVE_RADIUS";
+    };
+    class New_Task_CFF_SUP_StructText: New_Task_CFF_StructText
+    {
+      REGISTER_FNC;
+      idc = PROP_IDC(2226);
     };
     class New_Task_Expression_CFF: New_Task_IPExpression
     {
       REGISTER_FNC;
-      idc = PROP_IDC(2226);
+      idc = PROP_IDC(2227);
       style = 2;
       colorText[] = {0.8,0.8,0.8,1};
-      tooltip = "Total of (Shells will be shot) -- (Rounds will be executed)";
+      tooltip = "$STR_BCE_CFF_Output_Expression_Tip";
     };
 };
 

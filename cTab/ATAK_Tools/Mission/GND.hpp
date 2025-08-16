@@ -13,6 +13,7 @@
 				{
 					text="Task Unit";
 					sizeEx = 0.95 * TextSize;
+					toolTip="";
 				};
 				class Vehicle_Grp_Sel: Vehicle_Grp_Sel
 				{
@@ -57,7 +58,7 @@
 			/*class Correction_Method: CtrlType
 			{
 				text="MOC";
-				tooltip="Method of Control";
+				tooltip="$STR_BCE_TIP_MOC";
 				
 				sizeEx = 0.95 * TextSize;
 			};*/
@@ -170,14 +171,14 @@
 				{
 					ATAK_POS(0,(4.25 + (0.35/2) + MOVE_Y_OFFSET),1,0.63);
 					text = "(Sheaf)";
-					tooltip="Sheaf Type (OPTIONAL)";
+					tooltip="$STR_BCE_CFF_SHEAF_OPTIONAL_TITLE";
 				};
 				class Sheaf_EditBnt: L52_EditBnt
 				{
 					idc = idc_D(2039);
-					text = "Standard Sheaf";
+					text = "--";
 					ATAK_POS(0.7,(4.25 + (0.35/2) + MOVE_Y_OFFSET),2.2,0.7);
-					tooltip="Sheaf Type (OPTIONAL)";
+					tooltip="$STR_BCE_CFF_SHEAF_OPTIONAL_TITLE";
 					onButtonClick = "[nil,'Task_Building',1] call BCE_fnc_ATAK_ChangeTool";
 					
 					//- Colors
@@ -264,12 +265,12 @@
 				class Line4_T5: Line4_T5
 				{
 					ATAK_POS(0,(9.85 + (0.35/2) + MOVE_Y_OFFSET),1,0.7);
-					tooltip="Method of Control";
+					tooltip="$STR_BCE_TIP_MOC";
 				};
 				class L54_EditBnt: Remark_EditBnt
 				{
 					ATAK_POS(0.2,(9.85 + (0.35/2) + MOVE_Y_OFFSET),2.7,0.7);
-					toolTip="Method of Control";
+					toolTip="$STR_BCE_TIP_MOC";
 					onButtonClick = "[nil,'Task_Building',4] call BCE_fnc_ATAK_ChangeTool";
 				};
 
