@@ -172,6 +172,19 @@
             ATAK_POS(0.1,0.35/2,2.8,0.65);
             sizeEx = 0.9 * TextSize;
           };
+          class New_Task_CFF_SHEAF_StructText: New_Task_CFF_SHEAF_StructText
+          {
+						ATAK_POS(1.5,(2*0.65 + 0.35/2),1.4,0.65);
+						size = TextSize;
+
+            class Attributes: Attributes
+            {
+              size = 0.8;
+              color = "#dddddd";
+              align = "center";
+              valign = "middle";
+            };
+          };
           class CFF_IE_Radius_Box: CFF_IE_Radius_Box
           {
             ATAK_POS(0.1,(0.65 + 0.35/2),1.4,0.65);
@@ -728,7 +741,6 @@
         {
           ATAK_POS(0.1,(2 * (0.35/2) + 0.1 + 1 + TITLE_HEIGHT + ((ADJUSTMENT_MENU + 3) * 0.7)),2.8,(2 * 0.7));
           size = TextSize;
-          tooltip = "Send back from FDC.";
           class Attributes: Attributes
           {
             align = "center";
@@ -739,7 +751,6 @@
         {
           ATAK_POS(0.1,(2 * (0.35/2) + 0.1 + 1 + TITLE_HEIGHT + ((ADJUSTMENT_MENU + 3 + 2) * 0.7)),2.8,0.6);
           size = TextSize;
-          tooltip = "Other Infos";
           shadow = 2;
           class Attributes: Attributes
           {

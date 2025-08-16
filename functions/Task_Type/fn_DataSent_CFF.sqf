@@ -203,7 +203,7 @@ private _random_POS = nil;
       
       //- Send MTO (Message to Observer)
 				//- Find the ammo type 
-				private _ammo = getText (configfile >> "CfgMagazines" >> _lbAmmo >> "ammo");
+				private _ammo = [_lbAmmo,true] call BCE_fnc_getMagazineAmmo;
 				private _default_FUZE = _ammo call BCE_fnc_CFF_getAmmoType; 
 
 				private _msg = if (_taskType_ID == 2) then {
@@ -234,17 +234,17 @@ private _random_POS = nil;
           //- Hexagonal Distribution (Evenly Spacing)
             private _isOdd = _rounds % 2 != 0;
 						
-						private _ammo = _ammo;
+						/* private _ammo = _ammo;
 						private _submunition = getText (configfile >> "CfgAmmo" >> _ammo >> "submunitionAmmo");
             if (_submunition != "") then { //- Replace "_ammo" with "_submunition"
 							_ammo = _submunition;
-						};
+						}; */
 
 						private _effectRadius = getNumber (configfile >> "CfgAmmo" >> _ammo >> "indirectHitRange");
           
           //- Pick Length & Width
-            private _length = _a;
-            private _width = _b;
+            private _length = _b;
+            private _width = _a;
 
           //- Get middle lines (correcting offsets)
             private _mid_L = _length / 2;

@@ -31,13 +31,13 @@ switch _curLine do {
   case 1: {
     _shownCtrls params [
       "_toolBox",
-      "_output",
+      "_output","_sheaf_Struct",
       "_Radius",
       "_LINE_L","_LINE_W","_LINE_Dir",
       "_Title_L","_Title_W","_Title_Dir"
     ];
 
-    private _ctrls = _shownCtrls select [2];
+    private _ctrls = _shownCtrls select [_shownCtrls findIf {_x == _Radius}];
     private _show = call {
       if (_selectedIndex == 1) exitWith {
         [_Radius]

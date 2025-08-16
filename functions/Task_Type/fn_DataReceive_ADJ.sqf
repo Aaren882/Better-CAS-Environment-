@@ -141,7 +141,7 @@ switch _curLine do {
 	case 1:{
 		_shownCtrls params [
       "_toolBox",
-      "_output",
+      "_output","_sheaf_Struct",
       "_Radius",
       "_LINE_L","_LINE_W","_LINE_Dir"
     ];
@@ -165,7 +165,8 @@ switch _curLine do {
 			};
 			//- Open Sheaf
 			if (_Sheaf_ModeSel == 1) exitWith {
-				[_Radius_V max 100] //- Return
+				private _v = parseNumber _Radius_V;
+				[str (_v max 100)] //- Return
 			};
 			//- Linear Sheaf
 			if (_Sheaf_ModeSel == 2) exitWith {
@@ -272,7 +273,7 @@ switch _curLine do {
 
 		private _ctrlParse = call {
 			if (_ctrlMethod == 0) exitWith {
-				["At-Ready", 0]
+				[localize "STR_BCE_CFF_CtrlType_AT_READY_TITLE", 0]
 			};
 			if (_ctrlMethod == 1) exitWith {
 				private _input = ctrlText _ctrl2;
@@ -281,7 +282,7 @@ switch _curLine do {
 
 					//- Check Min Value
 					if (_output < 5) then {
-						_pop_reason = "ToT(minutes) Must be >= 5 mins";
+						_pop_reason = localize "STR_BCE_CFF_TOT_LESS_Error";
 					};
 
 					_output
@@ -290,7 +291,7 @@ switch _curLine do {
 
 					//- Check Min Value (24hr)
 					if (_clock_Hour - floor dayTime < 1) then {
-						_pop_reason = "ToT(Clock) Must be >= 1 Hour";
+						_pop_reason = localize "STR_BCE_CFF_TOT_GREATER_Error";
 					};
 					_input //- Clock Time
 				};
@@ -298,7 +299,7 @@ switch _curLine do {
 				["TOT - " + str _TOT_time, _TOT_time]
 			};
 			if (_ctrlMethod == 2) exitWith {
-				["At My Command", -1]
+				[localize "STR_BCE_CFF_CtrlType_AMC_TITLE", -1]
 			};
 		};
 		_ctrlParse params ["_type",["_value",-1]];

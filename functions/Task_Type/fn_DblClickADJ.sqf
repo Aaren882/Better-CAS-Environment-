@@ -70,13 +70,26 @@ switch _curLine do {
 	case 1:{
 		_shownCtrls params [
       "_toolBox",
-      "_output",
+      "_output","_sheaf_Struct",
       "_Radius",
       "_LINE_L","_LINE_W","_LINE_Dir"
     ];
 
+		_taskVar_0 = _taskVar # 0;
 		_taskVar_1 = _taskVar # 1;
-		(_taskVar_1 param [1,[]]) params [["_ctrlSel1",0],["_Radius_V","100"],["_LINE_V",["50","50","0"]]];
+		(_taskVar_1 param [1,[]]) params [["_ctrlSel1",0],["_Radius_V","150"],["_LINE_V",["50","50","0"]]];
+
+		//- Check Ammunition Effective radius
+			private _effectRadius_txt = "--";
+			private _Ammo_Data = _taskVar_0 param [3,[]];
+			(_Ammo_Data param [0,[]]) params [["_fireAmmo",""]/*,"_FuseData","_fireUnits","_setCount","_fuzeVal"*/];
+			if (_fireAmmo != "") then {
+				private _ammo = [_fireAmmo,true] call BCE_fnc_getMagazineAmmo;
+				private _effectRadius = round getNumber (configfile >> "CfgAmmo" >> _ammo >> "indirectHitRange");
+				
+				_effectRadius_txt = [str _effectRadius, _effectRadius_txt] select (_effectRadius == 0);
+			};
+			_sheaf_Struct ctrlSetStructuredText parseText format ["<img image='MG8\AVFEVFX\data\explosion.paa'/> %1 m", _effectRadius_txt];
 
 		//- Set Text
 			_Radius ctrlSetText _Radius_V;
