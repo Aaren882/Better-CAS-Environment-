@@ -1752,8 +1752,8 @@
 		</Key>
 		<Key ID="STR_BCE_CFF_AF_Tip">
 			<Original>ADJUST FIRE</Original>
-			<Chinese>校準火炮 (AF)</Chinese>
-			<Chinesesimp>校准火炮 (AF)</Chinesesimp>
+			<Chinese>校準火炮 (Adjust Fire)</Chinese>
+			<Chinesesimp>校准火炮 (Adjust Fire)</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_CFF_FFE_TITLE">
 			<Original>FIRE FOR EFFECT</Original>
@@ -1762,8 +1762,8 @@
 		</Key>
 		<Key ID="STR_BCE_CFF_FFE_Tip">
 			<Original>FIRE FOR EFFECT</Original>
-			<Chinese>有效火力 (FFE)</Chinese>
-			<Chinesesimp>有效火力 (FFE)</Chinesesimp>
+			<Chinese>有效火力 (Fire for Effect)</Chinese>
+			<Chinesesimp>有效火力 (Fire for Effect)</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_FUZE_IMPT_Tip">
 			<Original>Impact Fuze</Original>
