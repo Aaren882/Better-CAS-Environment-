@@ -1594,6 +1594,21 @@
 		</Key>
 		
 		
+		<Key ID="STR_BCE_TASK_Categories_AIR">
+			<Original>Air Fire Support</Original>
+			<Chinese>空中火力支援</Chinese>
+			<Chinesesimp>空中火力支援</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_TASK_Categories_GND">
+			<Original>Ground Fire Support</Original>
+			<Chinese>地面火力支援</Chinese>
+			<Chinesesimp>地面火力支援</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_TASK_Categories_OTR">
+			<Original>Others</Original>
+			<Chinese>其它</Chinese>
+			<Chinesesimp>其它</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_OPACITY_FORMAT">
 			<Original>Opacity: %1%2</Original>
 			<Chinese>不透明度: %1%2</Chinese>

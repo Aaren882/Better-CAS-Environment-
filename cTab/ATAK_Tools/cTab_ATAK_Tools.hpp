@@ -112,9 +112,9 @@
         };
         tooltips[] =
         {
-          "Air Fire Support",
-          "Ground Fire Support",
-          "Others"
+          "$STR_BCE_TASK_Categories_AIR",
+          "$STR_BCE_TASK_Categories_GND",
+          "$STR_BCE_TASK_Categories_OTR"
         };
 
         //- Connects to => "BCE_Mission_Property" Category
