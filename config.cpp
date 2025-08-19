@@ -1011,13 +1011,18 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission\Call_for_Fire";
 					class ATAK_CFF_TaskList_Init;
-
-					class ATAK_onFireAdjusted;
-					class ATAK_FireAdjustMeter;
-
 					class ATAK_CFF_Mission_RAT;				//- Record as Target
 					class ATAK_CFF_Mission_RAT_2_ADD;	//- Add the Mission
 					class ATAK_CFF_Mission_EOM;				//- End of Mission
+				};
+				class ATAK_CFF_Adjust_Menu
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission\Call_for_Fire\Fire_Adjustments";
+					class ATAK_FireAdjust_Init_Polar;
+					class ATAK_FireAdjust_Sel_Changed;
+
+					class ATAK_onFireAdjusted;
+					class ATAK_FireAdjustMeter;
 				};
 				class ATAK_Menu_Init
 				{

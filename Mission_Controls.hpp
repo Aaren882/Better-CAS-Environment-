@@ -828,6 +828,16 @@ class BCE_Mission_Build_Controls
         ""
       };
       colorBackground[] = {0,0,0,0.3};
+			class BCE_Data
+			{
+				//- #LINK - functions/CAS_Menu/Call_for_Fire/fn_set_FireAdjustValues.sqf
+				AdjustTypes[] = {"POLAR","IMPACT","GUNLINE"};
+				Default[] = {
+					{"0,0",1},
+					{"0","0"},
+					{"0,0",1}
+				};
+			};
     };
     class New_Task_MissionType_ADJUST_CFF: New_Task_Adjust_Method_CFF
     {
@@ -847,7 +857,6 @@ class BCE_Mission_Build_Controls
         "$STR_BCE_CFF_FFE_Tip"
       };
       colorBackground[] = {0,0,0,0.5};
-      onToolBoxSelChanged = "['MSN_STATE',_this#1] call BCE_fnc_set_FireAdjust_MSN_State";
     }; 
     class New_Task_MTO_Display: RscStructuredText
     {

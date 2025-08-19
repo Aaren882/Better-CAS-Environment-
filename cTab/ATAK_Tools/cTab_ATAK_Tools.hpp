@@ -463,7 +463,7 @@
             colorText[]={1,0.737255,0.0196078,1};
           };
         //- Mission Types
-          class MissionType_ADJUST: New_Task_MissionType_ADJUST_CFF
+          class New_Task_MissionType_ADJUST_CFF: New_Task_MissionType_ADJUST_CFF
           {
             ATAK_POS(0.1,(TITLE_HEIGHT + (0.35/2)),2.8,0.8);
             sizeEx = TextSize;
@@ -515,227 +515,25 @@
           #undef WPN_COMBO_STYLE
         
         #define ADJUSTMENT_MENU 3
-        class Adjust_Method: New_Task_Adjust_Method_CFF
+        class New_Task_Adjust_Method_CFF: New_Task_Adjust_Method_CFF
         {
           ATAK_POS(0.1,(0.1 + 1 + TITLE_HEIGHT + (2 * 0.7) + (0.35/2)),2.8,0.7);
           sizeEx = 0.8 * TextSize;
+					onToolBoxSelChanged = "call BCE_fnc_ATAK_FireAdjust_Sel_Changed";
         };
-        class Adjustments_Group: ATAK_AppMenu_Base
-        {
-          idc = 5400;
-          ATAK_POS(0.1,(0.1 + 1 + TITLE_HEIGHT + (3 * 0.7) + (0.35/2)),2.8,(ADJUSTMENT_MENU * 0.7));
-          class controls
-          {
-            //- Background (for ControlGroup)
-              class AdjustFrameBg: RscBackground
-              {
-                colorBackground[] = {0,0,0,0.2};
-                ATAK_POS(0,0,2.8,(ADJUSTMENT_MENU * 0.7));
-              };
-            //- Clear Button
-              class Clear_Adjust: BCE_RscButtonMenu
-              {
-                idc = 5000;
-                ATAK_POS(0,0,0.35,(ADJUSTMENT_MENU * 0.7));
 
-                //- Color
-                  colorBackground[] = {1,0,0,0.35};
-                  colorBackground2[] = {1,0.25,0.25,0.4};
-                  colorBackgroundFocused[] = {1,0,0,0.2};
-
-                  animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
-                  animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
-                  animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.65)";
-                
-                size = 0.75 * TextSize;
-                style = "0x02 + 0x30 + 0x800";
-                shadow = 1;
-                text = "<img image='\MG8\AVFEVFX\data\gabage.paa' />";
-                onButtonClick = "_this call BCE_fnc_CleanFireAdjustValues";
-
-                class TextPos: TextPos
-                {
-                  top = (ADJUSTMENT_MENU - 1) * 0.6 * TextSize;
-                };
-                class Attributes: Attributes
-                {
-                  align="center";
-                  valign="middle";
-                  size = TextMenu(1);
-                };
-              };
-            
-            //- Adjustment Controls (MACROS)
-              #define ADJUST_BNT_OFFSET (1/20)
-              #define ADJUST_BNT_X (2.5 - ADJUST_BNT_OFFSET) //- Center of third "ATAK_POS_W"
-              #define ADJUST_BNT_W (0.32 + ADJUST_BNT_OFFSET)
-
-              #define ADJUST_INTERVAL 6
-              #define ADJUST_BNT_POS(XPOS,YPOS,WPOS,HPOS) \
-                x = PhoneBFTContainerW(XPOS) + (((ADJUST_INTERVAL/2) - ADJUST_INTERVAL) * pixelW); \
-                y = YPOS * ATAK_POS_H + (ADJUST_INTERVAL / 2 * pixelH); \
-                w = PhoneBFTContainerW(WPOS) - (ADJUST_INTERVAL * pixelW); \
-                h = HPOS * ATAK_POS_H - (ADJUST_INTERVAL * pixelH)
-            
-              #define BORDER (2 * ADJUST_BNT_OFFSET) //- Space for L,R borders
-              //- Adjustment controls' Width (Higher the bigger Interval)
-              #define ADJUST_CTRL_W(BORDER_W) (((1 + BORDER) * ATAK_POS_W) + BORDER_W * ((0.5 + 2) * ADJUST_INTERVAL * pixelW))
-            
-            //- Middle (Indicators, Adjust...)
-              class Indicator: RscPictureKeepAspect
-              {
-                idc = 5001;
-
-                x = 0.35 * ATAK_POS_W;
-                y = 0;
-                w = ((2.8 - 0.35) * ATAK_POS_W) - ADJUST_CTRL_W(0.4);
-                h = 1.5 * 0.7 * ATAK_POS_H;
-
-                sizeEx = TextSize;
-
-                text = "\MG8\AVFEVFX\data\Arrows\thin_Arrow.paa";
-              };
-              class Indication: RscStructuredText
-              {
-                idc = 5002;
-                x = 0.35 * ATAK_POS_W;
-                y = 1.5 * 0.7 * ATAK_POS_H;
-                w = ((2.8 - 0.35) * ATAK_POS_W) - ADJUST_CTRL_W(0.525);
-                h = 0.5 * 0.7 * ATAK_POS_H;
-                
-                colorBackground[] = {0,0,0,0.2};
-                size = 0.5 * TextSize;
-
-                text = "<img image='\MG8\AVFEVFX\data\Arrows\Point_Arrow.paa' /> 10 m | <img image='\MG8\AVFEVFX\data\Arrows\Point_Arrow_R.paa' /> 20 m";
-                class Attributes
-                {
-                  font = "RobotoCondensed_BCE";
-                  align="center";
-                  valign="middle";
-                };
-              };
-              class Adjust_Bnt: BCE_RscButtonMenu
-              {
-                idc = 5003;
-
-                x = 0.35 * ATAK_POS_W;
-                y = 2 * 0.7 * ATAK_POS_H;
-                w = ((2.8 - 0.35) * ATAK_POS_W) - ADJUST_CTRL_W(0.525);
-                h = 0.7 * ATAK_POS_H;
-
-                //- Style
-                  animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
-                  animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
-                  animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.65)";
-
-                  colorBackground[] = 
-                  {
-                    "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
-                    "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
-                    "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
-                    0.8
-                  };
-                  colorBackground2[] = 
-                  {
-                    "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
-                    "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
-                    "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
-                    0.8
-                  };
-                  colorBackgroundFocused[] = 
-                  {
-                    "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
-                    "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
-                    "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",
-                    0.5
-                  };
-
-                shadow=1;
-                size = TextSize;
-                text = "<img image='\MG8\AVFEVFX\data\ruler.paa' /> ADJUST";
-                onButtonClick = "['MSN_ADJUST_POLAR',nil,_this#0] call BCE_fnc_set_FireAdjust_MSN_State";
-
-                class TextPos: TextPos
-                {
-                  top = 0.1 * ATAK_POS_H;
-                };
-                class Attributes: Attributes
-                {
-                  align="center";
-                  valign="middle";
-                  size = TextMenu(0.8);
-                };
-              };
-
-            //- Adjust Buttons -//
-              //- Background
-                class AdjustBg: AdjustFrameBg
-                {
-                  x = ((2.5 - BORDER) - 2 * ADJUST_BNT_W) * ATAK_POS_W + (((ADJUST_INTERVAL/2) - ADJUST_INTERVAL) * pixelW);
-                  y = 0;
-                  w = ADJUST_CTRL_W(1);
-                  h = 3 * 0.7 * ATAK_POS_H;
-                };
-              class Adjust_Meter: ctrlButton
-              {
-                idc = 5004;
-                
-                x = ((2.5 - BORDER) - 2 * ADJUST_BNT_W) * ATAK_POS_W + (((ADJUST_INTERVAL/2) - ADJUST_INTERVAL) * pixelW);
-                y = 0;
-                w = ADJUST_CTRL_W(1);
-                h = 0.7 * ATAK_POS_H;
-
-                //- Color
-                  colorBackground[] = {0,0,0,0.3};
-                
-                font = "RobotoCondensed_BCE";
-                sizeEx = 0.8 * TextSize;
-                text = "<-- 10 m -->";
-                onButtonClick = "call BCE_fnc_ATAK_FireAdjustMeter";
-              };
-              //- Undef "BORDER", "ADJUST_CTRL_W"
-                #undef BORDER
-                #undef ADJUST_CTRL_W
-              class Adjust_Up: ctrlButtonPictureKeepAspect
-              {
-                idc = 5100;
-                ADJUST_BNT_POS((ADJUST_BNT_X - ADJUST_BNT_W),(1 * 0.7),ADJUST_BNT_W,0.7);
-
-                //- Color
-                  colorBackground[] = {0,0,0.2,0.3};
-                
-                sizeEx = 0.5 * TextSize;
-                text = "\MG8\AVFEVFX\data\Arrows\Point_Arrow.paa";
-                onButtonClick = "[_this # 0, [0,1]] call BCE_fnc_UpdateFireAdjust";
-              };
-              class Adjust_Dn: Adjust_Up
-              {
-                idc = 5101;
-                ADJUST_BNT_POS((ADJUST_BNT_X - ADJUST_BNT_W),(2 * 0.7),ADJUST_BNT_W,0.7);
-                text = "\MG8\AVFEVFX\data\Arrows\Point_Arrow_D.paa";
-                onButtonClick = "[_this # 0, [0,-1]] call BCE_fnc_UpdateFireAdjust";
-              };
-              class Adjust_L: Adjust_Up
-              {
-                idc = 5102;
-                ADJUST_BNT_POS((ADJUST_BNT_X - 2 * ADJUST_BNT_W),(2 * 0.7),ADJUST_BNT_W,0.7);
-                text = "\MG8\AVFEVFX\data\Arrows\Point_Arrow_L.paa";
-                onButtonClick = "[_this # 0, [-1,0]] call BCE_fnc_UpdateFireAdjust";
-              };
-              class Adjust_R: Adjust_Up
-              {
-                idc = 5103;
-                ADJUST_BNT_POS((ADJUST_BNT_X),(2 * 0.7),ADJUST_BNT_W,0.7);
-                text = "\MG8\AVFEVFX\data\Arrows\Point_Arrow_R.paa";
-                onButtonClick = "[_this # 0, [1,0]] call BCE_fnc_UpdateFireAdjust";
-              };
-              #undef ADJUST_BNT_OFFSET
-              #undef ADJUST_BNT_X
-              #undef ADJUST_BNT_W
-              #undef ADJUST_INTERVAL
-              #undef ADJUST_BNT_POS
-          };
-        };
+				//- #ANCHOR - ADJUSTMENT INTERFACE
+				class ADJUST_MENUS: ATAK_AppMenu_Base
+				{
+					idc = 5400;
+					ATAK_POS(0.1,(0.1 + 1 + TITLE_HEIGHT + (3 * 0.7) + (0.35/2)),2.8,(ADJUSTMENT_MENU * 0.7));
+					/* class controls
+					{
+						class CFF_ADJUST_POLAR_Group: CFF_ADJUST_POLAR_Group{};
+						class CFF_ADJUST_IMPACT_Group: CFF_ADJUST_IMPACT_Group{};
+						class CFF_ADJUST_GL_Group: CFF_ADJUST_GL_Group{};
+					}; */
+				}
 
         class New_Task_MTO_Display: New_Task_MTO_Display
         {

@@ -6,16 +6,6 @@ private _taskUnit_Grp = group _taskUnit;
 //- Exit If there's no taskUnit Exist
   if (isNull _taskUnit) exitWith {};
 
-//- #NOTE - Setup Adjustment Control Interface
-  private _AdjustGrp = _group controlsGroupCtrl 5400;
-  private _AdjustBnt = _AdjustGrp controlsGroupCtrl 5100;
-  private _AdjustMeter = _AdjustGrp controlsGroupCtrl 5004;
-
-  _AdjustBnt call BCE_fnc_UpdateFireAdjust; //- Refresh UI Values
-
-  private _MeterValue = ["Meter",1] call BCE_fnc_get_FireAdjustValues;
-  _AdjustMeter ctrlSetText format ["<-- %1 m -->", _MeterValue * 10];
-
 private _values = ["CFF_Mission",[]] call BCE_fnc_get_TaskCurSetup;
 _values params [["_taskID",""]];
 
@@ -36,19 +26,25 @@ _MSN_infos params [
 
 _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE","_radius_IE","_fuzeVal_IE"];
 
-//- TOP TITLE
-private _PageTitle = _group controlsGroupCtrl 3600;
-_PageTitle ctrlSetText format [localize "STR_BCE_CFF_MSN_TITLE", _taskID];
-
 //- Controls
-  private _MissionType_dsp = "New_Task_MissionType_ADJUST_CFF" call BCE_fnc_getTaskSingleComponent;
-  _MissionType_dsp lbSetCurSel _MSN_State;
+	//- #NOTE - Initiate Interface
+		//- TOP TITLE
+			private _PageTitle = _group controlsGroupCtrl 3600;
+			_PageTitle ctrlSetText format [localize "STR_BCE_CFF_MSN_TITLE", _taskID];
+
+		//- ToolBoxes
+			private _AdjustToolbox = "New_Task_Adjust_Method_CFF" call BCE_fnc_getTaskSingleComponent;
+			_AdjustToolbox lbSetCurSel (["CurSel", 0] call BCE_fnc_get_FireAdjustValues);
+			[_AdjustToolbox] call BCE_fnc_ATAK_FireAdjust_Sel_Changed;
+
+			private _MissionType_dsp = "New_Task_MissionType_ADJUST_CFF" call BCE_fnc_getTaskSingleComponent;
+			_MissionType_dsp lbSetCurSel _MSN_State;
 
   private _MTO_dsp = "New_Task_MTO_Display" call BCE_fnc_getTaskSingleComponent;
   private _OtherInfo_dsp = "New_Task_OtherInfo_Display" call BCE_fnc_getTaskSingleComponent;
 
 //- MTO (Message to Observer)
-	private _ammo = getText (configfile >> "CfgMagazines" >> _lbAmmo_IE >> "ammo");
+	private _ammo = [_lbAmmo_IE] call BCE_fnc_getMagazineAmmo;
 	private _default_FUZE = _ammo call BCE_fnc_CFF_getAmmoType; 
 
   _MTO_dsp ctrlSetStructuredText parseText format [

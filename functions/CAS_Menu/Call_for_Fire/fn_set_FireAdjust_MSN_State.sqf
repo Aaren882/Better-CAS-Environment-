@@ -16,10 +16,8 @@ if (isnull _taskUnit) exitWith {};
   private _curMSN = ["CFF_Mission",[]] call BCE_fnc_get_TaskCurSetup;
   _curMSN params [["_taskData",""]];
 
-private _taskValues = _taskData call BCE_fnc_CFF_Mission_Get_Values;
-// private _taskUnit_Grp = group _taskUnit;
-// private _CFF_Map = _taskUnit_Grp getVariable ["BCE_CFF_Task_Pool", createHashMap];
 
+private _taskValues = _taskData call BCE_fnc_CFF_Mission_Get_Values;
 _taskValues params [
   "_MSN_Type",
   "_TG_Grid",
@@ -27,17 +25,10 @@ _taskValues params [
   "_MSN_infos",
   ["_MSN_State",0]
 ];
-// private _taskValues = _CFF_Map get _taskData;
-
-/* _MSN_infos params [
-  "_Wpn_setup_IE",
-  "_Wpn_setup_IA",
-  "_random_POS"
-]; */
 
 //- Convert #NOTE - Convert into index
   private _changeIndex = switch (_key) do {
-    case "MSN_STATE": {4}; //- Set "Fire for Effect"
+    // case "MSN_STATE": {4}; //- Set "Fire for Effect"
     case "MSN_ADJUST_POLAR": { //- "POLAR ADJUST"
       
       private _cur = ["Adjust", "0,0"] call BCE_fnc_get_FireAdjustValues;
