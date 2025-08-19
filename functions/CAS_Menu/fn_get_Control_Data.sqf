@@ -11,4 +11,6 @@
 params ["_control","_Entry","_default"];
 
 private _data = _control getVariable ["BCE_Data", createHashMap];
-_data getOrDefault [_Entry,_default];
+_result =+ _data getOrDefault [_Entry,_default];
+
+_result
