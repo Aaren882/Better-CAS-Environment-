@@ -1,7 +1,7 @@
 /*
   NAME : BCE_fnc_CFF_Mission_AutoSaveTask
 */
-params ["_Key","_control",""];
+params ["_Key","_control"];
 
 //- If not initiated
 if !((ctrlParentControlsGroup _control) getVariable ["Init",false]) exitWith {};
