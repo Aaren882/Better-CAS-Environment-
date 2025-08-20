@@ -527,12 +527,6 @@
 				{
 					idc = 5400;
 					ATAK_POS(0.1,(0.1 + 1 + TITLE_HEIGHT + (3 * 0.7) + (0.35/2)),2.8,(ADJUSTMENT_MENU * 0.7));
-					/* class controls
-					{
-						class CFF_ADJUST_POLAR_Group: CFF_ADJUST_POLAR_Group{};
-						class CFF_ADJUST_IMPACT_Group: CFF_ADJUST_IMPACT_Group{};
-						class CFF_ADJUST_GL_Group: CFF_ADJUST_GL_Group{};
-					}; */
 				}
 
         class New_Task_MTO_Display: New_Task_MTO_Display

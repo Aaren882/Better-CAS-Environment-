@@ -421,7 +421,7 @@
 
 					shadow=1;
 					size = TextSize;
-					text = "<img image='\MG8\AVFEVFX\data\ruler.paa' /> ADJUST";
+					text = "$STR_BCE_ADJUST_Title";
 					onButtonClick = "['MSN_ADJUST_POLAR',nil,_this#0] call BCE_fnc_set_FireAdjust_MSN_State";
 
 					class TextPos: TextPos
@@ -462,9 +462,7 @@
 					text = "<-- 10 m -->";
 					onButtonClick = "call BCE_fnc_ATAK_FireAdjustMeter";
 				};
-				//- Undef "BORDER", "ADJUST_CTRL_W"
-					#undef BORDER
-					#undef ADJUST_CTRL_W
+				
 				class Adjust_Up: ctrlButtonPictureKeepAspect
 				{
 					idc = 5100;
@@ -498,11 +496,6 @@
 					text = "\MG8\AVFEVFX\data\Arrows\Point_Arrow_R.paa";
 					onButtonClick = "[_this # 0, [1,0]] call BCE_fnc_UpdateFireAdjust";
 				};
-				#undef ADJUST_BNT_OFFSET
-				#undef ADJUST_BNT_X
-				#undef ADJUST_BNT_W
-				#undef ADJUST_INTERVAL
-				#undef ADJUST_BNT_POS
 		};
 	};
 	#undef ADJUSTMENT_MENU
@@ -514,17 +507,86 @@
 		{
 			class AdjustFrameBg: AdjustFrameBg {};
 			class Clear_Adjust: Clear_Adjust {};
-			// class Indicator: Indicator{};
-			// class Indication: Indication{};
+			
 			class Adjust_Bnt: Adjust_Bnt
 			{
+				x = (2.8 * ATAK_POS_W) - (((2.8 - 0.35) * ATAK_POS_W) - ADJUST_CTRL_W(0.525));
+				//- Style
+					colorBackground[] = {0.53,0.38,0,0.8};
+					colorBackground2[] = {0.53,0.38,0,0.8};
+					colorBackgroundFocused[] = {0.53,0.38,0,0.5};
 			};
-			// class AdjustBg: AdjustBg{};
-			// class Adjust_Meter: Adjust_Meter{};
-			// class Adjust_Up: Adjust_Up{};
-			// class Adjust_Dn: Adjust_Dn{};
-			// class Adjust_L: Adjust_L{};
-			// class Adjust_R: Adjust_R{};
+			//- OT Factor display
+				class Indication: Indication
+				{
+					y = 2 * 0.7 * ATAK_POS_H;
+					w = ADJUST_CTRL_W(0.525);
+					h = 0.7 * ATAK_POS_H;
+					text = "<img image='\MG8\AVFEVFX\data\binoculars.paa' /> OT : 0.8";
+					size = TextSize;
+					tooltip = "$STR_BCE_OT_Factor_Tip";
+					class TextPos
+					{
+						left="0.25 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+						top = 0.2 * ATAK_POS_H;
+						right=0.005;
+						bottom=0;
+					};
+					class Attributes: Attributes
+					{
+						align="center";
+						valign="bottom";
+						size = TextMenu(0.8);
+					};
+				};
+
+			//- Titles
+				class Adjust_Dir_Title: RscText
+				{
+					x = 0.35 * ATAK_POS_W;
+					y = 0;
+					w = 0.7 * ATAK_POS_W;
+					h = 0.7 * ATAK_POS_H;
+					text = "Mil/Deg :";
+					colorText[]={1,0.737255,0.0196078,1};
+					tooltip = "$STR_BCE_CFF_Adjust_Dir_Tip";
+
+					style = 0;
+					shadow=2;
+					sizeEx = 0.9 * TextSize;
+					font = "RobotoCondensed_BCE";
+				};
+				class Adjust_DIST_Title: Adjust_Dir_Title
+				{
+					y = 0.7 * ATAK_POS_H;
+					text = "DIST(m) :";
+					tooltip = "$STR_BCE_CFF_Adjust_DIST_Tip";
+				};
+			//- EditBox
+				class Adjust_Dir_Edit: RscEdit
+				{
+					idc = 150;
+					x = (0.35 + 0.7) * ATAK_POS_W;
+					y = (4 * pixelH);
+					w = ((2.8 - 0.35 - 0.7) * ATAK_POS_W) - (4 * pixelW);
+					h = 0.7 * ATAK_POS_H - (4 * pixelH);
+
+					Style = 2;
+					colorBackground[] = {0,0,0,0.2};
+					sizeEx = 0.8 * TextSize;
+				};
+				class Adjust_DIST_Edit: Adjust_Dir_Edit
+				{
+					idc = 160;
+					y = 0.7 * ATAK_POS_H + (4 * pixelH);
+				};
+			delete Indicator;
+			delete AdjustBg;
+			delete Adjust_Meter;
+			delete Adjust_Up;
+			delete Adjust_Dn;
+			delete Adjust_L;
+			delete Adjust_R;
 		};
 	};
 //- Gun-Line (ADJUST)
@@ -550,3 +612,12 @@
 			class Adjust_R: Adjust_R{};
 		};
 	};
+//- Undef ADJUST MARCOs
+	#undef BORDER
+	#undef ADJUST_CTRL_W
+	#undef ADJUST_BNT_OFFSET
+	#undef ADJUST_BNT_X
+	#undef ADJUST_BNT_W
+	#undef ADJUST_INTERVAL
+	#undef ADJUST_BNT_POS
+		

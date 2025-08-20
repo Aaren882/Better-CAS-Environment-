@@ -823,9 +823,9 @@ class BCE_Mission_Build_Controls
       };
       tooltips[] =
       {
-        "",
-        "",
-        ""
+        "$STR_BCE_POLAR_ADJUST_Tip",
+        "$STR_BCE_IMPACT_ADJUST_Tip",
+        "$STR_BCE_GL_ADJUST_Tip"
       };
       colorBackground[] = {0,0,0,0.3};
 			class BCE_Data
