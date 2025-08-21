@@ -1,7 +1,7 @@
 /*
   NAME : BCE_fnc_CFF_Mission_AutoSaveTask
 */
-params ["_Key","_control"];
+params ["_Key","_controlAndInfos"];
 
 //- If not initiated
 if !((ctrlParentControlsGroup _control) getVariable ["Init",false]) exitWith {};
@@ -11,7 +11,8 @@ if !(_Key isEqualType "") exitWith {
 };
 
 [{
-	params ["_Key","_control","_input"];
+	params ["_Key","_controlAndInfos"];
+	_controlAndInfos params ["_control","_input"];
 
   private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
@@ -51,7 +52,7 @@ if !(_Key isEqualType "") exitWith {
     case "MSN_WPN": { //- #NOTE - "_MSN_infos" only takes [0,1], "Don't use [2]"
       /*
         _lbAmmo 	    <STRING | LB_DATA>
-        _lbFuse 	    <STRING | LB_DATA>
+        _lbFuze 	    <STRING | LB_DATA>
         _lbFireUnits	<NUMBER | LB_VALUE>
         _editRounds	  <NUMBER | editText>
         _editFuzeVal	<NUMBER | editText>
@@ -63,20 +64,35 @@ if !(_Key isEqualType "") exitWith {
         if (_index == 0 || _index == 1) exitWith { //- Ammo/Fuze
           private _v = _control lbData _input;
 
-          //- Fuze editBox setup
-          if (_index == 1) then {
-            private _editFuzeVal = "CFF_IE_FuzeValue_Box" call BCE_fnc_getTaskSingleComponent;
+					private _lbFuze = "CFF_IE_FuzeCombo" call BCE_fnc_getTaskSingleComponent;
+					private _editFuzeVal = "CFF_IE_FuzeValue_Box" call BCE_fnc_getTaskSingleComponent;
 
+					//- Check Ammo type
+					if (_index == 0) then {
+						private _mapValue = _control getVariable ["CheckList",createHashMap];
+						private _data = _mapValue getOrDefault [_v, []];
+						_data params ["","","", "",["_ammoType",""]];
+
+            //- #TODO - Check ordnance available fuzes
+							if (_ammoType == "HE") then {
+								_lbFuze ctrlShow true;
+								// _editFuzeVal ctrlShow true; #NOTE - this will be processed below
+							} else {
+								_lbFuze ctrlShow false;
+								_editFuzeVal ctrlShow false;
+							};
+          };
+
+          //- Fuze editBox setup
 						//-  0 : Impact Fuze
 						//-  1 : VT Fuze
 						//-  2 : Delay Fuze
-						private _value = _control lbValue _input;
-						_editFuzeVal ctrlShow (_value > 0); //- Hide when Select "IMPT", "DELAY"
+						private _value = _lbFuze lbValue (lbCurSel _lbFuze);
+						_editFuzeVal ctrlShow (ctrlShown _lbFuze && _value > 0); //- Hide when Select "IMPT", "DELAY"
 						if (_value > 0) then {
-							private _tip = localize (format ["STR_BCE_FUZE_%1_Tip",_v]);
+							private _tip = localize (format ["STR_BCE_FUZE_%1_Tip",_lbFuze lbData (lbCurSel _lbFuze)]);
 							_editFuzeVal ctrlSetTooltip _tip;
 						};
-          };
 
           _v
         };

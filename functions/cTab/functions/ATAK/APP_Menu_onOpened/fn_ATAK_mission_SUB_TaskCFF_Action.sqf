@@ -80,7 +80,7 @@ _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE"
     
     _wpn_Ctrls params [
       "_lbAmmo",
-      "_lbFuse",
+      "_lbFuze",
       "_lbFireUnits",
       "_editRounds",
       "_editFuzeVal",
@@ -114,15 +114,30 @@ _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE"
 
     //- Select Current Values
       _lbAmmo 	    lbSetCurSel ([_lbAmmo,_Ammo] call _GetDataSel);
-      _lbFuse 	    lbSetCurSel ([_lbFuse,_Fuse] call _GetDataSel);
+      _lbFuze 	    lbSetCurSel ([_lbFuze,_Fuse] call _GetDataSel);
       _lbFireUnits	lbSetCurSel ([_lbFireUnits,_fireUnitSel] call _GetValueSel);
       _fireAngle    setVariable ["Mode", _angleType];
       _fireAngle    ctrlSetStructuredText parseText localize (["STR_BCE_LO_Angle","STR_BCE_HI_Angle"] select _angleType);
-
+		
       _editRounds	  ctrlSetText str _setCount;
       _editFuzeVal	ctrlSetText str _fuzeVal;
-      _editFuzeVal  ctrlshow (_Fuse != "");
-      
+			
+		//- #ANCHOR - Check Ammo Fuze
+			private _fireAmmo = _lbAmmo lbData (lbCurSel _lbAmmo);
+			private _mapValue = _lbAmmo getVariable ["CheckList",createHashMap];
+			private _data = _mapValue getOrDefault [_fireAmmo, []];
+			_data params ["","","", "",["_ammoType",""]];
+
+			//- #TODO - Check ordnance available fuzes
+				if (_ammoType == "HE") then {
+					_lbFuze ctrlShow true;
+
+					private _value = _lbFuze lbValue (lbCurSel _lbFuze);
+					_editFuzeVal ctrlShow (_value > 0); // #LINK - functions/Task_Type/fn_SelChanged_ADJ.sqf
+				} else {
+					_lbFuze ctrlShow false;
+					_editFuzeVal ctrlShow false;
+				};
   };
   
   private _chargeInfo = [
