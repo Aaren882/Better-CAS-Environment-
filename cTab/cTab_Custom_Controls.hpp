@@ -577,7 +577,7 @@
 					x = (0.35 + 0.7) * ATAK_POS_W;
 					y = (4 * pixelH);
 					w = ((2.8 - 0.35 - 0.7) * ATAK_POS_W) - (4 * pixelW);
-					h = 0.7 * ATAK_POS_H - (4 * pixelH);
+					h = 0.7 * ATAK_POS_H - (2 * 4 * pixelH);
 
 					Style = 2;
 					colorBackground[] = {0,0,0,0.2};
