@@ -20,7 +20,7 @@ switch _curLine do {
 		] select _fireAngleType);
 		
 		{
-			_x params ["_lbAmmo","_lbFuse","_lbFireUnits","_editRounds","_editFuzeVal"];
+			_x params ["_lbAmmo","_lbFuze","_lbFireUnits","_editRounds","_editFuzeVal"];
 
 			if (isNull _lbAmmo) then {continue};
 			private _isIA = _lbAmmo == _IA_ammo;
@@ -46,7 +46,7 @@ switch _curLine do {
 			];
 
 			_lbAmmo 			lbSetCurSel _ctrlSel0;
-			_lbFuse 			lbSetCurSel _ctrlSel1;
+			_lbFuze 			lbSetCurSel _ctrlSel1;
 			_lbFireUnits	lbSetCurSel _ctrlSel2;
 			_editRounds		ctrlSetText _ctrlSel3;
 			_editFuzeVal	ctrlSetText _ctrlSel5;

@@ -143,7 +143,7 @@ private _random_POS = nil;
   };
   
   //- #NOTE - Replace "_WPN_exec"
-  //- ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_fuzeVal"]
+  //- ["_lbAmmo","_lbFuze",["_fireUnitSel",1],"_setCount","_fuzeVal"]
   if (_MSN_Prepare) then {
     _MSN_Values params [
       "_MSN_Type",
@@ -176,7 +176,7 @@ private _random_POS = nil;
     _random_POS = __random_POS;
 
     //- #NOTE - Replace "_WPN_exec"
-    //- ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_fuzeVal"]
+    //- ["_lbAmmo","_lbFuze",["_fireUnitSel",1],"_setCount","_fuzeVal"]
     _WPN_exec = if (_MSN_State == 1) then { //- EFFECTIVE ROUNDS
       _Wpn_setup_IE
     } else { //- ADJUST ROUNDS
@@ -188,7 +188,7 @@ private _random_POS = nil;
     };
   };
 
-  _WPN_exec params ["_lbAmmo","_lbFuse",["_fireUnitSel",1],"_setCount","_fuzeVal"];
+  _WPN_exec params ["_lbAmmo","_lbFuze",["_fireUnitSel",1],"_setCount","_fuzeVal"];
   
 //- #NOTE - Submit Data Only (Check "_WPN_exec" is empty)
   if ((count _WPN_exec) == 0) exitWith {};
@@ -214,7 +214,7 @@ private _random_POS = nil;
             localize "STR_BCE_CFF_MTO_TITLE",
             str groupId group _taskUnit,
             _fireUnitSel,
-            [_lbFuse,_default_FUZE] select (_lbFuse == ""),
+            [_lbFuze,_default_FUZE] select (_lbFuze == ""),
             _setCount,
             _MSN_Key //- Mission ID
           ]
@@ -366,7 +366,7 @@ private _random_POS = nil;
       {_unit removeMagazinesTurret [(_x # 0), _turret]} forEach _allMags;
     
     //- Save Sheaf Data (Specify Sheaf for Guns)
-      private _CFF_info = [_random_POS,_lbAmmo,_setCount,_angleType,[_lbFuse,_fuzeVal],_MOC_Function];
+      private _CFF_info = [_random_POS,_lbAmmo,_setCount,_angleType,[_lbFuze,_fuzeVal],_MOC_Function];
       _CFF_info set [6, _Sheaf_Pattern select [(_forEachIndex * _setCount), _setCount]];
 			// systemChat str [_Sheaf_Pattern,_CFF_info # 6, _forEachIndex,_setCount,(_forEachIndex * _setCount)];
       _CFF_info set [7, _RECURSION_INFO];

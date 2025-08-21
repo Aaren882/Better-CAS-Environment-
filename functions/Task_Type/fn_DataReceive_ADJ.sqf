@@ -31,7 +31,7 @@ switch _curLine do {
 		private _mapValue = _CTAmmo getVariable ["CheckList",createHashMap];
 
 		{
-			_x params ["_lbAmmo","_lbFuse","_lbFireUnits","_editRounds","_editFuzeVal"];
+			_x params ["_lbAmmo","_lbFuze","_lbFireUnits","_editRounds","_editFuzeVal"];
 
 			if (isNull _lbAmmo) then {continue};
 			
@@ -41,19 +41,19 @@ switch _curLine do {
 				_data params ["",["_maxMagazine",1],"_count", "",["_ammoType",""]];
 
 				private _fireUnitSel = lbCurSel _lbFireUnits;
-				private _FuseSel = lbCurSel _lbFuse;
+				private _FuseSel = lbCurSel _lbFuze;
 
 				private _setCount = 1 max (parseNumber (ctrlText _editRounds));
 				private _fireUnits = 1 max (_lbFireUnits lbValue _fireUnitSel);
 
 				//- #TODO - Check ordnance available fuzes
 					private _fuzeInfos = if (_ammoType == "HE") then {
-						_lbFuse ctrlShow true;
+						_lbFuze ctrlShow true;
 						// _editFuzeVal ctrlShow true; #LINK - functions/Task_Type/fn_SelChanged_ADJ.sqf
 
-						[_lbFuse lbData _FuseSel, parseNumber (ctrlText _editFuzeVal)];
+						[_lbFuze lbData _FuseSel, parseNumber (ctrlText _editFuzeVal)];
 					} else {
-						_lbFuse ctrlShow false;
+						_lbFuze ctrlShow false;
 						_editFuzeVal ctrlShow false;
 
 						[_ammoType, 0]
