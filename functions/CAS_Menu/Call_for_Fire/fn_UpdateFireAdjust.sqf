@@ -8,7 +8,7 @@
 
   return : Updated 2D Vector
 */
-params ["_control",["_vector",[]]];
+params [["_control",controlNull],["_vector",[]]];
 
 //- Get Current Adjust
 private _current = ["CURRENT", ""] call BCE_fnc_get_FireAdjustValues;
@@ -33,10 +33,15 @@ private _result = switch (true) do {
 	};
 	case (_current == "IMPACT"): {
 		//- #ANCHOR - ["Adjust": "MIL,DIST"]
-		_curValue params [["_dir", "0000"],["_dist", "0"]];
-		
+		private _curAdjust = if (count _vector == 0) then {
+			_curValue
+		} else {
+			[_current, _vector] call BCE_fnc_set_FireAdjustValues;
+			_vector
+		};
+
 		//- Split string
-		private _HDG = parseNumber _dir;
+		/* private _HDG = parseNumber _dir;
 		private _distNum = parseNumber _dist;
 		
 		//- check if it's Mil (=> Azimuth°)
@@ -45,18 +50,16 @@ private _result = switch (true) do {
 		};
 
 		private _curAdjust = [_distNum, _HDG, 0] call CBA_fnc_polar2vect;
-		_curAdjust resize 2;
-		
+		_curAdjust resize 2; */
 		_curAdjust
 	};
 };
 
 //- on "_control" Empty
-if (isNil{_control}) exitWith {_result};
-private _group = ctrlParentControlsGroup _control;
+if (isNull _control) exitWith {_result};
 
 ["BCE_onFireAdjusted", [
-  _group,
+  ctrlParentControlsGroup _control,
 	_current,
   _result,
   _vector isEqualTo [] //- Check is onLoad

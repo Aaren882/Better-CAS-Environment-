@@ -3,7 +3,7 @@
 */
 params ["_AdjustGrp","_config"];
 
-private _AdjustBnt = _AdjustGrp controlsGroupCtrl 5100;
+private _AdjustBnt = _AdjustGrp controlsGroupCtrl 5003;
 
 _AdjustBnt call BCE_fnc_UpdateFireAdjust; //- Refresh UI Values
 

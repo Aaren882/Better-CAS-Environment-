@@ -834,7 +834,7 @@ class BCE_Mission_Build_Controls
 				AdjustTypes[] = {"POLAR","IMPACT","GUNLINE"};
 				Default[] = {
 					{"0,0",1},
-					{"0","0"},
+					{"",""},
 					{"0,0",1}
 				};
 			};

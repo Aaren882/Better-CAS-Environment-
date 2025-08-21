@@ -288,7 +288,7 @@
 
 //- CFF ADJUST Interface (ATAK APPs)
 	#define ADJUSTMENT_MENU 3
-//- POLAR
+//- POLAR (ADJUST)
 	class CFF_ADJUST_POLAR_Group: ATAK_AppMenu_Base
 	{
 		onLoad = "call BCE_fnc_ATAK_FireAdjust_Init_Polar";
@@ -319,17 +319,25 @@
 					size = 0.75 * TextSize;
 					style = "0x02 + 0x30 + 0x800";
 					shadow = 1;
-					text = "<img image='\MG8\AVFEVFX\data\gabage.paa' />";
+					// text = "<img image='\MG8\AVFEVFX\data\gabage.paa' />";
+					textureNoShortcut="\MG8\AVFEVFX\data\gabage.paa";
 					onButtonClick = "call BCE_fnc_CleanFireAdjustValues";
 
+					class ShortcutPos: ShortcutPos
+					{
+						left = (0.35 * ATAK_POS_W / 2) - (0.75 * TextSize / 2);
+						top = ((ADJUSTMENT_MENU * 0.7 / 2) * ATAK_POS_H) - (0.75 * TextSize / 2);
+						w = (0.75 * TextSize);
+						h = (ADJUSTMENT_MENU * 0.7) * ATAK_POS_H / 4;
+					};
 					class TextPos: TextPos
 					{
-						top = (ADJUSTMENT_MENU - 1) * 0.6 * TextSize;
+						top = ((ADJUSTMENT_MENU * 0.7 * 0.5) * ATAK_POS_H) - (0.75 * TextSize * 0.5);
 					};
 					class Attributes: Attributes
 					{
 						align="center";
-						valign="middle";
+						valign="top";
 						size = TextMenu(1);
 					};
 				};
@@ -498,11 +506,10 @@
 				};
 		};
 	};
-	#undef ADJUSTMENT_MENU
 //- IMPACT (ADJUST)
 	class CFF_ADJUST_IMPACT_Group: CFF_ADJUST_POLAR_Group
 	{
-		onLoad = "";
+		onLoad = "call BCE_fnc_ATAK_FireAdjust_Init_Impact";
 		class controls: controls
 		{
 			class AdjustFrameBg: AdjustFrameBg {};
@@ -511,6 +518,7 @@
 			class Adjust_Bnt: Adjust_Bnt
 			{
 				x = (2.8 * ATAK_POS_W) - (((2.8 - 0.35) * ATAK_POS_W) - ADJUST_CTRL_W(0.525));
+				onButtonClick = "['MSN_ADJUST_IMPACT',nil,_this#0] call BCE_fnc_set_FireAdjust_MSN_State";
 				//- Style
 					colorBackground[] = {0.53,0.38,0,0.8};
 					colorBackground2[] = {0.53,0.38,0,0.8};
@@ -603,6 +611,7 @@
 				colorBackground[] = {0.13,0.35,0.18,0.8};
 				colorBackground2[] = {0.13,0.35,0.18,0.8};
 				colorBackgroundFocused[] = {0.13,0.35,0.18,0.5};
+				onButtonClick = "['MSN_ADJUST_GUNLINE',nil,_this#0] call BCE_fnc_set_FireAdjust_MSN_State";
 			};
 			class AdjustBg: AdjustBg{};
 			class Adjust_Meter: Adjust_Meter{};
@@ -613,6 +622,7 @@
 		};
 	};
 //- Undef ADJUST MARCOs
+	#undef ADJUSTMENT_MENU
 	#undef BORDER
 	#undef ADJUST_CTRL_W
 	#undef ADJUST_BNT_OFFSET

@@ -1019,6 +1019,7 @@ class CfgFunctions
 				{
 					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission\Call_for_Fire\Fire_Adjustments";
 					class ATAK_FireAdjust_Init_Polar;
+					class ATAK_FireAdjust_Init_Impact;
 					class ATAK_FireAdjust_Sel_Changed;
 
 					class ATAK_onFireAdjusted;
