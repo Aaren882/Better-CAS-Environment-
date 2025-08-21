@@ -102,8 +102,7 @@ private _RECURSION_INFO = [0,0]; //- [RECUR_COUNT, RECUR_INTERVAL (Sec)] #NOTE -
 [
   [_taskType, _taskTypeInfo, _MSN_Prepare, _MSN_State, _RECURSION_INFO],
   _TGPOS,
-  // [_TGPOS,_OT_Dir], //- OT Infos
-  _taskVar_1 param [2, []], //- Sheaf Infos
+  _taskVar_1 param [2, [0, [100]]], //- Sheaf Infos (#NOTE - default Standard 100m radius)
   [_MOC, _MOC_Function], //- Get MOC Values ["MOC Value", "MOC_Fnc Name"]
   _angleType, //- Fire Angle type
   _customInfos,

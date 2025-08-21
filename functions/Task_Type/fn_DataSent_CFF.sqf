@@ -267,7 +267,7 @@ private _random_POS = nil;
         };
 
         //- #NOTE - Default
-          private _radius = _SheafValue param [0, 50];
+          private _radius = _SheafValue param [0, 100];
           
           for "_i" from 1 to _rounds do {
             private _s = [

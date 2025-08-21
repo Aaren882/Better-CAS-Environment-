@@ -165,7 +165,8 @@ _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE"
 				_SheafValue params ["_a","_b","_dir"];
 				_Info_joing pushBack (format ["Sheaf - %1x%2", _a, _b]); 
 			} else {
-				private _radius = _SheafValue param [0, 50];
+				//- Make sure it display error (-1)
+				private _radius = _SheafValue param [0, -1];
 				_Info_joing pushBack (format ["Sheaf - %1m", _radius]); 
 			};
 		};
