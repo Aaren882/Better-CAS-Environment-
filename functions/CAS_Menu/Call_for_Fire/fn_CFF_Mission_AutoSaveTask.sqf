@@ -89,9 +89,12 @@ if !(_Key isEqualType "") exitWith {
 						//-  2 : Delay Fuze
 						private _value = _lbFuze lbValue (lbCurSel _lbFuze);
 						_editFuzeVal ctrlShow (ctrlShown _lbFuze && _value > 0); //- Hide when Select "IMPT", "DELAY"
-						if (_value > 0) then {
+						if (ctrlShown _editFuzeVal) then {
 							private _tip = localize (format ["STR_BCE_FUZE_%1_Tip",_lbFuze lbData (lbCurSel _lbFuze)]);
 							_editFuzeVal ctrlSetTooltip _tip;
+						} else {
+							//- Clear Fuze value
+							_WPN_Set set [1, ""];
 						};
 
           _v

@@ -149,18 +149,14 @@ _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE"
   _chargeInfo params ["", "", ["_ETA", 0]];
 
   if (_ETA == 0) exitWith {};
+	
+	//- #ANCHOR - Other Infos text display
+	private _Info_joing = [];
+  _Info_joing pushBack (format ["ETA - %1", [floor (_ETA/60), round (_ETA % 60)] joinString ":"]);
 
-  private _ETA_txt = format [
-    "ETA - %1",
-    [floor (_ETA/60), round (_ETA % 60)] joinString ":"
-  ];
-
-  _OtherInfo_dsp ctrlSetStructuredText parseText format [
-    "%1 %2",
-    _ETA_txt,
-    [
-      format ["|| Fuze - %1",_fuzeVal],
-      ""
-    ] select (_fuzeVal == 0)
-  ];
+	if (_Fuse != "" && _fuzeVal != 0) then {
+		_Info_joing pushBack (format ["Fuze - %1", _fuzeVal]); 
+	};
+	
+  _OtherInfo_dsp ctrlSetStructuredText parseText (_Info_joing joinString " || ");
   [_OtherInfo_dsp] call BIS_fnc_ctrlFitToTextHeight;
