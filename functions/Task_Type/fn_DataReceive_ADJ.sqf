@@ -172,7 +172,8 @@ switch _curLine do {
 			if (_Sheaf_ModeSel == 2) exitWith {
 				_LINE_V //- Return
 			};
-			["50"]
+			//- POINT
+			["50"] 
 		};
 		
 		//- Parse Numbers
@@ -315,32 +316,3 @@ switch _curLine do {
 		_taskVar set [4, [_type, [_ctrlMethod, _value], _functions param [_ctrlMethod, ""]]];
 	};
 };
-
-//-Automatically Generate
-//-Line 1
-/* if (([!("Andorid" in (cTabIfOpen # 1)), false] select isnil {cTabIfOpen}) || _IDC_offset == 0) then {
-	(_taskVar # 0) pushBackUnique ((_display displayCtrl (_IDC_offset + 2005)) lbText 0);
-};
-
-//-2 Friendly
-if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && (!((localize "STR_BCE_With") in (_taskVar # 1 # 0)) || (_isOverwrite))) then {
-	private ["_taskVar_1","_taskVar_2","_HDG","_dist","_cardinaldir","_InfoText","_info","_isEmptyInfo"];
-	_taskVar_1 = _taskVar # 1;
-	_taskVar_2 = _taskVar # 2;
-
-	//-[Text ,Dist]
-	_TGPOS = _taskVar_1 # 2;
-	_HDG = round (((_taskVar_2 # 2) getDir _TGPOS) / 10) * 10;
-	_dist = round (((_taskVar_2 # 2) distance2D _TGPOS) / 10) * 10;
-	_cardinaldir = _HDG call BCE_fnc_getAzimuth;
-	_InfoText = _taskVar_1 # 4;
-	_isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") || (_InfoText == ""));
-
-	_info = format ([
-		["“%1” %2m [%3] %4: [%5]", _cardinaldir, _dist, GetGRID(_TGPOS,8), localize "STR_BCE_With", toUpper _InfoText],
-		["“%1” %2m [%3]", _cardinaldir, _dist, GetGRID(_TGPOS,8)]
-	] select _isEmptyInfo);
-
-	_taskVar set [1, [_info,_taskVar_1 # 1,_taskVar_1 # 2,_taskVar_1 # 3,_taskVar_1 # 4]];
-};
-*/
