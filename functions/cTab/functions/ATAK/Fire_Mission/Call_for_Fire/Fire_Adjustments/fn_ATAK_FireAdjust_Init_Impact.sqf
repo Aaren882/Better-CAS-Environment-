@@ -31,7 +31,7 @@ private _OT_Display = _AdjustGrp controlsGroupCtrl 5002;
 			//- Apply Text
 				_OT_Display ctrlSetStructuredText parseText format [
 					"<img image='\MG8\AVFEVFX\data\binoculars.paa' /> OT : %1",
-					[round (_dist * 10) / 10, floor (_dist * 10) / 10] select (_dist < 1)
+					[round _dist, floor (_dist * 10) / 10] select (_dist < 1)
 				];
 			sleep 0.5;
 		};
