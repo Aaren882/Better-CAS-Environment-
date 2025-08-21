@@ -738,6 +738,9 @@ class CfgFunctions
 
 			class getCurUnit_CFF;
 			class getPos_Sheaf;
+
+			//- Send Missions
+				class Send_MSN_CFF;
 		};
 		class CFF_Method_of_Controls
 		{
@@ -938,9 +941,6 @@ class CfgFunctions
 			class LBTaskUnitChanged;
 
 			class TaskUnitChanged_CFF;
-
-			//- Send Missions
-				class Send_MSN_CFF;
 		};
 		class Radio_Compat
 		{
