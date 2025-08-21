@@ -21,7 +21,8 @@ _MSN_infos params [
   "_Wpn_setup_IE",
   "_Wpn_setup_IA",
   "_random_POS",
-  "_angleType"
+  "_angleType",
+	"_Sheaf_Info" // ["_Sheaf_ModeSel",["_SheafValue",[]]]
 ];
 
 _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE","_radius_IE","_fuzeVal_IE"];
@@ -152,11 +153,27 @@ _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE"
 	
 	//- #ANCHOR - Other Infos text display
 	private _Info_joing = [];
-  _Info_joing pushBack (format ["ETA - %1", [floor (_ETA/60), round (_ETA % 60)] joinString ":"]);
 
-	if (_Fuse != "" && _fuzeVal != 0) then {
-		_Info_joing pushBack (format ["Fuze - %1", _fuzeVal]); 
-	};
+	//- Get ETA Value
+  	_Info_joing pushBack (format ["ETA - %1", [floor (_ETA/60), round (_ETA % 60)] joinString ":"]);
+	
+	//- Get Sheaf Value
+		if (_MSN_State == 1) then {
+			_Sheaf_Info params [["_Sheaf_ModeSel",0],["_SheafValue",[]]];
+			//- if LINEAR Sheaf
+			if (_Sheaf_ModeSel == 2) then {
+				_SheafValue params ["_a","_b","_dir"];
+				_Info_joing pushBack (format ["Sheaf - %1x%2", _a, _b]); 
+			} else {
+				private _radius = _SheafValue param [0, 50];
+				_Info_joing pushBack (format ["Sheaf - %1m", _radius]); 
+			};
+		};
+
+	//- Get Fuze Value
+		if (_Fuse != "" && _fuzeVal != 0) then {
+			_Info_joing pushBack (format ["Fuze - %1", _fuzeVal]); 
+		};
 	
   _OtherInfo_dsp ctrlSetStructuredText parseText (_Info_joing joinString " || ");
   [_OtherInfo_dsp] call BIS_fnc_ctrlFitToTextHeight;
