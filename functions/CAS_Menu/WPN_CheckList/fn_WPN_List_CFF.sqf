@@ -3,9 +3,8 @@ params ["_checklist","_vehicle"];
 // private _veh_Index = -1;
 private _result = createHashMap;
 private _taskGroupId = groupId group _vehicle; 
-private _group_vehs = (units _vehicle) apply {vehicle _x};
-_group_vehs = _group_vehs ArrayIntersect _group_vehs;
-// private _unitCount = count _group_vehs;
+private _group_vehs = (units _vehicle) apply {objectParent _x};
+_group_vehs = (_group_vehs ArrayIntersect _group_vehs) select {(alive gunner _x)};
 
 {
   private _veh = _x;

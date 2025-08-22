@@ -93,8 +93,8 @@ cTabBFTvehicles = (vehicles apply {
 		_isARTY = (
 			_x isKindOf "MBT_01_arty_base_F" ||
 			_x isKindOf "MBT_01_mlrs_base_F" ||
-			_x isKindOf "MBT_02_arty_base_F" ||
-			_x isKindOf "StaticMortar"
+			_x isKindOf "MBT_02_arty_base_F"
+			// _x isKindOf "StaticMortar"
 		);
 		
 		_name = "";
