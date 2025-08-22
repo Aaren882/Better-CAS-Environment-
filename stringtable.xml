@@ -879,9 +879,9 @@
 			<Chinesesimp>Sheaf 是火力在目标区域的空间模式，其参数或呼叫方式取决于所需的具体模式。 &lt;br/&gt;&lt;br/&gt; - 标准 (Standard)：&lt;t color='#CCCCCC' size='0.9'&gt;预设圆形目标的半径为100公尺，并确定各武器的瞄准点以实现对此类目标的最佳覆盖。&lt;/t&gt;&lt;br/&gt; - 开放 (Open)：&lt;t color='#CCCCCC' size='0.9'&gt;半径大于100米，开放式弹着分布通常用于攻击比标准弹着分布可覆盖范围更广的目标。&lt;/t&gt;&lt;br/&gt; - 线形 (Linear)：&lt;t color='#CCCCCC' size='0.9'&gt;会提供其长度、宽度（以公尺为单位）和方位（A 轴的方位角，以 Mil/方位角 为单位）。&lt;/t&gt;&lt;br/&gt; - 单点 (Point)：&lt;t color='#CCCCCC' size='0.9'&gt;分布通常用于单一点的目标，这种弹着分布通常用于小型、坚硬的目标，例如碉堡或机枪阵地。 &lt;t/&gt;</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_CFF_MOC">
-			<Original>Method of Control (MOC).&lt;br/&gt;&lt;br/&gt;When no method of control is specified, the fire mission will be executed “At-Ready”.&lt;br/&gt;&lt;br/&gt;The other two options you may use in basic school are “At My Command” (AMC) and “Time on Target” (TOT).</Original>
-			<Chinese>控制方法（MOC）。 &lt;br/&gt;&lt;br/&gt;未指定控制方法時，射擊任務將在「準備就緒時」執行。 &lt;br/&gt;&lt;br/&gt;您可以在基礎學校使用的另外兩個選項是「在我的指揮下」（AMC）和「目標時間」（TOT）。</Chinese>
-			<Chinesesimp>控制方法（MOC）。 &lt;br/&gt;&lt;br/&gt;未指定控制方法时，射击任务将在“准备就绪时”执行。 &lt;br/&gt;&lt;br/&gt;您可以在基础学校使用的另外两个选项是“在我的指挥下”（AMC）和“目标时间”（TOT）。</Chinesesimp>
+			<Original>&lt;t align='center'&gt;Method of Control (MOC).&lt;/t&gt;&lt;br/&gt; - When no control method is specified, the fire mission will be executed "when ready."&lt;br/&gt;&lt;br/&gt; - Time on Target (TOT) :&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;The Forward Observer (FO) can request a TOT from the Fire Direction Center (FDC), for example, by announcing "TIME ON TARGET {desired minutes, e.g., 30 (minutes)} MINUTES FROM...NOW" or "TIME ON TARGET {specific time, e.g., 0859} HOURS."&lt;/t&gt;&lt;br/&gt;&lt;br/&gt; - At My Command (AMC) :&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;This is a method in fire support that gives the Forward Observer (FO) complete control over the timing of artillery shell firing.&lt;/t&gt;</Original>
+			<Chinese>&lt;t align='center'&gt;控制方法（MOC）。&lt;/t&gt;&lt;br/&gt;- 未指定控制方法時，射擊任務將在「準備就緒時」執行。&lt;br/&gt;&lt;br/&gt; - 抵達目標時間 (TOT)：&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;觀察員 (FO) 可以向火力支援協調中心 (FDC) 請求 TOT，例如透過宣布「TIME ON TARGET {所需分鐘數，如 30 (分鐘) } MINUTES FROM...NOW」或「TIME ON TARGET {特定時間，如 0859} HOURS」。&lt;/t&gt;&lt;br/&gt;&lt;br/&gt; - 在我的指揮下 (AMC)：&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;是火力支援中的一種方式，讓前進觀察員 (FO) 能夠完全控制砲彈發射的時機。&lt;/t&gt;</Chinese>
+			<Chinesesimp>&lt;t align='center'&gt;控制方法（MOC）。&lt;/t&gt;&lt;br/&gt;- 未指定控制方法时，射击任务将在「准备就绪时」执行。&lt;br/&gt;&lt;br/&gt; - 抵达目标时间 (TOT)：&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;观察员 (FO) 可以向火力支援协调中心 (FDC) 请求 TOT，例如通过宣布「TIME ON TARGET {所需分钟数，如 30 (分钟) } MINUTES FROM...NOW」或「TIME ON TARGET {特定时间，如 0859} HOURS」。&lt;/t&gt;&lt;br/&gt;&lt;br/&gt; - 在我的指挥下 (AMC)：&lt;br/&gt;&lt;t color='#CCCCCC' size='0.9'&gt;是火力支援中的一种方式，让前进观察员 (FO) 能够完全控制炮弹发射的时机。&lt;/t&gt;</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_CFF_SUP">
 			<Original>&lt;t align='center'&gt;Suppress 3mins, 4 rounds per minute, HE in Effect.&lt;/t&gt;&lt;br/&gt;&lt;br/&gt;- Suppress:&lt;br/&gt;  &lt;t color='#CCCCCC' size='0.9'&gt;This is a warning command for the mission type.&lt;/t&gt;&lt;br/&gt;- 3 minutes (3mins):&lt;br/&gt;  &lt;t color='#CCCCCC' size='0.9'&gt;This refers to the duration.&lt;/t&gt;&lt;br/&gt;- 4 rounds per minute:&lt;br/&gt;  &lt;t color='#CCCCCC' size='0.9'&gt;This refers to the rate of fire for the mission. During the duration, each gun will fire 4 rounds per minute.&lt;/t&gt;&lt;br/&gt;- HE in Effect:&lt;br/&gt;  &lt;t color='#CCCCCC' size='0.9'&gt;This specifies that High Explosive ammunition will be used, and indicates that the target will directly receive "Fire for Effect" (FFE).</Original>
@@ -1741,9 +1741,9 @@
 			<Chinesesimp>观察者到目标的 POLAR</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_EFFECTIVE_RADIUS">
-			<Original>Effective Radius</Original>
-			<Chinese>有效半徑</Chinese>
-			<Chinesesimp>有效半径</Chinesesimp>
+			<Original>Effective Radius (each of submunition round)</Original>
+			<Chinese>有效半徑 (每發子彈藥)</Chinese>
+			<Chinesesimp>有效半径 (每发子弹药)</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_CFF_CtrlType_AT_READY_Tip">
 			<Original>Fire When Ready</Original>
@@ -1774,6 +1774,11 @@
 			<Original>Sheaf Type (OPTIONAL)</Original>
 			<Chinese>Sheaf 類型 (可選)</Chinese>
 			<Chinesesimp>Sheaf 类型 (可选)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_IA_OPTIONAL_TITLE">
+			<Original>Setting up "In Adjust" (OPTIONAL).</Original>
+			<Chinese>設定 "校準砲彈" (可選)。</Chinese>
+			<Chinesesimp>设定 "校准炮弹" (可选)。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_CFF_AF_TITLE">
 			<Original>ADJUST FIRE</Original>

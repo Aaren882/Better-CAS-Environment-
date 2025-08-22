@@ -24,14 +24,6 @@
 					colorBackground[] = {0.3,0.3,0.3,1};
 					colorSelect[]={1,1,1,1};
 					colorSelectBackground[]={0.4,0.4,0.4,1};
-					/* class Items
-					{
-						class NA
-						{
-							text = "NA";
-							default = 1;
-						};   
-					}; */
 				};
 
 			class Game_Plan_T: Game_Plan_T
@@ -53,15 +45,6 @@
 					colorSelect[]={1,1,1,1};
 					colorSelectBackground[]={0.2,0.2,0.2,1};
 				};
-
-			//- Correction Method
-			/*class Correction_Method: CtrlType
-			{
-				text="MOC";
-				tooltip="$STR_BCE_TIP_MOC";
-				
-				sizeEx = 0.95 * TextSize;
-			};*/
 
 			//- In Effect (IE) Section
 				class Weapon_T: Weapon_T
@@ -121,7 +104,7 @@
 				{
 					ATAK_POS(0,(2.6 + (0.35/2) + MOVE_Y_OFFSET),1,0.63);
 					text = "(Adjust)";
-					tooltip="Setting up ""In Adjust"" (OPTIONAL).";
+					tooltip="$STR_BCE_CFF_IA_OPTIONAL_TITLE";
 				};
 				class CFF_IA_WeaponCombo: CFF_IA_WeaponCombo
 				{
