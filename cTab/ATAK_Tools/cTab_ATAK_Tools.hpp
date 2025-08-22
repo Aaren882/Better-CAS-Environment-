@@ -416,13 +416,13 @@
           sizeEx = 0.9 * TextSize;
           strings[] =
           {
-            "MISSION",
-            "RECORD"
+            "$STR_BCE_MISSION",
+            "$STR_BCE_RECORD"
           };
           tooltips[] =
           {
-            "Missions",
-            "Recorded Targets"
+            "$STR_BCE_MISSION_Tip",
+            "$STR_BCE_RECORD_Tip"
           };
         };
         class Group_Box: Group_Box

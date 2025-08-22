@@ -76,6 +76,26 @@
 			<Chinese>下個砲塔</Chinese>
 			<Chinesesimp>下一个炮塔</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_MISSION">
+			<Original>MISSION</Original>
+			<Chinese>任務列表</Chinese>
+			<Chinesesimp>任务列表</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_RECORD">
+			<Original>RECORD</Original>
+			<Chinese>紀錄清單</Chinese>
+			<Chinesesimp>紀錄清单</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_MISSION_Tip">
+			<Original>Missions Currently Registered on This Unit.</Original>
+			<Chinese>此單位目前已註冊的任務。</Chinese>
+			<Chinesesimp>此单位目前已注册的任务。</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_RECORD_Tip">
+			<Original>Missions Currently Recorded on This Unit. (Record as Target, RAT)</Original>
+			<Chinese>此單位目前已記錄的任務。(Record as Target, RAT)</Chinese>
+			<Chinesesimp>此单位目前已记录的任务。(Record as Target, RAT)</Chinesesimp>
+		</Key>
 
 		<Key ID="STR_BCE_Widgets_VIC">
 			<Original>VIC</Original>
