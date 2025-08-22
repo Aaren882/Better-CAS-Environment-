@@ -18,6 +18,7 @@ params ["_group","_settings",["_reset",true]];
   if (isNil "_settings") then {
     _settings = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
   };
+_settings params ["_page","_show","_subInfos",["_PgComponents",createHashMap]];
 
 
 //- get SubMenu Infos
@@ -31,6 +32,8 @@ params ["_group","_settings",["_reset",true]];
 private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
 
 //- Create Builder
+if (!_show) exitWith {_group getVariable ["Mission_Control", controlNull]};
+
   private _MissionCtrl = [
     _taskMenu,  //- Create Menu className
     21000,   //- Desire IDC
@@ -42,14 +45,14 @@ private _isDialog = [(cTabIfOpen # 1)] call cTab_fnc_isDialog;
 //- Save "_ctrl" easier to find
   _group setVariable ["Mission_Control", _MissionCtrl];
 
+//- Refresh Task Values #NOTE - Seems like the create Menu will delay one frame 😐
+	[BCE_fnc_ATAK_Refresh_TaskInfos,[]] call CBA_fnc_execNextFrame; //- on Next Frame
+
 //- Init Mission Control for each category
   if !(_MissionCtrl getVariable ["Init",false]) then {
     
     //- Update task type in cTab Variable
       _subSel call BCE_fnc_ATAK_set_TaskType;
-
-    //- Refresh Task Values #NOTE - Seems like the create Menu will delay one frame 😐
-			[BCE_fnc_ATAK_Refresh_TaskInfos,[]] call CBA_fnc_execNextFrame; //- on Next Frame
 
     //- Rearrange Buttons
       [_settings,true] call BCE_fnc_ATAK_Invoke_ButtonLayoutArrange;

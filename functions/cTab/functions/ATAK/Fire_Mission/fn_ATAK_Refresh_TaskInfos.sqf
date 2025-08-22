@@ -40,7 +40,6 @@ private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 		private _DESC_Type = ["Desc",0] call BCE_fnc_get_TaskCurSetup;
 		_ctrlDESC lbSetCurSel _DESC_Type;
 	};
-
 //- Display TaskVar values
 	private _descLine = ([[5,3],[3]] # _curCate) param [_curType, -1]; //- Get Description Line
 	{

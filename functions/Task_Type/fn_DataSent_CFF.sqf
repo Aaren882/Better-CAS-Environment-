@@ -368,7 +368,6 @@ private _random_POS = nil;
     //- Save Sheaf Data (Specify Sheaf for Guns)
       private _CFF_info = [_random_POS,_lbAmmo,_setCount,_angleType,[_lbFuze,_fuzeVal],_MOC_Function];
       _CFF_info set [6, _Sheaf_Pattern select [(_forEachIndex * _setCount), _setCount]];
-			// systemChat str [_Sheaf_Pattern,_CFF_info # 6, _forEachIndex,_setCount,(_forEachIndex * _setCount)];
       _CFF_info set [7, _RECURSION_INFO];
     
     //- Save Mission Values
