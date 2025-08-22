@@ -144,6 +144,11 @@
 			<Chinese>已送出</Chinese>
 			<Chinesesimp>数据已发送。</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Error_Task_Default">
+			<Original>Fail... Task is incomplete!!</Original>
+			<Chinese>失敗...任務不完整！！</Chinese>
+			<Chinesesimp>失败...任务不完整！！</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_Error_InputVal">
 			<Original>Fail...  Check the input values.</Original>
 			<Chinese>失敗...檢查輸入資料。</Chinese>

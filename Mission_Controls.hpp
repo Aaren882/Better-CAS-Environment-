@@ -293,6 +293,13 @@ class BCE_Mission_Build_Controls
         "$STR_BCE_Tit_Click_Map",
         "$STR_BCE_Tit_OverHead"
       };
+
+			tooltips[] =
+			{
+				"",
+				"$STR_BCE_Tip_Click_Map",
+				""
+			};
       
       font = "RobotoCondensed_BCE";
       colorBackground[] = {0,0,0,0.3};
@@ -339,6 +346,11 @@ class BCE_Mission_Build_Controls
         "$STR_BCE_Tit_Map_marker",
         "$STR_BCE_Tit_Click_Map"
       };
+			tooltips[] =
+			{
+				"",
+				"$STR_BCE_Tip_Click_Map"
+			};
     };
     class New_Task_TG_DESC: RscEdit
     {
@@ -472,6 +484,7 @@ class BCE_Mission_Build_Controls
         "$STR_BCE_Tit_Map_marker",
         "$STR_BCE_Tit_OverHead"
       };
+			tooltips[] = {"","","",""};
     };
     
   //- Remarks
@@ -487,6 +500,7 @@ class BCE_Mission_Build_Controls
         "FAH",
         "$STR_BCE_Default"
       };
+			tooltips[] = {"","",""};
     };
     class New_Task_DangerClose_Text: RscText
     {
@@ -731,7 +745,13 @@ class BCE_Mission_Build_Controls
         "TOT",
         "AMC"
       };
-      class BCE_Data
+      tooltips[] =
+      {
+        "$STR_BCE_CFF_CtrlType_AT_READY_Tip",
+        "$STR_BCE_CFF_CtrlType_TOT_Tip",
+        "$STR_BCE_CFF_CtrlType_AMC_Tip"
+      };
+			class BCE_Data
       {
         functions[] =
         {
@@ -739,12 +759,6 @@ class BCE_Mission_Build_Controls
           "BCE_fnc_CFF_TOT",
           "BCE_fnc_CFF_AMC"
         };
-      };
-      tooltips[] =
-      {
-        "$STR_BCE_CFF_CtrlType_AT_READY_Tip",
-        "$STR_BCE_CFF_CtrlType_TOT_Tip",
-        "$STR_BCE_CFF_CtrlType_AMC_Tip"
       };
     };
     class New_Task_CFF_TOT: New_Task_EGRS_Bearing

@@ -258,7 +258,7 @@ class BCE_Mission_Property
 				
 				//- Check if the Task is able to send
 				// (VAR # 0) != "NA"
-				InvaildMsg = "Task is incomplete!!";
+				InvaildMsg = "$STR_BCE_Error_Task_Default";
 				Vaild_Lines[] = {0,2,4};
 			};
 
@@ -325,7 +325,7 @@ class BCE_Mission_Property
 				
 				//- Check if the Task is able to send
 				// (VAR # 0) != "NA"
-				InvaildMsg = "Task is incomplete!!";
+				InvaildMsg = "$STR_BCE_Error_Task_Default";
 				Vaild_Lines[] = {0,2,3,4};
 			};
 
@@ -389,7 +389,7 @@ class BCE_Mission_Property
 				
 				//- Check if the Task is able to send
 				// (VAR # 0) != "NA"
-				InvaildMsg = "Task is incomplete!!";
+				InvaildMsg = "$STR_BCE_Error_Task_Default";
 				Vaild_Lines[] = {0,2};
 			};
 
