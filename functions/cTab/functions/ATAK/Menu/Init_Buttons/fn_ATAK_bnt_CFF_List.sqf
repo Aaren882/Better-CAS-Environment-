@@ -26,7 +26,7 @@ _ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
   ];
 
 //- Botton Text
-  _bnt_Ent ctrlSetText "Refresh";
+  _bnt_Ent ctrlSetText localize "STR_BCE_Refresh";
 
 private _group = ctrlParentControlsGroup _bnt_Ent;
 private _commitTime = [0.3, 0] select _interfaceInit;

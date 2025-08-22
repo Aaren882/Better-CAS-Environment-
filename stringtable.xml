@@ -56,6 +56,11 @@
 			<Chinese>清除</Chinese>
 			<Chinesesimp>清除</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Refresh">
+			<Original>Refresh</Original>
+			<Chinese>刷新</Chinese>
+			<Chinesesimp>刷新</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_New_Task">
 			<Original>New Task</Original>
 			<Chinese>創建新任務</Chinese>
