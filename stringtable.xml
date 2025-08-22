@@ -1968,6 +1968,11 @@
 				<Chinese>否決，任務進行中 !!</Chinese>
 				<Chinesesimp>否决，任务进行中 !!</Chinesesimp>
 			</Key>
+			<Key ID="STR_BCE_CFF_MSG_RECEIVED">
+				<Original>Fire Mission Received.</Original>
+				<Chinese>火力任務已接收。</Chinese>
+				<Chinesesimp>火力任务已接收。</Chinesesimp>
+			</Key>
 			<Key ID="STR_BCE_CFF_MSG_SHOT">
 				<Original>Shot, over.</Original>
 				<Chinese>已發射。</Chinese>

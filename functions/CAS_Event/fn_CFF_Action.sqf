@@ -43,6 +43,9 @@ private _taskUnit = switch (typeName _unit) do {
 		["CFF_MSN", _MSN_Key, _taskUnit] call BCE_fnc_set_CFF_Value;
 		["MSN_PROG", 0, _taskUnit] call BCE_fnc_set_CFF_Value; //- Make sure the Mission is applied.
 
+	//- #ANCHOR - Send Msg
+		[_taskUnit, localize "STR_BCE_CFF_MSG_RECEIVED", "CFF_RECEIVED"] call BCE_fnc_Send_Task_RadioMsg;
+
 	//- Save CFF spawn ACTION
 		["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
 
