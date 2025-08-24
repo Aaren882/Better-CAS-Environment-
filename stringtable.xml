@@ -835,8 +835,8 @@
 		</Key>
 		<Key ID="STR_BCE_DECS_DIST">
 			<Original>Distance.&lt;br/&gt;&lt;br/&gt;The distance “IP/BP to target”.</Original>
-			<Chinese>距離。&lt;br/&gt;&lt;br/&gt;“IP/BP -> 目標” 的距離。</Chinese>
-			<Chinesesimp>距离。&lt;br/&gt;&lt;br/&gt;“IP/BP -> 目标” 的距离。</Chinesesimp>
+			<Chinese>距離。&lt;br/&gt;&lt;br/&gt;“IP/BP -&gt; 目標” 的距離。</Chinese>
+			<Chinesesimp>距离。&lt;br/&gt;&lt;br/&gt;“IP/BP -&gt; 目标” 的距离。</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_DECS_ELEV">
 			<Original>Target Elevation.&lt;br/&gt;&lt;br/&gt;The target elevation is given in &lt;t underline='true'&gt;Feet&lt;/t&gt; Mean Sea Level (MSL) unless otherwise specified.</Original>
