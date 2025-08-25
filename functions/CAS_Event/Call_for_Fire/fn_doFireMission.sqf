@@ -26,7 +26,7 @@ if (isnil{_delay}) then {
 
     //- Check MSN exist + Permission state
     if (
-			"" == (["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value) &&
+			"" == (["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value) ||
 			!(["CFF_STATE",false,_taskUnit] call BCE_fnc_get_CFF_Value)
 		) exitWith {};
 
