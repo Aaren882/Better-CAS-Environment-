@@ -1725,11 +1725,6 @@
 			<Chinese>總共 (將發射的砲彈) -- (將執行的次數)</Chinese>
 			<Chinesesimp>总共 (将发射的炮弹) -- (将执行的次数)</Chinesesimp>
 		</Key>
-		<Key ID="STR_BCE_CFF_Output_Expression_Tip">
-			<Original>Total of (Shells will be shot) -- (Rounds will be executed)</Original>
-			<Chinese>總共 (將發射的砲彈) -- (將執行的次數)</Chinese>
-			<Chinesesimp>总共 (将发射的炮弹) -- (将执行的次数)</Chinesesimp>
-		</Key>
 		<Key ID="STR_BCE_CFF_OT_INFO_GRID_Tip">
 			<Original>Target GRID</Original>
 			<Chinese>目標 GRID</Chinese>
@@ -1984,24 +1979,24 @@
 				<Chinesesimp>火力任务已接收。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_SHOT">
-				<Original>Shot, over.</Original>
-				<Chinese>已發射。</Chinese>
-				<Chinesesimp>已发射。</Chinesesimp>
+				<Original>"%1" Shot, over.</Original>
+				<Chinese>"%1", 已發射, 完畢。</Chinese>
+				<Chinesesimp>"%1", 已发射, 完毕。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_SPLASH">
-				<Original>Splash, over.</Original>
-				<Chinese>彈著, 完畢。</Chinese>
-				<Chinesesimp>弹着, 完毕。</Chinesesimp>
+				<Original>"%1" Splash, over.</Original>
+				<Chinese>"%1", 彈著, 完畢。</Chinese>
+				<Chinesesimp>"%1", 弹着, 完毕。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_COMPLETED">
-				<Original>Rounds Completed.</Original>
-				<Chinese>砲擊完畢。</Chinese>
-				<Chinesesimp>炮击完毕。</Chinesesimp>
+				<Original>"%1" Rounds Completed.</Original>
+				<Chinese>"%1" 砲擊完畢。</Chinese>
+				<Chinesesimp>"%1" 炮击完毕。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_EOM">
-				<Original>Roger. End of Mission.</Original>
-				<Chinese>收到。結束任務。</Chinese>
-				<Chinesesimp>收到。结束任务。</Chinesesimp>
+				<Original>Roger. "%1" End of Mission.</Original>
+				<Chinese>收到。 "%1" 結束任務。</Chinese>
+				<Chinesesimp>收到。 "%1" 结束任务。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_CHECK_FIRE">
 				<Original>Roger. Check Fire.</Original>
@@ -2009,9 +2004,9 @@
 				<Chinesesimp>收到。停止射击。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_RAT">
-				<Original>Roger. Record as Target.</Original>
-				<Chinese>收到。紀錄為目標。</Chinese>
-				<Chinesesimp>收到。纪录为目标。</Chinesesimp>
+				<Original>Roger. "%1" Record as Target.</Original>
+				<Chinese>收到。 "%1" 紀錄為目標。</Chinese>
+				<Chinesesimp>收到。 "%1" 纪录为目标。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_RAT_REMOVE">
 				<Original>Roger. Delete Recorded Target.</Original>

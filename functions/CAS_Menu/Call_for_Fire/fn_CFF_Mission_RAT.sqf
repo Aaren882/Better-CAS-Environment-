@@ -24,13 +24,13 @@ private _RAT_saved = _RAT_val findIf {true} > -1;
 //- Send Msg
 	private _msgData = switch (true) do {
 		case (_removeRAT) : {
-			["STR_BCE_CFF_MSG_RAT_REMOVE","CFF_RAT_DEL"]
+			[localize "STR_BCE_CFF_MSG_RAT_REMOVE","CFF_RAT_DEL"]
 		};
 		case (_RAT_saved) : {
-			["STR_BCE_CFF_MSG_RAT","CFF_RAT"]
+			[format [localize "STR_BCE_CFF_MSG_RAT", _taskID],"CFF_RAT"]
 		};
 		default {
-			["STR_BCE_CFF_MSG_RAT_FAIL","CFF_RAT_FAIL"]
+			[localize "STR_BCE_CFF_MSG_RAT_FAIL","CFF_RAT_FAIL"]
 		};
 	};
 
@@ -38,7 +38,7 @@ private _RAT_saved = _RAT_val findIf {true} > -1;
 
 	[
 		FormationLeader _taskUnit,
-		localize _msg,
+		_msg,
 		_eventName
 	] call BCE_fnc_Send_Task_RadioMsg;
 

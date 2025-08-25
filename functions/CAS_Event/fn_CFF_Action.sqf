@@ -170,7 +170,7 @@ private _taskUnit = switch (typeName _unit) do {
 							_taskUnit call BCE_fnc_UnstuckUnit;
 
 						if (_isMsger) then {
-							[_taskUnit, localize "STR_BCE_CFF_MSG_COMPLETED", "CFF_COMPLETED"] call BCE_fnc_Send_Task_RadioMsg;
+							[_taskUnit, format [localize "STR_BCE_CFF_MSG_COMPLETED", _MSN_Key], "CFF_COMPLETED"] call BCE_fnc_Send_Task_RadioMsg;
 						};
 					};
 			};

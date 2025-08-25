@@ -21,10 +21,8 @@ private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_
 	[nil,"Task_CFF_List",-1] call BCE_fnc_ATAK_ChangeTool;
 
 //- Send Msg
-  if (isFormationLeader _taskUnit) then {
-    [
-      _taskUnit,
-      localize "STR_BCE_CFF_MSG_EOM",
-      "CFF_EOM"
-    ] call BCE_fnc_Send_Task_RadioMsg;
-  };
+	[
+		_taskUnit,
+		format [localize "STR_BCE_CFF_MSG_EOM",_taskID],
+		"CFF_EOM"
+	] call BCE_fnc_Send_Task_RadioMsg;
