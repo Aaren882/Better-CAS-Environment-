@@ -2003,6 +2003,16 @@
 				<Chinese>收到。停止射擊。</Chinese>
 				<Chinesesimp>收到。停止射击。</Chinesesimp>
 			</Key>
+			<Key ID="STR_BCE_CFF_MSG_SUPPRESS_ROUNDS">
+				<Original>Suppression "%1", %2 round(s) left.</Original>
+				<Chinese>壓制任務 "%1"，剩餘 %2 輪。</Chinese>
+				<Chinesesimp>压制任务 "%1"，剩余 %2 轮。</Chinesesimp>
+			</Key>
+			<Key ID="STR_BCE_CFF_MSG_Next_SUPPRESS">
+				<Original>Next suppression will be excuted in "%1" seconds.</Original>
+				<Chinese>下一次壓制將在 "%1" 秒後執行。</Chinese>
+				<Chinesesimp>下一次压制将在 "%1" 秒后执行。</Chinesesimp>
+			</Key>
 			<Key ID="STR_BCE_CFF_MSG_RAT">
 				<Original>Roger. "%1" Record as Target.</Original>
 				<Chinese>收到。 "%1" 紀錄為目標。</Chinese>
@@ -2024,7 +2034,7 @@
 				<Chinesesimp>任务已新增。</Chinesesimp>
 			</Key>
 			<Key ID="STR_BCE_CFF_MSG_RAT2ADD_NO_AMMO">
-				<Original>Does not have the required ordnance "%2" to perform this mission.</Original>
+				<Original>Does not have the required ammunition "%2" to perform this mission.</Original>
 				<Chinese>沒有執行此任務所需的彈藥 "%2"。</Chinese>
 				<Chinesesimp>没有执行此任务所需的弹药 "%2"。</Chinesesimp>
 			</Key>

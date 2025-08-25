@@ -43,17 +43,32 @@ private _taskUnit = switch (typeName _unit) do {
 			};
 		};
 
+	//- Send Msg 
+		if (_isMsger) then {
+			switch (["CFF_MSN", "", _taskUnit] call BCE_fnc_get_CFF_Value) do {
+				//- if still the same mission (SUPPRESSION RECURSION)
+				case _MSN_Key: {
+					[
+						_taskUnit,
+						format [
+							localize "STR_BCE_CFF_MSG_Next_SUPPRESS",
+							round _delay
+						],
+						"CFF_NEXT_SUPPRESS"
+					] call BCE_fnc_Send_Task_RadioMsg;
+				};
+				default {
+					[_taskUnit, localize "STR_BCE_CFF_MSG_RECEIVED", "CFF_RECEIVED"] call BCE_fnc_Send_Task_RadioMsg;
+				};
+			};
+		};
+
 	//- Save Mission Values
 		["CFF_MSN", _MSN_Key, _taskUnit] call BCE_fnc_set_CFF_Value;
 		["CFF_STATE", true, _taskUnit] call BCE_fnc_set_CFF_Value;
 		["MSN_PROG", 0, _taskUnit] call BCE_fnc_set_CFF_Value; //- Make sure the Mission is applied.
 		["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
 		["CFF_MSGER", _isMsger, _taskUnit] call BCE_fnc_set_CFF_Value; //- #NOTE - Set Messager
-
-	//- #ANCHOR - Send Msg
-		if (_isMsger) then {
-			[_taskUnit, localize "STR_BCE_CFF_MSG_RECEIVED", "CFF_RECEIVED"] call BCE_fnc_Send_Task_RadioMsg;
-		};
 
 //#!SECTION
 //- Additional Delay time
@@ -141,15 +156,27 @@ private _taskUnit = switch (typeName _unit) do {
 					[_taskUnit, _chargeInfo] call BCE_fnc_doAim_CFF;
 			} else {
 				_MSN_RECUR params [["_RECUR_COUNT",0],["_RECUR_INTERVAL",60]];
-				
-				//- Finish CFF MSN
-				[["MSN_PROG","CFF_STATE"], nil, _taskUnit] call BCE_fnc_set_CFF_Value;
 
-				//- Recursion (FOR SUPPRESSION)
+				["CFF_STATE", nil, _taskUnit] call BCE_fnc_set_CFF_Value;
+				
+				//- #SECTION - Finished CFF MSN
+					//- Recursion (FOR SUPPRESSION)
 					if (_RECUR_COUNT > 0 && _hasAmmo) then {
 						_MSN_RECUR set [0, _RECUR_COUNT - 1];
 						_CFF_info set [7, _MSN_RECUR];
 						[_MSN_NAME, _CFF_info, _taskUnit] call BCE_fnc_set_CFF_Value;
+						
+						if (_isMsger) then {
+							[
+								_taskUnit,
+								format [
+									localize "STR_BCE_CFF_MSG_SUPPRESS_ROUNDS",
+									_MSN_Key,
+									_RECUR_COUNT - 1
+								],
+								"CFF_SUPPRESS_COUNT_DOWN"
+							] call BCE_fnc_Send_Task_RadioMsg;
+						};
 						
 						[
 							_taskUnit,
@@ -159,9 +186,6 @@ private _taskUnit = switch (typeName _unit) do {
 							_isMsger
 						] spawn BCE_fnc_CFF_Action;
 					} else {
-						/* //- Remove Stored infos
-						[["chargeInfo","MSN_FIRE_EH"], nil, _taskUnit] call BCE_fnc_set_CFF_Value; */
-						
 						//- #LINK - functions/CAS_Menu/Call_for_Fire/fn_CFF_Mission_STOP.sqf
 						//- Remove Task From Unit (FULL DELETE)
 							_taskUnit removeEventHandler [_thisEvent, _thisEventHandler];
@@ -175,6 +199,7 @@ private _taskUnit = switch (typeName _unit) do {
 							[_taskUnit, format [localize "STR_BCE_CFF_MSG_COMPLETED", _MSN_Key], "CFF_COMPLETED"] call BCE_fnc_Send_Task_RadioMsg;
 						};
 					};
+				// #!SECTION
 			};
 		}];
 
@@ -182,9 +207,7 @@ private _taskUnit = switch (typeName _unit) do {
 		["MSN_FIRE_EH", _ehID, _taskUnit] call BCE_fnc_set_CFF_Value;
 	};
 
-  
-
-sleep _delay;
+sleep _delay; //- #NOTE - 👈 The function delay
 //- #SECTION - Setup CFF Mission
   private _CFF_info = [_taskUnit, _MSN_Key] call BCE_fnc_getCurUnit_CFF;
     if (count _CFF_info == 0) exitWith {};
