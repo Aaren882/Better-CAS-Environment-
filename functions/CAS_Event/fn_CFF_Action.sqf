@@ -35,8 +35,9 @@ private _taskUnit = switch (typeName _unit) do {
 			["""_taskUnit"" doesn't exist."] call BIS_fnc_error;
 		};
 
-	//- Check Mission exist
-		if (0 > (["MSN_PROG", -1, _taskUnit] call BCE_fnc_get_CFF_Value)) exitWith {
+	//- #ANCHOR - Check Mission exist
+		//if (!isnull (["CFF_Action", scriptNull, _taskUnit] call BCE_fnc_get_CFF_Value)) exitWith {
+		if (["CFF_STATE", false, _taskUnit] call BCE_fnc_get_CFF_Value) exitWith {
 			if (_isMsger) then {
 				[_taskUnit, localize "STR_BCE_CFF_MSG_MISSION_PROGRESS", "CFF_IN_PROGRESS"] call BCE_fnc_Send_Task_RadioMsg;
 			};
