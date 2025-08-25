@@ -410,19 +410,21 @@ private _random_POS = nil;
 
     //- #ANCHOR - Do Fire mission
     //- Setup ToT Timer
+			private _isMsger = _forEachIndex == 0; //- #NOTE - The first one is the radio msger
       if (_MOC_Value isNotEqualTo "") then {
         [
           _MSN_Key,
           _MOC_Value,
           format [
-            "[""%1"",""%2"",_this # 0,0] spawn BCE_fnc_CFF_Action",
+            "[""%1"",""%2"",_this # 0,0,%3] spawn BCE_fnc_CFF_Action",
             _unit,
-            _weapon
+            _weapon,
+						_isMsger
           ],
           0 //- BaseTime
         ] call BCE_fnc_Add_CountDown;
       } else {
-        [_unit,_weapon,_MSN_Key] spawn BCE_fnc_CFF_Action;
+        [_unit,_weapon,_MSN_Key,nil,_isMsger] spawn BCE_fnc_CFF_Action;
       };
   } forEach (_MagFire_ARR apply {_x # 0});
 //- #!SECTION

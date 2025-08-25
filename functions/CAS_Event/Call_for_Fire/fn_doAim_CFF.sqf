@@ -21,9 +21,10 @@ private _gunner = gunner _taskUnit;
 			str groupId _taskUnit
 		], "CFF_NO_CARGE"] call BCE_fnc_Send_Task_RadioMsg;
 
-		[["MSN_FIRE_EH","MSN_PROG"], nil,_taskUnit] call BCE_fnc_set_CFF_Value;
+		_this setVariable ["#CFF_MSN_Data", nil];
 	};
 
+private _isMsger = ["CFF_MSGER", false, _taskUnit] call BCE_fnc_get_CFF_Value;
 private _turretPath = (assignedVehicleRole _gunner) # 1;
 private _turretConfig = [_taskUnit, _turretPath] call CBA_fnc_getTurret;
 
@@ -40,7 +41,7 @@ while {true} do {
 	) then {
 		_taskUnit removeEventHandler ["Fired", ["MSN_FIRE_EH", -1, _taskUnit] call BCE_fnc_get_CFF_Value];
 		[["MSN_FIRE_EH","MSN_PROG"], nil,_taskUnit] call BCE_fnc_set_CFF_Value;
-		[_handlerID] call CBA_fnc_removePerFrameHandler;
+		// [_handlerID] call CBA_fnc_removePerFrameHandler;
 		break;
 	};
 	
@@ -83,7 +84,7 @@ while {true} do {
 		
 		//- Send ETA to FO
 			if (
-				isformationLeader _taskUnit &&
+				_isMsger &&
 				0 == count (["chargeInfo",[],_taskUnit] call BCE_fnc_get_CFF_Value)
 			) then {
 				[

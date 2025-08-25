@@ -6,6 +6,7 @@
     "_weapon"   - Weapon to use for the mission
     "_MSN_Key"  - Key for the mission
     "_delay"    - Delay before executing the mission (default 2 seconds)
+		"_isMsger"  - Is the unit the messager (default true)
 
   Description:
     Do Artillery Mission for individuals
@@ -14,7 +15,7 @@
     This includes setting up the initial shot, handling subsequent shots based on sheaf information,
     and managing the mission progress.
 */
-params ["_unit","_weapon","_MSN_Key",["_delay",2 + (random 0.2)]];
+params ["_unit","_weapon","_MSN_Key",["_delay",2 + (random 0.2)],["_isMsger",true]];
 
 private _taskUnit = switch (typeName _unit) do {
   case "STRING": {
@@ -36,19 +37,22 @@ private _taskUnit = switch (typeName _unit) do {
 
 	//- Check Mission exist
 		if (!isnull (["CFF_Action", scriptNull, _taskUnit] call BCE_fnc_get_CFF_Value)) exitWith {
-			[_taskUnit, localize "STR_BCE_CFF_MSG_MISSION_PROGRESS", "CFF_IN_PROGRESS"] call BCE_fnc_Send_Task_RadioMsg;
+			if (_isMsger) then {
+				[_taskUnit, localize "STR_BCE_CFF_MSG_MISSION_PROGRESS", "CFF_IN_PROGRESS"] call BCE_fnc_Send_Task_RadioMsg;
+			};
 		};
 
 	//- Save Mission Values
 		["CFF_MSN", _MSN_Key, _taskUnit] call BCE_fnc_set_CFF_Value;
 		["CFF_STATE", true, _taskUnit] call BCE_fnc_set_CFF_Value;
 		["MSN_PROG", 0, _taskUnit] call BCE_fnc_set_CFF_Value; //- Make sure the Mission is applied.
+		["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
+		["CFF_MSGER", _isMsger, _taskUnit] call BCE_fnc_set_CFF_Value; //- #NOTE - Set Messager
 
 	//- #ANCHOR - Send Msg
-		[_taskUnit, localize "STR_BCE_CFF_MSG_RECEIVED", "CFF_RECEIVED"] call BCE_fnc_Send_Task_RadioMsg;
-
-	//- Save CFF spawn ACTION
-		["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
+		if (_isMsger) then {
+			[_taskUnit, localize "STR_BCE_CFF_MSG_RECEIVED", "CFF_RECEIVED"] call BCE_fnc_Send_Task_RadioMsg;
+		};
 
 //#!SECTION
 //- Additional Delay time
@@ -67,6 +71,7 @@ private _taskUnit = switch (typeName _unit) do {
 				private _MSN_Key = ["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value;
 				private _MSN_NAME = ["CFF_MSN",_MSN_Key] joinString ":";
 				private _CFF_info = [_taskUnit,_MSN_Key] call BCE_fnc_getCurUnit_CFF;
+				private _isMsger = ["CFF_MSGER", false, _taskUnit] call BCE_fnc_get_CFF_Value;
 				_CFF_info params [
 					"_random_POS",
 					"_lbAmmo",
@@ -84,19 +89,19 @@ private _taskUnit = switch (typeName _unit) do {
 
 			//- "MSN_PROG" Progression of Mission
 			private _current = ["MSN_PROG", 0, _taskUnit] call BCE_fnc_get_CFF_Value;
-			_current = _current + 1; 
+			_current = _current + 1;
 			
-			//- Fired first round & Must be the leader
-				if (_current == 1 && isformationLeader _taskUnit) then {
-					[_taskUnit,localize "STR_BCE_CFF_MSG_SHOT", "CFF_SHOT"] call BCE_fnc_Send_Task_RadioMsg;
+			//- on Fired first round
+				if (_current == 1 && _isMsger) then {
+					[_taskUnit,format [localize "STR_BCE_CFF_MSG_SHOT", _MSN_Key], "CFF_SHOT"] call BCE_fnc_Send_Task_RadioMsg;
 
 					private _chargeInfo = ["chargeInfo",[],_taskUnit] call BCE_fnc_get_CFF_Value;
-					[_taskUnit,_chargeInfo param [2,-1]] spawn {
-						params ["_taskUnit", "_ETA"];
+					[_taskUnit,_chargeInfo param [2,-1],_MSN_Key] spawn {
+						params ["_taskUnit", "_ETA","_MSN_Key"];
 						if (_ETA < 0) exitWith {};
 						sleep (_ETA - 5); //- Wait
 						if (!alive _taskUnit) exitWith {};
-						[_taskUnit, localize "STR_BCE_CFF_MSG_SPLASH", "CFF_SPLASH"] call BCE_fnc_Send_Task_RadioMsg;
+						[_taskUnit, format [localize "STR_BCE_CFF_MSG_SPLASH", _MSN_Key], "CFF_SPLASH"] call BCE_fnc_Send_Task_RadioMsg;
 					};
 				};
 
@@ -152,17 +157,19 @@ private _taskUnit = switch (typeName _unit) do {
 							_RECUR_INTERVAL
 						] spawn BCE_fnc_CFF_Action;
 					} else {
-						/* 
-						//- Remove Stored infos
-						_taskUnit removeEventHandler [_thisEvent, _thisEventHandler];
+						/* //- Remove Stored infos
 						[["chargeInfo","MSN_FIRE_EH"], nil, _taskUnit] call BCE_fnc_set_CFF_Value; */
 						
 						//- #LINK - functions/CAS_Menu/Call_for_Fire/fn_CFF_Mission_STOP.sqf
 						//- Remove Task From Unit (FULL DELETE)
-							_taskUnit setVariable ["#CFF_MSN_Data", nil];
+							_taskUnit removeEventHandler [_thisEvent, _thisEventHandler];
+							[{
+								_this setVariable ["#CFF_MSN_Data", nil];
+							}, _taskUnit] call CBA_fnc_execNextFrame;
+							
 							_taskUnit call BCE_fnc_UnstuckUnit;
 
-						if (isformationLeader _taskUnit) then {
+						if (_isMsger) then {
 							[_taskUnit, localize "STR_BCE_CFF_MSG_COMPLETED", "CFF_COMPLETED"] call BCE_fnc_Send_Task_RadioMsg;
 						};
 					};
