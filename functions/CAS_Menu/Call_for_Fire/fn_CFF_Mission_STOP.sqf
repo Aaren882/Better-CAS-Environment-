@@ -22,20 +22,9 @@ private _vehicles = _taskID call BCE_fnc_CFF_Mission_Get_Group_Units;
 	
 	//- Remove the mission EOM
 	if (_remove) then {
-		_taskUnit removeEventHandler ["Fired",["MSN_FIRE_EH", -1, _taskUnit] call BCE_fnc_get_CFF_Value];
-
-		/* [
-			[
-				"CFF_MSN",
-				"RELOAD",
-				"ADD_Delay",
-				"MSN_PROG",
-				"MSN_FIRE_EH",
-				["CFF_MSN", _taskID] joinString ":"
-			],nil,_taskUnit
-		] call BCE_fnc_set_CFF_Value; */
-		_taskUnit setVariable ["#CFF_MSN_Data", nil];
 		_taskUnit call BCE_fnc_UnstuckUnit;
+		_taskUnit removeEventHandler ["Fired",["MSN_FIRE_EH", -1, _taskUnit] call BCE_fnc_get_CFF_Value];
+		_taskUnit setVariable ["#CFF_MSN_Data", nil];
 	};
 } forEach _vehicles;
 
