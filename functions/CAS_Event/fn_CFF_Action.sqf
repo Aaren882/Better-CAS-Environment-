@@ -15,7 +15,7 @@
     This includes setting up the initial shot, handling subsequent shots based on sheaf information,
     and managing the mission progress.
 */
-params ["_unit","_weapon","_MSN_Key",["_delay",2 + (random 0.2)],["_isMsger",true]];
+params ["_unit","_weapon","_MSN_Key",["_delay",10 + (random 3)],["_isMsger",true]];
 
 private _taskUnit = switch (typeName _unit) do {
   case "STRING": {
