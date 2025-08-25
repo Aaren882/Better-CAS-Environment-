@@ -1,7 +1,8 @@
 /*
   NAME : BCE_fnc_get_CFF_Value
 
-  CFF_MSN       : [
+	CFF_MSN				: "ID"
+  CFF_MSN:ID    : [
       "_random_POS",
       "_lbAmmo",
       "_setCount",

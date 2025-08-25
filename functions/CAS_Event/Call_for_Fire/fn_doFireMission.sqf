@@ -24,8 +24,11 @@ if (isnil{_delay}) then {
   {
     params ["_chargeInfo","_taskUnit",["_delay",2]];
 
-    //- Check MSN
-    if ("" == (["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value)) exitWith {};
+    //- Check MSN exist + Permission state
+    if (
+			"" == (["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value)
+			!(["CFF_STATE",false,_taskUnit] call BCE_fnc_get_CFF_Value)
+		) exitWith {};
 
     _chargeInfo params ["_charge", "_angleA", "_ETA", "_pos"];
 

@@ -25,7 +25,15 @@ _MSN_infos params [
 _WPN_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE","_radius_IE","_fuzeVal_IE"];
 _WPN_IA params ["_lbAmmo_IA","_lbFuse_IA",["_fireUnitSel_IA",1],"_setCount_IA","_radius_IA","_fuzeVal_IA"];
 
-_tagGroup setVariable ["CFF_Task_Mission",_MSN_name];
+//- Mission ID setup
+	_tagGroup setVariable ["CFF_Task_Mission",_MSN_name];
+	
+	//- Mark if it's executing mission
+	if (_MSN_name call BCE_fnc_CFF_Mission_CheckActive) then {
+		private _exec_bnt = _tagGroup controlsGroupCtrl 16;
+		_exec_bnt ctrlSetStructuredText parseText "<img image='MG8\AVFEVFX\data\pause.paa'/>";
+		_tagGroup setVariable ["CFF_Task_Mission_EXEC",true];
+	};
 
 //- Apply Infos
   _tag ctrlSetStructuredText parseText format [

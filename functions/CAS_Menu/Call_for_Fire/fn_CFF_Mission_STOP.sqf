@@ -1,0 +1,40 @@
+/*
+  NAME : BCE_fnc_CFF_Mission_STOP
+  
+  Stop Call For Fire Mission
+
+	params ["_taskID",["_remove",false]]
+	
+	_taskID   : Current Mission ID
+	_remove 	: Remove the current unit mission data (CFF_MSN, FIRE_EH, etc)
+*/
+params ["_taskID",["_remove",false]];
+
+private _group = _taskID call BCE_fnc_CFF_Mission_Get_Group;
+private _vehicles = assignedVehicles _group;
+
+{
+	private _taskUnit = _x;
+
+	//- terminate Unit's "fn_do_Aim_CFF.sqf" + Clear "chargeInfo"
+  terminate (["CFF_Action",scriptNull,_taskUnit] call BCE_fnc_get_CFF_Value);
+  [["CFF_Action","CFF_STATE"],nil,_taskUnit] call BCE_fnc_set_CFF_Value;
+	
+	//- Remove the mission EOM
+	if (_remove) then {
+		_taskUnit removeEventHandler ["Fired",["MSN_FIRE_EH", -1, _taskUnit] call BCE_fnc_get_CFF_Value];
+		[
+			[
+				"CFF_MSN",
+				"RELOAD",
+				"ADD_Delay",
+				"MSN_PROG",
+				"MSN_FIRE_EH",
+				["CFF_MSN", _taskID] joinString ":"
+			],nil,_taskUnit
+		] call BCE_fnc_set_CFF_Value;
+		_taskUnit call BCE_fnc_UnstuckUnit;
+	};
+} forEach _vehicles;
+
+nil

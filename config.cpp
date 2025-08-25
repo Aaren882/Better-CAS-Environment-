@@ -882,14 +882,21 @@ class CfgFunctions
 			class CFF_Mission_XMIT;
 
 			class CFF_Mission_EOM; 				//- End of Mission
+			class CFF_Mission_STOP; 			//- Stop/Remove CFF mission
 			class CFF_Mission_RAT; 				//- Record as Target
 			class CFF_Mission_RAT_2_ADD;	//- Add the Mission
 
 			class CFF_Mission_AutoSaveTask;
+
+			class CFF_Mission_Get_Group;
+			class CFF_Mission_CheckActive;
+			class CFF_Mission_CheckActive_Units;
+
 			class CFF_Mission_Get_Values;
 			class CFF_Mission_Set_Values;
 			class CFF_Mission_Get_RAT_Values;
 			class CFF_Mission_Set_RAT_Values;
+
 			class UpdateFireAdjust;
 			class set_FireAdjust_MSN_State;
 			class CleanFireAdjustValues;

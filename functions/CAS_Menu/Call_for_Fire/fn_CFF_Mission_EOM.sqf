@@ -31,18 +31,5 @@ private _curMSN = ["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value;
 //- #NOTE - Check if the current mission matches the taskID
 	if (_curMSN != _taskID) exitWith {};
 
-//- Remove Task From Unit
-  _taskUnit removeEventHandler ["Fired", ["MSN_FIRE_EH", -1, _taskUnit] call BCE_fnc_get_CFF_Value];
-  terminate (["CFF_Action",scriptNull,_taskUnit] call BCE_fnc_get_CFF_Value);
-  [
-    [
-      "CFF_MSN",
-      "MSN_PROG",
-      "MSN_FIRE_EH",
-      "chargeInfo",
-      "CFF_Action",
-      ["CFF_MSN", _taskID] joinString ":"
-    ],nil,_taskUnit
-  ] call BCE_fnc_set_CFF_Value;
-  _taskUnit call BCE_fnc_UnstuckUnit;
-
+//- Remove Task From Unit (FULL DELETE)
+	[_taskID,true] call BCE_fnc_CFF_Mission_STOP;

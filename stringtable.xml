@@ -2003,6 +2003,11 @@
 				<Chinese>收到。結束任務。</Chinese>
 				<Chinesesimp>收到。结束任务。</Chinesesimp>
 			</Key>
+			<Key ID="STR_BCE_CFF_MSG_CHECK_FIRE">
+				<Original>Roger. Check Fire.</Original>
+				<Chinese>收到。停止射擊。</Chinese>
+				<Chinesesimp>收到。停止射击。</Chinesesimp>
+			</Key>
 			<Key ID="STR_BCE_CFF_MSG_RAT">
 				<Original>Roger. Record as Target.</Original>
 				<Chinese>收到。紀錄為目標。</Chinese>

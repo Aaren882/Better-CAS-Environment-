@@ -286,8 +286,9 @@ private _random_POS = nil;
   private _MagData = createHashMap;
   private _MagFire = createHashMap;
 
-  private _vehs = (units _group) apply {vehicle _x}; 
-  _vehs = _vehs arrayIntersect _vehs;
+  /* private _vehs = (units _group) apply {vehicle _x}; 
+  _vehs = _vehs arrayIntersect _vehs; */
+	private _vehs = assignedVehicles _group;
 
   //- Magazines Data
   {

@@ -22,8 +22,7 @@ params [
   "_taskID"
 ];
 
-private _pool = localNamespace getVariable ["#BCE_CFF_Task_Pool", createHashMap];
-private _group = _pool getOrDefault [_taskID, grpNull];
+private _group = _taskID call BCE_fnc_CFF_Mission_Get_Group;
 
 //- Check _taskUnit exist
   if (isnull _group) exitWith {[]};

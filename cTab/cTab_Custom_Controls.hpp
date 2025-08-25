@@ -201,7 +201,7 @@
 				class Exec_bnt: Msg_bnt
 				{
 					text = "<img image='MG8\AVFEVFX\data\start.paa'/>";
-					onButtonClick = "[_this # 0, 'START'] call BCE_fnc_CFF_Mission_XMIT";
+					onButtonClick = "[_this # 0, 'EXEC'] call BCE_fnc_CFF_Mission_XMIT";
 				};
 				class adjust_bnt: Edit_bnt
 				{
