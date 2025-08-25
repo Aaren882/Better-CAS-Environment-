@@ -6,10 +6,11 @@
 params ["_taskID"];
 
 private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
-private _curMSN = ["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value;
 
-//- #NOTE - Remove mission
-	// [_taskID, nil, _taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
+//- Remove Task From Unit (FULL DELETE)
+	[_taskID,true] call BCE_fnc_CFF_Mission_STOP;
+
+//- #NOTE - Remove mission (MUST be after Task is removed from the units)
 	[
 		"Delete",
 		_taskUnit,
@@ -27,9 +28,3 @@ private _curMSN = ["CFF_MSN","",_taskUnit] call BCE_fnc_get_CFF_Value;
       "CFF_EOM"
     ] call BCE_fnc_Send_Task_RadioMsg;
   };
-
-//- #NOTE - Check if the current mission matches the taskID
-	if (_curMSN != _taskID) exitWith {};
-
-//- Remove Task From Unit (FULL DELETE)
-	[_taskID,true] call BCE_fnc_CFF_Mission_STOP;

@@ -889,6 +889,7 @@ class CfgFunctions
 			class CFF_Mission_AutoSaveTask;
 
 			class CFF_Mission_Get_Group;
+			class CFF_Mission_Get_Group_Units;
 			class CFF_Mission_CheckActive;
 			class CFF_Mission_CheckActive_Units;
 

@@ -1,5 +1,5 @@
 /*
-  NAME : BCE_fnc_CFF_Mission_CheckActive_Units
+  NAME : BCE_fnc_CFF_Mission_Get_Group_Units
   
   Description:
 		Check if the mission is active on what vehicles and return the active units
@@ -19,6 +19,5 @@ private _group  = _taskID call BCE_fnc_CFF_Mission_Get_Group;
 	//- #NOTE - current unit CFF Mission
 	private _curMSN = ["CFF_MSN", "", _x] call BCE_fnc_get_CFF_Value;
 	
-	_curMSN == _taskID && 	//- Same ID
-	_state									//- Check permission state					
+	_curMSN == _taskID 	//- Same ID
 };

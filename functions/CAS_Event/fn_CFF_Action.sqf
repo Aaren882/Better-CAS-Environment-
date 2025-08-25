@@ -152,12 +152,15 @@ private _taskUnit = switch (typeName _unit) do {
 							_RECUR_INTERVAL
 						] spawn BCE_fnc_CFF_Action;
 					} else {
-						// (gunner _taskUnit) doWatch objNull; //- Turn Away if Fire Mission End
-						_taskUnit call BCE_fnc_UnstuckUnit;
-
+						/* 
 						//- Remove Stored infos
 						_taskUnit removeEventHandler [_thisEvent, _thisEventHandler];
-						[["chargeInfo","MSN_FIRE_EH"], nil, _taskUnit] call BCE_fnc_set_CFF_Value;
+						[["chargeInfo","MSN_FIRE_EH"], nil, _taskUnit] call BCE_fnc_set_CFF_Value; */
+						
+						//- #LINK - functions/CAS_Menu/Call_for_Fire/fn_CFF_Mission_STOP.sqf
+						//- Remove Task From Unit (FULL DELETE)
+							_taskUnit setVariable ["#CFF_MSN_Data", nil];
+							_taskUnit call BCE_fnc_UnstuckUnit;
 
 						if (isformationLeader _taskUnit) then {
 							[_taskUnit, localize "STR_BCE_CFF_MSG_COMPLETED", "CFF_COMPLETED"] call BCE_fnc_Send_Task_RadioMsg;
