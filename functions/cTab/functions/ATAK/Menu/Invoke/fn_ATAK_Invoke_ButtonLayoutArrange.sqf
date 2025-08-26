@@ -31,7 +31,7 @@ _ctrlPOS set [2, (_ctrlPOS # 2) / 4];
 		_subInfos params ["_subMenu","_curLine"];
 
 //- Invoke Layout Function #NOTE - Get "ATAK_Buttons"
-[_ctrls,_ctrlPOS,_interfaceInit] call {
+[_ctrls,_ctrlPOS,_subMenu,_interfaceInit] call {
 
 	//- Get "ATAK_Buttons" from Config
 		(_page call BCE_fnc_ATAK_getAPPs_props) params ["","","_subMenus","_config"];

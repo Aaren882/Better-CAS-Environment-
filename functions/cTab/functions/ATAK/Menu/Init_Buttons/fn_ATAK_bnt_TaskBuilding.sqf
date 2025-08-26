@@ -1,4 +1,4 @@
-params ["_ctrlBnts","_ctrlPOS","_interfaceInit"];
+params ["_ctrlBnts","_ctrlPOS","_subMenu","_interfaceInit"];
 _ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
 
 private _cateClass = [] call BCE_fnc_get_BCE_TaskCateClass; //- AIR, GND, OTH

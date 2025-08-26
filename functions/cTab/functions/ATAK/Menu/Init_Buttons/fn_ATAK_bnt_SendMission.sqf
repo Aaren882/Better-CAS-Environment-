@@ -1,4 +1,4 @@
-params ["_ctrlBnts","_ctrlPOS","_interfaceInit"];
+params ["_ctrlBnts","_ctrlPOS","_subMenu","_interfaceInit"];
 _ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
 
 private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
