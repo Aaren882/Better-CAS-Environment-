@@ -1,5 +1,5 @@
 params ["_control","_MenuGroup","_settings"];
-_ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
+// _ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
 
 //- Mission Builders
 _settings params ["","","_subInfos"];
@@ -30,8 +30,8 @@ private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 			};
 			_grp addWaypoint [getpos _vehicle, 0];
 			
-			_bnt_Ent ctrlSetText localize "STR_BCE_SendData";
-			_bnt_Ent ctrlSetBackgroundColor ([
+			_control ctrlSetText localize "STR_BCE_SendData";
+			_control ctrlSetBackgroundColor ([
 				(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77]),
 				(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51]),
 				(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08]),
@@ -54,6 +54,6 @@ private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
 		
 		//- Finally Send
 		if ([_vehicle] call BCE_fnc_SendTaskData && _cateClass == "AIR") then {
-			_bnt_Ent ctrlSetText localize "STR_BCE_Abort_Task";
-			_bnt_Ent ctrlSetBackgroundColor [1,0,0,0.5];
+			_control ctrlSetText localize "STR_BCE_Abort_Task";
+			_control ctrlSetBackgroundColor [1,0,0,0.5];
 		};
