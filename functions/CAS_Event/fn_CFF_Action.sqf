@@ -36,18 +36,21 @@ private _taskUnit = switch (typeName _unit) do {
 		};
 
 	//- #ANCHOR - Check Mission exist
-		//if (!isnull (["CFF_Action", scriptNull, _taskUnit] call BCE_fnc_get_CFF_Value)) exitWith {
 		if (["CFF_STATE", false, _taskUnit] call BCE_fnc_get_CFF_Value) exitWith {
 			if (_isMsger) then {
 				[_taskUnit, localize "STR_BCE_CFF_MSG_MISSION_PROGRESS", "CFF_IN_PROGRESS"] call BCE_fnc_Send_Task_RadioMsg;
 			};
 		};
-
+	
+	private _isNewTask = (-1 == ["MSN_PROG", -1, _taskUnit] call BCE_fnc_get_CFF_Value);
 	//- Send Msg 
 		if (_isMsger) then {
-			switch (["CFF_MSN", "", _taskUnit] call BCE_fnc_get_CFF_Value) do {
+			switch (true) do {
 				//- if still the same mission (SUPPRESSION RECURSION)
-				case _MSN_Key: {
+				case (
+					_isNewTask && //- it's a new round all over again
+					_MSN_Key == ["CFF_MSN", "", _taskUnit] call BCE_fnc_get_CFF_Value
+				): {
 					[
 						_taskUnit,
 						format [
@@ -64,9 +67,11 @@ private _taskUnit = switch (typeName _unit) do {
 		};
 
 	//- Save Mission Values
+		if (_isNewTask) then {
+			["MSN_PROG", 0, _taskUnit] call BCE_fnc_set_CFF_Value; //- Make sure the Mission is applied.
+		};
 		["CFF_MSN", _MSN_Key, _taskUnit] call BCE_fnc_set_CFF_Value;
 		["CFF_STATE", true, _taskUnit] call BCE_fnc_set_CFF_Value;
-		["MSN_PROG", 0, _taskUnit] call BCE_fnc_set_CFF_Value; //- Make sure the Mission is applied.
 		["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
 		["CFF_MSGER", _isMsger, _taskUnit] call BCE_fnc_set_CFF_Value; //- #NOTE - Set Messager
 
@@ -153,11 +158,13 @@ private _taskUnit = switch (typeName _unit) do {
 
 				//- Prepare next round
 					private _chargeInfo = [_taskUnit, _lbAmmo, AGLToASL _pos, _angleType, _weapon] call BCE_fnc_getCharge;
-					[_taskUnit, _chargeInfo] call BCE_fnc_doAim_CFF;
+					[_taskUnit, _chargeInfo] spawn BCE_fnc_doAim_CFF;
 			} else {
 				_MSN_RECUR params [["_RECUR_COUNT",0],["_RECUR_INTERVAL",60]];
-
-				["CFF_STATE", nil, _taskUnit] call BCE_fnc_set_CFF_Value;
+				
+				//- Very temporarily (like a frame)
+					// : this make sure the fire mission start over again
+					[["CFF_STATE","MSN_PROG"], nil, _taskUnit] call BCE_fnc_set_CFF_Value;
 				
 				//- #SECTION - Finished CFF MSN
 					//- Recursion (FOR SUPPRESSION)
