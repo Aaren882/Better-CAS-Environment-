@@ -35,7 +35,7 @@ switch _curLine do {
 			private _ammoCount = _taskUnit magazineTurretAmmo [_fireAmmo, _turret];
 
 			//- Get weapon info (if "_interval_C" is checked)
-			private _reloadTime = if (_interval_C == 1) then {
+				/* private _reloadTime = if (_interval_C == 1) then {
 					private _weapon = _taskUnit currentWeaponTurret _turret;
 					private _weaponCfg = configFile >> "CfgWeapons" >> _weapon;
 
@@ -47,11 +47,22 @@ switch _curLine do {
 						] call BIS_fnc_returnConfigEntry;
 				} else {
 					60
+				}; */
+			private _reloadTime = call {
+					private _weapon = _taskUnit currentWeaponTurret _turret;
+					private _weaponCfg = configFile >> "CfgWeapons" >> _weapon;
+
+					// - Get Reload time from CfgWeapons
+						[
+							_weaponCfg >> currentWeaponMode _gunner,
+							"reloadTime",
+							getNumber (_weaponCfg >> "reloadTime")
+						] call BIS_fnc_returnConfigEntry;
 				};
 
 				//- Roll back to default reload time if not exist
 				if (_reloadTime == 0) then {
-					_reloadTime = 60;
+					_reloadTime = 10;
 				};
 		// #!SECTION
 
@@ -68,12 +79,41 @@ switch _curLine do {
 
 		//- #NOTE - ["DURATION (min)","ROUNDS","INTERVAL (min)"]
 		_result params ["_duration_V","_rounds_V","_interval_V"];
+		
+		//- interval into seconds
+			private _inval = if (_interval_C == 1) then {
+				[_interval_V * 60, _interval_V] select _MinSec_C;
+			} else {
+				60
+			};
+
+		//- #ANCHOR - the new way
+			private _rnds_Cnt = floor (_ammoCount / _rounds_V);
+			if (_duration_C == 1) then {
+				// 300 / (16 + 10)
+				//- 300(sec) / {[2(rnds) * _reloadTime] + 20(sec)_inval}
+				_rnds_Cnt = floor ((_duration_V * 60) / ((_rounds_V * _reloadTime) + _inval));
+			};
+		
+		//- Check if the "duration" and "interval" are reasonable.
+			if (
+				(
+					_duration_C == 1 &&
+					(_inval > _duration_V * 60)
+				) ||
+				_rnds_Cnt == 0
+			) exitWith {
+				systemChat "Duration and Interval setup doesn't make sense...";
+				_outputText ctrlSetText "--";
+			};
+				
+		_result pushBack _rnds_Cnt; //- PushBack how many rounds will be executed
 
 		//- ex. 30 sec => 30/60 = 0.5 min
-			private _inval = _interval_V / ([1,60] select (_MinSec_C == 1));	//- Transform second => minute
+			/* private _inval = _interval_V / ([1,60] select (_MinSec_C == 1));	//- Transform second => minute
 			private _maxRounds = 1 max (floor ((_inval * 60) / _reloadTime)); //- Max shells for each interval
 			private _rnds_Cnt = [ 					//- ex. 3 min 3 rounds every 30sec
-				_ammoCount, 									//- #NOTE - If "duration" is not specified => "Maximum rounds"
+				floor (_ammoCount / _rounds_V), 									//- #NOTE - If "duration" is not specified => "Maximum rounds"
 				floor (_duration_V / _inval)
 			] select (_duration_C == 1);
 		
@@ -114,6 +154,12 @@ switch _curLine do {
 			"Total : %1 Shell(s) & %2 Rnd(s)", //- Total (Shots / Rounds)
 			round _rounds_V * _rnds_Cnt,
 			_rnds_Cnt
+		]; */
+
+		_outputText ctrlSetText format [
+			"Result : %1 Shell(s) & %2 Rnd(s)", //- Total (Shots / Rounds)
+			round _rounds_V * _rnds_Cnt,
+			_rnds_Cnt
 		];
 
 		//- Output how many shell will be shot
@@ -125,9 +171,7 @@ switch _curLine do {
 		_taskVar set [3, _taskVar_3];
 	};
 
-	default { //- By Default
-		call BCE_fnc_DataReceive_ADJ;
-	};
+	default BCE_fnc_DataReceive_ADJ;
 };
 
 private _taskVar_0 = _taskVar # 0;
