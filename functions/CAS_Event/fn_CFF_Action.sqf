@@ -11,7 +11,7 @@
   Description:
     Do Artillery Mission for individuals
     
-    Handles the logic for an Adjust Fire mission in Call for Fire.
+    Handles the logic for an given Fire mission parameters in Call for Fire.
     This includes setting up the initial shot, handling subsequent shots based on sheaf information,
     and managing the mission progress.
 */
