@@ -17,7 +17,10 @@ private _condition = switch (_cateClass) do {
 		private _curMSN = ["CFF_Mission",[]] call BCE_fnc_get_TaskCurSetup;
 		_curMSN params [["_taskData",""]];
 		
-		if (_taskData == "") exitWith {false}; //- #NOTE - mission doesn't exist
+		if (
+			_taskData == "" || //- #NOTE - mission doesn't exist
+			_subMenu != "Task_CFF_Action" //- must be "Task_CFF_Action" menu
+		) exitWith {false};
 
 		//- RETURN
 		_taskData call BCE_fnc_CFF_Mission_CheckActive;
