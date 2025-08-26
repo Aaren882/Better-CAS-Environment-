@@ -18,9 +18,11 @@ switch _curLine do {
 		{
 			_x params ["_lbAmmo","_lbFuze","_lbFireUnits","_editRounds","_editFuzeVal"];
 
+			if (isNull _lbAmmo) then {continue};
+			
 			//-Get Data
 				private _fireAmmo = _lbAmmo lbData (lbCurSel _lbAmmo);
-				private _data = _mapValue getOrDefault [_fireAmo, []];
+				private _data = _mapValue getOrDefault [_fireAmmo, []];
 				_data params ["",["_maxMagazine",1],"_count", "",["_ammoType",""]];
 
 				private _fireUnitSel = lbCurSel _lbFireUnits;
@@ -105,7 +107,5 @@ switch _curLine do {
 		_taskVar set [0,_result];
 	};
 
-	default { //- By Default
-		call BCE_fnc_DataReceive_SUP;
-	};
+	default BCE_fnc_DataReceive_SUP;
 };
