@@ -2,20 +2,31 @@ params ["_ctrlBnts","_ctrlPOS","_interfaceInit"];
 _ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
 
 private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
-private _condition = (_vehicle getVariable ["BCE_Task_Receiver",""]) != "";
 
 private _cateClass = [] call BCE_fnc_get_BCE_TaskCateClass; //- AIR, GND, OTH
 private _width = _ctrlPOS # 2;
 private _SelBnts =+ _ctrlBnts;
 
-switch (_cateClass) do {
+//- Check for button style
+private _condition = switch (_cateClass) do {
   case "GND": {
     _bnt_third ctrlshow false;
     _width = (_ctrlPOS # 2) * 4/3;
     _SelBnts = [_bnt_back,_bnt_Ent,_bnt_result];
+
+		private _curMSN = ["CFF_Mission",[]] call BCE_fnc_get_TaskCurSetup;
+		_curMSN params [["_taskData",""]];
+		
+		if (_taskData == "") exitWith {false}; //- #NOTE - mission doesn't exist
+
+		//- RETURN
+		_taskData call BCE_fnc_CFF_Mission_CheckActive;
   };
   default {
     _bnt_third ctrlshow true;
+
+		//- RETURN
+		(_vehicle getVariable ["BCE_Task_Receiver",""]) != "";
   };
 };
 
