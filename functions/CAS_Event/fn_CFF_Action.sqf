@@ -169,20 +169,20 @@ private _taskUnit = switch (typeName _unit) do {
 				//- #SECTION - Finished CFF MSN
 					//- Recursion (FOR SUPPRESSION)
 					if (_RECUR_COUNT > 0 && _hasAmmo) then {
-						_MSN_RECUR set [0, _RECUR_COUNT - 1];
-						_CFF_info set [7, _MSN_RECUR];
-						[_MSN_NAME, _CFF_info, _taskUnit] call BCE_fnc_set_CFF_Value;
-						
 						if (_isMsger) then {
 							[
 								_taskUnit,
 								format [
 									localize "STR_BCE_CFF_MSG_SUPPRESS_ROUNDS",
 									_MSN_Key,
-									_RECUR_COUNT - 1
+									_RECUR_COUNT
 								],
 								"CFF_SUPPRESS_COUNT_DOWN"
 							] call BCE_fnc_Send_Task_RadioMsg;
+
+							_MSN_RECUR set [0, _RECUR_COUNT - 1];
+							_CFF_info set [7, _MSN_RECUR];
+							[_MSN_NAME, _CFF_info, _taskUnit] call BCE_fnc_set_CFF_Value;
 						};
 						
 						[

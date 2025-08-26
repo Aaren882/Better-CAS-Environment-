@@ -75,7 +75,10 @@ private _RECURSION_INFO = [0,0]; //- [RECUR_COUNT, RECUR_INTERVAL (Sec)] #NOTE -
       
       _MSN_State = _SkipAdjust_C;
       if (_MSN_State == 1) then { //- #NOTE - Only on FFE
-        _RECURSION_INFO = [_rnds_Cnt, _interval_V * ([60, 1] select (_MinSec_C == 1))];
+        _RECURSION_INFO = [
+					_rnds_Cnt - 1, //- #NOTE - Need to minus 1 ,so it won't have extra 1 round
+					_interval_V * ([60, 1] select (_MinSec_C == 1))
+				];
       };
     };
 		case 2: { //- Imm-Suppression
