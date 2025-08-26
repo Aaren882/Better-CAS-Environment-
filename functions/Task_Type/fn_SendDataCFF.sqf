@@ -38,10 +38,8 @@ private _MSN_Prepare = true;
 //- #NOTE - "At-Ready" by default
 _MOC_Values params [["_MOC_Type",0,[0]],["_MOC_Value",0,[0]]];
 
-private _prepare_Minutes = 3;
-private _RECURSION_INFO = [0,0]; //- [RECUR_COUNT, RECUR_INTERVAL (Sec)] #NOTE - For each unit
-
 //- Method of control
+	private _prepare_Minutes = 3;
   private _MOC = switch (typeName _MOC_Value) do {
     case "STRING": { //- STRING "164800" => "HHMMSS"
       private _time = (parseNumber _MOC_Value) - _prepare_Minutes;
@@ -64,6 +62,7 @@ private _RECURSION_INFO = [0,0]; //- [RECUR_COUNT, RECUR_INTERVAL (Sec)] #NOTE -
   };
 
 //- Mission Type
+	private _RECURSION_INFO = [0,0]; //- [RECUR_COUNT, RECUR_INTERVAL (Sec)] #NOTE - For each unit
   switch (_taskType) do {
     case 1: { //- Suppression
       //- ex. ["NA",[],[[8,1,8],[1,1,1,1,0]]]
