@@ -1875,6 +1875,11 @@
 			<Chinese>略過校準: [O]</Chinese>
 			<Chinesesimp>跳过校准: [O]</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_CFF_SUP_DESC_Result">
+			<Original>Result : %1 Shell(s) &amp; %2 Rnd(s)</Original>
+			<Chinese>結果 : %1 發砲彈 &amp; 共 %2 輪次</Chinese>
+			<Chinesesimp>结果 : %1 发炮弹 &amp; 共 %2 轮次</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_CFF_SUP_DURATION_Tip">
 			<Original>Duration in minutes</Original>
 			<Chinese>持續時間 (分鐘)</Chinese>

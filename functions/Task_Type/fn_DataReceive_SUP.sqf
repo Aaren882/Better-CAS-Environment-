@@ -157,7 +157,7 @@ switch _curLine do {
 		]; */
 
 		_outputText ctrlSetText format [
-			"Result : %1 Shell(s) & %2 Rnd(s)", //- Total (Shots / Rounds)
+			localize "STR_BCE_CFF_SUP_DESC_Result", //- Total (Shots / Rounds)
 			round _rounds_V * _rnds_Cnt,
 			_rnds_Cnt
 		];
