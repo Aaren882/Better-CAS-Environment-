@@ -16,7 +16,7 @@ private _vehicles = _taskID call BCE_fnc_CFF_Mission_Get_Group_Units;
 {
 	private _taskUnit = _x;
 
-	//- terminate Unit's "fn_do_Aim_CFF.sqf" + Clear "chargeInfo"
+	//- terminate Unit's "fn_do_Aim_CFF.sqf"
   terminate (["CFF_Action",scriptNull,_taskUnit] call BCE_fnc_get_CFF_Value);
   [["CFF_Action","CFF_STATE"],nil,_taskUnit] call BCE_fnc_set_CFF_Value;
 	
