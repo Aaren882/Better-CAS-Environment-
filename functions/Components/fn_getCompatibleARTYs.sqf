@@ -19,12 +19,7 @@ _vehs */
 private _groups = [];
 private _result = [];
 private _list = vehicles Select {
-  (
-    _x isKindOf "MBT_01_arty_base_F" ||
-    _x isKindOf "MBT_01_mlrs_base_F" ||
-    _x isKindOf "MBT_02_arty_base_F" ||
-    _x isKindOf "StaticMortar"
-  ) &&
+  (getArtilleryAmmo [_x]) findIf {true} > -1 &&
   (alive gunner _x) &&
   (playerSide == side _x)
 };
