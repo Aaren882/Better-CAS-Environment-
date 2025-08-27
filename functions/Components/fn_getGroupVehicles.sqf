@@ -7,5 +7,5 @@
 
 params ["_group"];
 
-private _vehs = (units _group) apply {vehicle _x}; 
-_vehs arrayIntersect _vehs
+private _vehs = (units _group) apply {objectParent _x}; 
+(_vehs arrayIntersect _vehs) select {alive _x};
