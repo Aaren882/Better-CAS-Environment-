@@ -26,23 +26,33 @@ private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_
 private _grp = group _taskUnit;
 
 //- get custom Groups
-private _CFF_Missions = (
-    [
-      _grp getVariable ["BCE_CFF_Task_Pool",createHashMap],
-      localNamespace getVariable ["#BCE_CFF_Task_RAT_Pool",createHashMap]
-    ] # _cateSel
-      
-  /* createHashMapFromArray [
-    ["AB0001",["Adjust Fire","11112222", player, 5]],
-    ["AB0002",["Suppress","33334456", player,5,3]]
-  ] */
-) toArray false;
-// reverse _CFF_Missions;
+	[
+		"RequestTasks",
+		_taskUnit,
+		[_grp, call CBA_fnc_currentUnit]
+	] call BCE_fnc_Send_MSN_CFF;
+	
+	[{
+		params ["_grp","_cateSel","_listGroup","_isDialog"];
+		private _CFF_Missions = (
+			[
+				_grp getVariable ["BCE_CFF_Task_Pool",createHashMap],
+				localNamespace getVariable ["#BCE_CFF_Task_RAT_Pool",createHashMap]
+			] # _cateSel
+					
+			/* createHashMapFromArray [
+				["AB0001",["Adjust Fire","11112222", player, 5]],
+				["AB0002",["Suppress","33334456", player,5,3]]
+			] */
+		) toArray false;
+		// reverse _CFF_Missions;
 
-//- Create DropMenu 
-  [
-    ["ATAK_CFF_STD","ATAK_CFF_RAT"] # _cateSel,
-    _listGroup,
-    _isDialog,
-    _CFF_Missions
-  ] call BCE_fnc_Create_ATAK_Custom_DropMenu;
+		//- Create DropMenu 
+			[
+				["ATAK_CFF_STD","ATAK_CFF_RAT"] # _cateSel,
+				_listGroup,
+				_isDialog,
+				_CFF_Missions
+			] call BCE_fnc_Create_ATAK_Custom_DropMenu;
+
+	}, [_grp,_cateSel,_listGroup,_isDialog]] call CBA_fnc_execNextFrame;

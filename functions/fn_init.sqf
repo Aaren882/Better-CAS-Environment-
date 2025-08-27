@@ -55,7 +55,7 @@ call BCE_fnc_ClientSide;
 				format ["BCE_%1_Mission", _x], 
 				uiNamespace getVariable format ["BCE_fnc_%1_Task_Event", _x]
 			] call CBA_fnc_addEventHandler;
-		} forEach ["Send","Delete","Record"];
+		} forEach ["Send","Delete","Record","RequestTasks","RespondTasks"];
 //- #!SECTION
 //////////////////////////////////////////////////////////////////////////////////////////////////
 ["turret", {

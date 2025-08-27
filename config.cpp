@@ -765,6 +765,8 @@ class CfgFunctions
 			class Send_Task_Event;
 			class Delete_Task_Event;
 			class Record_Task_Event;
+			class RequestTasks_Task_Event;
+			class RespondTasks_Task_Event;
 		};
 		class WPN_CheckList
 		{
