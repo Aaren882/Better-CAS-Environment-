@@ -21,7 +21,7 @@ private _gunner = gunner _taskUnit;
 			str groupId _taskUnit
 		], "CFF_NO_CARGE"] call BCE_fnc_Send_Task_RadioMsg;
 
-		_this setVariable ["#CFF_MSN_Data", nil];
+		_taskUnit setVariable ["#CFF_MSN_Data", nil];
 	};
 
 private _isMsger = ["CFF_MSGER", false, _taskUnit] call BCE_fnc_get_CFF_Value;
