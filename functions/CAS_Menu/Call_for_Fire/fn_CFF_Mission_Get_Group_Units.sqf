@@ -15,7 +15,7 @@ params ["_taskID"];
 
 private _group  = _taskID call BCE_fnc_CFF_Mission_Get_Group;
 
-(assignedVehicles _group) select {
+(_group call BCE_fnc_getGroupVehicles) select {
 	//- #NOTE - current unit CFF Mission
 	private _curMSN = ["CFF_MSN", "", _x] call BCE_fnc_get_CFF_Value;
 	

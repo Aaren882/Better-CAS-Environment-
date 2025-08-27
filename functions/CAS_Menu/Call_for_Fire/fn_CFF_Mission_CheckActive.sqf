@@ -13,7 +13,7 @@ params ["_taskID"];
 
 private _group  = _taskID call BCE_fnc_CFF_Mission_Get_Group;
 
-private _findIndex = (assignedVehicles _group) findIf {
+private _findIndex = (_group call BCE_fnc_getGroupVehicles) findIf {
 	//- #NOTE - current unit CFF Mission
 	private _curMSN = ["CFF_MSN", "", _x] call BCE_fnc_get_CFF_Value;
 	private _state = ["CFF_STATE", false, _x] call BCE_fnc_get_CFF_Value;

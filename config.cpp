@@ -641,6 +641,7 @@ class CfgFunctions
 			class getUnitParams;
 			class getMagazineAmmo;
 			class getAmmoType;
+			class getGroupVehicles;
 			class CFF_getAmmoType;
 
 			class Add_CountDown;
