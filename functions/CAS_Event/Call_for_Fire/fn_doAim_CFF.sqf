@@ -31,6 +31,7 @@ private _turretConfig = [_taskUnit, _turretPath] call CBA_fnc_getTurret;
 private _gunAnim = getText(_turretConfig >> "gun");
 private _gunBeg = getText(_turretConfig >> "gunBeg");
 private _gunEnd = getText(_turretConfig >> "gunEnd");
+private _last_aimDir = 0;
 
 while {true} do {
 	
@@ -41,18 +42,15 @@ while {true} do {
 	) then {
 		_taskUnit removeEventHandler ["Fired", ["MSN_FIRE_EH", -1, _taskUnit] call BCE_fnc_get_CFF_Value];
 		[["MSN_FIRE_EH","MSN_PROG"], nil,_taskUnit] call BCE_fnc_set_CFF_Value;
-		// [_handlerID] call CBA_fnc_removePerFrameHandler;
 		break;
 	};
 	
 	///- Get Mission Infos
 		private _CFF_info = _taskUnit call BCE_fnc_getCurUnit_CFF;
 
-	//- Start with 0
-
 	// Make unit aim.
 		(gunner _taskUnit) doWatch _pos;
-		_pos = AGLToASL _pos; //- Replace with ASL
+		// ## _pos = AGLToASL _pos; //- Replace with ASL 
 
 	//- Check Vectors from _posUnit "VecUp" to "VecAim"
 		// private _posUnit = getPosASLVisual _taskUnit;
@@ -76,11 +74,14 @@ while {true} do {
 
 	// Check if the unit is aiming with the correct angle.
 		// private _difference = abs(_verDegrees - _degVehToAim);
-	
-		private _aimDir = (_posC2 vectorFromTo _pos) vectorDistance (_posC2 vectorFromTo _posA2);
+
+		// ## private _aimDir = (_posC2 vectorFromTo _pos) vectorDistance (_posC2 vectorFromTo _posA2);
+		private _aimDir = (_posC2 vectorFromTo (AGLToASL _pos)) vectorDistance (_posC2 vectorFromTo _posA2);
+
 	//- if _chargeFound Exit
 	// private _chargeFound = _goodDir && _difference < MAX_DIFFERENCE;
-	if (_aimDir < 0.1) exitWith {
+	// ##if (_aimDir < 0.1) exitWith {
+	if (_aimDir == _last_aimDir) exitWith {
 		
 		//- Send ETA to FO
 			if (
@@ -102,37 +103,10 @@ while {true} do {
 			] call CBA_fnc_execNextFrame;
 
 		//- Exit Loop
-		// [_handlerID] call CBA_fnc_removePerFrameHandler;
 		break;
 	};
 
-	sleep 1;
+	//- Make sure there's no noticable deviation
+	_last_aimDir = _aimDir;
+	sleep 3;
 };
-/* [
-	{
-		params ["_args","_handlerID"];
-		_args params[
-			"_taskUnit",
-			"_chargeInfo",
-			"_cfgProps"
-		];
-
-		if (
-			
-		) exitWith {
-			
-		};
-
-		_cfgProps params ["_gunAnim","_gunBeg","_gunEnd"];
-
-		
-
-	}, 1, [
-		_taskUnit,
-		_chargeInfo, [
-			getText(_turretConfig >> "gun"),
-			getText(_turretConfig >> "gunBeg"),
-			getText(_turretConfig >> "gunEnd")
-		]
-	]
-] call CBA_fnc_addPerFrameHandler; */
