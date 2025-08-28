@@ -16,6 +16,9 @@
 params ["_unit", "_magazineType", "_chosenTargetPos", ["_angleType",false], ["_weapon",""]];
 
 private _chargesArray = call BCE_fnc_getAllCharges;
+// diag_log "------------------------------------------";
+// diag_log format ["PARAMS : %1", _this];
 private _chargeInfo = [_unit,_chosenTargetPos,_chargesArray] call BCE_fnc_FindBestCharge;
+// diag_log format ["_chargeInfo : %1", _chargeInfo];
 
 _chargeInfo
