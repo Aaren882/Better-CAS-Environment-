@@ -128,8 +128,8 @@ private _random_POS = nil;
 		//- Save Mission Data
 			[
 				"Send",
-				_taskUnit,
-				[_MSN_Key,_MSN_Values,_taskUnit]
+				[_MSN_Key,_MSN_Values,_taskUnit],
+				_taskUnit
 			] call BCE_fnc_Send_MSN_CFF;
 
     //- RETURN

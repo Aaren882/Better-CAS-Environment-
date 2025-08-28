@@ -13,8 +13,8 @@ private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_
 //- #NOTE - Remove mission (MUST be after Task is removed from the units)
 	[
 		"Delete",
-		_taskUnit,
-		[_taskID, nil, _taskUnit]
+		[_taskID, nil, _taskUnit],
+		_taskUnit
 	] call BCE_fnc_Send_MSN_CFF;
 	
 //- Refresh CFF Mission list

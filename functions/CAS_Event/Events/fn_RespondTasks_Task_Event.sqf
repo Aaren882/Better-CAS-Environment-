@@ -16,20 +16,20 @@
 
 params ["_type","_values","_isLocal"];
 
-diag_log "BCE TASK RESPONDED";
+diag_log format ["BCE TASK RESPONDED : LOCAL - %1",_isLocal];
 //- #NOTE - From remote side
 if (_isLocal) exitWith {};
-
-private _taskUnit = [] call BCE_fnc_get_TaskCurUnit;
+_values params ["_group","_res"];
 
 diag_log format ["BCE TASK RESPOND : %1", _values];
 
 //- Overwrite Current Values
 switch (_type) do {
 	case "CFF": {
-		{
+		_group setVariable ["BCE_CFF_Task_Pool", _res];
+		/* {
 			[_x,_y,_taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
-		} forEach _values;
+		} forEach _values; */
 	};
 };
 

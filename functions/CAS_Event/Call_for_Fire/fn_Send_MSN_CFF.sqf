@@ -12,7 +12,7 @@
 	
 	Return : nil
 */
-params ["_type","_taskUnit","_value"];
+params ["_type","_value","_taskUnit",["_force",false]];
 
 private _event = format ["BCE_%1_Mission",_type];
 
@@ -27,7 +27,8 @@ private _event = format ["BCE_%1_Mission",_type];
 	] call CBA_fnc_LocalEvent;
 
 	//- Send over
-	if !(local _taskUnit) then {
+	diag_log format ["BCE [%1] LOCAL : %2", _type, local _taskUnit];
+	if (!local _taskUnit || _force) then {
 		[
 			_event,
 			[

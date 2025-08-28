@@ -28,8 +28,8 @@ private _grp = group _taskUnit;
 //- get custom Groups
 	[
 		"RequestTasks",
-		_taskUnit,
-		[_grp, call CBA_fnc_currentUnit]
+		[_grp, call CBA_fnc_currentUnit],
+		_taskUnit
 	] call BCE_fnc_Send_MSN_CFF;
 	
 	[{

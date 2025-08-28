@@ -16,7 +16,7 @@
 
 params ["_type","_values","_isLocal"];
 
-diag_log "BCE TASK REQUESTED";
+diag_log format ["BCE TASK REQUESTED : LOCAL - %1",_isLocal];
 //- #NOTE - From remote side
 if (_isLocal) exitWith {};
 
@@ -31,14 +31,11 @@ private _res = switch (_type) do {
 
 diag_log format ["BCE TASK REQUEST : %1", _res];
 [
-	"BCE_RespondTasks_Task_Event",
-	[
-		_type,		//: _type
-		_res,			//: _value
-		false    	//: _isLocal
-	], _requester
-] call CBA_fnc_targetEvent;
-
+	"RespondTasks",	//- Type
+	[_group,_res],	//- Value
+	_requester,			//- To person
+	true						//- _force
+] call BCE_fnc_Send_MSN_CFF;
 
 //- Return
 nil

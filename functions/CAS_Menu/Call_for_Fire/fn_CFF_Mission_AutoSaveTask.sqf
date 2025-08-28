@@ -162,8 +162,8 @@ if !(_Key isEqualType "") exitWith {
     _curValues set _result;
 		[
 			"Send",
-			_taskUnit,
-			[_taskID,_curValues,_taskUnit]
+			[_taskID,_curValues,_taskUnit],
+			_taskUnit
 		] call BCE_fnc_Send_MSN_CFF;
     // [_taskID,_curValues,_taskUnit] call BCE_fnc_CFF_Mission_Set_Values;
   

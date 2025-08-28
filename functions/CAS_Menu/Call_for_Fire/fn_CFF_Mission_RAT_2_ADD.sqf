@@ -42,8 +42,8 @@ if !(_has_Ammo) exitWith {
 //- #NOTE - Add mission
 	[
 		"Send",
-		_taskUnit,
-		[_taskID, _MSN_Info, _taskUnit]
+		[_taskID, _MSN_Info, _taskUnit],
+		_taskUnit
 	] call BCE_fnc_Send_MSN_CFF;
 
 	[
