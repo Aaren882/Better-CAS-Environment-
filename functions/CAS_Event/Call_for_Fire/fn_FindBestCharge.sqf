@@ -12,9 +12,42 @@ params[
 
 _chosenTargetPos params ["_posX","_posY"];
 
-private _gunner = gunner _taskUnit;
-private _turretPath = (assignedVehicleRole _gunner) # 1;
-private _turretConfig = [_taskUnit, _turretPath] call CBA_fnc_getTurret;
+//- Use for grabbing vehicle initial aimed deg
+private _typeOf = typeOf _taskUnit;
+private _cache = localNameSpace getVariable ["#BCE_CFF_Vehicle_Cache", createHashMap];
+
+//- Create cache for getting correct the elevation limits
+	if !(_typeOf in _cache) then {
+		private _temp = createVehicleLocal [_typeOf, [0,0,-1000], [], 0, "CAN_COLLIDE"];
+		_temp allowDamage false;
+
+		private _gunner = gunner _taskUnit;
+		private _turretPath = (assignedVehicleRole _gunner) # 1;
+		private _turretConfig = [_taskUnit, _turretPath] call CBA_fnc_getTurret;
+		
+		private _initElev = getNumber(_turretConfig >> "initElev");
+		private _minElev = getNumber(_turretConfig >> "minElev");
+		private _maxElev = getNumber(_turretConfig >> "maxElev");
+		
+		//- Get barral selection
+			private _gunBeg = getText(_turretConfig >> "gunBeg");
+			private _gunEnd = getText(_turretConfig >> "gunEnd");
+			private _posA2 = _temp modelToWorldWorld (_temp selectionPosition _gunBeg);
+			private _posC2 = _temp modelToWorldWorld (_temp selectionPosition _gunEnd);
+			private _barrelDir = _posC2 vectorFromTo _posA2;
+
+		//- #NOTE - Get the real 0 degree from the temp model
+		private _startElev = acos ((vectorDir _temp) vectorCos _barrelDir);
+		_startElev = _startElev - _initElev;
+		
+		//- [_initElev == _startElev]
+		_cache set [_typeOf, [_startElev + _minElev, _startElev + _maxElev]];
+
+		deleteVehicle _temp;
+		localNameSpace setVariable ["#BCE_CFF_Vehicle_Cache", _cache];
+	};
+
+(_cache get _typeOf) params ["_minElev","_maxElev"];
 
 private _vecUp = vectorUp _taskUnit;
 private _posUnit = getPosASL _taskUnit; 							// Point of angle A.
@@ -22,20 +55,17 @@ private _posUnit = getPosASL _taskUnit; 							// Point of angle A.
 private _heightArtyToSeaLvl = _posUnit # 2;						// Height between triangle and sea level.
 private _posC = [_posX, _posY, _heightArtyToSeaLvl];
 
-private _minElev = getNumber(_turretConfig >> "minElev");
-private _maxElev = getNumber(_turretConfig >> "maxElev");
+//- Get the ARTY surface angle between the target |/_
+// * Calculate pitch angle: vehicle's up vector angle to target minus 90 degrees
+// * This gives us the required elevation angle relative to the vehicle's orientation
+private _degVehToAim = acos (_posC vectorCos _vecUp);
+private _pitchDeg = _degVehToAim - 90;
 
 //- Get AimPOS
 private _chargeInfo = [];
 
 {
 	_x params ["_charge", "_angleA", "_ETA"];
-
-	//- Get the ARTY surface angle between the target |/_
-	// * Calculate pitch angle: vehicle's up vector angle to target minus 90 degrees
-	// * This gives us the required elevation angle relative to the vehicle's orientation
-	private _degVehToAim = acos (_posC vectorCos _vecUp);
-	private _pitchDeg = _degVehToAim - 90;
 
 	//- Check if the required angle is within the turret's elevation limits
 	// * accounting for the vehicle's current pitch

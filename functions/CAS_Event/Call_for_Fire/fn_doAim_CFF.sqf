@@ -15,73 +15,33 @@ _chargeInfo params ["_charge", "_angleA", "_ETA", "_pos"];
 private _gunner = gunner _taskUnit;
 
 //- check "_chargeInfo" exist
-	if (_chargeInfo findIf {true} < 0) exitWith {
-		[_gunner, format [
-			localize "STR_BCE_CFF_MSG_NO_CARGE",
-			str groupId _taskUnit
-		], "CFF_NO_CARGE"] call BCE_fnc_Send_Task_RadioMsg;
-
-		_taskUnit setVariable ["#CFF_MSN_Data", nil];
-	};
+	private _noCharge = _chargeInfo findIf {true} < 0;
 
 private _isMsger = ["CFF_MSGER", false, _taskUnit] call BCE_fnc_get_CFF_Value;
 private _turretPath = (assignedVehicleRole _gunner) # 1;
 private _turretConfig = [_taskUnit, _turretPath] call CBA_fnc_getTurret;
 
-private _gunAnim = getText(_turretConfig >> "gun");
+// private _gunAnim = getText(_turretConfig >> "gun");
 private _gunBeg = getText(_turretConfig >> "gunBeg");
 private _gunEnd = getText(_turretConfig >> "gunEnd");
 private _last_aimDir = 0;
 
-while {true} do {
-	
-	//- Check ARTY Exist
-	if (
-		!alive _taskUnit ||
-		"" == (["CFF_MSN", "", _taskUnit] call BCE_fnc_get_CFF_Value)
-	) then {
-		_taskUnit removeEventHandler ["Fired", ["MSN_FIRE_EH", -1, _taskUnit] call BCE_fnc_get_CFF_Value];
-		[["MSN_FIRE_EH","MSN_PROG"], nil,_taskUnit] call BCE_fnc_set_CFF_Value;
-		break;
-	};
-	
+while {!_noCharge} do {
 	///- Get Mission Infos
 		private _CFF_info = _taskUnit call BCE_fnc_getCurUnit_CFF;
 
 	// Make unit aim.
 		(gunner _taskUnit) doWatch _pos;
-		// ## _pos = AGLToASL _pos; //- Replace with ASL 
-
-	//- Check Vectors from _posUnit "VecUp" to "VecAim"
-		// private _posUnit = getPosASLVisual _taskUnit;
-		// private _vecToAim = _posUnit vectorFromTo _pos;
-		// private _degVehToAim = 90 - acos (_vecToAim vectorCos (vectorUpVisual _taskUnit));
 
 	// Calculate the vertical angle of the unit by using triangle calculations.
-		private _posA2 = _taskUnit modelToWorldVisualWorld (_taskUnit selectionPosition _gunBeg);
-		private _posC2 = _taskUnit modelToWorldVisualWorld (_taskUnit selectionPosition _gunEnd);
-
-	//- Get Turrect ELEV
-	// private _verDegrees = deg (_taskUnit animationPhase _gunAnim);
-
-	// Find direction difference between the direction to the target and the direction of the unit.
-	// If difference is too high, then skip this charge.
-		// private _dirToTarget = _posUnit getDirVisual _pos;
-
-		// private _aimDir = _posC2 getDirVisual _posA2;
-		// private _diff = (_aimDir - _dirToTarget) % 180;
-		// private _goodDir = abs _diff < 5; //- it's pointing correct direction.
+		private _posA2 = _taskUnit modelToWorldWorld (_taskUnit selectionPosition _gunBeg);
+		private _posC2 = _taskUnit modelToWorldWorld (_taskUnit selectionPosition _gunEnd);
 
 	// Check if the unit is aiming with the correct angle.
-		// private _difference = abs(_verDegrees - _degVehToAim);
-
-		// ## private _aimDir = (_posC2 vectorFromTo _pos) vectorDistance (_posC2 vectorFromTo _posA2);
 		private _aimDir = (_posC2 vectorFromTo (AGLToASL _pos)) vectorDistance (_posC2 vectorFromTo _posA2);
 
 	//- if _chargeFound Exit
-	// private _chargeFound = _goodDir && _difference < MAX_DIFFERENCE;
-	// ##if (_aimDir < 0.1) exitWith {
-	if (_aimDir == _last_aimDir) exitWith {
+	if (_aimDir < 0.1) then {
 		
 		//- Send ETA to FO
 			if (
@@ -96,17 +56,37 @@ while {true} do {
 			};
 		["chargeInfo",_chargeInfo,_taskUnit] call BCE_fnc_set_CFF_Value;
 
+		sleep 10;
 		//- Run Fire Mission
-			[
-				uiNamespace getVariable [_CFF_info param [5,""],{}],
-				[_taskUnit,_chargeInfo]
-			] call CBA_fnc_execNextFrame;
+			[_taskUnit,_chargeInfo] call (uiNamespace getVariable [_CFF_info param [5,""],{}]);
 
 		//- Exit Loop
 		break;
 	};
 
-	//- Make sure there's no noticable deviation
+	//- Check ARTY Exist
+		if (
+			!alive _taskUnit ||
+			_aimDir == _last_aimDir ||
+			"" == (["CFF_MSN", "", _taskUnit] call BCE_fnc_get_CFF_Value)
+		) then {
+			_noCharge = true;
+			break;
+		};
+	
 	_last_aimDir = _aimDir;
 	sleep 3;
 };
+
+//- check "_chargeInfo" exist
+	if (_noCharge) exitWith {
+		[_gunner, format [
+			localize "STR_BCE_CFF_MSG_NO_CARGE",
+			str groupId _taskUnit
+		], "CFF_NO_CARGE"] call BCE_fnc_Send_Task_RadioMsg;
+
+		_taskUnit removeEventHandler ["Fired", ["MSN_FIRE_EH", -1, _taskUnit] call BCE_fnc_get_CFF_Value];
+		_taskUnit setVariable ["#CFF_MSN_Data", nil];
+	};
+
+nil
