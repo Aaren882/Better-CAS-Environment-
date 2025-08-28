@@ -112,13 +112,13 @@
 #include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 //- Set File type (cTab/ATAK)
 #ifdef cTAB_Installed
-	[
+	/* [
 		"BCE_PicFile_list", "LIST",
 		[localize "STR_BCE_Select_PIC_FILE"],
 		["Better CAS Environment (cTab ATAK Camera)", localize "STR_BCE_Title_ATAK_CAM_Settings"],
 		[[0,1], ["jpg","png"], 0],
 		2
-	] call CBA_fnc_addSetting;
+	] call CBA_fnc_addSetting; */
 
 	[
 		"BCE_PicFilePath_edit", "EDITBOX",
