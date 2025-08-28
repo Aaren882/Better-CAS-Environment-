@@ -602,6 +602,9 @@ class CfgVehicles
 
 	#include "Compat.hpp"
 };
+
+//- Animation Config
+#include "Extended_Anim_props.hpp"
 class CfgFunctions
 {
 	class BCE
@@ -639,6 +642,15 @@ class CfgFunctions
 			#if __has_include("\MG8\DiscordMessageAPI\config.bin")
 				class Discord_GetWebhooks;
 			#endif
+		};
+		class Anim_Componets
+		{
+			file="MG8\AVFEVFX\Functions\Componets\Animation_Transform";
+			class Anim_Type;
+			class Anim_Init;
+			class Anim_CustomOffset;
+			class Anim_getConfigSteps;
+			class Anim_SmoothDamp;
 		};
 		class HUD
 		{
@@ -706,6 +718,7 @@ class CfgFunctions
 		{
 			file="MG8\AVFEVFX\functions\CAS_Menu";
 			class checkList;
+			class getTaskVar;
 			class DataReceiveButton;
 			class ListSwitch;
 			class TaskListDblCLick;
@@ -785,36 +798,68 @@ class CfgFunctions
 			class ATAK
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK";
-				class ATAK_ChangeTool;
-				class ATAK_openPage;
-				class ATAK_TaskCreate;
 				class ATAK_LastPage;
-				class ATAK_DescType_Changed;
-				class ATAK_TaskTypeChanged;
-				class ATAK_DataReceiveButton;
-				class ATAK_AutoSaveTask;
-				class ATAK_Refresh_TaskInfos;
-				class ATAK_Refresh_Weapons;
 				class ATAK_getScrollValue;
-				class ATAK_PullData;
-				class ATAK_ShowTaskResult;
 				class ATAK_Check_Layout;
-				class ATAK_onVehicleChanged;
-				class ATAK_toggleSubMenu;
 				class ATAK_Camera_Controls;
 			};
-			class ATAK_CAM
-			{
-				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Camera";
-				class ATAK_CamInit;
-				class ATAK_TakePicture;
-				class ATAK_FullScreenCamera;
-			};
-			class ATAK_MSG
-			{
-				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Message";
-				class ATAK_msg_Line_Create;
-			};
+			//- ATAK Menus
+				class ATAK_Fire_Mission
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission";
+					class ATAK_DescType_Changed;
+					class ATAK_TaskTypeChanged;
+					class ATAK_DataReceiveButton;
+					class ATAK_AutoSaveTask;
+					class ATAK_Refresh_TaskInfos;
+					class ATAK_Refresh_Weapons;
+					class ATAK_PullData;
+					class ATAK_ShowTaskResult;
+					class ATAK_onVehicleChanged;
+				};
+				class ATAK_Menu_Init
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Init";
+					class ATAK_setAPPs_props;
+				};
+				class ATAK_Menu
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu";
+					class ATAK_getAPPs;
+					class ATAK_openPage;
+					class ATAK_openMenu;
+					class ATAK_ChangeTool;
+					class ATAK_toggleSubListMenu;
+					class ATAK_getCurrentAPP;
+					class ATAK_ignoreFade_Transform;
+				};
+				class ATAK_Menu_onOpened
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\APP_Menu_onOpened";
+					class ATAK_message_Init;
+					class ATAK_mission_Init;
+					class ATAK_Group_Init;
+					class ATAK_VideoFeeds_Init;
+					class ATAK_mission_SUB_TaskBuilding;
+					class ATAK_mission_SUB_TaskResult;
+				};
+				class ATAK_CAM
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Camera";
+					class ATAK_CamInit;
+					class ATAK_TakePicture;
+					class ATAK_FullScreenCamera;
+				};
+				class ATAK_MSG
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Message";
+					class ATAK_msg_Line_Create;
+				};
+				class ATAK_Group_Menu
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Group";
+					class ATAK_onGroupClicked;
+				};
 		#endif
 	};
 	#ifdef cTAB_Installed

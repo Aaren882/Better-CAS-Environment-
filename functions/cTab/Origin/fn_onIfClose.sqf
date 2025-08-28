@@ -91,7 +91,7 @@ if !(isNil "cTabIfOpen") then {
 	};
 
 	uiNamespace setVariable [_displayName, displayNull];
-	player setVariable ["BCE_TACMap_Visiable",false,true];
+	_player setVariable ["BCE_TACMap_Visiable",false,true];
 	cTabIfOpen = nil;
 };
 

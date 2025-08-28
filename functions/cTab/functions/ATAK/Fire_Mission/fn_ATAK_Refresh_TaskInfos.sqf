@@ -1,4 +1,4 @@
-private ["_List","_fnc"];
+private ["_components","_List","_fnc"];
 
 _components = _display displayCtrl (17000+4662);
 
@@ -15,7 +15,9 @@ _List = [
 } foreach _List;
 
 //-Set DESC Infos
-(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_curLine"];
+(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_subInfos"];
+_subInfos params ["_subMenu","_curLine"];
+
 if (_curLine > count _taskVar) then {
 	_curLine = (count _taskVar) - 1;
 };

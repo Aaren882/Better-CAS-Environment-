@@ -279,7 +279,7 @@ class cTab_Tablet_dlg
 				h = sizeW/1.2 * (safezoneH * 1.2);
 
 				tooltip = "$STR_BCE_Toggle_Marker_Widget";
-				action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleMarkerWidget";
+				action = "['cTab_Tablet_dlg', 17000 + 1300] call cTab_fnc_toggleMarkerWidget";
 			};
 			class Marker_Widgets: cTab_RscControlsGroup
 			{
@@ -328,7 +328,7 @@ class cTab_Tablet_dlg
 						h = MARKER_WIDGET_H;
 						
 						tooltip = "$STR_BCE_Toggle_Marker_Widget";
-						action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleMarkerWidget";
+						action = "['cTab_Tablet_dlg', 17000 + 1300] call cTab_fnc_toggleMarkerWidget";
 					};
 					class Mode_Switch: BCE_RscButtonMenu
 					{
@@ -2154,8 +2154,6 @@ class cTab_FBCB2_dlg
 #define TextTimes 1
 #define TextTimesH 1
 #define TextMenu(MULTI) __EVAL(1.1*MULTI)
-
-#define ATAK_APP(APP,TITLE) #<t size='1'>TITLE</t>
 
 //-ATAK Map
 #include "cTab_Android_Widgets.hpp"

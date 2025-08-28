@@ -2,7 +2,8 @@ params ["_control"];
 private ["_settings","_curType","_taskVar","_display","_ctrlTitle","_TaskList","_components","_isOverwrite","_DESC_Type"];
 
 _settings = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
-_settings params ["_page","_shown","_curLine"];
+_settings params ["_page","_shown","_subInfos"];
+_subInfos params ["_subMenu","_curLine"];
 
 if !(_shown) exitwith {};
 
@@ -14,9 +15,7 @@ if (isnil {_taskVar}) exitWith {hintSilent "Error Variable is empty"};
 _display = ctrlParent _control;
 _ctrlTitle = ctrlText _control;
 
-_TaskList = _display displayCtrl (17000+4661);
-_components = _display displayCtrl (17000+4662);
-
+private _group = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
 private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
 
 //- Sending message ATAK interface only
@@ -26,7 +25,6 @@ private _bnt = (_display displayCtrl 46600) controlsGroupCtrl 11;
 			["MSG","Invaild Recipient...",3] call cTab_fnc_addNotification;
 		};
 
-		private _group = _display displayCtrl (17000+4650);
 		private _typing = _group controlsGroupCtrl 11;
 		private _msgBody = ctrlText _typing;
 
@@ -69,7 +67,7 @@ switch (_ctrlTitle) do {
 			_DESC_Type= uiNamespace getVariable ["BCE_ATAK_Desc_Type",0];
 
 			///-Enter Data
-			_shownCtrls = [_components,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
+			_shownCtrls = [_group,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
 			call ([BCE_fnc_DataReceive9line, BCE_fnc_DataReceive5line] # _curType);
 
 			call BCE_fnc_ATAK_Refresh_TaskInfos;
