@@ -6,14 +6,11 @@
     _taskDetail : (OPTIONAL) Draw Current Task By Default, e.g. [0,1], [1,1]
 */
 
-params [
-  "_map", ["_taskDetail", []]
-];
+params ["_map"];
 
 //- Get Entries
-private _map_Infos = (_taskDetail call BCE_fnc_getDisplayTaskProps) # 3;
+private _map_Infos = localNamespace getVariable ["#BCE_TASK_DRAW_ICONS",[]];
 
 {
-  if (_x == "") then {continue};
-  [_map, _forEachIndex,_taskDetail] call BCE_fnc_draw_TaskMapInfo;
+  _map drawIcon _x;
 } forEach _map_Infos;

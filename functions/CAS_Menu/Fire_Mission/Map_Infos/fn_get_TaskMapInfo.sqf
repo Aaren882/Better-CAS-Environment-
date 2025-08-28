@@ -10,9 +10,6 @@
 params ["_entry","_key",["_default",""]];
 
 //- Get Entry Varialbe Name
-  _entry = _entry call BCE_fnc_get_TaskMapInfoEntry;
-
-// - Return
-private _props = localNamespace getVariable [_entry, createHashMap];
+  private _props = _entry call BCE_fnc_get_TaskMapInfoEntry;
 
 _props getOrDefault [_key, _default];

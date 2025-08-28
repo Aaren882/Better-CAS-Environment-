@@ -35,6 +35,9 @@ params ["_curLine",["_isOverwrite",false,[true]]];
     _shownCtrls
   ] call (uiNamespace getVariable [(_events get "Enter"),{}]);
 
+	//- #TODO - Update Map Infos
+		[] call BCE_fnc_Update_TaskMapInfo;
+
 //- Store TaskVar
   [
     [],

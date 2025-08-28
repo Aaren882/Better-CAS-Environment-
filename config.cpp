@@ -821,6 +821,10 @@ class CfgFunctions
 		class Fire_Mission_Map_Infos
 		{
 			file="MG8\AVFEVFX\functions\CAS_Menu\Fire_Mission\Map_Infos";
+			class Update_TaskMapInfo;
+			class Update_TaskMapInfo_Icons;
+			class Update_TaskMapInfo_Lines;
+
 			class get_TaskMapInfo;
 			class get_TaskMapInfoEntry;
 

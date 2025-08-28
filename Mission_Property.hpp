@@ -59,6 +59,9 @@ class BCE_Mission_Property
 						"FRD_Point",
 						"EGRS_Point"
 					};
+					Map_Lines[] = {
+						"Air_IP_Arrow_9Line"
+					};
 					
 					//- Check if the Task is able to send
 					// (VAR # 0) != "NA"
@@ -210,6 +213,7 @@ class BCE_Mission_Property
 			{
 				Opened = "BCE_fnc_DblClick5line";
 				Enter = "BCE_fnc_DataReceive5line";
+				 = "BCE_fnc_DataReceive5line";
 				SendData = "BCE_fnc_SendData5line";
 				DataSent = "BCE_fnc_DataSent_AIR";
 				Element_SelChanged = "BCE_fnc_SelChanged_AIR";

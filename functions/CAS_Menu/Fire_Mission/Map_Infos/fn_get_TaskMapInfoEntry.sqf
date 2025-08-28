@@ -13,17 +13,16 @@ private _variable = localNamespace getVariable "BCE_Mission_MapInfo_Components";
 
 //- Build Variable Entries
   if (isnil {_variable}) then {
-    private _Map_Info_Map = createHashMap; //- Hashmap of Map Infos
+    _variable = createHashMap; //- Hashmap of Map Infos
 
     /*
       Get Map Infos
       #LINK - Mission_Map_Infos.hpp
     */
-      private _mapInfoCfg = configFile >> "Mission_Map_Infos";
+      private _mapInfoCfg = configFile >> "Mission_Map_Infos_Icons";
       {
         private _cfg = _x;
         private _cfgName = configName _cfg;
-        private _varName = format ["#%1", _cfgName];
         
         private _result = [
           "display",
@@ -41,17 +40,11 @@ private _variable = localNamespace getVariable "BCE_Mission_MapInfo_Components";
             [_cfg, _x] call BIS_fnc_returnConfigEntry
           ]
         };
-        
-        //- Save Props as "#ClassName"
-        localNamespace setVariable [_varName, createHashMapFromArray _result];
 
-        _Map_Info_Map set [_cfgName, _varName];
-
+        _variable set [_cfgName, createHashMapFromArray _result];
       } forEach (configProperties [_mapInfoCfg]);
 
-    localNamespace setVariable ["BCE_Mission_MapInfo_Components", _Map_Info_Map];
-    
-    _variable = _Map_Info_Map;
+    localNamespace setVariable ["BCE_Mission_MapInfo_Components", _variable];
   };
 
-_variable getOrDefault [_entry, ""]
+_variable getOrDefault [_entry, createHashMap]
