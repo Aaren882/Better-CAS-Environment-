@@ -20,5 +20,5 @@ private _executed = _chargeInfo findIf {true} < 0;
   [
 		_chargeInfo,
 		_taskUnit,
-		["RELOAD", nil, _taskUnit] call BCE_fnc_get_CFF_Value
+		["RELOAD", -1, _taskUnit] call BCE_fnc_get_CFF_Value
 	] call BCE_fnc_doFireMission;

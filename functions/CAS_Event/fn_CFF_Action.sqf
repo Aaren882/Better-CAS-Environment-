@@ -72,7 +72,7 @@ private _taskUnit = switch (typeName _unit) do {
 		};
 		["CFF_MSN", _MSN_Key, _taskUnit] call BCE_fnc_set_CFF_Value;
 		["CFF_STATE", true, _taskUnit] call BCE_fnc_set_CFF_Value;
-		["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
+		// ["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
 		["CFF_MSGER", _isMsger, _taskUnit] call BCE_fnc_set_CFF_Value; //- #NOTE - Set Messager
 
 //#!SECTION
@@ -191,7 +191,7 @@ private _taskUnit = switch (typeName _unit) do {
 							_MSN_Key,
 							_RECUR_INTERVAL,
 							_isMsger
-						] spawn BCE_fnc_CFF_Action;
+						] call BCE_fnc_CFF_Action;
 					} else {
 						//- #LINK - functions/CAS_Menu/Call_for_Fire/fn_CFF_Mission_STOP.sqf
 						//- Remove Task From Unit (FULL DELETE)
@@ -214,7 +214,6 @@ private _taskUnit = switch (typeName _unit) do {
 		["MSN_FIRE_EH", _ehID, _taskUnit] call BCE_fnc_set_CFF_Value;
 	};
 
-sleep _delay; //- #NOTE - 👈 The function delay
 //- #SECTION - Setup CFF Mission
   private _CFF_info = [_taskUnit, _MSN_Key] call BCE_fnc_getCurUnit_CFF;
     if (count _CFF_info == 0) exitWith {};
@@ -244,6 +243,6 @@ sleep _delay; //- #NOTE - 👈 The function delay
 	] call BCE_fnc_getCharge;
 
 //- #ANCHOR - Start aimming
-	[_taskUnit, _chargeInfo] call BCE_fnc_doAim_CFF;
+	[_taskUnit, _chargeInfo, _delay] spawn BCE_fnc_doAim_CFF; //- #NOTE - 👈 The function delay
 
 // #!SECTION

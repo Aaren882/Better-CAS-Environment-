@@ -8,27 +8,31 @@
 // #define TIMEOUT_SECONDS 40
 params[
 	"_taskUnit",
-	"_chargeInfo"
+	"_chargeInfo",
+	["_initDelay", 0]
 ];
-_chargeInfo params ["_charge", "_angleA", "_ETA", "_pos"];
-
-private _gunner = gunner _taskUnit;
 
 //- check "_chargeInfo" exist
 	private _noCharge = _chargeInfo findIf {true} < 0;
+	if (
+		isNull (["CFF_Action", scriptNull, _taskUnit] call BCE_fnc_get_CFF_Value)
+	) then {
+		["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
+	};
 
+private _gunner = gunner _taskUnit;
 private _isMsger = ["CFF_MSGER", false, _taskUnit] call BCE_fnc_get_CFF_Value;
 private _turretPath = (assignedVehicleRole _gunner) # 1;
 private _turretConfig = [_taskUnit, _turretPath] call CBA_fnc_getTurret;
 
-// private _gunAnim = getText(_turretConfig >> "gun");
 private _gunBeg = getText(_turretConfig >> "gunBeg");
 private _gunEnd = getText(_turretConfig >> "gunEnd");
 private _last_aimDir = 0;
 
+_chargeInfo params ["_charge", "_angleA", "_ETA", "_pos"];
+
 while {!_noCharge} do {
 	///- Get Mission Infos
-		private _CFF_info = _taskUnit call BCE_fnc_getCurUnit_CFF;
 
 	// Make unit aim.
 		(gunner _taskUnit) doWatch _pos;
@@ -56,8 +60,9 @@ while {!_noCharge} do {
 			};
 		["chargeInfo",_chargeInfo,_taskUnit] call BCE_fnc_set_CFF_Value;
 
-		sleep 10;
+		sleep _initDelay; //- #NOTE - 👈 Delay goes to here
 		//- Run Fire Mission
+			private _CFF_info = _taskUnit call BCE_fnc_getCurUnit_CFF;
 			[_taskUnit,_chargeInfo] call (uiNamespace getVariable [_CFF_info param [5,""],{}]);
 
 		//- Exit Loop

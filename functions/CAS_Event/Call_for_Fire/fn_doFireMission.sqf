@@ -1,9 +1,9 @@
 /*
   NAME : BCE_fnc_doFireMission
 */
-params ["","_taskUnit","_delay"];
+params ["","_taskUnit",["_delay",-1]];
 
-if (isnil{_delay}) then {
+if (_delay < 0) then {
   private _gunner = gunner _taskUnit;
   private _turret = _taskUnit unitTurret _gunner;
   private _weapon = _taskUnit currentWeaponTurret _turret;
