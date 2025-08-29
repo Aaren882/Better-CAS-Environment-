@@ -144,7 +144,7 @@ _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE"
   private _chargeInfo = [
     _taskUnit,
     _Ammo,
-    _TG_Grid call BCE_fnc_Grid2POS,
+    AGLToASL (_TG_Grid call BCE_fnc_Grid2POS),
     _angleType
   ] call BCE_fnc_getCharge;
   _chargeInfo params ["", "", ["_ETA", 0]];
