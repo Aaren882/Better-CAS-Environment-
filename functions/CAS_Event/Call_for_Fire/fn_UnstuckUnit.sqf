@@ -6,7 +6,8 @@
 
 params ["_unit"];
 
-(gunner _unit) doWatch objNull;
+private _gunner = gunner _unit;
+[_gunner, objNull] remoteExecCall ["doWatch",_gunner,true];
 // sleep 1;
 // _unit doWatch objNull;
 // sleep 0.1;

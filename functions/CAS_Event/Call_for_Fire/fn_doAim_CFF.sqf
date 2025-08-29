@@ -2,23 +2,18 @@
   NAME : BCE_fnc_doAim_CFF
 */
 
-// maxDifference = 0.15;	// Ideal number.
-// maxDifference = 1;			// Number that works better with the AI aiming bugs, mainly the one where the AI takes a while to aim at low angle shots.
-// #define MAX_DIFFERENCE 1
-// #define TIMEOUT_SECONDS 40
 params[
 	"_taskUnit",
 	"_chargeInfo",
-	["_initDelay", 0]
+	["_initDelay", 2] //- #NOTE - needs Delay or the mission will stuck 
 ];
 
 //- check "_chargeInfo" exist
 	private _noCharge = _chargeInfo findIf {true} < 0;
-	if (
-		isNull (["CFF_Action", scriptNull, _taskUnit] call BCE_fnc_get_CFF_Value)
-	) then {
-		["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
-	};
+	["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
+	// diag_log "--------------------------";
+	// diag_log format ["doAim_CFF : _chargeInfo = %1", _chargeInfo];
+	// diag_log format ["MSN_PROG = %1", ["MSN_PROG", 0, _taskUnit] call BCE_fnc_get_CFF_Value];
 
 private _gunner = gunner _taskUnit;
 private _isMsger = ["CFF_MSGER", false, _taskUnit] call BCE_fnc_get_CFF_Value;
@@ -32,10 +27,10 @@ private _last_aimDir = 0;
 _chargeInfo params ["_charge", "_angleA", "_ETA", "_pos"];
 
 while {!_noCharge} do {
-	///- Get Mission Infos
-
-	// Make unit aim.
-		(gunner _taskUnit) doWatch _pos;
+	
+	// Make unit aim. #NOTE - "doWatch" takes local OBJECT
+		// _gunner doWatch _pos;
+		[_gunner, _pos] remoteExecCall ["doWatch",_gunner,true];
 
 	// Calculate the vertical angle of the unit by using triangle calculations.
 		private _posA2 = _taskUnit modelToWorldWorld (_taskUnit selectionPosition _gunBeg);
@@ -61,9 +56,18 @@ while {!_noCharge} do {
 		["chargeInfo",_chargeInfo,_taskUnit] call BCE_fnc_set_CFF_Value;
 
 		sleep _initDelay; //- #NOTE - 👈 Delay goes to here
+		
 		//- Run Fire Mission
 			private _CFF_info = _taskUnit call BCE_fnc_getCurUnit_CFF;
-			[_taskUnit,_chargeInfo] call (uiNamespace getVariable [_CFF_info param [5,""],{}]);
+			// diag_log format ["_CFF_info MOC : %1", _CFF_info param [5,""]];
+
+			//- Make sure Fire mission is empty when the unit is REMOTE 😐
+			waitUntil {
+				//- FIRE !!!!
+				[_taskUnit,_chargeInfo] call (uiNamespace getVariable [_CFF_info param [5,""],{}]);
+
+				(-1 == ["MSN_PROG", -1, _taskUnit] call BCE_fnc_get_CFF_Value)
+			};
 
 		//- Exit Loop
 		break;
@@ -76,11 +80,10 @@ while {!_noCharge} do {
 			"" == (["CFF_MSN", "", _taskUnit] call BCE_fnc_get_CFF_Value)
 		) then {
 			_noCharge = true;
-			break;
 		};
 	
+	sleep 10;
 	_last_aimDir = _aimDir;
-	sleep 3;
 };
 
 //- check "_chargeInfo" exist
@@ -93,5 +96,3 @@ while {!_noCharge} do {
 		_taskUnit removeEventHandler ["Fired", ["MSN_FIRE_EH", -1, _taskUnit] call BCE_fnc_get_CFF_Value];
 		_taskUnit setVariable ["#CFF_MSN_Data", nil];
 	};
-
-nil

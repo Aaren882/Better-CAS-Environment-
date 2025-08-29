@@ -16,9 +16,15 @@ private _executed = _chargeInfo findIf {true} < 0;
     ["_chargeInfo = []"] call BIS_fnc_error;
   };
 
+//- Get Delay
+	private _delay = ["RELOAD", -1, _taskUnit] call BCE_fnc_get_CFF_Value;
+	if (_delay < 0) then {
+		_delay = 0;
+	};
+
 //- Execute Fire Mission
   [
 		_chargeInfo,
 		_taskUnit,
-		["RELOAD", 0, _taskUnit] call BCE_fnc_get_CFF_Value
+		_delay
 	] call BCE_fnc_doFireMission;

@@ -374,26 +374,11 @@ private _random_POS = nil;
       [["CFF_MSN",_MSN_Key] joinString ":", _CFF_info, _unit] call BCE_fnc_set_CFF_Value;
 
     // Removing mags is not instant and the code continues before removal is finished.
-      [
+      /* [
         {
           params ["_unit","_gunner","_weapon","_turret","_magsToAdd","_otherMags"];
 
-          //- Adding Weapons
-          if !(alive _unit) exitWith {};
-
-          // private _dispersion = getNumber (configFile >> "CfgWeapons" >> _weapon >> "artilleryDispersion");
-
-          private _addWeapon = true;
-          {
-            _unit addMagazine _x;
-            if (_addWeapon) then {
-              _unit setWeaponReloadingTime [_gunner, currentMuzzle _gunner, 0];
-              _unit addWeaponTurret [_weapon, _turret];
-              _gunner selectWeapon _weapon;
-              _addWeapon = false;
-            };
-          } forEach _magsToAdd;
-          {_unit addMagazine _x} forEach _otherMags;
+          
 
           
         },
@@ -405,26 +390,50 @@ private _random_POS = nil;
           _magsToAdd,
           _otherMags
         ]
-      ] call CBA_fnc_execNextFrame;
+      ] call CBA_fnc_execNextFrame; */
+
+		//- Adding Weapons
+			if !(alive _unit) then {continue};
+
+			private _addWeapon = true;
+			{
+				_unit addMagazine _x;
+				if (_addWeapon) then {
+					_unit setWeaponReloadingTime [_gunner, currentMuzzle _gunner, 0];
+					_unit addWeaponTurret [_weapon, _turret];
+					_gunner selectWeapon _weapon;
+					_addWeapon = false;
+				};
+			} forEach _magsToAdd;
+			{_unit addMagazine _x} forEach _otherMags;
 
     //- #ANCHOR - Do Fire mission
-    //- Setup ToT Timer
-			private _isMsger = _forEachIndex == 0; //- #NOTE - The first one is the radio msger
-      if (_MOC_Value isNotEqualTo "") then {
-        [
-          _MSN_Key,
-          _MOC_Value,
-          format [
-            "[""%1"",""%2"",_this # 0,0,%3] call BCE_fnc_CFF_Action",
-            _unit,
-            _weapon,
-						_isMsger
-          ],
-          0 //- BaseTime
-        ] call BCE_fnc_Add_CountDown;
-      } else {
-        [_unit,_weapon,_MSN_Key,nil,_isMsger] call BCE_fnc_CFF_Action;
-      };
+			[{
+				params ["_isMsger","_MSN_Key","_MOC_Value","_unit","_weapon"];
+
+				//- Setup ToT Timer
+				if (_MOC_Value isNotEqualTo "") then {
+					[
+						_MSN_Key,
+						_MOC_Value,
+						format [
+							"[""%1"",""%2"",_this # 0,0,%3] call BCE_fnc_CFF_Action",
+							_unit,
+							_weapon,
+							_isMsger
+						],
+						0 //- BaseTime
+					] call BCE_fnc_Add_CountDown;
+				} else {
+					[_unit,_weapon,_MSN_Key,nil,_isMsger] call BCE_fnc_CFF_Action;
+				};
+			}, [
+				_forEachIndex == 0, //- #NOTE - The first one is the radio msger
+				_MSN_Key,
+				_MOC_Value,
+				_unit,
+				_weapon
+			]] call CBA_fnc_execNextFrame;
   } forEach (_MagFire_ARR apply {_x # 0});
 //- #!SECTION
 nil
