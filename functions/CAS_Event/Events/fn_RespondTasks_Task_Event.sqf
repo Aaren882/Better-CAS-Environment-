@@ -26,6 +26,8 @@ diag_log format ["BCE TASK RESPOND : %1", _values];
 //- Overwrite Current Values
 switch (_type) do {
 	case "CFF": {
+		//- #TODO - Send directly instead globally
+		// : this will need all ends have BCE Loaded (for CBA_event to work)
 		_group setVariable ["BCE_CFF_Task_Pool", _res];
 		/* {
 			[_x,_y,_taskUnit] call BCE_fnc_CFF_Mission_Set_Values;

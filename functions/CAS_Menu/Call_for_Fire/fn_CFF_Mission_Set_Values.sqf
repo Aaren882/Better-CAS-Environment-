@@ -28,6 +28,8 @@ if (isnil{_values}) then {
 };
 
 localNamespace setVariable ["#BCE_CFF_Task_Pool", _pool];
+//- #TODO - Send directly instead globally
+// : this will need all ends have BCE Loaded (for CBA_event to work)
 _group setVariable ["BCE_CFF_Task_Pool", _map];
 
 _values

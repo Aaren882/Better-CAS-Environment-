@@ -26,9 +26,11 @@ private _event = format ["BCE_%1_Mission",_type];
 		]
 	] call CBA_fnc_LocalEvent;
 
-	//- Send over
-	diag_log format ["BCE [%1] LOCAL : %2", _type, local _taskUnit];
-	if (!local _taskUnit || _force) then {
+	//- #TODO - Send directly instead globally
+	// 🔶 : Currently task can only be saved on Local 
+	//- Send over 
+	// diag_log format ["BCE [%1] LOCAL : %2", _type, local _taskUnit];
+	/* if (!local _taskUnit || _force) then {
 		[
 			_event,
 			[
@@ -37,6 +39,6 @@ private _event = format ["BCE_%1_Mission",_type];
 				false    	//: _isLocal
 			], _taskUnit
 		] call CBA_fnc_targetEvent;
-	};
+	}; */
 
 nil

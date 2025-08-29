@@ -25,13 +25,15 @@ if (_Category getVariable ["LBChanged_EH",-1] < 0) then {
 private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 private _grp = group _taskUnit;
 
-//- get custom Groups
-	[
+//- #TODO - Async missions
+//  : #LINK - functions/CAS_Menu/Call_for_Fire/fn_CFF_Mission_Set_Values.sqf
+	/* [
 		"RequestTasks",
 		[_grp, call CBA_fnc_currentUnit],
 		_taskUnit
-	] call BCE_fnc_Send_MSN_CFF;
-	
+	] call BCE_fnc_Send_MSN_CFF; */
+
+//- get custom Groups
 	[{
 		params ["_grp","_cateSel","_listGroup","_isDialog"];
 		private _CFF_Missions = (
