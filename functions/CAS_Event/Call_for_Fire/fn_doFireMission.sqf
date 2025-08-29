@@ -44,9 +44,6 @@ sleep _delay; //- Reload Delay
 	// diag_log format ["FIRE : _gunner = %1, Params = %2", _gunner, [_weapon, _charge]];
 
 	//- Use the saved weapon otherwise.
-		// if (_weapon == "") then {
-		// 	_weapon = ["CFF_WEAPON","",_taskUnit] call BCE_fnc_get_CFF_Value;
-		// };
 	// _gunner forceWeaponFire [_weapon, _charge];
 	[_gunner, [_weapon, _charge]] remoteExecCall ["forceWeaponFire",_gunner,true];
 	

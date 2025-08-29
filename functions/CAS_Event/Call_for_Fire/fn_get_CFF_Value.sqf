@@ -18,6 +18,5 @@
 
 params ["_key","_default","_taskUnit"];
 
-// diag_log format ["KEY : %1 , Default : %2",_key,_default];
 private _map = _taskUnit getVariable ["#CFF_MSN_Data", createHashMap];
 _map getOrDefault [_key, _default];

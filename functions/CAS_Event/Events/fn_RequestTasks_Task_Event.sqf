@@ -16,7 +16,7 @@
 
 params ["_type","_values","_isLocal"];
 
-diag_log format ["BCE TASK REQUESTED : LOCAL - %1",_isLocal];
+// diag_log format ["BCE TASK REQUESTED : LOCAL - %1",_isLocal];
 //- #NOTE - From remote side
 if (_isLocal) exitWith {};
 
@@ -29,7 +29,7 @@ private _res = switch (_type) do {
 	default {createHashMap};
 };
 
-diag_log format ["BCE TASK REQUEST : %1", _res];
+// diag_log format ["BCE TASK REQUEST : %1", _res];
 [
 	"RespondTasks",	//- Type
 	[_group,_res],	//- Value

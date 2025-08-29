@@ -16,12 +16,12 @@
 
 params ["_type","_values","_isLocal"];
 
-diag_log format ["BCE TASK RESPONDED : LOCAL - %1",_isLocal];
+// diag_log format ["BCE TASK RESPONDED : LOCAL - %1",_isLocal];
 //- #NOTE - From remote side
 if (_isLocal) exitWith {};
 _values params ["_group","_res"];
 
-diag_log format ["BCE TASK RESPOND : %1", _values];
+// diag_log format ["BCE TASK RESPOND : %1", _values];
 
 //- Overwrite Current Values
 switch (_type) do {

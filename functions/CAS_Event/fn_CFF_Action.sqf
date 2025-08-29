@@ -149,15 +149,23 @@ private _taskUnit = switch (typeName _unit) do {
 					};
 				
 			//- Next round
+			// diag_log "--- BCE FIRE EH ---";
+			/* diag_log [
+				_current < _setCount,
+				_CFF_info findIf {true} > -1,
+				_hasAmmo
+			]; */
 			if (
 				_current < _setCount &&
 				_CFF_info findIf {true} > -1 &&
 				_hasAmmo
 			) then {
+
 				["MSN_PROG", _current, _taskUnit] call BCE_fnc_set_CFF_Value;
 
 				//- Prepare next round
 					private _chargeInfo = [_taskUnit, _lbAmmo, AGLToASL _pos, _angleType, _weapon] call BCE_fnc_getCharge;
+					// diag_log "------------ NEXT ROUND --------------";
 					[_taskUnit, _chargeInfo] spawn BCE_fnc_doAim_CFF;
 			} else {
 				_MSN_RECUR params [["_RECUR_COUNT",0],["_RECUR_INTERVAL",60]];
@@ -165,6 +173,7 @@ private _taskUnit = switch (typeName _unit) do {
 				//- Very temporarily (like a frame)
 					// : this make sure the fire mission start over again
 					[["CFF_STATE","MSN_PROG"], nil, _taskUnit] call BCE_fnc_set_CFF_Value;
+					// diag_log "DELETE CFF ""CFF_STATE"", ""MSN_PROG""";
 				
 				//- #SECTION - Finished CFF MSN
 					//- Recursion (FOR SUPPRESSION)
