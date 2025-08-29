@@ -65,10 +65,12 @@ private _hcam = ["cTab_Android_dlg", "hcam"] call cTab_fnc_getSettings;
     _ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
   };
 
-// if (_interfaceInit) exitWith {};
-
 //- View Box Status
-  private _veh = [] call BCE_fnc_get_TaskCurUnit;
+  private _veh = [
+		cTab_player,
+		"AIR" call BCE_fnc_get_TaskCateIndex
+	] call BCE_fnc_get_TaskCurUnit;
+
   private _isHcam = _SubSel == 1;
   //- exit if display is on
   private _displayOn = (

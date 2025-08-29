@@ -1201,7 +1201,7 @@ class RscDisplayAVTerminal
 			font = "RobotoCondensed_BCE";
 			sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 18)";
 			Enable = 0;
-			onButtonClick = "[ctrlParent(_this#0), 1, false, [] call BCE_fnc_get_TaskCurUnit] call BCE_fnc_ListSwitch;";
+			onButtonClick = "[ctrlParent(_this#0), 1, false, [nil,'AIR' call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit] call BCE_fnc_ListSwitch;";
 		};
 		class CAS_UI_LastPage: Create_Task
 		{

@@ -156,23 +156,24 @@ switch _ID do {
       private _setting = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
       _setting params ["_page","","",["_PgComponents", createHashMap]];
 
-      private _c = (_PgComponents get _page) # 1;
-      private _data = _control lbData _component;
+      private _PG_data = _PgComponents getOrDefault [_page,[]];
+			_PG_data params ["_line", ["_SubSel", 0]];
 
+      private _data = _control lbData _component;
       call {
-        if (_c == 0) exitWith {
+        if (_SubSel == 0) exitWith {
           private _veh = objNull;
           if (_data != str objNull) then {
             {
               if (str _x == _data) exitWith {_veh = _x};
             } count vehicles;
           };
-		      [_veh] call BCE_fnc_set_TaskCurUnit;
-          
+
+		      [_veh, "AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_set_TaskCurUnit;
           "showMenu" call BCE_fnc_cTab_UpdateInterface;
         };
         //- Only update the Value when Selecting "hcam"
-        if (_c == 1) exitWith {
+        if (_SubSel == 1) exitWith {
           if (_data == str objNull) then {
             _data = "";
           };

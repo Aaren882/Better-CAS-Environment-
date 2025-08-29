@@ -31,7 +31,7 @@ _description = _display displayctrl ([2004,20041] select _extend_desc);
 //-Extended Description
 if (_extend_desc) then {
 	private ["_vehicle","_unit_info","_squad_title","_squad_pic","_squad_list","_Button_Racks","_text","_turret_optics","_current_optic","_turrets"];
-	_vehicle = [] call BCE_fnc_get_TaskCurUnit;
+	_vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 	//-Display info
 	_squad_title = _display displayctrl 20114;

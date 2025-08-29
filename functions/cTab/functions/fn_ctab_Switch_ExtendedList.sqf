@@ -11,7 +11,10 @@ _taskList = _display displayCtrl (17000 + 1789);
 _all_lists = [[1785,17850,1786],[1787,1788],[1789,1790]];
 
 //-Variables
-_veh = [] call BCE_fnc_get_TaskCurUnit;
+_veh = [
+	cTab_player,
+	"AIR" call BCE_fnc_get_TaskCateIndex
+] call BCE_fnc_get_TaskCurUnit;
 _origin = uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,_all_lists # 0]];
 
 //-Original Controls

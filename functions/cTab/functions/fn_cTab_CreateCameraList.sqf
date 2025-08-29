@@ -10,7 +10,7 @@ _ListCtrl lbSetData [_default,str objNull];
 switch _mode do {
   // Populate list of UAVs
   case 0: {
-    private _data = [] call BCE_fnc_get_TaskCurUnit;
+    private _data = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;;
 
     cTabUAVlist apply {
       if ((crew _x) findIf {true} > -1) then {

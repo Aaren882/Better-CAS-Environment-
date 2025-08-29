@@ -2,7 +2,7 @@
 params ["_control",["_IDC_offset",0],["_show_info",false]];
 
 private _display = ctrlParent _control;
-private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
+private _vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 if !(isnull _vehicle) then {
 	private ["_current_turret","_turret_select","_squad_list"];

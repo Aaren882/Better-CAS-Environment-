@@ -81,7 +81,7 @@ _MenuChanged = {
 		case 0: {
 			_desc ctrlshow false;
 			_ctrlList = if !(_ListState) then {
-				[_display,0.2,true,[] call BCE_fnc_get_TaskCurUnit] call BCE_fnc_ListSwitch;
+				[_display,0.2,true,[nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit] call BCE_fnc_ListSwitch;
 
 				_ctrlList + (
 					([2100,2103,2104,2105]) apply {

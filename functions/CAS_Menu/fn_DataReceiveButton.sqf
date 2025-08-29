@@ -23,7 +23,7 @@ _TaskList = switch _curType do {
 _isOverwrite = _overwrite > -1;
 _curLine = [lbCurSel _taskList,_overwrite] select _isOverwrite;
 
-_vehicle = [] call BCE_fnc_get_TaskCurUnit;
+_vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 //-Send Data
 if ((tolower _button_text) == localize "STR_BCE_SendData") exitWith {

@@ -10,7 +10,7 @@ _fnc_onLBSelChanged = {
 
 	_display = ctrlParent _ctrlValue;
 	_checklist = _display displayCtrl 2100;
-	_Selected = [] call BCE_fnc_get_TaskCurUnit;
+	_Selected = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 	_vehicle_str = _ctrlValue lbdata _selectedIndex;
 
@@ -44,7 +44,7 @@ _fnc_onLBSelChanged = {
 		if (_vehicle_str == str _x) exitwith {_x};
 	} count (vehicles Select {(_x isKindOf "Air") && (isEngineOn _x)});
 
-	if !(_vehicle isEqualTo ([] call BCE_fnc_get_TaskCurUnit)) then {
+	if !(_vehicle isEqualTo ([nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit)) then {
 		uiNameSpace setVariable ["BCE_CAS_ListSwtich", false];
 		[(_display displayctrl 1600), true] call BCE_fnc_clearTaskInfo;
 	};
@@ -198,7 +198,7 @@ switch _mode do
 			_control = _display displayctrl 1700;
 			_control ctrladdeventhandler ["LBSelChanged",_fnc_onLBSelChanged];
 
-			_selected = [] call BCE_fnc_get_TaskCurUnit;
+			_selected = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 			_UnitList = call BCE_fnc_getCompatibleAVs;
 
@@ -270,13 +270,14 @@ switch _mode do
 		//-EHs
 		_control = _display displayctrl 1600;
 		_control ctrladdeventhandler ["ButtonClick",{
-			if !([] call BCE_fnc_get_TaskCurUnit isEqualTo objNull) then {
-				([] call BCE_fnc_get_TaskCurUnit) call BCE_fnc_TGP_Select_Confirm;
+			private _veh = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
+			if !(_veh isEqualTo objNull) then {
+				(_veh) call BCE_fnc_TGP_Select_Confirm;
 			};
 		}];
 		_control = _display displayctrl 1601;
 		_control ctrlAddEventHandler ["ButtonClick",{
-			private _vehicle = [] call BCE_fnc_get_TaskCurUnit;
+			private _vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 			if !(isnull _vehicle) then {
 				[_vehicle,cameraview] call BCE_fnc_onButtonClick_Gunner;
 				_vehicle call BCE_fnc_TGP_Select_Confirm;

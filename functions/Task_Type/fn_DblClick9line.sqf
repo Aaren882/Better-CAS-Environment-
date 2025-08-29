@@ -13,7 +13,7 @@ switch _curLine do {
 		[
 			ctrlParent _weap,
 			_weap,
-			[] call BCE_fnc_get_TaskCurUnit,
+			[nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit,
 			false,
 			false,
 			false

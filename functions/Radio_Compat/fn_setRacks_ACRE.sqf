@@ -1,7 +1,7 @@
 params ["_list_Racks"];
 
-_vehicle = [] call BCE_fnc_get_TaskCurUnit;
-_radio_Racks = _vehicle getVariable ["acre_sys_rack_vehicleRacks", []];
+private _vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;;
+private _radio_Racks = _vehicle getVariable ["acre_sys_rack_vehicleRacks", []];
 
 if (count _radio_Racks == 0) exitWith {
 	_list_Racks ctrlshow false;

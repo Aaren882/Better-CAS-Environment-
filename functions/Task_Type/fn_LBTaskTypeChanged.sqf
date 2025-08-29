@@ -7,7 +7,7 @@ params [
 _display = ctrlParent _control;
 _NotAVT = _IDC_offset != 0;
 _IDCs = [2002,2005] apply {_x + _IDC_offset};
-_vehicle = [] call BCE_fnc_get_TaskCurUnit;
+_vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 // ["Type",_lbCurSel] call BCE_fnc_set_TaskCurSetup;
 _lbCurSel call BCE_fnc_set_TaskCurType;
 

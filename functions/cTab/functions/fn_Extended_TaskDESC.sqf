@@ -4,7 +4,7 @@ private ["_display","_desc","_veh","_var","_textInfo","_text"];
 _display = ctrlParent _control;
 _desc = _display displayCtrl (17000 + 1790);
 
-_veh = [] call BCE_fnc_get_TaskCurUnit;
+_veh = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;;
 _var = call compile (_veh getVariable ["BCE_Task_Receiver",""]);
 
 //-get UNIT info

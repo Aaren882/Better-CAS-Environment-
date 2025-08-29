@@ -4,6 +4,7 @@
 params ["_display","_checklist","_vehicle","_skip",["_loop",true],["_include0",true]];
 
 private _list = call BCE_fnc_getCompatibleAVs;
+private _veh = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 private _Task_Type = _display displayCtrl 2107;
 private _TaskList = switch (_Task_Type lbValue (lbCurSel _Task_Type)) do {
@@ -27,7 +28,7 @@ if (
 		(ctrlShown _TaskList) &&
 		(_loop)
 	) || (
-		!(_vehicle isEqualTo ([] call BCE_fnc_get_TaskCurUnit)) &&
+		(_vehicle isNotEqualTo _veh) &&
 		(_skip)
 	)
 ) exitWith {};

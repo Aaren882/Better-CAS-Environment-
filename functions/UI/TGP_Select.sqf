@@ -37,7 +37,7 @@ _UnitList = call BCE_fnc_getCompatibleAVs;
 switch _mode do {
 	case "onLoad": {
 		_ctrlValue ctrlsetfontheight GUI_GRID_H;
-		_selected = [] call BCE_fnc_get_TaskCurUnit;
+		_selected = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 		_ctrlButtonOK = _display displayCtrl 1;
 		_ctrlButtonOK ctrlAddEventHandler ["ButtonClick", _fnc_onConfirm];

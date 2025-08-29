@@ -10,7 +10,8 @@ switch _curLine do {
 		_taskVar_0 = _taskVar # 0;
 
 		//-Weapon List
-		[ctrlParent _weap,_weap,[] call BCE_fnc_get_TaskCurUnit,false,false,false] call BCE_fnc_checkList;
+		private _veh = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
+		[ctrlParent _weap,_weap,_veh,false,false,false] call BCE_fnc_checkList;
 
 		//-Default
 		if ((_taskVar_0 # 0) != "NA") then {

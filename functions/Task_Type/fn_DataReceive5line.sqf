@@ -33,7 +33,6 @@ switch _curLine do {
 		//-so you can set it to whatever you want
 		_lowest = 0;
 
-		// private _taskUnit = [] call BCE_fnc_get_TaskCurUnit;
 		//-if it isn't a player (AI)
 		if !(isPlayer _taskUnit) then {
 			_lowest = [50,500] select (_taskUnit isKindOf "plane");

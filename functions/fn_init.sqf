@@ -110,7 +110,7 @@ call BCE_fnc_ClientSide;
 	};
 
 	//TGP View
-	if (([] call BCE_fnc_get_TaskCurUnit) isEqualTo _unit) then {
+	if (([nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit) isEqualTo _unit) then {
 		[objNull] call BCE_fnc_set_TaskCurUnit;
 		player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
 

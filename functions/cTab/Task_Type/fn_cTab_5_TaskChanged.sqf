@@ -9,7 +9,7 @@ switch _curLine do {
 		];
 		_taskVar_0 = _taskVar # 0;
 
-		_vehicle = [] call BCE_fnc_get_TaskCurUnit;
+		_vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;;
 
 		//-Weapon List
 		[ctrlParent _weap,_weap,_vehicle,false,false,false] call BCE_fnc_checkList;

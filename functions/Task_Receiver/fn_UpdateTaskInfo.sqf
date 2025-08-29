@@ -6,7 +6,8 @@ _display = uiNamespace getVariable "BCE_Task_Receiver";
 _var = switch (_mode) do {
 	case 0: {
 		private ["_vehicle","_type","_taskVar"];
-		_vehicle = [] call BCE_fnc_get_TaskCurUnit;
+		_vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
+		
 		_type = [9, 5] # ([] call BCE_fnc_get_TaskCurType);
 		_taskVar = uiNamespace getVariable format ["BCE_CAS_%1Line_Var", _type];
 		(_display displayCtrl 15112) ctrlSetText localize "STR_BCE_Widgets_TIP_TASK";
