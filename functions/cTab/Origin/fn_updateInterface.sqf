@@ -1187,11 +1187,8 @@ if (!isNull _loadingCtrl) then {
 		_ctrlPos = ctrlPosition _loadingCtrl;
 		// put the mouse position in the center of the screen
 		_mousePos = [(_ctrlPos # 0) + ((_ctrlPos # 2) / 2),(_ctrlPos # 1) + ((_ctrlPos # 3) / 2)];
-		// delay moving the mouse cursor by one frame using a PFH, for some reason its not working without
-		[{
-			[_this # 1] call CBA_fnc_removePerFrameHandler;
-			setMousePosition (_this # 0);
-		},0,_mousePos] call CBA_fnc_addPerFrameHandler;
+		// delay moving the mouse cursor by one frame, for some reason its not working without
+		[{setMousePosition _this;}, _mousePos] call CBA_fnc_execNextFrame;
 	};
 
 	_loadingCtrl ctrlShow false;
