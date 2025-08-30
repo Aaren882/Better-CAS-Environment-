@@ -623,6 +623,11 @@
 			<Chinese>點擊地圖 “Alt + 左鍵”</Chinese>
 			<Chinesesimp>点击地图 “Alt + 左键”</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_Tip_BFT_marker">
+			<Original>Use info from side bar of BFT (Blue Force Tracker)</Original>
+			<Chinese>使用來自 BFT (藍軍追蹤器) 側邊欄的資訊</Chinese>
+			<Chinesesimp>使用来自 BFT (蓝军追踪器) 侧边栏的信息</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_Tit_OverHead">
 			<Original>OverHead</Original>
 			<Chinese>目前位置</Chinese>

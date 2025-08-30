@@ -4,22 +4,21 @@ params [
 	["_IDC_offset",0]
 ];
 
-_display = ctrlParent _control;
-_NotAVT = _IDC_offset != 0;
-_IDCs = [2002,2005] apply {_x + _IDC_offset};
-_vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
-// ["Type",_lbCurSel] call BCE_fnc_set_TaskCurSetup;
+private _display = ctrlParent _control;
+private _NotAVT = _IDC_offset != 0;
+private _IDCs = [2002,2005] apply {_x + _IDC_offset};
+private _vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 _lbCurSel call BCE_fnc_set_TaskCurType;
 
 // - ["_9line","_5line"]
 //- Output all + hide them all
-_ctrls = _IDCs apply {
+private _ctrls = _IDCs apply {
 	private _ctrl = _display displayctrl _x;
 	_ctrl ctrlShow false;
 	_ctrl
 };
 
-_TaskList = _ctrls # _lbCurSel;
+private _TaskList = _ctrls # _lbCurSel;
 
 // - for other mods
 if (_NotAVT) then {

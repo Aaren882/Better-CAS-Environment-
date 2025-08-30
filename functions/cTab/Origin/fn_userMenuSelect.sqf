@@ -24,7 +24,7 @@
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
 disableSerialization;
-params ["_type"];
+params ["_typeID"];
 
 private _displayName = cTabIfOpen # 1;
 private _display = uiNamespace getVariable _displayName;
@@ -35,18 +35,18 @@ private _idcToShow = 0;
 call {
 	// send cTabUserSelIcon to server
 
-	if (_type == 1) exitWith {
+	if (_typeID == 1) exitWith {
 		cTabUserSelIcon pushBack cTab_player;
 		[call cTab_fnc_getPlayerEncryptionKey,cTabUserSelIcon] call cTab_fnc_addUserMarker;
 	};
 
 	// Lock UAV cam to clicked position
-	if (_type == 2) exitWith {
+	if (_typeID == 2) exitWith {
 		[cTabUserSelIcon # 0] call cTab_fnc_lockUavCamTo;
 	};
 
 	//-connect to Vehicle
-	if (_type == 3) exitWith {
+	if (_typeID == 3) exitWith {
 
 		private _curSel = localNamespace getVariable ["cTab_BFT_CurSel",objNull];
 
@@ -88,7 +88,7 @@ call {
 		};
 	};
 	//-DisConnect Vehicle
-	if (_type == -3) exitWith {
+	if (_typeID == -3) exitWith {
 		_reset_Veh = true;
 		[objNull] call BCE_fnc_set_TaskCurUnit;
 		player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
@@ -105,7 +105,7 @@ call {
 	};
 
   //- Delete Marker
-	if (_type == -4) exitWith {
+	if (_typeID == -4) exitWith {
 		_list = _display displayCtrl (17000 + 12010);
 
 		_task = switch ([] call BCE_fnc_get_TaskCurType) do {
@@ -123,57 +123,60 @@ call {
 	};
 
 	//-Edit Marker
-	if (_type in [41,42,43]) exitWith {
-		private ["_task","_info","_marker","_POS","_TG_var","_mode","_condition","_ctrlEnter"];
-		 _task = switch ([] call BCE_fnc_get_TaskCurType) do {
+	if (_typeID in [41,42,43]) exitWith {
+		
+		private _taskType = call BCE_fnc_get_TaskCurType;
+		private _taskVar =  [_taskType,0,_display] call BCE_fnc_getTaskVar;
+
+		private _task = switch (_taskType) do {
 			//- 5 line
 			case 1: {
-				[[-1,2,1],"BCE_CAS_5Line_Var"]
+				// [[-1,2,1],"BCE_CAS_5Line_Var"]
+				[-1,2,1]
 			};
 			//- 9 line
 			default {
-				[[1,6,8],"BCE_CAS_9Line_Var"]
+				// [[1,6,8],"BCE_CAS_9Line_Var"]
+				[1,6,8]
 			};
 		};
 
-		_info = switch _type do {
+		private _info = switch _typeID do {
 			//-IP/BP
 			case 41: {
-				["IP/BP",_task # 0 # 0]
+				["IP/BP",_task # 0]
 			};
 			//-GRID
 			case 42: {
-				["GRID",_task # 0 # 1]
+				["GRID",_task # 1]
 			};
 			//-FRND
 			case 43: {
-				["FRND",_task # 0 # 2]
+				["FRND",_task # 2]
 			};
 		};
 
 		if ((_info # 1) < 0) exitWith {};
 
 		//-CurSel Marker
-		_marker = allMapMarkers # (localNamespace getVariable ["cTab_BFT_CurSel",-1]);
-		_POS = markerPos _marker;
+		private _marker = allMapMarkers # (localNamespace getVariable ["cTab_BFT_CurSel",-1]);
+		private _POS = markerPos _marker;
 
 		//-GRID info
-		_TG_var = (uiNameSpace getVariable (_task # 1)) # (_task # 0 # 1);
-
-		_mode = "BCE_" + (_info # 0);
+		private _mode = "BCE_" + (_info # 0);
 
 		//-if GRID isnt "NA" and isnt setting GRID atm
-		_condition = if !("GRID" in _mode) then {
+		private _condition = if !("GRID" in _mode) then {
+			private _TG_var = _taskVar # (_task # 1);
 			private _TG_POS = _TG_var param [2,[]];
 
 			(_TG_POS isEqualTo _POS)
 		} else {
-			private _condit = true in ([
-					_task # 0 # 0,
-					_task # 0 # 2
-			] apply {
-				if (_x < 0) then {continue};
-				private _var_POS = ((uiNameSpace getVariable (_task # 1)) # _x) param [2,[]];
+			private _condit = -1 < ([
+				_task # 0,
+				_task # 2
+			] findIf {
+				private _var_POS = (_taskVar # _x) param [2,[]];
 				(_var_POS isEqualTo _POS)
 			});
 
@@ -194,7 +197,8 @@ call {
 		[_list, lbCurSel _list] call BCE_fnc_ctab_BFT_ToolBox;
 	};
 
-	_idcToShow = switch _type do {
+	//- overwrite "_idcToShow"
+	_idcToShow = switch _typeID do {
 		/*case 11: {3301};
 		case 12: {3303};
 		case 13: {3304};
@@ -212,7 +216,7 @@ call {
 		case 102: {3310};
 		case 103: {3311};*/
 
-		default {_type};
+		default {_typeID};
 	};
 };
 
@@ -220,7 +224,7 @@ call {
 {ctrlShow [_x,false]} count [3300,3301,3302,3303,3304,3305,3306,3307, 3308,3309,3310,3311 ,17000 + 3300,17000 + 33000,17000 + 3301];
 
 //-clean variable
-if ((_type == 0) || (_reset_Veh)) then {
+if ((_typeID == 0) || (_reset_Veh)) then {
 	localNamespace setVariable ["cTab_BFT_CurSel",objNull];
 };
 

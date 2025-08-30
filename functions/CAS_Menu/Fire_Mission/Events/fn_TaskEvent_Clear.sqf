@@ -46,3 +46,6 @@ private _display = ctrlParent (["BCE_Holder"] call BCE_fnc_getTaskSingleComponen
   ] call BCE_fnc_setTaskVar;
   false
 } count _clearPool;
+
+//- #TODO - Update Map Infos
+	[] call BCE_fnc_Update_TaskMapInfo;

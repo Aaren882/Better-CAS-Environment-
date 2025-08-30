@@ -9,15 +9,13 @@ private _curInterface = switch _IDC_offset do {
 	default {0};
 };
 
-_clearAction = {
+private _clearAction = {
 	/* private _description = _display displayctrl (_IDC_offset + 2004);
 	private _Task_Type = _display displayCtrl (_IDC_offset + 2107); */
 	private _description = "taskDesc" call BCE_fnc_getTaskSingleComponent;
 	private _Task_Type = "TaskType" call BCE_fnc_getTaskSingleComponent;
 
-	private _curType = [] call BCE_fnc_get_TaskCurType;
-
-	private _list_result = switch _curType do {
+	/* private _list_result = switch _curType do {
 		//-5 line
 		case 1: {
 			private _TaskList = _display displayCtrl (_IDC_offset + 2005);
@@ -36,7 +34,24 @@ _clearAction = {
 			[_TaskList,_taskVar,_default,_name]
 		};
 	};
-	_list_result params ["_TaskList","_taskVar","_default","_TaskVarName"];
+	_list_result params ["_TaskList","_taskVar","_default","_TaskVarName"]; */
+
+	//- Get Air Task Infos
+		private _curType = [0] call BCE_fnc_get_TaskCurType;
+
+		private _typeIndex = "AIR" call BCE_fnc_get_TaskCateIndex;
+		private _vehicle = [nil, _typeIndex] call BCE_fnc_get_TaskCurUnit;
+
+	private _TaskList = switch _curType do {
+		//-5 line
+		case 1: {
+			_display displayCtrl (_IDC_offset + 2005);
+		};
+		//-9 line
+		default {
+			_display displayCtrl (_IDC_offset + 2002);
+		};
+	};
 
 	private _isOverwrite = _overwrite > -1;
 	private _curLine = if (_isOverwrite) then {
@@ -45,18 +60,18 @@ _clearAction = {
 		[lbCurSel _taskList,0] select _Veh_Changed;
 	};
 
+	//- Clear info
+		["BCE_TaskBuilding_Clear", [_curLine]] call CBA_fnc_localEvent;
+
+	private _taskVar = (_typeIndex call BCE_fnc_getTaskVar) # 0;
 
 	//-check current Controls
 	([_display,_curLine,_curInterface,false,true,true] call BCE_fnc_Show_CurTaskCtrls) params ["_shownCtrls","_TextR"];
 
-  ["BCE_TaskBuilding_Clear", [_curLine]] call CBA_fnc_localEvent;
-	/* private _fnc = ["BCE_fnc_clearTask5line", "BCE_fnc_clearTask9line"] # _curType;
-	call (uiNamespace getVariable _fnc); */
-
 	//-Set Clear button color (except AV Terminal)
-	if (_IDC_offset != 0) then {
-		(_display displayCtrl (_IDC_offset + 2106)) ctrlSetBackgroundColor ([[1,0,0,0.5],[0,0,0,0.8]] select ((_taskVar # _curLine # 0) == "NA"));
-	};
+		if (_IDC_offset != 0) then {
+			(_display displayCtrl (_IDC_offset + 2106)) ctrlSetBackgroundColor ([[1,0,0,0.5],[0,0,0,0.8]] select ((_taskVar # _curLine # 0) == "NA"));
+		};
 
 	//-Task Status
 	{
@@ -78,10 +93,10 @@ _clearAction = {
 			_TaskList lbSetPictureRightColorSelected [_forEachIndex, [0, 0, 0, 0]];
 			_TaskList lbSetTextRight [_forEachIndex, _TextR # _forEachIndex # 0];
 		};
-	} forEach (uiNamespace getVariable _TaskVarName);
+	} forEach _taskVar;
 };
 
-_MenuChanged = {
+private _MenuChanged = {
 	private ["_curStateText","_desc","_code_list","_page","_lastPage","_text_list","_text"];
 	_curStateText = ctrlText _control;
 	_desc = _display displayCtrl 2004;

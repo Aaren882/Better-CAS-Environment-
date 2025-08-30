@@ -1653,6 +1653,8 @@
           };
 
           //-IP
+					#define CTAB_TASK_TOOLBOX_EH \
+            onToolBoxSelChanged = _this + [false,TASK_OFFSET] call BCE_fnc_ToolBoxChanged
           class New_Task_IPtype: New_Task_IPtype
           {
             idc = idc_D(2012);
@@ -1665,7 +1667,13 @@
               "$STR_BCE_Tit_BFT_marker",
               "$STR_BCE_Tit_OverHead"
             };
-            onToolBoxSelChanged = _this + [false,TASK_OFFSET] call BCE_fnc_ToolBoxChanged;
+						tooltips[] =
+						{
+							"",
+							"$STR_BCE_Tip_BFT_marker",
+							""
+						};
+						CTAB_TASK_TOOLBOX_EH;
           };
           class New_Task_TGT: New_Task_TGT
           {
@@ -1677,6 +1685,12 @@
               "$STR_BCE_Tit_Map_marker",
               "$STR_BCE_Tit_BFT_marker"
             };
+						tooltips[] =
+						{
+							"",
+							"$STR_BCE_Tip_BFT_marker"
+						};
+						CTAB_TASK_TOOLBOX_EH;
           };
           class New_Task_MarkerCombo: New_Task_MarkerCombo
           {
@@ -1785,6 +1799,7 @@
               "$STR_BCE_Tit_OverHead"
             };
             sizeEx = BUILDER_LINE_H;
+						CTAB_TASK_TOOLBOX_EH;
           };
 
           //-Remarks
@@ -1799,6 +1814,7 @@
               "FAH",
               "$STR_BCE_Default"
             };
+						CTAB_TASK_TOOLBOX_EH;
           };
           class New_Task_DangerClose_Text: New_Task_DangerClose_Text
           {
@@ -1879,7 +1895,7 @@
             text = "2000";
           };
         };
-
+        #undef CTAB_TASK_TOOLBOX_EH
         #undef BUILDER_LINE_H
       };
 

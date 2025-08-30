@@ -5,8 +5,9 @@
   # LINK .\fn_getTaskProps.sqf
 
   Params : 
-    "_taskID" :  ConfigName
-    "_cateSel" :  Index Number (0,1,2...)
+		_curType : Current Task Type Index Number
+		_cateSel : Current Category Index Number
+		_display : Display (default is displayNull)
   
   RETURN : [
     "Variable Name",   : Default is Class name

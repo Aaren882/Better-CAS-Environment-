@@ -11,7 +11,7 @@ switch _curLine do {
 		];
 		_taskVar_0 = _taskVar # 0;
 
-		_vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;;
+		// _vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 		//-Weapon List
 		[ctrlParent _weap,_weap,_vehicle,false,false,false] call BCE_fnc_checkList;
@@ -71,10 +71,12 @@ switch _curLine do {
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
 		_taskVar_1 = _taskVar # 1;
 
+		(_taskVar_1 param [3,[]]) params [["_ctrlSel1",0],["_ctrlSel2",0]];
+
 		//-Back to previous status
 		if ((_taskVar_1 # 0) != "NA") then {
-			_ctrl1 lbSetCurSel (_taskVar_1 # 3 # 0);
-			_ctrl2 lbSetCurSel (_taskVar_1 # 3 # 1);
+			_ctrl1 lbSetCurSel _ctrlSel1;
+			_ctrl2 lbSetCurSel _ctrlSel2;
 		};
 
 		_ctrl1sel = lbCurSel _ctrl1;
@@ -106,10 +108,12 @@ switch _curLine do {
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
 		_taskVar_6 = _taskVar # 6;
 
+		(_taskVar_6 param [3,[]]) params [["_ctrlSel1",0],["_ctrlSel2",0]];
+
 		//-Back to previous status
 		if ((_taskVar_6 # 0) != "NA") then {
-			_ctrl1 lbSetCurSel (_taskVar_6 # 3 # 0);
-			_ctrl2 lbSetCurSel (_taskVar_6 # 3 # 1);
+			_ctrl1 lbSetCurSel _ctrlSel1;
+			_ctrl2 lbSetCurSel _ctrlSel2;
 		};
 
 		_ctrl1sel = lbCurSel _ctrl1;
@@ -162,15 +166,17 @@ switch _curLine do {
 			"_ctrl2POS","_ctrl3POS","_ctrl4POS"
 		];
 		_taskVar_8 = _taskVar # 8;
-		_InfoText = _taskVar_8 # 4;
-		_isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
 
+		_InfoText = _taskVar_8 # 4;
+		_isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") || (_InfoText == ""));
 		_Info = [format ["%1 :[%2]", localize "STR_BCE_With", _taskVar_8 # 4],localize "STR_BCE_MarkWith"] select _isEmptyInfo;
+
+		(_taskVar_8 param [3,[]]) params [["_ctrlSel1",0],["_ctrlSel2",0]];
 
 		//-Back to previous status
 		if ((_taskVar_8 # 0) != "NA") then {
-			_ctrl1 lbSetCurSel (_taskVar_8 # 3 # 0);
-			_ctrl2 lbSetCurSel (_taskVar_8 # 3 # 1);
+			_ctrl1 lbSetCurSel _ctrlSel1;
+			_ctrl2 lbSetCurSel _ctrlSel2;
 			_ctrl4 ctrlSetText _Info;
 		} else {
 			_ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
@@ -217,9 +223,11 @@ switch _curLine do {
 
 		//-Back to previous status
 		if ((_taskVar_9 # 0) != "NA") then {
-			_ctrl1 lbSetCurSel (_taskVar_9 # 2 # 0);
-			_ctrl4 lbSetCurSel (_taskVar_9 # 2 # 1);
-			_ctrl5 lbSetCurSel (_taskVar_9 # 2 # 2);
+			(_taskVar_9 param [3,[]]) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",0]];
+
+			_ctrl1 lbSetCurSel _cndtion1;
+			_ctrl4 lbSetCurSel _cndtion2;
+			_ctrl5 lbSetCurSel _cndtion3;
 
 			_ctrl2 ctrlSetText (str (_taskVar_9 # 1));
 		} else {
@@ -273,7 +281,7 @@ switch _curLine do {
 
 		//-Back to previous status
 		if ((_taskVar_10 # 0) != "NA") then {
-			(_taskVar_10 # 2) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",false]];
+			(_taskVar_10 # 3) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",false]];
 			_ctrl1 lbSetCurSel _cndtion1;
 			_ctrl4 lbSetCurSel _cndtion2;
 			_ctrl6 cbSetChecked _cndtion3;
