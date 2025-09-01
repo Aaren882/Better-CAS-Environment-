@@ -193,6 +193,9 @@ private _taskUnit = switch (typeName _unit) do {
 							_CFF_info set [7, _MSN_RECUR];
 							[_MSN_NAME, _CFF_info, _taskUnit] call BCE_fnc_set_CFF_Value;
 						};
+
+						//- Make Sure there's no action existing
+							terminate (["CFF_Action",scriptNull,_taskUnit] call BCE_fnc_get_CFF_Value);
 						
 						[
 							_taskUnit,

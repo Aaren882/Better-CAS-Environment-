@@ -10,6 +10,11 @@ params[
 
 //- check "_chargeInfo" exist
 	private _noCharge = _chargeInfo findIf {true} < 0;
+	
+	private _curAction = ["CFF_Action",scriptNull,_taskUnit] call BCE_fnc_get_CFF_Value;
+	if (!isNull _curAction) then {
+		terminate _curAction;
+	};
 	["CFF_Action", _thisScript, _taskUnit] call BCE_fnc_set_CFF_Value;
 	// diag_log "--------------------------";
 	// diag_log format ["doAim_CFF : _chargeInfo = %1", _chargeInfo];
