@@ -37,11 +37,11 @@ switch _curLine do {
         //- Setup Text
           private _color = "#ffffff";
           private _T = [
-            "%1 Min(s)",
-            "%1 Round(s)",
+            "STR_BCE_CFF_SUP_DESC_SEL_MIN",
+            "STR_BCE_CFF_SUP_DESC_SEL_RND",
             [
-              "per %1 Min(s)",
-              "per %1 Sec(s)"
+              "STR_BCE_CFF_SUP_DESC_SEL_PER_MIN",
+              "STR_BCE_CFF_SUP_DESC_SEL_PER_SEC"
             ] select _secNum
           ];
           private _struct = format [
@@ -52,7 +52,7 @@ switch _curLine do {
 
         //- return
           private _txt = format [
-            (_T # _forEachIndex),
+            localize (_T # _forEachIndex),
             _struct
           ];
           
@@ -62,8 +62,8 @@ switch _curLine do {
     //- Check "_output" exist
       if (count _output == 0) then {
         private _T = [
-          ["%1 Round(s)", 1],
-          ["per %1 Min(s)", 1]
+          [localize "STR_BCE_CFF_SUP_DESC_SEL_RND", 1],
+          [localize "STR_BCE_CFF_SUP_DESC_SEL_PER_MIN", 1]
         ];
         //- it will be "1 Round, Per 1 Min"
         _output = _T apply {format _x};

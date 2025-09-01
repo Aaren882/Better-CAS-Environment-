@@ -1885,6 +1885,26 @@
 			<Chinese>結果 : %1 發砲彈 &amp; 共 %2 輪次</Chinese>
 			<Chinesesimp>结果 : %1 发炮弹 &amp; 共 %2 轮次</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_CFF_SUP_DESC_SEL_MIN">
+			<Original>%1 Min(s)</Original>
+			<Chinese>%1 分鐘</Chinese>
+			<Chinesesimp>%1 分钟</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_DESC_SEL_RND">
+			<Original>%1 Round(s)</Original>
+			<Chinese>%1 發</Chinese>
+			<Chinesesimp>%1 发</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_DESC_SEL_PER_MIN">
+			<Original>per %1 Min(s)</Original>
+			<Chinese>每 %1 分鐘</Chinese>
+			<Chinesesimp>每 %1 分钟</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_CFF_SUP_DESC_SEL_PER_SEC">
+			<Original>per %1 Sec(s)</Original>
+			<Chinese>每 %1 秒</Chinese>
+			<Chinesesimp>每 %1 秒</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_CFF_SUP_DURATION_Tip">
 			<Original>Duration in minutes</Original>
 			<Chinese>持續時間 (分鐘)</Chinese>
