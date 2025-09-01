@@ -188,8 +188,19 @@ class RscDisplayAVTerminal
 		"<a href='https://en.wikipedia.org/wiki/Multiservice_tactical_brevity_code'>Wikipedia</a>"
 	};
 
-	class controlsBackground
+	class controlsBackground: BCE_Mission_Build_Controls
 	{
+		class BCE_Holder: BCE_Holder
+		{
+      class BCE_Mission: BCE_Mission
+			{
+				class AIR: AIR
+				{
+					9Line = "AIR_9_LINE_OLD";
+					5Line = "AIR_5_LINE_OLD";
+				};
+			};
+		};
 		class CA_Map: RscMapControl
 		{
 			idcMarkerColor = 1090;
@@ -198,7 +209,7 @@ class RscDisplayAVTerminal
 			onDraw = "call BCE_fnc_TAC_Map";
 		};
 	};
-	class controls
+	class controls: BCE_Mission_Build_Controls
 	{
 		class AVT_Info_Back;
 		class TGP_Info_Back: AVT_Info_Back
@@ -550,34 +561,32 @@ class RscDisplayAVTerminal
 			show = 0;
 			colorBackground[] = {0,0,0,0};
 		};
-		class New_Task_Desc: RscStructuredText
+		class New_Task_Desc: taskDesc
 		{
 			idc = 2004;
-			text = "$STR_BCE_Description";
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2) min 0.048";
 			x = "50 * (safezoneW / 64) + (safezoneX)";
 			y = "3 * (safezoneH / 40) + (safezoneY) + (19.9 * (safezoneH / 40) + 0.01)";
 			w = "14 * (safezoneW / 64)";
 			h = 11 * TextH;
 			show = 0;
-			colorBackground[] = {0,0,0,0};
-			//lineSpacing = 0.5;
-			class Attributes
+			class Attributes: Attributes
 			{
 				font = "RobotoCondensed_BCE";
 				colorLink = "#D09B43";
 			};
 		};
-		class New_Task_Desc_Extended: New_Task_Desc
+		class New_Task_Desc_Extended: New_Task_Desc_Extended
 		{
 			idc = 20041;
 			colorBackground[] = {0,0,0,0.5};
 			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			x = "50 * (safezoneW / 64) + (safezoneX)";
 			y = "((safezoneY) + (19.9 * (safezoneH / 40) + 0.01) + ((11/2)*(safezoneH / 30)))";
-			h = 9 * TextH;
+			w = "14 * (safezoneW / 64)";
+			h = 8 * TextH;
 			fade = 1;
 			Enabled = 0;
-			lineSpacing = 0.5;
 		};
 		class New_Task_Desc_Extended_show: ctrlButton
 		{
@@ -690,7 +699,7 @@ class RscDisplayAVTerminal
 					text = "8: FRND :";
 					data = "$STR_BCE_DECS_FRND";
 					tooltip = "$STR_BCE_TIP_FRND";
-					Expression_idc[] = {2012,2013,2014,2016};
+					Expression_idc[] = {2012,2013,2014,2026};
 				};
 				class Line9: Line1
 				{
@@ -717,7 +726,12 @@ class RscDisplayAVTerminal
 				{
 					text = "1:  :";
 					textRight = "$STR_BCE_clickx2";
-					Expression_idc[] = {20110,2011,20111,20112,20113,2020,2021,2022,2023,2024};
+					Expression_idc[] = {
+						20110,2011,
+						20111,20112,
+						20113,
+						2020,2021,2022,2023,2024
+					};
 					multi_options = 1;
 					default = 1;
 					tooltip = "$STR_BCE_TIP_5Line";
@@ -728,7 +742,7 @@ class RscDisplayAVTerminal
 					data = "$STR_BCE_DECS_FRNDMark";
 					tooltip = "$STR_BCE_TIP_FRND";
 					multi_options = 0;
-					Expression_idc[] = {2012,2013,2014,2016};
+					Expression_idc[] = {2012,2013,2014,2026};
 				};
 				class Line3: Line2
 				{
@@ -776,70 +790,37 @@ class RscDisplayAVTerminal
 		};
 
 		//-Game Plan
-		class New_Task_Ctrl_Title: RscButtonMenu
+		class New_Task_Ctrl_Title: New_Task_Ctrl_Title
 		{
 			idc = 20110;
-			style = 2;
-			text = "$STR_BCE_ControlType_BNT";
 			size = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
-			sizeEx = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2";
-			colorBackground[] = {0,0,0,0.4};
-			show = 0;
-			shadow = 1;
-			periodFocus = 0;
-			periodOver = 0;
-			tooltip = "$STR_BCE_more_Details";
-			onButtonClick = "call BCE_fnc_Extended_Desc";
-			BCE_Desc = "$STR_BCE_DECS_sm_CtrlType";
-			class Attributes
-			{
-				font = "RobotoCondensed_BCE";
-				color = "#E5E5E5";
-				align = "left";
-				shadow = "true";
-			};
 			ExpPOS(1,0.5,1);
+			show = 0;
 		};
-		class New_Task_CtrlType: RscToolbox
+		class New_Task_CtrlType: New_Task_CtrlType
 		{
 			idc = 2011;
 			ExpPOS(2.15,1,1);
-			rows = 1;
-			columns = 3;
-			strings[] =
-			{
-				"Type 1",
-				"Type 2",
-				"Type 3"
-			};
 			font = "RobotoCondensed_BCE";
 			show = 0;
-			colorBackground[] = {0,0,0,0.3};
 		};
-		class New_Task_AttackType_Title: New_Task_Ctrl_Title
+		class New_Task_AttackType_Title: New_Task_AttackType_Title
 		{
 			idc = 20111;
-			text = "$STR_BCE_AttackType_BNT";
-			BCE_Desc = "$STR_BCE_DECS_sm_AttackType";
 			ExpPOS(3.25,0.5,1);
+			show = 0;
 		};
-		class New_Task_AttackType: New_Task_CtrlType
+		class New_Task_AttackType: New_Task_AttackType
 		{
 			idc = 20112;
 			ExpPOS(4.4,1,1);
-			columns = 2;
-			strings[] =
-			{
-				"BoT",
-				"BoC"
-			};
+			show = 0;
 		};
-		class New_Task_Ordnance_Title: New_Task_Ctrl_Title
+		class New_Task_Ordnance_Title: New_Task_Ordnance_Title
 		{
 			idc = 20113;
-			text = "$STR_BCE_OrdnanceREQ_BNT";
-			BCE_Desc = "$STR_BCE_DECS_sm_Ordnance";
 			ExpPOS(5.5,0.5,1);
+			show = 0;
 		};
 
 		//-UNIT info
@@ -938,31 +919,20 @@ class RscDisplayAVTerminal
 		#endif
 
 		//-IP
-		class New_Task_IPtype: New_Task_CtrlType
+		class New_Task_IPtype: New_Task_IPtype
 		{
 			idc = 2012;
 			ExpPOS(1,1,1);
-			rows = 1;
-			columns = 3;
-			strings[] =
-			{
-				"$STR_BCE_Tit_Map_marker",
-				"$STR_BCE_Tip_Click_Map",
-				"$STR_BCE_Tit_OverHead"
-			};
+			show = 0;
 			onToolBoxSelChanged = "call BCE_fnc_ToolBoxChanged";
 		};
-		class New_Task_TGT: New_Task_IPtype
+		class New_Task_TGT: New_Task_TGT
 		{
 			idc = 20121;
-			columns = 2;
-			strings[] =
-			{
-				"$STR_BCE_Tit_Map_marker",
-				"$STR_BCE_Tip_Click_Map"
-			};
+			ExpPOS(1,1,1);
+			show = 0;
 		};
-		class New_Task_MarkerCombo: RscCombo
+		class New_Task_MarkerCombo: New_Task_MarkerCombo
 		{
 			idc = 2013;
 			ExpPOS(2,0.5,1);
@@ -970,184 +940,109 @@ class RscDisplayAVTerminal
 			colorBackground[] = {0.5,0.5,0.5,0.6};
 			colorSelectBackground[] = {0.5,0.5,0.5,0.6};
 			//colorPictureSelected[] = {1,1,1,0};
-			wholeHeight = 0.8;
-			font = "PuristaMedium";
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2)";
 			onMouseButton = "(_this # 0) call BCE_fnc_IPMarkers";
-			class Items
-			{
-				class NA
-				{
-					text = "$STR_BCE_SelectMarker";
-					data = "[]";
-					default = 1;
-				};
-			};
 		};
-		class New_Task_IPExpression: New_Task_Expression
+		class New_Task_IPExpression: New_Task_IPExpression
 		{
 			idc = 2014;
 			ExpPOS(2,0.5,1);
-			text = "";
-			canModify = 0;
-			tooltip = "$STR_BCE_tip_ShowResult";
+			show = 0;
 		};
 
 		//-TG Description
-		class New_Task_TG_DESC: RscEditMulti
+		class New_Task_TG_DESC: New_Task_TG_DESC
 		{
 			idc = 2015;
 			ExpPOS(1,1,5);
-			text = "";
 			show = 0;
 		};
 
 		//-Mark
-		class New_Task_GRID_DESC: RscEdit
+		class New_Task_GRID_DESC: New_Task_GRID_DESC
 		{
 			idc = 2016;
-			ExpPOS(3,1,1);
-			text = "$STR_BCE_MarkWith";
+			ExpPOS(1,1,1);
 			show = 0;
 		};
 
 		//-ERGS
-		class New_Task_EGRS_Azimuth: New_Task_CtrlType
+		class New_Task_EGRS_Azimuth: New_Task_EGRS_Azimuth
 		{
 			idc = 2017;
 			ExpPOS(3,1,1);
-			rows = 1;
-			columns = 8;
-			strings[] =
-			{
-				"N",
-				"NE",
-				"E",
-				"SE",
-				"S",
-				"SW",
-				"W",
-				"NW"
-			};
-			values[] =
-			{
-				0,
-				45,
-				90,
-				135,
-				180,
-				225,
-				270,
-				315
-			};
 			show = 0;
 		};
-		class New_Task_EGRS_Bearing: RscEdit
+		class New_Task_EGRS_Bearing: New_Task_EGRS_Bearing
 		{
 			idc = 2018;
 			ExpPOS(2,0.5,1);
-			text = "$STR_BCE_Bearing_ENT";
 			show = 0;
 		};
-		class New_Task_EGRS: New_Task_IPtype
+		class New_Task_EGRS: New_Task_EGRS
 		{
 			idc = 2019;
-			columns = 4;
-			strings[] =
-			{
-				"$STR_BCE_Tit_Azimuth",
-				"$STR_BCE_Tit_Bearing",
-				"$STR_BCE_Tit_Map_marker",
-				"$STR_BCE_Tit_OverHead"
-			};
+			ExpPOS(1,1,1);
+			show = 0;
+		};
+		class New_Task_FRND_DESC: New_Task_FRND_DESC
+		{
+			idc = 2026;
+			ExpPOS(3,1,1);
+			show = 0;
 		};
 
 		//-Remarks
-		class New_Task_FADH: New_Task_IPtype
+		class New_Task_FADH: New_Task_FADH
 		{
 			idc = 2200;
-			columns = 3;
-			strings[] =
-			{
-				"FAD",
-				"FAH",
-				"$STR_BCE_Default"
-			};
+			ExpPOS(1,1,1);
+			show = 0;
 		};
-		class New_Task_DangerClose_Text: RscText
+		class New_Task_DangerClose_Text: New_Task_DangerClose_Text
 		{
 			idc = 2201;
 			ExpBOX(4,1,17,1);
-			text = ": Danger Close";
-			tooltip = "$STR_BCE_DangerClose_DESC";
 			show = 0;
 		};
-		class New_Task_DangerClose_Box: RscCheckBox
+		class New_Task_DangerClose_Box: New_Task_DangerClose_Box
 		{
 			idc = 2202;
-			textureChecked = "a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-			textureFocusedChecked = "a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-			textureHoverChecked = "a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-			texturePressedChecked = "a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-			textureDisabledChecked = "a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-			tooltip = "$STR_BCE_DangerClose_DESC";
 			ExpBOX(4,1,1,0);
 			show = 0;
 		};
 
 		//-Ordnance
-		class AI_Remark_WeaponCombo: New_Task_MarkerCombo
+		class AI_Remark_WeaponCombo: AI_Remark_WeaponCombo
 		{
 			idc = 2020;
 			ExpPOS(6.65,0.5,1);
 			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			show = 0;
 			onMouseButtonClick = "";
 			onLBSelChanged = "call BCE_fnc_SelWPN_AIR";
-			class Items{};
 		};
-		class AI_Remark_ModeCombo: AI_Remark_WeaponCombo
+		class AI_Remark_ModeCombo: AI_Remark_ModeCombo
 		{
 			idc = 2021;
-			onLBSelChanged = "";
+			ExpPOS(6.65,0.5,1);
+			show = 0;
 		};
-		class Attack_Range_Combo: AI_Remark_ModeCombo
+		class Attack_Range_Combo: Attack_Range_Combo
 		{
 			idc = 2022;
 			ExpPOS(7.65,1/3,1);
-			tooltip = "$STR_BCE_tip_Attack_Range";
-			class Items
-			{
-				class 2000m
-				{
-					text = "2000m";
-					value = 2000;
-					default = 1;
-				};
-				class 1500m
-				{
-					text = "1500m";
-					value = 1500;
-				};
-				class 1000m
-				{
-					text = "1000m";
-					value = 1000;
-				};
-			};
+			show = 0;
 		};
-		class Round_Count_Box: RscEdit
+		class Round_Count_Box: Round_Count_Box
 		{
 			idc = 2023;
-			Style = 2;
 			show = 0;
-			text = "1";
-			tooltip = "$STR_BCE_tip_Round_Count";
 		};
-		class Attack_Height_Box: Round_Count_Box
+		class Attack_Height_Box: Attack_Height_Box
 		{
 			idc = 2024;
-			tooltip = "$STR_BCE_tip_Attack_Height";
-			text = "2000";
+			show = 0;
 		};
 
 		//-List Controls
@@ -1235,7 +1130,7 @@ class RscDisplayAVTerminal
 		};
 
 		//-Switch 5 or 9 line
-		class Task_Type: RscCombo
+		class TaskType: TaskType
 		{
 			idc = 2107;
 			x = "50 * (safezoneW / 64) + (safezoneX)";
@@ -1243,27 +1138,8 @@ class RscDisplayAVTerminal
 			w = "14 * (safezoneW / 64)";
 			h = "safezoneH / 45";
 			font = "RobotoCondensed_BCE";
-			colorBackground[] = {0,0,0,0.3};
-			colorSelectBackground[] = {0.5,0.5,0.5,0.6};
-			wholeHeight = 0.8;
 			sizeEx = "0.028*SafezoneH";
 			onLBSelChanged = "call BCE_fnc_onLBTaskTypeChanged";
-			class Items
-			{
-				class 9line
-				{
-					text = "9 Line";
-					textRight = "";
-					value = 0;
-					default = 1;
-				};
-				class 5line
-				{
-					text = "5 Line";
-					textRight = "";
-					value = 1;
-				};
-			};
 		};
 	};
 };

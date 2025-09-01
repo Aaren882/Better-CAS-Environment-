@@ -11,7 +11,7 @@ switch _curLine do {
 		];
 		_taskVar_0 = _taskVar # 0;
 
-		// _vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
+		_vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 		//-Weapon List
 		[ctrlParent _weap,_weap,_vehicle,false,false,false] call BCE_fnc_checkList;
@@ -144,10 +144,10 @@ switch _curLine do {
 	case 7:{
 		_shownCtrls params ["_ctrl"];
 		private _taskVar7 = _taskVar # 7;
-		private _ctrlPOS = ctrlPosition _ctrl;
 
 		_ctrl ctrlSetText ([localize "STR_BCE_MarkWith",(_taskVar # 7 # 1)] select ((_taskVar7 # 0) != "NA"));
 
+		/*private _ctrlPOS = ctrlPosition _ctrl;
 		_ctrl ctrlSetPosition
 		[
 			_ctrlPOS # 0,
@@ -155,7 +155,7 @@ switch _curLine do {
 			_ctrlPOS # 2,
 			_ctrlPOS # 3
 		];
-		_ctrl ctrlCommit 0;
+		_ctrl ctrlCommit 0; */
 	};
 
 	//-Friendlies
@@ -206,24 +206,52 @@ switch _curLine do {
 		];
 		_ctrl3 ctrlCommit 0;
 
-		_ctrl4 ctrlSetPosition
+		/* _ctrl4 ctrlSetPosition
 		[
 			_ctrl2POS # 0,
 			(_ctrl2POS # 1) + (_ctrl2POS # 3),
 			_ctrl4POS # 2,
 			_ctrl4POS # 3
 		];
-		_ctrl4 ctrlCommit 0;
+		_ctrl4 ctrlCommit 0; */
 	};
 
 	//-EGRS [Toolbox, EditBox, output, Toolbox(Azimuth), Marker(combo)]
 	case 9:{
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4","_ctrl5"];
 		_taskVar_9 = _taskVar # 9;
+		(_taskVar_9 param [3,[]]) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",0]];
+
+		call {
+			if (_cndtion1 == 0) exitWith {
+				_ctrl4 ctrlShow true;
+
+				_ctrl2 ctrlShow false;
+				_ctrl5 ctrlShow false;
+			};
+			if (_cndtion1 == 1) exitWith {
+				_ctrl2 ctrlShow true;
+				_ctrl4 ctrlShow false;
+				_ctrl5 ctrlShow false;
+			};
+			//-Map Markers
+			if (_cndtion1 == 2) exitWith {
+				_ctrl5 ctrlShow true;
+				_ctrl5 call BCE_fnc_IPMarkers;
+
+				_ctrl2 ctrlShow false;
+				_ctrl4 ctrlShow false;
+			};
+			if (_cndtion1 == 3) exitWith {
+				_ctrl2 ctrlShow false;
+				_ctrl4 ctrlShow false;
+				_ctrl5 ctrlShow false;
+			};
+		};
 
 		//-Back to previous status
+		_ctrl3 ctrlSetText (_taskVar_9 # 0);
 		if ((_taskVar_9 # 0) != "NA") then {
-			(_taskVar_9 param [3,[]]) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",0]];
 
 			_ctrl1 lbSetCurSel _cndtion1;
 			_ctrl4 lbSetCurSel _cndtion2;
@@ -233,31 +261,7 @@ switch _curLine do {
 		} else {
 			_ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
 		};
-
-		_ctrl1sel = lbCurSel _ctrl1;
-		_ctrl3 ctrlSetText (_taskVar_9 # 0);
-
-		if (_ctrl1sel == 0) then {
-			_ctrl2 ctrlShow false;
-			_ctrl5 ctrlShow false;
-
-			_ctrl4 ctrlShow true;
-		} else {
-			//-Map Markers
-			if (_ctrl1sel == 2) then {
-				_ctrl5 ctrlShow true;
-				_ctrl5 call BCE_fnc_IPMarkers;
-
-				_ctrl2 ctrlShow false;
-				_ctrl4 ctrlShow false;
-			} else {
-				_ctrl5 ctrlShow false;
-
-				_ctrl2 ctrlShow true;
-				_ctrl4 ctrlShow false;
-			};
-		};
-
+		
 		_ctrl2POS = ctrlPosition _ctrl2;
 		_ctrl3POS = ctrlPosition _ctrl3;
 

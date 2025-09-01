@@ -262,16 +262,15 @@ switch _curLine do {
 
 		call {
 			if (_cndtion1 == 0) exitWith {
+				_ctrl4 ctrlShow true;
+
 				_ctrl2 ctrlShow false;
 				_ctrl5 ctrlShow false;
-
-				_ctrl4 ctrlShow true;
 			};
 			if (_cndtion1 == 1) exitWith {
-				_ctrl5 ctrlShow false;
-
 				_ctrl2 ctrlShow true;
 				_ctrl4 ctrlShow false;
+				_ctrl5 ctrlShow false;
 			};
 			//-Map Markers
 			if (_cndtion1 == 2) exitWith {
@@ -280,6 +279,11 @@ switch _curLine do {
 
 				_ctrl2 ctrlShow false;
 				_ctrl4 ctrlShow false;
+			};
+			if (_cndtion1 == 3) exitWith {
+				_ctrl2 ctrlShow false;
+				_ctrl4 ctrlShow false;
+				_ctrl5 ctrlShow false;
 			};
 		};
 

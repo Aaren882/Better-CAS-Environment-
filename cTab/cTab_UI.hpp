@@ -1299,22 +1299,6 @@
             h = ContH;
             sizeEx = BUILDER_LINE_H;
             onLBSelChanged = "(_this + [17000]) call BCE_fnc_onLBTaskTypeChanged";
-            class Items
-            {
-              class 9line
-              {
-                text = "9 Line";
-                textRight = "";
-                value = 0;
-                default = 1;
-              };
-              class 5line
-              {
-                text = "5 Line";
-                textRight = "";
-                value = 1;
-              };
-            };
           };
           //-Task List
           // -Description
@@ -1422,7 +1406,7 @@
                 text = "7: MARK :";
                 data = "$STR_BCE_DECS_MARK";
                 tooltip = "$STR_BCE_TIP_MARK";
-                Expression_idc[] = {2016};
+                Expression_idc[] = {2026};
               };
               class Line8: Line1
               {
@@ -1752,30 +1736,6 @@
           {
             idc = idc_D(2017);
             ExpPOS(3,1,1);
-            rows = 1;
-            columns = 8;
-            strings[] =
-            {
-              "N",
-              "NE",
-              "E",
-              "SE",
-              "S",
-              "SW",
-              "W",
-              "NW"
-            };
-            values[] =
-            {
-              0,
-              45,
-              90,
-              135,
-              180,
-              225,
-              270,
-              315
-            };
             show = 0;
             sizeEx = BUILDER_LINE_H;
           };
@@ -1800,6 +1760,13 @@
             };
             sizeEx = BUILDER_LINE_H;
 						CTAB_TASK_TOOLBOX_EH;
+          };
+					class New_Task_FRND_DESC: New_Task_FRND_DESC
+          {
+						idc = idc_D(2026);
+            sizeEx = BUILDER_LINE_H;
+            ExpPOS(3,1,1);
+            show = 0;
           };
 
           //-Remarks
@@ -1857,42 +1824,17 @@
             idc = idc_D(2022);
             ExpPOS(7.65,1/3,1);
             sizeEx = BUILDER_LINE_H;
-            tooltip = "$STR_BCE_tip_Attack_Range";
-            class Items
-            {
-              class 2000m
-              {
-                text = "2000m";
-                value = 2000;
-                default = 1;
-              };
-              class 1500m
-              {
-                text = "1500m";
-                value = 1500;
-              };
-              class 1000m
-              {
-                text = "1000m";
-                value = 1000;
-              };
-            };
           };
           class Round_Count_Box: Round_Count_Box
           {
             idc = idc_D(2023);
             sizeEx = BUILDER_LINE_H;
-            Style = 2;
             show = 0;
-            text = "1";
-            tooltip = "$STR_BCE_tip_Round_Count";
           };
           class Attack_Height_Box: Attack_Height_Box
           {
             idc = idc_D(2024);
             sizeEx = BUILDER_LINE_H;
-            tooltip = "$STR_BCE_tip_Attack_Height";
-            text = "2000";
           };
         };
         #undef CTAB_TASK_TOOLBOX_EH

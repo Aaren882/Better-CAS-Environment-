@@ -69,9 +69,9 @@ private _clearAction = {
 	([_display,_curLine,_curInterface,false,true,true] call BCE_fnc_Show_CurTaskCtrls) params ["_shownCtrls","_TextR"];
 
 	//-Set Clear button color (except AV Terminal)
-		if (_IDC_offset != 0) then {
+		// if (_IDC_offset != 0) then {
 			(_display displayCtrl (_IDC_offset + 2106)) ctrlSetBackgroundColor ([[1,0,0,0.5],[0,0,0,0.8]] select ((_taskVar # _curLine # 0) == "NA"));
-		};
+		// };
 
 	//-Task Status
 	{

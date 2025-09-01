@@ -17,15 +17,20 @@
 params [
   ["_curType", [] call BCE_fnc_get_TaskCurType],
   ["_cateSel", ["Cate"] call BCE_fnc_get_TaskCurSetup],
-  ["_display", displayNull]
+  ["_display", displayNull],
+	["_withDefault",true]
 ];
 
 //- Getting Values
 private _props = [_display,_curType,_cateSel] call BCE_fnc_getDisplayTaskProps;
-_props params ["_varName","_default_Value"];
-private _default =+ _default_Value;
+_props params [["_varName",""],["_default_Value",[]]];
+
+private _default = [];
+if (_withDefault) then {
+	_default =+ _default_Value;
+};
 
 [
-  uiNamespace getVariable [_varName,_default],
+  uiNamespace getVariable [_varName,_default_Value],
   _default
 ]

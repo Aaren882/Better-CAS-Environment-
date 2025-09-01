@@ -7,8 +7,15 @@ params [
 private _display = ctrlParent _control;
 private _NotAVT = _IDC_offset != 0;
 private _IDCs = [2002,2005] apply {_x + _IDC_offset};
-private _vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
+
+private _typeIndex = "AIR" call BCE_fnc_get_TaskCateIndex;
+private _vehicle = [nil,_typeIndex] call BCE_fnc_get_TaskCurUnit;
 _lbCurSel call BCE_fnc_set_TaskCurType;
+
+//- Check Vehicle after switched (replace with current "_vehicle")
+	if (isNull ([nil,_typeIndex] call BCE_fnc_get_TaskCurUnit)) then {
+		[_vehicle,_typeIndex] call BCE_fnc_set_TaskCurUnit
+	};
 
 // - ["_9line","_5line"]
 //- Output all + hide them all

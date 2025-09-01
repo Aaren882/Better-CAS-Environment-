@@ -144,10 +144,12 @@ if (_displayName find "Tablet" < 0 && _displayName find "Android" < 0) exitWith 
 	[_ctrl] call BCE_fnc_drawEach_TaskMapInfo;
 
 //- CAS
-private _curCate = ["Cate",0] call BCE_fnc_get_TaskCurSetup;
-private _curType = [] call BCE_fnc_get_TaskCurType;
+private _curType = [0] call BCE_fnc_get_TaskCurType;
+private _typeIndex = "AIR" call BCE_fnc_get_TaskCateIndex;
+_typeIndex = _typeIndex + [_display, false];
+private _taskVar = (_typeIndex call BCE_fnc_getTaskVar) # 0;
+
 if (_curCate == 0) then {
-	private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 	_taskVar = switch _curType do {
 		//-5 line
 		case 1: {

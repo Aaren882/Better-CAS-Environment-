@@ -72,9 +72,9 @@ class BCE_Mission_Property
 				Controls[] = 
 				{
 					{
-						"","New_Task_CtrlType",
-						"","New_Task_AttackType",
-						"",
+						"New_Task_Ctrl_Title","New_Task_CtrlType",
+						"New_Task_AttackType_Title","New_Task_AttackType",
+						"New_Task_Ordnance_Title",
 						"AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
 					},
 					{
@@ -130,33 +130,40 @@ class BCE_Mission_Property
 					Clear = "BCE_fnc_clearTask9line"; //- Clear the data
 				};
 		};
+		class AIR_9_LINE_OLD: AIR_9_LINE
+		{
+			class Events: Events
+			{
+				Opened = "BCE_fnc_DblClick9line_OLD";
+			};
+		};
 		class AIR_9_LINE_ATAK: AIR_9_LINE
 		{
-				Controls[] = 
+			Controls[] = 
+			{
 				{
-					{
-						"","New_Task_CtrlType",
-						"","New_Task_AttackType_Combo",
-						"",
-						"AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
-					},
-					{
-						"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression"
-					},
-					{},
-					{},
-					{},
-					{"New_Task_TG_DESC"},
-					{"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
-					{"New_Task_GRID_DESC"},
-					{"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_FRND_DESC"},
-					{"New_Task_EGRS","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_MarkerCombo"},
-					{"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
-				};
-				class Events: Events
+					"","New_Task_CtrlType",
+					"","New_Task_AttackType_Combo",
+					"",
+					"AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
+				},
 				{
-					LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
-				};
+					"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression"
+				},
+				{},
+				{},
+				{},
+				{"New_Task_TG_DESC"},
+				{"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
+				{"New_Task_GRID_DESC"},
+				{"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_FRND_DESC"},
+				{"New_Task_EGRS","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_MarkerCombo"},
+				{"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
+			};
+			class Events: Events
+			{
+				LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
+			};
 		};
 		class AIR_5_LINE
 		{
@@ -183,12 +190,12 @@ class BCE_Mission_Property
 			//- Maybe use UI Controls would be better
 			Controls[] = {
 				{
-					"","New_Task_CtrlType",
-					"","New_Task_AttackType",
-					"",
+					"New_Task_Ctrl_Title","New_Task_CtrlType",
+					"New_Task_AttackType_Title","New_Task_AttackType",
+					"New_Task_Ordnance_Title",
 					"AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
 				},
-				{"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_GRID_DESC_Air_5line"},
+				{"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_FRND_DESC"},
 				{"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
 				{"New_Task_TG_DESC","New_Task_GRID_DESC"},
 				{"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
@@ -213,7 +220,6 @@ class BCE_Mission_Property
 			{
 				Opened = "BCE_fnc_DblClick5line";
 				Enter = "BCE_fnc_DataReceive5line";
-				 = "BCE_fnc_DataReceive5line";
 				SendData = "BCE_fnc_SendData5line";
 				DataSent = "BCE_fnc_DataSent_AIR";
 				Element_SelChanged = "BCE_fnc_SelChanged_AIR";
@@ -221,26 +227,33 @@ class BCE_Mission_Property
 				Clear = "BCE_fnc_clearTask5line"; //- Clear All the data
 			};
 		};
+		class AIR_5_LINE_OLD: AIR_5_LINE
+		{
+			class Events: Events
+			{
+				Opened = "BCE_fnc_DblClick5line_OLD";
+			};
+		};
 		class AIR_5_LINE_ATAK: AIR_5_LINE
 		{
-				Controls[] = {
-					{
-						"","New_Task_CtrlType",
-						"","New_Task_AttackType_Combo",
-						"",
-						"AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
-					},
-					{"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_GRID_DESC_Air_5line"},
-					{"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
-					{"New_Task_TG_DESC","New_Task_GRID_DESC"},
-					{"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
-				};
-
-				class Events: Events
+			Controls[] = {
 				{
-					TaskUnitChanged = "BCE_fnc_ATAK_TaskUnitChanged_AIR"; //- For the TaskUnit Selection
-					LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
-				};
+					"","New_Task_CtrlType",
+					"","New_Task_AttackType_Combo",
+					"",
+					"AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
+				},
+				{"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_GRID_DESC_Air_5line"},
+				{"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
+				{"New_Task_TG_DESC","New_Task_GRID_DESC"},
+				{"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
+			};
+
+			class Events: Events
+			{
+				TaskUnitChanged = "BCE_fnc_ATAK_TaskUnitChanged_AIR"; //- For the TaskUnit Selection
+				LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
+			};
 		};
 	};
 	class GND //- Ground Fire Support

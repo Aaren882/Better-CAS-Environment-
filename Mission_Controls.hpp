@@ -120,8 +120,8 @@ class BCE_Mission_Build_Controls
     REGISTER_FNC;
 
     idc = PROP_IDC(2004);
-    text = "Desc :";
-    colorBackground[] = {0,0,0,0};
+    text = "$STR_BCE_Description";
+    colorBackground[] = {0.5,0,0,0.2};
     class Attributes
     {
       font = "RobotoCondensed_BCE";
@@ -130,8 +130,17 @@ class BCE_Mission_Build_Controls
       shadow = 1;
     };
   };
+  class New_Task_Desc_Extended: taskDesc
+  {
+    REGISTER_FNC;
+
+    idc = PROP_IDC(20041);
+		lineSpacing = 0.5;
+  };
   class New_Task_Ctrl_Title: BCE_RscButtonMenu
   {
+		REGISTER_FNC;
+		
     idc = PROP_IDC(20110);
     style = 2;
     text = "$STR_BCE_ControlType_BNT";
@@ -508,6 +517,7 @@ class BCE_Mission_Build_Controls
 
       idc = PROP_IDC(2201);
       text = ": Danger Close";
+			tooltip = "$STR_BCE_DangerClose_DESC";
     };
     class New_Task_DangerClose_Box: RscCheckBox
     {
@@ -519,6 +529,7 @@ class BCE_Mission_Build_Controls
       textureHoverChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
       texturePressedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
       textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+			tooltip = "$STR_BCE_DangerClose_DESC";
     };
   //- CFF
     class TaskType_GND: TaskType

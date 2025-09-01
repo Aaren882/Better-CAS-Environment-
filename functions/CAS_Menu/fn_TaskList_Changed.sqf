@@ -20,13 +20,15 @@ private _TaskList = _display displayCtrl (_IDCs # _curType);
 switch _curType do {
 	//-5 line
 	case 1: {
-		call BCE_fnc_cTab_5_TaskChanged;
+		call BCE_fnc_DblClick5line_OLD;
 	};
 	//-9 line
 	default {
-		call BCE_fnc_cTab_9_TaskChanged;
+		call BCE_fnc_DblClick9line_OLD;
 	};
 };
+// #TODO - Implement the new framework
+// ["BCE_TaskBuilding_Opened", [_curLine]] call CBA_fnc_localEvent;
 
 //-Write down Description
 private _description = "taskDesc" call BCE_fnc_getTaskSingleComponent;

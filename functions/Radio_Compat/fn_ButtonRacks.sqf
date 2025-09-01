@@ -1,6 +1,6 @@
 params ["_control"];
 
-_move = {
+private _move = {
 	params["_ctrl","_open",["_isList",false]];
 	if (_open) then {
 		_pos = [
@@ -24,11 +24,11 @@ _move = {
 	_ctrl ctrlSetFade ([1,0] select _open);
 };
 
-_display = ctrlparent _control;
-_list_Racks = _display displayCtrl 201142;
-_unit_pic = _display displayCtrl 20115;
+private _display = ctrlparent _control;
+private _list_Racks = _display displayCtrl 201142;
+private _unit_pic = _display displayCtrl 20115;
 
-_pos = ["x","y","w","h"] apply {
+private _pos = ["x","y","w","h"] apply {
 	call compile (getText(configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _unit_pic >> _x))
 };
 

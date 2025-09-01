@@ -31,9 +31,9 @@ params ["_curLine"];
 
 //- Setup Description and Layout
   private _description = "taskDesc" call BCE_fnc_getTaskSingleComponent;
+	private _groupDESC = ctrlParentControlsGroup _description;
 
-  if !(isnull _description) then {
-    private _groupDESC = ctrlParentControlsGroup _description;
+  if (!isnull _description && !isnull _groupDESC) then {
 
     //- Hide all un-needed Controls
       {

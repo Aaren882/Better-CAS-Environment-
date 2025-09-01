@@ -947,6 +947,10 @@ class CfgFunctions
 			class SendData9line;
 			class SendDataCFF;
 
+			//- OLD ones
+				class DblClick5line_OLD;
+				class DblClick9line_OLD;
+
 			class DblClick5line;
 			class DblClick9line;
 			class DblClickADJ;
@@ -989,12 +993,12 @@ class CfgFunctions
 				class Extended_WeaponDESC;
 				class Extended_TaskDESC;
 			};
-			class cTab_Task
+			/* class cTab_Task
 			{
 				file="MG8\AVFEVFX\functions\cTab\Task_Type";
 				class cTab_9_TaskChanged;
 				class cTab_5_TaskChanged;
-			};
+			}; */
 			class ATAK
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK";

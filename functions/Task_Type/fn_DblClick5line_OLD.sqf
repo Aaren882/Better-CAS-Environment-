@@ -69,7 +69,6 @@ switch _curLine do {
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
 		private ["_taskVar_1","_ctrl4POS","_InfoText","_isEmptyInfo","_Info"];
 		_taskVar_1 = _taskVar # 1;
-		_ctrl4POS = ctrlPosition _ctrl4;
 		_InfoText = _taskVar_1 # 4;
 		_isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
 
@@ -99,6 +98,7 @@ switch _curLine do {
 
 		_ctrl2POS = ctrlPosition _ctrl2;
 		_ctrl3POS = ctrlPosition _ctrl3;
+		_ctrl4POS = ctrlPosition _ctrl4;
 
 		//-Expression
 		_ctrl3 ctrlSetPosition
@@ -110,14 +110,16 @@ switch _curLine do {
 		];
 		_ctrl3 ctrlCommit 0;
 
-		_ctrl4 ctrlSetPosition
+
+		/* _ctrl4 ctrlSetPosition
 		[
 			_ctrl2POS # 0,
 			(_ctrl2POS # 1) + (_ctrl2POS # 3),
 			_ctrl4POS # 2,
 			_ctrl4POS # 3
 		];
-		_ctrl4 ctrlCommit 0;
+		_ctrl4 ctrlSetPositionX (_ctrl2POS # 0);
+		_ctrl4 ctrlCommit 0; */
 	};
 
 	//-Target
@@ -197,7 +199,7 @@ switch _curLine do {
 
 		//-Back to previous status
 		if ((_taskVar_4 # 0) != "NA") then {
-			(_taskVar_4 # 2) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",false]];
+			(_taskVar_4 # 3) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",false]];
 			_ctrl1 lbSetCurSel _cndtion1;
 			_ctrl4 lbSetCurSel _cndtion2;
 			_ctrl6 cbSetChecked _cndtion3;

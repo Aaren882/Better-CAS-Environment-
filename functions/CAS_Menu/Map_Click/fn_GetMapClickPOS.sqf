@@ -41,21 +41,27 @@ _mark = {
 };
 
 if (_button == 0) then {
-	private _cTab_show = "cTab_Android_dlg" in cTabIfOpen || isnil {cTabIfOpen};
-	
+	private _displayName = cTabIfOpen param [1, ""];
+	// private _cTab_show = "cTab_Android_dlg" == _displayName || !isnil {cTabIfOpen};
+
+	private _ctrlCombo = "New_Task_MarkerCombo" call BCE_fnc_getTaskSingleComponent;
+	private _type = "New_Task_IPtype" call BCE_fnc_getTaskSingleComponent;
+	private _TG_ToolBox = "New_Task_TGT" call BCE_fnc_getTaskSingleComponent;
+
+	private _inMSN_Builder = [_ctrlCombo, _type, _TG_ToolBox] findIf {ctrlShown _x} > -1;
+
 	//- "AV Terminal" or "Andorid Phone" or "cTab Tablet"
-	if ((!(isnull findDisplay 160) || (_IDC_Offset > 0)) && _cTab_show) then {
+	if (_inMSN_Builder) then {
 
 		// private _ctrlCombo = _display displayctrl (_IDC_Offset + 2013);
 		// private _type = _display displayctrl (_IDC_Offset + 2012);
-		private _ctrlCombo = "New_Task_MarkerCombo" call BCE_fnc_getTaskSingleComponent;
-		private _type = "New_Task_IPtype" call BCE_fnc_getTaskSingleComponent;
+
 		if (
 				_alt &&
 				!(ctrlshown _ctrlCombo) &&
 				(
 					ctrlshown _type ||
-					ctrlshown ("New_Task_TGT" call BCE_fnc_getTaskSingleComponent)
+					ctrlshown _TG_ToolBox
 				) &&
 				(
 					!(ctrlshown _type) ||

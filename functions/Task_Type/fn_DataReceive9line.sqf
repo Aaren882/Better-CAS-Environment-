@@ -315,8 +315,8 @@ switch _curLine do {
 		] select (isnil "_marker");
 
 		if !(isnil"_cardinaldir") then {
-			_taskVar set [9,[_text,_HDG,[],[lbCurSel _ctrl1,lbCurSel _ctrl4,lbCurSel _ctrl5],_TGPOS,_marker]];
-			_ctrl3 ctrlSetText (_taskVar # 9 # 0);
+			_ctrl3 ctrlSetText _text;
+			_taskVar set [9,[_text,_HDG,_TGPOS,[lbCurSel _ctrl1,lbCurSel _ctrl4,lbCurSel _ctrl5],_marker]];
 		};
 	};
 
@@ -394,9 +394,9 @@ if ((_taskVar # 6 # 0) != "NA") then {
 	//-EGRS
 	if ((_EGRS # 0) != "NA") then {
 
-		private _HDG = if !(isnil {_EGRS # 4}) then {
-			private _HDG = round ((_Target # 2) getDirVisual (_EGRS # 4));
-			private _text = format ["[%1] %2 %3°",_EGRS # 5, _HDG call BCE_fnc_getAzimuth, _HDG];
+		private _HDG = if !(isnil {_EGRS # 2}) then {
+			private _HDG = round ((_Target # 2) getDirVisual (_EGRS # 2));
+			private _text = format ["[%1] %2 %3°",_EGRS # 4, _HDG call BCE_fnc_getAzimuth, _HDG];
 			
 			_EGRS set [0, _text];
 			_EGRS set [1, _HDG];
@@ -407,9 +407,9 @@ if ((_taskVar # 6 # 0) != "NA") then {
 		};
 
 		private _relPOS = [
-			(_Target # 2) vectorAdd (((_EGRS # 4) vectorDiff (_Target # 2)) vectorMultiply 0.95),
+			(_Target # 2) vectorAdd (((_EGRS # 2) vectorDiff (_Target # 2)) vectorMultiply 0.95),
 			(_Target # 2) getPos [500, _HDG]
-		] select (isnil{_EGRS # 4});
+		] select (isnil{_EGRS # 2});
 
 		_EGRS set [2, _relPOS];
 
