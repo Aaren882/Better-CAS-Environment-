@@ -99,12 +99,13 @@ class ATAK_APPs
       class Menu_Property
       {
         ORDER = 4;
-        PAGE_CTRL = "ATAK_Group";
-        Opened = "BCE_fnc_ATAK_Group_Init";
-        ATAK_Buttons = "Group_Menu";
+        PAGE_CTRL = "";
+        // PAGE_CTRL = "ATAK_Group";
+        // Opened = "BCE_fnc_ATAK_Group_Init";
+        // ATAK_Buttons = "Group_Menu";
       };
 
-      onButtonClick = "[_this # 0] call BCE_fnc_ATAK_ChangeTool;";
+      // onButtonClick = "[_this # 0] call BCE_fnc_ATAK_ChangeTool;";
       
       text = ATAK_APP(Groups);
       textureNoShortcut="a3\3den\data\displays\display3den\panelright\modegroups_ca.paa";
