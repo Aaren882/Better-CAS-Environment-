@@ -31,7 +31,7 @@ BCE provides a suite of powerful, immersive tools to elevate your CAS experience
 
 - **Advanced Targeting & Visuals:** Experience realistic laser designator effects, a helicopter aiming HUD for aim-assist, and integrated turret spotlights/lasers for ground vehicles.
 
-- **ROVER-like Situational Awareness:** Gain a tactical edge with a system inspired by ROVER, featuring live TGP/Gunner video feeds, a 3D HUD with friendly/map icons, and a thermal infantry tracker.
+- **ROVER:** Gain a tactical edge with a system inspired by ROVER, featuring live TGP/Gunner video feeds, a 3D HUD with friendly/map icons, and a thermal infantry tracker.
 
 - **Mission & Crew Coordination:** Create and manage 5-line/9-line CAS tasks, Artillery Call for Fire (CFF), control AI air vehicle turrets, and assign JTAC roles. The AV Terminal provides a tactical map, crew lists (TFAR/ACRE2), and brevity code lookups.
 
