@@ -32,8 +32,10 @@ private _EDIT_color = _group controlsGroupCtrl 51;
       deleteMarker _marker;
 
     //- Data
-			private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
-      private _curSel_COLOR = _MarkerColorCache # lbCurSel _EDIT_color # 0;
+			// private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
+      // private _curSel_COLOR = _MarkerColorCache # lbCurSel _EDIT_color # 0;
+			private _curSel_COLOR = _EDIT_color lbData (lbCurSel _EDIT_color);
+
       switch true do {
         //- Marker Dropper
         case (_shape == "ICON"): {
@@ -54,7 +56,6 @@ private _EDIT_color = _group controlsGroupCtrl 51;
 
           _marker setMarkerType _data;
           _marker setMarkerShadow (0 < getNumber (configFile >> "CfgMarkers" >> _type >> "shadow"));
-
         };
         //- Drawing Tool
         case (_shape == "RECTANGLE" || _shape == "ELLIPSE"): {

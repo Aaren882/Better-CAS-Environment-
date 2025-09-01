@@ -37,7 +37,7 @@ private [
 	"_toggle","_toggle_show",
 	"_widgetMode",
 	"_reDirecting","_reSizing","_LMB",
-	"_curSelMarker","_isnt_Drawing","_ColorCache"
+	"_curSelMarker","_isnt_Drawing"
 ];
 
 //- tell the Marker index
@@ -67,7 +67,7 @@ _LMB = (inputMouse 0) > 0;
 (localNamespace getVariable ["cTab_Marker_CurSel",[]]) params [["_curSelMarker",-1],"_EditMarker","_drawMode","_Marker_Component"];
 (localNamespace getVariable ["cTab_Marker_CurHov",[]]) params [["_hovSel",-1],"_hovCol","_hovmarker"];
 _isnt_Drawing = isnil{localNamespace getVariable "BCE_DrawHold_lastClick"};
-_ColorCache = uiNamespace getVariable "BCE_Marker_Color";
+// _ColorCache = uiNamespace getVariable "BCE_Marker_Color";
 
 {
 	_x params ["_marker","_texture","_ID","_markerShape","_def_Size","_editable"];
@@ -80,12 +80,12 @@ _ColorCache = uiNamespace getVariable "BCE_Marker_Color";
 	_onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
 
 	_config = configFile >> "CfgMarkers" >> _markerType;
-	_color = [];
-	{
+	_color = _markerColor call BCE_fnc_getMarkerColor;
+	/* {
 		if (_markerColor == (_x # 0)) exitWith {
 			_color = _x # 1;
 		};
-	} count _ColorCache;
+	} count _ColorCache; */
 	_color set [3, [0.4, markerAlpha _marker] select _onSameChannel];
 	
 	//- Marker Data

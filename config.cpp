@@ -635,6 +635,8 @@ class CfgFunctions
 
 			class VecRot;
 
+			class getMarkerColor;
+
 			class getAzimuth;
 			class getAzimuthMil;
 			class getTurretDir;

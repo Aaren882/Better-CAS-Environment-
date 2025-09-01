@@ -816,39 +816,44 @@ _settings apply {
 		// ---------- Marker Color -----------
 		if ((_x # 0) == "markerColor") exitWith {
 			private _markerColor = _display displayCtrl (17000 + 1090);
-			private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
 
 			if (lbSize _markerColor == 0) then {
 				if (_isDialog) then {
 					private _EDIT_color = _display displayCtrl (17000 + 1301) controlsGroupCtrl 51;
 					{
-						_x params ["","_color","_name"];
-
+						private _cfgName = configName _x;
+						private _color = _cfgName call BCE_fnc_getMarkerColor;
+						if (count _color == 0) then {continue}; //- #NOTE - Skip if the color is "scope!=2"
+						
+						private _name = getText (_x >> "name");
 						private _index = _markerColor lbAdd _name;
+
 						_EDIT_color lbAdd _name;
 						_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
 						_EDIT_color lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
 
 						_markerColor lbSetPictureColorSelected [_index, _color];
 						_markerColor lbSetPictureColor [_index, _color];
-						// _markerColor lbSetData [_index, str [configName _x, _color]];
+						_markerColor lbSetData [_index, _cfgName]; //- Save color "configName"
 
 						_EDIT_color lbSetPictureColorSelected [_index, _color];
 						_EDIT_color lbSetPictureColor [_index, _color];
-					} forEach _MarkerColorCache;
+						_EDIT_color lbSetData [_index, _cfgName]; //- Save color "configName"
+					} forEach ("true" configClasses (configFile >> "CfgMarkerColors"));
 					_markerColor lbSetCurSel (_x # 1);
 					
 					//- Set EH only for Dialog
 						_markerColor ctrlAddEventHandler ["LBSelChanged", {[cTabIfOpen # 1,[['markerColor',_this # 1]]] call cTab_fnc_setSettings}];
 				} else {
 					//- is display ,so there's no need to create the entire Color List
+					private _MarkerColorArr = uiNamespace getVariable ["BCE_Marker_Color_Array",[]];
+					private _cfgName = (_MarkerColorArr # (_x # 1));
+					private _color = _cfgName call BCE_fnc_getMarkerColor;
 
-					(_MarkerColorCache # (_x # 1)) params ["_CfgName","_color","_name"];
-
-					private _index = _markerColor lbAdd _name;
+					private _index = _markerColor lbAdd getText (configFile >> "CfgMarkerColors" >> _cfgName);
 					_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
 					_markerColor lbSetPictureColor [_index, _color];
-					// _markerColor lbSetData [_index, str [configName _cfg, _color]];
+					_markerColor lbSetData [_index, _cfgName];
 					_markerColor lbSetCurSel _index;
 				};
 			};

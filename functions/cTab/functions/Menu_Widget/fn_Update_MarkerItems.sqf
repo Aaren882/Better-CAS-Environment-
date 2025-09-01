@@ -24,8 +24,7 @@ lbClear _dropBox;
       ];
 
       _colorLb = _display displayCtrl (17000 + 1090);
-      _color = _MarkerColorCache # lbCurSel _colorLb # 1;
-
+      _color = (_colorLb lbData (lbCurSel _colorLb)) call BCE_fnc_getMarkerColor;
       _color set [3, 0.75];
 
       {
@@ -89,7 +88,7 @@ lbClear _dropBox;
 
         if (_color findif {true} < 0) then {
           private _colorLb = _display displayCtrl (17000 + 1090);
-          _color = _MarkerColorCache # lbCurSel _colorLb # 1;
+					_color = (_colorLb lbData (lbCurSel _colorLb)) call BCE_fnc_getMarkerColor;
         };
 
         _index = _dropBox lbAdd _name;
