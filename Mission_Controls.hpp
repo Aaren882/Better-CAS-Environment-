@@ -121,7 +121,7 @@ class BCE_Mission_Build_Controls
 
     idc = PROP_IDC(2004);
     text = "$STR_BCE_Description";
-    colorBackground[] = {0.5,0,0,0.2};
+    colorBackground[] = {0,0,0,0};
     class Attributes
     {
       font = "RobotoCondensed_BCE";
@@ -140,7 +140,7 @@ class BCE_Mission_Build_Controls
   class New_Task_Ctrl_Title: BCE_RscButtonMenu
   {
 		REGISTER_FNC;
-		
+
     idc = PROP_IDC(20110);
     style = 2;
     text = "$STR_BCE_ControlType_BNT";
