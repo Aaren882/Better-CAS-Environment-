@@ -15,10 +15,13 @@ _all_lists apply {
 	(_display displayctrl _x) ctrlshow false;
 };
 
-_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+_curType = [] call BCE_fnc_get_TaskCurType;
 
-_TaskType = _display displayctrl (_IDC_offset + 2107);
-_description = _display displayctrl (_IDC_offset + 2004);
+/* _TaskType = _display displayctrl (_IDC_offset + 2107);
+_description = _display displayctrl (_IDC_offset + 2004); */
+private _TaskType = "TaskType" call BCE_fnc_getTaskSingleComponent;
+private _description = "taskDesc" call BCE_fnc_getTaskSingleComponent;
+
 _Tasklist = _display displayctrl (_all_lists # _curType);
 
 _TaskType lbSetCurSel _curType;
@@ -31,7 +34,7 @@ _all_Tasks = ["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"];
 if (_clear_index > -1) then {
 	[(_display displayCtrl (17000 + 12010)), false, 'cTab_Tablet_dlg', 17000, _clear_index] call BCE_fnc_clearTaskInfo;
 } else {
-	private _text = format ["<t size='%1'>%2</t>",[0.6,0.8] select ("chinese" in language),_Tasklist lbdata (lbCurSel _Tasklist)];
+	private _text = format ["<t size='1'>%2</t>",[0.6,0.8] select ("chinese" in language),_Tasklist lbdata (lbCurSel _Tasklist)];
 
 	//-Set Description
 	_description ctrlSetStructuredText parseText _text;

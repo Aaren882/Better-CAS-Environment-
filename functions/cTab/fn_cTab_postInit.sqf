@@ -42,7 +42,7 @@
 	["PLP_mapTools",false],
 	["nightMode",2],
 	["hCam",""],
-	["group_Info",[]],
+	["Custom_DropMenu",createHashMap],
 	
 	//- Define Size
 		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.443437)])
@@ -99,6 +99,7 @@ cTabTxtSize = 0.06;
 
 //- CBA Settings
 	BCE_cTab_Marker_Sync_time call BCE_fnc_cTab_Marker_update;
+	["BCE_onFireAdjusted", BCE_fnc_ATAK_onFireAdjusted] call CBA_fnc_addEventHandler;
 
 //////////////////////////////////////////////////////////////
 

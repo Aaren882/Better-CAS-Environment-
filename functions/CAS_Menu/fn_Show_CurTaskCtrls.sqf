@@ -1,5 +1,11 @@
+/*
+	NAME : BCE_fnc_Show_CurTaskCtrls
+	
+	Get "_shownCtrls" for Task/Mission Builder
+*/
 params ["_display","_curLine","_curInterface",["_type_changed",false],["_skip",false],["_getTextR",false]];
-private ["_is_Display","_Info_list","_curType","_IDCs_list","_TypeCtrls","_shownCtrls","_return"];
+// private ["_is_Display","_Info_list","_curType","_IDCs_list","_TypeCtrls","_shownCtrls","_return"];
+privateAll;
 
 _is_Display	= displayNull isEqualType _display;
 _Info_list = switch _curInterface do {
@@ -9,9 +15,9 @@ _Info_list = switch _curInterface do {
 	case 1: {missionNamespace getVariable "cTab_Task_TaskItems"};
 };
 
-if (isNil {_Info_list}) exitWith {hintsilent "Error variable not Exist";};
+if (isNil {_Info_list}) exitWith {["Error variable not Exist"] call BIS_fnc_error};
 
-_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+_curType = [] call BCE_fnc_get_TaskCurType;
 
 _IDCs_list = _Info_list # 0;
 _TypeCtrls = if (_is_Display) then {

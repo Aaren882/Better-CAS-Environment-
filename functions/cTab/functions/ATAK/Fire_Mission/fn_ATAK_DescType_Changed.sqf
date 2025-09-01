@@ -1,20 +1,27 @@
-params ["_control", "_lbCurSel"];
-private ["_TaskList","_EditBox","_curType","_taskVar","_show"];
+/*
+	NAME : BCE_fnc_ATAK_DescType_Changed
 
-uiNamespace setVariable ["BCE_ATAK_Desc_Type",_lbCurSel];
+	PARAMS :
+		_control  : Description preset Drop menu
+		_lbCurSel : Drop menu Selection (Number 0,1,2...)
+		_curLine  : The line of Task Description #NOTE - 5th, 3rd... line
+*/
+params ["_control", "_lbCurSel","_curLine"];
 
-_TaskList = ctrlParentControlsGroup _control;
-_EditBox = _TaskList controlsGroupCtrl (17000 + 2015);
+if (isnull _control) exitWith {};
 
-_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
-_taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
+//- Update Description Sel preset
+["Desc",_lbCurSel] call BCE_fnc_set_TaskCurSetup;
 
-_show = _lbCurSel < 1;
+//- Get Description EditBox
+	(_curLine call BCE_fnc_getTaskComponents) params ["_shownCtrls"];
+	_shownCtrls params ["_EditBox"];
+
+private _show = _lbCurSel < 1;
 _EditBox ctrlShow _show;
 
-call BCE_fnc_ATAK_Refresh_TaskInfos;
-
-//- Set DESC Text
+//- Set DESC Text (Enter DESC value)
 if !(_show) then {
 	_EditBox ctrlSetText (_control lbText _lbCurSel);
+	["BCE_TaskBuilding_Enter", [_curLine]] call CBA_fnc_localEvent;
 };

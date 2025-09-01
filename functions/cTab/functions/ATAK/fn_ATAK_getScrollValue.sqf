@@ -7,7 +7,7 @@ if (!_show || _APP_page != _page) exitWith {};
 
 private _ctrl = switch _page do {
 	case "mission": {
-		_APP_Ctrl
+		_APP_Ctrl getVariable "Mission_Control"
 	};
 	case "message": {
 		_APP_Ctrl controlsGroupCtrl 10;
@@ -19,5 +19,5 @@ private _ctrl = switch _page do {
 };
 
 if !(isnull _ctrl) then {
-	uiNamespace setVariable ["BCE_ATAK_Scroll_Value",(ctrlScrollValues _ctrl) # 0];
+	localNamespace setVariable ["BCE_ATAK_Scroll_Value",(ctrlScrollValues _ctrl) # 0];
 };

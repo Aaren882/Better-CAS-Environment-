@@ -24,7 +24,7 @@ _fnc_onConfirm = {
 			player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 		};
 
-		player setVariable ["TGP_View_Selected_Vehicle",_vehicle];
+		[_vehicle] call BCE_fnc_set_TaskCurUnit;
 		_vehicle call BCE_fnc_TGP_Select_Confirm;
 	};
 };
@@ -37,7 +37,7 @@ _UnitList = call BCE_fnc_getCompatibleAVs;
 switch _mode do {
 	case "onLoad": {
 		_ctrlValue ctrlsetfontheight GUI_GRID_H;
-		_selected = player getvariable ["TGP_View_Selected_Vehicle",objNull];
+		_selected = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 		_ctrlButtonOK = _display displayCtrl 1;
 		_ctrlButtonOK ctrlAddEventHandler ["ButtonClick", _fnc_onConfirm];

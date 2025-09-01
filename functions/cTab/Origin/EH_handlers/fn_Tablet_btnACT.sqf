@@ -5,7 +5,7 @@ params [["_info",""]];
 //-Control Turret
 if (_info isNotEqualTo "") exitWith {
 	private ["_vehicle","_current_turret","_condition"];
-	_vehicle = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+	_vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;;
 
 	if (isNull _vehicle) exitWith {
 		["UAV",localize "STR_BCE_Error_Vehicle",5] call cTab_fnc_addNotification;
@@ -86,12 +86,15 @@ private _View_Cam = {
 
 //-ATAK
 if ("Android" in _displayName) exitWith {
-	([_displayName,"showMenu"] call cTab_fnc_getSettings) params ["_mode","","",["_PgComponents",createHashMap]];
+	([_displayName,"showMenu"] call cTab_fnc_getSettings) params ["_page","","",["_PgComponents",createHashMap]];
+	
 	private _hcam = [_displayName, "hcam"] call cTab_fnc_getSettings;
-	private _c = _PgComponents param [0, [0,1] select (_hcam != "")];
+	private _PG_data = _PgComponents getOrDefault [_page,[]];
+  _PG_data params ["_line", ["_SubSel", [0,1] select (_hcam != "")]];
+
 	switch true do {
 		//- Helmet CAM
-		case (_mode == "VideoFeeds" && _c == 1): {
+		case (_page == "VideoFeeds" && _SubSel == 1): {
 			558 cutRsc ['BCE_HCAM_View','PLAIN',0.3,false];
 		};
 		default {

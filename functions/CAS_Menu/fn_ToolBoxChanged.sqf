@@ -1,113 +1,56 @@
+
+/*
+	NAME : BCE_fnc_ToolBoxChanged
+*/
+
 params ["_control", "_selectedIndex",["_ismenu",false],["_IDC_offset",0],["_DisplayName",""]];
-private ["_display","_Task_Type","_curInterface","_ListInfo","_curLine","_shownCtrls","_TypeChanged","_MenuChanged"];
 
-_display = ctrlParent _control;
-_Task_Type = uiNameSpace getVariable ["BCE_Current_TaskType",0];
+private _display = ctrlParent _control;
+private _Task_Type = [0] call BCE_fnc_get_TaskCurType;
 
-_curInterface = switch _IDC_offset do {
+private _curInterface = switch _IDC_offset do {
 	case 17000: {1};
 	default {0};
 };
 
 //-get Which interface should be applied
-if (_DisplayName == "cTab_Android_dlg") then {
-	private _showMenu = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
-
-	_ListInfo = switch _Task_Type do {
-		//-5 line
-		case 1: {[controlNull,4]};
-		//-9 line
-		default {[controlNull,10]};
-	};
-
-	_curLine = (_showMenu # 2) param [1,-1];
-} else {
-
 	private _IDCs = [2002,2005] apply {_x + _IDC_offset};
-	_ListInfo = switch _Task_Type do {
+	private _ListInfo = switch _Task_Type do {
 		//-5 line
 		case 1: {[_display displayCtrl (_IDCs # 1),4]};
 		//-9 line
 		default {[_display displayCtrl (_IDCs # 0),10]};
 	};
-	_curLine = lbCurSel (_ListInfo # 0);
-};
+	private _curLine = lbCurSel (_ListInfo # 0);
+		/* if (_DisplayName == "cTab_Android_dlg") then {
+			private _showMenu = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
+
+			_ListInfo = switch _Task_Type do {
+				//-5 line
+				case 1: {[controlNull,4]};
+				//-9 line
+				default {[controlNull,10]};
+			};
+
+			_curLine = (_showMenu # 2) param [1,-1];
+		} else {
+		}; */
+
+
 
 _ListInfo params ["_taskList","_remarks"];
 
 //-Correcting _curline if it's greater than the Task has counted
-_curLine = _remarks min _curLine;
-_shownCtrls = [_display,_curLine,_curInterface,false,_ismenu] call BCE_fnc_Show_CurTaskCtrls;
+private _curLine = _remarks min _curLine;
 
-_TypeChanged = {
-	switch _curLine do {
-		//-EGRS [Toolbox, EditBox, output, Toolbox(Azimuth), Marker(combo)]
-		case 9:{
-			_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4","_ctrl5"];
-
-			if (_selectedIndex == 0) then {
-				_ctrl4 ctrlShow true;
-
-				_ctrl2 ctrlShow false;
-				_ctrl5 ctrlShow false;
-			} else {
-				//-Map Markers
-				if (_selectedIndex == 2) then {
-					_ctrl5 ctrlShow true;
-					_ctrl5 call BCE_fnc_IPMarkers;
-
-					_ctrl2 ctrlShow false;
-					_ctrl4 ctrlShow false;
-				} else {
-					if (_selectedIndex == 3) then {
-						_ctrl2 ctrlShow false;
-						_ctrl4 ctrlShow false;
-						_ctrl5 ctrlShow false;
-					} else {
-						_ctrl2 ctrlShow true;
-						_ctrl4 ctrlShow false;
-						_ctrl5 ctrlShow false;
-					};
-				};
-			};
-		};
-		//-FAD/H [Toolbox, EditBox, output, Toolbox(Azimuth)]
-		case _remarks:{
-			_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
-
-			if (_selectedIndex == 2) then {
-				_ctrl4 ctrlShow false;
-				_ctrl2 ctrlShow false;
-			} else {
-				//-FA D/H
-				if (_selectedIndex == 0) then {
-					_ctrl2 ctrlShow false;
-					_ctrl4 ctrlShow true;
-				} else {
-					_ctrl2 ctrlShow true;
-					_ctrl4 ctrlShow false;
-				};
-			};
-		};
-		default {
-			if (_selectedIndex == 0) then {
-				_shownCtrls params ["_toolBox","_combo"];
-				_combo ctrlShow true;
-				_combo call BCE_fnc_IPMarkers;
-			} else {
-				_shownCtrls params ["_toolBox","_combo","_textBox"];
-				_combo ctrlShow false;
-			};
-		};
-	};
-};
-
-_MenuChanged = {
+//- use for Other menu (ex. Brevity Codes from AV Terminal)
+if (_ismenu) exitWith {
 	private [
 		"_BG_grp","_clearbut","_Task_Type","_list_Title","_task_title","_desc",
 		"_desc_ex","_desc_show","_squad_title","_squad_pic","_squad_list","_Button_Racks","_List_Racks",
 		"_ctrlList","_MainList","_To_BottomH"
 	];
+	private _shownCtrls = [_display,_curLine,_curInterface,false,_ismenu] call BCE_fnc_Show_CurTaskCtrls;
 	_BG_grp = _display displayCtrl 2000;
 	_clearbut = _display displayCtrl 2106;
 	_Task_Type = _display displayCtrl 2107;
@@ -135,7 +78,7 @@ _MenuChanged = {
 		case 0: {
 			_desc ctrlshow false;
 			_ctrlList = if !(_ListState) then {
-				[_display,0.2,true,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_ListSwitch;
+				[_display,0.2,true,[nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit] call BCE_fnc_ListSwitch;
 
 				_ctrlList + (
 					([2100,2103,2104,2105]) apply {
@@ -244,4 +187,8 @@ _MenuChanged = {
 	{_x ctrlCommit 0.2} forEach [_BG_grp] + _ctrlList;
 };
 
-call ([_TypeChanged,_MenuChanged] select _ismenu);
+[_control,_selectedIndex,_curLine] call BCE_fnc_onTaskElementChange;
+/* call ([
+	BCE_fnc_SelChanged_AIR,
+	_MenuChanged
+] select _ismenu); */

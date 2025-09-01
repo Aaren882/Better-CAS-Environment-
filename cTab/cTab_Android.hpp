@@ -45,191 +45,80 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 };
 
 //-ATAK Menu W
-#define PhoneBFTContainerW(AxisX) AxisX*((phoneSizeW * 2/5)/3)
+#define ATAK_POS_H (((60)) / 2048 * CustomPhoneH)
+#define ATAK_POS_W ((phoneSizeW * 2/5)/3)
+#define PhoneBFTContainerW(AxisX) AxisX * ATAK_POS_W
 
 #define ATAK_POS(XPOS,YPOS,WPOS,HPOS) \
 	x = PhoneBFTContainerW(XPOS); \
-	y = YPOS * ((60)) / 2048 * CustomPhoneH; \
+	y = YPOS * ATAK_POS_H; \
 	w = PhoneBFTContainerW(WPOS); \
-	h = HPOS * (((60)) / 2048 * CustomPhoneH)
+	h = HPOS * ATAK_POS_H
 
-//- message Line
-	class ATAK_Message_Line: RscStructuredText
-	{
-		x = 0;
-		y = 0;
-		w = PhoneBFTContainerW(3);
-		h = 0.7 * (((60)) / 2048 * CustomPhoneH);
-		size = 0.65 * (((60)) / 2048 * CustomPhoneH);
-		class Attributes
-		{
-			color = "#dee0de";
-		};
-	};
+//- Custom Controls
+#include "cTab_Custom_Controls.hpp"
 
-//- Group Manage
-	class ATAK_Group_Manage_System: RscControlsGroupNoScrollbars
-	{
-		x = 0;
-		y = 0;
-		w = PhoneBFTContainerW(3);
-		h = 0.7 * (((60)) / 2048 * CustomPhoneH);
-		class controls
-		{
-			#define BNT_W 0.4
-			#define TAG_BNT_W(SIZE) (3 - (SIZE * BNT_W))
-			class Tag_Bnt: BCE_RscButtonMenu
-			{
-				idc = 15;
-				w = PhoneBFTContainerW(TAG_BNT_W(1));
-				h = 0.7 * (((60)) / 2048 * CustomPhoneH);
-				size = 0.7 * (((60)) / 2048 * CustomPhoneH);
-
-				text = "";
-				onButtonClick = "call BCE_fnc_ATAK_onGroupClicked"
-
-				colorBackground[] = {0.15,0.15,0.15,0.86};
-				colorBackground2[] = {0.15,0.15,0.15,0.86};
-				colorBackgroundFocused[] = {0.15,0.15,0.15,0.5};
-
-				animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
-				animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
-				animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.65)";
-
-				class Attributes: Attributes
-				{
-					size = 0.8;
-					valign = "middle";
-				};
-			};
-			//- Chat Bnt
-				class Msg_bnt: Tag_Bnt
-				{
-					idc = 16;
-					style = "0x02 + 0x0C + 0x0100";
-					shadow = 1;
-					text = "<img image='MG8\AVFEVFX\data\chat.paa'/>";
-					
-					x = PhoneBFTContainerW(TAG_BNT_W(1));
-					w = PhoneBFTContainerW(BNT_W);
-					size = 0.65 * (((60)) / 2048 * CustomPhoneH);
-					
-					colorBackground[] = {0.26,0.26,0.26,0.86};
-					colorBackground2[] = {0.26,0.26,0.26,0.86};
-					colorBackgroundFocused[] = {0.26,0.26,0.26,0.5};
-
-					class Attributes: Attributes
-					{
-						size = 1;
-						align = "center";
-						valign = "Bottom";
-					};
-				};
-		};
-	};
-	class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
-	{
-		// h = (3 * 0.7) * (((60)) / 2048 * CustomPhoneH); // - Display with 3 lines
-		class controls: controls
-		{
-			class menuBackground: RscBackground
-			{
-				idc = -1;
-				x = 0;
-				y = 0.7 * (((60)) / 2048 * CustomPhoneH);
-				w = PhoneBFTContainerW(3);
-				h = (2 * 0.7) * (((60)) / 2048 * CustomPhoneH);
-				colorBackground[] = {0,0,0,0.2};
-			};
-			class List_Info: RscListNBox
-			{
-				idc = 50;
-				
-				onLoad="(_this # 0) ctrlenable false;";
-
-				shadow = 1;
-				shadowTextLeft = 1;
-				shadowTextRight = 1;
-				shadowPictureLeft = 1;
-				shadowPictureRight = 1;
-
-				x = 0;
-				y = 0.7 * (((60)) / 2048 * CustomPhoneH);
-				w = PhoneBFTContainerW(3);
-				h = (2 * 0.7) * (((60)) / 2048 * CustomPhoneH);
-
-				sizeEx = (0.8 * 0.7) * (((60)) / 2048 * CustomPhoneH);
-				rowHeight = 0.7 * (((60)) / 2048 * CustomPhoneH);
-				
-				colorDisabled[]={1,1,1,1};
-				colorShadow[] = {0,0,0,1};
-
-				drawSideArrows = 0;
-				tooltipPerColumn = 1;
-				period=0;
-				colorBackground[]={0,0,0,0.5};
-
-				font = "RobotoCondensed_BCE";
-				columns[] = {0.01,0.99};
-			};
-			class Tag_Bnt: Tag_Bnt
-			{
-				w = PhoneBFTContainerW(TAG_BNT_W(2));
-				
-				colorBackground[] = {0.2,0.2,0.2,0.86};
-				colorBackground2[] = {0.2,0.2,0.2,0.86};
-				colorBackgroundFocused[] = {0.2,0.2,0.2,0.5};
-			};
-			class Msg_bnt: Msg_bnt {};
-			class Edit_bnt: Msg_bnt
-			{
-				idc = 17;
-				x = PhoneBFTContainerW(TAG_BNT_W(2));
-				text = "<img image='MG8\AVFEVFX\data\edit.paa'/>";
-
-				colorBackground[] = {0.23,0.23,0.23,0.86};
-				colorBackground2[] = {0.23,0.23,0.23,0.86};
-				colorBackgroundFocused[] = {0.23,0.23,0.23,0.5};
-			};
-		};
-	};
-	#undef BNT_W
-	#undef TAG_BNT_W
-
-//- ATAK APPs
-	class ATAK_AppMenu_Base: cTab_RscControlsGroup
-	{
-		x = 0;
-		y = 0;
-		w = phoneSizeW * 2/5;
-		h = phoneSizeH - 0.75 * (((60)) / 2048 * CustomPhoneH);
-		
-		class VScrollbar
-		{
-			scrollSpeed=0.08;
-		};
-		class HScrollbar{};
-		class Scrollbar{};
-	};
+//- BCE Frameworks for ATAK
 #include "ATAK_Tools\cTab_ATAK_APP.hpp"
 #include "ATAK_Tools\cTab_ATAK_Tools.hpp"
 
 PHONE_CLASS
 {
+	/* #define GLUE(A,B) #A;##B
+	#define IS_DSP true */
 	#ifdef MOUSE_CLICK_EH
-		TaskIDCs_List[] = {
+		/* TaskIDCs_List[] = {
 			//- 9 Line
 			{93,94,95,96,97,98,99,idc_D(2025),idc_D(2026),idc_D(20260),idc_D(2027),idc_D(20270),idc_D(2015),idc_D(2029),idc_D(2030),idc_D(2031),idc_D(2032)},
 			//- 5 Line
-			{51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2043),idc_D(20430),idc_D(2015),idc_D(2016)}
-		};
+			{51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2027),idc_D(20430),idc_D(2015),idc_D(2016)}
+			//- Call For Fire
+			// {51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2027),idc_D(20430),idc_D(2015),idc_D(2016)}
+		}; */
 		onMouseZChanged = "call BCE_fnc_ATAK_getScrollValue";
+		// #define IS_DSP false
 	#endif
-	class controlsBackground
+
+	/* #define ONLOAD_FNC \
+		#call BCE_fnc_onLoad_Display
+	#define ONLOAD_FNC_BCE \
+		#[_this # 0, PHONE_CLASS, IS_DSP] call cTab_fnc_onIfOpen
+	onLoad = GLUE(ONLOAD_FNC,ONLOAD_FNC_BCE); //- when the phone is opened
+
+	#undef GLUE
+	#undef ONLOAD_FNC
+	#undef ONLOAD_FNC_BCE
+	#undef IS_DSP */
+	class controlsBackground: BCE_Mission_Build_Controls
 	{
-		
+		//- BCE Mission Holder (Init BCE Properties)
+			class BCE_Holder: BCE_Holder
+			{
+				//- Key to varify the display is opened
+				// * in this case the "displayName" can be the same for its dialog or display type
+				// * because the displayName is used to check if the display's stored properties
+				// * #NOTE - cTab displayName => "cTabDisplayPropertyGroups" variable from cTab
+				displayName = "Android"; // from ☝️ here
+				
+				// #LINK - Mission_Property.hpp
+				class BCE_Mission: BCE_Mission
+				{
+					class Air: Air //- Change UI Setups
+					{
+						9Line = "AIR_9_LINE_ATAK";
+						5Line = "AIR_5_LINE_ATAK";
+					};
+					class GND: GND //- Change UI Setups
+					{
+						ADJ = "ADJ_ATAK";
+						SUP = "SUP_ATAK";
+						IMM_SUP = "IMM_SUP_ATAK";
+					};
+				};
+			};
 		class screen: cTab_android_RscMapControl
 		{
+			// mapOrientation = 1; //- #TODO - Map Follew player's Orientation 
 			#ifdef MOUSE_CLICK_EH
 				style = 48 + 512;
 				onMouseButtonClick = MOUSE_CLICK_EH;
@@ -884,10 +773,10 @@ PHONE_CLASS
 							ATAK_POS(0.75,0,0.75,0.75);
 						#endif
 
-						onButtonClick = "call BCE_fnc_ATAK_DataReceiveButton";
+						onButtonClick = "call BCE_fnc_ATAK_bnt_clickEvent";
 					};
 					
-					class Live_Feed: Back
+					class Live_Feed: Send
 					{
 						idc = 12;
 						
@@ -900,10 +789,10 @@ PHONE_CLASS
 							ATAK_POS(1.5,0,0.75,0.75);
 						#endif
 						
-						action = "call cTab_Tablet_btnACT";
-						onButtonClick = "";
+						// action = "";
+						onButtonClick = "call BCE_fnc_ATAK_bnt_clickEvent";
 					};
-					class Show_Result: Back
+					class Show_Result: Send
 					{
 						idc = 13;
 						
@@ -938,7 +827,7 @@ PHONE_CLASS
 							ATAK_POS(2.25,0,0.75,0.75);
 						#endif
 						
-						onButtonClick = "call BCE_fnc_ATAK_ShowTaskResult";
+						onButtonClick = "call BCE_fnc_ATAK_bnt_clickEvent";
 					};
 				};
 			};

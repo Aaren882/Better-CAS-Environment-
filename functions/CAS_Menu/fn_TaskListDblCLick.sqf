@@ -1,66 +1,69 @@
-params ["_control", "_curLine"];
-private ["_display","_title","_Task_Type","_sel_TaskType","_list_result","_Expression_class","_desc_show","_extend_desc","_description","_sendData","_clearbut","_checklist","_desc","_descriptionPOS","_TaskListPOS","_titlePOS","_Expression_Ctrls","_shownCtrls"];
+// #TODO - Implement the new framework
 
-_display = ctrlParent _control;
-_title = _display displayctrl 2003;
-_Task_Type = _display displayCtrl 2107;
-_sel_TaskType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
-_list_result = switch _sel_TaskType do {
+params ["_control", "_curLine"];
+
+private _display = ctrlParent _control;
+private _title = _display displayctrl 2003;
+private _Task_Type = _display displayCtrl 2107;
+
+private _curType = [0] call BCE_fnc_get_TaskCurType;
+private _typeIndex = "AIR" call BCE_fnc_get_TaskCateIndex;
+private _taskVar = (_typeIndex call BCE_fnc_getTaskVar) # 0;
+
+private _TaskList = switch _curType do {
 	//-5 line
 	case 1: {
-		_TaskList = _display displayCtrl 2005;
-		_taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
-		[_TaskList,_taskVar]
+		_display displayCtrl 2005;
 	};
 	//-9 line
 	default {
-		_TaskList = _display displayCtrl 2002;
-		_taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
-		[_TaskList,_taskVar]
+		_display displayCtrl 2002;
 	};
 };
-_list_result params ["_TaskList","_taskVar"];
 
-_Expression_class = "true" configClasses (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _TaskList >> "items");
+private _Expression_class = "true" configClasses (configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _TaskList >> "items");
 
 //-Description
-_desc_show = _display displayctrl 20042;
-_extend_desc = (_Expression_class apply {getNumber(_x >> "multi_options") == 1}) # _curLine;
+private _desc_show = _display displayctrl 20042;
+private _extend_desc = (_Expression_class apply {getNumber(_x >> "multi_options") == 1}) # _curLine;
 _desc_show ctrlshow _extend_desc;
 
-_description = _display displayctrl ([2004,20041] select _extend_desc);
+private _description = _display displayctrl ([2004,20041] select _extend_desc);
+
+//-check current Control
+private _shownCtrls = [_display,_curLine,0] call BCE_fnc_Show_CurTaskCtrls;
+
+//- Fire OPENED EH
+["BCE_TaskBuilding_Opened", [_curLine]] call CBA_fnc_localEvent;
 
 //-Extended Description
 if (_extend_desc) then {
-	private ["_vehicle","_unit_info","_squad_title","_squad_pic","_squad_list","_Button_Racks","_text","_turret_optics","_current_optic","_turrets"];
-	_vehicle = player getVariable ["TGP_View_Selected_Vehicle",objNull];
+	private _vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 	//-Display info
-	_squad_title = _display displayctrl 20114;
-	_squad_pic = _display displayctrl 20115;
-	_squad_list = _display displayctrl 20116;
+	private _squad_title = _display displayctrl 20114;
+	private _squad_pic = _display displayctrl 20115;
+	private _squad_list = _display displayctrl 20116;
 	_squad_list ctrlSetPositionH call compile (getText(configFile >> "RscDisplayAVTerminal" >> "controls" >> ctrlClassName _squad_list >> "H"));
 	_squad_list ctrlCommit 0;
 
 	lbClear _squad_list;
 
 	//-Check turrets
-	_turret_optics = [_vehicle,0] call BCE_fnc_Check_Optics;
-	_Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
-	_current_optic = _turret_optics find (_Selected_Optic # 0);
-	_turrets = _turret_optics apply {((_x # 1) # 0) + 1};
+	private _turret_optics = [_vehicle,0] call BCE_fnc_Check_Optics;
+	private _Selected_Optic = player getVariable ["TGP_View_Selected_Optic",[[],objNull]];
+	private _current_optic = _turret_optics find (_Selected_Optic # 0);
+	private _turrets = _turret_optics apply {((_x # 1) # 0) + 1};
 
 	#if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
-		_Button_Racks = _display displayctrl 201141;
-		_List_Racks = _display displayctrl 201142;
-		_radio_Racks = _vehicle getVariable ["acre_sys_rack_vehicleRacks", []];
+		private _Button_Racks = _display displayctrl 201141;
+		private _List_Racks = _display displayctrl 201142;
+		private _radio_Racks = _vehicle getVariable ["acre_sys_rack_vehicleRacks", []];
 		_Button_Racks ctrlshow ({isplayer _x} count (crew _vehicle) > 0);
-	#else
-		_Button_Racks = controlNull;
-		_List_Racks = controlNull;
+		_List_Racks ctrlshow true;
 	#endif
 
-	{_x ctrlshow true} forEach [_squad_title,_squad_pic,_squad_list,_List_Racks];
+	{_x ctrlshow true} forEach [_squad_title,_squad_pic,_squad_list];
 
 	//-get crew Info
 	{
@@ -104,11 +107,11 @@ if (_extend_desc) then {
 		if (lbsize _squad_list > 0) then {
 			_squad_list lbSetCurSel ([0,_current_optic] select (count _turrets > 0));
 		} else {
-			(_display displayctrl 20114) ctrlSetStructuredText parseText "NA";
+			_squad_title ctrlSetStructuredText parseText "NA";
 		};
 	} else {
 		private _unit = (call compile (_squad_list lbData (lbCurSel _squad_list))) # 1;
-		(_display displayctrl 20114) ctrlSetStructuredText parseText format ["[%1]",_unit];
+		_squad_title ctrlSetStructuredText parseText format ["[%1]",_unit];
 	};
 
 	//-position Extended Description
@@ -116,39 +119,58 @@ if (_extend_desc) then {
 		_description ctrlSetPositionH 0;
 		_description ctrlCommit 0;
 	};
+} else {
+	//- if it's not extended description
+	// A simple duplication from #LINK - functions/CAS_Menu/Fire_Mission/Events/fn_TaskEvent_Opened.sqf
+	private _TaskListPOS = ctrlPosition _TaskList;
+	private _titlePOS = ctrlPosition _title;
+
+	//- Layout
+		private _posH = _TaskListPOS # 3;
+		private _posY = (_TaskListPOS # 1) + (_titlePOS # 3);
+		private _ctrlH = 0;
+
+		{
+			(ctrlPosition _x) params ["","_ctrlPOSY","","_ctrlPOSH"];
+			//- Find the lowest Control
+				if (_ctrlPOSY >= _posY) then {
+					_posY = _ctrlPOSY;
+					_ctrlH = _ctrlPOSH;
+				};
+			//- Get Control Height
+				// if (!isnull _x && _ctrlH == 0) then {
+				// };
+		} forEach _shownCtrls;
+
+		_posY = _posY + _ctrlH;
+
+		_description ctrlSetPositionY _posY;
+		_description ctrlSetPositionH (_posH - abs(_posY - (_TaskListPOS # 1)));
+		_description ctrlCommit 0;
 };
 
-_sendData = _display displayCtrl 2105;
-_clearbut = _display displayCtrl 2106;
-_checklist = _display displayCtrl 2100;
+private _sendData = _display displayCtrl 2105;
+private _clearbut = _display displayCtrl 2106;
+private _checklist = _display displayCtrl 2100;
 _TaskList ctrlshow false;
 
 //-Write down description
-_desc = format ["%1<br/>%2", localize "STR_BCE_Description", (_TaskList lbData _curLine)];
+private _desc = format ["%1<br/>%2", localize "STR_BCE_Description", (_TaskList lbData _curLine)];
 _description ctrlSetStructuredText parseText _desc;
 _sendData ctrlSetText localize "STR_BCE_Enter";
-
-_descriptionPOS = ctrlPosition _description;
-_TaskListPOS = ctrlPosition _TaskList;
-_titlePOS = ctrlPosition _title;
-
 _title ctrlSetText (_control lbtext _curLine);
-
-//-check current Control
-_shownCtrls = [_display,_curLine,0] call BCE_fnc_Show_CurTaskCtrls;
 
 //-Show Needed Controls
 {_x ctrlshow true} count [_title,_description];
-
-switch _sel_TaskType do {
-	//-5 line
-	case 1: {
-		call BCE_fnc_DblClick5line;
-	};
+_clearbut ctrlShow (0 < count _shownCtrls);
+/* switch _curType do {
 	//-9 line
-	default {
+	case 0: {
 		if (_curLine in [2,3,4]) then {_clearbut ctrlShow false};
-		call BCE_fnc_DblClick9line;
 	};
-};
-_description ctrlCommit 0;
+}; */
+
+
+/* private _fnc = ["BCE_fnc_DblClick9line","BCE_fnc_DblClick5line"] # _curType;
+call (uiNamespace getVariable _fnc);
+_description ctrlCommit 0;*/

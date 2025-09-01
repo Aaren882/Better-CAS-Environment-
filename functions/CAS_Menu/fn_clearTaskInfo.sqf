@@ -1,67 +1,77 @@
 params ["_control",["_Veh_Changed",false],["_config","RscDisplayAVTerminal"],["_IDC_offset",0],["_overwrite",-1]];
 
-_display = ctrlparent _control;
-_isAVT = _IDC_offset == 0;
+private _display = ctrlparent _control;
+private _isAVT = _IDC_offset == 0;
 
 //-get Which interface should be applied
-_curInterface = switch _IDC_offset do {
+private _curInterface = switch _IDC_offset do {
 	case 17000: {1};
 	default {0};
 };
 
-_clearAction = {
-	_description = _display displayctrl (_IDC_offset + 2004);
-	_Task_Type = _display displayCtrl (_IDC_offset + 2107);
+private _clearAction = {
+	/* private _description = _display displayctrl (_IDC_offset + 2004);
+	private _Task_Type = _display displayCtrl (_IDC_offset + 2107); */
+	private _description = "taskDesc" call BCE_fnc_getTaskSingleComponent;
+	private _Task_Type = "TaskType" call BCE_fnc_getTaskSingleComponent;
 
-	_sel_TaskType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
-
-	_list_result = switch _sel_TaskType do {
+	/* private _list_result = switch _curType do {
 		//-5 line
 		case 1: {
-			_TaskList = _display displayCtrl (_IDC_offset + 2005);
-			_name = "BCE_CAS_5Line_Var";
-			_default = [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]];
-			_taskVar = uiNamespace getVariable [_name, _default];
+			private _TaskList = _display displayCtrl (_IDC_offset + 2005);
+			private _name = "BCE_CAS_5Line_Var";
+			private _default = [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]];
+			private _taskVar = uiNamespace getVariable [_name, _default];
 
 			[_TaskList,_taskVar,_default,_name]
 		};
 		//-9 line
 		default {
-			_TaskList = _display displayCtrl (_IDC_offset + 2002);
-			_name = "BCE_CAS_9Line_Var";
-			_default = [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]];
-			_taskVar = uiNamespace getVariable [_name, _default];
+			private _TaskList = _display displayCtrl (_IDC_offset + 2002);
+			private _name = "BCE_CAS_9Line_Var";
+			private _default = [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]];
+			private _taskVar = uiNamespace getVariable [_name, _default];
 			[_TaskList,_taskVar,_default,_name]
 		};
 	};
-	_list_result params ["_TaskList","_taskVar","_default","_TaskVarName"];
+	_list_result params ["_TaskList","_taskVar","_default","_TaskVarName"]; */
 
-	_isOverwrite = _overwrite > -1;
-	_curLine = if (_isOverwrite) then {
+	//- Get Air Task Infos
+		private _curType = [0] call BCE_fnc_get_TaskCurType;
+
+		private _typeIndex = "AIR" call BCE_fnc_get_TaskCateIndex;
+		private _vehicle = [nil, _typeIndex] call BCE_fnc_get_TaskCurUnit;
+
+	private _TaskList = switch _curType do {
+		//-5 line
+		case 1: {
+			_display displayCtrl (_IDC_offset + 2005);
+		};
+		//-9 line
+		default {
+			_display displayCtrl (_IDC_offset + 2002);
+		};
+	};
+
+	private _isOverwrite = _overwrite > -1;
+	private _curLine = if (_isOverwrite) then {
 		_overwrite
 	} else {
 		[lbCurSel _taskList,0] select _Veh_Changed;
 	};
 
+	//- Clear info
+		["BCE_TaskBuilding_Clear", [_curLine]] call CBA_fnc_localEvent;
+
+	private _taskVar = (_typeIndex call BCE_fnc_getTaskVar) # 0;
 
 	//-check current Controls
 	([_display,_curLine,_curInterface,false,true,true] call BCE_fnc_Show_CurTaskCtrls) params ["_shownCtrls","_TextR"];
 
-	switch _sel_TaskType do {
-		//-5 line
-		case 1: {
-			call BCE_fnc_clearTask5line;
-		};
-		//-9 line
-		default {
-			call BCE_fnc_clearTask9line;
-		};
-	};
-
 	//-Set Clear button color (except AV Terminal)
-	if (_IDC_offset != 0) then {
-		(_display displayCtrl (_IDC_offset + 2106)) ctrlSetBackgroundColor ([[1,0,0,0.5],[0,0,0,0.8]] select ((_taskVar # _curLine # 0) == "NA"));
-	};
+		// if (_IDC_offset != 0) then {
+			(_display displayCtrl (_IDC_offset + 2106)) ctrlSetBackgroundColor ([[1,0,0,0.5],[0,0,0,0.8]] select ((_taskVar # _curLine # 0) == "NA"));
+		// };
 
 	//-Task Status
 	{
@@ -83,10 +93,10 @@ _clearAction = {
 			_TaskList lbSetPictureRightColorSelected [_forEachIndex, [0, 0, 0, 0]];
 			_TaskList lbSetTextRight [_forEachIndex, _TextR # _forEachIndex # 0];
 		};
-	} forEach (uiNamespace getVariable _TaskVarName);
+	} forEach _taskVar;
 };
 
-_MenuChanged = {
+private _MenuChanged = {
 	private ["_curStateText","_desc","_code_list","_page","_lastPage","_text_list","_text"];
 	_curStateText = ctrlText _control;
 	_desc = _display displayCtrl 2004;
@@ -124,6 +134,6 @@ _MenuChanged = {
 	_desc ctrlSetStructuredText parseText (_text joinString "<br/>");
 };
 
-_ismenu = lbCurSel (_display displayCtrl 2102) == 1;
+private _ismenu = lbCurSel (_display displayCtrl 2102) == 1;
 
 call ([_clearAction,_MenuChanged] select _ismenu);

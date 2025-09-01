@@ -28,4 +28,6 @@ _ctrlMsg ctrlSetBackgroundColor ([
   [0,0,0,0]
 ] # _type);
 
+_ctrlMsg ctrlSetPositionH ctrlTextHeight _ctrlMsg;
+
 _ctrlMsg

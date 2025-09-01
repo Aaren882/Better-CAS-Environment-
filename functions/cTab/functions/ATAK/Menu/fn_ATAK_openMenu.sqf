@@ -1,5 +1,5 @@
 // - "BCE_fnc_ATAK_openMenu" (in "BCE_fnc_ATAK_openPage")
-params ["_HomePage"];
+params ["_page","_subMenu","_HomePage"];
 
 private _order = [] call BCE_fnc_ATAK_getAPPs;
 private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
@@ -40,33 +40,38 @@ private _isDialog = [cTabIfOpen # 1] call cTab_fnc_isDialog;
   };
 
 //- Set APP Menu
-  private _APPs_Map = localNamespace getVariable ["BCE_ATAK_APPs_HashMap", createHashMap];
-  (_APPs_Map get _page) params ["_currentMenu","_function","_subMenus"];
-  /* _subInfos params ["_subMenu","_curLine"]; */
+  (_page call BCE_fnc_ATAK_getAPPs_props) params ["_currentMenu","_function","_subMenus"];
 
-  //- if subMenu exist then overwrite [_currentMenu, _function]
+  //- if subMenu exist then overwrite [_currentMenu, [_function, _Config]]
     if (_subMenu != "") then {
       _currentMenu = _subMenu;
-      _function = _subMenus get _subMenu;
+      _function = (_subMenus get _subMenu) param [0,""];
     };
 
   //- Check Ctrls
     private _Apps_Group = _display displayCtrl (17000 + 4650);
     private _menuIDC = 15000 + (_order find _page);
-    private _allCtrls = allControls _Apps_Group;
-    // private _ctrl = (_allCtrls select {ctrlIDC _x >= 15000}) param [0, controlNull];
-    private _ctrl = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
 
     //- if selected "_page" isn't current "_page"
-    if (ctrlClassName _ctrl != _currentMenu) then {
-       private _config = [
-        configFile >> "RscTitles",
-        configFile
-      ] select _isDialog;
-      {ctrlDelete _x} count _allCtrls; //- Reset ControlsGroup
-      
-      _ctrl = _display ctrlCreate [_config >> _currentMenu, _menuIDC, _Apps_Group];
-    };
+      private _ctrl = [
+        _currentMenu, //- Create Menu className
+        _menuIDC,     //- Desire IDC
+        _Apps_Group,  //- Group will Attach to
+        _isDialog,    //- (MUST) "BOOL"
+        true          //- Reset Page (OPTIONAL) : false
+      ] call BCE_fnc_ATAK_createSubPage;
 
   //- Opened
-    [_ctrl,_interfaceInit,_settings] call (uiNamespace getVariable _function);
+    [_ctrl,_interfaceInit,_isDialog,_settings] call {
+      privateAll;
+      import ["_function"];
+      _this call (uiNamespace getVariable _function);
+
+      //- Set "Init" State (after "OPENED" function is called)
+      [
+        {_this setVariable ["Init", true]},
+        (_this # 0)
+      ] call CBA_fnc_execNextFrame;
+    };
+  
+  

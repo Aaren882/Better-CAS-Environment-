@@ -1,38 +1,48 @@
-private ["_components","_List","_fnc"];
+/*
+	NAME : BCE_fnc_ATAK_Refresh_TaskInfos
+*/
+privateAll;
 
-_components = _display displayCtrl (17000+4662);
+private _group = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
+private _MissionCtrl = _group getVariable "Mission_Control";
 
-_List = [
-	[[2025,1],[2026,4],[2029,6],[2030,7],[2031,8],[2032,9],[3002,-1]],
-	[[2041,1],[2042,2],[3002,-1]]
-] # _curType;
+private _curType = [] call BCE_fnc_get_TaskCurType;
+private _curCate = ["Cate"] call BCE_fnc_get_TaskCurSetup;
+private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 
-//-Appling Infos
-{
-	_x params ["_idc","_index"];
-	private _title = _TaskList controlsGroupCtrl ([17000 + _idc, _idc] select (_index < 0));
-	_title ctrlSetStructuredText parseText (_taskVar # _index # 0);
-} foreach _List;
-
-//-Set DESC Infos
-(["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","","_subInfos"];
-_subInfos params ["_subMenu","_curLine"];
-
-if (_curLine > count _taskVar) then {
-	_curLine = (count _taskVar) - 1;
-};
-
-_TaskListPOS = ctrlPosition (_components controlsGroupCtrl (17000 + 2011));
-_titlePOS = [0, _TaskListPOS # 1, 0, (_TaskListPOS # 3) * 0.01];
-_description = _components controlsGroupCtrl (17000 + 2004);
-
-_fnc = [BCE_fnc_DblClick9line, BCE_fnc_DblClick5line] # _curType;
-{
-	if (_forEachIndex == 1) then {
-		_curLine = [5,3] # _curType;
-	};
-	if (_curLine < 0) then {_curLine = 0};
+//- If "_curLine" isn't selected 
+	private _List = [
+		[
+			[[2025,1],[2026,4,true],[2029,6,true],[2030,7],[2031,8,true],[2032,9],[3002,-1,true]],
+			[[2041,1],[2042,2],[3002,-1,true]]
+		],
+		[
+			[[2039,1],[2041,2],[3002,-1]],
+			[[2039,1],[2041,2],[2042,3],[3002,-1]],
+			[[2039,1],[2041,2]]
+		]
+	] # _curCate # _curType;
 	
-	private _shownCtrls = [_x,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
-	call _fnc;
-} foreach [_components,_TaskList];
+//-Appling Infos to each line
+	{
+		_x params ["_idc","_index",["_readBack",false]];
+		private _title = _MissionCtrl controlsGroupCtrl ([17000 + _idc, _idc] select (_index < 0));
+		_title ctrlSetStructuredText parseText (_taskVar # _index # 0);
+		
+		if (_readBack) then {
+			_title ctrlSetBackgroundColor [0.19,0.61,0.34,0.65];
+		};
+	} foreach _List;
+
+//- Get description DropList Selection
+	private _ctrlDESC = "New_Task_TG_DESC_Combo" call BCE_fnc_getTaskSingleComponent;
+	if !(isNull _ctrlDESC) then {
+		private _DESC_Type = ["Desc",0] call BCE_fnc_get_TaskCurSetup;
+		_ctrlDESC lbSetCurSel _DESC_Type;
+	};
+//- Display TaskVar values
+	private _descLine = ([[5,3],[3]] # _curCate) param [_curType, -1]; //- Get Description Line
+	{
+		if (_x < 0) exitWith {};
+		["BCE_TaskBuilding_Opened", [_x]] call CBA_fnc_localEvent;
+	} count [0,_descLine];

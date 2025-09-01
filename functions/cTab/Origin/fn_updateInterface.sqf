@@ -36,7 +36,7 @@ if (isNil "cTabIfOpen") exitWith {false};
 _displayName = cTabIfOpen # 1;
 
 _display = uiNamespace getVariable _displayName;
-uiNameSpace setVariable ["cTab_BFT_CurSel",objNull];
+localNamespace setVariable ["cTab_BFT_CurSel",objNull];
 
 _interfaceInit = false;
 _maptoolsInit = false;
@@ -592,7 +592,11 @@ _settings apply {
 
 					_settings pushBack ["uavListUpdate",true];
 					if (!_interfaceInit) then {
-						_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
+						_settings pushBack ["uavCam",str ([
+							cTab_player,
+							"AIR" call BCE_fnc_get_TaskCateIndex
+						] call BCE_fnc_get_TaskCurUnit)
+					];
 					};
 				};
 
@@ -670,7 +674,12 @@ _settings apply {
 				_settings pushBack ["uavListUpdate",true];
 
 				if (!_interfaceInit) then {
-					_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
+					_settings pushBack ["uavCam",str (
+						[
+							cTab_player,
+							"AIR" call BCE_fnc_get_TaskCateIndex
+						] call BCE_fnc_get_TaskCurUnit)
+					];
 				};
 			};
 			// ----------------------------------
@@ -788,7 +797,10 @@ _settings apply {
 		// ------------ UAV List Update ------------
 		if (_x # 0 == "uavListUpdate") exitWith {
 			if (_mode in ["UAV","TASK_Builder"]) then {
-				_data = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+				_data = [
+					cTab_player,
+					"AIR" call BCE_fnc_get_TaskCateIndex
+				] call BCE_fnc_get_TaskCurUnit;
 				[IDC_CTAB_CTABUAVLIST, 17000+IDC_CTAB_CTABUAVLIST] apply {
 					(_display displayCtrl _x) call BCE_fnc_cTab_CreateCameraList;
 				};
@@ -853,7 +865,7 @@ _settings apply {
 		// ------------ init AV info ------------
 		if ((_x # 0) == "uavCam") exitWith {
 			if (_mode in ["UAV","TASK_Builder"]) then {
-				private ["_UAV_Interface","_data","_veh","_veh_changed","_list"];
+				private ["_UAV_Interface","_data","_veh","_veh_changed","_taskIndex","_list"];
 
 				_UAV_Interface = _mode == "UAV";
 
@@ -864,14 +876,27 @@ _settings apply {
 					if (_data == str _x) exitWith {_veh = _x};
 				} count cTabUAVlist;
 
-				_veh_changed = _veh isNotEqualTo (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull]);
+				_taskIndex = "AIR" call BCE_fnc_get_TaskCateIndex;
+				_veh_changed = _veh isNotEqualTo ([
+					cTab_player,
+					_taskIndex
+				] call BCE_fnc_get_TaskCurUnit);
 
-				cTab_player setVariable ["TGP_View_Selected_Vehicle",_veh];
+        [
+					_veh,
+					_taskIndex
+				] call BCE_fnc_set_TaskCurUnit;
 				_condition = [((uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0) == 0,true] select _UAV_Interface;
 
 				//-Create PIP camera if mode is "UAV"
 				if !(isNull _veh) then {
-					[_veh,[[1,["rendertarget8","rendertarget9"] select _UAV_Interface]],_UAV_Interface] call cTab_fnc_createUavCam;
+					[
+						_veh,
+						[
+							[1,["rendertarget8","rendertarget9"] select _UAV_Interface]
+						],
+						_UAV_Interface
+					] call cTab_fnc_createUavCam;
 				} else {
 					//-Clean Up if the vehicle is null
 					call cTab_fnc_deleteUAVcam;
@@ -1089,7 +1114,8 @@ _settings apply {
 
 		// ---------- ATAK Tools -----------
 		if (((_x # 0) == "showMenu") && (_mode == "BFT")) exitWith {
-			(_x # 1) params ["_page","_show","_subInfos",["_PgComponents",createHashMap]];
+			private _settings = _x # 1;
+			_settings params ["_page","_show","_subInfos",["_PgComponents",createHashMap]];
 
 			private _backgroundGroup = _display displayCtrl IDC_CTAB_GROUP_MENU;
 			private _background = _backgroundGroup controlsGroupCtrl 9;
@@ -1099,22 +1125,16 @@ _settings apply {
 			private _animPayload = _backgroundGroup getVariable ["Anim_Payload",[]];
 			private _has_animPayload = _animPayload findIf {true} > -1; //- Check variable isn't empty
 
-			private _group = [_display, _page, (_page != "main")] call BCE_fnc_ATAK_openPage;
+			private _group = [
+				_display,
+				_page,
+				(_page == "main"),
+				_settings
+			] call BCE_fnc_ATAK_openPage;
 			_group ctrlEnable _show;
 
 			//- Make sure Layout is correct
 			call BCE_fnc_ATAK_Check_Layout;
-			if (isNull _group || !_show) exitWith {};
-			
-			//-ATAK Control Adjustments
-			switch (_page) do {
-				/*case "Task_Result": {
-					private _ctrl = _group controlsGroupCtrl 11;
-					private _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
-					private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
-					[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
-				};*/
-			};
 		};
 
 		if (_x # 0 == "uavInfo") exitWith {
@@ -1127,7 +1147,13 @@ _settings apply {
 				};
 			};
 			if (_status) exitWith {
-				[_display displayCtrl 1775, cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_ctab_List_AV_Info;
+				[
+					_display displayCtrl 1775,
+					[
+						cTab_player,
+						"AIR" call BCE_fnc_get_TaskCateIndex
+					] call BCE_fnc_get_TaskCurUnit
+				] call BCE_fnc_ctab_List_AV_Info;
 			};
 		};
 		// ----------------------------------
@@ -1161,11 +1187,8 @@ if (!isNull _loadingCtrl) then {
 		_ctrlPos = ctrlPosition _loadingCtrl;
 		// put the mouse position in the center of the screen
 		_mousePos = [(_ctrlPos # 0) + ((_ctrlPos # 2) / 2),(_ctrlPos # 1) + ((_ctrlPos # 3) / 2)];
-		// delay moving the mouse cursor by one frame using a PFH, for some reason its not working without
-		[{
-			[_this # 1] call CBA_fnc_removePerFrameHandler;
-			setMousePosition (_this # 0);
-		},0,_mousePos] call CBA_fnc_addPerFrameHandler;
+		// delay moving the mouse cursor by one frame, for some reason its not working without
+		[{setMousePosition _this;}, _mousePos] call CBA_fnc_execNextFrame;
 	};
 
 	_loadingCtrl ctrlShow false;

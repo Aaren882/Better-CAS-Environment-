@@ -1,68 +1,63 @@
-if ((ctrlShown _description) or (_Veh_Changed) or (_isOverwrite)) then {
-	switch _curLine do {
-		//-IP/BP
-		case 1:{
-			_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
-			_taskVar set [1,["NA","",[],[0,0]]];
-			//-Erase 2~4 line
-			_taskVar set [2,["NA",180]];
-			_taskVar set [3,["NA",200]];
-			_taskVar set [4,["NA",15]];
+params ["_clearPool"];
 
-			_ctrl3 ctrlSetText "NA";
-		};
+switch _curLine do {
+	//-IP/BP
+	case 1:{
+		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
+		_clearPool pushBack [1,["NA","",[],[0,0]]];
+		//-Erase 2~4 line
+		_clearPool pushBack [2,["NA",180]];
+		_clearPool pushBack [3,["NA",200]];
+		_clearPool pushBack [4,["NA",15]];
 
-		//-DESC
-		case 5:{
-			_shownCtrls params ["_ctrl1"];
-			_ctrl1 ctrlSetText "";
-			_taskVar set [5,["NA",[]]];
-		};
-
-		//-GRID
-		case 6:{
-			_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
-
-			//-Erase 2~4 line
-			_taskVar set [2,["NA",180]];
-			_taskVar set [3,["NA",200]];
-			_taskVar set [4,["NA",15]];
-
-			_taskVar set [6,["NA","",[],[0,0],[]]];
-			_ctrl3 ctrlSetText "NA";
-		};
-
-		//-MARK
-		case 7:{
-			_shownCtrls params ["_ctrl1"];
-			_taskVar set [7,["NA"]];
-			_ctrl1 ctrlSetText localize "STR_BCE_MarkWith";
-		};
-
-		//-Friendlies
-		case 8:{
-			_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
-			_taskVar set [8,["NA","",[],[0,0],""]];
-			_ctrl3 ctrlSetText "NA";
-			_ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
-		};
-
-		//-EGRS [Toolbox, EditBox, output, Toolbox(Azimuth)]
-		case 8:{
-			_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4","_ctrl5"];
-			_taskVar set [9,["NA",0,[],nil,nil]];
-			_ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
-			_ctrl3 ctrlSetText "NA";
-		};
-		default {
-			private _displayEdit = _IDC_offset + 2014;
-			{
-				if (ctrlIDC _x == _displayEdit) exitWith {_x ctrlSetText "NA"};
-			} count _shownCtrls;
-			_taskVar set [_curLine, _default # _curLine];
-		};
+		_ctrl3 ctrlSetText "NA";
 	};
-	uiNamespace setVariable ["BCE_CAS_9Line_Var", _taskVar];
-} else {
-	uiNamespace setVariable ["BCE_CAS_9Line_Var", _default];
+
+	//-DESC
+	case 5:{
+		_shownCtrls params ["_ctrl1"];
+		_ctrl1 ctrlSetText "";
+		_clearPool pushBack [5,["NA",[]]];
+	};
+
+	//-GRID
+	case 6:{
+		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
+
+		//-Erase 2~4 line
+		_clearPool pushBack [2,["NA",180]];
+		_clearPool pushBack [3,["NA",200]];
+		_clearPool pushBack [4,["NA",15]];
+
+		_clearPool pushBack [6,["NA","",[],[0,0],[]]];
+		_ctrl3 ctrlSetText "NA";
+	};
+
+	//-MARK
+	case 7:{
+		_shownCtrls params ["_ctrl1"];
+		_clearPool pushBack [7,["NA"]];
+		_ctrl1 ctrlSetText localize "STR_BCE_MarkWith";
+	};
+
+	//-Friendlies
+	case 8:{
+		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
+		_clearPool pushBack [8,["NA","",[],[0,0],""]];
+		_ctrl3 ctrlSetText "NA";
+		_ctrl4 ctrlSetText localize "STR_BCE_MarkWith";
+	};
+
+	//-EGRS [Toolbox, EditBox, output, Toolbox(Azimuth)]
+	case 8:{
+		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4","_ctrl5"];
+		_clearPool pushBack [9,["NA",0,[],nil,nil]];
+		_ctrl2 ctrlSetText localize "STR_BCE_Bearing_ENT";
+		_ctrl3 ctrlSetText "NA";
+	};
+	default {
+		_clearPool pushBack [_curLine, _default # _curLine];
+		private _displayEdit = "New_Task_IPExpression" call BCE_fnc_getTaskSingleComponent;
+		_displayEdit ctrlSetText "NA";
+	};
 };

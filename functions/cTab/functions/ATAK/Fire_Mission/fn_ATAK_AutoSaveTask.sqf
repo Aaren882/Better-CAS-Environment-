@@ -1,37 +1,32 @@
+params ["_control"];
+
+if !((ctrlParentControlsGroup _control) getVariable ["Init",false]) exitWith {};
+
 [{
 	params ["_control","_input",["_type",-1]];
-	private ["_TaskList","_curType","_text","_curLine","_shownCtrls"];
-	
-	_TaskList = ctrlParentControlsGroup _control;
-	if !(ctrlshown _TaskList) exitWith {};
 
-	_curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
-	_taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
+	privateAll;
 
-	_isOverwrite = false;
-	_text = nil;
-	if (_type == 0) then {
-		_text = _input;
-	};
+	_curType = [] call BCE_fnc_get_TaskCurType;
+	_curCate = ["Cate"] call BCE_fnc_get_TaskCurSetup;
+
 	//-5 line "Mark With"
 	if (_type == 1) then {
-		_text = nil;
 		_type = 0;
 	};
 
 	_curLine = switch _type do {
 		//-Save DESC
 		case 0: {
-			([5,3] # _curType)
+			[[5,3],[3,3]] # _curCate # _curType; //- Get Description Line
 		};
 		//-Save Game Plan
 		default {
 			0
 		};
 	};
-	
-	_shownCtrls = [_TaskList,_curLine,1,false,true] call BCE_fnc_Show_CurTaskCtrls;
-	call ([BCE_fnc_DataReceive9line, BCE_fnc_DataReceive5line] # _curType);
 
-	}, _this, 0.01
-] call CBA_fnc_waitAndExecute;
+	//- Description Will update it self, base on the current value it has
+		["BCE_TaskBuilding_Enter", [_curLine]] call CBA_fnc_localEvent;
+	}, _this
+] call CBA_fnc_execNextFrame;

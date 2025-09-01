@@ -1,0 +1,318 @@
+/*
+	PARAMS :
+		"_taskUnit"		- Task Unit <OBJECT>
+		"_taskVar"		- Task Variables
+		"_curLine"		- Current Line Index
+		"_shownCtrls"	- Shown Controls (Array of Controls)
+	
+	Description :
+		Receive Data from UI for Task Type
+		This function processes the task variables and updates the task data based on the current line.
+		It handles different task types and updates the task variables accordingly.
+		
+		Returns nothing, but updates the `_taskVar` with processed data.
+*/
+
+params ["_taskUnit","_taskVar","_curLine","_shownCtrls"];
+#define GetGRID(POS,GRID) [POS,GRID] call BCE_fnc_POS2Grid
+
+switch _curLine do {
+	//- Game Plan
+	case 0:{
+		_shownCtrls params [
+			"_taskType",
+			"_CTAmmo","_CTFuse","_CTFireUnits","_CTRounds","_CTFuzeVal","_fireAngle",
+			"_IA_ammo","_IA_fuse","_IA_fireUnits","_IA_rounds","_IA_fuzeVal"
+		];
+
+		private _textVal = [];
+		private _storeVal = (_taskVar # 0) param [2,[]]; 		//- ["IEs","IAs","fireAngle"]
+		private _setUpVal = [];
+		private _mapValue = _CTAmmo getVariable ["CheckList",createHashMap];
+
+		{
+			_x params ["_lbAmmo","_lbFuze","_lbFireUnits","_editRounds","_editFuzeVal"];
+
+			if (isNull _lbAmmo) then {continue};
+			
+			//-Get Data
+				private _fireAmmo = _lbAmmo lbData (lbCurSel _lbAmmo);
+				private _data = _mapValue getOrDefault [_fireAmmo, []];
+				_data params ["",["_maxMagazine",1],"_count", "",["_ammoType",""]];
+
+				private _fireUnitSel = lbCurSel _lbFireUnits;
+				private _FuseSel = lbCurSel _lbFuze;
+
+				private _setCount = 1 max (parseNumber (ctrlText _editRounds));
+				private _fireUnits = 1 max (_lbFireUnits lbValue _fireUnitSel);
+
+				//- #TODO - Check ordnance available fuzes
+					private _fuzeInfos = if (_ammoType == "HE") then {
+						_lbFuze ctrlShow true;
+						// _editFuzeVal ctrlShow true; #LINK - functions/Task_Type/fn_SelChanged_ADJ.sqf
+
+						[_lbFuze lbData _FuseSel, parseNumber (ctrlText _editFuzeVal)];
+					} else {
+						_lbFuze ctrlShow false;
+						_editFuzeVal ctrlShow false;
+
+						[_ammoType, 0]
+					};
+				_fuzeInfos params ["_FuseData", "_fuzeVal"];
+
+				//- Check Ammo Count
+				if (_fireAmmo != "") then {
+					private _maxFireEach = floor (_count / _maxMagazine);
+					private _maxFireCount = floor (_count / _fireUnits);
+					
+					if (
+						_setCount > _maxFireEach ||
+						_setCount > _maxFireCount
+					) then {
+						_setCount = _maxFireEach;
+						_editRounds ctrlSetText (str _setCount);
+					};
+				} else {
+					_setCount = 1;
+					_editRounds ctrlSetText "";
+				};
+			
+			//- Save Selections
+			_storeVal set [ //- for UI selection recover
+				_forEachIndex,
+				[lbCurSel _lbAmmo,_FuseSel,_fireUnitSel,str _setCount,str _fuzeVal]
+			];
+
+			//- for Data transfer
+				private _valueCheck = [
+					[_fireAmmo,""],
+					[_FuseData,""],
+					[_fireUnits,0],
+					[_setCount,0],
+					[_fuzeVal,0]
+				] apply {
+					[_x # 0, nil] select (
+						(_x # 0) == (_x # 1) &&
+						_forEachIndex == 1
+					)
+				};
+				_setUpVal set [ 
+					_forEachIndex,
+					_valueCheck
+				];
+
+			private _text = format [
+				"%1%2 - x%3:%4",
+				_fireAmmo, //- Ammo
+				[
+					format [" (%1)", _FuseData],
+					""
+				] select (_FuseData == ""), //- Fuze
+				_fireUnits,
+				_setCount
+			];
+			_textVal pushBack _text;
+
+		} forEach [
+			[_CTAmmo,_CTFuse,_CTFireUnits,_CTRounds,_CTFuzeVal],
+			[_IA_ammo,_IA_fuse,_IA_fireUnits,_IA_rounds,_IA_fuzeVal]
+		];
+
+		private _angleType = _fireAngle getVariable ["Mode", true];
+		
+		_fireAngle ctrlSetStructuredText parseText localize ([
+			"STR_BCE_LO_Angle",
+			"STR_BCE_HI_Angle"
+		] select _angleType);
+		_storeVal set [2, _angleType];
+		
+		private _result = [
+			_textVal joinString "/",
+			_taskType lbData (lbCurSel _taskType),
+			_storeVal,
+			_setUpVal,
+			_angleType //- "false = Low Angle" / "true = High Angle"
+		];
+		
+		_taskVar set [0,_result];
+	};
+
+	//- Sheaf Type
+	case 1:{
+		_shownCtrls params [
+      "_toolBox",
+      "_output","_sheaf_Struct",
+      "_Radius",
+      "_LINE_L","_LINE_W","_LINE_Dir"
+    ];
+
+		private _Sheaf_ModeSel = lbCurSel _toolBox;
+		private _Radius_V = ctrlText _Radius;
+		private _LINE_V = [ctrlText _LINE_L, ctrlText _LINE_W, ctrlText _LINE_Dir];
+
+		//- Get localized Sheaf info format
+			private _sheaf_strArr = [
+				_toolBox,
+				"modes",
+				[]
+			] call BCE_fnc_get_Control_Data;
+
+		private _sheaf_str = _sheaf_strArr param [_Sheaf_ModeSel,""];
+		private _SheafRaw = call {
+			//- Standard Sheaf
+			if (_Sheaf_ModeSel == 0) exitWith {
+				["100"]
+			};
+			//- Open Sheaf
+			if (_Sheaf_ModeSel == 1) exitWith {
+				private _v = parseNumber _Radius_V;
+				[str (_v max 100)] //- Return
+			};
+			//- Linear Sheaf
+			if (_Sheaf_ModeSel == 2) exitWith {
+				_LINE_V //- Return
+			};
+			//- POINT
+			["50"] 
+		};
+		
+		//- Parse Numbers
+			private _SheafValue = _SheafRaw apply {floor (parseNumber _x)};
+			_sheaf_str = format ([_sheaf_str] + _SheafValue);
+				
+		//- Set output
+			_output ctrlSetText _sheaf_str;
+
+		//- Save Value
+			_taskVar set [1, [
+				_sheaf_str,
+				[_Sheaf_ModeSel, _Radius_V, _LINE_V], //- Selection Store
+				[_Sheaf_ModeSel, _SheafValue]
+			]];
+	};
+
+	//-Target POS
+	case 2:{
+		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3"];
+
+		if ((lbCurSel _ctrl1 == 0) && !(_isOverwrite)) then {
+			private _TGPOS = call compile (_ctrl2 lbData (lbCurSel _ctrl2));
+
+			//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:LBCurSel, 5:Elevation(ASL)]
+			if !(_TGPOS isEqualTo []) then {
+				private _markerInfo = format ["%1 [%2]", _ctrl2 lbText (lbCurSel _ctrl2), GetGRID(_TGPOS,8)];
+				_TGPOS resize [3, 0];
+				_taskVar set [2,
+					[
+						_markerInfo,
+						_ctrl2 lbText (lbCurSel _ctrl2),
+						_TGPOS,
+						[lbCurSel _ctrl1,lbCurSel _ctrl2],
+						(AGLToASL _TGPOS) # 2
+					]
+				];
+			} else {
+				_taskVar set [2,["NA",[]]];
+			};
+		} else {
+			private _TGPOS = uinamespace getVariable [["BCE_MAP_ClickPOS","BCE_GRID"] select _isOverwrite,[]];
+
+			//-[1:Marker, 2:Marker Name, 3:Marker POS, 4:Empty, 5:Elevation(ASL), 6:Marker info]
+			if !(_TGPOS isEqualTo []) then {
+				private _markerInfo = format ["GRID: [%1]",GetGRID(_TGPOS,8)];
+				_TGPOS resize [3, 0];
+				_taskVar set [2,
+					[
+						_markerInfo,
+						"GRID",
+						_TGPOS,
+						[lbCurSel _ctrl1,lbCurSel _ctrl2],
+						(AGLToASL _TGPOS) # 2
+					]
+				];
+			} else {
+				_taskVar set [2,["NA",[]]];
+			};
+		};
+		_ctrl3 ctrlSetText (_taskVar # 2 # 0);
+	};
+
+	//-DESC
+	case 3:{
+		_shownCtrls params ["_ctrl1","_ctrl2"];
+
+		private _text = ctrlText _ctrl1;
+		private _InfoText = ctrlText _ctrl2;
+		
+		private _isEmptyInfo = {
+			params ["_txt","_empty"];
+			[
+				_txt,
+				""" """
+			] select ((_txt == _empty) || (_txt == ""));
+		};
+		
+		private _Info = [["","NA"] select (_text == "")] + (
+			[
+				[_text, "--"],
+				[_InfoText, localize "STR_BCE_MarkWith"]
+			] apply {
+				_x call _isEmptyInfo
+			}
+		);
+		
+		_taskVar set [3, _Info];
+	};
+
+	//- Medthod of Controls
+	case 4:{
+		//- [Toolbox, EditBox, output, ETA(StructuredText)]
+		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
+
+		private _pop_reason = "";
+		private _ctrlMethod = lbCurSel _ctrl1; //- [At-Ready, TOT, AMC].
+
+		private _ctrlParse = call {
+			if (_ctrlMethod == 0) exitWith {
+				[localize "STR_BCE_CFF_CtrlType_AT_READY_TITLE", 0]
+			};
+			if (_ctrlMethod == 1) exitWith {
+				private _input = ctrlText _ctrl2;
+				private _TOT_time = if (count _input != 4) then {
+					private _output = parseNumber _input;
+
+					//- Check Min Value
+					if (_output < 5) then {
+						_pop_reason = localize "STR_BCE_CFF_TOT_LESS_Error";
+					};
+
+					_output
+				} else {
+					private _clock_Hour = parseNumber (_input select [0,2]);
+
+					//- Check Min Value (24hr)
+					if (_clock_Hour - floor dayTime < 1) then {
+						_pop_reason = localize "STR_BCE_CFF_TOT_GREATER_Error";
+					};
+					_input //- Clock Time
+				};
+
+				["TOT - " + str _TOT_time, _TOT_time]
+			};
+			if (_ctrlMethod == 2) exitWith {
+				[localize "STR_BCE_CFF_CtrlType_AMC_TITLE", -1]
+			};
+		};
+		_ctrlParse params ["_type",["_value",-1]];
+		
+		if (_pop_reason != "") exitWith {
+			hintSilent _pop_reason;
+		};
+
+		//- Update ouput display
+			_ctrl3 ctrlSetText _type;
+
+    private _functions = [_ctrl1,"functions",[]] call BCE_fnc_get_Control_Data;
+		_taskVar set [4, [_type, [_ctrlMethod, _value], _functions param [_ctrlMethod, ""]]];
+	};
+};

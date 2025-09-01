@@ -1,9 +1,10 @@
-params ["_group",["_interfaceInit",false],"_settings"];
+params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 _settings params ["_page","","",["_PgComponents",createHashMap]];
 
 private _switch_btn = _group controlsGroupCtrl 5;
 private _ListGroup = _group controlsGroupCtrl 10;
 private _ViewGroup = _group controlsGroupCtrl 20;
+
 private _commitTime = {[_this, 0] select _interfaceInit};
 private _hcam = ["cTab_Android_dlg", "hcam"] call cTab_fnc_getSettings;
 
@@ -64,10 +65,12 @@ private _hcam = ["cTab_Android_dlg", "hcam"] call cTab_fnc_getSettings;
     _ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
   };
 
-// if (_interfaceInit) exitWith {};
-
 //- View Box Status
-  private _veh = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+  private _veh = [
+		cTab_player,
+		"AIR" call BCE_fnc_get_TaskCateIndex
+	] call BCE_fnc_get_TaskCurUnit;
+
   private _isHcam = _SubSel == 1;
   //- exit if display is on
   private _displayOn = (

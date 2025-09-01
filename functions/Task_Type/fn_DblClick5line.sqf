@@ -10,7 +10,8 @@ switch _curLine do {
 		_taskVar_0 = _taskVar # 0;
 
 		//-Weapon List
-		[ctrlParent _weap,_weap,player getVariable ['TGP_View_Selected_Vehicle',objNull],false,false,false] call BCE_fnc_checkList;
+		private _veh = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
+		[ctrlParent _weap,_weap,_veh,false,false,false] call BCE_fnc_checkList;
 
 		//-Default
 		if ((_taskVar_0 # 0) != "NA") then {
@@ -22,43 +23,25 @@ switch _curLine do {
 			_range lbSetCurSel (_taskVarSel # 4);
 			_count ctrlSetText (_taskVarSel # 5);
 			_height ctrlSetText (_taskVarSel # 6);
-		} else {
+		}/*  else {
 			_ctrl lbSetCurSel 0;
 			_type lbSetCurSel 0;
-			_weap lbSetCurSel (lbCurSel _checklist);
-		};
+			_weap lbSetCurSel 0;
+			// _weap lbSetCurSel (lbCurSel _checklist);
+		} */;
 
-		if !(isnil {_description}) then {
-			_ctrlPOS = ctrlPosition _ctrl;
+		/*if !(isnil {_description}) then {
 			_weapPOS = ctrlPosition _weap;
-			_modePOS = ctrlPosition _mode;
 			_rangePOS = ctrlPosition _range;
+			_countPOS = ctrlPosition _count;
 
 			//-Expression
-			_mode ctrlSetPosition
-			[
-				(_weapPOS # 0) + (_modePOS # 2),
-				_weapPOS # 1,
-				_weapPOS # 2,
-				_weapPOS # 3
-			];
-			_count ctrlSetPosition
-			[
-				(_weapPOS # 0) + 2 * (_rangePOS # 2),
-				_rangePOS # 1,
-				_rangePOS # 2,
-				_rangePOS # 3
-			];
-			_height ctrlSetPosition
-			[
-				(_weapPOS # 0) + (_rangePOS # 2),
-				_rangePOS # 1,
-				_rangePOS # 2,
-				_rangePOS # 3
-			];
+			_mode ctrlSetPositionX ((_weapPOS # 0) + (_weapPOS # 2));
+			_count ctrlSetPositionX ((_weapPOS # 0) + (_rangePOS # 2));
+			_height ctrlSetPositionX ((_weapPOS # 0) + (_rangePOS # 2) + (_countPOS # 2));
 
 			[_mode,_count,_height] apply {_x ctrlCommit 0};
-		};
+		};*/
 	};
 
 	//-Friendly
@@ -99,15 +82,15 @@ switch _curLine do {
 		};
 
 		//-Description POS
-		_c = 0;
+		/* _c = 0;
 		{
 			_c = _c + ((ctrlPosition _x) # 3);
 		} forEach [_ctrl1,_ctrl2,_ctrl4];
 		private _c = (_titlePOS # 3) + _c;
 		_description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
+		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c); */
 
-		_ctrl2POS = ctrlPosition _ctrl2;
+		/* _ctrl2POS = ctrlPosition _ctrl2;
 		_ctrl3POS = ctrlPosition _ctrl3;
 
 		//-Expression
@@ -127,7 +110,7 @@ switch _curLine do {
 			_ctrl4POS # 2,
 			_ctrl4POS # 3
 		];
-		_ctrl4 ctrlCommit 0;
+		_ctrl4 ctrlCommit 0; */
 	};
 
 	//-Target
@@ -152,15 +135,15 @@ switch _curLine do {
 		};
 
 		//-Description POS
-		private _c = _titlePOS # 3;
+		/* private _c = _titlePOS # 3;
 		{
 			_c = _c + ((ctrlPosition _x) # 3);
 		} forEach [_ctrl1,_ctrl2];
 
 		_description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
+		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c); */
 
-		_ctrl2POS = ctrlPosition _ctrl2;
+		/* _ctrl2POS = ctrlPosition _ctrl2;
 		_ctrl3POS = ctrlPosition _ctrl3;
 
 		//-Expression
@@ -171,7 +154,7 @@ switch _curLine do {
 			_ctrl2POS # 2,
 			_ctrl2POS # 3
 		];
-		_ctrl3 ctrlCommit 0;
+		_ctrl3 ctrlCommit 0; */
 	};
 
 	//-DESC
@@ -195,7 +178,7 @@ switch _curLine do {
 		};
 
 		//-Exit
-		if !(isnil {_description}) then {
+		/* if !(isnil {_description}) then {
 			private ["_c","_ctrl1POS","_ctrl2POS"];
 			_c = _titlePOS # 3;
 			{
@@ -211,7 +194,7 @@ switch _curLine do {
 			//-Expression
 			_ctrl2 ctrlSetPositionY ((_ctrl1POS # 1) + (_ctrl1POS # 3));
 			_ctrl2 ctrlCommit 0;
-		};
+		}; */
 	};
 
 	//-Remarks
@@ -223,7 +206,7 @@ switch _curLine do {
 
 		//-Back to previous status
 		if ((_taskVar_4 # 0) != "NA") then {
-			(_taskVar_4 # 2) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",false]];
+			(_taskVar_4 # 3) params [["_cndtion1",0],["_cndtion2",0],["_cndtion3",false]];
 			_ctrl1 lbSetCurSel _cndtion1;
 			_ctrl4 lbSetCurSel _cndtion2;
 			_ctrl6 cbSetChecked _cndtion3;
@@ -238,30 +221,29 @@ switch _curLine do {
 		_ctrl1sel = lbCurSel _ctrl1;
 		_ctrl3 ctrlSetText (_taskVar_4 # 0);
 
-		if (_ctrl1sel == 2) then {
-			_ctrl4 ctrlShow false;
-			_ctrl2 ctrlShow false;
-		} else {
-			//-FA D/H
-			if (_ctrl1sel == 0) then {
-				_ctrl2 ctrlShow false;
-				_ctrl4 ctrlShow true;
-			} else {
-				_ctrl2 ctrlShow true;
-				_ctrl4 ctrlShow false;
-			};
-		};
+		if (_ctrl1sel == 0) then {
+      _ctrl2 ctrlShow false;
+      _ctrl4 ctrlShow true;
+    };
+    if (_ctrl1sel == 1) then {
+      _ctrl2 ctrlShow true;
+      _ctrl4 ctrlShow false;
+    };
+    if (_ctrl1sel == 2) then {
+      _ctrl2 ctrlShow false;
+      _ctrl4 ctrlShow false;
+    };
 
 		//-Description POS
-		private _c = _titlePOS # 3;
+		/* private _c = _titlePOS # 3;
 		{
 			_c = _c + ((ctrlPosition _x) # 3);
 		} forEach [_ctrl1,_ctrl2,_ctrl3,_ctrl5];
 
 		_description ctrlSetPositionY ((_TaskListPOS # 1) + _c);
-		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c);
+		_description ctrlSetPositionH ((_TaskListPOS # 3) - _c); */
 
-		_ctrl2POS = ctrlPosition _ctrl2;
+		/* _ctrl2POS = ctrlPosition _ctrl2;
 		_ctrl3POS = ctrlPosition _ctrl3;
 
 		//-Expression
@@ -272,6 +254,6 @@ switch _curLine do {
 			_ctrl2POS # 2,
 			_ctrl2POS # 3
 		];
-		_ctrl3 ctrlCommit 0;
+		_ctrl3 ctrlCommit 0; */
 	};
 };
