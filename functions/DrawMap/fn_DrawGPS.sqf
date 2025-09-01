@@ -71,7 +71,7 @@ if ((_taskVar != "") && (_widgets # 1)) then {
 		0.075
 	];
 
-	(call compile _taskVar) params ["","_type","_taskVar"];
+	(parseSimpleArray _taskVar) params ["","_type","_taskVar"];
 
 	switch _type do {
 		case 5: {
@@ -328,11 +328,11 @@ if ((_taskVar != "") && (_widgets # 1)) then {
 			) then {
 
 				private _HDG = _EGRS # 1;
-				private _relPOS = if (isnil{_EGRS # 3}) then {
+				private _relPOS = if (isnil{_EGRS # 2}) then {
 					(_Target # 2) getPos [500, _HDG];
 				} else {
 					//_EGRS # 3
-					(_Target # 2) vectorAdd (((_EGRS # 3) vectorDiff (_Target # 2)) vectorMultiply 0.95)
+					(_Target # 2) vectorAdd (((_EGRS # 2) vectorDiff (_Target # 2)) vectorMultiply 0.95)
 				};
 				_ctrl drawArrow [
 					(_Target # 2),
