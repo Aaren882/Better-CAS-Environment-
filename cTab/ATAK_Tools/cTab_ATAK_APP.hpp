@@ -94,7 +94,7 @@ class ATAK_APPs
       text = ATAK_APP(Quick Pictures);
       textureNoShortcut="MG8\AVFEVFX\data\photo.paa";
     };
-    class Group: Photo
+    class Group: message
     {
       class Menu_Property
       {
@@ -105,12 +105,10 @@ class ATAK_APPs
         // ATAK_Buttons = "Group_Menu";
       };
 
-      // onButtonClick = "[_this # 0] call BCE_fnc_ATAK_ChangeTool;";
-      
       text = ATAK_APP(Groups);
       textureNoShortcut="a3\3den\data\displays\display3den\panelright\modegroups_ca.paa";
     };
-    class Route: Group
+    class Route: message
     {
       class Menu_Property
       {
@@ -134,7 +132,7 @@ class ATAK_APPs
       text = ATAK_APP(Weather);
       textureNoShortcut="a3\3den\data\displays\display3den\toolbar\intel_ca.paa";
     };
-    class BDA_Report: Weather
+    class BDA_Report: message
     {
       class Menu_Property
       {
@@ -146,7 +144,7 @@ class ATAK_APPs
       textureNoShortcut="a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa";
     };
     
-    class settings: VideoFeeds
+    class settings: message
     {
       class Menu_Property
       {
