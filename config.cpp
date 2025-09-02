@@ -1,5 +1,6 @@
 #include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
 #include "Additional_Fuze.hpp"
+#include "VERSION.hpp"
 
 class CfgPatches
 {
@@ -8,6 +9,7 @@ class CfgPatches
 		units[]={};
 		weapons[]={};
 		requiredVersion="2.00";
+		VERSION_CONFIG;
 		requiredAddons[]=
 		{
 			#if __has_include("\A3TI\functions.hpp")
