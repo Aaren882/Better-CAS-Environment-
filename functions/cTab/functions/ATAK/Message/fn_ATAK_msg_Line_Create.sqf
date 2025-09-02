@@ -1,7 +1,7 @@
 params ["_list","_type","_txt"];
 
 private _ctrlMsg = _display ctrlCreate [
-  [configFile >> "RscTitles" >>"ATAK_Message", configFile >> "ATAK_Message"] select _isDialog,
+  [configFile >> "RscTitles" >>"ATAK_Message_Line", configFile >> "ATAK_Message_Line"] select _isDialog,
   -1,
   _list
 ];
@@ -27,5 +27,7 @@ _ctrlMsg ctrlSetBackgroundColor ([
   [0,1,0,0.05],
   [0,0,0,0]
 ] # _type);
+
+_ctrlMsg ctrlSetPositionH ctrlTextHeight _ctrlMsg;
 
 _ctrlMsg

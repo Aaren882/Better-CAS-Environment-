@@ -1,3 +1,15 @@
+/*
+	NAME : cTab_fnc_Marker_Edittor
+
+	When a marker got duable-clicked then open up edittor menu
+
+	params [
+		"_display",
+		"_marker"
+	]
+	
+*/
+
 params ["_display","_marker"];
 private _displayName = cTabIfOpen # 1;
 private _widgetMode = ([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) # 4;
@@ -29,7 +41,7 @@ private _channel = _group controlsGroupCtrl 110;
   switch true do {
     //- Marker Dropper
     case (_selectShape == "ICON"): {
-      #if __has_include("\z\ace\addons\map_gestures\config.bin")
+      /* #if __has_include("\z\ace\addons\map_gestures\config.bin")
         if (ace_markers_MarkersCache findIf {_selectType == (_x # 3)} > -1) then {
           {
             _x params ["_name", "", "_icon", "_classname"];
@@ -48,22 +60,42 @@ private _channel = _group controlsGroupCtrl 110;
           _EDIT_Type ctrlEnable false;
         };
       #else
-        private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkers");
-        private _typeCount = {
-          private _Same = _selectType == configName _x;
-          private _name = getText (_x >> "name");
-          private _icon = getText (_x >> "icon");
+      #endif */
+			private _config = configFile >> "CfgMarkers";
 
-          private _index = _EDIT_Type lbAdd _name;
-          _EDIT_Type lbSetPicture [_index, _icon];
-          
-          if (_Same) then {
-            _EDIT_Type lbSetCurSel _index;
-          };
-          _Same
-        } count _cfg;
-        _EDIT_Type ctrlEnable (_typeCount > 0);
-      #endif
+			//- Check "_selectType" MarkerType if it's in public scope
+			if (getnumber (_config >> _selectType>> "scope") == 2) then {
+				private _cfg = "getnumber (_x >> 'scope') == 2" configClasses _config;
+				private _typeCount = {
+					private _classname = configName _x;
+					private _Same = _selectType == _classname;
+					private _name = getText (_x >> "name");
+					private _icon = getText (_x >> "icon");
+
+					private _index = _EDIT_Type lbAdd _name;
+					_EDIT_Type lbSetPicture [_index, _icon];
+					_EDIT_Type lbSetData [_index, _classname];
+					
+					if (_Same) then {
+						_EDIT_Type lbSetCurSel _index;
+					};
+					_Same
+				} count _cfg;
+				_EDIT_Type ctrlEnable (_typeCount > 0);
+			} else {
+				//- if scope != 2
+				private _name = getText (_config >> _selectType >> "name");
+				private _icon = getText (_config >> _selectType >> "icon");
+
+				private _index = _EDIT_Type lbAdd _name;
+				_EDIT_Type lbSetPicture [_index, _icon];
+				_EDIT_Type lbSetData [_index, _selectType];
+				_EDIT_Type lbSetCurSel _index;
+				
+				_EDIT_Type ctrlEnable false;
+			};
+
+			
     };
     //- Drawing Tool
     case (_selectShape == "RECTANGLE" || _selectShape == "ELLIPSE"): {
@@ -93,13 +125,12 @@ private _channel = _group controlsGroupCtrl 110;
   };
   
 //- Select Color
-  private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
-  for "_i" from 0 to lbSize _markerColor - 1 do {
-    private _color = _MarkerColorCache # _i # 0;
-    if (_color == _selectColor) exitWith {
-      _EDIT_color lbSetCurSel _i;
+	private _MarkerColorArr = uiNamespace getVariable ["BCE_Marker_Color_Array",[]];
+	{
+    if (_x == _selectColor) exitWith {
+      _EDIT_color lbSetCurSel _forEachIndex;
     };
-  };
+	} forEach _MarkerColorArr;
 
 //- Setup Channels
 if (isMultiplayer) then {

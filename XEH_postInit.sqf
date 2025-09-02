@@ -9,14 +9,6 @@
 
 if (!hasInterface) exitWith {};
 
-//- Init cache holder
-private _map = createHashMap;
-{
-	_map set [_x , createHashMap];
-} foreach ["BCE_Camera_Cache","BCE_IRLaser_Cache"];
-localNamespace setVariable ["BCE_System_Caches", _map];
-_map = nil;
-
 TGP_View_Unit_List = [];
 TGP_View_Marker_List = [];
 TGP_View_TouchMark_List = [];
@@ -31,33 +23,43 @@ if (isnil {BCE_SYSTEM_Handler}) then {
 	BCE_SYSTEM_Handler = "";
 };
 
-private _mapCenter = worldSize / 2;
-private _landmarks = ["NameVillage", "NameCity", "NameCityCapital", "NameLocal", "NameMarine", "Hill"];
-private _BCE_LandMarks = (nearestLocations [
-	[_mapCenter, _mapCenter],
-	_landmarks,
-	worldSize
-]) apply {
-	private ["_config","_tex","_pos","_color"];
-	_config = configFile >> "CfgLocationTypes" >> type _x;
-	_tex = getText (_config >> "texture");
-	_pos = getPos _x;
-	_color = (getArray (_config >> "color")) apply {
-		[_x,1] select (_x == 0);
+//-- Caches --//
+//- Init cache holder
+	private _map = createHashMap;
+	{
+		_map set [_x , createHashMap];
+	} foreach ["BCE_Camera_Cache","BCE_IRLaser_Cache"];
+	localNamespace setVariable ["BCE_System_Caches", _map];
+	_map = nil;
+
+//- LandMarks Cache
+	private _mapCenter = worldSize / 2;
+	private _landmarks = ["NameVillage", "NameCity", "NameCityCapital", "NameLocal", "NameMarine", "Hill"];
+	private _BCE_LandMarks = (nearestLocations [
+		[_mapCenter, _mapCenter],
+		_landmarks,
+		worldSize
+	]) apply {
+		private ["_config","_tex","_pos","_color"];
+		_config = configFile >> "CfgLocationTypes" >> type _x;
+		_tex = getText (_config >> "texture");
+		_pos = getPos _x;
+		_color = (getArray (_config >> "color")) apply {
+			[_x,1] select (_x == 0);
+		};
+
+		_color set [3,0.85];
+		_pos set [2,0.5];
+
+		[
+			[_tex,"\a3\ui_f\data\Map\Markers\Military\dot_CA.paa"] select (_tex == ""),
+			_color,
+			_pos,
+			text _x,
+			(getNumber (_config >> "textSize")) min 0.04
+		]
 	};
-
-	_color set [3,0.85];
-	_pos set [2,0.5];
-
-	[
-		[_tex,"\a3\ui_f\data\Map\Markers\Military\dot_CA.paa"] select (_tex == ""),
-		_color,
-		_pos,
-		text _x,
-		(getNumber (_config >> "textSize")) min 0.04
-	]
-};
-uiNamespace setVariable ["BCE_LandMarks",_BCE_LandMarks];
+	localNamespace setVariable ["BCE_LandMarks",_BCE_LandMarks];
 
 #if __has_include("\z\ace\addons\hearing\config.bin")
 	BCE_have_ACE_earPlugs = false;
@@ -67,9 +69,9 @@ uiNamespace setVariable ["BCE_LandMarks",_BCE_LandMarks];
 	call BCE_fnc_init;
 
 //-Add map eventhandler
-["visibleMap", {
-	[findDisplay 12, -1] call BCE_fnc_Update_MapCtrls;
-}] call CBA_fnc_addPlayerEventHandler;
+	["visibleMap", {
+		[findDisplay 12, -1] call BCE_fnc_Update_MapCtrls;
+	}] call CBA_fnc_addPlayerEventHandler;
 
 #define SetTitle(A,B) (localize A) + (localize B)
 #define IsPilot_CAM_ON ((player getVariable ["AHUD_Actived",-1]) != -1)

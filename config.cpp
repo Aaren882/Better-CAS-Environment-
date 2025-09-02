@@ -1,4 +1,5 @@
 #include "\MG8\AVFEVFX\cTab\has_cTab.hpp"
+#include "Additional_Fuze.hpp"
 
 class CfgPatches
 {
@@ -239,7 +240,7 @@ class CfgVehicles
 			class BCE_Task_Receiver
 			{
 				displayName = "$STR_BCE_CAS_Task";
-				condition = "(((vehicle _player) getVariable ['BCE_Task_Receiver','']) != '') || !(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) || !(isNull (_player getVariable ['TGP_View_Selected_Vehicle',objNull]))";
+				condition = "(((vehicle _player) getVariable ['BCE_Task_Receiver','']) != '') || !(isnull (uiNamespace getVariable ['BCE_Task_Receiver', displayNull])) || !(isNull ([_player] call BCE_fnc_get_TaskCurUnit))";
 				exceptions[] = {"isNotInside","isNotSitting"};
 				icon = "\MG8\AVFEVFX\data\missions.paa";
 			};
@@ -602,6 +603,9 @@ class CfgVehicles
 
 	#include "Compat.hpp"
 };
+
+//- Animation Config
+#include "Extended_Anim_props.hpp"
 class CfgFunctions
 {
 	class BCE
@@ -611,9 +615,10 @@ class CfgFunctions
 			file="MG8\AVFEVFX\Functions";
 			class Init;
 		};
-		class Componets
+		
+		class Components
 		{
-			file="MG8\AVFEVFX\Functions\Componets";
+			file="MG8\AVFEVFX\Functions\Components";
 			class ServerClientSide;
 			class ClientSide;
 
@@ -624,21 +629,40 @@ class CfgFunctions
 			class Check_Optics;
 			class Set_EnvironmentList;
 			class Turret_interSurface;
-			class GetMapClickPOS;
 
 			class POS2Grid;
 			class Grid2POS;
 
 			class VecRot;
 
+			class getMarkerColor;
+
 			class getAzimuth;
+			class getAzimuthMil;
 			class getTurretDir;
 			class getUnitParams;
+			class getMagazineAmmo;
+			class getAmmoType;
+			class getGroupVehicles;
+			class CFF_getAmmoType;
+
+			class Add_CountDown;
+			
 			class getCompatibleAVs;
+			class getCompatibleARTYs;
 
 			#if __has_include("\MG8\DiscordMessageAPI\config.bin")
 				class Discord_GetWebhooks;
 			#endif
+		};
+		class Anim_Components
+		{
+			file="MG8\AVFEVFX\Functions\Components\Animation_Transform";
+			class Anim_Type;
+			class Anim_Init;
+			class Anim_CustomOffset;
+			class Anim_getConfigSteps;
+			class Anim_SmoothDamp;
 		};
 		class HUD
 		{
@@ -646,6 +670,14 @@ class CfgFunctions
 			class setMFDValue;
 			class filtered_compass;
 			class call_Compass;
+		};
+		class Fuze_Framework
+		{
+			file="MG8\AVFEVFX\Functions\Fuze_Framework";
+			class FuzeInit;
+			class FuzeTrigger;
+			class FuzeVT;
+			class FuzeDelay;
 		};
 		class Gunner_Action
 		{
@@ -695,17 +727,67 @@ class CfgFunctions
 			class DrawFOV;
 			class TAC_Map;
 		};
+		class CFF_Actions
+		{
+			file="MG8\AVFEVFX\functions\CAS_Event\Call_for_Fire";
+			class FindBestCharge;
+			class doFireMission;
+			class doAim_CFF;
+			class getAllCharges;
+			class getCharge;
+			class UnstuckUnit;
+			class get_CFF_Value;
+			class set_CFF_Value;
+
+			class getCurUnit_CFF;
+			class getPos_Sheaf;
+
+			//- Send Missions
+				class Send_MSN_CFF;
+		};
+		class CFF_Method_of_Controls
+		{
+			file="MG8\AVFEVFX\functions\CAS_Event\Call_for_Fire\MOC";
+			class CFF_AT_READY;
+			class CFF_AMC;
+			class CFF_ToT;
+		};
 		class CAS_Event
 		{
 			file="MG8\AVFEVFX\functions\CAS_Event";
 			class CAS_Action;
+			class CFF_Action;
 			class GunShip_Loiter;
 			class Plane_CASEvent;
+			class Send_Task_RadioMsg;
+		};
+		class CAS_Events
+		{
+			file="MG8\AVFEVFX\functions\CAS_Event\Events";
+			class Send_Task_Event;
+			class Delete_Task_Event;
+			class Record_Task_Event;
+			class RequestTasks_Task_Event;
+			class RespondTasks_Task_Event;
+		};
+		class WPN_CheckList
+		{
+			file="MG8\AVFEVFX\functions\CAS_Menu\WPN_CheckList";
+			class checkList;
+			class WPN_List_AIR;
+			class WPN_List_CFF;
+
+			class SelWPN_AIR;
+			class SelWPN_CFF;
+		};
+		class Map_Click
+		{
+			file="MG8\AVFEVFX\functions\CAS_Menu\Map_Click";
+			class GetMapClickPOS;
 		};
 		class CAS_Menu
 		{
 			file="MG8\AVFEVFX\functions\CAS_Menu";
-			class checkList;
 			class DataReceiveButton;
 			class ListSwitch;
 			class TaskListDblCLick;
@@ -713,13 +795,123 @@ class CfgFunctions
 			class IPMarkers;
 			class clearTaskInfo;
 			class SendTaskData;
-			class CAS_SelWPN;
 			class Extended_Desc;
 			class unitList_info;
 			class Show_CurTaskCtrls;
 			class TaskList_Changed;
 			class Reset_TaskList;
 			class NextTurretButton;
+
+			//- Registries
+				class RegisterMissionControls;
+        //- BCE Interface control Holder
+          class onLoad_BCE_Holder;
+          class onLoad_BCE_Map_Holder;
+          class get_BCE_Holder;
+          class get_BCE_Holder_Name;
+
+				class get_BCE_curDisplay;
+				class get_Control_Data; //- "BCE_Data"
+				class set_Control_Data; //- "BCE_Data"
+
+			//- Menu Events (ToolBox, LB DropBox)
+				class onTaskElementChange;
+				class onLBTaskTypeChanged;
+				class onLBTaskUnitChanged;
+		};
+		//- Fire Mission
+		class Fire_Mission_Map_Infos
+		{
+			file="MG8\AVFEVFX\functions\CAS_Menu\Fire_Mission\Map_Infos";
+			class Update_TaskMapInfo;
+			class Update_TaskMapInfo_Icons;
+			class Update_TaskMapInfo_Lines;
+
+			class get_TaskMapInfo;
+			class get_TaskMapInfoEntry;
+
+			//- Draw Infos
+				class draw_TaskMapInfo;
+				class drawEach_TaskMapInfo;
+		};
+		class Fire_Mission
+		{
+			file="MG8\AVFEVFX\functions\CAS_Menu\Fire_Mission";
+			class getTaskProps;
+			class getDisplayTaskProps;
+			class get_TaskIndex;
+			class get_TaskCateIndex;
+
+			//- BCE handling Functions
+				class get_BCE_TaskClass;
+				class get_BCE_TaskCateClass;
+				class get_BCE_TaskCateClasses;
+				class get_BCE_Task_Interface;
+			
+			//- Task Setup
+				class get_TaskCurSetup;
+				class set_TaskCurSetup;
+			
+			//- Task Variables
+				class getTaskVar;
+				class setTaskVar;
+
+			//- Task Building Components
+				class getTaskComponents;
+				class getTaskSingleComponent;
+
+			//- Task Line
+				class get_TaskCurLine;
+				class set_TaskCurLine;
+				
+			//- Task Type
+				class get_TaskCurType;
+				class set_TaskCurType;
+			
+			//- Task Unit
+				class get_TaskCurUnit;
+				class set_TaskCurUnit;
+		};
+		class Fire_Mission_Events
+		{
+			file="MG8\AVFEVFX\functions\CAS_Menu\Fire_Mission\Events";
+			class TaskEvent_Opened;
+			class TaskEvent_Enter;
+			class TaskEvent_Element_SelChanged;
+			class TaskEvent_Clear;
+			class TaskEvent_SendData;
+			class TaskEvent_DataSent;
+			class TaskEvent_TaskUnitChanged;
+			class TaskEvent_LBTaskTypeChanged;
+			class TaskEvent_LBTaskUnitChanged;
+		};
+		class Call_for_Fire_Menu
+		{
+			file="MG8\AVFEVFX\functions\CAS_Menu\Call_for_fire";
+			class CFF_Mission_XMIT;
+
+			class CFF_Mission_EOM; 				//- End of Mission
+			class CFF_Mission_STOP; 			//- Stop/Remove CFF mission
+			class CFF_Mission_RAT; 				//- Record as Target
+			class CFF_Mission_RAT_2_ADD;	//- Add the Mission
+
+			class CFF_Mission_AutoSaveTask;
+
+			class CFF_Mission_Get_Group;
+			class CFF_Mission_Get_Group_Units;
+			class CFF_Mission_CheckActive;
+			class CFF_Mission_CheckActive_Units;
+
+			class CFF_Mission_Get_Values;
+			class CFF_Mission_Set_Values;
+			class CFF_Mission_Get_RAT_Values;
+			class CFF_Mission_Set_RAT_Values;
+
+			class UpdateFireAdjust;
+			class set_FireAdjust_MSN_State;
+			class CleanFireAdjustValues;
+			class get_FireAdjustValues;
+			class set_FireAdjustValues;
 		};
 		class Task_Receiver
 		{
@@ -736,13 +928,40 @@ class CfgFunctions
 		class Task_Type
 		{
 			file="MG8\AVFEVFX\functions\Task_Type";
+			class SelChanged_AIR;
+			class SelChanged_ADJ;
+			class SelChanged_SUP;
+
 			class clearTask5line;
 			class clearTask9line;
+			class clearTaskCFF;
+
 			class DataReceive5line;
 			class DataReceive9line;
+			class DataReceive_ADJ;
+			class DataReceive_SUP;
+			class DataReceive_IMM_SUP;
+
+			class DataSent_AIR;
+			class DataSent_CFF;
+			
+			class SendData5line;
+			class SendData9line;
+			class SendDataCFF;
+
+			//- OLD ones
+				class DblClick5line_OLD;
+				class DblClick9line_OLD;
+
 			class DblClick5line;
 			class DblClick9line;
-			class TaskTypeChanged;
+			class DblClickADJ;
+			class DblClickSUP;
+
+			class LBTaskTypeChanged;
+			class LBTaskUnitChanged;
+
+			class TaskUnitChanged_CFF;
 		};
 		class Radio_Compat
 		{
@@ -776,45 +995,140 @@ class CfgFunctions
 				class Extended_WeaponDESC;
 				class Extended_TaskDESC;
 			};
-			class cTab_Task
+			/* class cTab_Task
 			{
 				file="MG8\AVFEVFX\functions\cTab\Task_Type";
 				class cTab_9_TaskChanged;
 				class cTab_5_TaskChanged;
-			};
+			}; */
 			class ATAK
 			{
 				file="MG8\AVFEVFX\functions\cTab\functions\ATAK";
-				class ATAK_ChangeTool;
-				class ATAK_openPage;
-				class ATAK_TaskCreate;
 				class ATAK_LastPage;
-				class ATAK_DescType_Changed;
-				class ATAK_TaskTypeChanged;
-				class ATAK_DataReceiveButton;
-				class ATAK_AutoSaveTask;
-				class ATAK_Refresh_TaskInfos;
-				class ATAK_Refresh_Weapons;
+				class ATAK_bnt_clickEvent;
 				class ATAK_getScrollValue;
-				class ATAK_PullData;
-				class ATAK_ShowTaskResult;
 				class ATAK_Check_Layout;
-				class ATAK_onVehicleChanged;
-				class ATAK_toggleSubMenu;
 				class ATAK_Camera_Controls;
 			};
-			class ATAK_CAM
-			{
-				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Camera";
-				class ATAK_CamInit;
-				class ATAK_TakePicture;
-				class ATAK_FullScreenCamera;
-			};
-			class ATAK_MSG
-			{
-				file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Message";
-				class ATAK_msg_Line_Create;
-			};
+			//- ATAK Menus
+				class ATAK_Fire_Mission
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission";
+					class ATAK_DescType_Changed;
+					class ATAK_set_TaskType;
+					class ATAK_TaskTypeChanged;
+					class ATAK_LBTaskUnitChanged;
+					class ATAK_AutoSaveTask;
+					class ATAK_Refresh_TaskInfos;
+					class ATAK_Refresh_Weapons;
+					class ATAK_PullData;
+					class ATAK_ShowTaskResult;
+					class ATAK_onVehicleChanged;
+					class ATAK_updateTaskControl;
+					class ATAK_getTaskCategoryInfo;
+					class ATAK_TaskUnitChanged_AIR;
+				};
+				class ATAK_Call_for_Fire_Menu
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission\Call_for_Fire";
+					class ATAK_CFF_TaskList_Init;
+					class ATAK_CFF_Mission_RAT;				//- Record as Target
+					class ATAK_CFF_Mission_RAT_2_ADD;	//- Add the Mission
+					class ATAK_CFF_Mission_EOM;				//- End of Mission
+				};
+				class ATAK_CFF_Adjust_Menu
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission\Call_for_Fire\Fire_Adjustments";
+					class ATAK_FireAdjust_Init_Polar;
+					class ATAK_FireAdjust_Init_Impact;
+					class ATAK_FireAdjust_Sel_Changed;
+
+					class ATAK_onFireAdjusted;
+					class ATAK_FireAdjustMeter;
+				};
+				class ATAK_Menu_Init
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Init";
+					class ATAK_setAPPs_props;
+					class ATAK_getAPPs_props;
+				};
+				class ATAK_Menu_Custom_Controls
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Custom_Controls";
+					class ATAK_Custom_DropMenu_Init;
+					class ATAK_Custom_DropMenu_Click;
+
+					class Create_ATAK_Custom_DropMenu; //- Create Custom DropMenu
+					class Clear_ATAK_Custom_DropMenu; //- Clear Custom DropMenu
+					class Init_ATAK_Custom_DropMenu; //- Initiate Custom DropMenu
+				};
+				class ATAK_Menu
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu";
+					class ATAK_getAPPs;
+					class ATAK_openPage;
+					class ATAK_openMenu;
+					class ATAK_ChangeTool;
+					class ATAK_createSubPage;
+					class ATAK_getAPP_Config;
+					class ATAK_toggleSubListMenu;
+					class ATAK_getCurrentAPP;
+					class ATAK_getLastAPP;
+					class ATAK_ignoreFade_Transform;
+				};
+				class ATAK_Menu_Buttons
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Button_Events";
+					class ATAK_DataReceiveButton;
+					class ATAK_bnt_MessageSend_Click;
+					class ATAK_bnt_VideoFeeds_Click;
+					class ATAK_bnt_CFF_Action_Click;
+				};
+				class ATAK_Menu_Buttons_Init
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Init_Buttons";
+					class ATAK_bnt_SendMission;
+					class ATAK_bnt_CFF_List;
+					class ATAK_bnt_Group;
+					class ATAK_bnt_Message;
+					class ATAK_bnt_TaskBuilding;
+					class ATAK_bnt_VideoFeeds;
+				};
+				class ATAK_Menu_Invokes
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Invoke";
+					class ATAK_Invoke_ButtonLayoutArrange;
+				};
+				class ATAK_Menu_onOpened
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\APP_Menu_onOpened";
+					class ATAK_message_Init;
+					class ATAK_mission_Init;
+					class ATAK_Group_Init;
+					class ATAK_VideoFeeds_Init;
+					class ATAK_mission_SUB_TaskBuilding;
+					class ATAK_mission_SUB_TaskResult;
+					class ATAK_mission_SUB_TaskCFFList;
+					class ATAK_mission_SUB_TaskCFF_Action;
+				};
+				class ATAK_CAM
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Camera";
+					class ATAK_CamInit;
+					class ATAK_TakePicture;
+					class ATAK_FullScreenCamera;
+				};
+				class ATAK_MSG
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Message";
+					class ATAK_msg_Line_Create;
+				};
+				class ATAK_Group_Menu
+				{
+					file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Group";
+					class ATAK_GroupList_Init;
+					class ATAK_GroupList_SYSTEM_Init;
+				};
 		#endif
 	};
 	#ifdef cTAB_Installed
@@ -1119,6 +1433,7 @@ class RscButtonMenu: RscShortcutButton
 	class AttributesImage;
 };
 class ctrlButton;
+class ctrlButtonPictureKeepAspect;
 class RscEdit;
 class RscCombo;
 class RscXSliderH;
@@ -1153,6 +1468,7 @@ class RscMapControl
 	showCountourInterval = 2;
 };
 class RscCheckBox;
+class ctrlCheckboxes;
 class RscBackground;
 class BCE_RscButtonMenu: RscButtonMenu
 {
@@ -1189,73 +1505,111 @@ class BCE_RscButtonMenu: RscButtonMenu
 		shadow = "false";
 	};
 };
+//-POLPOX Map Tools Controls
+  #if cTAB_Installed == PLP_TOOL
+    class PLP_SMT_Description;
+    class PLP_SMT_Data
+    {
+      class RadialMenu
+      {
+        class Distance
+        {
+          displayName = "$STR_BCE_PLP_Title_Distance";
+          function = "PLP_fnc_SMT_distance";
+          controls = "$STR_BCE_PLP_Ctrl_Distance";
+          description = "$STR_BCE_PLP_Tip_Distance";
+        };
+        class MarkHouses
+        {
+          displayName = "$STR_BCE_PLP_Title_Mark_House";
+          function = "PLP_fnc_SMT_markHouses";
+          controls = "$STR_BCE_PLP_Ctrl_Mark_House";
+          description = "$STR_BCE_PLP_Tip_Mark_House";
+        };
+        class Height
+        {
+          displayName = "$STR_BCE_PLP_Title_Height";
+          function = "PLP_fnc_SMT_height";
+          controls = "$STR_BCE_PLP_Ctrl_Height";
+          description = "$STR_BCE_PLP_Tip_Height";
+        };
+        class Compass
+        {
+          displayName = "$STR_BCE_PLP_Title_Compass";
+          function = "PLP_fnc_SMT_compass";
+          controls = "$STR_BCE_PLP_Ctrl_Compass";
+          description = "$STR_BCE_PLP_Tip_Compass";
+        };
+        class EditGrid
+        {
+          displayName = "$STR_BCE_PLP_Title_Edit_Grid";
+          function = "PLP_fnc_SMT_placeGrid";
+          controls = "$STR_BCE_PLP_Ctrl_Edit_Grid";
+          description = "$STR_BCE_PLP_Tip_Edit_Grid";
+        };
+        class FindFlat
+        {
+          displayName = "$STR_BCE_PLP_Title_Find_Flat";
+          function = "PLP_fnc_SMT_findFlat";
+          controls = "$STR_BCE_PLP_Ctrl_Find_Flat";
+          description = "$STR_BCE_PLP_Tip_Find_Flat";
+        };
+        class LineOfSight
+        {
+          displayName = "$STR_BCE_PLP_Title_Line_of_Sight";
+          function = "PLP_fnc_SMT_lineOfSight";
+          controls = "$STR_BCE_PLP_Ctrl_Line_of_Sight";
+          description = "$STR_BCE_PLP_Tip_Line_of_Sight";
+        };
+      };
+    };
+  #endif
 
-//-POLPOX Map Tools Control
-#if cTAB_Installed == PLP_TOOL
-	class PLP_SMT_Description;
-	class PLP_SMT_Data
-	{
-		class RadialMenu
-		{
-			class Distance
-			{
-				displayName = "$STR_BCE_PLP_Title_Distance";
-				function = "PLP_fnc_SMT_distance";
-				controls = "$STR_BCE_PLP_Ctrl_Distance";
-				description = "$STR_BCE_PLP_Tip_Distance";
-			};
-			class MarkHouses
-			{
-				displayName = "$STR_BCE_PLP_Title_Mark_House";
-				function = "PLP_fnc_SMT_markHouses";
-				controls = "$STR_BCE_PLP_Ctrl_Mark_House";
-				description = "$STR_BCE_PLP_Tip_Mark_House";
-			};
-			class Height
-			{
-				displayName = "$STR_BCE_PLP_Title_Height";
-				function = "PLP_fnc_SMT_height";
-				controls = "$STR_BCE_PLP_Ctrl_Height";
-				description = "$STR_BCE_PLP_Tip_Height";
-			};
-			class Compass
-			{
-				displayName = "$STR_BCE_PLP_Title_Compass";
-				function = "PLP_fnc_SMT_compass";
-				controls = "$STR_BCE_PLP_Ctrl_Compass";
-				description = "$STR_BCE_PLP_Tip_Compass";
-			};
-			class EditGrid
-			{
-				displayName = "$STR_BCE_PLP_Title_Edit_Grid";
-				function = "PLP_fnc_SMT_placeGrid";
-				controls = "$STR_BCE_PLP_Ctrl_Edit_Grid";
-				description = "$STR_BCE_PLP_Tip_Edit_Grid";
-			};
-			class FindFlat
-			{
-				displayName = "$STR_BCE_PLP_Title_Find_Flat";
-				function = "PLP_fnc_SMT_findFlat";
-				controls = "$STR_BCE_PLP_Ctrl_Find_Flat";
-				description = "$STR_BCE_PLP_Tip_Find_Flat";
-			};
-			class LineOfSight
-			{
-				displayName = "$STR_BCE_PLP_Title_Line_of_Sight";
-				function = "PLP_fnc_SMT_lineOfSight";
-				controls = "$STR_BCE_PLP_Ctrl_Line_of_Sight";
-				description = "$STR_BCE_PLP_Tip_Line_of_Sight";
-			};
-		};
-	};
-#endif
+//- Mission Property + Controls + Map Infos
+	#include "Mission_Map_Infos.hpp"
+	#include "Mission_Property.hpp"
 
-#include "cTab\cTab_Macros.hpp"
+  //-cTab UI
+  #ifdef cTAB_Installed
+    class cTab_RscMapControl;
+    class cTab_RscFrame;
+    class cTab_RscPicture;
+    class cTab_RscControlsGroup
+    {
+      class VScrollbar;
+      class HScrollbar;
+    };
+    class cTab_RscText;
+    class cTab_RscButtonInv;
+    class cTab_ActiveText;
+    class cTab_RscListBox;
+    class cTab_RscListbox_Tablet;
+    class cTab_RscEdit;
+    class cTab_RscEdit_Tablet;
+    class cTab_RscButton_Tablet;
+    class cTab_Tablet_btnF2;
+    class cTab_Tablet_btnF5;
+    class cTab_Tablet_window_back_BR;
+    class cTab_RscText_Tablet;
+    class cTab_IGUIBack;
+    class cTab_RscButton;
+    class cTab_RscText_WindowTitle;
+    class cTab_Tablet_btnMouse;
+    //- cTab controls
+      #include "cTab\cTab_Macros.hpp"
+      #include "cTab\cTab_Macros_Interface.hpp"
+      #include "cTab\cTab_classes.hpp"
+  #endif
 
-//-cTab UI
-#ifdef cTAB_Installed
-	#include "cTab\cTab_UI.hpp"
-#endif
+	#include "Mission_Controls.hpp" //- BCE Interface framework
+  
+  #ifdef cTAB_Installed
+    #include "cTab\cTab_UI.hpp" //- cTab Interfaces
+  #endif
+
+//UI
+  #include "Control_UI.hpp"
+  #include "Dialog.hpp"
 
 class CfgFontFamilies
 {
@@ -1269,10 +1623,6 @@ class CfgFontFamilies
 		fonts[] = {{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold9","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light6"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold10","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light7"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold11","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light8"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold12","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light9"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold13","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light10"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold14","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light11"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold15","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light12"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold16","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light13"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold17","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light14"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold18","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light15"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold19","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light16"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold20","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light17"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold21","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light18"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold22","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light19"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold23","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light20"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold24","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light21"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold25","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light22"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold26","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light23"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold27","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light24"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold28","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light25"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold29","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light26"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold30","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light27"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold31","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light28"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold34","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light29"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold35","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light30"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold37","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light31"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light34"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light35"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light37"},{"A3\Uifonts_f\Data\Fonts\Roboto-Condensed-Bold\Roboto-Condensed-Bold46","A3\Uifonts_f\Data\Fonts\NotoSansCJK-Light\NotoSansCJK-Light46"}};
 	};
 };
-
-//UI
-#include "Control_UI.hpp"
-#include "Dialog.hpp"
 
 class CfgScriptPaths
 {

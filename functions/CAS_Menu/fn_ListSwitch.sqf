@@ -1,45 +1,40 @@
+// #TODO - Implement the new framework
+
 params["_display",["_period",1],["_preload",false],["_vehicle",objNull]];
 
 if ((lbcursel (_display displayCtrl 2102)) != 0) exitWith {};
-private [
-	"_BG_grp","_MainList","_list_Title","_Task_Type",
-	"_list_result","_config","_Expression_class",
-	"_Task_title","_desc_show","_squad_title","_squad_pic","_squad_list",
-	"_Button_Racks","_List_Racks","_extend_desc","_Task_Description",
-	"_clearbut","_Expression_TextR","_Expression_Ctrls",
-	"_createTask","_lastPage","_sendData","_Task_Type_POS","_BG_grp_POS","_MainList_POS","_createTask_POS","_sendData_POS"
-];
-_BG_grp = _display displayCtrl 2000;
 
-_MainList = _display displayCtrl 2100;
-_list_Title = _display displayCtrl 2001;
-_Task_Type = _display displayCtrl 2107;
+private _BG_grp = _display displayCtrl 2000;
 
-_list_result = switch (uiNameSpace getVariable ["BCE_Current_TaskType",0]) do {
+private _MainList = _display displayCtrl 2100;
+private _list_Title = _display displayCtrl 2001;
+private _Task_Type = _display displayCtrl 2107;
+
+private _curType = [0] call BCE_fnc_get_TaskCurType;
+private _typeIndex = "AIR" call BCE_fnc_get_TaskCateIndex;
+private _taskVar = (_typeIndex call BCE_fnc_getTaskVar) # 0;
+
+private _TaskList = switch (_curType) do {
 	//-5 line
 	case 1: {
 		_TaskList = _display displayCtrl 2005;
-		_taskVar = uiNamespace getVariable ["BCE_CAS_5Line_Var", [["NA",0],["NA","",[],[0,0],""],["NA","111222"],["NA","--",""],["NA",-1,[]]]];
-
 		_TaskList lbSetText [0, format ["1: “%1”/“%2” :", groupId group _vehicle, groupId group player]];
-		[_TaskList,_taskVar]
+
+		_TaskList
 	};
 	//-9 line
 	default {
-		_TaskList = _display displayCtrl 2002;
-		_taskVar = uiNamespace getVariable ["BCE_CAS_9Line_Var", [["NA",0],["NA","",[],[0,0]],["NA",180],["NA",200],["NA",15],["NA","--"],["NA","",[],[0,0],[]],["NA","1111"],["NA","",[],[0,0],""],["NA",0,[],nil,nil],["NA",-1,[]]]];
-		[_TaskList,_taskVar]
+		_display displayCtrl 2002;
 	};
 };
-_list_result params ["_TaskList","_taskVar"];
 
-_config = configFile >> "RscDisplayAVTerminal" >> "controls";
-_Expression_class = "true" configClasses (_config >> ctrlClassName _TaskList >>"items");
-_Task_title = _display displayctrl 2003;
-_desc_show = _display displayctrl 20042;
-_squad_title = _display displayctrl 20114;
-_squad_pic = _display displayctrl 20115;
-_squad_list = _display displayctrl 20116;
+private _config = configFile >> "RscDisplayAVTerminal" >> "controls";
+private _Expression_class = "true" configClasses (_config >> ctrlClassName _TaskList >>"items");
+private _Task_title = _display displayctrl 2003;
+private _desc_show = _display displayctrl 20042;
+private _squad_title = _display displayctrl 20114;
+private _squad_pic = _display displayctrl 20115;
+private _squad_list = _display displayctrl 20116;
 
 #if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
 	_Button_Racks = _display displayctrl 201141;
@@ -50,22 +45,14 @@ _squad_list = _display displayctrl 20116;
 #endif
 
 //-Description
-_extend_desc = (_Expression_class apply {getNumber(_x >> "multi_options") == 1}) # (lbCurSel _TaskList);
-_Task_Description = _display displayctrl ([2004,20041] select _extend_desc);
+private _extend_desc = (_Expression_class apply {getNumber(_x >> "multi_options") == 1}) # (lbCurSel _TaskList);
+private _Task_Description = _display displayctrl ([2004,20041] select _extend_desc);
 
-_clearbut = _display displayCtrl 2106;
+private _clearbut = _display displayCtrl 2106;
 
 //-Get Expression
-_Expression_TextR = _Expression_class apply {
+private _Expression_TextR = _Expression_class apply {
 	getText (_x >> "textRight")
-};
-
-_Expression_Ctrls = (_Expression_class apply {
-		getArray (_x >> "Expression_idc")
-	}) apply {
-	[
-		_x apply {_display displayctrl _x},[]
-	] select (_x isEqualTo []);
 };
 
 //-Task Status
@@ -85,12 +72,24 @@ _Expression_Ctrls = (_Expression_class apply {
 
 //-from the Last page (Break)
 if (ctrlShown _Task_title) exitWith {
-	{_x ctrlShow false} forEach ([_Task_title,_Task_Description,_desc_show,_squad_title,_squad_pic,_squad_list,_Button_Racks,_List_Racks] + (flatten _Expression_Ctrls));
+
+	// private _curLine = _display call BCE_fnc_get_TaskCurLine;
+	// (_curLine call BCE_fnc_getTaskComponents) params ["_shownCtrls"];
+	private _shownCtrls = (_Expression_class apply {
+			getArray (_x >> "Expression_idc")
+		}) apply {
+		[
+			_x apply {_display displayctrl _x},[]
+		] select (_x isEqualTo []);
+	};
+	
+
+	{_x ctrlShow false} forEach ([_Task_title,_Task_Description,_desc_show,_squad_title,_squad_pic,_squad_list,_Button_Racks,_List_Racks] + flatten _shownCtrls);
 	(_display displayCtrl 2105) ctrlSetText localize "STR_BCE_SendData";
 	_TaskList ctrlShow true;
 
 	//-Back to check list
-	[_display,1,true,_vehicle] call BCE_fnc_ListSwitch;
+	// [_display,1,true,_vehicle] call BCE_fnc_ListSwitch;
 };
 
 //-Switch Pages
@@ -99,15 +98,15 @@ if !(_preload) then {
 	uiNameSpace setVariable ['BCE_CAS_ListSwtich', !_status];
 };
 
-_createTask = _display displayCtrl 2103;
-_lastPage = _display displayCtrl 2104;
-_sendData = _display displayCtrl 2105;
+private _createTask = _display displayCtrl 2103;
+private _lastPage = _display displayCtrl 2104;
+private _sendData = _display displayCtrl 2105;
 
-_Task_Type_POS = ctrlPosition _Task_Type;
-_BG_grp_POS = ctrlPosition _BG_grp;
-_MainList_POS = ctrlPosition _MainList;
-_createTask_POS = ctrlPosition _createTask;
-_sendData_POS = ctrlPosition _sendData;
+private _Task_Type_POS = ctrlPosition _Task_Type;
+private _BG_grp_POS = ctrlPosition _BG_grp;
+private _MainList_POS = ctrlPosition _MainList;
+private _createTask_POS = ctrlPosition _createTask;
+private _sendData_POS = ctrlPosition _sendData;
 
 _list_Title ctrlSetText ([localize "STR_BCE_TL_Check_List", format["%1 (%2)",localize "STR_BCE_TL_Create_Task", localize "STR_BCE_DoubleClick"]] select (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]));
 
@@ -172,6 +171,7 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
 		private _checklist = _display displayCtrl 2020;
 		_checklist lbSetCurSel 0;
 		[_display,_checklist,_vehicle,true] call BCE_fnc_checkList;
+		_checklist lbSetCurSel (uiNameSpace getVariable ["BCE_CAS_MainList_selected", 0]);
 	};
 
 } else {
@@ -225,6 +225,7 @@ if (uiNameSpace getVariable ["BCE_CAS_ListSwtich", false]) then {
 	if !(isNull _vehicle) then {
 		private _checklist = _display displayCtrl 2100;
 		[_display,_checklist,_vehicle,false] call BCE_fnc_checkList;
+		_checklist lbSetCurSel (uiNameSpace getVariable ["BCE_CAS_MainList_selected", 0]);
 	};
 };
 

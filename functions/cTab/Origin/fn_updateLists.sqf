@@ -77,16 +77,29 @@ cTabBFTgroups = (allGroups apply {
 	};
 }) select {!isnil {_x}};
 
+
+/*cTabUAVlist --- UAVs and ARTYs*/
+_cTabUAVlist = call BCE_fnc_getCompatibleAVs;
+cTabARTYlist = call BCE_fnc_getCompatibleARTYs; //- ARTYs
+
 /*
 cTabBFTvehicles --- VEHICLES
 Vehciles on our side, that are not empty and that player is not sitting in.
 */
 cTabBFTvehicles = (vehicles apply {
 	if ((side _x in _validSides) && {count (crew _x) > 0} && {_x != _playerVehicle}) then {
-		private ["_groupID","_name","_customName","_iconA","_iconB"];
+		private ["_groupID","_isARTY","_name","_customName","_iconA","_iconB"];
 		_groupID = "";
+		_isARTY = (
+			_x isKindOf "MBT_01_arty_base_F" ||
+			_x isKindOf "MBT_01_mlrs_base_F" ||
+			_x isKindOf "MBT_02_arty_base_F"
+			// _x isKindOf "StaticMortar"
+		);
+		
 		_name = "";
 		_customName = _x getVariable ["cTab_groupId",""];
+
 		call {
 			if !(_customName == "") exitWith {
 				_name = _customName;
@@ -112,21 +125,6 @@ cTabBFTvehicles = (vehicles apply {
 			case (_x isKindOf "Wheeled_APC_F"): {
 				"\cTab\img\b_mech_inf_wheeled.paa"
 			};
-			case (_x isKindOf "Truck_F"): {
-				[
-					"\A3\ui_f\data\map\markers\nato\b_support.paa",
-					"\A3\ui_f\data\map\markers\nato\b_motor_inf.paa"
-				] select (getNumber (configOf _x >> "transportSoldier") > 2);
-			};
-			case (_x isKindOf "Car_F"): {
-				"\A3\ui_f\data\map\markers\nato\b_motor_inf.paa"
-			};
-			case (_x isKindOf "UAV"): {
-				"\A3\ui_f\data\map\markers\nato\b_uav.paa"
-			};
-			case (_x isKindOf "UAV_01_base_F"): {
-				"\A3\ui_f\data\map\markers\nato\b_uav.paa"
-			};
 			case (_x isKindOf "Helicopter"): {
 				_iconB = "\cTab\img\icon_air_contact_ca.paa";
 				"\A3\ui_f\data\map\markers\nato\b_air.paa"
@@ -136,40 +134,61 @@ cTabBFTvehicles = (vehicles apply {
 
 				"\A3\ui_f\data\map\markers\nato\b_plane.paa"
 			};
-			case (_x isKindOf "Tank"): {
+			case (_x isKindOf "UAV"): {
+				"\A3\ui_f\data\map\markers\nato\b_uav.paa"
+			};
+			case (_x isKindOf "UAV_01_base_F"): {
+				"\A3\ui_f\data\map\markers\nato\b_uav.paa"
+			};
+			
+			//- only Return Leader (Mortar, ARTY)
+			case (_x isKindOf "StaticMortar"): {
+				[
+					"",
+					"\A3\ui_f\data\map\markers\nato\b_mortar.paa"
+				] select (_x in cTabARTYlist);
+			};
+			case (_isARTY): {
+				[
+					"",
+					"\A3\ui_f\data\map\markers\nato\b_art.paa"
+				] select (_x in cTabARTYlist);
+			};
+			//- Ground Vehicles -//
+			case (_x isKindOf "Tank" && !_isARTY): {
 				[
 					"\A3\ui_f\data\map\markers\nato\b_armor.paa",
 					"\A3\ui_f\data\map\markers\nato\b_mech_inf.paa"
 				] select (getNumber (configOf _x >> "transportSoldier") > 6);
 			};
-			case (_x isKindOf "MBT_01_arty_base_F"): {
-				"\A3\ui_f\data\map\markers\nato\b_art.paa"
+			case (_x isKindOf "Truck_F"): {
+				[
+					"\A3\ui_f\data\map\markers\nato\b_support.paa",
+					"\A3\ui_f\data\map\markers\nato\b_motor_inf.paa"
+				] select (getNumber (configOf _x >> "transportSoldier") > 2);
 			};
-			case (_x isKindOf "MBT_01_mlrs_base_F"): {
-				"\A3\ui_f\data\map\markers\nato\b_art.paa"
+			case (_x isKindOf "Car_F"): {
+				"\A3\ui_f\data\map\markers\nato\b_motor_inf.paa"
 			};
-			case (_x isKindOf "MBT_02_arty_base_F"): {
-				"\A3\ui_f\data\map\markers\nato\b_art.paa"
-			};
-			case (_x isKindOf "StaticMortar"): {
-				"\A3\ui_f\data\map\markers\nato\b_mortar.paa"
+
+			case (!(_x isKindOf "Static") && !(_x isKindOf "StaticWeapon") && !_isARTY): {
+				"\A3\ui_f\data\map\markers\nato\b_unknown.paa"
 			};
 			default {
 				""
 			};
 		};
 		call {
-			if (_iconA == "" && {!(_x isKindOf "Static")} && {!(_x isKindOf "StaticWeapon")}) then {_iconA = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";};
+			// if (_iconA == "") then {_iconA = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";};
 			if (_iconA == "") exitWith {};
-			[_x,_iconA,_iconB,_name,_groupID, getPosASLVisual _x, getDirVisual _x]
+			private _pos = getPosASLVisual _x;
+			_pos resize 2;
+			[_x,_iconA,_iconB,_name,_groupID, _pos, getDirVisual _x]
 		};
 	} else {
 		nil
 	};
 }) select {!isnil {_x}};
-
-/*cTabUAVlist --- UAVs*/
-_cTabUAVlist = call BCE_fnc_getCompatibleAVs;
 
 _cTabHcamlist = allUnits select {
 	if (side _x in _validSides) then {

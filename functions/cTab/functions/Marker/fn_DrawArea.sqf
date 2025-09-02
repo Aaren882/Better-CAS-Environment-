@@ -82,8 +82,8 @@ if (_LMB == 0 && _lastClick > -1) then {
   _brushes = _group controlsGroupCtrl 21;
 
   _colorLb = _display displayCtrl (17000 + 1090);
-  _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
-  _color = _MarkerColorCache # lbCurSel _colorLb # 0;
+  // _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
+  _color = _colorLb lbdata (lbCurSel _colorLb);
 
   //- Marker ID
     _id = "cTab" call cTab_fnc_NextMarkerID;

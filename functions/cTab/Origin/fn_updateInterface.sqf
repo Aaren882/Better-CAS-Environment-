@@ -36,7 +36,7 @@ if (isNil "cTabIfOpen") exitWith {false};
 _displayName = cTabIfOpen # 1;
 
 _display = uiNamespace getVariable _displayName;
-uiNameSpace setVariable ["cTab_BFT_CurSel",objNull];
+localNamespace setVariable ["cTab_BFT_CurSel",objNull];
 
 _interfaceInit = false;
 _maptoolsInit = false;
@@ -280,30 +280,65 @@ _settings apply {
 				} forEach [15,16,17];
 			};
 
+			//- Check Group should Update
+				if !(_group getVariable ["Anim_Activation",_interfaceInit]) exitWith {};
+
 			//- Set POS
-			if (_displayName find "Android" > -1) then {
-				(ctrlPosition _group) params ["_POSX","_POSY"];
-				_group ctrlSetPositionX _POSX;
-				_group ctrlSetPositionY _POSY;
-				_group ctrlSetPositionH ([
-					0,
-					5 * ((ctrlPosition _TitleMode) # 3)
-				] select _show);
+			private _groupPos = ctrlPosition _group;
+			private _groupPos_end = _groupPos;
+
+			private _ignore = if (_displayName find "Android" > -1) then {
+				_groupPos params ["_POSX","_POSY"];
+				// _group ctrlSetPositionX _POSX;
+				// _group ctrlSetPositionY _POSY;
+				// _group ctrlSetPositionH ([
+				// 	0,
+				// 	5 * ((ctrlPosition _TitleMode) # 3)
+				// ] select _show);
+
+				//- Set end position
+					_groupPos_end set [0,_POSX];
+					_groupPos_end set [1,_POSY];
+					_groupPos_end set [3, ([
+						0,
+						5 * ((ctrlPosition _TitleMode) # 3)
+					] select _show)];
+				
+				[2]
 			} else {
 				private _posToggle = ctrlPosition _toggleBnt;
 				private _pos = ctrlPosition _cate;
-				_group ctrlSetPositionX ([
-					(_posToggle # 0) + (_posToggle # 2),
-					(_posToggle # 0) + (_posToggle # 2) - (_pos # 2)
-				] select _show);
-				_group ctrlSetPositionW ([
-					0,
-					_pos # 2
-				] select _show);
-			};
-			
+				// _group ctrlSetPositionX ([
+				// 	(_posToggle # 0) + (_posToggle # 2),
+				// 	(_posToggle # 0) + (_posToggle # 2) - (_pos # 2)
+				// ] select _show);
+				// _group ctrlSetPositionW ([
+				// 	0,
+				// 	_pos # 2
+				// ] select _show);
 
-			_group ctrlCommit ([0.2, 0] select _interfaceInit);
+				//- Set end position
+					_groupPos_end set [0, [
+						(_posToggle # 0) + (_posToggle # 2),
+						(_posToggle # 0) + (_posToggle # 2) - (_pos # 2)
+					] select _show];
+					_groupPos_end set [2, [
+						0,
+						_pos # 2
+					] select _show];
+				
+				[3]
+			};
+			// _group ctrlCommit ([0.2, 0] select _interfaceInit);
+
+			//- Anim Transform
+				[
+					_group, //- Tool Bnts
+					[[],_groupPos_end], // - [Start, End]
+					["Spring_Example",_interfaceInit, 1200, _ignore] // - [Anim_Type, _instant, _BG_IDC, _ignore]
+				] call BCE_fnc_Anim_CustomOffset;
+			_group setVariable ["Anim_Activation",false];
+			
 		};
 		// -- TAD -- //
 			if ((_x # 0) == "MarkerDropper") exitWith {
@@ -408,6 +443,7 @@ _settings apply {
 				17000 + 4632,
 				17000 + 4650,
 				17000 + 4640,
+				17000 + 4641,
 
 				//-BTF Widgets
 				17000 + 1200,
@@ -493,7 +529,7 @@ _settings apply {
 						private _showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
 						_displayItemsToShow append [17000 + 2615,17000 + 2616]; //- Show Compass on Phone
 						if (_showMenu param [1, false]) then {
-							_displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
+							// _displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
 							if !(_interfaceInit) then {
 								_settings pushBack ["showMenu",[_displayName,"showMenu"] call cTab_fnc_getSettings];
 							};
@@ -556,7 +592,11 @@ _settings apply {
 
 					_settings pushBack ["uavListUpdate",true];
 					if (!_interfaceInit) then {
-						_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
+						_settings pushBack ["uavCam",str ([
+							cTab_player,
+							"AIR" call BCE_fnc_get_TaskCateIndex
+						] call BCE_fnc_get_TaskCurUnit)
+					];
 					};
 				};
 
@@ -634,7 +674,12 @@ _settings apply {
 				_settings pushBack ["uavListUpdate",true];
 
 				if (!_interfaceInit) then {
-					_settings pushBack ["uavCam",str (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull])];
+					_settings pushBack ["uavCam",str (
+						[
+							cTab_player,
+							"AIR" call BCE_fnc_get_TaskCateIndex
+						] call BCE_fnc_get_TaskCurUnit)
+					];
 				};
 			};
 			// ----------------------------------
@@ -691,9 +736,9 @@ _settings apply {
 				if (!isNull _osdCtrl) then {_osdCtrl ctrlSetText _targetMapName;};
 				
 				//- Update the ATAK Tools //
-					if (_displayName find "Android" > -1) then {
-						"showMenu" call BCE_fnc_cTab_UpdateInterface;
-					};
+					// if (_displayName find "Android" > -1) then {
+					// 	"showMenu" call BCE_fnc_cTab_UpdateInterface;
+					// };
 
 				// show correct map contorl
 				if (!ctrlShown _targetMapCtrl) then {
@@ -752,7 +797,10 @@ _settings apply {
 		// ------------ UAV List Update ------------
 		if (_x # 0 == "uavListUpdate") exitWith {
 			if (_mode in ["UAV","TASK_Builder"]) then {
-				_data = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
+				_data = [
+					cTab_player,
+					"AIR" call BCE_fnc_get_TaskCateIndex
+				] call BCE_fnc_get_TaskCurUnit;
 				[IDC_CTAB_CTABUAVLIST, 17000+IDC_CTAB_CTABUAVLIST] apply {
 					(_display displayCtrl _x) call BCE_fnc_cTab_CreateCameraList;
 				};
@@ -768,39 +816,44 @@ _settings apply {
 		// ---------- Marker Color -----------
 		if ((_x # 0) == "markerColor") exitWith {
 			private _markerColor = _display displayCtrl (17000 + 1090);
-			private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
 
 			if (lbSize _markerColor == 0) then {
 				if (_isDialog) then {
 					private _EDIT_color = _display displayCtrl (17000 + 1301) controlsGroupCtrl 51;
 					{
-						_x params ["","_color","_name"];
-
+						private _cfgName = configName _x;
+						private _color = _cfgName call BCE_fnc_getMarkerColor;
+						if (count _color == 0) then {continue}; //- #NOTE - Skip if the color is "scope!=2"
+						
+						private _name = getText (_x >> "name");
 						private _index = _markerColor lbAdd _name;
+
 						_EDIT_color lbAdd _name;
 						_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
 						_EDIT_color lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
 
 						_markerColor lbSetPictureColorSelected [_index, _color];
 						_markerColor lbSetPictureColor [_index, _color];
-						// _markerColor lbSetData [_index, str [configName _x, _color]];
+						_markerColor lbSetData [_index, _cfgName]; //- Save color "configName"
 
 						_EDIT_color lbSetPictureColorSelected [_index, _color];
 						_EDIT_color lbSetPictureColor [_index, _color];
-					} forEach _MarkerColorCache;
+						_EDIT_color lbSetData [_index, _cfgName]; //- Save color "configName"
+					} forEach ("true" configClasses (configFile >> "CfgMarkerColors"));
 					_markerColor lbSetCurSel (_x # 1);
 					
 					//- Set EH only for Dialog
 						_markerColor ctrlAddEventHandler ["LBSelChanged", {[cTabIfOpen # 1,[['markerColor',_this # 1]]] call cTab_fnc_setSettings}];
 				} else {
 					//- is display ,so there's no need to create the entire Color List
+					private _MarkerColorArr = uiNamespace getVariable ["BCE_Marker_Color_Array",[]];
+					private _cfgName = (_MarkerColorArr # (_x # 1));
+					private _color = _cfgName call BCE_fnc_getMarkerColor;
 
-					(_MarkerColorCache # (_x # 1)) params ["_CfgName","_color","_name"];
-
-					private _index = _markerColor lbAdd _name;
+					private _index = _markerColor lbAdd getText (configFile >> "CfgMarkerColors" >> _cfgName);
 					_markerColor lbSetPicture [_index, "a3\ui_f\data\map\markers\nato\n_unknown.paa"];
 					_markerColor lbSetPictureColor [_index, _color];
-					// _markerColor lbSetData [_index, str [configName _cfg, _color]];
+					_markerColor lbSetData [_index, _cfgName];
 					_markerColor lbSetCurSel _index;
 				};
 			};
@@ -817,7 +870,7 @@ _settings apply {
 		// ------------ init AV info ------------
 		if ((_x # 0) == "uavCam") exitWith {
 			if (_mode in ["UAV","TASK_Builder"]) then {
-				private ["_UAV_Interface","_data","_veh","_veh_changed","_list"];
+				private ["_UAV_Interface","_data","_veh","_veh_changed","_taskIndex","_list"];
 
 				_UAV_Interface = _mode == "UAV";
 
@@ -828,14 +881,27 @@ _settings apply {
 					if (_data == str _x) exitWith {_veh = _x};
 				} count cTabUAVlist;
 
-				_veh_changed = _veh isNotEqualTo (cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull]);
+				_taskIndex = "AIR" call BCE_fnc_get_TaskCateIndex;
+				_veh_changed = _veh isNotEqualTo ([
+					cTab_player,
+					_taskIndex
+				] call BCE_fnc_get_TaskCurUnit);
 
-				cTab_player setVariable ["TGP_View_Selected_Vehicle",_veh];
+        [
+					_veh,
+					_taskIndex
+				] call BCE_fnc_set_TaskCurUnit;
 				_condition = [((uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0) == 0,true] select _UAV_Interface;
 
 				//-Create PIP camera if mode is "UAV"
 				if !(isNull _veh) then {
-					[_veh,[[1,["rendertarget8","rendertarget9"] select _UAV_Interface]],_UAV_Interface] call cTab_fnc_createUavCam;
+					[
+						_veh,
+						[
+							[1,["rendertarget8","rendertarget9"] select _UAV_Interface]
+						],
+						_UAV_Interface
+					] call cTab_fnc_createUavCam;
 				} else {
 					//-Clean Up if the vehicle is null
 					call cTab_fnc_deleteUAVcam;
@@ -1053,379 +1119,27 @@ _settings apply {
 
 		// ---------- ATAK Tools -----------
 		if (((_x # 0) == "showMenu") && (_mode == "BFT")) exitWith {
-			{
-				(_display displayCtrl 17000 + _x) ctrlShow false;
-				false
-			} count [
-				4660, 
-				4661, 
-				4662, 
-				4663,
-				4650,
-				4640
-			];
+			private _settings = _x # 1;
+			_settings params ["_page","_show","_subInfos",["_PgComponents",createHashMap]];
 
-			(_x # 1) params ["_page","_show","_line",["_PgComponents",[]]];
-		
-			private _group = [_display, _page, (_page != "main") && _show] call BCE_fnc_ATAK_openPage;
-			
-			private _background = _display displayCtrl IDC_CTAB_GROUP_MENU;
-			_background ctrlShow _show;
+			private _backgroundGroup = _display displayCtrl IDC_CTAB_GROUP_MENU;
+			private _background = _backgroundGroup controlsGroupCtrl 9;
+			_backgroundGroup ctrlShow true;
 
+			// private _activeAnim = _backgroundGroup getVariable ["Anim_Activation",_interfaceInit];
+			private _animPayload = _backgroundGroup getVariable ["Anim_Payload",[]];
+			private _has_animPayload = _animPayload findIf {true} > -1; //- Check variable isn't empty
+
+			private _group = [
+				_display,
+				_page,
+				(_page == "main"),
+				_settings
+			] call BCE_fnc_ATAK_openPage;
+			_group ctrlEnable _show;
+
+			//- Make sure Layout is correct
 			call BCE_fnc_ATAK_Check_Layout;
-			
-			if (isnil{_group} || !_show) exitWith {};
-			_group ctrlShow _show;
-
-			//-ATAK Control Adjustments
-			switch (_page) do {
-				case "VideoFeeds": {
-					private _switch_btn = _group controlsGroupCtrl 5;
-					private _ListGroup = _group controlsGroupCtrl 10;
-					private _ViewGroup = _group controlsGroupCtrl 20;
-					private _commitTime = {[_this, 0] select _interfaceInit};
-					private _hcam = [_displayName, "hcam"] call cTab_fnc_getSettings;
-
-					//- Get Last Selection
-						private _SubSel = _PgComponents param [0, [0,1] select (_hcam != "")];
-
-					//- Control Components
-						private _ctrl_TrackTG = _ViewGroup controlsGroupCtrl 11;
-						private _ctrl_TrackInfo = _ViewGroup controlsGroupCtrl 12;
-						private _ctrl_Vision = _ViewGroup controlsGroupCtrl 13;
-						private _ctrl_Sync = _ViewGroup controlsGroupCtrl 14;
-						private _ctrl_View = _ViewGroup controlsGroupCtrl 46310;
-						private _ctrl_Turret = _ViewGroup controlsGroupCtrl 46320;
-						private _ctrl_PIP = _ViewGroup controlsGroupCtrl 4632;
-					
-					//- Check if is Sub-Menu
-						private _subMenu = _line > 0;
-
-						_ListGroup ctrlEnable _subMenu;
-						_ViewGroup ctrlEnable !_subMenu;
-
-						_ListGroup ctrlSetPositionH ([
-							0,
-							(ctrlPosition _group) # 3
-						] select _subMenu);
-						_ListGroup ctrlSetFade ([1,0] select _subMenu);
-						_ListGroup ctrlCommit (0.3 call _commitTime);
-		
-						{
-							_x ctrlSetFade ([0,1] select _subMenu);
-							_x ctrlCommit ((0.08 * (1 max _forEachIndex)) call _commitTime);
-						} forEach allControls _ViewGroup;
-					
-					//- Setup View Control Lists
-						if (_subMenu) exitWith {
-							//- List Controls
-								private _toolbox = _ListGroup controlsGroupCtrl 6;
-								private _ls = _ListGroup controlsGroupCtrl 7;
-
-							//- Setup Lists Selections
-								_toolbox ctrlRemoveAllEventHandlers "ToolBoxSelChanged";
-								_ls ctrlRemoveAllEventHandlers "LBSelChanged";
-
-								//- Generate Camera Connectable List
-								[_ls,_SubSel] call BCE_fnc_cTab_CreateCameraList;
-								_toolbox lbSetCurSel _SubSel;
-
-								_toolbox ctrlAddEventHandler ["ToolBoxSelChanged", {
-									[_this # 0,3,_this # 1] call BCE_fnc_ATAK_Camera_Controls
-								}];
-								_ls ctrlAddEventHandler ["LBSelChanged", {
-									[_this # 0,4,_this # 1] call BCE_fnc_ATAK_Camera_Controls
-								}];
-
-							_switch_btn ctrlSetStructuredText parseText localize "STR_BCE_Select_Camera";
-							_ctrl_View ctrlRemoveAllEventHandlers "MouseEnter";
-							_ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
-						};
-					
-					if (_interfaceInit) exitWith {};
-
-					//- View Box Status
-						private _veh = cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull];
-						private _isHcam = _SubSel == 1;
-						//- exit if display is on
-						private _displayOn = (
-							!isnull(uiNamespace getVariable ["BCE_HCAM_View",displayNull]) || 
-							((player getVariable ["TGP_View_EHs", -1]) != -1)
-						);
-					
-					//- Setup PIP Camera
-						call {
-							//- Helmet CAM
-							if (_isHcam) exitWith {
-								_ctrl_Turret ctrlSetText localize "STR_BCE_Helmet_CAM";
-								call cTab_fnc_deleteUAVcam;
-								player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
-								_veh = ["rendertarget9",_hcam, !_displayOn] call cTab_fnc_createHelmetCam;
-							};
-							//- AV CAM
-							if (!isnull _veh && !_displayOn) exitWith {
-								call cTab_fnc_deleteHelmetCam; //- delete Hcam PIP
-								[_veh,[[1,"rendertarget9"]],false] call cTab_fnc_createUavCam;
-							};
-						};
-
-					private _null_Connected = isnull _veh;
-					
-					//- PIP Control
-						_ctrl_PIP ctrlShow ((!_null_Connected || _isHcam) && !_displayOn);
-					//- Button Control
-						_ctrl_View ctrlEnable (!_null_Connected && !_displayOn);
-					//- Widget Control
-						{_x ctrlEnable (!_null_Connected && !_isHcam && !_displayOn)} count [_ctrl_TrackTG,_ctrl_Vision,_ctrl_Sync,_ctrl_Turret];
-
-					//- Create PIP camera if mode is "UAV"
-						private _title = if (_null_Connected) then {
-							_ctrl_Turret ctrlSetText "- -";
-							
-							_ctrl_View ctrlSetText localize "STR_BCE_No_Signal";
-							
-							if (_isDialog) then {
-								_ctrl_View ctrlSetFade 0;
-								_ctrl_View ctrlcommit (0.2 call _commitTime);
-								_ctrl_View ctrlRemoveAllEventHandlers "MouseEnter";
-								_ctrl_View ctrlRemoveAllEventHandlers "MouseExit";
-							} else {
-								_ctrl_View ctrlSetBackgroundColor [0,0,0,0.08];
-							};
-
-							"  - - <img image='\MG8\AVFEVFX\data\ExpandList.paa'/>"
-						} else {
-							_ctrl_TrackTG ctrlSetBackgroundColor ([[0.5,0,0,0.3],[0,0,0.5,0.3]] select (uiNamespace getVariable ['BCE_ATAK_TRACK_Focus',false]));
-							
-							if (_isDialog) then {
-								_ctrl_View ctrlSetText localize "STR_BCE_Live_Feed";
-								_ctrl_View ctrlSetFade 1;
-								_ctrl_View ctrlcommit 0;
-								_ctrl_View ctrlAddEventHandler ["MouseEnter", {(_this # 0) ctrlSetFade 0.5; (_this # 0) ctrlcommit 0.2;}];
-								_ctrl_View ctrlAddEventHandler ["MouseExit", {(_this # 0) ctrlSetFade 1; (_this # 0) ctrlcommit 0.2;}];
-							} else {
-								_ctrl_View ctrlSetText "";
-								_ctrl_View ctrlSetBackgroundColor [0,0,0,0];
-							};
-								
-							[groupId group _veh, [_veh] call CBA_fnc_getGroupIndex] joinString " : "
-						};
-
-					//- Set Title Text
-						_switch_btn ctrlSetStructuredText parseText _title;
-						_ctrl_TrackInfo ctrlSetText localize "STR_BCE_None"; //- Rewrite the Focus Point (Relative Info)
-
-					//- Update Vision Mode (after Camera is Generated)
-						[_ctrl_TrackTG,0,false] call BCE_fnc_ATAK_Camera_Controls;
-						[_ctrl_Vision,1,false] call BCE_fnc_ATAK_Camera_Controls;
-						[_ctrl_Sync,2,false] call BCE_fnc_ATAK_Camera_Controls;
-						
-				};
-				case "message": {
-					private _title = _group controlsGroupCtrl 5;
-					private _contacts = _group controlsGroupCtrl 6;
-					private _list = _group controlsGroupCtrl 10;
-					private _typing = _group controlsGroupCtrl 11;
-					private _commitTime = {[_this, 0] select _interfaceInit};
-					private _playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
-					private _msgArray = cTab_player getVariable ["cTab_messages_" + _playerEncryptionKey,[]];
-					
-					//- get Msg sender's name (un-read Msgs only)
-						private _Msg_received = (_msgArray select {0 == (_x # 2)}) apply {(_x # 0) select [8]};
-
-					//- Remove Message Display icon
-						cTabRscLayerMailNotification cutText ["", "PLAIN"];
-
-					//- Layout
-						_list ctrlSetFade ([1,0] select (_line < 1));
-						_list ctrlCommit (0.25 call _commitTime);
-						
-						_contacts ctrlSetFade ([1,0] select (_line > 0));
-						_contacts ctrlSetPositionH ([0,(ctrlPosition _list) # 3] select (_line > 0));
-						_contacts ctrlCommit (0.2 call _commitTime);
-
-						_contacts ctrlEnable (_line > 0);
-						_list ctrlEnable (_line < 1);
-						_typing ctrlEnable (_line < 1);
-
-					if (_interfaceInit) exitWith {};
-
-					//- Get Contactor
-					private _previus = [_displayName, "Contactor"] call cTab_fnc_getSettings;
-					private _contactor = if (lbSize _contacts > 0) then {
-						private _c = _contacts lbData (lbCurSel _contacts);
-						[_displayName, [["Contactor",_c]],false] call cTab_fnc_setSettings;
-						_c
-					} else {
-						_previus
-					};
-
-					//- Clear all Lists
-						{ctrlDelete _x} count allControls _list;
-						lbClear _contacts;
-					
-					//- on Showing Sub-Menu Contactors (exitWith)
-						if (_line > 0) exitWith {
-							
-							//- Get Contactors 
-								private _plrList = playableUnits;
-								private _validSides = call cTab_fnc_getPlayerSides;
-							
-							//- Sel Null
-								_contacts lbAdd "--";
-								_contacts lbSetCurSel 0;
-
-								if (_plrList findIf {true} < 0) then {_plrList pushBack cTab_player};
-								{
-									if ((side _x in _validSides) && {isPlayer _x} && {[_x,ctab_core_leaderDevices] call cTab_fnc_checkGear}) then {
-										private _data = str _x;
-										private _name = format [
-											"%1:%2 (%3)",
-											groupId group _x,
-											[_x] call CBA_fnc_getGroupIndex,
-											name _x
-										];
-										private _index = _contacts lbAdd _name;
-										_contacts lbSetData [_index, _data];
-										
-										if (_previus == _data) then {
-											_contacts lbSetCurSel _index;
-											_title ctrlSetStructuredText parseText _name;
-										};
-
-										//- Highlight un-read msg
-										if (_Msg_received find _name > -1) then {
-											private _count = str ({_x == _name} count _Msg_received);
-											_contacts lbSetPictureRight [_index, "\MG8\AVFEVFX\data\mail.paa"];
-											_contacts lbSetTextRight [_index, "+" + _count];
-										};
-									};
-									false
-								} count _plrList;
-								uiNamespace setVariable ['cTab_msg_playerList', _plrList];
-						};
-						
-
-					//- sort out the correct "_contactor" name (STRING)
-						{
-							if (str _x == _contactor) exitWith {
-								_contactor = name _x;
-							};
-						} count ([cTab_player] + playableUnits);
-					
-					//- exit on none "_contactor" Selected
-						if (_contactor == "") exitWith {
-							_title ctrlSetStructuredText parseText format ['"%1"',localize "STR_BCE_None"];
-						};
-					_title ctrlSetStructuredText parseText _contactor;
-
-					//- Msg Sort
-						private _index = 0;
-						private _size_H = 0;
-						private _time_AC = 0;
-						private _Update_Var = false;
-						{
-							_x params ["_title","_msgBody","_msgState"];
-							private _sep = _title find "-";
-
-							//- Skip on empty
-								if (_sep < 0) then {continue};
-							
-							private _name = (_title select [_title find "("]) trim ["() ", 0];
-
-							//- Skip on Diff Contactor
-								if (_contactor != _name) then {continue};
-							
-							private _time = _title select [0,_sep];
-							private _time_s = (_time splitString ":") apply {parseNumber _x};
-							private _chatRoom = (_title select [_sep]) trim ["- ", 0];
-
-							//- Sent
-							private _size = 1 max (ceil (count _msgBody / 37));
-
-							//- on every 30 mins
-								//- on more than (30 mins)
-									_time_s = abs((_time_s # 0) * 60 + (_time_s # 1));
-
-								if ((_time_s - _time_AC) >= 30) then {
-									private _size = 0.8;
-									private _ctrlMsg = [_list,4, ["--",_time,"--"] joinString " "] call BCE_fnc_ATAK_msg_Line_Create;
-									private _ctrl_H = (ctrlPosition _ctrlMsg) # 3;
-
-									_ctrlMsg ctrlSetPositionY _size_H;
-									_ctrlMsg ctrlSetPositionH (_ctrl_H * _size);
-									_ctrlMsg ctrlCommit 0;
-									
-									_size_H = _size_H + (_ctrl_H * _size);
-									_index = _index + 1;
-								};
-								_time_AC = _time_s;
-								
-							//- get how many "\t" in the message
-								_msgBody = toString Flatten((toArray _msgBody) apply {
-									if (10 == _x) then {
-										_size = _size + 1;
-										toArray "<br/>"
-									} else {
-										_x
-									};
-								});
-
-							private _txt = if (_msgState == 2) then {
-								_msgBody
-							} else {
-								//- Receives
-								_size = _size + 1;
-								_name = format [
-									"<t shadow='2' color='#ffffff'>%1 <t valign='middle' size='0.55'>(%2)</t> :</t>",
-									_name,
-									_time
-								];
-								[_name,_msgBody] joinString "<br/>"
-							};
-							
-							//- If Message is un-Read => Read
-								if (_msgState == 0) then {
-									_Update_Var = true;
-									_msgArray set [_forEachIndex, [_title,_msgBody,1]];
-								};
-
-							private _ctrlMsg = [_list,_msgState,_txt] call BCE_fnc_ATAK_msg_Line_Create;
-							private _ctrl_H = (ctrlPosition _ctrlMsg) # 3;
-
-							_ctrlMsg ctrlSetPositionY _size_H;
-							_ctrlMsg ctrlSetPositionH (_ctrl_H * _size);
-							_ctrlMsg ctrlCommit 0;
-							
-							//- sorting Data
-								_size_H = _size_H + (_ctrl_H * _size);
-								_index = _index + 1;
-						} forEach _msgArray;
-					
-					//- Need to Update Message 
-						if (_Update_Var) then {
-							cTab_player setVariable ["cTab_messages_" + _playerEncryptionKey, _msgArray];
-							["ctab_messagesUpdated"] call CBA_fnc_localEvent;
-						};
-					_list spawn {
-						uiSleep 0.1;
-						_this ctrlSetScrollValues [1, -1];
-					};
-				};
-				case "mission": {
-					//-restore Task Type
-					_group ctrlSetScrollValues [uiNamespace getVariable ["BCE_ATAK_Scroll_Value",0], -1];
-
-					private _ctrl = _group controlsGroupCtrl (17000 + 2107);
-					_ctrl lbSetCurSel (uiNamespace getVariable ["BCE_Current_TaskType",0]);
-				};
-				case "Task_Result": {
-					private _ctrl = _group controlsGroupCtrl 11;
-					private _curType = uiNameSpace getVariable ["BCE_Current_TaskType",0];
-					private _taskVar = uiNameSpace getVariable (["BCE_CAS_9Line_Var","BCE_CAS_5Line_Var"] # _curType);
-					[_ctrl,[9,5] # _curType,_taskVar,player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_SetTaskReceiver;
-				};
-			};
 		};
 
 		if (_x # 0 == "uavInfo") exitWith {
@@ -1438,7 +1152,13 @@ _settings apply {
 				};
 			};
 			if (_status) exitWith {
-				[_display displayCtrl 1775, cTab_player getVariable ["TGP_View_Selected_Vehicle",objNull]] call BCE_fnc_ctab_List_AV_Info;
+				[
+					_display displayCtrl 1775,
+					[
+						cTab_player,
+						"AIR" call BCE_fnc_get_TaskCateIndex
+					] call BCE_fnc_get_TaskCurUnit
+				] call BCE_fnc_ctab_List_AV_Info;
 			};
 		};
 		// ----------------------------------
@@ -1472,11 +1192,8 @@ if (!isNull _loadingCtrl) then {
 		_ctrlPos = ctrlPosition _loadingCtrl;
 		// put the mouse position in the center of the screen
 		_mousePos = [(_ctrlPos # 0) + ((_ctrlPos # 2) / 2),(_ctrlPos # 1) + ((_ctrlPos # 3) / 2)];
-		// delay moving the mouse cursor by one frame using a PFH, for some reason its not working without
-		[{
-			[_this # 1] call CBA_fnc_removePerFrameHandler;
-			setMousePosition (_this # 0);
-		},0,_mousePos] call CBA_fnc_addPerFrameHandler;
+		// delay moving the mouse cursor by one frame, for some reason its not working without
+		[{setMousePosition _this;}, _mousePos] call CBA_fnc_execNextFrame;
 	};
 
 	_loadingCtrl ctrlShow false;

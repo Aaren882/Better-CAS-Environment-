@@ -9,10 +9,10 @@
 	private _laser = _unit getVariable ["BCE_turret_Gunner_Laser",[]];
 	private _light = _unit getVariable ["BCE_turret_Gunner_Lights",[]];
 
-	if !(_laser isEqualTo []) then {
+	if (_laser isNotEqualTo []) then {
 		_unit call BCE_fnc_deleteGunnerLaserSources;
 	};
-	if !(_light isEqualTo []) then {
+	if (_light isNotEqualTo []) then {
 		_unit call BCE_fnc_deleteGunnerLightSources;
 	};
 }] call CBA_fnc_addClassEventHandler;
@@ -29,19 +29,48 @@ if (isMultiplayer) then {
 //PostInit Perf_EH
 call BCE_fnc_ClientSide;
 
+//- #SECTION - Init Task/Mission Builder Items
+	[] call BCE_fnc_getTaskProps;
+	[] call BCE_fnc_get_TaskMapInfoEntry;
+
+//- Task/Mission Builder Events : from "Mission_Property.hpp"
+	private _event_Func = getArray (configFile >> "BCE_Mission_Property" >> "Event_Functions");
+	// Set Eventhandler API
+	{
+		/*
+			"Opened",
+			"Enter",
+			"Clear"
+		*/
+		[
+			"BCE_TaskBuilding_" + _x, 
+			uiNamespace getVariable ("BCE_fnc_TaskEvent_" + _x)
+		] call CBA_fnc_addEventHandler;
+	} forEach _event_Func;
+
+	//- #NOTE - This is for saving the mission data that is ready to be processed/Executed
+	//- #TODO - Add this event for CAS (9-lines, 5-Lines)
+		{
+			[
+				format ["BCE_%1_Mission", _x], 
+				uiNamespace getVariable format ["BCE_fnc_%1_Task_Event", _x]
+			] call CBA_fnc_addEventHandler;
+		} forEach ["Send","Delete","Record","RequestTasks","RespondTasks"];
+//- #!SECTION
+//////////////////////////////////////////////////////////////////////////////////////////////////
 ["turret", {
 	params ["_unit", "_turret", "_turretPrev"];
-	if !(_unit getVariable ["BCE_turret_Gunner_Lights",[]] isEqualTo []) then {
+	if (_unit getVariable ["BCE_turret_Gunner_Lights",[]] isNotEqualTo []) then {
 		_unit call BCE_fnc_deleteGunnerLightSources;
 	};
-	if !(_unit getVariable ["BCE_turret_Gunner_Laser",[]] isEqualTo []) then {
+	if (_unit getVariable ["BCE_turret_Gunner_Laser",[]] isNotEqualTo []) then {
 		_unit call BCE_fnc_deleteGunnerLaserSources;
 	};
 },true] call CBA_fnc_addPlayerEventHandler;
 
 ["featureCamera", {
 	params ["_unit","_mode"];
-	if (!(_mode isEqualTo "") && !(TGP_View_Camera isEqualTo [])) then {
+	if ((_mode isNotEqualTo "") && (TGP_View_Camera isNotEqualTo [])) then {
 		camUseNVG false;
 		ppEffectDestroy (TGP_View_Camera # 1);
 
@@ -71,21 +100,21 @@ call BCE_fnc_ClientSide;
 	params["_unit"];
 
 	//IR Lasers
-	if !((_unit getVariable ["IR_LaserLight_Source_Inf",objNull]) isEqualTo objNull) then {
+	if ((_unit getVariable ["IR_LaserLight_Source_Inf",objNull]) isNotEqualTo objNull) then {
 		deleteVehicle (_unit getVariable "IR_LaserLight_Source_Inf");
 		//_unit setVariable ["IR_LaserLight_Source_Inf",objNull,true];
 	};
-	if !((_unit getVariable ["IR_LaserLight_Source_Air",[]]) isEqualTo []) then {
+	if ((_unit getVariable ["IR_LaserLight_Source_Air",[]]) isNotEqualTo []) then {
 		(_unit getVariable "IR_LaserLight_Source_Air") apply {deleteVehicle _x};
 		//_unit setVariable ["IR_LaserLight_Source_Air",[],true];
 	};
 
 	//TGP View
-	if ((player getvariable ["TGP_View_Selected_Vehicle",objNull]) isEqualTo _unit) then {
-		player setVariable ["TGP_View_Selected_Vehicle",objNull];
+	if (([nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit) isEqualTo _unit) then {
+		[objNull] call BCE_fnc_set_TaskCurUnit;
 		player setVariable ["TGP_View_Selected_Optic",[[],objNull],true];
 
-		if !(TGP_View_Camera isEqualTo []) then {
+		if (TGP_View_Camera isNotEqualTo []) then {
 			camUseNVG false;
 			call BCE_fnc_Cam_Delete;
 			[2] call BCE_fnc_OpticMode;
@@ -93,12 +122,12 @@ call BCE_fnc_ClientSide;
 	};
 
 	//Doorgunner
-	if !(getOpticVars isEqualTo []) then {
+	if (getOpticVars isNotEqualTo []) then {
 		(crew _unit) apply {
-			if !(_x getVariable ["BCE_turret_Gunner_Lights",[]] isEqualTo []) then {
+			if (_x getVariable ["BCE_turret_Gunner_Lights",[]] isNotEqualTo []) then {
 				 _x call BCE_fnc_deleteGunnerLightSources;
 			};
-			if !(_x getVariable ["BCE_turret_Gunner_Laser",[]] isEqualTo []) then {
+			if (_x getVariable ["BCE_turret_Gunner_Laser",[]] isNotEqualTo []) then {
 				 _x call BCE_fnc_deleteGunnerLaserSources;
 			};
 		};

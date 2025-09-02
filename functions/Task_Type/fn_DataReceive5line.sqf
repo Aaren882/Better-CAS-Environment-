@@ -1,3 +1,4 @@
+params ["_taskUnit","_taskVar","_curLine","_shownCtrls"];
 #define GetGRID(POS,GRID) [POS,GRID] call BCE_fnc_POS2Grid
 
 switch _curLine do {
@@ -9,10 +10,11 @@ switch _curLine do {
 			"_ord_title",
 			"_CTweap","_CTmode","_CTrange","_CTcount","_CTHeight"
 		];
-		private ["_typeCAS","_typeATK","_ordance","_ordnanceInfo","_setCount","_height","_lowest","_rangeIndex","_ATK_range","_text","_isnil","_text","_result"];
+		
 		_typeCAS = ["T1","T2","T3"] # (lbCurSel _ctrl);
 		_typeATK = ["BoT","BoC"] # (lbCurSel _type);
 
+		_ordance = _CTweap lbdata (lbcursel _CTweap);
 		_ordance = _CTmode lbdata (lbcursel _CTmode);
 		_ordnanceInfo = call compile _ordance;
 		_ordnanceInfo params ["_WeapName","_ModeName","_class","_Mode","_turret",["_Count",1,[0]]];
@@ -32,8 +34,8 @@ switch _curLine do {
 		_lowest = 0;
 
 		//-if it isn't a player (AI)
-		if !(isPlayer _vehicle) then {
-			_lowest = [50,500] select (_vehicle isKindOf "plane");
+		if !(isPlayer _taskUnit) then {
+			_lowest = [50,500] select (_taskUnit isKindOf "plane");
 		};
 
 		if (_height < _lowest) then {
@@ -45,9 +47,7 @@ switch _curLine do {
 		_rangeIndex = lbCurSel _CTrange;
 		_ATK_range = _CTrange lbValue _rangeIndex;
 
-		_Count = _setCount;
-
-		_isnil = isnil _ordance;
+		_isnil = isnil {_ordnanceInfo};
 		_text = format ["%1 %2 %3 %4m",_typeCAS,_typeATK,[_WeapName,"NA"] select _isnil,_height];
 
 		_result = [
@@ -58,7 +58,8 @@ switch _curLine do {
 			[lbCurSel _ctrl,lbCurSel _type,lbCurSel _CTweap,lbCurSel _CTmode,_rangeIndex,str _setCount,str _height]
 		];
 
-		if (isnil _WeapName) then {
+		if !(isnil {_WeapName}) then {
+			_ordnanceInfo set [5, _setCount];
 			_result set [3,_ordnanceInfo + [_ATK_range,_height]];
 		};
 		
@@ -183,18 +184,15 @@ switch _curLine do {
 	//-DESC
 	case 3:{
 		_shownCtrls params ["_ctrl1","_ctrl2"];
-		private ["_InfoText","_isEmptyInfo","_Info"];
 
-		if (isnil {_text}) then {
-			_text = ctrlText _ctrl1;
-		};
+		_text = ctrlText _ctrl1;
 		_InfoText = ctrlText _ctrl2;
 		
 		_isEmptyInfo = {
 			params ["_txt","_empty"];
 			[
 				_txt,
-				_empty
+				""" """
 			] select ((_txt == _empty) || (_txt == ""));
 		};
 		
@@ -203,8 +201,9 @@ switch _curLine do {
 				[_text, "--"],
 				[_InfoText, localize "STR_BCE_MarkWith"]
 			] apply {
-			_x call _isEmptyInfo
-		});
+				_x call _isEmptyInfo
+			}
+		);
 		
 		_taskVar set [3, _Info];
 	};
@@ -244,7 +243,7 @@ switch _curLine do {
 			_text = format ["“%1” to “%2”",_cardinaldir,_To_Dir call BCE_fnc_getAzimuth];
 
 			if !(isnil"_cardinaldir") then {
-				_taskVar set [4,[_text + _DanClose,_HDG,[_ctrl1Sel,lbCurSel _ctrl4,cbChecked _ctrl6]]];
+				_taskVar set [4,[_text + _DanClose,_HDG,[],[_ctrl1Sel,lbCurSel _ctrl4,cbChecked _ctrl6]]];
 				_ctrl3 ctrlSetText _text;
 			};
 		};
@@ -279,4 +278,14 @@ if (((_taskVar # 1 # 0) != "NA") && ((_taskVar # 2 # 0) != "NA") && (!((localize
 	_taskVar set [1, [_info,_taskVar_1 # 1,_taskVar_1 # 2,_taskVar_1 # 3,_taskVar_1 # 4]];
 };
 
-uiNamespace setVariable ["BCE_CAS_5Line_Var",_taskVar];
+//- Target - Remark (FAH/D)
+if ((_taskVar # 2 # 0) != "NA" && (_taskVar # 4 # 0) != "NA") then {
+	private _Target = _taskVar # 2;
+	private _remarks = _taskVar # 4;
+
+	private _HDG = (_remarks # 1) + 180;
+	private _relPOS = (_Target # 2) getPos [1000, _HDG];
+	
+	_remarks set [2, _relPOS];
+	_taskVar set [4, _remarks];
+};

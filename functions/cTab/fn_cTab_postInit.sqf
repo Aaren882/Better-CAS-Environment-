@@ -33,16 +33,16 @@
 	["mapScaleDlg",0.4],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
-	["showMenu",["main",false,-1,[]]],
+	["showMenu",["main",false,["",0],createHashMap]],
 	["MarkerWidget",[false,0,[0,0],[],0,0,100]],
 	["MarkerEDIT",""],
 	["Contactor",""],
-	["showModeMenu",false],
 	["uavInfo",false],
 	["mapTools",true],
 	["PLP_mapTools",false],
 	["nightMode",2],
 	["hCam",""],
+	["Custom_DropMenu",createHashMap],
 	
 	//- Define Size
 		#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.443437)])
@@ -99,6 +99,7 @@ cTabTxtSize = 0.06;
 
 //- CBA Settings
 	BCE_cTab_Marker_Sync_time call BCE_fnc_cTab_Marker_update;
+	["BCE_onFireAdjusted", BCE_fnc_ATAK_onFireAdjusted] call CBA_fnc_addEventHandler;
 
 //////////////////////////////////////////////////////////////
 
@@ -173,6 +174,9 @@ cTabTxtSize = 0.06;
 			};
 	}] call CBA_fnc_addMarkerEventHandler;
 
+//- Verify the Existence of ATAK Menu Items
+	[false,true] call BCE_fnc_ATAK_getAPPs;
+  
 //- Set Marker Cache
 	private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");
 	private _result = _classes apply {
@@ -184,8 +188,8 @@ cTabTxtSize = 0.06;
 		_hide = getNumber (_x >> "Hide_Direction");
 
 		_Categories = flatten (_Categories apply {
-		(format [ 
-			"(getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0)", _x 
+			(format [ 
+				"(getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0)", _x 
 			]) configClasses (configFile >> "CfgMarkers") apply { 
 				configName _x 
 			};
@@ -198,17 +202,3 @@ cTabTxtSize = 0.06;
 		};
 	};
 	uiNamespace setVariable ["BCE_Marker_Map",(_classes apply {configName _x}) createHashMapFromArray _result];
-
-//- Marker Color Cache
-	private _cfg = "getnumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkerColors");
-
-	//- Save Marker Color Cache
-	uiNamespace setVariable ["BCE_Marker_Color",
-		_cfg apply {
-			private _name = getText (_x >> "name");
-			private _color = (getArray (_x >> "color")) apply {
-				if (_x isEqualType "") then {call compile _x} else {_x};
-			};
-			[configName _x,_color,getText (_x >> "name")]
-		}
-	];

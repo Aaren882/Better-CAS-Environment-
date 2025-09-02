@@ -341,5 +341,3 @@
 #if __has_include("\DIS_enhanced_GPS\config.cpp")
 	#define MAP_MODE 3
 #endif
-
-class cTab_RscMapControl;

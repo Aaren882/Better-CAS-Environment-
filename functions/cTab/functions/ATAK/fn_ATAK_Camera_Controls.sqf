@@ -132,11 +132,14 @@ switch _ID do {
     //- Get Camera Sel List (ToolBox)
     case 3: {
       private _setting = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
+      _setting params ["_page","","",["_PgComponents", createHashMap]];
       
-      //-Update List Select Value
-        private _c = _setting param [3,[]];
-        _c set [0,_component];
-        _setting set [3,_c];
+      //-Update List Selection Value
+        private _PG_data = _PgComponents get _page;
+
+        _PG_data set [1, _component];
+        _PgComponents set [_page, _PG_data];
+        _setting set [3, _PgComponents];
 
       //- HCam Update
         private _hcam = ["cTab_Android_dlg", "hcam"] call cTab_fnc_getSettings;
@@ -145,29 +148,32 @@ switch _ID do {
         };
 
       //- Update Interface
+        call BCE_fnc_ATAK_ignoreFade_Transform; //- Ignore Fade Transformation
         ["cTab_Android_dlg",[["showMenu",_setting]],true,true] call cTab_fnc_setSettings;
     };
     //- Update Hcam Selection (LIST)
     case 4: {
       private _setting = ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings;
-      private _data = _control lbData _component;
-      private _c = _setting param [3,[]];
-      _c = _c param [0,0];
+      _setting params ["_page","","",["_PgComponents", createHashMap]];
 
+      private _PG_data = _PgComponents getOrDefault [_page,[]];
+			_PG_data params ["_line", ["_SubSel", 0]];
+
+      private _data = _control lbData _component;
       call {
-        if (_c == 0) exitWith {
+        if (_SubSel == 0) exitWith {
           private _veh = objNull;
           if (_data != str objNull) then {
             {
               if (str _x == _data) exitWith {_veh = _x};
             } count vehicles;
           };
-          focusOn setVariable ["TGP_View_Selected_Vehicle",_veh];
-          
+
+		      [_veh, "AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_set_TaskCurUnit;
           "showMenu" call BCE_fnc_cTab_UpdateInterface;
         };
         //- Only update the Value when Selecting "hcam"
-        if (_c == 1) exitWith {
+        if (_SubSel == 1) exitWith {
           if (_data == str objNull) then {
             _data = "";
           };
