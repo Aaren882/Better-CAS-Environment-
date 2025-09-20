@@ -15,6 +15,16 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Build dev",
+            "type": "shell",
+            "command": "hemtt dev -O",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

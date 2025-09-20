@@ -7,3 +7,9 @@ minor = 0
 patch = 0
 
 git_hash = 0 # Default: 8
+
+[hemtt.dev]
+exclude = ["addons/unused"]
+
+[lints.sqf]
+command_case = false

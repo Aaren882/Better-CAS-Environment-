@@ -11,3 +11,7 @@
 #define VERSION_AR  MAJOR,MINOR,PATCHLVL
 
 #include "\x\cba\addons\main\script_macros_common.hpp"
+
+//- Custom Macro
+#include "macro.hpp"
+#include "has_cTab.hpp"
