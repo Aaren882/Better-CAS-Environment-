@@ -17,8 +17,7 @@ if !(isnull _vehicle) then {
 
 	_squad_list = _display displayctrl 20116;
 
-	// #ifdef cTAB_Installed  #TODO - Find better solution cTab Compat
-	if (isClass (configFile >> "CfgPatches" >> "BCE_cTab")) then {
+	if (BCE_System_cTab_Loaded) then {
 		if (!(cTabIfOpenStart) && (cTabActUav isNotEqualTo focusOn)) then {
 			if ("Android" in (cTabIfOpen # 1)) then {
 				//- Update Interface

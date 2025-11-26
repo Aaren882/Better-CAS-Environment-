@@ -1,17 +1,15 @@
-#include "script_version.hpp"
+#define COMPONENT main
 
-#define PREFIX BCE
-#define COMPONENT AVFEVFX
+#include "script_mod.hpp"
 
-#define REQUIRED_VERSION 2.20
+// #define DEBUG_MODE_FULL
+// #define DISABLE_COMPILE_CACHE
 
-//- Version Group
-#define VERSION     MAJOR.MINOR
-#define VERSION_STR MAJOR.MINOR.PATCHLVL
-#define VERSION_AR  MAJOR,MINOR,PATCHLVL
+#ifdef DEBUG_ENABLED_MAIN
+    #define DEBUG_MODE_FULL
+#endif
+    #ifdef DEBUG_SETTINGS_MAIN
+    #define DEBUG_SETTINGS DEBUG_SETTINGS_MAIN
+#endif
 
-#include "\x\cba\addons\main\script_macros_common.hpp"
-
-//- Custom Macro
-#include "macro.hpp"
-#include "has_cTab.hpp"
+#include "script_macros.hpp"

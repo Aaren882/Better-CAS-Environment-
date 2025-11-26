@@ -35,7 +35,7 @@ _turret_Unit setVariable ["TGP_View_Turret_Control",_keyEHs,true];
 
 		// #FIXME - Clean up
 		// #ifdef cTAB_Installed  #FIXME - Find better solution cTab Compat
-			#define exitCdt (isnull curatorcamera) && (player getVariable ["TGP_View_EHs",-1] != -1) && (isnil{cTabIfOpen})
+			#define exitCdt (isnull curatorcamera) && (player getVariable ["TGP_View_EHs",-1] != -1) && (BCE_System_cTab_Loaded && isNil{cTabIfOpen})
 		/* #else
 			#define exitCdt (isnull curatorcamera) && (player getVariable ["TGP_View_EHs",-1] != -1)
 		#endif */

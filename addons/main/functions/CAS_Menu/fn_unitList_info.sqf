@@ -28,8 +28,8 @@ if (_curSel == _lbCurSel) exitWith {};
 private _vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 if !(isNil{_turret_info}) then {
 	player setVariable ["TGP_View_Selected_Optic",[_turret_info,_vehicle],true];
-	// #ifdef cTAB_Installed  #TODO - Find better solution cTab Compat
-	if (isClass (configFile >> "CfgPatches" >> "BCE_cTab")) then {
+
+	if (BCE_System_cTab_Loaded) then {
 		if (!(cTabIfOpenStart) && (cTabActUav != cTab_player)) then {
 			[[["uavCam",str _vehicle]]] call cTab_fnc_updateInterface;
 		};

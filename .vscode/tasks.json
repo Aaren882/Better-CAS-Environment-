@@ -8,7 +8,7 @@
             "type": "shell",
             "command": "hemtt build",
             "windows": {
-                "command": "hemtt build --no-bin"
+                "command": "hemtt build"
             },
             "problemMatcher": [],
             "group": {
@@ -19,7 +19,7 @@
         {
             "label": "Build dev",
             "type": "shell",
-            "command": "hemtt dev -O",
+            "command": "hemtt dev",
             "problemMatcher": [],
             "group": {
                 "kind": "build",

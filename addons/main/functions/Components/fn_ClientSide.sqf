@@ -18,8 +18,7 @@ addMissionEventHandler ["EachFrame", {
 	call BCE_fnc_UpdateCameraInfo;
 
 	//-cTab Main System
-	// #ifdef cTAB_Installed  #FIXME - Find better solution cTab Compat
-	if (isClass (configFile >> "CfgPatches" >> "BCE_cTab")) then {
+	if (BCE_System_cTab_Loaded) then {
 		private _cTabPlayer = missionNamespace getVariable ["BIS_fnc_moduleRemoteControl_unit",player];
 		if (cTab_player != _cTabPlayer) then {
 			cTab_player = _cTabPlayer;

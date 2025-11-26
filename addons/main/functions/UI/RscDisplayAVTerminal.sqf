@@ -15,8 +15,7 @@ _fnc_onLBSelChanged = {
 	_vehicle_str = _ctrlValue lbdata _selectedIndex;
 
 	//-cTab Compat
-	// #ifdef cTAB_Installed  #FIXME - Find better solution cTab Compat
-	if (isClass (configFile >> "CfgPatches" >> "BCE_cTab")) then {
+	if (BCE_System_cTab_Loaded) then {
 		['cTab_Tablet_dlg',[['uavCam',_vehicle_str]]] call cTab_fnc_setSettings;
 	};
 	// #endif
