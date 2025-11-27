@@ -5,11 +5,10 @@ class CfgPatches {
 		authors[] = {"Aaren"};
 		url = ECSTRING(main,url);
 		requiredVersion = REQUIRED_VERSION;
+		//- #NOTE : Check for "BCE_Compat_cTab"
 		requiredAddons[]=
 		{
-			"cTab",
-			"ctab_core",
-			"ctab_rangefinder"
+			QGVAR(Compat_cTab) //- #LINK - addons/Compat_cTab/config.cpp
 		};
 		skipWhenMissingDependencies = 1;
 		units[] = {};
@@ -18,26 +17,17 @@ class CfgPatches {
 	};
 };
 
-#include "Configs/CfgFunctions.hpp"
+//- Arma Configs
+#include "Configs/UI_Elements.hpp"
 #include "Configs/CfgVehicles.hpp"
+#include "Configs/CfgFunctions.hpp"
+#include "Configs/CfgEventHandlers.hpp"
 
-class Extended_PostInit_EventHandlers
-{
-	class ADDON
-	{
-		init = QUOTE(call COMPILE_FILE(XEH_postInit));
-	};
+//- Components
+#include "Components\BCE_Mission_Build_Controls.hpp"
 
-	//- Remove 1erGTD's rangefinder Initiation
-	class ctab_rangefinder
-	{
-		clientInit = "";
-	};
-};
-class Extended_PreInit_EventHandlers
-{
-	class ADDON
-	{
-		init = QUOTE(call COMPILE_FILE(XEH_preInit));
-	};
-};
+//- cTab controls
+#include "UI\cTab_Macros.hpp"
+#include "UI\cTab_Macros_Interface.hpp"
+#include "UI\cTab_classes.hpp"
+#include "UI\cTab_UI.hpp" //- cTab Interfaces

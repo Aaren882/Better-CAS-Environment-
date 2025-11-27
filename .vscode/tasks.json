@@ -17,14 +17,10 @@
             }
         },
         {
-            "label": "Build dev",
+            "label": "Check",
             "type": "shell",
-            "command": "hemtt dev",
-            "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "command": "hemtt check",
+            "problemMatcher": []
         }
     ]
 }

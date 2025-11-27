@@ -2,6 +2,7 @@
 
 class CfgPatches
 {
+	//- #NOTE : Original patch name
 	class AVFEVFX
 	{
 		authors[] = {"Aaren"};
@@ -15,25 +16,5 @@ class CfgPatches
 			"A3_Ui_F"
 		};
 		VERSION_CONFIG;
-	};
-};
-
-#include "Additional_Fuze.hpp"
-#include "Configs\CfgFunctions.hpp"
-#include "Configs\CfgVehicles.hpp"
-
-class Extended_PostInit_EventHandlers
-{
-	class ADDON
-	{
-		init = QUOTE(call COMPILE_FILE(XEH_postInit));
-	};
-};
-//- #TODO : CBA style preprocessing script compile
-class Extended_PreInit_EventHandlers
-{
-	class ADDON
-	{
-		init = QUOTE(call COMPILE_FILE(XEH_preInit));
 	};
 };

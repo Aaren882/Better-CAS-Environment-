@@ -12,4 +12,8 @@ class CfgPatches {
 	};
 };
 
+//- Animation Config
+#include "Extended_Anim_props.hpp"
+
+//- Arma Configs
 #include "configs/CfgFunctions.hpp"

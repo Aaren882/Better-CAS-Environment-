@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project name="AVFEVFX">
 	<Package name="Better_CAS_Environment">
+		<Key ID="STR_BCE_main_url">
+			<Original>https://github.com/Aaren882/Better-CAS-Environment-</Original>
+		</Key>
 		<Key ID="STR_BCE_Live_Feed">
 			<Original>Live Feed</Original>
 			<Chinese>觀看畫面</Chinese>

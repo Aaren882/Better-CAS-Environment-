@@ -1,4 +1,4 @@
-#define COMPONENT Compat_RHSUSAF
+#define COMPONENT Core
 
 #include "../main/script_mod.hpp"
 

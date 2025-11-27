@@ -17,4 +17,8 @@ class CfgPatches {
 	};
 };
 
+//- POLPOX MapTool Config
+#include "Components/PLP_SMT_Data.hpp"
+
+//- Arma Configs
 #include "configs/CfgFunctions.hpp"

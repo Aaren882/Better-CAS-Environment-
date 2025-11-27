@@ -19,7 +19,18 @@ class CfgPatches {
 	};
 };
 
+//- Arma Configs
 #include "configs/CfgFunctions.hpp"
+#include "configs/CfgUIGrids.hpp"
+
+class Extended_PostInit_EventHandlers
+{
+	//- Remove 1erGTD's rangefinder Initiation
+	class ctab_rangefinder
+	{
+		clientInit = "";
+	};
+};
 
 class Extended_PreInit_EventHandlers
 {
