@@ -1339,7 +1339,7 @@
             y = QUOTE((ContC * 1.1));
             w = QUOTE(smalFmW);
             h = QUOTE(smalFmH - ContC);
-            onLBSelChanged = "(_this + [[TASK_OFFSET+2002,TASK_OFFSET+2005],TASK_OFFSET]) call BCE_fnc_TaskList_Changed";
+            onLBSelChanged = "(_this + [[17000+2002,17000+2005],17000]) call BCE_fnc_TaskList_Changed";
             class Items
             {
               class Game_plan
@@ -1520,7 +1520,7 @@
             text = "$STR_BCE_ClearTaskInfo";
             textureNoShortcut = "\a3\3den\data\cfg3den\history\deleteitems_ca.paa";
             //tooltip = "Clear Task Info";
-            onButtonClick = "(_this + [false,'cTab_Tablet_dlg',TASK_OFFSET]) call BCE_fnc_clearTaskInfo";
+            onButtonClick = "(_this + [false,'cTab_Tablet_dlg',17000]) call BCE_fnc_clearTaskInfo";
 
             colorBackground[] = {1,0,0,0.5};
             colorBackground2[] = {1,0,0,0.5};
@@ -1638,8 +1638,9 @@
           };
 
           //-IP
+					#define CTAB_TASK_TOOLBOX_FNC (_this + [false,TASK_OFFSET] call BCE_fnc_ToolBoxChanged)
 					#define CTAB_TASK_TOOLBOX_EH \
-            onToolBoxSelChanged = "(_this + [false,TASK_OFFSET] call BCE_fnc_ToolBoxChanged)"
+            onToolBoxSelChanged = QUOTE(CTAB_TASK_TOOLBOX_FNC)
           class New_Task_IPtype: New_Task_IPtype
           {
             idc = idc_D(2012);
