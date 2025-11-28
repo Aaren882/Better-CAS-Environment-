@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 /*
 	NAME : BCE_fnc_ATAK_FireAdjust_Init_Impact
 */
@@ -30,7 +32,8 @@ private _OT_Display = _AdjustGrp controlsGroupCtrl 5002;
 
 			//- Apply Text
 				_OT_Display ctrlSetStructuredText parseText format [
-					"<img image='\MG8\AVFEVFX\data\binoculars.paa' /> OT : %1",
+					"%1 OT : %2",
+					QSTRUCTURE_IMAGE(Core,data\binoculars.paa),
 					[round _dist, floor (_dist * 10) / 10] select (_dist < 1)
 				];
 			sleep 0.5;

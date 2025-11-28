@@ -65,7 +65,8 @@
 					idc = 16;
 					style = "0x02 + 0x0C + 0x0100";
 					shadow = 1;
-					text = "<img image='MG8\AVFEVFX\data\chat.paa'/>";
+					// text = "<img image='MG8\AVFEVFX\data\chat.paa'/>";
+					text = QSTRUCTURE_IMAGE(Core,data\chat.paa);
 					
 					x = QUOTE(PhoneBFTContainerW(TAG_BNT_W(1)));
 					w = QUOTE(PhoneBFTContainerW(BNT_W));
@@ -167,7 +168,8 @@
 			{
 				idc = 17;
 				x = QUOTE(PhoneBFTContainerW(TAG_BNT_W(2)));
-				text = "<img image='MG8\AVFEVFX\data\edit.paa'/>";
+				// text = "<img image='MG8\AVFEVFX\data\edit.paa'/>";
+				text = QSTRUCTURE_IMAGE(Core,data\edit.paa);
 
 				colorBackground[] = {0.23,0.23,0.23,0.86};
 				colorBackground2[] = {0.23,0.23,0.23,0.86};
@@ -199,12 +201,14 @@
 				class Tag_Bnt: Tag_Bnt{};
 				class Exec_bnt: Msg_bnt
 				{
-					text = "<img image='MG8\AVFEVFX\data\start.paa'/>";
+					// text = "<img image='MG8\AVFEVFX\data\start.paa'/>";
+					text = QSTRUCTURE_IMAGE(Core,data\start.paa);
 					onButtonClick = "[_this # 0, 'EXEC'] call BCE_fnc_CFF_Mission_XMIT";
 				};
 				class adjust_bnt: Edit_bnt
 				{
-					text = "<img image='MG8\AVFEVFX\data\ruler.paa'/>";
+					// text = "<img image='MG8\AVFEVFX\data\ruler.paa'/>";
+					text = QSTRUCTURE_IMAGE(Core,data\ruler.paa);
 					onButtonClick = "[_this # 0, 'ADJUST_MENU'] call BCE_fnc_CFF_Mission_XMIT";
 				};
 				class RAT_bnt: Edit_bnt
@@ -213,7 +217,8 @@
 					x = 0;
 					y = QUOTE(4 * (0.7 * (((60)) / 2048 * CustomPhoneH)));
 					W = QUOTE(PhoneBFTContainerW(1.5));
-					text = "<img image='MG8\AVFEVFX\data\archive.paa'/> RAT";
+					// text = "<img image='MG8\AVFEVFX\data\archive.paa'/> RAT";
+					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\archive.paa, RAT);
 					tooltip = "$STR_BCE_RAT_Fire_MSN_Tip";
 					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_RAT";
 				};
@@ -221,7 +226,8 @@
 				{
 					idc = 20;
 					x = QUOTE(PhoneBFTContainerW(1.5));
-					text = "<img image='\MG8\AVFEVFX\data\gabage.paa'/> EOM";
+					// text = "<img image='\MG8\AVFEVFX\data\gabage.paa'/> EOM";
+					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\gabage.paa, EOM);
 					tooltip = "$STR_BCE_EOM_Fire_MSN_Tip";
 					
 					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_EOM";
@@ -260,7 +266,8 @@
 					x = 0;
 					w = QUOTE(PhoneBFTContainerW(3));
 
-					text = "<img image='\MG8\AVFEVFX\data\gabage.paa'/> Delete";
+					// text = "<img image='\MG8\AVFEVFX\data\gabage.paa'/> Delete";
+					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\gabage.paa, Delete);
 					tooltip = "$STR_BCE_DEL_RAT_Fire_MSN_Tip";
 					onButtonClick = "[_this # 0, true] call BCE_fnc_ATAK_CFF_Mission_RAT; call BCE_fnc_ATAK_ShowTaskResult;";
 				};
@@ -319,7 +326,7 @@
 					style = "0x02 + 0x30 + 0x800";
 					shadow = 1;
 					// text = "<img image='\MG8\AVFEVFX\data\gabage.paa' />";
-					textureNoShortcut=QPATHTOF(data\gabage.paa);
+					textureNoShortcut=QPATHTOEF(Core,data\gabage.paa);
 					onButtonClick = "call BCE_fnc_CleanFireAdjustValues";
 
 					class ShortcutPos: ShortcutPos
@@ -369,7 +376,7 @@
 
 					sizeEx = QUOTE(TextSize);
 
-					text = QPATHTOF(data\Arrows\thin_Arrow.paa);
+					text = QPATHTOEF(Core,data\Arrows\thin_Arrow.paa);
 				};
 				class Indication: RscStructuredText
 				{
@@ -382,7 +389,8 @@
 					colorBackground[] = {0,0,0,0.2};
 					size = QUOTE(0.5 * TextSize);
 
-					text = "<img image='\MG8\AVFEVFX\data\Arrows\Point_Arrow.paa' /> 10 m | <img image='\MG8\AVFEVFX\data\Arrows\Point_Arrow_R.paa' /> 20 m";
+					// text = "<img image='\MG8\AVFEVFX\data\Arrows\Point_Arrow.paa' /> 10 m | <img image='\MG8\AVFEVFX\data\Arrows\Point_Arrow_R.paa' /> 20 m";
+					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\Arrows\Point_Arrow.paa, 10 m | STRUCTURE_IMAGE_FORMAT(Core,data\Arrows\Point_Arrow_R.paa, 20 m));
 					class Attributes
 					{
 						font = "RobotoCondensed_BCE";
@@ -479,28 +487,28 @@
 						colorBackground[] = {0,0,0.2,0.3};
 					
 					sizeEx = QUOTE(0.5 * TextSize);
-					text = QPATHTOF(data\Arrows\Point_Arrow.paa);
+					text = QPATHTOEF(Core,data\Arrows\Point_Arrow.paa);
 					onButtonClick = "[_this # 0, [0,1]] call BCE_fnc_UpdateFireAdjust";
 				};
 				class Adjust_Dn: Adjust_Up
 				{
 					idc = 5101;
 					ADJUST_BNT_POS((ADJUST_BNT_X - ADJUST_BNT_W),(2 * 0.7),ADJUST_BNT_W,0.7);
-					text = QPATHTOF(data\Arrows\Point_Arrow_D.paa);
+					text = QPATHTOEF(Core,data\Arrows\Point_Arrow_D.paa);
 					onButtonClick = "[_this # 0, [0,-1]] call BCE_fnc_UpdateFireAdjust";
 				};
 				class Adjust_L: Adjust_Up
 				{
 					idc = 5102;
 					ADJUST_BNT_POS((ADJUST_BNT_X - 2 * ADJUST_BNT_W),(2 * 0.7),ADJUST_BNT_W,0.7);
-					text = QPATHTOF(data\Arrows\Point_Arrow_L.paa);
+					text = QPATHTOEF(Core,data\Arrows\Point_Arrow_L.paa);
 					onButtonClick = "[_this # 0, [-1,0]] call BCE_fnc_UpdateFireAdjust";
 				};
 				class Adjust_R: Adjust_Up
 				{
 					idc = 5103;
 					ADJUST_BNT_POS((ADJUST_BNT_X),(2 * 0.7),ADJUST_BNT_W,0.7);
-					text = QPATHTOF(data\Arrows\Point_Arrow_R.paa);
+					text = QPATHTOEF(Core,data\Arrows\Point_Arrow_R.paa);
 					onButtonClick = "[_this # 0, [1,0]] call BCE_fnc_UpdateFireAdjust";
 				};
 		};
@@ -529,7 +537,8 @@
 					y = QUOTE(2 * 0.7 * ATAK_POS_H);
 					w = QUOTE(ADJUST_CTRL_W(0.525));
 					h = QUOTE(0.7 * ATAK_POS_H);
-					text = "<img image='\MG8\AVFEVFX\data\binoculars.paa' /> OT : 0.8";
+					// text = "<img image='\MG8\AVFEVFX\data\binoculars.paa' /> OT : 0.8";
+					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\binoculars.paa, OT : 0.8);
 					size = QUOTE(TextSize);
 					tooltip = "$STR_BCE_OT_Factor_Tip";
 					class TextPos

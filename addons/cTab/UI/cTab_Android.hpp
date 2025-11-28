@@ -476,7 +476,7 @@ PHONE_CLASS
 			{
 				idc = idc_D(2615);
 				style = "0x02 + 0x30 + 0x800";
-				text = QPATHTOF(data\Compass.paa);
+				text = QPATHTOEF(Core,data\Compass.paa);
 				y = QUOTE(((713)) / 2048 * CustomPhoneH + CustomPhoneY + (((60)) / 2048 * CustomPhoneH));
 				w = QUOTE(1.3 * sizeW * (PhoneW * 3/4));
 				h = QUOTE(1.3 * sizeW * PhoneW);
@@ -715,7 +715,7 @@ PHONE_CLASS
 				
 				style = "0x02 + 0x30 + 0x800";
 				colorBackground[]={0.3,0.3,0.3,0.5};
-				text = QPATHTOF(data\locating.paa);
+				text = QPATHTOEF(Core,data\locating.paa);
 				
 				x = QUOTE(PhoneMarkerWidget_X);
 				y = QUOTE(((713) + ((60) - (38)) / 2) / 2048 * CustomPhoneH + CustomPhoneY);
@@ -767,7 +767,7 @@ PHONE_CLASS
 						colorBackground[]={1,0,0,0.5};
 						colorBackgroundActive[] = {1,0,0,0.2};
 						colorFocused[] = {1,0,0,0.3};
-						text = QPATHTOF(data\retract.paa);
+						text = QPATHTOEF(Core,data\retract.paa);
 						
 						x = 0;
 						y = 0;

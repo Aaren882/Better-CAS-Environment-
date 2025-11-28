@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 _settings params ["_page","","",["_PgComponents",createHashMap]];
 
@@ -81,7 +83,7 @@ private _contactor = if (lbSize _contacts > 0) then {
           //- Highlight un-read msg
           if (_Msg_received find _name > -1) then {
             private _count = str ({_x == _name} count _Msg_received);
-            _contacts lbSetPictureRight [_index, "\MG8\AVFEVFX\data\mail.paa"];
+            _contacts lbSetPictureRight [_index, QSTRUCTURE_IMAGE(Core,data\mail.paa)];
             _contacts lbSetTextRight [_index, "+" + _count];
           };
         };

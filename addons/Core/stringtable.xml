@@ -1944,19 +1944,19 @@
 			<Chinesesimp>ToT(分钟) 必须 &gt;= 5 分钟</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_LO_Angle">
-			<Original>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; Low ANG</Original>
-			<Chinese>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 低角</Chinese>
-			<Chinesesimp>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 低角</Chinesesimp>
+			<Original>&lt;img image='\z\BCE\addons\Core\data\angle.paa' /&gt; Low ANG</Original>
+			<Chinese>&lt;img image='\z\BCE\addons\Core\data\angle.paa' /&gt; 低角</Chinese>
+			<Chinesesimp>&lt;img image='\z\BCE\addons\Core\data\angle.paa' /&gt; 低角</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_HI_Angle">
-			<Original>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; High ANG</Original>
-			<Chinese>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 高角</Chinese>
-			<Chinesesimp>&lt;img image='\MG8\AVFEVFX\data\angle.paa' /&gt; 高角</Chinesesimp>
+			<Original>&lt;img image='\z\BCE\addons\Core\data\angle.paa' /&gt; High ANG</Original>
+			<Chinese>&lt;img image='\z\BCE\addons\Core\data\angle.paa' /&gt; 高角</Chinese>
+			<Chinesesimp>&lt;img image='\z\BCE\addons\Core\data\angle.paa' /&gt; 高角</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_ADJUST_Title">
-			<Original>&lt;img image='\MG8\AVFEVFX\data\ruler.paa' /&gt; ADJUST</Original>
-			<Chinese>&lt;img image='\MG8\AVFEVFX\data\ruler.paa' /&gt; 送出調整</Chinese>
-			<Chinesesimp>&lt;img image='\MG8\AVFEVFX\data\ruler.paa' /&gt; 送出调整</Chinesesimp>
+			<Original>&lt;img image='\z\BCE\addons\Core\data\ruler.paa' /&gt; ADJUST</Original>
+			<Chinese>&lt;img image='\z\BCE\addons\Core\data\ruler.paa' /&gt; 送出調整</Chinese>
+			<Chinesesimp>&lt;img image='\z\BCE\addons\Core\data\ruler.paa' /&gt; 送出调整</Chinesesimp>
 		</Key>
 		<Key ID="STR_BCE_IMPACT_ADJUST_Tip">
 			<Original>Adjust From Impact Point.</Original>

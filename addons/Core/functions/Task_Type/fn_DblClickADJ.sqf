@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 switch _curLine do {
 	//-Control type
 	case 0:{
@@ -79,7 +81,11 @@ switch _curLine do {
 				
 				_effectRadius_txt = [str _effectRadius, _effectRadius_txt] select (_effectRadius == 0);
 			};
-			_sheaf_Struct ctrlSetStructuredText parseText format ["<img image='MG8\AVFEVFX\data\explosion.paa'/> %1 m", _effectRadius_txt];
+			_sheaf_Struct ctrlSetStructuredText parseText format [
+				"%1 %2 m",
+				QSTRUCTURE_IMAGE(Core,data\explosion.paa),
+				_effectRadius_txt
+			];
 
 		//- Set Text
 			_Radius ctrlSetText _Radius_V;

@@ -59,3 +59,5 @@ class RscMapControl
 class RscCheckBox;
 class ctrlCheckboxes;
 class RscBackground;
+
+#include "..\UI\Custom_UI.hpp" //- Custom UI

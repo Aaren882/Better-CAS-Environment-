@@ -1,6 +1,9 @@
 /* 
-  "_group" : Menu Group => "(call BCE_fnc_ATAK_getCurrentAPP) # 1"
-  "_Setting" : ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings
+	NAME : BCE_fnc_ATAK_getTaskCategoryInfo
+
+	Params :
+		"_group" : Menu Group => "(call BCE_fnc_ATAK_getCurrentAPP) # 1"
+		"_Setting" : ["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings
 
   Return :
     "_taskMenu" : Task ControlGroup class (e.g. "AIR_9_LINE","AIR_5_LINE" etc)

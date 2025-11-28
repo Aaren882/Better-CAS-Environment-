@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 params ["_ctrlBnts","_ctrlPOS","_subMenu","_interfaceInit"];
 _ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
 
@@ -53,5 +55,5 @@ _bnt_Ent ctrlSetBackgroundColor ([
   ]
 ] select _condition);
 
-_bnt_result ctrlSetStructuredText parseText "<img image='MG8\AVFEVFX\data\list.paa' />";
+_bnt_result ctrlSetStructuredText parseText QSTRUCTURE_IMAGE(Core,data\list.paa);
 _bnt_result ctrlSetBackgroundColor ((["R","G","B"] apply {1 - (profilenamespace getvariable ('GUI_BCG_RGB_' + _x))}) + [0.5]);

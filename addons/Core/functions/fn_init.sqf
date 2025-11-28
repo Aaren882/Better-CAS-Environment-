@@ -17,7 +17,6 @@ Author:
 params [];
 TRACE_1("fnc_init",_this);
 
-
 #define getOpticVars ([_unit,0] call BCE_fnc_Check_Optics)
 
 //HUD Compass

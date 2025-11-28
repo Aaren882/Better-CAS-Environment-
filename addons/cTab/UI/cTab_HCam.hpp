@@ -28,9 +28,9 @@ class BCE_HCAM_View: BCE_PhoneCAM_View
       {
         idc = 15;
         style = 2;
-        x = safezoneX;
-        y = (safezoneY + safezoneH - (0.09 * safezoneW)) - (0.8 * (0.1));
-        w = safezoneW;
+        x = QUOTE(safezoneX);
+        y = QUOTE((safezoneY + safezoneH - (0.09 * safezoneW)) - (0.8 * (0.1)));
+        w = QUOTE(safezoneW);
         h = 0.1;
         text = "Press “Space” to Exit Camera";
         SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.2)";

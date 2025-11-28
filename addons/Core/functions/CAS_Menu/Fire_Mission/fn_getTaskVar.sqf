@@ -11,7 +11,7 @@
   
   RETURN : [
     "Variable Name",   : Default is Class name
-    "Default Value",   : For Variable Editting
+    "Default Value",   : For Variable Editing
   ]
  */
 params [

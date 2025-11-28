@@ -1,7 +1,6 @@
 /*
 	NAME : BCE_fnc_ATAK_Refresh_TaskInfos
 */
-privateAll;
 
 private _group = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
 private _MissionCtrl = _group getVariable "Mission_Control";
@@ -23,11 +22,13 @@ private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 		]
 	] # _curCate # _curType;
 	
-//-Appling Infos to each line
+//- Apply Infos to each line
 	{
 		_x params ["_idc","_index",["_readBack",false]];
 		private _title = _MissionCtrl controlsGroupCtrl ([17000 + _idc, _idc] select (_index < 0));
-		_title ctrlSetStructuredText parseText (_taskVar # _index # 0);
+		//- #NOTE : https://community.bistudio.com/wiki/ctrlSetStructuredText
+		private _text = "<t size='1'>"+ (_taskVar # _index # 0) + "</t>";
+		_title ctrlSetStructuredText parseText _text;
 		
 		if (_readBack) then {
 			_title ctrlSetBackgroundColor [0.19,0.61,0.34,0.65];

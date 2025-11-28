@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
 [cTabSettings,"Tablet",[
@@ -104,7 +105,7 @@ cTabTxtSize = 0.06;
 //////////////////////////////////////////////////////////////
 
 //- Additional Initiations (Clients Only)
-	call compile preprocessFileLineNumbers "\MG8\AVFEVFX\functions\cTab\cTab_Additional_Init.sqf";
+	call COMPILE_FILE(functions\cTab_Additional_Init);
 
 //- Remove the origin Eventhandlers
 	//- "cTab_msg_receive"

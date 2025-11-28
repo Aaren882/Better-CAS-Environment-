@@ -260,9 +260,10 @@ _settings apply {
 					_dropBox ctrlAddEventHandler ["LBSelChanged",cTab_fnc_onMarkerSelChanged];
 
 				_TitleMode ctrlSetStructuredText parseText format [
-					"<img image='%1'/> %2<img align='right' image='\MG8\AVFEVFX\data\swap.paa'/>",
+					"<img image='%1'/> %2<img align='right' image='%3'/>",
 					_titleIcon,
-					localize _Title
+					localize _Title,
+					QPATHTOEF(Core,data\swap.paa) //- "swap.paa"
 				];
 			};
 

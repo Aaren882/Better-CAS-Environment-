@@ -49,7 +49,13 @@ if (
 //- Check out of range
   private _count = count _types - 1;
   if (_count < _curType) then {
-    ["Out of the ""_types"" range, ""_curType : %1"" / ""Total : %2""", _curType, _count] call BIS_fnc_error;
+    [
+			"Out of the ""_types"" range, ""_curType : %1"" / ""Total : %2"" | Key = ""%3""  types = ""%4""",
+			_curType,
+			_count,
+			_key,
+			_types
+		] call BIS_fnc_error;
     _curType = _count;
   };
 

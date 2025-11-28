@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 _settings params ["_page","","",["_PgComponents",createHashMap]];
 
@@ -118,7 +120,7 @@ private _null_Connected = isnull _veh;
       _ctrl_View ctrlSetBackgroundColor [0,0,0,0.08];
     };
 
-    "  - - <img image='\MG8\AVFEVFX\data\ExpandList.paa'/>"
+    "  - - " + QSTRUCTURE_IMAGE(Core,data\ExpandList.paa)
   } else {
     _ctrl_TrackTG ctrlSetBackgroundColor ([[0.5,0,0,0.3],[0,0,0.5,0.3]] select (uiNamespace getVariable ['BCE_ATAK_TRACK_Focus',false]));
     

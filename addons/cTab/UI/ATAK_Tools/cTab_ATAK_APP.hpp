@@ -65,7 +65,7 @@ class ATAK_APPs
       };
 
       text = ATAK_APP(Missions);
-			textureNoShortcut = QPATHTOF(data\missions.paa);
+			textureNoShortcut = QPATHTOEF(Core,data\missions.paa);
     };
     class VideoFeeds: message
     {
@@ -78,7 +78,7 @@ class ATAK_APPs
       };
 
       text = ATAK_APP(Video Feeds);
-			textureNoShortcut = QPATHTOF(data\Hcam.paa);
+			textureNoShortcut = QPATHTOEF(Core,data\Hcam.paa);
     };
   //-Second Line
     class Photo: message
@@ -92,7 +92,7 @@ class ATAK_APPs
       onButtonClick = "558 cutRsc ['BCE_PhoneCAM_View','PLAIN',0.3,false];";
       
       text = ATAK_APP(Quick Pictures);
-			textureNoShortcut = QPATHTOF(data\photo.paa);
+			textureNoShortcut = QPATHTOEF(Core,data\photo.paa);
     };
     class Group: message
     {
@@ -117,7 +117,7 @@ class ATAK_APPs
       };
 
       text = ATAK_APP(Route);
-			textureNoShortcut = QPATHTOF(data\route.paa);
+			textureNoShortcut = QPATHTOEF(Core,data\route.paa);
     };
   
   //-Thired Line
@@ -153,6 +153,6 @@ class ATAK_APPs
       };
 
       text = ATAK_APP(Settings);
-			textureNoShortcut = QPATHTOF(data\settings.paa);
+			textureNoShortcut = QPATHTOEF(Core,data\settings.paa);
     };
 };

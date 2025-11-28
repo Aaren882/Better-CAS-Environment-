@@ -26,13 +26,11 @@ class CfgPatches {
 #include "Configs\UI_Elements.hpp"
 
 //- BCE Configs
-#include "Components\Custom_UI.hpp" //- Custom UI
 #include "Components\Additional_Fuze.hpp" //- Fuze System (🔧WIP)
 
 //- Mission Property + Controls + Map Infos
-#include "Components\Mission_Property.hpp"
-#include "Components\Mission_Controls.hpp" //- BCE Interface framework
-#include "Components\Mission_Map_Infos.hpp"
+#include "Components\Mission_Components.hpp"
+#include "UI\Dialog.hpp"
 
 //- BI's UI ScriptPaths
 #include "Configs\CfgScriptPaths.hpp"

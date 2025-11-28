@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 params ["_displayName",["_loop",false]];
 private ["_cur_displayName","_display","_getWeather","_windDir","_temperature","_windSpeed","_text"];
 
@@ -68,7 +70,7 @@ _getWeather = {
 	//- [Text, Icon]
 	[
 		localize ("STR_BCE_Env_" + (_texts # 0 # _result)),
-		[format ["<img image='MG8\AVFEVFX\data\%1.paa' />", _icon],nil] select (_icon == "")
+		[format [QSTRUCTURE_IMAGE(Core,data\%1.paa), _icon],nil] select (_icon == "")
 	]
 };
 
@@ -77,7 +79,7 @@ _getWeather = {
 
 _windDir = [windDir] call cTab_fnc_degreeToOctant;
 _temperature = floor (ambientTemperature # 0);
-_windIcon = "<img image='MG8\AVFEVFX\data\wind.paa' />";
+_windIcon = QSTRUCTURE_IMAGE(Core,data\wind.paa);
 if (([_displayName,"Weather_Condition"] call cTab_fnc_getSettings) # 0) then {
   //- ACE get Wind Speed
   /* #if __has_include("\z\ace\addons\weather\config.bin")
@@ -87,10 +89,7 @@ if (([_displayName,"Weather_Condition"] call cTab_fnc_getSettings) # 0) then {
   // #endif
 
   _text = trim format [
-    "
-    <t align='center' size='0.78'>%3</t>%1%2 %4<t align='right'>%5°C</t>%1%6%1%7
-    ",
-    
+    "<t align='center' size='0.78'>%3</t>%1%2 %4<t align='right'>%5°C</t>%1%6%1%7",
     "<br/>",
     _icon,
     cTab_player call BIS_fnc_locationDescription,
@@ -104,9 +103,8 @@ if (([_displayName,"Weather_Condition"] call cTab_fnc_getSettings) # 0) then {
       _windDir
     ],
     format [
-      "<img image='MG8\AVFEVFX\data\umbrella.paa' /> %1%2",
-      round ((1 min (linearConversion [0, 1, humidity, 0, 1] + linearConversion [0.5, 0.8, overcastForecast, 0.3, 0.5, true])) * 10) * 10,
-      "%"
+      QSTRUCTURE_IMAGE_FORMAT(Core,data\umbrella.paa, %1%%),
+      round ((1 min (linearConversion [0, 1, humidity, 0, 1] + linearConversion [0.5, 0.8, overcastForecast, 0.3, 0.5, true])) * 10) * 10
     ]
   ];
 
@@ -118,7 +116,7 @@ if (([_displayName,"Weather_Condition"] call cTab_fnc_getSettings) # 0) then {
   "%1 %2°C   <t align='right'>%3 ”%4“</t>",
   _icon,
   _temperature,
-  "<img size='0.7' image='MG8\AVFEVFX\data\wind.paa' />",
+  QSTRUCTURE_IMAGE_MODIFY(Core,data\wind.paa,size='0.7'),
   _windDir
 ];
 

@@ -3,6 +3,18 @@
 #define DFUNC(var1) TRIPLES(ADDON,fnc,var1)
 #define DFUNCMAIN(var1) TRIPLES(PREFIX,fnc,var1)
 
+#define STRUCTURE_IMAGE(var1,var2) <img image='PATHTOEF(var1,var2)' />
+#define STRUCTURE_IMAGE_MODIFY(var1,var2,var3) <img var3 image='PATHTOEF(var1,var2)' />
+
+#define QSTRUCTURE_IMAGE(var1,var2) QUOTE(STRUCTURE_IMAGE(var1,var2))
+#define QSTRUCTURE_IMAGE_MODIFY(var1,var2,var3) QUOTE(STRUCTURE_IMAGE_MODIFY(var1,var2,var3))
+
+// # EXAMPLE
+//- "<img image='z\BCE\{var1}\{var2}'/>{ var3}"
+//- "<img image='z\BCE\{Core}\{data\archive.paa}'/>{ RAT}"
+#define STRUCTURE_IMAGE_FORMAT(var1,var2,var3) STRUCTURE_IMAGE(var1,var2)##var3
+#define QSTRUCTURE_IMAGE_FORMAT(var1,var2,var3) QUOTE(STRUCTURE_IMAGE_FORMAT(var1,var2,var3))
+
 //- Custom Macro
 #include "macro.hpp"
 #include "has_cTab.hpp"

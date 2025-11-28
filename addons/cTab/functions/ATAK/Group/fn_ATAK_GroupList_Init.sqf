@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 /*
   NAME : BCE_fnc_ATAK_GroupList_Init
 */
@@ -12,9 +14,10 @@ private _info_ls = _tagGroup controlsGroupCtrl 50;
 
 //- Apply Infos
   _tag ctrlSetStructuredText parseText format [
-    "<img size='1' image='\MG8\AVFEVFX\data\ExpandList.paa'/> %1<t align='right'>%2 </t>",
+    "<img size='1' image='%3'/> %1<t align='right'>%2 </t>",
     _title,
-    _teamName //- Call Sign or something you like
+    _teamName, //- Call Sign or something you like
+		QPATHTOEF(Core,data\ExpandList.paa)
   ];
 
   {

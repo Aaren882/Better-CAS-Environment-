@@ -6,8 +6,8 @@
 
 //-desktop icons
 #define APP_BFT "\cTab\img\cTab_BFT_ico.paa"
-#define APP_UAV QPATHTOF(data\AV_Cam.paa)
-#define APP_MSG QPATHTOF(data\mail.paa)
+#define APP_UAV QPATHTOEF(Core,data\AV_Cam.paa)
+#define APP_MSG QPATHTOEF(Core,data\mail.paa)
 
 //-SubMenus
 #define MAINSUB 5

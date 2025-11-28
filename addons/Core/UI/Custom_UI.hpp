@@ -1,6 +1,6 @@
 class BCE_RscLine: RscPicture
 {
-	text=QPATHTOF(data\Element\line.paa);
+	text=QPATHTOEF(Core,data\Element\line.paa);
 	ColorText[]={1,1,1,0.8};
 	background=1;
 	shadow=2;

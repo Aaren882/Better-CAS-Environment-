@@ -106,9 +106,9 @@
         sizeEx = QUOTE(0.9 * TextSize);
         strings[] =
         {
-					QPATHTOF(data\airSupport.paa),
-					QPATHTOF(data\artiliry.paa),
-					QPATHTOF(data\other_options.paa)
+					QPATHTOEF(Core,data\airSupport.paa),
+					QPATHTOEF(Core,data\artiliry.paa),
+					QPATHTOEF(Core,data\other_options.paa)
         };
         tooltips[] =
         {
@@ -770,7 +770,8 @@
         idc = 6;
         style = "0x02 + 0x0C + 0x0100";
         shadow = 1;
-        text = "<img image='MG8\AVFEVFX\data\add.paa' />";
+        // text = "<img image='MG8\AVFEVFX\data\add.paa' />";
+        text = QSTRUCTURE_IMAGE(Core,data\add.paa);
 
         x = QUOTE(PhoneBFTContainerW(2.4));
         w = QUOTE(PhoneBFTContainerW(0.6));

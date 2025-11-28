@@ -248,7 +248,7 @@
           
           style = "0x02 + 0x30 + 0x800";
           colorBackground[]={0,0,0,0.2};
-					text = QPATHTOF(data\locating.paa);
+					text = QPATHTOEF(Core,data\locating.paa);
 
           x = QUOTE(sizeX + ((((((1341)) - (10) * 8) / 7)) / 2048 * ((safezoneH * 1.2) * 3/4)) - (sizeW/1.2 * ((safezoneH * 1.2) * 3/4)));
           y = QUOTE(smalSpc + ((491)) / 2048  * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2) + ((42)) / 2048  * (safezoneH * 1.2));
@@ -297,7 +297,7 @@
               colorBackground[]={1,0,0,0.5};
               colorBackgroundActive[] = {1,0,0,0.2};
               colorFocused[] = {1,0,0,0.3};
-							text = QPATHTOF(data\retract.paa);
+							text = QPATHTOEF(Core,data\retract.paa);
               
               x = QUOTE(0);
               y = QUOTE(0);
@@ -902,7 +902,7 @@
           class actTKBtxt: actBFTtxt
           {
             idc = 10041;
-						text = QPATHTOF(data\missions.paa);
+						text = QPATHTOEF(Core,data\missions.paa);
             y = "(((((491) + (42)) + (25) * 5 + (100) * 4) - ((491) + (42))) / 2048  * 	(safezoneH * 1.2))";
             action = "['cTab_Tablet_dlg',[['mode','TASK_Builder']]] call cTab_fnc_setSettings;";
             toolTip = "Task Builder";

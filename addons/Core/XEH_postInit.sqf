@@ -76,7 +76,6 @@ if (isClass (configFile >> "CfgPatches" >> "ace_hearing")) then {
 #define SwitchSound playSound (format ["switch_mod_0%1",(selectRandom [1,2,3,4,5])])
 #define isCtrlTurret ({count (_x getVariable ["TGP_View_Turret_Control",[]]) > 0} count (crew _vehicle)) > 0
 #define IsTGP_CAM_ON ((player getVariable ["TGP_View_EHs", -1]) != -1)
-#define IsPhoneCAM_ON !isnull (uiNamespace getVariable ["BCE_PhoneCAM_View",displayNull])
 #define IsHCAM_ON !isnull (uiNamespace getVariable ["BCE_HCAM_View",displayNull])
 
 //- Optic Mode

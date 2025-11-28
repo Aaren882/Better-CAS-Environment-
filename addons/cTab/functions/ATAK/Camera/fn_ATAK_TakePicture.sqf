@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 private _time = systemTime apply {(["","0"] select (_x < 10)) + (str _x)};
 _time resize 6;
 
@@ -36,8 +38,7 @@ private _ctrls = (allControls _display) apply {
     systemChat str format ["ERROR from Taking Pictrue. %1", _return];
   };
 
-  playSound3D ["\MG8\AVFEVFX\sound\CameraShutter.wss", player, false, getPosASL player, 3, 1, 15];
-
+  playSound3D [QPATHTOEF(Core,sound\CameraShutter.wss), player, false, getPosASL player, 3, 1, 15];
 
   //- #FIXME - Add CBA_EH to trigger this 👇
   if !(BCE_SSE_Webhook_Send_fn) exitWith {};

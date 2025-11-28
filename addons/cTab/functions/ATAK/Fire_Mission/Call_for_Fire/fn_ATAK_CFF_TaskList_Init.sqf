@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 /* 
   NAME : BCE_fnc_ATAK_CFF_TaskList_Init
   
@@ -31,7 +33,7 @@ _WPN_IA params ["_lbAmmo_IA","_lbFuse_IA",["_fireUnitSel_IA",1],"_setCount_IA","
 	//- Mark if it's executing mission
 	if (_MSN_name call BCE_fnc_CFF_Mission_CheckActive) then {
 		private _exec_bnt = _tagGroup controlsGroupCtrl 16;
-		_exec_bnt ctrlSetStructuredText parseText "<img image='MG8\AVFEVFX\data\pause.paa'/>";
+		_exec_bnt ctrlSetStructuredText parseText QSTRUCTURE_IMAGE(Core,data\pause.paa);
 		_tagGroup setVariable ["CFF_Task_Mission_EXEC",true];
 	};
 

@@ -9,7 +9,7 @@
 private ["_action"];
 
 //-Clear
-_action = ["BCE_Task_Clear",localize "str_disp_arcmap_clear","\MG8\AVFEVFX\data\ClearTask.paa",{
+_action = ["BCE_Task_Clear",localize "str_disp_arcmap_clear",QSTRUCTURE_IMAGE(Core,data\ClearTask.paa),{
 	params ["_unit"];
 	557 cutRsc ["default","PLAIN"];
 	(vehicle _unit) setVariable ["BCE_Task_Receiver","",true];
@@ -89,7 +89,7 @@ _action = ["BCE_Select_TGP",localize "STR_BCE_Select_AV_Camera","",{
 
 ["CAManBase", 1, ["ACE_SelfActions", "ACE_Equipment"], _action, true] call aceActionClass;
 
-_action = ["BCE_Use_Selected_TGP",localize "STR_BCE_AV_Camera","\MG8\AVFEVFX\data\AV_Cam.paa",{
+_action = ["BCE_Use_Selected_TGP",localize "STR_BCE_AV_Camera",QSTRUCTURE_IMAGE(Core,data\AV_Cam.paa),{
 		params ["_unit"];
 		([_unit] call BCE_fnc_get_TaskCurUnit) call BCE_fnc_TGP_Select_Confirm;
 	},{

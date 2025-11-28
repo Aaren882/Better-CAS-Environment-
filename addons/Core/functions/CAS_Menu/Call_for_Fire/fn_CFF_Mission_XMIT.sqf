@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 /*
   NAME : BCE_fnc_CFF_Mission_XMIT
   
@@ -22,8 +24,8 @@ private _customData = if (_taskData != "") then {
 
 			//- invert button icon (when this tag is executing)
 				_exec_bnt ctrlSetStructuredText parseText ([
-					"<img image='MG8\AVFEVFX\data\pause.paa'/>",
-					"<img image='MG8\AVFEVFX\data\start.paa'/>"
+					QSTRUCTURE_IMAGE(Core,data\pause.paa),
+					QSTRUCTURE_IMAGE(Core,data\start.paa)
 				] select _is_Executing);
 
 			//- Toggle "_is_Executing"

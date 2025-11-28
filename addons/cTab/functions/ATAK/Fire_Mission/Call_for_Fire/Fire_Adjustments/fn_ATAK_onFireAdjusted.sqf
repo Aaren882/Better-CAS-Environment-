@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 /*
 	NAME : BCE_fnc_ATAK_onFireAdjusted
 */
@@ -17,15 +19,22 @@ switch (true) do {
 		//- Update Vector
 		_adjustVec = _adjustVec vectorMultiply 10;
 		private _text = format [
-			"<img image='\MG8\AVFEVFX\data\Arrows\%3.paa' /> %1 m | <img image='\MG8\AVFEVFX\data\Arrows\%4.paa' /> %2 m",
+			"%3 %1 m | %4 %2 m",
 			_adjustVec # 1,
 			_adjustVec # 0,
-			["Point_Arrow","Point_Arrow_D"] select (_y < 0),
-			["Point_Arrow_R","Point_Arrow_L"] select (_x < 0)
+			//- #NOTE : Arrows for Adjust fire
+			[
+				QSTRUCTURE_IMAGE(Core,data\Arrows\Point_Arrow.paa),
+				QSTRUCTURE_IMAGE(Core,data\Arrows\Point_Arrow_D.paa)
+			] select (_y < 0),
+			[
+				QSTRUCTURE_IMAGE(Core,data\Arrows\Point_Arrow_R.paa),
+				QSTRUCTURE_IMAGE(Core,data\Arrows\Point_Arrow_L.paa)
+			] select (_x < 0)
 		];
 
 		_indecator ctrlSetText format [
-			"\MG8\AVFEVFX\data\Arrows\%1.paa",
+			QPATHTOEF(Core,data\Arrows\%1.paa),
 			["thin_Arrow","center"] select (_adjustVec isEqualTo [0,0])
 		];
 

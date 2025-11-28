@@ -44,17 +44,19 @@ if (_clear_index > -1) then {
 _TextR = _items # 1;
 {
 	private ["_TaskList","_text"];
-	_TaskList = _display displayctrl (_all_lists # _forEachIndex);
+	_TaskList = _display displayCtrl (_all_lists # _forEachIndex);
 	_text = _TextR # _forEachIndex;
+
 	{
 		private ["_writeDown","_txt"];
+
 		_writeDown = (_text # _forEachIndex) param [1,""];
 		_txt = if ((_x # 0) == "NA") then {
 			_text # _forEachIndex # 0
 		} else {
 			[_x # 0, _writeDown] select (_writeDown != "")
 		};
-
+		diag_log [_txt, (_x # 0)];
 		_TaskList lbSetTextRight [_forEachIndex, _txt];
 	} forEach (uiNameSpace getVariable _x);
 } forEach _all_Tasks;
