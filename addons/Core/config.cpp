@@ -5,7 +5,9 @@ class CfgPatches {
 		authors[] = {"Aaren"};
 		url = ECSTRING(main,url);
 		requiredVersion = REQUIRED_VERSION;
-		requiredAddons[]={};
+		requiredAddons[]={
+			"A3_Ui_F"
+		};
 		units[] = {};
 		weapons[] = {};
 		VERSION_CONFIG;
@@ -23,7 +25,7 @@ class CfgPatches {
 #include "Configs\CfgFontFamilies.hpp"
 
 #include "Configs\Communication_menu.hpp" //- Top left "Communication_menu" (command menu)
-#include "Configs\UI_Elements.hpp"
+#include "Configs\UI_Components.hpp"
 
 //- BCE Configs
 #include "Components\Additional_Fuze.hpp" //- Fuze System (🔧WIP)
@@ -31,6 +33,7 @@ class CfgPatches {
 //- Mission Property + Controls + Map Infos
 #include "Components\Mission_Components.hpp"
 #include "UI\Dialog.hpp"
+#include "UI\Control_UI.hpp" //- AV Terminal Interfaces
 
 //- BI's UI ScriptPaths
 #include "Configs\CfgScriptPaths.hpp"
