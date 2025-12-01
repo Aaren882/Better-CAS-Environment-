@@ -18,4 +18,8 @@ class CfgPatches {
 	};
 };
 
-#include "configs/CfgFunctions.hpp"
+//- UI
+#include "..\Core\Configs\UI_Components.hpp"
+#include "UI\Map_UI.hpp"
+
+#include "configs\CfgFunctions.hpp"
