@@ -19,6 +19,7 @@ if (isnil {BCE_SYSTEM_Handler}) then {
 
 //- Register CTAB  
 BCE_System_cTab_Loaded = isClass (configFile >> "CfgPatches" >> QGVARMAIN(cTab));
+BCE_have_ACE_earPlugs = false;
 
 //-- Caches --//
 //- Init cache holder
@@ -57,10 +58,6 @@ BCE_System_cTab_Loaded = isClass (configFile >> "CfgPatches" >> QGVARMAIN(cTab))
 		]
 	};
 	localNamespace setVariable ["BCE_LandMarks",_BCE_LandMarks];
-
-if (isClass (configFile >> "CfgPatches" >> "ace_hearing")) then {
-	BCE_have_ACE_earPlugs = false;
-};
 
 //PostInit
 	call BCE_fnc_init;

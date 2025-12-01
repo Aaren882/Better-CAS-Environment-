@@ -48,6 +48,20 @@ if (isMultiplayer) then {
 //PostInit Perf_EH
 call BCE_fnc_ClientSide;
 
+//- #SECTION - Eventhandlers for TGP View (ON, OFF)
+	[ //- Register TGP view for "CBA_fnc_getActiveFeatureCamera"
+    "BCE_TGP_camera",
+		{(missionNamespace getVariable ["TGP_View_Camera",[]]) isNotEqualTo []}
+	] call CBA_fnc_registerFeatureCamera;
+
+	["BCE_TGP_View_Changed", {
+		
+		params ["_unit","_TGP_vehicle","_turnOn"];
+		[BCE_fnc_hearingProtection, _turnOn] call CBA_fnc_execNextFrame;
+
+	}] call CBA_fnc_addEventHandler;
+//- #!SECTION
+
 //- #SECTION - Init Task/Mission Builder Items
 	[] call BCE_fnc_getTaskProps;
 	[] call BCE_fnc_get_TaskMapInfoEntry;
@@ -87,32 +101,31 @@ call BCE_fnc_ClientSide;
 	};
 },true] call CBA_fnc_addPlayerEventHandler;
 
+//- When Camera Changed (ex. Zeus, Spectator)
 ["featureCamera", {
 	params ["_unit","_mode"];
-	if ((_mode isNotEqualTo "") && (TGP_View_Camera isNotEqualTo [])) then {
-		camUseNVG false;
-		ppEffectDestroy (TGP_View_Camera # 1);
+	TRACE_1("featureCamera",_this);
 
-		556 cutRsc ["default","PLAIN"];
-		cutText ["", "BLACK IN",0.5];
+	private _isTGP_Mode = _mode == "BCE_TGP_camera";
+	private _isTGP_Exist = TGP_View_Camera isNotEqualTo [];
 
-		/* #if __has_include("\z\ace\addons\hearing\config.bin")
-			if !(player getVariable ["ACE_hasEarPlugsin", false]) then {
-				player setVariable ["ACE_hasEarPlugsIn", false, true];
-				[true] call ace_hearing_fnc_updateVolume;
-				[] call ace_hearing_fnc_updateHearingProtection;
-			};
-		#else
-		#endif */
-			1.5 fadeSound 1;
-
-		removeMissionEventHandler [_thisEvent, _thisEventHandler];
-
-		player setVariable ["TGP_View_EHs",-1,true];
+	if (!_isTGP_Mode && _isTGP_Mode_Exist) then {
+		call BCE_fnc_Cam_Delete;
 	 	[2] call BCE_fnc_OpticMode;
-
 	};
-},true] call CBA_fnc_addPlayerEventHandler;
+
+	if (_isTGP_Mode) then {
+		//- #NOTE : Fire CBA_EH "BCE_TGP_View_Changed" 
+			[
+				"BCE_TGP_View_Changed",
+				[
+					_unit,
+					(_unit getVariable "TGP_View_Selected_Optic") # 1,
+					_isTGP_Exist
+				]
+			] call CBA_fnc_LocalEvent;
+	};
+}] call CBA_fnc_addPlayerEventHandler;
 
 //Delete
 ["All", "Deleted", {

@@ -5,101 +5,86 @@ private _player = player;
 if ((_player getVariable ["TGP_View_EHs", -1]) != -1) exitWith {};
 
 #define Equal isEqualTo
-// #if __has_include("\z\ace\addons\hearing\config.bin")
-	#define have_ACE 1
-// #endif
 
-_cam = "camera" camCreate [0,0,0];
+//- Switch To camera
+private _cam = "camera" camCreate [0,0,0];
 _cam cameraEffect ["Internal", "Back"];
 cameraEffectEnableHUD true;
 showCinemaBorder false;
 
-//- #FIXME - Add CBA_EH "BCE_TGP_CAM_Start"
-/* #ifdef have_ACE
-	if (ace_hearing_enableCombatDeafness) then {
-		// BCE_have_ACE_earPlugs = _player getVariable ["ACE_hasEarPlugsin", false];
-		_player setVariable ["ACE_hasEarPlugsIn", true, true];
-
-		[true] call ace_hearing_fnc_updateVolume;
-		[] call ace_hearing_fnc_updateHearingProtection;
-	} else {
-		0 fadeSound 0.1;
-	};
-#else */
-	0 fadeSound 0.1;
-// #endif
 TGP_View_Unit_List = [];
 
 //PP Effect
-_pphandle = ppEffectCreate ["FilmGrain", 1501];
+private _pphandle = ppEffectCreate ["FilmGrain", 1501];
 _pphandle ppEffectEnable true;
 _pphandle ppEffectAdjust [BCE_CamNoise_sdr, 1, 0, [1.0, 0.1, 1.0, 0.75], [0.0, 1.0, 1.0, 1.0], [0.199, 0.587, 0.114, 0.0]];
 _pphandle ppEffectCommit 0;
 
-_config_path = configOf _vehicle;
+TGP_View_Camera = [_cam,_pphandle];
 
-_Optic_LODs = [_vehicle,0] call BCE_fnc_Check_Optics;
+private _Optic_LODs = [_vehicle, 0] call BCE_fnc_Check_Optics;
 
-if (((_player getVariable ["TGP_View_Selected_Optic",[]]) findIf {true} > -1) || !(_vehicle Equal ((_player getVariable "TGP_View_Selected_Optic") # 1))) then {
+if (
+	((_player getVariable ["TGP_View_Selected_Optic",[]]) findIf {true} > -1) || 
+	!(_vehicle Equal ((_player getVariable "TGP_View_Selected_Optic") # 1))
+) then {
 	_player setVariable ["TGP_View_Selected_Optic",[(_Optic_LODs # 0),_vehicle],true];
 };
 
-_Selected_Optic = (_player getVariable "TGP_View_Selected_Optic") # 0;
-_Selected_Optic params ["","_turret","_is_Detached"];
+private _Selected_Optic = (_player getVariable "TGP_View_Selected_Optic") # 0;
+_Selected_Optic params ["_attachPoint","_turret","_is_Detached"];
 
-//- Setup Camera
-_cam attachTo [_vehicle, [0,0,0],_Selected_Optic # 0,!_is_Detached];
-TGP_View_Camera = [_cam,_pphandle];
+//- Attach Camera
+_cam attachTo [_vehicle, [0,0,0], _attachPoint,!_is_Detached];
 
 //UI setup
-556 cutRsc ["BCE_TGP_View_GUI","PLAIN",0.3,false];
+("BCE_TGP_View_GUI" call BIS_fnc_rscLayer) cutRsc ["BCE_TGP_View_GUI","PLAIN",0.3,false];
 cutText ["", "BLACK IN",0.5];
 
 localNamespace setVariable ["TGP_View_laser_update", [time,""]];
 
 //Crews
-_turret_Unit = _vehicle turretUnit _turret;
-
-_gunner = [name _turret_Unit,"--"] select (((_turret_Unit Equal objNull) || (_turret_Unit Equal (driver _vehicle))));
-_pilot = [name (driver _vehicle),"--"] select ((driver _vehicle) Equal objNull);
+private _turret_Unit = _vehicle turretUnit _turret;
+private _gunner = [name _turret_Unit,"--"] select (((_turret_Unit Equal objNull) || (_turret_Unit Equal (driver _vehicle))));
+private _pilot = [name (driver _vehicle),"--"] select ((driver _vehicle) Equal objNull);
 
 //-Controls
-_display = uiNameSpace getVariable "BCE_TGP";
-_time_ctrl = _display displayCtrl 1001;
-_Altitude_ctrl = _display displayCtrl 1002;
-_Grid_ctrl = _display displayCtrl 1003;
-_vision_ctrl = _display displayCtrl 1005;
-_Laser_ctrl = _display displayCtrl 1023;
-_camDir_ctrl = _display displayCtrl 1024;
-_Fuel_ctrl = _display displayCtrl 1026;
-_Weapon_ctrl = _display displayCtrl 1027;
-_Ammo_ctrl = _display displayCtrl 1031;
-_Mode_ctrl = _display displayCtrl 1032;
+private _display = uiNameSpace getVariable "BCE_TGP";
+private _time_ctrl = _display displayCtrl 1001;
+private _Altitude_ctrl = _display displayCtrl 1002;
+private _Grid_ctrl = _display displayCtrl 1003;
+private _vision_ctrl = _display displayCtrl 1005;
+private _Laser_ctrl = _display displayCtrl 1023;
+private _camDir_ctrl = _display displayCtrl 1024;
+private _Fuel_ctrl = _display displayCtrl 1026;
+private _Weapon_ctrl = _display displayCtrl 1027;
+private _Ammo_ctrl = _display displayCtrl 1031;
+private _Mode_ctrl = _display displayCtrl 1032;
 
 //- Widgets
-_widgets_ctrl = _display displayCtrl 2000;
-_Exit_ctrl = _display displayCtrl 2025;
-_widget_01_ctrl = _Widgets_ctrl controlsGroupCtrl 100;
-_env_ctrl = _display displayCtrl 101;
+private _widgets_ctrl = _display displayCtrl 2000;
+private _Exit_ctrl = _display displayCtrl 2025;
+private _widget_01_ctrl = _Widgets_ctrl controlsGroupCtrl 100;
+private _env_ctrl = _display displayCtrl 101;
 
 //- Weapon
-_WeaponDelay_ctrl = _display displayCtrl 1033;
+private _WeaponDelay_ctrl = _display displayCtrl 1033;
 _WeaponDelay_ctrl ctrlShow false;
 
 //- ENG
-_ENG_W_ctrl = _display displayCtrl 1025;
+private _ENG_W_ctrl = _display displayCtrl 1025;
 
-_pilot_ctrl = _display displayCtrl 1028;
-_Gunner_ctrl = _display displayCtrl 1029;
-_Vehicle_ctrl = _display displayCtrl 1030;
+private _pilot_ctrl = _display displayCtrl 1028;
+private _Gunner_ctrl = _display displayCtrl 1029;
+private _Vehicle_ctrl = _display displayCtrl 1030;
 
 //- UI
 _pilot_ctrl ctrlSetText (format ["%1: %2", localize "str_position_pilot", _pilot]);
 _Gunner_ctrl ctrlSetText (format ["%1: %2",localize "STR_GUNNER", _gunner]);
-_Vehicle_ctrl ctrlSetText (getText (_config_path >> "DisplayName"));
+_Vehicle_ctrl ctrlSetText (getText (configOf _vehicle >> "DisplayName"));
 
 //-widgets
-_widgets_01 = [
+private _widgets_01 = [
 	["Unit_Tracker_Box","TGP_view_Unit_Tracker_Box","STR_BCE_Tracker_Box"],
 	["Unit_Tracker","TGP_view_Unit_Tracker","STR_BCE_Unit_Tracker"],
 	["Compass","TGP_view_3D_Compass","STR_BCE_3D_Compass"],
@@ -142,7 +127,7 @@ _getTargetVeh = [{
 }] select ((_turret # 0) < 0);
 
 //Draw Icons And Set DirUp
-_idEH = addMissionEventHandler ["Draw3D", {
+private _idEH = addMissionEventHandler ["Draw3D", {
 	_thisArgs params [
 		"_cam","_vehicle",
 		"_current_vec","_delta",
@@ -283,55 +268,31 @@ _idEH = addMissionEventHandler ["Draw3D", {
 
 	//-Only can show Display instead dialog
 	// #ifdef cTAB_Installed  #FIXME - Find better solution cTab Compat
-		#define exitCdt !(isnull curatorcamera) || ([cTabIfOpen param [1, ""]] call cTab_fnc_isDialog)
+		#define exitCdt (isNil{if (isNil {cTabIfOpen}) then {""} else {["",nil] select ([cTabIfOpen param [1, ""]] call cTab_fnc_isDialog);};})
 	/* #else
 		#define exitCdt !(isnull curatorcamera)
 	#endif */
 
 	//-Exit
-	if (!(alive _vehicle) || exitCdt) then {
-		if !(TGP_View_Camera Equal []) then {
-			camUseNVG false;
+	if (
+		(!(alive _vehicle) || exitCdt) && 
+		TGP_View_Camera isNotEqualTo []
+	) then {
+		call BCE_fnc_Cam_Delete;
+		[2] call BCE_fnc_OpticMode;
 
-			//-Except for Zeus camera
-			if (isnull curatorcamera) then {
-				private _cam = TGP_View_Camera # 0;
-				_cam cameraeffect ["Terminate", "back"];
-				camDestroy _cam;
-			};
-
-			ppEffectDestroy (TGP_View_Camera # 1);
-
-			556 cutRsc ["default","PLAIN"];
-			cutText ["", "BLACK IN",0.5];
-
-			// #FIXME - Fix ACE_hearing compat
-			/* #ifdef have_ACE
-				if !(_player getVariable ["ACE_hasEarPlugsin", false]) then {
-					_player setVariable ["ACE_hasEarPlugsIn", false, true];
-					[true] call ace_hearing_fnc_updateVolume;
-					[] call ace_hearing_fnc_updateHearingProtection;
-				};
-			#else */
-				1.5 fadeSound 1;
-			// #endif
-
-			TGP_View_Camera = [];
-
-			[2] call BCE_fnc_OpticMode;
-		};
-
-		private _current_EH = _player getVariable ["TGP_View_EHs",-1];
+		/* private _current_EH = _player getVariable ["TGP_View_EHs",-1];
 		if (_current_EH != -1) then {
 			removeMissionEventHandler ["Draw3D", _thisEventHandler];
 			_player setVariable ["TGP_View_EHs",-1,true];
-		};
+		}; */
 	};
 },[
 	_cam,_vehicle,[[0,0,0],[0,0,0]],0.035,_Optic_LODs,_player,_getTargetVeh,
 	[_time_ctrl,_Altitude_ctrl,_Grid_ctrl,_vision_ctrl,_Laser_ctrl,_camDir_ctrl,_Fuel_ctrl,_Weapon_ctrl,_Ammo_ctrl,_Mode_ctrl,_ENG_W_ctrl,_widget_01_ctrl,_widgets_01]
 ]];
 
+//- Register TGP View
 _player setVariable ["TGP_View_EHs",_idEH,true];
 0 call BCE_fnc_Switch_Zoom;
 
@@ -340,5 +301,5 @@ private _visionMode = _player getVariable ["TGP_View_Optic_Mode",2];
 // Compat For "A3TI"
 private _A3TI = missionNameSpace getVariable ["A3TI_FLIR_VisionMode", -1];
 
-	_visionMode = [_visionMode,_A3TI] select (_A3TI > -1);
+_visionMode = [_visionMode,_A3TI] select (_A3TI > -1);
 _visionMode call BCE_fnc_OpticMode;

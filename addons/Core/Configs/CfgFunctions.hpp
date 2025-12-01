@@ -19,6 +19,7 @@ class CfgFunctions
 			class ACE_actions;
 			class canUseTurret;
 
+			class hearingProtection;
 			class trueZoom;
 			class Check_Optics;
 			class Set_EnvironmentList;

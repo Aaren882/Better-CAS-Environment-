@@ -1,22 +1,38 @@
-_cam = TGP_View_Camera # 0;
-_cam cameraeffect ["Terminate", "back"];
-camDestroy _cam;
-ppEffectDestroy (TGP_View_Camera # 1);
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_fnc_Cam_Delete
+Description:
+		Delete TGP Camera.
 
-556 cutRsc ["default","PLAIN"];
-cutText ["", "BLACK IN",0.5];
+Parameters:
+		<NONE>
 
-/* #if __has_include("\z\ace\addons\hearing\config.bin")
-	if !(player getVariable ["ACE_hasEarPlugsin", false];) then {
-		player setVariable ["ACE_hasEarPlugsIn", false, true];
-		[true] call ace_hearing_fnc_updateVolume;
-		[] call ace_hearing_fnc_updateHearingProtection;
-	};
-#else */
-	1.5 fadeSound 1;
-// #endif
+Returns:
+		<NONE>
 
-_current_EH = player getVariable "TGP_View_EHs";
+Examples
+		(begin example)
+				call BCE_fnc_Cam_Delete
+		(end)
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+TRACE_1("fn_Cam_Delete",TGP_View_Camera);
+
+TGP_View_Camera params ["_cam","_ppEffect"];
+
+if (isNull curatorCamera) then {
+	_cam cameraEffect ["Terminate", "back"];
+	camDestroy _cam;
+	cutText ["", "BLACK IN",0.5];
+};
+
+camUseNVG false;
+ppEffectDestroy _ppEffect;
+("BCE_TGP_View_GUI" call BIS_fnc_rscLayer) cutRsc ["default","PLAIN"];
+
+private _current_EH = player getVariable "TGP_View_EHs";
 removeMissionEventHandler ["Draw3D", _current_EH];
 
 player setVariable ["TGP_View_EHs",-1,true];
