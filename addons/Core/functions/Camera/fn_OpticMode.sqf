@@ -13,7 +13,7 @@ if (_type == 2) then {
 // FLIR setting
 private _text = switch (_type) do
 {
-	// #if __has_include("\A3TI\functions.hpp")
+	// Compat For "A3TI"
 		case 0: {
 			call A3TI_fnc_ppEffects;
 			call A3TI_fnc_getA3TIVision;
@@ -22,7 +22,7 @@ private _text = switch (_type) do
 			call A3TI_fnc_ppEffects;
 			call A3TI_fnc_getA3TIVision;
 		};
-	// #endif
+	
 	case 3:	{
 		false setCamUseTi -1;
 		camUseNVG true;

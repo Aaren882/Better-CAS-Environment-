@@ -98,20 +98,13 @@ _uavCams apply {
 
 		_vision = cTab_player getVariable ["TGP_View_Optic_Mode", 2];
 		
-		//- #FIXME - _A3TI is nil for now 
-		// #if __has_include("\A3TI\functions.hpp")
-			private _A3TI = A3TI_FLIR_VisionMode;
-		// #endif
+		//- #NOTE : _A3TI get Current A3TI Mode 
+			private _A3TI = missionNameSpace getVariable ["A3TI_FLIR_VisionMode", -1];
 
 		//-Set Vision Mode
 		_vision = switch (true) do {
-			// #if __has_include("\A3TI\functions.hpp")
-				case (_vision == 5 || _A3TI == 0): {2};
-				case (_vision == 4 || _A3TI == 1): {7};
-			/* #else
-				case (_vision == 5): {2};
-				case (_vision == 4): {7};
-			#endif */
+			case (_vision == 5 || _A3TI == 0): {2};
+			case (_vision == 4 || _A3TI == 1): {7};
 
 			case 3: {1};
 			default {0};

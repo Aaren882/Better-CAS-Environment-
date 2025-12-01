@@ -172,14 +172,13 @@ _idEH = addMissionEventHandler ["Draw3D", {
 		[_cam, call _wRot, false] call BCE_fnc_VecRot;
 	};
 
-	//-A3TI #FIXME - Fix A3TI Compat
-	_visionType = _player getVariable ["TGP_View_Optic_Mode", 2];
-	// #if __has_include("\A3TI\functions.hpp")
-		private _A3TI = call A3TI_fnc_getA3TIVision;
+
+	// Compat For "A3TI"
+		private _visionType = _player getVariable ["TGP_View_Optic_Mode", 2];
 		if (_visionType == 2) then {
-			_vision_ctrl ctrlSetText ([localize "STR_BCE_CMODE",[_A3TI, "NORMAL"] select (isnil {_A3TI})] joinString " ");
+			private _A3TI = call A3TI_fnc_getA3TIVision;
+			_vision_ctrl ctrlSetText ([localize "STR_BCE_CMODE", [_A3TI, "NORMAL"] select (isnil {_A3TI})] joinString " ");
 		};
-	// #endif
 
 	//UI Update
 	_time_ctrl ctrlSetText (format [localize "STR_BCE_Cam_Time",[daytime] call BIS_fnc_timeToString]);
@@ -337,9 +336,9 @@ _player setVariable ["TGP_View_EHs",_idEH,true];
 0 call BCE_fnc_Switch_Zoom;
 
 //-Set Camera Vision Mode
-_visionMode = _player getVariable ["TGP_View_Optic_Mode",2];
-// #if __has_include("\A3TI\functions.hpp")
-	_A3TI = A3TI_FLIR_VisionMode;
+private _visionMode = _player getVariable ["TGP_View_Optic_Mode",2];
+// Compat For "A3TI"
+private _A3TI = missionNameSpace getVariable ["A3TI_FLIR_VisionMode", -1];
+
 	_visionMode = [_visionMode,_A3TI] select (_A3TI > -1);
-// #endif
 _visionMode call BCE_fnc_OpticMode;
