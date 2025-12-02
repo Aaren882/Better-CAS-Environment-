@@ -20,5 +20,9 @@ class CfgPatches {
 //- POLPOX MapTool Config
 #include "Components/PLP_SMT_Data.hpp"
 
+//- UI
+#include "UI_components.hpp"
+#include "UI/Map_UI.hpp"
+
 //- Arma Configs
 #include "configs/CfgFunctions.hpp"

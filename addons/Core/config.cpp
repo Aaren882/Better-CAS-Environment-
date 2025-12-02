@@ -31,7 +31,10 @@ class CfgPatches {
 #include "Components\Additional_Fuze.hpp" //- Fuze System (🔧WIP)
 
 //- Mission Property + Controls + Map Infos
+#include "Components\Mission_Property.hpp"
 #include "Components\Mission_Components.hpp"
+#include "Components\Mission_Map_Infos.hpp"
+
 #include "UI\Dialog.hpp"
 #include "UI\Control_UI.hpp" //- AV Terminal Interfaces
 

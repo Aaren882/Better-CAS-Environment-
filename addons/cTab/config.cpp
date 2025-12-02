@@ -21,7 +21,7 @@ class CfgPatches {
 };
 
 //- UI
-#include "..\Core\Configs\UI_Components.hpp"
+#include "UI_Components.hpp"
 #include "Configs\UI_Components.hpp"
 
 //- Arma Configs
@@ -30,12 +30,13 @@ class CfgPatches {
 #include "Configs\CfgEventHandlers.hpp"
 
 //- Components
+class BCE_Mission_Default
+{
+	class AIR;
+	class GND;
+};
 #include "..\Core\Components\Mission_Components.hpp"
 // #include "Components\BCE_Mission_Build_Controls.hpp" #NOTE : Base classes of "BCE_Mission_Build_Controls"
-
-//- cTab controls
-#include "UI\cTab_Macros_Interface.hpp"
-#include "UI\cTab_Macros.hpp"
 
 //- Configurations
 #include "UI\cTab_classes.hpp"
