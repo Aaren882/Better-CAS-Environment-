@@ -1,4 +1,3 @@
-class PLP_SMT_Description;
 class PLP_SMT_Data
 {
 	class RadialMenu
