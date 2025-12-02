@@ -25,15 +25,17 @@ class CfgPatches {
 #include "Configs\CfgFontFamilies.hpp"
 
 #include "Configs\Communication_menu.hpp" //- Top left "Communication_menu" (command menu)
-#include "Configs\UI_Components.hpp"
 
 //- BCE Configs
 #include "Components\Additional_Fuze.hpp" //- Fuze System (🔧WIP)
 
-//- Mission Property + Controls + Map Infos
-#include "Components\Mission_Property.hpp"
-#include "Components\Mission_Components.hpp"
-#include "Components\Mission_Map_Infos.hpp"
+//- UI
+#include "UI_Components.hpp"
+
+	//- Mission Property + Controls + Map Infos
+	#include "Components\Mission_Property.hpp"
+	#include "Components\Mission_Components.hpp"
+	#include "Components\Mission_Map_Infos.hpp"
 
 #include "UI\Dialog.hpp"
 #include "UI\Control_UI.hpp" //- AV Terminal Interfaces
