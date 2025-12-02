@@ -8,6 +8,8 @@ class CfgPatches {
 		//- #NOTE : POLPOX MapTools
 		requiredAddons[]=
 		{
+			QGVARMAIN(Core),
+			"A3_Ui_F",
 			"PLP_mapToolsRemastered"
 		};
 		skipWhenMissingDependencies = 1;
