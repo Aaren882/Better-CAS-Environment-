@@ -15,7 +15,7 @@ private _veh = [
 	cTab_player,
 	"AIR" call BCE_fnc_get_TaskCateIndex
 ] call BCE_fnc_get_TaskCurUnit;
-_origin = uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,_all_lists # 0]];
+private _origin = localNamespace getVariable ["ctab_Extended_List_Sel",[0,_all_lists # 0]];
 
 //-Original Controls
 _origin params ["_or_sel","_or_ctrls"];
@@ -58,7 +58,8 @@ if !(isNull _veh) then {
 
 	//-Task List
 	if (_lbCurSel == 2) then {
-		private _var = call compile (_veh getVariable ["BCE_Task_Receiver",""]);
+		// private _var = call compile (_veh getVariable ["BCE_Task_Receiver",""]);
+		private _var = parseSimpleArray (_veh getVariable ["BCE_Task_Receiver",""]);
 		_var params ["","_type","_taskVar",""];
 
 		//-Set LB
@@ -77,4 +78,4 @@ if !(isNull _veh) then {
 	lbClear _taskList;
 };
 
-uiNameSpace setVariable ["ctab_Extended_List_Sel",[_lbCurSel,_all_lists # _lbCurSel]];
+localNamespace setVariable ["ctab_Extended_List_Sel",[_lbCurSel,_all_lists # _lbCurSel]];

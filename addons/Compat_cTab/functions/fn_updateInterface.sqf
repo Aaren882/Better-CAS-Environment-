@@ -657,7 +657,7 @@ _settings apply {
 				[_display,17000] call BCE_fnc_Reset_TaskList;
 
 				//-Show and Hide Switcable Lists
-				[_display displayCtrl (17000 + 3101),(uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0,0] call BCE_fnc_ctab_Switch_ExtendedList;
+				[_display displayCtrl (17000 + 3101),(localNamespace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0,0] call BCE_fnc_ctab_Switch_ExtendedList;
 
 				_settings pushBack ["uavListUpdate",true];
 
@@ -879,7 +879,7 @@ _settings apply {
 					_veh,
 					_taskIndex
 				] call BCE_fnc_set_TaskCurUnit;
-				_condition = [((uiNameSpace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0) == 0,true] select _UAV_Interface;
+				_condition = [((localNamespace getVariable ["ctab_Extended_List_Sel",[0,[]]]) # 0) == 0,true] select _UAV_Interface;
 
 				//-Create PIP camera if mode is "UAV"
 				if !(isNull _veh) then {
