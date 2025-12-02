@@ -238,9 +238,6 @@
       //-Weather Widget
       class cTab_Tablet_OSD_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box{};
       
-      #define sizeX ((((-(10) + ((257)) + ((1341))) - ((((1341)) - (10) * 8) / 7))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048)))
-      #define sizeY(SIZE) (((-(0) + (491) + (993)) - (10) - ((42) - (10)) * SIZE) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2))
-      #define sizeW (64 / 2048)
       //- Map tools (Additional Tools)
         class Marker_Widget_Show: ctrlButton
         {
@@ -837,55 +834,6 @@
           tooltip = "Delete Task Marker";
           action = "[-4] call cTab_fnc_userMenuSelect;";
         };
-        
-        //-POLPOX Map Tools Widgets
-        #if PLP_TOOL == 1
-          class Map_Tool_Show_PLP_widgets: Map_Tool_Show
-          {
-            idc = idc_D(1202);
-            //text = "\a3\3den\data\displays\display3den\panelright\customcomposition_editentities_ca.paa";
-            text = "\a3\3den\data\displays\display3den\toolbar\grid_rotation_off_ca.paa";
-            toolTip = "MapTools Remastered";
-            Y = QUOTE(sizeY(2.25) - (sizeW * (safezoneH * 1.2)));
-            action = "['cTab_Tablet_dlg','PLP_mapTools'] call cTab_fnc_toggleMapTools;";
-          };
-          class Map_Tool_PLP_widgets: RscToolbox
-          {
-            idc = idc_D(12012);
-      
-            Y = QUOTE(sizeY(5.25 + 2.25) - (sizeW * (safezoneH * 1.2)));
-            w = QUOTE(sizeW * ((safezoneH * 1.2) * 3/4));
-            h = QUOTE(3.5 * (sizeW * (safezoneH * 1.2)));
-      
-            rows = 7;
-            columns = 1;
-            strings[] =
-            {
-              "$STR_BCE_PLP_Title_Distance",
-              "$STR_BCE_PLP_Title_Mark_House",
-              "$STR_BCE_PLP_Title_Height",
-              "$STR_BCE_PLP_Title_Compass",
-              "$STR_BCE_PLP_Title_Edit_Grid",
-              "$STR_BCE_PLP_Title_Find_Flat",
-              "$STR_BCE_PLP_Title_Line_of_Sight"
-            };
-            tooltips[] =
-            {
-              "$STR_BCE_PLP_Tip_Distance",
-              "$STR_BCE_PLP_Tip_Mark_House",
-              "$STR_BCE_PLP_Tip_Height",
-              "$STR_BCE_PLP_Tip_Compass",
-              "$STR_BCE_PLP_Tip_Edit_Grid",
-              "$STR_BCE_PLP_Tip_Find_Flat",
-              "$STR_BCE_PLP_Tip_Line_of_Sight"
-            };
-            colorBackground[] = {0,0,0,0.25};
-            onToolBoxSelChanged = "call BCE_fnc_ctab_BFT_ToolBox";
-          };
-          
-          //-Tool Description
-          class BCE_MapTools_Tooltip: PLP_SMT_Description{};
-        #endif
 
       //---- Groups ----//
       class Desktop: cTab_RscControlsGroup

@@ -7,8 +7,11 @@ class CfgPatches {
 		requiredVersion = REQUIRED_VERSION;
 		requiredAddons[]=
 		{
-			QUOTE(DOUBLES(PREFIX,Core)), //- overwrite "BCE_Core" #LINK - addons/Core/config.cpp
-			QUOTE(DOUBLES(PREFIX,Compat_cTab)) //- Check for "BCE_Compat_cTab" #LINK - addons/Compat_cTab/config.cpp
+			"cTab",
+			"ctab_core",
+			"ctab_rangefinder",
+			QGVARMAIN(Compat_cTab), //- Check for "BCE_Compat_cTab" #LINK - addons/Compat_cTab/config.cpp
+			QGVARMAIN(Core) //- overwrite "BCE_Core" #LINK - addons/Core/config.cpp
 		};
 		skipWhenMissingDependencies = 1;
 		units[] = {};
@@ -18,8 +21,8 @@ class CfgPatches {
 };
 
 //- UI
-#include "..\Core\Configs\UI_Elements.hpp"
-#include "Configs\UI_Elements.hpp"
+#include "..\Core\Configs\UI_Components.hpp"
+#include "Configs\UI_Components.hpp"
 
 //- Arma Configs
 #include "Configs\CfgVehicles.hpp"
@@ -31,9 +34,13 @@ class CfgPatches {
 // #include "Components\BCE_Mission_Build_Controls.hpp" #NOTE : Base classes of "BCE_Mission_Build_Controls"
 
 //- cTab controls
-#include "UI\cTab_Macros.hpp"
 #include "UI\cTab_Macros_Interface.hpp"
-#include "UI\cTab_classes.hpp"
-#include "UI\cTab_UI.hpp" //- cTab Interfaces
+#include "UI\cTab_Macros.hpp"
 
+//- Configurations
+#include "UI\cTab_classes.hpp"
+#include "UI\cTab_MarkersClasses.hpp" //- Map Markers for cTab
+
+//- cTab Interfaces
+#include "UI\cTab_UI.hpp"
 #include "UI\Dialog.hpp"
