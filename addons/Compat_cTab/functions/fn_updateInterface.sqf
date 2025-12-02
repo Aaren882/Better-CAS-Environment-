@@ -25,11 +25,6 @@
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-//-POLPOX Map Tools
-/* #if __has_include("\plp\plp_mapToolsRemastered\config.bin")
-	#define PLP_TOOL 1
-#endif */
-
 private ["_interfaceInit","_maptoolsInit","_TAC_Vis","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_backgroundOffset","_ctrlPos","_mousePos"];
 disableSerialization;
 
@@ -392,11 +387,9 @@ _settings apply {
 				17000 + 12011,
 
 				//-POLPOX Map Tools
-				#ifdef PLP_TOOL
 				73454,
 				17000 + 1202,
 				17000 + 12012,
-				#endif
 
 				//-BTF Widgets
 				1300,
@@ -448,11 +441,10 @@ _settings apply {
 				17000 + 1301,
 
 				//-POLPOX Map Tools
-				#ifdef PLP_TOOL
 				73454,
 				17000 + 1202,
 				17000 + 12012,
-				#endif
+
 				IDC_CTAB_GROUP_DESKTOP,
 				IDC_CTAB_GROUP_MENU,
 				IDC_CTAB_GROUP_MESSAGE,
@@ -538,9 +530,7 @@ _settings apply {
 
 					private _widgets = [
 						[
-							#ifdef PLP_TOOL
-								"PLP_mapTools",
-							#endif
+							"PLP_mapTools",
 							"BCE_mapTools"
 						],
 						[]
@@ -955,10 +945,7 @@ _settings apply {
 
 					_Tool_toggle = _display displayCtrl (17000 + 1200);
 					_BCE_toggle = _display displayCtrl (17000 + 1201);
-
-					#ifdef PLP_TOOL
-						_PLP_toggle = _display displayCtrl (17000 + 1202);
-					#endif
+					_PLP_toggle = _display displayCtrl (17000 + 1202);
 
 					_ToolCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_DIR;
 
@@ -992,35 +979,33 @@ _settings apply {
 							_Tool_toggle
 						};
 
-						#ifdef PLP_TOOL
-							case "PLP_mapTools": {
-								private _status = _x # 1;
-								private _ctrl = _display displayCtrl (17000 + 12012);
-								(_display displayCtrl 73454) ctrlshow _status;
+						case "PLP_mapTools": {
+							private _status = _x # 1;
+							private _ctrl = _display displayCtrl (17000 + 12012);
+							(_display displayCtrl 73454) ctrlshow _status;
 
-								if (_status) then {
-									[_ctrl,lbCurSel _ctrl] call BCE_fnc_ctab_BFT_ToolBox;
-								} else {
-									private _PLP_EH = uiNamespace getVariable ["PLP_SMT_EH",-1];
-									private _PLP_Tool = _display displayCtrl 73453;
+							if (_status) then {
+								[_ctrl,lbCurSel _ctrl] call BCE_fnc_ctab_BFT_ToolBox;
+							} else {
+								private _PLP_EH = uiNamespace getVariable ["PLP_SMT_EH",-1];
+								private _PLP_Tool = _display displayCtrl 73453;
 
-									if !(isNull _PLP_Tool) then {
-										ctrlDelete _PLP_Tool;
-									};
-
-									if (_PLP_EH > 0) then {
-										private ["_mapTypes","_currentMapType","_currentMapTypeIndex","_mapIDC"];
-										_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-										_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
-										_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
-										_mapIDC = _mapTypes # _currentMapTypeIndex # 1;
-										(_display displayCtrl _mapIDC) ctrlRemoveEventHandler ["Draw",_PLP_EH];
-									};
+								if !(isNull _PLP_Tool) then {
+									ctrlDelete _PLP_Tool;
 								};
 
-								_PLP_toggle
+								if (_PLP_EH > 0) then {
+									private ["_mapTypes","_currentMapType","_currentMapTypeIndex","_mapIDC"];
+									_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+									_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
+									_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
+									_mapIDC = _mapTypes # _currentMapTypeIndex # 1;
+									(_display displayCtrl _mapIDC) ctrlRemoveEventHandler ["Draw",_PLP_EH];
+								};
 							};
-						#endif
+
+							_PLP_toggle
+						};
 
 						case "BCE_mapTools": {
 							private _status = _x # 1;
@@ -1065,9 +1050,7 @@ _settings apply {
 						_sort pushBack [_ctrls, _size * _CTRLH, _status];
 					} forEach [
 						[_Tool_toggle,[], 4, "mapTools"],
-						#ifdef PLP_TOOL
-							[_PLP_toggle,[12012], 7, "PLP_mapTools"],
-						#endif
+						[_PLP_toggle,[12012], 7, "PLP_mapTools"], //- POLPOX's MapTools
 						[_BCE_toggle,[[12011,false], 12010], 4, "BCE_mapTools"]
 					];
 
