@@ -9,6 +9,7 @@ class CfgPatches {
 			"CE_HMD_Master" //- #NOTE : https://steamcommunity.com/id/CEagle
 		};
 		skipWhenMissingDependencies = 1;
+		requiredVersion = REQUIRED_VERSION;
 		units[] = {};
 		weapons[] = {};
 		VERSION_CONFIG;

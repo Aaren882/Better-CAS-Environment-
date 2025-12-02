@@ -5,7 +5,7 @@ params [["_info",""]];
 //-Control Turret
 if (_info isNotEqualTo "") exitWith {
 	private ["_vehicle","_current_turret","_condition"];
-	_vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;;
+	_vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 
 	if (isNull _vehicle) exitWith {
 		["UAV",localize "STR_BCE_Error_Vehicle",5] call cTab_fnc_addNotification;

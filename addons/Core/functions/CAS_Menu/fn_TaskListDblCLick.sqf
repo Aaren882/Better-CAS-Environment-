@@ -55,7 +55,7 @@ if (_extend_desc) then {
 	private _current_optic = _turret_optics find (_Selected_Optic # 0);
 	private _turrets = _turret_optics apply {((_x # 1) # 0) + 1};
 
-	//- #TODO - Add ACRE Compat
+	//- #FIXME - Add ACRE Compat
 	// #if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
 		private _Button_Racks = _display displayctrl 201141;
 		private _List_Racks = _display displayctrl 201142;
@@ -91,7 +91,7 @@ if (_extend_desc) then {
 		//-get UNIT info
 		_unit_info = [_unit_x,_turret_info] call BCE_fnc_getUnitParams;
 
-		//- #TODO - Add TFAR Compat
+		//- #FIXME - Add TFAR Compat
 		/* #if __has_include("\z\tfar\addons\core\script_component.hpp")
 			_freq = _unit_x call BCE_fnc_getFreq_TFAR;
 			_squad_list lbSetTextRight [_add, "LR-" + ([_freq,"“NA”"] select (isnil {_freq}))];
