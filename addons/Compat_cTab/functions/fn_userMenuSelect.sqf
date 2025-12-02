@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
 	Name: cTab_fnc_userMenuSelect
 
@@ -126,7 +127,8 @@ call {
 	if (_typeID in [41,42,43]) exitWith {
 		
 		private _taskType = call BCE_fnc_get_TaskCurType;
-		private _taskVar =  [_taskType,0,_display] call BCE_fnc_getTaskVar;
+		private _cate = ("AIR" call BCE_fnc_get_TaskCateIndex) # 1; // ex. [nil, 0]
+		private _taskVar =  ([_taskType,_cate,_display,false] call BCE_fnc_getTaskVar) # 0;
 
 		private _task = switch (_taskType) do {
 			//- 5 line
@@ -172,6 +174,8 @@ call {
 
 			(_TG_POS isEqualTo _POS)
 		} else {
+			TRACE_2("fn_userMenuSelect",_taskVar,_task);
+
 			private _condit = -1 < ([
 				_task # 0,
 				_task # 2
@@ -179,6 +183,8 @@ call {
 				private _var_POS = (_taskVar # _x) param [2,[]];
 				(_var_POS isEqualTo _POS)
 			});
+
+			TRACE_1("fn_userMenuSelect",_condit);
 
 			_condit
 		};
