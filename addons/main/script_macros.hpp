@@ -9,9 +9,11 @@
 #define QSTRUCTURE_IMAGE(var1,var2) QUOTE(STRUCTURE_IMAGE(var1,var2))
 #define QSTRUCTURE_IMAGE_MODIFY(var1,var2,var3) QUOTE(STRUCTURE_IMAGE_MODIFY(var1,var2,var3))
 
-// # EXAMPLE
-//- "<img image='z\BCE\{var1}\{var2}'/>{ var3}"
-//- "<img image='z\BCE\{Core}\{data\archive.paa}'/>{ RAT}"
+/*
+	# EXAMPLE
+	"<img image='z\BCE\{var1}\{var2}'/>{var3}"
+	"<img image='z\BCE\{Core}\{data\archive.paa}'/>{ RAT}"
+*/
 #define STRUCTURE_IMAGE_FORMAT(var1,var2,var3) STRUCTURE_IMAGE(var1,var2)##var3
 #define QSTRUCTURE_IMAGE_FORMAT(var1,var2,var3) QUOTE(STRUCTURE_IMAGE_FORMAT(var1,var2,var3))
 

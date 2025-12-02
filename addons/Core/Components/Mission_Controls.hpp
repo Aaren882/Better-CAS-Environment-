@@ -26,7 +26,11 @@ class BCE_Mission_Build_Controls
       class BCE_Mission: BCE_Mission_Default{};
     };
   
-  //- Map Control
+	
+	#include "Mission_UI\Task_Unit.hpp" //-UNIT info
+	#include "Mission_UI\Radio_Compat.hpp" //- Radio Info UIs (ACRE, TFAR)
+	
+  //- Map Control #TODO : Make this thing work
     class Rsc_BCE_MapControl: RscMapControl
     {
       onLoad = "call BCE_fnc_onLoad_BCE_Map_Holder";
@@ -763,51 +767,6 @@ class BCE_Mission_Build_Controls
       text = "ETA TOF : 1m20s";
     };
 
-    /* class New_Task_Submit_CFF_Mission_Type: RscToolbox
-    {
-      REGISTER_FNC;
-      idc = PROP_IDC(2206);
-      
-      shadow = 2;
-      rows = 1;
-      columns = 2;
-      strings[] =
-      {
-        "SUBMIT",
-        "SUB & EXEC"
-      };
-      tooltips[] =
-      {
-        "",
-        ""
-      };
-      colorBackground[] = {0,0,0,0.3};
-    };
-    class New_Task_Submit_CFF_Mission: BCE_RscButtonMenu
-    {
-      REGISTER_FNC;
-      idc = PROP_IDC(2207);
-      text = "<img image='\MG8\AVFEVFX\data\explosion.paa' /> Press To XMIT";
-      onButtonClick = "call BCE_fnc_CFF_Mission_XMIT";
-      
-      //- Style
-        animTextureOver = "#(argb,8,8,3)color(1,1,1,0.75)";
-        animTextureFocused = "#(argb,8,8,3)color(1,1,1,1)";
-        animTexturePressed = "#(argb,8,8,3)color(1,1,1,0.65)";
-
-        colorBackground[] = 
-        {
-          0.45,0,0,0.8
-        };
-        colorBackground2[] = 
-        {
-          0.45,0,0,0.8
-        };
-        colorBackgroundFocused[] = 
-        {
-          0.45,0,0,0.5
-        };
-    }; */
     class New_Task_Adjust_Method_CFF: RscToolbox
     {
       REGISTER_FNC;
