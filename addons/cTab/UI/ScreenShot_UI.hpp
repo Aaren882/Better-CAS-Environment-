@@ -173,14 +173,14 @@ class BCE_PhoneCAM_View
     class Time: User_Info
     {
       idc = 53;
-      x = QUOTE( safezoneXAbs + safezoneWAbs - (0.08 * safezoneW) - 0.3);
+      x = QUOTE(safezoneXAbs + safezoneWAbs - (0.08 * safezoneW) - 0.3);
       w = QUOTE(0.3);
       font = "PuristaMedium";
     };
     class Date: Group_Info
     {
       idc = 54;
-      x = QUOTE( safezoneXAbs + safezoneWAbs - (0.08 * safezoneW) - 0.2);
+      x = QUOTE(safezoneXAbs + safezoneWAbs - (0.08 * safezoneW) - 0.2);
       w = QUOTE(0.2);
       font = "PuristaMedium";
       SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1.65) / 1.75";

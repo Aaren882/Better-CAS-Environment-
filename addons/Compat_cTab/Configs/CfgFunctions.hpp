@@ -178,13 +178,7 @@ class CfgFunctions
       class Marker_Edittor;
       class NextMarkerID;
       class DrawMarkerDir;
-      /* #if __has_include("\z\ace\addons\map_gestures\config.bin")
-        class MapPointer;
-        class onDrawMapPointer;
-      #endif*/
-      // #if __has_include("\z\ctab\addons\rangefinder\config.bin")
-        class DrawRangefinder_ACE;
-      // #endif
+			class DrawRangefinder_ACE;
       class FinishEDIT_Marker;
       class PlaceMarker;
       class Add_to_MarkerList;
