@@ -4,7 +4,7 @@ private _vehicle = [nil,"AIR" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_T
 private _radio_Racks = _vehicle getVariable ["acre_sys_rack_vehicleRacks", []];
 
 if (count _radio_Racks == 0) exitWith {
-	_list_Racks ctrlshow false;
+	_list_Racks ctrlShow false;
 };
 
 lbClear _list_Racks;

@@ -36,13 +36,9 @@ private _squad_title = _display displayctrl 20114;
 private _squad_pic = _display displayctrl 20115;
 private _squad_list = _display displayctrl 20116;
 
-// #if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
+//- #NOTE : ACRE Racks
 	_Button_Racks = _display displayctrl 201141;
 	_List_Racks = _display displayctrl 201142;
-/* #else
-	_Button_Racks = controlNull;
-	_List_Racks = controlNull;
-#endif */
 
 //-Description
 private _extend_desc = (_Expression_class apply {getNumber(_x >> "multi_options") == 1}) # (lbCurSel _TaskList);

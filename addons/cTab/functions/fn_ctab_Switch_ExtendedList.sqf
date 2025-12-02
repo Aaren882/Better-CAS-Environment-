@@ -4,14 +4,14 @@ if (_period == 0) then {
 	_control lbSetCurSel _lbCurSel;
 };
 
-_display = ctrlParent _control;
-_checkList = _display displayCtrl (17000 + 1787);
-_taskList = _display displayCtrl (17000 + 1789);
+private _display = ctrlParent _control;
+private _checkList = _display displayCtrl (17000 + 1787);
+private _taskList = _display displayCtrl (17000 + 1789);
 
-_all_lists = [[1785,17850,1786],[1787,1788],[1789,1790]];
+private _all_lists = [[1785,17850,1786],[1787,1788],[1789,1790]];
 
 //-Variables
-_veh = [
+private _veh = [
 	cTab_player,
 	"AIR" call BCE_fnc_get_TaskCateIndex
 ] call BCE_fnc_get_TaskCurUnit;
@@ -38,9 +38,13 @@ if !(isNull _veh) then {
 	//-Vic Info
 	if (_lbCurSel == 0) then {
 		[_veh,[[1,"rendertarget8"]],false] call cTab_fnc_createUavCam;
-		// #if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
-			(_display displayctrl (17000 + 17850)) call BCE_fnc_setRacks_ACRE;
-		// #endif
+
+		//- Set ACRE radio racks
+		private _acre_Rack = _display displayCtrl (17000 + 17850);
+		if (!isNull _acre_Rack) then {
+			_acre_Rack call BCE_fnc_setRacks_ACRE;
+		};
+
 	} else {
 		call cTab_fnc_deleteUAVcam;
 	};

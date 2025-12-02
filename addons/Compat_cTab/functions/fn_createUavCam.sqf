@@ -144,15 +144,14 @@ if !(isNull _squad_list) then {
 	lbClear _squad_list;
 
 	{
-		private ["_unit_x","_seat","_turret_c","_turret_Index","_name","_freq","_radioInfo","_add","_turret_info","_unit_info","_title"];
-		_unit_x = _x;
-		_turret_c = _veh unitTurret _unit_x;
-		_turret_Index = _Optic_LODs findIf {_turret_c in _x};
-		_seat = getText ([_veh, _turret_c] call BIS_fnc_turretConfig >> "gunnerName");
-		_name = ((name _unit_x) splitString " ") # 0;
-		_add = _squad_list lbAdd format ["%1 - %2",[_seat,localize "STR_DRIVER"] select (_seat == ""),_name];
+		private _unit_x = _x;
+		private _turret_c = _veh unitTurret _unit_x;
+		private _turret_Index = _Optic_LODs findIf {_turret_c in _x};
+		private _seat = getText ([_veh, _turret_c] call BIS_fnc_turretConfig >> "gunnerName");
+		private _name = ((name _unit_x) splitString " ") # 0;
+		private _add = _squad_list lbAdd format ["%1 - %2",[_seat,localize "STR_DRIVER"] select (_seat == ""),_name];
 
-		_turret_info = if (((_turret_Index > -1) && (count _turrets > 0))) then {
+		private _turret_info = if (((_turret_Index > -1) && (count _turrets > 0))) then {
 			_Optic_LODs # _turret_Index
 		} else {
 			nil
@@ -165,21 +164,20 @@ if !(isNull _squad_list) then {
 		};
 
 		//-get UNIT info
-		_unit_info = [_unit_x,_turret_info] call BCE_fnc_getUnitParams;
+		private _unit_info = [_unit_x,_turret_info] call BCE_fnc_getUnitParams;
 
-		// #FIXME - Add TFAR Compat
-		/* #if __has_include("\z\tfar\addons\core\script_component.hpp")
-			_freq = _unit_x call BCE_fnc_getFreq_TFAR;
-			_squad_list lbSetTextRight [_add, "LR-" + ([_freq,"“NA”"] select (isnil {_freq}))];
-		#else */
+		if (isNil{BCE_fnc_getFreq_TFAR}) then {
 			_squad_list lbSetTextRight [_add, _unit_info # 1];
-		// #endif
+		} else {
+			private _freq = _unit_x call BCE_fnc_getFreq_TFAR;
+			_squad_list lbSetTextRight [_add, "LR-" + ([_freq,"“NA”"] select (isnil {_freq}))];
+		};
 		_squad_list lbSetData [_add, str _unit_info];
 
 	} forEach flatten ((crew _veh) select {(_veh unitTurret _x) in ([[-1]] + allTurrets _veh)});
 
 	//-set selected Turret Unit
-	if (_isEmpty or ((lbCurSel _squad_list) < 0)) then {
+	if (_isEmpty || ((lbCurSel _squad_list) < 0)) then {
 		if (lbsize _squad_list > 0) then {
 			_squad_list lbSetCurSel ([0,(_Optic_LODs find (_Selected_Optic # 0))] select (count _turrets > 0));
 		} else {

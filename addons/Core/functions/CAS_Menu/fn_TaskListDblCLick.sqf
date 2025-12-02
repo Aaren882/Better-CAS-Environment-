@@ -55,29 +55,26 @@ if (_extend_desc) then {
 	private _current_optic = _turret_optics find (_Selected_Optic # 0);
 	private _turrets = _turret_optics apply {((_x # 1) # 0) + 1};
 
-	//- #FIXME - Add ACRE Compat
-	// #if __has_include("\idi\acre\addons\sys_core\script_component.hpp")
+	//- #NOTE : ACRE Racks
 		private _Button_Racks = _display displayctrl 201141;
 		private _List_Racks = _display displayctrl 201142;
 		private _radio_Racks = _vehicle getVariable ["acre_sys_rack_vehicleRacks", []];
 		_Button_Racks ctrlshow ({isplayer _x} count (crew _vehicle) > 0);
 		_List_Racks ctrlshow true;
-	// #endif
 
 	{_x ctrlshow true} forEach [_squad_title,_squad_pic,_squad_list];
 
 	//-get crew Info
 	{
-		private ["_unit_x","_seat","_turret_c","_turret_Index","_name","_freq","_radioInfo","_add","_turret_info","_unit_info","_title","_Racks_info","_i","_i_List"];
-		_unit_x = _x;
-		_turret_c = _vehicle unitTurret _unit_x;
-		_turret_Index = _turret_optics findIf {_turret_c in _x};
-		_seat = getText ([_vehicle, _turret_c] call BIS_fnc_turretConfig >> "gunnerName");
-		_name = ((name _unit_x) splitString " ") # 0;
-		_add = _squad_list lbAdd format ["%1 - %2",[_seat,localize "STR_DRIVER"] select (_seat == ""),_name];
+		private _unit_x = _x;
+		private _turret_c = _vehicle unitTurret _unit_x;
+		private _turret_Index = _Optic_LODs findIf {_turret_c in _x};
+		private _seat = getText ([_vehicle, _turret_c] call BIS_fnc_turretConfig >> "gunnerName");
+		private _name = ((name _unit_x) splitString " ") # 0;
+		private _add = _squad_list lbAdd format ["%1 - %2",[_seat,localize "STR_DRIVER"] select (_seat == ""),_name];
 
-		_turret_info = if (((_turret_Index > -1) && (count _turrets > 0))) then {
-			_turret_optics # _turret_Index
+		private _turret_info = if (((_turret_Index > -1) && (count _turrets > 0))) then {
+			_Optic_LODs # _turret_Index
 		} else {
 			nil
 		};
@@ -89,23 +86,21 @@ if (_extend_desc) then {
 		};
 
 		//-get UNIT info
-		_unit_info = [_unit_x,_turret_info] call BCE_fnc_getUnitParams;
+		private _unit_info = [_unit_x,_turret_info] call BCE_fnc_getUnitParams;
 
-		//- #FIXME - Add TFAR Compat
-		/* #if __has_include("\z\tfar\addons\core\script_component.hpp")
-			_freq = _unit_x call BCE_fnc_getFreq_TFAR;
+		if (isNil{BCE_fnc_getFreq_TFAR}) then {
+			_squad_list lbSetTextRight [_add, _unit_info # 1];
+		} else {
+			private _freq = _unit_x call BCE_fnc_getFreq_TFAR;
 			_squad_list lbSetTextRight [_add, "LR-" + ([_freq,"“NA”"] select (isnil {_freq}))];
-		#else */
-			_squad_list lbSetTextRight [_add, _unit_info # 1]; //- Default
-		// #endif
-
+		};
 		_squad_list lbSetData [_add, str _unit_info];
 
 	} forEach flatten ((crew _vehicle) select {(_vehicle unitTurret _x) in ([[-1]] + allTurrets _vehicle)});
 
 	//-set selected Turret Unit
 	private _isEmpty = ((player getVariable ["TGP_View_Selected_Optic",[]]) isEqualTo []) or (_vehicle isNotEqualTo (_Selected_Optic # 1));
-	if (_isEmpty or ((lbCurSel _squad_list) < 0)) then {
+	if (_isEmpty || ((lbCurSel _squad_list) < 0)) then {
 		if (lbsize _squad_list > 0) then {
 			_squad_list lbSetCurSel ([0,_current_optic] select (count _turrets > 0));
 		} else {

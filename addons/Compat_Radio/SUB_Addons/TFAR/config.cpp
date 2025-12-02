@@ -1,13 +1,15 @@
 #include "script_component.hpp"
 
 class CfgPatches {
-	class ADDON {
+	class SUBADDON {
 		authors[] = {"Aaren"};
 		url = ECSTRING(main,url);
+		addonRootClass = QUOTE(ADDON);
 		requiredVersion = REQUIRED_VERSION;
+		//- #NOTE : Task force Arrowhead Radio (Beta)
 		requiredAddons[]=
 		{
-			QUOTE(DOUBLES(PREFIX,Core))
+			"tfar_core"
 		};
 		skipWhenMissingDependencies = 1;
 		units[] = {};
@@ -16,4 +18,14 @@ class CfgPatches {
 	};
 };
 
-#include "configs\CfgFunctions.hpp"
+
+class CfgFunctions
+{
+  class BCE
+  {
+    class Radio_Compat
+		{
+      class getFreq_TFAR;
+		};
+  };
+};
