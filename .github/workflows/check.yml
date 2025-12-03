@@ -3,14 +3,19 @@ name: Check
 on: [push]
 
 jobs:
+  SQFlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the source code
+        uses: actions/checkout@v6.0.1
+      - uses: arma-actions/sqflint@v1.0
+        name: Validate with SQFLint
+
   Check:
     runs-on: windows-latest
     steps:
       - name: Checkout the source code
-        uses: actions/checkout@v4.2.0
-        with:
-          fetch-depth: 1
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v6.0.1
       - name: Setup HEMTT
         uses: arma-actions/hemtt@v1
       - name: Run HEMTT Check
