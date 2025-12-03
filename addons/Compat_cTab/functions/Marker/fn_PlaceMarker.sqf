@@ -71,15 +71,15 @@ _markerData params [
 _markerSize = parseSimpleArray _markerSize;
 _marker = createMarker [_name, _position, currentChannel, player];
 
-_marker setMarkerType _markerType;
-_marker setMarkerShape _markerShape;
-_marker setMarkerSize _markerSize;
-_marker setMarkerDir _markerDir;
-_marker setMarkerBrush _markerBrush;
-_marker setMarkerColor _markerColor;
-_marker setMarkerAlpha _markerAlpha;
+_marker setMarkerTypeLocal _markerType;
+_marker setMarkerShapeLocal _markerShape;
+_marker setMarkerSizeLocal _markerSize;
+_marker setMarkerDirLocal _markerDir;
+_marker setMarkerBrushLocal _markerBrush;
+_marker setMarkerColorLocal _markerColor;
+_marker setMarkerAlphaLocal _markerAlpha;
+_marker setMarkerShadowLocal (0 < getNumber (configFile >> "CfgMarkers" >> _markerType >> "shadow"));
 _marker setMarkerDrawPriority 0;
-_marker setMarkerShadow (0 < getNumber (configFile >> "CfgMarkers" >> _markerType >> "shadow"));
 
 _texts params [["_prefix",""],["_index",""],["_DESC",""]];
 

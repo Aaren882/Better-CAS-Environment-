@@ -99,11 +99,11 @@ if (_LMB == 0 && _lastClick > -1) then {
   //- Marker
     _marker = createMarker [_name, _center, currentChannel, player];
 
-    _marker setMarkerShape (["Rectangle","ELLIPSE"] select (_BoxSel # 1));
-    _marker setMarkerSize [_width/2,_height/2];
-    _marker setMarkerColor _color;
-    _marker setMarkerBrush (_brushes lbData _brush);
-    _marker setMarkerAlpha (_opacity / 100);
+    _marker setMarkerShapeLocal (["Rectangle","ELLIPSE"] select (_BoxSel # 1));
+    _marker setMarkerSizeLocal [_width/2,_height/2];
+    _marker setMarkerColorLocal _color;
+    _marker setMarkerBrushLocal (_brushes lbData _brush);
+    _marker setMarkerAlphaLocal (_opacity / 100);
     
     _marker setMarkerDrawPriority -0.5;
 
