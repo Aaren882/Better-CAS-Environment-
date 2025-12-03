@@ -13,7 +13,7 @@
       
       //- Create Marker
         private _marker = createMarker ["markerW" + str _i, _p];  
-        _marker setMarkerType "mil_dot";  
+        _marker setMarkerTypeLocal "mil_dot";  
         _marker setMarkerText str _i;
 
       _temp pushBack _p;

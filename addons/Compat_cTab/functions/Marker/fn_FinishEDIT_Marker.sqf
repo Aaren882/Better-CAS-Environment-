@@ -54,7 +54,7 @@ private _EDIT_color = _group controlsGroupCtrl 51;
             player
           ];
 
-          _marker setMarkerType _data;
+          _marker setMarkerTypeLocal _data;
           _marker setMarkerShadow (0 < getNumber (configFile >> "CfgMarkers" >> _type >> "shadow"));
         };
         //- Drawing Tool
@@ -70,14 +70,14 @@ private _EDIT_color = _group controlsGroupCtrl 51;
       };
 
     //- Setup New marker
-    _marker setMarkerShape _shape;
-    _marker setMarkerSize _size;
-    _marker setmarkerDir _dir;
-    _marker setMarkerBrush _brush;
-    _marker setMarkerColor _curSel_COLOR;
-    _marker setMarkerAlpha _alpha;
-    _marker setMarkerDrawPriority _priority;
+    _marker setMarkerShapeLocal _shape;
+    _marker setMarkerSizeLocal _size;
+    _marker setmarkerDirLocal _dir;
+    _marker setMarkerBrushLocal _brush;
+    _marker setMarkerColorLocal _curSel_COLOR;
+    _marker setMarkerAlphaLocal _alpha;
     _marker setMarkerText ctrlText _desc;
+    _marker setMarkerDrawPriority _priority;
   };
 
 //- Clear Variable (don't update interface due to refresh request being ignored something)
