@@ -1,0 +1,14 @@
+name: Check
+
+on: [push]
+
+jobs:
+  Check:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout the source code
+        uses: actions/checkout@v6.0.1
+      - name: Setup HEMTT
+        uses: arma-actions/hemtt@v1
+      - name: Run HEMTT Check
+        run: hemtt check

@@ -1,51 +1,39 @@
 name: Build
 
-on: [push]
+on:
+  workflow_dispatch:
+    # inputs:
+    #   branch:
+    #     description: "Repository branch (don't touch it if you don't know what it is!!!)"
+    #     required: false
+    #     type: choice
+    #     options:
+    #     - main
+    #     - test
+    #     default: main
+  push:
+    branches:
+      - main
+  pull_request_target:
 
 jobs:
-  # validate:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout the source code
-  #     uses: actions/checkout@v4
-  #   - name: Validate SQF
-  #     run: python3 tools/sqf_validator.py
-
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout the source code
-  #     uses: actions/checkout@v4
-  #   - name: Setup HEMTT
-  #     uses: arma-actions/hemtt@v1
-  #   - name: Run HEMTT build
-  #     run: hemtt build
-  #   - name: Rename build folder
-  #     run: mv .hemttout/build .hemttout/@BCE
-
-  build:
-    runs-on: windows-2022
-    steps:
-      - name: Checkout the source code
-        uses: actions/checkout@v4.2.0
-        with:
-          fetch-depth: 1
-      - name: Set up A3Tools
-        uses: arma-actions/arma3-tools@master
-        with:
-          toolsUrl: ${{ secrets.A3TOOLS_URL }}
-      - name: Set up scons
-        run: python -m pip install scons
-      - name: Build with Scons
-        run: scons
-      - name: Archive Release
-        uses: thedoctor0/zip-release@0.7.1
-        with:
-          type: 'zip'
-          path: 'release'
-          filename: 'artifact-BCE.zip'
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4.4.0
-        with:
-          name: BCE-${{ github.sha }}-nobin
-          path: artifact-BCE.zip
+    build:
+      runs-on: ubuntu-latest
+      
+      steps:
+        - name: Checkout the source code
+          uses: actions/checkout@v4
+        - name: Setup HEMTT
+          uses: arma-actions/hemtt@v1
+          with:
+            annotate: false
+        - name: Run HEMTT Build
+          run: hemtt build
+        - name: Rename build folder
+          run: mv .hemttout/build .hemttout/@bce
+        - name: Upload Release
+          uses: actions/upload-artifact@v4
+          with:
+            name: 'bce-${{github.sha}}-nobin'
+            path: '.hemttout/@bce'
+            include-hidden-files: true # Because .hemttout is a hidden directory
