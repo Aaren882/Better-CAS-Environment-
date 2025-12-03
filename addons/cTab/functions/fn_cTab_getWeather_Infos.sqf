@@ -103,7 +103,7 @@ if (([_displayName,"Weather_Condition"] call cTab_fnc_getSettings) # 0) then {
       _windDir
     ],
     format [
-      QSTRUCTURE_IMAGE_FORMAT(Core,data\umbrella.paa, %1%%),
+      QSTRUCTURE_IMAGE_FORMAT(Core,data\umbrella.paa, %1%%), //- 👈 Padding Space : e.g. "☂️ 10%"
       round ((1 min (linearConversion [0, 1, humidity, 0, 1] + linearConversion [0.5, 0.8, overcastForecast, 0.3, 0.5, true])) * 10) * 10
     ]
   ];
