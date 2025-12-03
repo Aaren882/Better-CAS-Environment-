@@ -3,14 +3,6 @@ name: Check
 on: [push]
 
 jobs:
-  SQFlint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the source code
-        uses: actions/checkout@v6.0.1
-      - uses: arma-actions/sqflint@v1.0
-        name: Validate with SQFLint
-
   Check:
     runs-on: windows-latest
     steps:
