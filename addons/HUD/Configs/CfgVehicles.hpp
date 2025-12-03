@@ -23,7 +23,7 @@ class CfgVehicles
 		{
 			class HUD
 			{
-				getin="(_this # 0) setObjectTexture [1, ['a3\air_f\heli_light_01\data\heli_light_01_dot_ca.paa',''] select (missionNameSpace getVariable ['BCE_HUD_fn', false])];";
+				getin="(_this # 0) setObjectTexture [1, ['a3\air_f\heli_light_01\data\heli_light_01_dot_ca.paa',''] select (!(missionNameSpace getVariable ['BCE_HUD_fn', false]) && (_this # 1) == 'driver')];";
 			};
 		};
 	};

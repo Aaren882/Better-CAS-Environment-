@@ -22,7 +22,7 @@ class CfgVehicles
 		{
 			class HUD
 			{
-				getin="if (((_this # 0) animationPhase 'Addcrosshair') != 0 && {missionNameSpace getVariable ['BCE_HUD_fn', false]}) then {(_this # 0) animate ['Addcrosshair', 0];} else {(_this # 0) animate ['Addcrosshair', 1];};";
+				getin="(_this # 0) animate ['Addcrosshair', parseNumber (!(missionNameSpace getVariable ['BCE_HUD_fn', false]) && (_this # 1) == 'driver'), true]";
 			};
 		};
 	};
