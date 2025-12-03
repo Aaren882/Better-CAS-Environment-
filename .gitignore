@@ -1,0 +1,17 @@
+*.bak
+*.zip
+*.cache
+keys/*
+.hemtt/local
+*.pbo
+texHeaders.bin
+*.swp
+*.swo
+*.biprivatekey
+build/
+Thumbs.db
+.sconsign.dblite
+*.wav
+*.pkf
+*.hemttout
+*.releases

@@ -1,0 +1,27 @@
+name = "Better CAS Environment"
+prefix = "BCE"
+
+[version]
+path = "addons/main/script_version.hpp" # Default
+
+git_hash = 0 # Default: 8
+
+[files]
+include = [
+  "mod.cpp",        # These files are copied to the build directory by default
+  "MOD.paa",
+  "*.dll",
+  "LICENSE"
+]
+exclude = []
+
+[hemtt.dev]
+exclude = [
+  "addons/unused"
+]
+
+[lints.sqf]
+command_case = false
+
+[properties]
+url = "https://github.com/Aaren882/Better-CAS-Environment-"

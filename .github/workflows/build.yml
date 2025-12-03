@@ -1,0 +1,39 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    # inputs:
+    #   branch:
+    #     description: "Repository branch (don't touch it if you don't know what it is!!!)"
+    #     required: false
+    #     type: choice
+    #     options:
+    #     - main
+    #     - test
+    #     default: main
+  push:
+    branches:
+      - main
+  pull_request_target:
+
+jobs:
+    build:
+      runs-on: ubuntu-latest
+      
+      steps:
+        - name: Checkout the source code
+          uses: actions/checkout@v4
+        - name: Setup HEMTT
+          uses: arma-actions/hemtt@v1
+          with:
+            annotate: false
+        - name: Run HEMTT Build
+          run: hemtt build
+        - name: Rename build folder
+          run: mv .hemttout/build .hemttout/@bce
+        - name: Upload Release
+          uses: actions/upload-artifact@v4
+          with:
+            name: 'bce-${{github.sha}}-nobin'
+            path: '.hemttout/@bce'
+            include-hidden-files: true # Because .hemttout is a hidden directory

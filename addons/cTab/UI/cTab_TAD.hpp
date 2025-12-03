@@ -1,0 +1,77 @@
+TAD_CLASS
+{
+	class controlsBackground: BCE_Mission_Build_Controls
+	{
+		class screen: cTab_TAD_RscMapControl
+		{
+			onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
+		};
+    class screenBlack: cTab_TAD_RscMapControl_BLACK
+    {
+			onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
+    };
+		#if MAP_MODE > 2
+			class screenTopo: screen
+			{
+				#include "..\Map_Type\TOPO_AIR.hpp"
+			};
+		#endif
+	};
+	class controls
+	{
+    #ifdef MOUSE_CLICK_EH
+      cTab_Set_SubMenu(SubMenuH_TAD);
+    #endif
+		class txtToggleMarker: cTab_TAD_OSD_navModeOrScale
+		{
+			idc = idc_D(1600);
+			y = QUOTE((647 - (32) / 2) / TAD_SizeY);
+			w = QUOTE((134) / 2048  * TAD_SizeW);
+			h = QUOTE(53 / 2048  * TAD_SizeH);
+			sizeEx = QUOTE(((42)) / 2048  * TAD_SizeH);
+			text = "MARK";
+		};
+		//- Marker Color Text
+		class txtCycleMarkerColor1: txtToggleMarker
+		{
+			idc = idc_D(1601);
+			text = "TYPE";
+			x = QUOTE(((-(24) + (359) + (1330)) - (36) - (26) * 4) / TAD_SizeX);
+			y = QUOTE((836 - 53) / TAD_SizeY);
+			w = QUOTE(((26) * 4) / 2048  * TAD_SizeW);
+		};
+		class txtCycleMarkerColor2: txtCycleMarkerColor1
+		{
+			idc = idc_D(1602);
+			text = "BLK";
+			y = QUOTE((836) / TAD_SizeY);
+		};
+		class CycleMarkerColorIconBg: cTab_TAD_OSD_txtToggleIconBg
+		{
+			idc = idc_D(1603);
+			y = QUOTE((836 - (53) / 2) / TAD_SizeY);
+		};
+		class CycleMarkerColorIcon: cTab_TAD_OSD_txtToggleIcon
+		{
+			idc = idc_D(16030);
+			y = QUOTE((836 - (32) / 2) / TAD_SizeY);
+		};
+
+		//- Bottons
+			class btnfunction;
+			class btnMarker: btnfunction
+			{
+				idc = idc_D(16010);
+				tooltip = "$STR_BCE_Toggle_Marker_Dropper";
+				y = QUOTE((563) / TAD_SizeY);
+				action = "['cTab_TAD_dlg',0] call cTab_fnc_toggleTADMarkerDropper";
+			};
+			class btnMarker_color: btnfunction //- Maybe will be Multi-Purpose
+			{
+				idc = idc_D(16011);
+				tooltip = "$STR_BCE_Cycle_Marker";
+				y = QUOTE((760) / TAD_SizeY);
+				action = "['cTab_TAD_dlg',1] call cTab_fnc_toggleTADMarkerDropper";
+			};
+	};
+};
