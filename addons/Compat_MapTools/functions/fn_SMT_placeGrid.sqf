@@ -147,7 +147,7 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 					],
 					currentChannel,player
 				];
-				_marker setMarkerSize [0,0];
+				_marker setMarkerSizeLocal [0,0];
 				_marker setMarkerText ([_xx call _getAlphabet,_yy] joinString "");
 				_markersTextAlpha pushBack _marker;
 			};
@@ -164,22 +164,22 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 		};
 
 		_markers apply {
-			_x setMarkerShape "Rectangle";
-			_x setMarkerColor _color;
-			_x setMarkerAlpha 0.8;
+			_x setMarkerShapeLocal "Rectangle";
+			_x setMarkerColorLocal _color;
+			_x setMarkerAlphaLocal 0.8;
 			_x setMarkerBrush "SolidFull";
 		};
 		_markersText apply {
-			_x setMarkerType "EmptyIcon";
-			_x setMarkerSize [0,0];
-			_x setMarkerColor _color;
+			_x setMarkerTypeLocal "EmptyIcon";
+			_x setMarkerSizeLocal [0,0];
+			_x setMarkerColorLocal _color;
 			_x setMarkerShadow true;
 		};
 		_markersTextAlpha apply {
-			_x setMarkerType "EmptyIcon";
-			_x setMarkerSize [0,0];
-			_x setMarkerColor _color;
-			_x setMarkerShadow false;
+			_x setMarkerTypeLocal "EmptyIcon";
+			_x setMarkerSizeLocal [0,0];
+			_x setMarkerColorLocal _color;
+			_x setMarkerShadowLocal false;
 			_x setMarkerAlpha 0.45;
 		};
 

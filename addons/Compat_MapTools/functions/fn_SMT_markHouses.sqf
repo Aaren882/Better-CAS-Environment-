@@ -88,11 +88,11 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 				_x modelToWorld [0,0,0],
 				currentChannel,player
 			] ;
-			_marker setMarkerText str (_forEachIndex+1) ;
+			_marker setMarkerTextLocal str (_forEachIndex+1) ;
 
-			_marker setMarkerType "Mil_dot" ;
-			_marker setMarkerSize [0,0] ;
-			_marker setMarkerColor _color ;
+			_marker setMarkerTypeLocal "Mil_dot" ;
+			_marker setMarkerSizeLocal [0,0] ;
+			_marker setMarkerColorLocal _color ;
 			_marker setMarkerShadow true ;
 
 			_markers pushBack _marker ;

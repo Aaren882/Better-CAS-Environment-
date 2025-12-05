@@ -40,10 +40,10 @@ _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
         ];
 
         private _marker = createMarker [_name, _click_POS, currentChannel, focusOn]; 
-        _marker setMarkerShape "ICON"; 
-        _marker setMarkerType "hd_dot";
-        _marker setMarkerText ([["M","E","B"] # _mode, _count] joinString "-");
-        _marker setMarkerColor (["colorBlack","ColorEAST","ColorWEST"] # _mode);
+        _marker setMarkerShapeLocal "ICON"; 
+        _marker setMarkerTypeLocal "hd_dot";
+        _marker setMarkerTextLocal ([["M","E","B"] # _mode, _count] joinString "-");
+        _marker setMarkerColorLocal (["colorBlack","ColorEAST","ColorWEST"] # _mode);
         _marker setMarkerSize [0.8, 0.8];
 
         //- Update Values
