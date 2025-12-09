@@ -27,4 +27,4 @@ class CfgPatches {
 #include "UI/Map_UI.hpp"
 
 //- Arma Configs
-#include "configs/CfgFunctions.hpp"
+#include "configs\CfgFunctions.hpp"

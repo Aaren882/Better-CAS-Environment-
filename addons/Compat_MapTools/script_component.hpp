@@ -1,6 +1,6 @@
 #define COMPONENT Compat_MapTools
 
-#include "../main/script_mod.hpp"
+#include "..\main\script_mod.hpp"
 
 // #define DEBUG_MODE_FULL
 // #define DISABLE_COMPILE_CACHE
@@ -12,7 +12,7 @@
     #define DEBUG_SETTINGS DEBUG_SETTINGS_MAIN
 #endif
 
-#include "../main/script_macros.hpp"
+#include "..\main\script_macros.hpp"
 
 // #define ADDON_PATH(FUNC_NAME) \
 //   QUOTE(MAINPREFIX\ADDON_PATH)

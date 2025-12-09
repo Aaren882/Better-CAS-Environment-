@@ -17,7 +17,7 @@ class CfgVehicles
 		defaultUserMFDvalues[]={0.15,1,0.15,0.7};
 		class MFD
 		{
-			#include "../HUD.hpp"
+			#include "..\HUD.hpp"
 		};
 		class EventHandlers: EventHandlers
 		{
