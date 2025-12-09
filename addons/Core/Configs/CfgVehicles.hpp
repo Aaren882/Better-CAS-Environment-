@@ -226,5 +226,5 @@ class CfgVehicles
 		class Eventhandlers;
 	};
 
-	#include "../Compat.hpp"
+	#include "..\Compat.hpp"
 };

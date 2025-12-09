@@ -20,8 +20,8 @@ class CfgPatches {
 };
 
 //- Arma Configs
-#include "configs/CfgFunctions.hpp"
-#include "configs/CfgUIGrids.hpp"
+#include "configs\CfgFunctions.hpp"
+#include "configs\CfgUIGrids.hpp"
 
 class Extended_PostInit_EventHandlers
 {

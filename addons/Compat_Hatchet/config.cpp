@@ -17,4 +17,4 @@ class CfgPatches {
 	};
 };
 
-#include "configs/CfgFunctions.hpp"
+#include "configs\CfgFunctions.hpp"
