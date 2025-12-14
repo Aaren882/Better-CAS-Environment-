@@ -133,7 +133,7 @@ if (_mode != 2) then {
 			_ctrlScreen drawIcon [_x # 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB","right"];
 			_ctrlScreen drawIcon [_x # 2,cTabColorBlue,_pos,cTabGroupOverlayIconSize,cTabGroupOverlayIconSize,0,"",0,cTabTxtSize,"TahomaB","right"];
 		};
-	} count cTabBFTgroups;
+	} forEach cTabBFTgroups;
 };
 
 // ------------------ MEMBERS ------------------
@@ -181,8 +181,7 @@ if (_mode != 2) then {
 			_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",_teamColor,_pos,cTabIconManSize,cTabIconManSize,0,_x # 4,0,cTabTxtSize,"TahomaB","right"];
 		};
 	};
-	false
-} count cTabBFTmembers;
+} forEach cTabBFTmembers;
 
 // ------------------ ADD LABEL TO VEHICLES WITH MOUNTED GROUPS / MEMBERS ------------------
 
