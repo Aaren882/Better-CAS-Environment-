@@ -43,32 +43,41 @@ private _list = [];
   //- Check if it's Editable
   private _editable = /*!(_marker find "PLP" > -1) && */(
     "_cTab" in _marker || 
-    (_marker find BCE_cTab_Marker_Sync > -1) || 
+    BCE_cTab_Marker_Sync in _marker || 
     "mtsmarker" in _marker ||
     "SWT_" in _marker
   );
   
-  //- _result : [MARKER, SHAPE, DEFAULT_SIZE];
-  private _result = if ("mtsmarker" in _marker) then {
+	private _index = _forEachIndex;
+	private _def_Size = getNumber (_config >> "size");
 
-    //- Compat for "Metis Marker" (https://steamcommunity.com/sharedfiles/filedetails/?id=1508091616)
+  if ("mtsmarker" in _marker) then {
+
+    //- #NOTE - Compat for "Metis Marker" (https://steamcommunity.com/sharedfiles/filedetails/?id=1508091616)
       private _prefix = ((_marker splitString "_") # 0) + "_frame";
-      private _search = _list findif {
-        (_x # 0) find _prefix > -1
-      };
-      private _index = [_forEachIndex,_search] select (_search > -1);
+      private _search = _list findIf {_prefix in (_x # 0)};
 
-    [
-      _marker,
-      _texture,
-      _index,
-      _markerShape,
-      getNumber (_config >> "size"),
-      _editable
-    ]
-  } else {
-    [_marker, _texture, _forEachIndex, _markerShape,0,_editable]
+		_index = [_forEachIndex, _search] select (_search > -1);
   };
+
+	//- Additional data
+	private _markerColor = markerColor _marker;
+	private _color = _markerColor call BCE_fnc_getMarkerColor;
+	_color = _color select [0,3]; // Exclude alpha
+
+	private _markerDrawMode = [[0],[1,2]] findIf {_markerShape in _x}; // "ICON","RECTANGLE/ELLIPSE"]
+
+  //- _result : [MARKER, SHAPE, DEFAULT_SIZE];
+	private _result = [
+		_marker,		// <STRING>
+		_texture,		// <STRING>
+		_index, 		//- <NUMBER>
+		_markerShape, // <STRING>
+		_def_Size, 		//- <NUMBER>
+		_editable,	//- <BOOL>
+		_color, 		//- <ARRAY<NUMBER>>
+		_markerDrawMode //- <NUMBER>
+	];
   
   _list pushBack _result;
 } forEach allMapMarkers;
@@ -89,9 +98,7 @@ _list = nil;
       private _marker = "";
       private _target = format [BCE_cTab_Marker_Sync + "_DEFINED #%1/%2",((_sender call BIS_fnc_netId) splitString ":") # 0 ,_iconID];
       {
-        if (_target in _x) exitWith {
-          _marker = _x;
-        };
+        if (_target in _x) exitWith {_marker = _x};
       } count allMapMarkers;
     
     //- Arrange Data
