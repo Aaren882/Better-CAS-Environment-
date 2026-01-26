@@ -9,7 +9,6 @@ params ["_ctrl","_selectedIndex"];
 _display = ctrlParent _ctrl;
 _group = _display displayCtrl (17000 + 1300);
 _dropBox = _group controlsGroupCtrl 10;
-_MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
 
 lbClear _dropBox;
 
