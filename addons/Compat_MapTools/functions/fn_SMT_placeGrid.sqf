@@ -208,15 +208,9 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 		private _colorLb = _display displayCtrl (17000 + 1090);
     (_colorLb lbData (lbCurSel _colorLb)) call BCE_fnc_getMarkerColor
 	} else {
-		// private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090;
-		// private _class = configName (("true" configClasses (configFile >> "CfgMarkerColors")) # (_colorLb lbValue lbCurSel _colorLb));
-		// (getArray (configFile >> "CfgMarkerColors" >> _class >> "color")) apply {
-		// 	if (_x isEqualType "") then {call compile _x} else {_x};
-		// };
 
 		private _colorLb = (_display displayCtrl 2302) controlsGroupCtrl 1090;
-		private _class = (uiNamespace getVariable ["BCE_Marker_Color_Array",[]]) # (_colorLb lbValue lbCurSel _colorLb);
-		_class call BCE_fnc_getMarkerColor # 0;
+		(_colorLb lbData (lbCurSel _colorLb)) call BCE_fnc_getMarkerColor
 	};
 	_color set [3,1];
 

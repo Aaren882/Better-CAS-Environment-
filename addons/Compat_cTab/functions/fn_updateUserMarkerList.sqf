@@ -78,7 +78,6 @@ _list = nil;
 
 //- Get Marker Data for SIT
 	private _MarkerColorArr = uiNamespace getVariable ["BCE_Marker_Color_Array",[]];
-  // private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
   private _rawMarkersList = [cTab_userMarkerLists,call cTab_fnc_getPlayerEncryptionKey,[]] call cTab_fnc_getFromPairs;
 
   cTabUserMarkerList = _rawMarkersList apply {
