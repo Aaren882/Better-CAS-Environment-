@@ -74,13 +74,6 @@ private ["_isAVT","_isGunShip","_has_IP","_remarks","_task_info","_grp"];
     [["BCE", "Task_Received"],15,"",35,"",true,false,true] remoteExec ["BIS_fnc_advHint",_taskUnit,true];
   };
 
-_isGunShip = (typeof _taskUnit) in ["B_T_VTOL_01_armed_F","USAF_AC130U"];
-
-//-GunShip #NOTE - Gunship
-if (_isGunShip) then {
-	[_taskUnit,_posTarget,_ATK_range,_ATK_height] call BCE_fnc_GunShip_Loiter;
-};
-
 //-have IP/BP
 _has_IP = _IP_POS isNotEqualTo [];
 
@@ -114,7 +107,16 @@ if (((_remarks # 0) == "NA") && !(_has_IP)) then {
 
 //- #!SECTION
 
-if ((_taskUnit isKindOf "Helicopter") || !(BCE_AI_CAS_Support_fn) || (isplayer _vehicle) || (_isGunShip)) exitWith {};
+
+//- Exit Condition
+if ((_taskUnit isKindOf "Helicopter") || !(BCE_AI_CAS_Support_fn) || (isPlayer _taskUnit)) exitWith {};
+
+_isGunShip = (typeof _taskUnit) in ["B_T_VTOL_01_armed_F","USAF_AC130U"];
+
+//-GunShip #NOTE - Gunship
+if (_isGunShip) exitWith {
+	[_taskUnit,_posTarget,_ATK_range,_ATK_height] call BCE_fnc_GunShip_Loiter;
+};
 
 //- #ANCHOR - For AIs
 //- Execute CAS Mission (Execute)

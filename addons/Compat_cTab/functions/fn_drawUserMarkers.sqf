@@ -32,60 +32,40 @@
 
 params ["_ctrlScreen","_highlight"];
 
-private [
-	"_cursorMarkerIndex","_mapScale","_text",
-	"_toggle","_toggle_show",
-	"_widgetMode",
-	"_reDirecting","_reSizing","_LMB",
-	"_curSelMarker","_isnt_Drawing"
-];
-
 //- tell the Marker index
-_cursorMarkerIndex = [-1,[_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker] select _highlight;
+private _cursorMarkerIndex = [-1,[_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker] select _highlight;
 if (_cursorMarkerIndex isEqualType objNull) then {
 	_cursorMarkerIndex = -1;
 };
 
-_mapScale = ctrlMapScale _ctrlScreen;
-_text = "";
+private _mapScale = ctrlMapScale _ctrlScreen;
+private _text = "";
 
-_displayName = cTabIfOpen # 1;
-_toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
-if (isNil {_toggle}) then {
-	_toggle_show = false;
-	_widgetMode = -1;
-} else {
+private _displayName = cTabIfOpen # 1;
+private _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
+
+private _toggle_show = false;
+private _widgetMode = -1;
+if (!isNil {_toggle}) then {
 	_toggle_show = _toggle # 0;
 	_widgetMode = _toggle # 4;
 };
 
 //- is holding LCtrl + Left Click
-_reDirecting = inputMouse "487653376";
-_reSizing = inputMouse "940638208";
-_LMB = (inputMouse 0) > 0;
+private _reDirecting = inputMouse "487653376";
+private _reSizing = inputMouse "940638208";
+private _LMB = (inputMouse 0) > 0;
 
+private _isnt_Drawing = isNil{localNamespace getVariable "BCE_DrawHold_lastClick"};
 (localNamespace getVariable ["cTab_Marker_CurSel",[]]) params [["_curSelMarker",-1],"_EditMarker","_drawMode","_Marker_Component"];
 (localNamespace getVariable ["cTab_Marker_CurHov",[]]) params [["_hovSel",-1],"_hovCol","_hovmarker"];
-_isnt_Drawing = isnil{localNamespace getVariable "BCE_DrawHold_lastClick"};
-// _ColorCache = uiNamespace getVariable "BCE_Marker_Color";
 
 {
-	_x params ["_marker","_texture","_ID","_markerShape","_def_Size","_editable"];
+	_x params ["_marker","_texture","_ID","_markerShape","_def_Size","_editable","_color","_markerDrawMode"];
 
-	private ["_markerType","_markerColor","_config","_onSameChannel","_color","_text"];
-
-	_markerType = markerType _marker;
-	_markerColor = markerColor _marker;
-	_markerChannel = markerChannel _marker;
-	_onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
-
-	_config = configFile >> "CfgMarkers" >> _markerType;
-	_color = _markerColor call BCE_fnc_getMarkerColor;
-	/* {
-		if (_markerColor == (_x # 0)) exitWith {
-			_color = _x # 1;
-		};
-	} count _ColorCache; */
+	private _markerType = markerType _marker;
+	private _markerChannel = markerChannel _marker;
+	private _onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
 	_color set [3, [0.4, markerAlpha _marker] select _onSameChannel];
 	
 	//- Marker Data
@@ -96,7 +76,7 @@ _isnt_Drawing = isnil{localNamespace getVariable "BCE_DrawHold_lastClick"};
 			_onSameChannel &&
 			_cursorMarkerIndex == _ID &&
 			_curSelMarker < 0 && _isnt_Drawing &&
-			_widgetMode == ([[0],[1,2]] findIf {_x find _markerShape > -1}) && //- ["ICON","RECTANGLE ELLIPSE"]
+			_widgetMode == _markerDrawMode && //- Check marker system match with "_markerDrawMode"
 			(_toggle_show) &&
 			_editable //- from Cache List
 		) then {
@@ -115,6 +95,7 @@ _isnt_Drawing = isnil{localNamespace getVariable "BCE_DrawHold_lastClick"};
 
 			//- if no Hover Color
 			if (_hovSel < 0) then {
+				private _markerColor = markerColor _marker;
 				localNamespace setVariable ["cTab_Marker_CurHov",[_ID,_markerColor,_marker]];
 				_marker setMarkerColorLocal "cTab_Highlight";
 			};
@@ -128,8 +109,9 @@ _isnt_Drawing = isnil{localNamespace getVariable "BCE_DrawHold_lastClick"};
 		//- Show type of marker
 		if (
 			_cursorMarkerIndex == _ID &&
-			_marker find "BCE_" < 0 //- Skip BCE Click Marker
+			"BCE_" in _marker //- Skip BCE Click Marker
 		) then {
+			private _config = configFile >> "CfgMarkers" >> _markerType;
 			private _text = getText (_config >> "name");
 			_ctrlScreen drawIcon ["#(rgb,1,1,1)color(0,0,0,0)",_color, _pos vectorDiff _size, 20, 20, 0, _text, 0, cTabTxtSize,"RobotoCondensed","left"];
 		};
@@ -164,7 +146,7 @@ _isnt_Drawing = isnil{localNamespace getVariable "BCE_DrawHold_lastClick"};
 				[_ctrlScreen,_marker,_pos,_color,([_dir,selectMax _size,_mapScale] joinString "|")] call cTab_fnc_DrawMarkerDir;
 			continue
 		};
-} count cTabMarkerList;
+} forEach cTabMarkerList;
 
 //- Apply change to Network
 if (!(_reDirecting || _reSizing || _LMB) && _curSelMarker > -1) then {

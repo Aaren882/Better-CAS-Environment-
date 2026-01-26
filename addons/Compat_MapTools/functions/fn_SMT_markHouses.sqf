@@ -44,8 +44,6 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 
 
 	private _color = if (_iscTab) then {
-		// private _MarkerColorCache = uiNamespace getVariable ["BCE_Marker_Color",[]];
-    // _MarkerColorCache # lbCurSel _colorLb # 0
 		private _colorLb = _display displayCtrl (17000 + 1090);
     _colorLb lbData (lbCurSel _colorLb)
 	} else {
