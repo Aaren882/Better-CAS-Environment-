@@ -1,4 +1,24 @@
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_fnc_GunShip_Loiter
+Description:
+		Handles Gunship Loitering behavior over a target position.
+
+Parameters:
+		_vehicle - gunship object
+		_posTarget - target position to loiter over
+		_ATK_range - radius of the loiter circle # DEFAULT: 1500m
+		_ATK_height - altitude for loitering
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_vehicle","_posTarget",["_ATK_range",1500],"_ATK_height"];
+TRACE_1("fn_GunShip_Loiter",_this);
 
 if (!canMove _vehicle || !alive driver _vehicle || fuel _vehicle == 0) exitWith {};
 
