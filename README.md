@@ -42,12 +42,11 @@ BCE provides a suite of powerful, immersive tools to elevate your CAS experience
 - Client-side, but server installation is recommended for full customization.
 - **ACE3 is highly recommended** for the best experience.
 
-## Tested cTab Versions
+## Compatitable ___Sch. J.GrueArbre___ cTab
+<a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2262006564">
+	<img  src="https://images.steamusercontent.com/ugc/2047486293872497499/207739DAD480DD71806E87DF8CE04640E7380C4C/?imw=256&imh=256&impolicy=Letterbox&imcolor=%23000000">
+</a>
 
-- **TF_Ghost_1_4_1:** [Link](https://steamcommunity.com/sharedfiles/filedetails/?id=871504836)
-- **Devastator:** [Link](https://steamcommunity.com/sharedfiles/filedetails/?id=2189592034)
-- **Sch. J.GrueArbre:** [Link](https://steamcommunity.com/sharedfiles/filedetails/?id=2262006564)
-- **Fredipedia:** [Link](https://steamcommunity.com/sharedfiles/filedetails/?id=2511318948)
 ---
 
 ## 🤓 READING
