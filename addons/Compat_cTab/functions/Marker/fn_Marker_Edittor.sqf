@@ -69,8 +69,7 @@ private _channel = _group controlsGroupCtrl 110;
 				private _typeCount = {
 					private _classname = configName _x;
 					private _Same = _selectType == _classname;
-					private _name = getText (_x >> "name");
-					private _icon = getText (_x >> "icon");
+					(_classname call BCE_fnc_getMarkerItem) params ["_name","_icon"];
 
 					private _index = _EDIT_Type lbAdd _name;
 					_EDIT_Type lbSetPicture [_index, _icon];
@@ -84,8 +83,7 @@ private _channel = _group controlsGroupCtrl 110;
 				_EDIT_Type ctrlEnable (_typeCount > 0);
 			} else {
 				//- if scope != 2
-				private _name = getText (_config >> _selectType >> "name");
-				private _icon = getText (_config >> _selectType >> "icon");
+				(_selectType call BCE_fnc_getMarkerItem) params ["_name","_icon"];
 
 				private _index = _EDIT_Type lbAdd _name;
 				_EDIT_Type lbSetPicture [_index, _icon];

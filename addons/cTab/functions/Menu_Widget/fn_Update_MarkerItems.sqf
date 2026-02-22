@@ -1,10 +1,29 @@
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: cTab_fnc_Update_MarkerItems
+Description:
+		Description.
+
+Parameters:
+		_ctrl  					- Marker Toolbox UI control <CONTROL>
+		_selectedIndex  - Selected Index <NUMBER>
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 private ["_display","_displayName","_toggle","_widgetMode","_dropBox","_MarkerColorCache"];
 
 //-get Widget Vars
   _displayName = cTabIfOpen # 1;
   _toggle = [_displayName,"MarkerWidget"] call cTab_fnc_getSettings;
   _widgetMode = _toggle # 4;
+
 params ["_ctrl","_selectedIndex"];
+TRACE_1("fn_Update_MarkerItems",_this);
 
 _display = ctrlParent _ctrl;
 _group = _display displayCtrl (17000 + 1300);
@@ -68,29 +87,26 @@ lbClear _dropBox;
 
     //- Marker Dropper
     default {
-      private ["_cfg","_classes","_class"];
 
       //- Update Varible for cTab
         _toggle set [1, _selectedIndex];
         [_displayName,[["MarkerWidget",_toggle]]] call cTab_fnc_setSettings;
 
-      _cfg = configFile >> "CfgMarkers";
-      _classes = ("true" configClasses (configFile >> "cTab_CfgMarkers")) apply {configName _x};
-      _class = (uiNamespace getVariable "BCE_Marker_Map") get (_classes # _selectedIndex);
+      private _classes = ("true" configClasses (configFile >> "cTab_CfgMarkers")) apply {configName _x};
+      private _class = (_classes # _selectedIndex) call BCE_fnc_getMarkerCategory;
 
       _class params ["_Markers", "_color"];
 
       {
-        private ["_name","_icon","_index"];
-        _name = getText (_cfg >> _x >> "name");
-        _icon = getText (_cfg >> _x >> "icon");
+				(_x call BCE_fnc_getMarkerItem) params ["_name","_icon"];
 
         if (_color findif {true} < 0) then {
           private _colorLb = _display displayCtrl (17000 + 1090);
 					_color = (_colorLb lbData (lbCurSel _colorLb)) call BCE_fnc_getMarkerColor;
         };
+				TRACE_4("Marker Dropper (Create List)",_x,_name,_icon,_color);
 
-        _index = _dropBox lbAdd _name;
+        private _index = _dropBox lbAdd _name;
         _dropBox lbSetData [_index, _x];
         _dropBox lbSetPicture [_index, _icon];
         _dropBox lbSetPictureColor [_index, _color];

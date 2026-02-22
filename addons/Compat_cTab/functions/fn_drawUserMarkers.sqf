@@ -63,7 +63,6 @@ private _isnt_Drawing = isNil{localNamespace getVariable "BCE_DrawHold_lastClick
 {
 	_x params ["_marker","_texture","_ID","_markerShape","_def_Size","_editable","_color","_markerDrawMode"];
 
-	private _markerType = markerType _marker;
 	private _markerChannel = markerChannel _marker;
 	private _onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
 	_color set [3, [0.4, markerAlpha _marker] select _onSameChannel];
@@ -111,9 +110,8 @@ private _isnt_Drawing = isNil{localNamespace getVariable "BCE_DrawHold_lastClick
 			_cursorMarkerIndex == _ID &&
 			"BCE_" in _marker //- Skip BCE Click Marker
 		) then {
-			private _config = configFile >> "CfgMarkers" >> _markerType;
-			private _text = getText (_config >> "name");
-			_ctrlScreen drawIcon ["#(rgb,1,1,1)color(0,0,0,0)",_color, _pos vectorDiff _size, 20, 20, 0, _text, 0, cTabTxtSize,"RobotoCondensed","left"];
+			private _name = ((markerType _marker) call BCE_fnc_getMarkerItem) param [0, ""];
+			_ctrlScreen drawIcon ["#(rgb,1,1,1)color(0,0,0,0)",_color, _pos vectorDiff _size, 20, 20, 0, _name, 0, cTabTxtSize,"RobotoCondensed","left"];
 		};
 
 	//- Key Actions
