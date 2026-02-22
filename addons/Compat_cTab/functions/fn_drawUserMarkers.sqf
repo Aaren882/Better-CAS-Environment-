@@ -143,7 +143,7 @@ private _isnt_Drawing = isNil{localNamespace getVariable "BCE_DrawHold_lastClick
 	//- draw Marker Icon
 		if (_markerShape == 0) then {
 			//- Only for "ICON"
-				[_ctrlScreen,_marker,_pos,_color,([_dir,selectMax _size,_mapScale] joinString "|")] call cTab_fnc_DrawMarkerDir;
+				[_ctrlScreen, _marker, _pos, _color, [_dir,selectMax _size,_mapScale]] call cTab_fnc_DrawMarkerDir;
 			continue
 		};
 } forEach cTabMarkerList;

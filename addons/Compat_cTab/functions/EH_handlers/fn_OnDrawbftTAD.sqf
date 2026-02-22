@@ -31,7 +31,7 @@ ctrlMapAnimCommit _cntrlScreen;
 		_color set [3, [0.4, markerAlpha _marker] select _onSameChannel];
 		
 		[getMarkerPos _marker, markerDir _marker, selectMax (markerSize _marker)] params ["_pos","_dir","_size"];
-		[_cntrlScreen, _marker, _pos, _color, ([_dir, _size,_mapScale] joinString "|")] call cTab_fnc_DrawMarkerDir;
+		[_cntrlScreen, _marker, _pos, _color, [_dir, _size,_mapScale]] call cTab_fnc_DrawMarkerDir;
 	} forEach cTabMarkerList;
 
 //- #NOTE - Draw ACE map pointer
