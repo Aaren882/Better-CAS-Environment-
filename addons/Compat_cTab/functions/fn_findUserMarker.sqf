@@ -51,7 +51,15 @@ private _maxDistance = _searchPos distanceSqr [(_searchPos # 0) + _targetRadius,
 	};
 } count cTabBFTvehicles;
 
-{
+(ctrlMapMouseOver _ctrl) params ["_overType","_overEntity"];
+
+if (_overType isEqualTo "marker") exitWith {
+	private _sel = cTabMarkerList findIf {(_x # 0) isEqualTo _overEntity};
+	
+	cTabMarkerList # _sel # 2;
+};
+
+/* {
 	_x params ["_marker","","_ID","_markerShape","_def_Size"];
 
 	if (_markerShape == 0) then {
@@ -70,6 +78,6 @@ private _maxDistance = _searchPos distanceSqr [(_searchPos # 0) + _targetRadius,
 			_return = _ID;
 		};
 	};
-} forEach cTabMarkerList;
+} forEach cTabMarkerList; */
 
 _return
