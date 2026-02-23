@@ -21,7 +21,6 @@ ctrlMapAnimCommit _cntrlScreen;
 		_x params ["_marker","_texture","_ID","_markerShape","_def_Size","_editable","_color","_markerDrawMode"];
 
 		if (
-			_marker select [0,1] == "-" ||
 			_markerShape isNotEqualTo 0 ||
 			_def_Size isEqualTo 0
 		) then {continue};

@@ -41,7 +41,7 @@ private _list = [];
   private _texture = _icon;
 
   //- Check if it's Editable
-  private _editable = /*!(_marker find "PLP" > -1) && */(
+  private _editable = (
     "_cTab" in _marker || 
     BCE_cTab_Marker_Sync in _marker || 
     "mtsmarker" in _marker ||
@@ -66,6 +66,7 @@ private _list = [];
 	_color = _color select [0,3]; // Exclude alpha
 
 	private _markerDrawMode = [[0],[1,2]] findIf {_markerShape in _x}; // "ICON","RECTANGLE/ELLIPSE"]
+	private _onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
 
   //- _result : [MARKER, SHAPE, DEFAULT_SIZE];
 	private _result = [
