@@ -21,9 +21,16 @@ private _ctrls = (allControls _display) apply {
   };
 };
 
+private _fileName = (_time joinString "_") + ".jpg";
+private _fileDir = format [
+	"%1%2", 
+	[(BCE_PicFilePath_edit trim ["\", 2]) + "\",""] select (BCE_PicFilePath_edit == ""), 
+	_fileName
+];
+
 [{
-  params ["_file","_ctrls", "_grid"];
-  _return = toString parseSimpleArray ("Arma_ScreenShot_Extension" callExtension str (toArray _file));
+  params ["_fileDir","_fileName","_ctrls", "_grid"];
+  _return = toString parseSimpleArray ("Arma_ScreenShot_Extension" callExtension str (toArray _fileDir));
   
   {
     if (isNull _x) then {continue};
@@ -44,7 +51,7 @@ private _ctrls = (allControls _display) apply {
   if !(BCE_SSE_Webhook_Send_fn) exitWith {};
   [
     {
-      params ["_file","_unit","_map"];
+      params ["_fileDir","_fileName","_unit","_map"];
       ([_unit] call BCE_fnc_getUnitParams) params ["","_unitName","_title"];
       //- Send Discord Message
       [
@@ -53,14 +60,18 @@ private _ctrls = (allControls _display) apply {
         "",
         "",
         false,
-        _file,
+        _fileDir,
         [
           //- Embeds
           [
-            format [localize "STR_BCE_SSE_OPERATION_NAME", missionName],
-            "",
-            "",
-            true
+            format [localize "STR_BCE_SSE_OPERATION_NAME", missionName], //- [Title]
+            "", //- [Description]
+            "", //- [color]
+            true, //- [timestamp]
+						"", //- [AuthorName]
+						"", //- [AuthorUrl]
+						"", //- [AuthorIconUrl]
+						format ["attachment://%1", _fileName] //- [ImageUrl]
           ]
         ],
         [ //- Fields for each Embed
@@ -77,17 +88,15 @@ private _ctrls = (allControls _display) apply {
     },
     [
       _return,
+			_fileName,
       player,
       worldName
     ],1
   ] call CBA_fnc_waitAndExecute;
 },
   [
-    format [
-      "%1%2.jpg", 
-      [(BCE_PicFilePath_edit trim ["\", 2]) + "\",""] select (BCE_PicFilePath_edit == ""), 
-      _time joinString "_"
-    ], 
+    _fileDir,
+		_fileName,
     _ctrls, 
     _grid
   ], 0.2
