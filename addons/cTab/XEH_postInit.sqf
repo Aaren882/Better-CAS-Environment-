@@ -7,7 +7,7 @@ call BCE_fnc_cTab_postInit;
 
 //- Phone Camera
 [
-  "Better CAS Environment (cTab ATAK Camera)","ScreenShot",
+  "Better CAS Environment (ScreenShot)","ScreenShot",
   localize "STR_BCE_Take_ScreenShot",
   {
     if (IsPhoneCAM_ON && isnil{ctabifopen}) then {
@@ -19,7 +19,7 @@ call BCE_fnc_cTab_postInit;
 ] call cba_fnc_addKeybind;
 //- Flash Light
 [
-  "Better CAS Environment (cTab ATAK Camera)","FlashLight",
+  "Better CAS Environment (ScreenShot)","FlashLight",
   localize "STR_BCE_ATAK_FlashLight",
   {
     if (IsPhoneCAM_ON && isnil{ctabifopen}) then {
