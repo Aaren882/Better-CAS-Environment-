@@ -170,7 +170,7 @@
 [
 	"BCE_PicFileSize_edit", "EDITBOX",
 	[localize "STR_BCE_Select_PIC_FILE_SIZE"],
-	["Better CAS Environment (screenShot)", localize "STR_BCE_Title_ATAK_CAM_Settings"],
+	["Better CAS Environment (ScreenShot)", localize "STR_BCE_Title_ATAK_CAM_Settings"],
 	"25",
 	2,
 	{
