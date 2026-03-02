@@ -49,7 +49,7 @@ _cam = switch _displayName do {
         ["STR_BCE_ATAK_FlashLight","FlashLight"]
       ] apply {
         _x params ["_fnc","_id"];
-        format [localize "STR_BCE_Press_key" + " ”" + localize _fnc + "“", ((["Better CAS Environment (cTab ATAK Camera)", _id] call CBA_fnc_getKeybind) # -1 # 0) call CBA_fnc_localizeKey]
+        format [localize "STR_BCE_Press_key" + " ”" + localize _fnc + "“", ((["Better CAS Environment (ScreenShot)", _id] call CBA_fnc_getKeybind) # -1 # 0) call CBA_fnc_localizeKey]
       };
 
       _ctrl_hint ctrlSetText (_bnt_Hint joinString " | ");

@@ -24,6 +24,7 @@ class CfgFunctions
 			class Check_Optics;
 			class Set_EnvironmentList;
 			class Turret_interSurface;
+			class screenShot;
 
 			class POS2Grid;
 			class Grid2POS;

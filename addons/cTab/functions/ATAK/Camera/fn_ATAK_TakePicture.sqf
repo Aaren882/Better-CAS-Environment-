@@ -1,8 +1,5 @@
 #include "script_component.hpp"
 
-private _time = systemTime apply {(["","0"] select (_x < 10)) + (str _x)};
-_time resize 6;
-
 private _display = uiNamespace getVariable ["BCE_PhoneCAM_View",displayNull];
 
 //- Print Grid
@@ -21,16 +18,11 @@ private _ctrls = (allControls _display) apply {
   };
 };
 
-private _fileName = (_time joinString "_") + ".jpg";
-private _fileDir = format [
-	"%1%2", 
-	[(BCE_PicFilePath_edit trim ["\", 2]) + "\",""] select (BCE_PicFilePath_edit == ""), 
-	_fileName
-];
 
 [{
-  params ["_fileDir","_fileName","_ctrls", "_grid"];
-  _return = toString parseSimpleArray ("Arma_ScreenShot_Extension" callExtension str (toArray _fileDir));
+  params ["_ctrls", "_grid"];
+	
+	private _screenshot = [] call BCE_fnc_screenShot; //- Take picture
   
   {
     if (isNull _x) then {continue};
@@ -41,62 +33,14 @@ private _fileDir = format [
   _grid ctrlSetText "";
 
   //- Exit it if ERROR
-  if ("error" in toLowerANSI _return) exitwith {
-    systemChat str format ["ERROR from Taking Pictrue. %1", _return];
-  };
+  if (_screenshot isEqualTo []) exitwith {};
 
   playSound3D [QPATHTOEF(Core,sound\CameraShutter.wss), player, false, getPosASL player, 3, 1, 15];
 
-  //- #FIXME - Add CBA_EH to trigger this 👇
-  if !(BCE_SSE_Webhook_Send_fn) exitWith {};
-  [
-    {
-      params ["_fileDir","_fileName","_unit","_map"];
-      ([_unit] call BCE_fnc_getUnitParams) params ["","_unitName","_title"];
-      //- Send Discord Message
-      [
-        BCE_SSE_Webhook_list,
-        "",
-        "",
-        "",
-        false,
-        _fileDir,
-        [
-          //- Embeds
-          [
-            format [localize "STR_BCE_SSE_OPERATION_NAME", missionName], //- [Title]
-            "", //- [Description]
-            "", //- [color]
-            true, //- [timestamp]
-						"", //- [AuthorName]
-						"", //- [AuthorUrl]
-						"", //- [AuthorIconUrl]
-						format ["attachment://%1", _fileName] //- [ImageUrl]
-          ]
-        ],
-        [ //- Fields for each Embed
-          [
-            [localize "STR_BCE_SSE_SERVER_NAME", format["`%1`",serverName], false],
-            [localize "STR_BCE_SSE_FROM", format ["```%1%2```", profileName, ["[" + _unitName + "]", ""] select (_unitName == "")],true],
-            ["", "",true],
-            [format["“%1” :",_map], format ["```%1```", _unit call BIS_fnc_locationDescription],true],
-            ["","",false],
-            [localize "STR_BCE_SSE_UNIT", format ["```%1```", [_title, localize "str_special_none"] select (_title == "")],true]
-          ]
-        ]
-      ] call DiscordAPI_fnc_sendMessage;
-    },
-    [
-      _return,
-			_fileName,
-      player,
-      worldName
-    ],1
-  ] call CBA_fnc_waitAndExecute;
+  //- CBA_EH to trigger this 👇
+	["bce_took_screenshot", _screenshot] call CBA_fnc_localEvent; //- upload to discord
 },
   [
-    _fileDir,
-		_fileName,
     _ctrls, 
     _grid
   ], 0.2
