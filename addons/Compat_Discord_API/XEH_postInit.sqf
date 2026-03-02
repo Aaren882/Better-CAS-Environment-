@@ -1,6 +1,8 @@
 #include "script_component.hpp"
 
+#ifndef DEBUG_MODE_FULL
 if !(isMultiplayer) exitWith {};
+#endif
 
 [
   "BCE_SSE_Webhook_Send_fn","CHECKBOX",
@@ -9,6 +11,8 @@ if !(isMultiplayer) exitWith {};
   false,
   1
 ] call CBA_fnc_addSetting;
+
+["bce_took_screenshot", FUNC(upload_SSE_PictureToDiscord)] call CBA_fnc_addEventHandler;
 
 //- initiate for Server and Client
 0 spawn {
