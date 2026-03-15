@@ -5,10 +5,10 @@ class CfgPatches {
 		authors[] = {"Aaren"};
 		url = ECSTRING(main,url);
 		requiredVersion = REQUIRED_VERSION;
-		//- #NOTE : Aaren's Discord Message API
+		//- #NOTE : Hate's Digital Camera
 		requiredAddons[]=
 		{
-			"DiscordMessageAPI" 
+			"HATE_DSLR" 
 		};
 		skipWhenMissingDependencies = 1;
 		units[] = {};
@@ -17,17 +17,16 @@ class CfgPatches {
 	};
 };
 
-class Extended_PostInit_EventHandlers
+class CfgFunctions
 {
-	class ADDON
+	class HATE
 	{
-		init = QUOTE(call COMPILE_FILE(XEH_postInit));
-	};
-};
-class Extended_PreInit_EventHandlers
-{
-	class ADDON
-	{
-		init = QUOTE(call COMPILE_FILE(XEH_PreInit));
+		class CAMERA
+		{
+			class takePicture
+			{
+				file = QPATHTOF(functions\fn_takePicture.sqf);
+			};
+		};
 	};
 };

@@ -149,3 +149,32 @@
 	false,
 	1
 ] call CBA_fnc_addSetting;
+
+//- Set File type (cTab/ATAK)
+/* [
+	"BCE_PicFile_list", "LIST",
+	[localize "STR_BCE_Select_PIC_FILE"],
+	["Better CAS Environment (cTab ATAK Camera)", localize "STR_BCE_Title_ATAK_CAM_Settings"],
+	[[0,1], ["jpg","png"], 0],
+	2
+] call CBA_fnc_addSetting; */
+
+[
+	"BCE_PicFilePath_edit", "EDITBOX",
+	[localize "STR_BCE_Select_PIC_FILE_PATH", localize "STR_BCE_Select_PIC_FILE_ToopTip"],
+	["Better CAS Environment (ScreenShot)", localize "STR_BCE_Title_ATAK_CAM_Settings"],
+	"",
+	2
+] call CBA_fnc_addSetting;
+
+[
+	"BCE_PicFileSize_edit", "EDITBOX",
+	[localize "STR_BCE_Select_PIC_FILE_SIZE"],
+	["Better CAS Environment (ScreenShot)", localize "STR_BCE_Title_ATAK_CAM_Settings"],
+	"25",
+	2,
+	{
+		private _return = "Arma_ScreenShot_Extension" callExtension ["MaxSize", [round parseNumber _this]];
+		Systemchat (_return # 0);
+	}
+] call CBA_fnc_addSetting;
