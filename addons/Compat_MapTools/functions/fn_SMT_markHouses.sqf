@@ -137,9 +137,7 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 		private _posOrig = _curPoints # 0;
 		(_posOrig vectorDiff _mPos) params ["_width","_height"] ;
 
-		_color = (getArray (configFile >> "CfgMarkerColors" >> _color >> "color")) apply {
-			if (_x isEqualType "") then {call compile _x} else {_x};
-		};
+		_color = (_color call BCE_fnc_getMarkerColor) param [1, [0,0,0,0]];
 		_color set [3,1] ;
 
 		_map drawRectangle [
@@ -173,9 +171,7 @@ private _EH = _map ctrlAddEventHandler ["Draw",{
 		private _inArea = _mPos inArea [_posOrig vectorAdd [-_width/2,-_height/2],_width/2,_height/2,0,true] ;
 
 		if (!_inArea) then {
-			_color = (getArray (configFile >> "CfgMarkerColors" >> _color >> "color")) apply {
-				if (_x isEqualType "") then {call compile _x} else {_x};
-			};
+			_color = (_color call BCE_fnc_getMarkerColor) param [1, [0,0,0,0]];
 			_color set [3,1] ;
 		} else {
 			_color = [1,1,1,1] ;

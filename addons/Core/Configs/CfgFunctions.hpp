@@ -19,6 +19,9 @@ class CfgFunctions
 			class ACE_actions;
 			class canUseTurret;
 
+			class getMarkerItem;
+			class getMarkerCategory;
+
 			class hearingProtection;
 			class trueZoom;
 			class Check_Optics;

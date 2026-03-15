@@ -70,6 +70,7 @@ _markerData params [
 
 _markerSize = parseSimpleArray _markerSize;
 _marker = createMarker [_name, _position, currentChannel, player];
+private _shadow = (_markerType call BCE_fnc_getMarkerItem) param [2, 1];
 
 _marker setMarkerTypeLocal _markerType;
 _marker setMarkerShapeLocal _markerShape;
@@ -78,7 +79,7 @@ _marker setMarkerDirLocal _markerDir;
 _marker setMarkerBrushLocal _markerBrush;
 _marker setMarkerColorLocal _markerColor;
 _marker setMarkerAlphaLocal _markerAlpha;
-_marker setMarkerShadowLocal (0 < getNumber (configFile >> "CfgMarkers" >> _markerType >> "shadow"));
+_marker setMarkerShadowLocal (0 < _shadow);
 _marker setMarkerDrawPriority 0;
 
 _texts params [["_prefix",""],["_index",""],["_DESC",""]];

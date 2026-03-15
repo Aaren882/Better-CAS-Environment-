@@ -177,29 +177,3 @@ cTabTxtSize = 0.06;
 
 //- Verify the Existence of ATAK Menu Items
 	[false,true] call BCE_fnc_ATAK_getAPPs;
-  
-//- Set Marker Cache
-	private _classes = "true" configClasses (configFile >> "cTab_CfgMarkers");
-	private _result = _classes apply {
-		private ["_Categories","_color","_hide"];
-		_Categories = getArray (_x >> "Categories");
-		_color = (getArray (_x >> "color")) apply {
-			if (_x isEqualType "") then {call compile _x} else {_x};
-		};
-		_hide = getNumber (_x >> "Hide_Direction");
-
-		_Categories = flatten (_Categories apply {
-			(format [ 
-				"(getText (_x >> 'markerClass') == '%1' && getNumber (_x >> 'scope') > 0)", _x 
-			]) configClasses (configFile >> "CfgMarkers") apply { 
-				configName _x 
-			};
-		});
-
-		if (_hide > 0) then {
-			[_Categories,_color,1]
-		} else {
-			[_Categories,_color]
-		};
-	};
-	uiNamespace setVariable ["BCE_Marker_Map",(_classes apply {configName _x}) createHashMapFromArray _result];

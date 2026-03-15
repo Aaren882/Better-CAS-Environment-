@@ -42,13 +42,14 @@ private _fullPositionString = [_gridZone # 0, _gridZone # 1, _gridStr # 0, _grid
 private _id = "CTAB" + str _index;
 private _recipient = "ALL";
 private _messageType = 2;
+private _name = ((markerType _marker) call BCE_fnc_getMarkerItem) param [0, ""];
 
 private _messageContent = [
 	_fullPositionString,
 	str (round (_position3d # 2)) + " MSL",
 	[
 		_time,
-		getText (configFile >> "CfgMarkers" >> markerType _marker >> "name")
+		_name
 	] joinString " "
 ] + _messageComments;
 

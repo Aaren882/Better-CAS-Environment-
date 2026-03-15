@@ -30,18 +30,18 @@ private _list = [];
     ) then {continue};
   
   private _markerShape = ["ICON","RECTANGLE","ELLIPSE","POLYLINE"] find (MarkerShape _marker);
-  private _config = configFile >> "CfgMarkers" >> markerType _marker;
+  ((markerType _marker) call BCE_fnc_getMarkerItem) params ["_name","_icon","_shadow","_size"];
 
   //- Skip Conditions
 		if (
       _markerShape < 0 || //- in-affective "MarkerShape"
-      (_markerShape == 0 && getNumber (_config >> "size") == 0) //- if it's System Marker
+      (_markerShape == 0 && _size == 0) //- if it's System Marker
     ) then {continue};
 
-  private _texture = getText (_config >> "icon");
+  private _texture = _icon;
 
   //- Check if it's Editable
-  private _editable = /*!(_marker find "PLP" > -1) && */(
+  private _editable = (
     "_cTab" in _marker || 
     BCE_cTab_Marker_Sync in _marker || 
     "mtsmarker" in _marker ||
@@ -49,7 +49,7 @@ private _list = [];
   );
   
 	private _index = _forEachIndex;
-	private _def_Size = getNumber (_config >> "size");
+	private _def_Size = _size;
 
   if ("mtsmarker" in _marker) then {
 
@@ -66,6 +66,7 @@ private _list = [];
 	_color = _color select [0,3]; // Exclude alpha
 
 	private _markerDrawMode = [[0],[1,2]] findIf {_markerShape in _x}; // "ICON","RECTANGLE/ELLIPSE"]
+	private _onSameChannel = [true, _markerChannel == currentChannel || _markerChannel < 0] select isMultiplayer;
 
   //- _result : [MARKER, SHAPE, DEFAULT_SIZE];
 	private _result = [
@@ -106,7 +107,7 @@ _list = nil;
       private _align = ["right","left"] select ((_dir > 0) && (_dir < 4));
       //- Get Icon Info
       private _color = _MarkerColorArr # _colorSel;
-      private _texture = getText (configFile >> "CfgMarkers" >> markerType _marker >> "icon");
+      private _texture = ((markerType _marker) call BCE_fnc_getMarkerItem) param [1, ""];
 
     [_x # 0, [_pos,_texture,"",_dir,_color,_text,_align], _RawData]
     // [_x # 0, [_pos,_texture1,_texture2,_dir,_color,_text,_align,_drawSize], _x # 1]

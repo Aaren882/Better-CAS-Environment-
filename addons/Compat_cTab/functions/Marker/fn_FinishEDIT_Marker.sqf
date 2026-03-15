@@ -37,11 +37,14 @@ private _EDIT_color = _group controlsGroupCtrl 51;
       switch true do {
         //- Marker Dropper
         case (_shape == "ICON"): {
-          private _values = values (uiNamespace getVariable "bce_marker_map");
           private _data = _EDIT_Type lbData lbCurSel _EDIT_Type;
+
+					(_data call BCE_fnc_getMarkerItem) params ["","","_shadow","","_CategoryName"];
+					private _HideDir = (_CategoryName call BCE_fnc_getMarkerCategory) param [2, 0];
+
           _split set [
             3, 
-            (_values # (_values findIf {_data in (_x # 0)})) param [2, 0]
+            _HideDir
           ];
           _marker = (_marker select [0,15]) + (_split joinString "/");
 
@@ -53,7 +56,7 @@ private _EDIT_color = _group controlsGroupCtrl 51;
           ];
 
           _marker setMarkerTypeLocal _data;
-          _marker setMarkerShadow (0 < getNumber (configFile >> "CfgMarkers" >> _type >> "shadow"));
+          _marker setMarkerShadow (0 < _shadow);
         };
         //- Drawing Tool
         case (_shape == "RECTANGLE" || _shape == "ELLIPSE"): {
