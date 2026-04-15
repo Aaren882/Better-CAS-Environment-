@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 /* 
   NAME : BCE_fnc_getTaskComponents
   
@@ -20,7 +22,8 @@ params [
 ];
 
 if (isnil{_curLine}) exitWith {
-  ["Invaild Input Parameter !! - No ""_curLine"" input."] call BIS_fnc_error;
+  ["Exception : Invalid Input Parameter !! - No ""_curLine"" input."] call BIS_fnc_error;
+	ERROR("""fnc_getTaskComponents"" Exception : Invalid Input Parameter !! - No ""_curLine"" input.");
   
   //- Return Empty
     [[], ""]
@@ -40,30 +43,39 @@ if (_varName == "") then {
 };
 
 //- It's arranged by "varName" in "BCE_Mission_Property"
-  private _components = localNamespace getVariable [
+  private _build_Components = localNamespace getVariable [
     "BCE_Mission_Build_Components",
     createHashMap
   ];
 
 //- Get the Desire Line
-  private _component = (_components getOrDefault [_varName,[ ["",""] ]]);
+  private _build_Component = (_build_Components getOrDefault [_varName, [[], configNull]]);
+	_build_Component params ["_Components", "_taskCfg"];
 
 //- #SECTION - Error Index out of the range
-  if ((count _component) - 1 < _curLine) exitWith {
-    ["Index out of the range ""_curLine"" = %1",_curLine] call BIS_fnc_error;
+  if ((count _Components) - 1 < _curLine) exitWith {
+		["Exception : ""_varName"" = ""%1"" index out of the range ""_curLine"" = %2",_varName,_curLine] call BIS_fnc_error;
+		ERROR_2("""fnc_getTaskComponents"" Exception : ""_varName"" = ""%1"" index out of the range ""_curLine"" = %2",_varName,_curLine);
 
     [[],""]
   };
 
-  (_component # _curLine) params ["_compo_VarName","_desc_Sel"];
+//- Get Ctrl Component and Description
 
-//- Get the Ctrls
+	//- Get the Ctrls
+  private _compo_VarName = _Components # _curLine;
   private _compo = localNamespace getVariable [_compo_VarName,[]];
+
+	//- Get Description
+	private _build_Desc = [_taskCfg, "Descriptions", []] call BIS_fnc_returnConfigEntry;
+	private _description = _build_Desc param [_curLine, ""];
+
+	TRACE_2("fnc_getTaskComponents (From Component)",_compo_VarName,_compo);
 
 //- Return
   [
     _compo apply {
       _x call BCE_fnc_getTaskSingleComponent
     },
-    _desc_Sel
+    _description
   ]

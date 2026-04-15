@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_TaskEvent_Opened
 
@@ -25,7 +26,8 @@ params ["_curLine"];
     (_shownCtrls findIf {true} < 0) && 
     _desc_str == ""
   ) exitWith {
-    ["No task info is found, neither ""UI Controls"" nor ""Description""."] call BIS_fnc_error;
+    ["Exception : No ""%2"" task info at line ""%1"" is found, neither ""UI Controls"" nor ""Description"".",_curLine,_varName] call BIS_fnc_error;
+		ERROR_2("""fnc_TaskEvent_Opened"" Exception : No ""%2"" task info at line ""%1"" is found, neither ""UI Controls"" nor ""Description"".",_curLine,_varName);
   };
 ([] call BCE_fnc_getTaskVar) params ["_taskVar"];
 

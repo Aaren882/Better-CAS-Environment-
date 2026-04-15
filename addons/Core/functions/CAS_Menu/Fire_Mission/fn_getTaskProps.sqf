@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 /*
   NAME : BCE_fnc_getTaskProps
   
@@ -13,10 +15,10 @@
     "Events (HashMap)"   : Functions
     "Map Info (VarName)" : Map Info Display
     "TaskUnit (VarName)" : TaskUnit variable name
-    [ #SECTION - Vaildation data
-      _TaskData_Vaild ,
-      _TaskData_invaildMsg
-    ] : Vaildation lines for Data that being sent
+    [ #SECTION - Validation data
+      _TaskData_Valid ,
+      _TaskData_invalidMsg
+    ] : Validation lines for Data that being sent
   ]
 */
 params [
@@ -27,8 +29,8 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
 
 // #SECTION - Initial/Refresh Variable on _this => Empty Variables
   if (
-    isnil {_props} ||
-    isnil {localNamespace getVariable "BCE_Mission_Cate"}
+    isNil {_props} ||
+    isNil {localNamespace getVariable "BCE_Mission_Cate"}
   ) then {
     private _categories = "true" configClasses (configFile >> "BCE_Mission_Property");
     private _event_Func = getArray (configFile >> "BCE_Mission_Property" >> "Event_Functions");
@@ -46,8 +48,8 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
         //- Variable Props
           private _taskUnit_Var = [_var_Entry, "TaskUnit", _taskClass] call BIS_fnc_returnConfigEntry;
           
-          private _TaskData_Vaild = [_var_Entry, "Vaild_Lines", []] call BIS_fnc_returnConfigEntry;
-          private _TaskData_invaildMsg = [_var_Entry, "InvaildMsg", "Invaild MSG (EMPTY MSG)"] call BIS_fnc_returnConfigEntry;
+          private _TaskData_Valid = [_var_Entry, "Valid_Lines", []] call BIS_fnc_returnConfigEntry;
+          private _TaskData_invalidMsg = [_var_Entry, "InvalidMsg", "Invalid MSG (EMPTY MSG)"] call BIS_fnc_returnConfigEntry;
           
           private _varName = [_var_Entry, "name", _taskClass] call BIS_fnc_returnConfigEntry;
           private _default = [_var_Entry, "default", "[]"] call BIS_fnc_returnConfigEntry;
@@ -60,33 +62,28 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
               [_taskCfg >> "Events", _x, ""] call BIS_fnc_returnConfigEntry
             ]
           };
-        
+
         //- Get Mission Control list => #LINK - Mission_Controls.hpp
+					private _Components = [];
           private _IDCs_List = [_taskCfg, "Controls", []] call BIS_fnc_returnConfigEntry;
-          private _build_Desc = [_taskCfg, "Descriptions", []] call BIS_fnc_returnConfigEntry;
+					{
+						/* 
+							#NOTE - Separate into Different Variables
+							-- Push Elements
+							[
+								The Variable Name in "localNamespace" //- ["BCE_CAS_9Line_Var_1", "BCE_CAS_9Line_Var_2"]
+							] 
+						*/
+						private _var = format ["#%1_%2", _varName, _forEachIndex];
+						localNamespace setVariable [_var, _x];
 
-          private _Components = [];
-          {
-            /* 
-              #NOTE - Separate into Different Variables
-              -- Push Elements
-                [
-                  The Variable Name in "localNamespace", //- "BCE_CAS_9Line_Var_1", "BCE_CAS_9Line_Var_2"
-                  "Description"
-                ] 
-            */
-            private _var = format ["#%1_%2",_varName, _forEachIndex];
-            localNamespace setVariable [_var, _x];
+						_Components pushBack _var;
+					} forEach _IDCs_List;
+				
+					//- Set Components
+						_build_Components set [_varName, [_Components, _taskCfg]];
 
-            _Components pushBack [
-              _var,
-              _build_Desc # _forEachIndex
-            ];
-          } forEach _IDCs_List;
-        
-          //- Set Components
-            _build_Components set [_varName, _Components];
-
+				TRACE_2("fnc_getTaskProps (Start)",_varName,_IDCs_List);
         /* 
         #NOTE - Save => localNamespace "#PROP_AIR_9_LINE_ATAK"
         [
@@ -95,24 +92,23 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
           "Events (HashMap)"       : Functions
           "Map Info (VarName)"     : Map Info Display
           "TaskUnit (VarName)"     : TaskUnit variable name
-          [ #SECTION - Vaildation data
-            _TaskData_Vaild ,
-            _TaskData_invaildMsg
-          ] : Vaildation lines for Data that being sent
+          [ #SECTION - Validation data
+            _TaskData_Valid ,
+            _TaskData_invalidMsg
+          ] : Validation lines for Data that being sent
         ] */
         private _varStore = format ["#PROP_%1", toUpperANSI _taskClass];
+				private _values = [
+					_varName,
+					parseSimpleArray _default,
+					createHashMapFromArray _events,
+					_Map_Infos,
+					_taskUnit_Var,
+					[_TaskData_Valid, _TaskData_invalidMsg]
+				];
         
-        localNamespace setVariable [
-          _varStore,
-          [
-            _varName,
-            parseSimpleArray _default,
-            createHashMapFromArray _events,
-            _Map_Infos,
-            _taskUnit_Var,
-            [_TaskData_Vaild, _TaskData_invaildMsg]
-          ]
-        ];
+				TRACE_1("fnc_getTaskProps (End Value)",_values);
+        localNamespace setVariable [_varStore, _values];
 
         _varStore
       };

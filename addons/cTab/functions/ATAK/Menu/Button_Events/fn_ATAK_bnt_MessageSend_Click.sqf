@@ -3,7 +3,7 @@ params ["_control","_MenuGroup","_settings"];
 //- Sending message ATAK interface only
 	private _recip = ["cTab_Android_dlg", "Contactor"] call cTab_fnc_getSettings;
 	if (_recip == "") exitWith {
-		["MSG","Invaild Recipient...",3] call cTab_fnc_addNotification;
+		["MSG","Invalid Recipient...",3] call cTab_fnc_addNotification;
 	};
 
 	private _typing = _MenuGroup controlsGroupCtrl 11;

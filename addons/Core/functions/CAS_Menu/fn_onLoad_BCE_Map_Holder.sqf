@@ -28,7 +28,7 @@ params ["_Ctrl_Holder","_config"];
     
     //- Save Event Handler ID into "_Ctrl_Holder"
       private _ehId = _Ctrl_Holder ctrlAddEventHandler [_eventName, compile _eventFunction];
-      if (_ehId < 0) then {continue}; //- Vaildate Event
+      if (_ehId < 0) then {continue}; //- Validate Event
     
       _Ctrl_Holder setVariable ["BCE_Map_Event_" + _eventName, _ehId];
   } forEach _events;

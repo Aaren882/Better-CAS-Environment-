@@ -295,7 +295,7 @@ private _random_POS = nil;
     private _unit_str = str _unit;
     private _allMags = magazinesAmmo _unit;
 
-    //- Vaildate Ammo Existence
+    //- Validate Ammo Existence
       private _has_Ammo = false;
       {
         if (_lbAmmo == _x # 0) exitWith {_has_Ammo = true};
