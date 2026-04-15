@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 /*
   NAME : BCE_fnc_getTaskProps
   
@@ -87,6 +89,7 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
           //- Set Components
             _build_Components set [_varName, _Components];
 
+				TRACE_2("fnc_getTaskProps (Start)",_varName,_IDCs_List);
         /* 
         #NOTE - Save => localNamespace "#PROP_AIR_9_LINE_ATAK"
         [
@@ -109,6 +112,9 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
 					_taskUnit_Var,
 					[_TaskData_Valid, _TaskData_invalidMsg]
 				];
+        
+				TRACE_1("fnc_getTaskProps (End Value)",_values);
+        localNamespace setVariable [_varStore, _values];
 
         _varStore
       };

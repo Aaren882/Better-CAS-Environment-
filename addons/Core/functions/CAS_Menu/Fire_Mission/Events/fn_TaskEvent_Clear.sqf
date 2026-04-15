@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 /*
   Use for triggering Clear Task/Mission Variable
   # LINK .\fn_getTaskProps.sqf
@@ -15,7 +17,8 @@ params ["_curLine"];
     (_shownCtrls findIf {true} < 0) && 
     _desc_str == ""
   ) exitWith {
-    ["No task info is found, neither ""UI Controls"" nor ""Description""."] call BIS_fnc_error;
+		ERROR_2("""fnc_TaskEvent_Clear"" Exception : No ""%2"" task info at line ""%1"" is found, neither ""UI Controls"" nor ""Description"".",_curLine,_varName);
+    ["Exception : No ""%2"" task info at line ""%1"" is found, neither ""UI Controls"" nor ""Description"".",_curLine,_varName] call BIS_fnc_error;
   };
 
 ([] call BCE_fnc_getDisplayTaskProps) params ["","","_events"];

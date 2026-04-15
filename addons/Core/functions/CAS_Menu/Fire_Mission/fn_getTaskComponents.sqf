@@ -1,3 +1,5 @@
+#include "script_component.hpp"
+
 /* 
   NAME : BCE_fnc_getTaskComponents
   
@@ -20,7 +22,8 @@ params [
 ];
 
 if (isnil{_curLine}) exitWith {
-  ["Invalid Input Parameter !! - No ""_curLine"" input."] call BIS_fnc_error;
+  ["Exception : Invalid Input Parameter !! - No ""_curLine"" input."] call BIS_fnc_error;
+	ERROR("""fnc_getTaskComponents"" Exception : Invalid Input Parameter !! - No ""_curLine"" input.");
   
   //- Return Empty
     [[], ""]
@@ -49,8 +52,9 @@ if (_varName == "") then {
   private _component = (_components getOrDefault [_varName,[ ["",""] ]]);
 
 //- #SECTION - Error Index out of the range
-  if ((count _component) - 1 < _curLine) exitWith {
-    ["Index out of the range ""_curLine"" = %1",_curLine] call BIS_fnc_error;
+  if ((count _Components) - 1 < _curLine) exitWith {
+		["Exception : ""_varName"" = ""%1"" index out of the range ""_curLine"" = %2",_varName,_curLine] call BIS_fnc_error;
+		ERROR_2("""fnc_getTaskComponents"" Exception : ""_varName"" = ""%1"" index out of the range ""_curLine"" = %2",_varName,_curLine);
 
     [[],""]
   };
