@@ -29,8 +29,8 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
 
 // #SECTION - Initial/Refresh Variable on _this => Empty Variables
   if (
-    isnil {_props} ||
-    isnil {localNamespace getVariable "BCE_Mission_Cate"}
+    isNil {_props} ||
+    isNil {localNamespace getVariable "BCE_Mission_Cate"}
   ) then {
     private _categories = "true" configClasses (configFile >> "BCE_Mission_Property");
     private _event_Func = getArray (configFile >> "BCE_Mission_Property" >> "Event_Functions");
@@ -62,32 +62,26 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
               [_taskCfg >> "Events", _x, ""] call BIS_fnc_returnConfigEntry
             ]
           };
-        
+
         //- Get Mission Control list => #LINK - Mission_Controls.hpp
+					private _Components = [];
           private _IDCs_List = [_taskCfg, "Controls", []] call BIS_fnc_returnConfigEntry;
-          private _build_Desc = [_taskCfg, "Descriptions", []] call BIS_fnc_returnConfigEntry;
+					{
+						/* 
+							#NOTE - Separate into Different Variables
+							-- Push Elements
+							[
+								The Variable Name in "localNamespace" //- ["BCE_CAS_9Line_Var_1", "BCE_CAS_9Line_Var_2"]
+							] 
+						*/
+						private _var = format ["#%1_%2", _varName, _forEachIndex];
+						localNamespace setVariable [_var, _x];
 
-          private _Components = [];
-          {
-            /* 
-              #NOTE - Separate into Different Variables
-              -- Push Elements
-                [
-                  The Variable Name in "localNamespace", //- "BCE_CAS_9Line_Var_1", "BCE_CAS_9Line_Var_2"
-                  "Description"
-                ] 
-            */
-            private _var = format ["#%1_%2",_varName, _forEachIndex];
-            localNamespace setVariable [_var, _x];
-
-            _Components pushBack [
-              _var,
-              _build_Desc # _forEachIndex
-            ];
-          } forEach _IDCs_List;
-        
-          //- Set Components
-            _build_Components set [_varName, _Components];
+						_Components pushBack _var;
+					} forEach _IDCs_List;
+				
+					//- Set Components
+						_build_Components set [_varName, [_Components, _taskCfg]];
 
 				TRACE_2("fnc_getTaskProps (Start)",_varName,_IDCs_List);
         /* 
