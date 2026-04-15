@@ -13,10 +13,10 @@
     "Events (HashMap)"   : Functions
     "Map Info (VarName)" : Map Info Display
     "TaskUnit (VarName)" : TaskUnit variable name
-    [ #SECTION - Vaildation data
-      _TaskData_Vaild ,
-      _TaskData_invaildMsg
-    ] : Vaildation lines for Data that being sent
+    [ #SECTION - Validation data
+      _TaskData_Valid ,
+      _TaskData_invalidMsg
+    ] : Validation lines for Data that being sent
   ]
 */
 params [
@@ -46,8 +46,8 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
         //- Variable Props
           private _taskUnit_Var = [_var_Entry, "TaskUnit", _taskClass] call BIS_fnc_returnConfigEntry;
           
-          private _TaskData_Vaild = [_var_Entry, "Vaild_Lines", []] call BIS_fnc_returnConfigEntry;
-          private _TaskData_invaildMsg = [_var_Entry, "InvaildMsg", "Invaild MSG (EMPTY MSG)"] call BIS_fnc_returnConfigEntry;
+          private _TaskData_Valid = [_var_Entry, "Valid_Lines", []] call BIS_fnc_returnConfigEntry;
+          private _TaskData_invalidMsg = [_var_Entry, "InvalidMsg", "Invalid MSG (EMPTY MSG)"] call BIS_fnc_returnConfigEntry;
           
           private _varName = [_var_Entry, "name", _taskClass] call BIS_fnc_returnConfigEntry;
           private _default = [_var_Entry, "default", "[]"] call BIS_fnc_returnConfigEntry;
@@ -95,24 +95,20 @@ private _props = localNamespace getVariable "BCE_Mission_Property";
           "Events (HashMap)"       : Functions
           "Map Info (VarName)"     : Map Info Display
           "TaskUnit (VarName)"     : TaskUnit variable name
-          [ #SECTION - Vaildation data
-            _TaskData_Vaild ,
-            _TaskData_invaildMsg
-          ] : Vaildation lines for Data that being sent
+          [ #SECTION - Validation data
+            _TaskData_Valid ,
+            _TaskData_invalidMsg
+          ] : Validation lines for Data that being sent
         ] */
         private _varStore = format ["#PROP_%1", toUpperANSI _taskClass];
-        
-        localNamespace setVariable [
-          _varStore,
-          [
-            _varName,
-            parseSimpleArray _default,
-            createHashMapFromArray _events,
-            _Map_Infos,
-            _taskUnit_Var,
-            [_TaskData_Vaild, _TaskData_invaildMsg]
-          ]
-        ];
+				private _values = [
+					_varName,
+					parseSimpleArray _default,
+					createHashMapFromArray _events,
+					_Map_Infos,
+					_taskUnit_Var,
+					[_TaskData_Valid, _TaskData_invalidMsg]
+				];
 
         _varStore
       };

@@ -17,7 +17,7 @@ private _has_Ammo = false;
 	private _vehs = (units _group) apply {vehicle _x}; 
 	_vehs = _vehs arrayIntersect _vehs;
 
-	//- Vaildate Ammo Existence
+	//- Validate Ammo Existence
 	{
 		private _unit = _x;
 		private _allMags = magazinesAmmo _unit;

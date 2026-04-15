@@ -15,7 +15,7 @@ params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
   _category ctrlAddEventHandler ["ToolBoxSelChanged", {
 		params ["_toolBox","_curSel"];
 		
-    //- Vaildate Category
+    //- Validate Category
     ["Cate", _curSel] call BCE_fnc_set_TaskCurSetup;
 		private _controlGroup = ctrlParentControlsGroup _toolBox;
     private _ctrl = [_controlGroup] call BCE_fnc_ATAK_updateTaskControl;

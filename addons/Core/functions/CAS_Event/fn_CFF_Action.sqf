@@ -29,7 +29,7 @@ private _taskUnit = switch (typeName _unit) do {
   default {objNull};
 };
 
-// #SECTION Vailding mission can be executed
+// #SECTION Validing mission can be executed
 	//- Check _taskUnit
 		if !(alive _taskUnit) exitWith {
 			["""_taskUnit"" doesn't exist."] call BIS_fnc_error;

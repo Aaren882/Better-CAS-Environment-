@@ -51,19 +51,19 @@ private _props = [] call BCE_fnc_getDisplayTaskProps;
 
 private _TaskData = _props param [5, []];
 _TaskData params [
-  "_TaskData_Vaild",
-  "_TaskData_invaildMsg"
+  "_TaskData_Valid",
+  "_TaskData_invalidMsg"
 ];
 
-//- Vaildation
-  private _vaildation = _TaskData_Vaild findIf {
+//- Validation
+  private _validation = _TaskData_Valid findIf {
     (_taskVar # _x # 0) == "NA"
   };
 
-//- Vaildating the taskVar State
+//- Validating the taskVar State
 // #TODO - Custom ERROR Msg (Also CBA EH)
-  if (_vaildation > -1) exitwith {
-    hint _TaskData_invaildMsg;
+  if (_validation > -1) exitwith {
+    hint _TaskData_invalidMsg;
     false
   };
 

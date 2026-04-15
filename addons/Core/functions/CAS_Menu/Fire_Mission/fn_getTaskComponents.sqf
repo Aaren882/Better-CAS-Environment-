@@ -20,7 +20,7 @@ params [
 ];
 
 if (isnil{_curLine}) exitWith {
-  ["Invaild Input Parameter !! - No ""_curLine"" input."] call BIS_fnc_error;
+  ["Invalid Input Parameter !! - No ""_curLine"" input."] call BIS_fnc_error;
   
   //- Return Empty
     [[], ""]

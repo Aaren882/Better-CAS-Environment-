@@ -15,7 +15,7 @@ params ["_curLine","_selectedIndex"];
   if (
     (_shownCtrls findIf {true} < 0)
   ) exitWith {
-    ["No Task Infos are found - Make sure ""Vaild _curLine"" and ""Controls are created correctly"""] call BIS_fnc_error;
+    ["No Task Infos are found - Make sure ""Valid _curLine"" and ""Controls are created correctly"""] call BIS_fnc_error;
   };
 
 private _function = uiNamespace getVariable (_events get "Element_SelChanged");

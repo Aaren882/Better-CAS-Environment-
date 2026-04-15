@@ -35,7 +35,7 @@ _weaponInfo params ["_WPNclass","_WPN_Mode","_WPN_turret","_WPN_count","_muzzle"
     _data set [1, _FAD_POS]; 
   };
 
-//- Fix Egress Heading (if the is invaild)
+//- Fix Egress Heading (if the is invalid)
   if (_EGRS < 0) then {
     _EGRS = round (_posTarget getDirVisual _FAD_POS);
     _data set [3, _EGRS]; 
