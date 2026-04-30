@@ -8,6 +8,7 @@ class CfgPatches {
 		//- #NOTE : Hatchet H-60
 		requiredAddons[]=
 		{
+			QEGVAR(Compat,cTab),
 			"vtx_uh60_jvmf"
 		};
 		skipWhenMissingDependencies = 1;
