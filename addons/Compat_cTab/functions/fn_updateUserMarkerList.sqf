@@ -19,15 +19,18 @@
 
 if (isNil "cTabIfOpen") exitWith {false};
 
+//- Skip on (Prefix "-") or (POLPOX's MapTool Markers)
+private _allMarkers = allMapMarkers select {
+	!(
+		((_x select [0,1]) isEqualTo "-") ||
+		("boundingBoxMarker_" in _x) ||
+		("PLP_" in _x)
+	)
+};
+
 private _list = [];
 {
   private _marker = _x;
-
-  //- Skip on (Prefix "-") or (POLPOX's MapTool Markers)
-		if (
-      _marker select [0,1] == "-" ||
-			("PLP_" in _marker)
-    ) then {continue};
   
   private _markerShape = ["ICON","RECTANGLE","ELLIPSE","POLYLINE"] find (MarkerShape _marker);
   ((markerType _marker) call BCE_fnc_getMarkerItem) params ["_name","_icon","_shadow","_size"];
@@ -81,7 +84,7 @@ private _list = [];
 	];
   
   _list pushBack _result;
-} forEach allMapMarkers;
+} forEach _allMarkers;
 
 cTabMarkerList = _list;
 _list = nil;

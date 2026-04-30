@@ -53,7 +53,7 @@ private _maxDistance = _searchPos distanceSqr [(_searchPos # 0) + _targetRadius,
 
 (ctrlMapMouseOver _ctrl) params ["_overType","_overEntity"];
 
-if (_overType isEqualTo "marker") exitWith {
+if (_overType isEqualTo "marker" && cTabMarkerList isNotEqualTo []) exitWith {
 	private _sel = cTabMarkerList findIf {(_x # 0) isEqualTo _overEntity};
 	
 	cTabMarkerList # _sel # 2;
