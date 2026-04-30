@@ -12,7 +12,7 @@
 params [["_lbCurSel",-1]];
 
 if (_lbCurSel < 0) exitWith {
-  ["Invaild Input ""_lbCurSel"" cannot update TaskType."] call BIS_fnc_error;
+  ["Invalid Input ""_lbCurSel"" cannot update TaskType."] call BIS_fnc_error;
 };
 
 private _typeSetup = ["Type", []] call BCE_fnc_get_TaskCurSetup;

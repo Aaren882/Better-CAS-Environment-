@@ -65,8 +65,8 @@ class BCE_Mission_Property
 					
 					//- Check if the Task is able to send
 					// (VAR # 0) != "NA"
-					InvaildMsg = "$STR_BCE_Error_Task9";
-					Vaild_Lines[] = {0,6,8,9};
+					InvalidMsg = "$STR_BCE_Error_Task9";
+					Valid_Lines[] = {0,6,8,9};
 				};
 
 				Controls[] = 
@@ -183,8 +183,8 @@ class BCE_Mission_Property
 					{}
 				};
 				//- Check if the Task is able to send
-				InvaildMsg = "$STR_BCE_Error_Task5";
-				Vaild_Lines[] = {0,1,2};
+				InvalidMsg = "$STR_BCE_Error_Task5";
+				Valid_Lines[] = {0,1,2};
 			};
 
 			//- Maybe use UI Controls would be better
@@ -275,8 +275,8 @@ class BCE_Mission_Property
 				
 				//- Check if the Task is able to send
 				// (VAR # 0) != "NA"
-				InvaildMsg = "$STR_BCE_Error_Task_Default";
-				Vaild_Lines[] = {0,2,4};
+				InvalidMsg = "$STR_BCE_Error_Task_Default";
+				Valid_Lines[] = {0,2,4};
 			};
 
 			Controls[] = {
@@ -342,8 +342,8 @@ class BCE_Mission_Property
 				
 				//- Check if the Task is able to send
 				// (VAR # 0) != "NA"
-				InvaildMsg = "$STR_BCE_Error_Task_Default";
-				Vaild_Lines[] = {0,2,3,4};
+				InvalidMsg = "$STR_BCE_Error_Task_Default";
+				Valid_Lines[] = {0,2,3,4};
 			};
 
 			Controls[] = {
@@ -406,8 +406,8 @@ class BCE_Mission_Property
 				
 				//- Check if the Task is able to send
 				// (VAR # 0) != "NA"
-				InvaildMsg = "$STR_BCE_Error_Task_Default";
-				Vaild_Lines[] = {0,2};
+				InvalidMsg = "$STR_BCE_Error_Task_Default";
+				Valid_Lines[] = {0,2};
 			};
 
 			Controls[] = {
