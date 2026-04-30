@@ -1560,6 +1560,11 @@
 			<Chinese>選擇 "SSE訊息" 傳送到的 Webhook</Chinese>
 			<Chinesesimp>选择 "SSE讯息" 传送到的 Webhook</Chinesesimp>
 		</Key>
+		<Key ID="STR_BCE_TAKE_SSE_Pic">
+			<Original>Take Picture</Original>
+			<Chinese>拍照</Chinese>
+			<Chinesesimp>拍照</Chinesesimp>
+		</Key>
 		<Key ID="STR_BCE_Send_SSE_Pic_Send">
 			<Original>Send Pictures to Discord</Original>
 			<Chinese>傳送圖片到 Discord</Chinese>

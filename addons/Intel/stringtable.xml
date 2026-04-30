@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="AVFEVFX">
+	<Package name="Better_CAS_Environment">
+		<Key ID="STR_BCE_Intel_TakePicture_ButtonTooltip">
+			<Original>The button will be disabled once the picture is processed</Original>
+			<Chinese>當圖片處理完成後，該按鈕將被停用</Chinese>
+			<Chinesesimp>当图片处理完成后，该按钮将被禁用</Chinesesimp>
+		</Key>
+	</Package>
+</Project>
