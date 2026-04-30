@@ -25,7 +25,7 @@ class RscDisplayRead
 		{
 			idc=1006;
 			show=1;
-			text="Take Picture";
+			text="$STR_BCE_TAKE_SSE_Pic";
 			x="safezoneX + safezoneW - (3 * 	6 + 1) * 					(			((safezoneW / safezoneH) min 1.2) / 40)";
 			onButtonClick="private _screenshot = [] call BCE_fnc_screenShot; if (_screenshot isNotEqualTo []) then {[""bce_took_screenshot"", _screenshot] call CBA_fnc_localEvent;};";
 		};
