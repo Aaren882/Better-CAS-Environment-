@@ -67,7 +67,7 @@ switch _curLine do {
 	//-Friendly
 	case 1:{
 		_shownCtrls params ["_ctrl1","_ctrl2","_ctrl3","_ctrl4"];
-		private ["_taskVar_1","_ctrl4POS","_InfoText","_isEmptyInfo","_Info"];
+		private ["_taskVar_1","_ctrl2POS","_ctrl3POS","_ctrl4POS","_InfoText","_isEmptyInfo","_Info"];
 		_taskVar_1 = _taskVar # 1;
 		_InfoText = _taskVar_1 # 4;
 		_isEmptyInfo = ((_InfoText == localize "STR_BCE_MarkWith") or (_InfoText == ""));
@@ -111,15 +111,14 @@ switch _curLine do {
 		_ctrl3 ctrlCommit 0;
 
 
-		/* _ctrl4 ctrlSetPosition
+		_ctrl4 ctrlSetPosition
 		[
 			_ctrl2POS # 0,
-			(_ctrl2POS # 1) + (_ctrl2POS # 3),
+			(_ctrl3POS # 1) + (_ctrl3POS # 3),
 			_ctrl4POS # 2,
 			_ctrl4POS # 3
 		];
-		_ctrl4 ctrlSetPositionX (_ctrl2POS # 0);
-		_ctrl4 ctrlCommit 0; */
+		_ctrl4 ctrlCommit 0;
 	};
 
 	//-Target
