@@ -57,19 +57,20 @@ if !(isNull _veh) then {
 	};
 
 	//-Task List
-	if (_lbCurSel == 2) then {
-		// private _var = call compile (_veh getVariable ["BCE_Task_Receiver",""]);
-		private _var = parseSimpleArray (_veh getVariable ["BCE_Task_Receiver",""]);
+	private _receiverValue = _veh getVariable ["BCE_Task_Receiver",""];
+	if (_lbCurSel == 2 && _receiverValue isNotEqualTo "") then {
+		private _var = parseSimpleArray _receiverValue;
 		_var params ["","_type","_taskVar",""];
 
 		//-Set LB
-		[_taskList,_type,_taskVar] call BCE_fnc_SetTaskReceiver;
+		[_taskList,_type,_taskVar,_veh] call BCE_fnc_SetTaskReceiver;
 
 		if (lbCurSel _taskList == -1) then {
 			_taskList lbSetCurSel 0;
 		};
 	} else {
 		lbClear _taskList;
+		_taskList lbSetCurSel -1;
 	};
 
 } else {

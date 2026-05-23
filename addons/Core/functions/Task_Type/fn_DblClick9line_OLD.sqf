@@ -144,18 +144,19 @@ switch _curLine do {
 	case 7:{
 		_shownCtrls params ["_ctrl"];
 		private _taskVar7 = _taskVar # 7;
+		private _ctrlType = "New_Task_IPtype" call BCE_fnc_getTaskSingleComponent;
 
 		_ctrl ctrlSetText ([localize "STR_BCE_MarkWith",(_taskVar # 7 # 1)] select ((_taskVar7 # 0) != "NA"));
 
-		/*private _ctrlPOS = ctrlPosition _ctrl;
+		private _ctrlPOS = ctrlPosition _ctrlType;
 		_ctrl ctrlSetPosition
 		[
 			_ctrlPOS # 0,
-			(_titlePOS # 1) + (_titlePOS # 3),
+			_ctrlPOS # 1,
 			_ctrlPOS # 2,
 			_ctrlPOS # 3
 		];
-		_ctrl ctrlCommit 0; */
+		_ctrl ctrlCommit 0;
 	};
 
 	//-Friendlies
@@ -206,14 +207,14 @@ switch _curLine do {
 		];
 		_ctrl3 ctrlCommit 0;
 
-		/* _ctrl4 ctrlSetPosition
+		_ctrl4 ctrlSetPosition
 		[
 			_ctrl2POS # 0,
-			(_ctrl2POS # 1) + (_ctrl2POS # 3),
+			(_ctrl3POS # 1) + (_ctrl3POS # 3),
 			_ctrl4POS # 2,
 			_ctrl4POS # 3
 		];
-		_ctrl4 ctrlCommit 0; */
+		_ctrl4 ctrlCommit 0;
 	};
 
 	//-EGRS [Toolbox, EditBox, output, Toolbox(Azimuth), Marker(combo)]
