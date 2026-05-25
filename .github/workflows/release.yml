@@ -1,0 +1,55 @@
+name: HEMTT
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Push events to matching v*, i.e. v20.15.10
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-2022
+    steps:
+    - name: version info
+      id: get_version
+      uses: devops-actions/action-get-tag@v1.0.3
+      with:
+        strip_v: true # Optional: Remove 'v' character from version
+
+    - name: Install Arma 3 Tools
+      uses: arma-actions/arma3-tools@master
+      with:
+        toolsUrl: ${{ secrets.A3TOOLS_URL }}
+
+    - name: Checkout the source code
+      uses: actions/checkout@v6
+
+    - name: Setup HEMTT
+      uses: arma-actions/hemtt@v1
+
+    - name: Run HEMTT release
+      run: hemtt release
+
+    - name: Release
+      id: create_release
+      # Use an action like actions/create-release to interact with the GitHub API
+      uses: actions/create-release@v1.1.4
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions automatically
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: true
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: releases\BCE-latest.zip
+        asset_name: 'BCE-${{ steps.get_version.outputs.tag }}.zip'
+        asset_content_type: application/zip
