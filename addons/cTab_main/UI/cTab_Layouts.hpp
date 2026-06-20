@@ -2,14 +2,18 @@
   #NOTE - This will be included in "RscTitles" + "Dialog"
 */
 
-//- TAD
-  class cTab_TAD_OSD_navModeOrScale;
-  class cTab_TAD_OSD_txtToggleIconBg;
-  class cTab_TAD_OSD_txtToggleIcon;
-  class cTab_TAD_RscMapControl_BLACK;
+//- Base definitions
+#include "..\..\cTab\UI\cTab_UI_Base.hpp"
+#include "..\..\cTab\UI_Components.hpp"
+
+#ifdef IS_DIALOG
+	//- Tablet
+		#include "Layouts\cTab_Tablet_Layout.hpp"
+	//- 
+#endif
 
 //- Phone
-  #include "cTab_Android_Layout.hpp"
+  #include "Layouts\cTab_Android_Layout.hpp"
 
 /* 
   #SECTION - [MAP_MODE] is used to determine the map control type.
@@ -42,3 +46,5 @@
       h = QUOTE((((626) - (60) - (0))) / 2048  * 	CustomPhoneH);
     };
   #endif
+
+	

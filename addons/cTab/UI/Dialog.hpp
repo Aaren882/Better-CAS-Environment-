@@ -1,5 +1,6 @@
 class RscTitles
 {
+	#include "cTab_UI_Base.hpp"
 	#undef MOUSE_CLICK_EH
 
 	#define TAD_CLASS class cTab_TAD_dsp
@@ -7,7 +8,7 @@ class RscTitles
 	#define TAD_SizeW (TAD_SizeH * 3/4)
 	#define TAD_SizeX 2048 * (TAD_SizeH * 3/4) + (safeZoneX + (0.05) * 3/4)
 	#define TAD_SizeY 2048 * TAD_SizeH + (safeZoneY + safeZoneH - TAD_SizeH - (0.2))
-		#include "cTab_TAD.hpp"
+		#include "Devices\cTab_TAD.hpp"
 
 	#define PHONE_CLASS class cTab_Android_dsp
 	
@@ -28,26 +29,6 @@ class RscTitles
 	#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
 	#define phoneSizeH ((((626) - (60) - (0))) / 2048 * CustomPhoneH)
 	
-	
-	#if MAP_MODE > 2
-		class cTab_microDAGR_dsp
-		{
-			class controlsBackground
-			{
-				class screen: cTab_microDAGR_RscMapControl{}; 
-				class screenTopo: screen
-				{
-					#include "..\Map_Type\TOPO_GRD.hpp"
-				};
-			};
-		};
-	#endif
-	
-	//-Phone Layout
-	#include "cTab_classes.hpp"
-	
 	//-Phone display
-	#include "cTab_Android.hpp"
-	#include "ScreenShot_UI.hpp"
-	#include "cTab_HCam.hpp"
+	#include "Devices\cTab_Android.hpp"
 };

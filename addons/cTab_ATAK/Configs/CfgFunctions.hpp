@@ -2,34 +2,9 @@ class CfgFunctions
 {
 	class BCE
 	{
-    class cTab_BCE
+		class ATAK
     {
-      // file="MG8\AVFEVFX\functions\cTab\functions";
       file=QPATHTOF(functions);
-      class cTab_postInit; //- #NOTE : This Rewrite the cTab system variables 
-
-      class cTabMap;
-      class cTab_Marker_update;
-      class cTab_ChangeTask_Desc;
-      class cTab_List_AV_Info;
-      class cTab_Switch_ExtendedList;
-      class cTab_BFT_ToolBox;
-      class cTab_getWeather_Infos;
-      class cTab_UpdateInterface;
-      class cTab_CreateCameraList;
-      class Extended_WeaponDESC;
-      class Extended_TaskDESC;
-    };
-    /* class cTab_Task
-    {
-      file="MG8\AVFEVFX\functions\cTab\Task_Type";
-      class cTab_9_TaskChanged;
-      class cTab_5_TaskChanged;
-    }; */
-    class ATAK
-    {
-      // file="MG8\AVFEVFX\functions\cTab\functions\ATAK";
-      file=QPATHTOF(functions\ATAK);
       class ATAK_LastPage;
       class ATAK_bnt_clickEvent;
       class ATAK_getScrollValue;
@@ -39,8 +14,7 @@ class CfgFunctions
     //- ATAK Menus
       class ATAK_Fire_Mission
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission";
-        file=QPATHTOF(functions\ATAK\Fire_Mission);
+        file=QPATHTOF(functions\Fire_Mission);
         class ATAK_DescType_Changed;
         class ATAK_set_TaskType;
         class ATAK_TaskTypeChanged;
@@ -57,8 +31,7 @@ class CfgFunctions
       };
       class ATAK_Call_for_Fire_Menu
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission\Call_for_Fire";
-        file=QPATHTOF(functions\ATAK\Fire_Mission\Call_for_Fire);
+        file=QPATHTOF(functions\Fire_Mission\Call_for_Fire);
         class ATAK_CFF_TaskList_Init;
         class ATAK_CFF_Mission_RAT;				//- Record as Target
         class ATAK_CFF_Mission_RAT_2_ADD;	//- Add the Mission
@@ -66,8 +39,7 @@ class CfgFunctions
       };
       class ATAK_CFF_Adjust_Menu
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Fire_Mission\Call_for_Fire\Fire_Adjustments";
-        file=QPATHTOF(functions\ATAK\Fire_Mission\Call_for_Fire\Fire_Adjustments);
+        file=QPATHTOF(functions\Fire_Mission\Call_for_Fire\Fire_Adjustments);
         class ATAK_FireAdjust_Init_Polar;
         class ATAK_FireAdjust_Init_Impact;
         class ATAK_FireAdjust_Sel_Changed;
@@ -77,15 +49,13 @@ class CfgFunctions
       };
       class ATAK_Menu_Init
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Init";
-        file=QPATHTOF(functions\ATAK\Menu\Init);
+        file=QPATHTOF(functions\Menu\Init);
         class ATAK_setAPPs_props;
         class ATAK_getAPPs_props;
       };
       class ATAK_Menu_Custom_Controls
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Custom_Controls";
-        file=QPATHTOF(functions\ATAK\Menu\Custom_Controls);
+        file=QPATHTOF(functions\Menu\Custom_Controls);
         class ATAK_Custom_DropMenu_Init;
         class ATAK_Custom_DropMenu_Click;
 
@@ -95,8 +65,7 @@ class CfgFunctions
       };
       class ATAK_Menu
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu";
-        file=QPATHTOF(functions\ATAK\Menu);
+        file=QPATHTOF(functions\Menu);
         class ATAK_getAPPs;
         class ATAK_openPage;
         class ATAK_openMenu;
@@ -110,8 +79,7 @@ class CfgFunctions
       };
       class ATAK_Menu_Buttons
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Button_Events";
-        file=QPATHTOF(functions\ATAK\Menu\Button_Events);
+        file=QPATHTOF(functions\Menu\Button_Events);
         class ATAK_DataReceiveButton;
         class ATAK_bnt_MessageSend_Click;
         class ATAK_bnt_VideoFeeds_Click;
@@ -119,8 +87,7 @@ class CfgFunctions
       };
       class ATAK_Menu_Buttons_Init
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Init_Buttons";
-        file=QPATHTOF(functions\ATAK\Menu\Init_Buttons);
+        file=QPATHTOF(functions\Menu\Init_Buttons);
         class ATAK_bnt_SendMission;
         class ATAK_bnt_CFF_List;
         class ATAK_bnt_Group;
@@ -130,14 +97,12 @@ class CfgFunctions
       };
       class ATAK_Menu_Invokes
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Menu\Invoke";
-        file=QPATHTOF(functions\ATAK\Menu\Invoke);
+        file=QPATHTOF(functions\Menu\Invoke);
         class ATAK_Invoke_ButtonLayoutArrange;
       };
       class ATAK_Menu_onOpened
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\APP_Menu_onOpened";
-        file=QPATHTOF(functions\ATAK\APP_Menu_onOpened);
+        file=QPATHTOF(functions\APP_Menu_onOpened);
         class ATAK_message_Init;
         class ATAK_mission_Init;
         class ATAK_Group_Init;
@@ -149,24 +114,21 @@ class CfgFunctions
       };
       class ATAK_CAM
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Camera";
-        file=QPATHTOF(functions\ATAK\Camera);
+        file=QPATHTOF(functions\Camera);
         class ATAK_CamInit;
         class ATAK_TakePicture;
         class ATAK_FullScreenCamera;
       };
       class ATAK_MSG
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Message";
-        file=QPATHTOF(functions\ATAK\Message);
+        file=QPATHTOF(functions\Message);
         class ATAK_msg_Line_Create;
       };
       class ATAK_Group_Menu
       {
-        // file="MG8\AVFEVFX\functions\cTab\functions\ATAK\Group";
-        file=QPATHTOF(functions\ATAK\Group);
+        file=QPATHTOF(functions\Group);
         class ATAK_GroupList_Init;
         class ATAK_GroupList_SYSTEM_Init;
       };
-  };
+	};
 };

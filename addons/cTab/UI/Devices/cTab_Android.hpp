@@ -1,4 +1,10 @@
 #define Android_BR_InfoY(HEIGHT) ((-(0) + (713) + (626)) - (20) - ((60) - (20))) / 2048  * (PhoneW * 4/3) + (safezoneY + (safezoneH - (PhoneW * 4/3)) / 2) - (HEIGHT * (((32)) / 2048 * PhoneW))
+
+class cTab_RscText_Android;
+class cTab_android_btnHome;
+class cTab_android_on_screen_battery;
+class cTab_android_RscMapControl;
+
 #ifdef MOUSE_CLICK_EH
 	class cTab_android_on_screen_hookGrid: cTab_RscText_Android
 	{
@@ -56,39 +62,18 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 	h = QUOTE(HPOS * ATAK_POS_H)
 
 //- Custom Controls
-#include "cTab_Custom_Controls.hpp"
+#include "..\cTab_Custom_Controls.hpp"
 
 //- BCE Frameworks for ATAK
-#include "ATAK_Tools\cTab_ATAK_APP.hpp"
-#include "ATAK_Tools\cTab_ATAK_Tools.hpp"
+#include "..\..\..\cTab_ATAK\UI\cTab_ATAK_APP.hpp"
+#include "..\..\..\cTab_ATAK\UI\cTab_ATAK_Tools.hpp"
 
 PHONE_CLASS
 {
-	/* #define GLUE(A,B) #A;##B
-	#define IS_DSP true */
 	#ifdef MOUSE_CLICK_EH
-		/* TaskIDCs_List[] = {
-			//- 9 Line
-			{93,94,95,96,97,98,99,idc_D(2025),idc_D(2026),idc_D(20260),idc_D(2027),idc_D(20270),idc_D(2015),idc_D(2029),idc_D(2030),idc_D(2031),idc_D(2032)},
-			//- 5 Line
-			{51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2027),idc_D(20430),idc_D(2015),idc_D(2016)}
-			//- Call For Fire
-			// {51,52,53,54,idc_D(2040),idc_D(2041),idc_D(2042),idc_D(2027),idc_D(20430),idc_D(2015),idc_D(2016)}
-		}; */
 		onMouseZChanged = "call BCE_fnc_ATAK_getScrollValue";
-		// #define IS_DSP false
 	#endif
 
-	/* #define ONLOAD_FNC \
-		#call BCE_fnc_onLoad_Display
-	#define ONLOAD_FNC_BCE \
-		#[_this # 0, PHONE_CLASS, IS_DSP] call cTab_fnc_onIfOpen
-	onLoad = GLUE(ONLOAD_FNC,ONLOAD_FNC_BCE); //- when the phone is opened
-
-	#undef GLUE
-	#undef ONLOAD_FNC
-	#undef ONLOAD_FNC_BCE
-	#undef IS_DSP */
 	class controlsBackground: BCE_Mission_Build_Controls
 	{
 		//- BCE Mission Holder (Init BCE Properties)
@@ -1019,265 +1004,8 @@ PHONE_CLASS
 			};
 		};
 
-		//-AV Feeds
-		/*class Aircraft: Desktop
-		{
-			idc = 4630;
-			class controls
-			{
-				class TurretTxt: cTab_RscText_Android
-				{
-					idc = idc_D(46320);
-					text = "--";
-					colorBackground[] = {0.25,0.25,0.25,0.5};
-
-					x = (((((((452) + (20)) + (10)) + ((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) + (10))) - ((452))) / 2048 * PhoneW);
-					y = (((((((713) + (60) + (10)) + (20)))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2)) / 2048 * PhoneW;
-					h = ((30)) / 2048 * CustomPhoneH;
-					sizeEx = TextSize;
-				};
-				class cTabAVlist: cTab_RscListbox_Tablet
-				{
-					idc = 1776;
-					style = 64;
-					sizeEx = TextSize;
-
-					colorSelect[] = {0,1,0,1};
-					colorSelect2[] = {0,1,0,1};
-					colorSelectBackground[] = {0,0,0,0};
-					colorSelectBackground2[] = {0,0,0,0};
-
-					x = ((((((452) + (20)) + (10))) - ((452))) / 2048 * PhoneW);
-					y = ((((((713) + (60) + (10)) + (20))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = (((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3)) / 2048 * PhoneW;
-					h = ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) / 2048 * CustomPhoneH;
-
-					onLBSelChanged = "if (_this # 1 != -1) then {['cTab_Android_dlg',[['uavCam',(_this # 0) lbData (_this # 1)]]] call cTab_fnc_setSettings;};";
-				};
-				class cTabAVInfolist: cTab_RscListbox_Tablet
-				{
-					idc = 1775;
-					text = "";
-					font = "RobotoCondensed";
-					sizeEx = TextSize;
-
-					style = 64;
-					colorSelect[] = {1,1,1,1};
-					colorSelect2[] = {1,1,1,1};
-					colorSelectBackground[] = {0,0,0,0};
-					colorSelectBackground2[] = {0,0,0,0};
-					soundSelect[] = {"",0,1};
-
-					x = ((((((452) + (20)) + (10))) - ((452))) / 2048 * PhoneW);
-					y = ((((((713) + (60) + (10)) + (20))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = (((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3)) / 2048 * PhoneW;
-					h = ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) / 2048 * CustomPhoneH;
-				};
-
-				class Info_Vic: cTab_RscButton
-				{
-					idc = idc_D(16120);
-					text = "$STR_BCE_SwitchList";
-					sizeEx = TextSize;
-
-					offsetX = 0;
-					offsetY = 0;
-					offsetPressedX = "pixelW";
-					offsetPressedY = "pixelH";
-
-					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW);
-					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = (0.75 * (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW));
-					h = ((60)) / 2048 * CustomPhoneH;
-					action = "['cTab_Android_dlg'] call cTab_fnc_AVInfoMenu_toggle;";
-				};
-				class SwitchTurret: Info_Vic
-				{
-					idc = idc_D(16121);
-
-					colorBackground[] = {0.3,0.3,0.3,1};
-					colorBackgroundActive[] = {0.3,0.3,0.3,1};
-					colorFocused[] = {0.3,0.3,0.3,1};
-					colorShadow[] = {0.15,0.15,0.15,1};
-					colorBorder[] = {0,0,0,0};
-
-					text = ">>";
-					tooltip = "$STR_BCE_NextTurret";
-					sizeEx = TextSize;
-
-					action = "";
-					onButtonClick = "[_this # 0,17000,true] call BCE_fnc_NextTurretButton;";
-
-					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW) + (0.75 * (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW));
-					w = (0.25 * (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW));
-				};
-				class Connect_Vic: cTab_RscButton
-				{
-					idc = idc_D(17);
-					text = "$STR_BCE_Live_Feed";
-					sizeEx = TextSize;
-					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW);
-					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)) + (10) + (60))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW) * 0.49;
-					h = ((60)) / 2048 * CustomPhoneH;
-					action = "call cTab_Tablet_btnACT;";
-				};
-				class Control_turret: Connect_Vic
-				{
-					idc = idc_D(18);
-					text = "$STR_BCE_Control_Turret";
-					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW) + ((((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW) * 0.51);
-					w = (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW) * 0.49;
-					action = "0 call cTab_Tablet_btnACT;";
-				};
-			};
-		};*/
-
 		delete MESSAGE;
 		delete COMPOSE;
-		//-Message
-		/*class MESSAGE: cTab_RscControlsGroup
-		{
-			idc = 4650;
-			x = phoneSizeX;
-			y = phoneSizeY;
-			w = phoneSizeW;
-			h = phoneSizeH;
-			class VScrollbar{};
-			class HScrollbar{};
-			class Scrollbar{};
-			class controls
-			{
-				class msgListbox: cTab_RscListBox
-				{
-					idc = 15000;
-					style = 32;
-					sizeEx = TextSize;
-					x = ((((((452) + (20)) + (10))) - ((452))) / 2048 * PhoneW);
-					y = ((((((713) + (60) + (10)) + (20))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = (((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3)) / 2048 * PhoneW;
-					h = ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) / 2048 * CustomPhoneH;
-					onLBSelChanged = "_this call cTab_msg_get_mailTxt;";
-				};
-				class msgframe: cTab_RscFrame
-				{
-					idc = 16;
-					text = "Read Message";
-					x = (((((452) + (20))) - ((452))) / 2048 * PhoneW);
-					y = (((((713) + (60) + (10))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = (((PHONE_MOD) - (20) * 2)) / 2048 * PhoneW;
-					h = (((626) - (60) - (10) * 2)) / 2048 * CustomPhoneH;
-				};
-				class msgTxt: cTab_RscEdit
-				{
-					idc = 18510;
-					htmlControl = "true";
-					style = 16;
-					lineSpacing = 0.2;
-					text = "No Message Selected";
-					sizeEx = TextSize;
-					x = (((((((452) + (20)) + (10)) + ((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) + (10))) - ((452))) / 2048  * 	PhoneW);
-					y = (((((((713) + (60) + (10)) + (20)))) - ((713) + (60))) / 2048  * 	(	PhoneW * 4/3));
-					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2)) / 2048  * PhoneW;
-					h = ((((626) - (60) - (10) * 2) - (20) -(10))) / 2048 * CustomPhoneH;
-					canModify = 0;
-				};
-				class deletebtn: cTab_RscButton
-				{
-					idc = 16120;
-					text = "Delete";
-					tooltip = "Delete Selected Message(s)";
-					sizeEx = TextSize;
-					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW);
-					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW;
-					h = ((60)) / 2048 * CustomPhoneH;
-					action = "['cTab_Android_dlg'] call cTab_fnc_onMsgBtnDelete;";
-				};
-				class toCompose: cTab_RscButton
-				{
-					idc = 17;
-					text = "Compose >>";
-					tooltip = "Compose Messages";
-					sizeEx = TextSize;
-					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW);
-					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)) + (10) + (60))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW;
-					h = ((60)) / 2048 * CustomPhoneH;
-					action = "['cTab_Android_dlg',[['mode','COMPOSE']]] call cTab_fnc_setSettings;";
-				};
-			};
-		};
-		class COMPOSE: cTab_RscControlsGroup
-		{
-			idc = 4655;
-			x = phoneSizeX;
-			y = phoneSizeY;
-			w = phoneSizeW;
-			h = phoneSizeH;
-			class VScrollbar{};
-			class HScrollbar{};
-			class Scrollbar{};
-			class controls
-			{
-				class composeFrame: cTab_RscFrame
-				{
-					idc = 18;
-					text = "Compose Message";
-					x = ((((((452) + (20)))) - ((452))) / 2048 * PhoneW);
-					y = ((((((713) + (60) + (10)))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = ((((PHONE_MOD) - (20) * 2))) / 2048 * PhoneW;
-					h = ((((626) - (60) - (10) * 2))) / 2048 * CustomPhoneH;
-				};
-				class playerlistbox: cTab_RscListBox
-				{
-					idc = 15010;
-					style = 32;
-					sizeEx = TextSize;
-					x = (((((((452) + (20)) + (10)))) - ((452))) / 2048  * 	PhoneW);
-					y = (((((((713) + (60) + (10))) + (20))) - ((713) + (60))) / 2048  * 	(	PhoneW * 4/3));
-					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048  * 	PhoneW;
-					h = (((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2))) / 2048  * 	(	PhoneW * 4/3);
-				};
-				class sendbtn: cTab_RscButton
-				{
-					idc = 16130;
-					text = "Send";
-					sizeEx = TextSize;
-					x = (((((((452) + (20))) + (10))) - ((452))) / 2048 * PhoneW);
-					y = ((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW;
-					h = ((60)) / 2048 * CustomPhoneH;
-					action = "call cTab_msg_Send;";
-				};
-				class edittxtbox: cTab_RscEdit
-				{
-					idc = 14000;
-					htmlControl = "true";
-					style = 16;
-					lineSpacing = 0.2;
-					text = "";
-					sizeEx = TextSize;
-					x = ((((((((452) + (20)) + (10)) + ((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) + (10)))) - ((452))) / 2048  * 	PhoneW);
-					y = ((((((((713) + (60) + (10))) + (20)))) - ((713) + (60))) / 2048 * CustomPhoneH);
-					w = (((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2))) / 2048 * PhoneW;
-					h = (((((626) - (60) - (10) * 2) - (20) -(10)))) / 2048 * CustomPhoneH;
-				};
-				class toRead: cTab_RscButton
-				{
-					idc = 19;
-					text = "Read >>";
-					tooltip = "Read Messages";
-					sizeEx = TextSize;
-					x = ((((((((452) + (20))) + (10)))) - ((452))) / 2048 * PhoneW);
-					y = (((((((((713) + (60) + (10))) + (20)) + ((((626) - (60) - (10) * 2) - (10) * 3 - (20) - (60) * 2)) + (10)) + (10) + (60))) - ((713) + (60))) / 2048  * 	(	PhoneW * 4/3));
-					w = ((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3))) / 2048 * PhoneW;
-					h = ((60)) / 2048 * CustomPhoneH;
-					action = "['cTab_Android_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
-				};
-			};
-		};*/
 	};
 };
 #undef Android_BR_InfoY

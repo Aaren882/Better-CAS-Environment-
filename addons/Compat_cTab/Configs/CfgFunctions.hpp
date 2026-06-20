@@ -184,18 +184,5 @@ class CfgFunctions
       class Add_to_MarkerList;
       class DrawArea;
     };
-    class BCE_Widget
-    {
-      // file="MG8\AVFEVFX\functions\cTab\functions\Menu_Widget";
-      file= QPATHTOEF(cTab,functions\Menu_Widget);
-      class onMarkerSelChanged;
-      class onMarkerTextEditted;
-      class onMarkerOpacityChanged;
-      class Update_MarkerItems;
-      class toggleWeather;
-      class toggleMarkerWidget;
-      class toggleTADMarkerDropper;
-      class SwitchMarkerWidget;
-    };
-  };
+	};
 };

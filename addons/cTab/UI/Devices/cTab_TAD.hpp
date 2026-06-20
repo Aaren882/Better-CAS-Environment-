@@ -1,3 +1,4 @@
+class cTab_TAD_RscMapControl;
 TAD_CLASS
 {
 	class controlsBackground: BCE_Mission_Build_Controls

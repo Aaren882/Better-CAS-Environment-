@@ -23,3 +23,9 @@ class cTab_IGUIBack;
 class cTab_RscButton;
 class cTab_RscText_WindowTitle;
 class cTab_Tablet_btnMouse;
+
+//- TAD
+class cTab_TAD_OSD_navModeOrScale;
+class cTab_TAD_OSD_txtToggleIconBg;
+class cTab_TAD_OSD_txtToggleIcon;
+class cTab_TAD_RscMapControl_BLACK;
