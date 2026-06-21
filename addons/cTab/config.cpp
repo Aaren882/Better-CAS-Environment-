@@ -8,7 +8,6 @@ class CfgPatches {
 		requiredAddons[]=
 		{
 			"cTab",
-			"ctab_core",
 			QGVARMAIN(Compat_cTab) //- Check for "BCE_Compat_cTab" #LINK - addons/Compat_cTab/config.cpp
 		};
 		skipWhenMissingDependencies = 1;
@@ -19,6 +18,7 @@ class CfgPatches {
 };
 
 //- UI
+#include "UI/cTab_UI_Base.hpp" // <== IS_DIALOG
 #include "UI_Components.hpp"
 
 class BCE_Mission_Default
@@ -114,4 +114,3 @@ class BCE_Mission_Build_Controls
 
 //- cTab Interfaces
 #include "UI\cTab_UI.hpp"
-#include "UI\Dialog.hpp"

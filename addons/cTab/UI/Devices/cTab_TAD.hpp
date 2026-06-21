@@ -1,4 +1,9 @@
 class cTab_TAD_RscMapControl;
+class cTab_TAD_OSD_navModeOrScale;
+class cTab_TAD_OSD_txtToggleIconBg;
+class cTab_TAD_OSD_txtToggleIcon;
+class cTab_TAD_RscMapControl_BLACK;
+
 TAD_CLASS
 {
 	class controlsBackground: BCE_Mission_Build_Controls
@@ -20,7 +25,7 @@ TAD_CLASS
 	};
 	class controls
 	{
-    #ifdef MOUSE_CLICK_EH
+    #ifdef IS_DIALOG
       cTab_Set_SubMenu(SubMenuH_TAD);
     #endif
 		class txtToggleMarker: cTab_TAD_OSD_navModeOrScale

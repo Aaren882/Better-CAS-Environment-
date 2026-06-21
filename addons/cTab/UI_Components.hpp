@@ -1,3 +1,7 @@
+/* 
+	#NOTE - Base Macros for cTab UIs
+*/
+
 #include "..\Core\UI_Components.hpp"
 
 //- cTab UI Macros

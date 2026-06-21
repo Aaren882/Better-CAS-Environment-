@@ -1,11 +1,11 @@
 #define Android_BR_InfoY(HEIGHT) ((-(0) + (713) + (626)) - (20) - ((60) - (20))) / 2048  * (PhoneW * 4/3) + (safezoneY + (safezoneH - (PhoneW * 4/3)) / 2) - (HEIGHT * (((32)) / 2048 * PhoneW))
 
-class cTab_RscText_Android;
 class cTab_android_btnHome;
-class cTab_android_on_screen_battery;
+class cTab_RscText_Android;
 class cTab_android_RscMapControl;
+class cTab_android_on_screen_battery;
 
-#ifdef MOUSE_CLICK_EH
+#ifdef IS_DIALOG
 	class cTab_android_on_screen_hookGrid: cTab_RscText_Android
 	{
 		x = QUOTE(((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (1 - 1))) / 2048  * 	PhoneW + 	CustomPhoneX);
@@ -70,7 +70,7 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 
 PHONE_CLASS
 {
-	#ifdef MOUSE_CLICK_EH
+	#ifdef IS_DIALOG
 		onMouseZChanged = "call BCE_fnc_ATAK_getScrollValue";
 	#endif
 
@@ -104,7 +104,7 @@ PHONE_CLASS
 		class screen: cTab_android_RscMapControl
 		{
 			// mapOrientation = 1; //- #TODO - Map Follew player's Orientation 
-			#ifdef MOUSE_CLICK_EH
+			#ifdef IS_DIALOG
 				style = 48 + 512;
 				onMouseButtonClick = MOUSE_CLICK_EH;
 				onMouseButtonDblClick = "call cTab_fnc_onMapDoubleClick";
@@ -162,7 +162,7 @@ PHONE_CLASS
 	};
 	class controls
 	{
-		#ifdef MOUSE_CLICK_EH
+		#ifdef IS_DIALOG
 		
 			//-SubMenu + lerGTD SubMenu + BCE Submenu
 			cTab_Set_SubMenu(SubMenuH_P);
@@ -431,7 +431,7 @@ PHONE_CLASS
 				h = QUOTE(1.3 * sizeW * PhoneW);
 			};
 		//- Self Info Box (Bottom Right)
-			#ifdef MOUSE_CLICK_EH
+			#ifdef IS_DIALOG
 				#define BOX_SIZE_H (0.65 * TextSize)
 			#else
 				#define BOX_SIZE_H (0.75 * TextSize)

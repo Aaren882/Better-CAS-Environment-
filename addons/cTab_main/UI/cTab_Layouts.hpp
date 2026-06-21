@@ -1,15 +1,13 @@
 /*
-  #NOTE - This will be included in "RscTitles" + "Dialog"
+  #NOTE - This will be included in "Display" & "Dialog"
 */
 
 //- Base definitions
-#include "..\..\cTab\UI\cTab_UI_Base.hpp"
 #include "..\..\cTab\UI_Components.hpp"
 
 #ifdef IS_DIALOG
 	//- Tablet
 		#include "Layouts\cTab_Tablet_Layout.hpp"
-	//- 
 #endif
 
 //- Phone

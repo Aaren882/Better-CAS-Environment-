@@ -1,5 +1,5 @@
 //- Normal intractable UI
-#define IS_DIALOG 1
+#include "..\..\cTab\UI\cTab_UI_Base.hpp" // <== IS_DIALOG
 #include "..\UI\cTab_Layouts.hpp"
 
 //- Apply Map for DAGR
