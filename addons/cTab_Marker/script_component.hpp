@@ -1,4 +1,4 @@
-#define COMPONENT cTab
+#define COMPONENT cTab_Marker
 
 #include "..\main\script_mod.hpp"
 

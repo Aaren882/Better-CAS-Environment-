@@ -13,4 +13,5 @@ class CfgPatches {
 	};
 };
 
-#include "Configs/CfgFunctions.hpp"
+#include "configs\CfgUIGrids.hpp"
+#include "Configs\CfgFunctions.hpp"

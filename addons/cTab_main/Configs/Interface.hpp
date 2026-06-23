@@ -1,5 +1,4 @@
 //- Normal intractable UI
-#include "..\..\cTab\UI\cTab_UI_Base.hpp" // <== IS_DIALOG
 #include "..\UI\cTab_Layouts.hpp"
 
 //- Apply Map for DAGR
@@ -20,7 +19,12 @@
 //- Hovers on the Screen cannot be interacted with mouse
 class RscTitles
 {
+	//- Additional UI
+	#include "..\UI\Display\ScreenShot_UI.hpp"
+	#include "..\UI\Display\cTab_HCam.hpp"
+
 	#undef IS_DIALOG
+	#include "..\UI_Components.hpp"
 	#include "..\UI\cTab_Layouts.hpp"
 
 	//- Apply Map for DAGR
@@ -37,8 +41,4 @@ class RscTitles
 			};
 		};
 	#endif
-
-	//- Additional UI
-	#include "..\UI\ScreenShot_UI.hpp"
-	#include "..\UI\cTab_HCam.hpp"
 };

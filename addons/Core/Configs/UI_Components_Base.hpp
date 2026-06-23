@@ -1,3 +1,10 @@
+/*
+	#NOTE - These are base UI controls only exist on root
+	Must be dialog context !!
+*/
+
+#ifdef IS_DIALOG
+
 class RscText;
 class RscPicture;
 class ScrollBar;
@@ -61,3 +68,5 @@ class ctrlCheckboxes;
 class RscBackground;
 
 #include "..\UI\Custom_UI.hpp" //- Custom UI
+
+#endif

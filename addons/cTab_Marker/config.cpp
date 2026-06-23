@@ -5,12 +5,7 @@ class CfgPatches {
 		authors[] = {"Aaren"};
 		url = ECSTRING(main,url);
 		requiredVersion = REQUIRED_VERSION;
-		//- #NOTE : This Compat For "cTab_1erGTD"
-		requiredAddons[]=
-		{
-			"ace_map",
-			"ACE_map_gestures"
-		};
+		requiredAddons[] = {QGVARMAIN(Core)};
 		skipWhenMissingDependencies = 1;
 		units[] = {};
 		weapons[] = {};
@@ -18,10 +13,4 @@ class CfgPatches {
 	};
 };
 
-//- UI
-#define IS_DIALOG 1
-#include "UI_Components.hpp"
-#include "UI\Map_UI.hpp"
-
-//- Arma Configs
-#include "configs\CfgFunctions.hpp"
+#include "Configs/CfgEventHandlers.hpp"

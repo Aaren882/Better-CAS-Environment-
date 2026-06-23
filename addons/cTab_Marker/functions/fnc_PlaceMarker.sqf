@@ -35,7 +35,7 @@ private [
 ];
 
 //- Marker ID
-  _id = [] call cTab_fnc_NextMarkerID;
+  _id = [] call FUNC(NextMarkerID);
 
 //- From Marker placer
 _group = _display displayCtrl (17000 + 1300);
@@ -91,7 +91,7 @@ _marker setMarkerText ([
 ] joinString "");
 
 _position resize 2;
-[_position,_curSel,_BoxSel # 0,_id,_colorSel] call cTab_fnc_Add_to_MarkerList;
+[_position,_curSel,_BoxSel # 0,_id,_colorSel] call FUNC(Add_to_MarkerList);
 //- update "Index" value
   if (_index != "") then {
     private _id= (toArray _index) # 0;

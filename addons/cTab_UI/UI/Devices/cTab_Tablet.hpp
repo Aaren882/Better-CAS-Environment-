@@ -400,7 +400,8 @@ class cTab_Tablet_dlg
 						w = QUOTE(MARKER_WIDGET_W);
 						h = QUOTE(1.5 * MARKER_WIDGET_H);
 						
-						onToolBoxSelChanged = "call cTab_fnc_Update_MarkerItems";
+						onToolBoxSelChanged = QUOTE(call EFUNC(cTab_Marker,Update_MarkerItems));
+						// onToolBoxSelChanged = "call cTab_fnc_Update_MarkerItems";
 						rows=1;
 						columns=4;
 						strings[]=
@@ -624,7 +625,8 @@ class cTab_Tablet_dlg
 							w = QUOTE(0.5 * MARKER_W);
 							h = QUOTE(1.5 * MARKER_H);
 
-							onButtonClick = "call cTab_fnc_FinishEDIT_Marker";
+							onButtonClick = QUOTE(call EFUNC(cTab_Marker,FinishEDIT_Marker));
+							// onButtonClick = "call cTab_fnc_FinishEDIT_Marker";
 
 							colorBackground[] = {0.117647,0.968628,0.286275,0.3};
 							size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";

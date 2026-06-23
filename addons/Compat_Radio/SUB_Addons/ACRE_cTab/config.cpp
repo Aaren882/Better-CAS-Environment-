@@ -10,7 +10,7 @@ class CfgPatches {
 		requiredAddons[]=
 		{
 			QGVAR(ACRE_Compat), //- overwrite "BCE_Compat_Radio_ACRE_Compat"
-			QGVARMAIN(cTab) 		//- overwrite "BCE_cTab"
+			QGVARMAIN(cTab_UI) 		//- overwrite "BCE_cTab_UI"
 		};
 		skipWhenMissingDependencies = 1;
 		units[] = {};
@@ -20,6 +20,7 @@ class CfgPatches {
 };
 
 //- UI
+#define IS_DIALOG 1
 class BCE_Mission_Build_Controls;
 #include "..\cTab_UI_Components.hpp"
 #include "UI\Control_UI.hpp"

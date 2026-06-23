@@ -295,6 +295,7 @@
   {
     class controls: controls
     {
+			#undef MOVE_Y_OFFSET
       #define MOVE_Y_OFFSET 1
       class Background: Background
       {
@@ -375,6 +376,7 @@
   {
     class controls: controls
 		{
+			#undef MOVE_Y_OFFSET
 			#define MOVE_Y_OFFSET 1
       class Background: Background
       {

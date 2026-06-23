@@ -1,3 +1,17 @@
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_Marker_fnc_DrawArea
+Description:
+		Used when Marker drawing tool is selected.
+		#LINK - addons/Compat_cTab/functions/fn_drawUserMarkers.sqf
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 private ["_lastClick","_Pool","_mPos","_LMB"];
 
 //- Self Remove
@@ -86,7 +100,7 @@ if (_LMB == 0 && _lastClick > -1) then {
   _color = _colorLb lbdata (lbCurSel _colorLb);
 
   //- Marker ID
-    _id = "cTab" call cTab_fnc_NextMarkerID;
+    _id = "cTab" call FUNC(NextMarkerID);
 
   //- MARKER #<PlayerID>/<MarkerID>/#<SEPARATOR>#/<Hide Direction> .. /<ChannelID> must Be last
     _name = format ["_cTab_DEFINED #%1/%2/-1/%3/1/%4", clientOwner, _id, 1, currentChannel];

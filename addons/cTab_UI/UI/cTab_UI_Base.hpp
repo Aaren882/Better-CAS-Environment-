@@ -1,10 +1,11 @@
 /*
 	#NOTE - These are base UI controls only exist on root
+	Must be dialog context !!
 */
 
-#define IS_DIALOG 1 //- Must be dialog context
-
 //- cTab UIs
+#ifdef IS_DIALOG
+
 class cTab_RscMapControl;
 class cTab_RscFrame;
 class cTab_RscPicture;
@@ -29,3 +30,5 @@ class cTab_IGUIBack;
 class cTab_RscButton;
 class cTab_RscText_WindowTitle;
 class cTab_Tablet_btnMouse;
+
+#endif

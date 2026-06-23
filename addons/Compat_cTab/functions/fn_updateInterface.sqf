@@ -199,7 +199,7 @@ _settings apply {
 			private _show = (_x # 1) != "";
 			_group ctrlShow _show;
 			if (_show) then {
-				[_display, (_x # 1)] call cTab_fnc_Marker_Edittor;
+				[_display, (_x # 1)] call EFUNC(cTab_Marker,Marker_Edittor);
 			};
 		};
 
@@ -249,7 +249,7 @@ _settings apply {
 				};
 
 				//- Update Items in ComboBox
-					[_cate,_curSel] call cTab_fnc_Update_MarkerItems;
+					[_cate,_curSel] call EFUNC(cTab_Marker,Update_MarkerItems);
 
 				//- Add Drop Eventhandler
 					_dropBox ctrlAddEventHandler ["LBSelChanged",cTab_fnc_onMarkerSelChanged];
@@ -850,7 +850,7 @@ _settings apply {
 			([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params [["_show",false],"_index","","","_widgetMode"];
 			if (_show && (_index == 3 || _widgetMode == 1)) then {
 				private _ctrl = (_display displayCtrl (17000 + 1300)) controlsGroupCtrl 11;
-				[_ctrl,_index] call cTab_fnc_Update_MarkerItems;
+				[_ctrl,_index] call EFUNC(cTab_Marker,Update_MarkerItems);
 			};
 		};
 

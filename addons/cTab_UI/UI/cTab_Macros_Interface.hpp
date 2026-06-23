@@ -1,8 +1,9 @@
 //- SafeZone for cTab
+#ifndef sizeX
 	#define sizeX ((((-(10) + ((257)) + ((1341))) - ((((1341)) - (10) * 8) / 7))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048)))
 	#define sizeY(SIZE) (((-(0) + (491) + (993)) - (10) - ((42) - (10)) * SIZE) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2))
 	#define sizeW (64 / 2048)
-
+#endif
 //- Tablet
 //-Tablet POS
 	// #NOTE - Configuration for old cTabs
@@ -16,6 +17,7 @@
 	// #define TabletH ((((232) / (272) * ((((993) - (42) - (0)) - (((1341)) / (1024) * (28))) * 0.49))) / 2048 * (safezoneH * 1.2))
 
 	//- Internal Frame
+#ifndef MainFrameX
   #define MainFrameX ((((257))) / 2048 * ((safezoneH * 1.2) * 3/4) + (safezoneX + (safezoneW - ((safezoneH * 1.2) * 3/4)) / 2 + (((safezoneH * 1.2) * 3/4) * 96.5 / 2048)))
   #define MainFrameY ((((491) + (42))) / 2048 * (safezoneH * 1.2) + (safezoneY + (safezoneH - (safezoneH * 1.2)) / 2))
   #define MainFrameW ((((1341))) / 2048 * ((safezoneH * 1.2) * 3/4))
@@ -37,6 +39,7 @@
   #define ContC (0.03/1.2)
   #define ContW (((((((1341)) - (20) * 2) - (10) * 3) / 3.1)) / 2048 * ((safezoneH * 1.2) * 3/4))
   #define ContH (safezoneH / 60)
+#endif
 
 //- TAD
 #ifdef IS_DIALOG
@@ -55,25 +58,25 @@
 
 //- Phone
 #ifdef IS_DIALOG
-  #define PHONE_CLASS class cTab_Android_dlg
+	#define PHONE_CLASS class cTab_Android_dlg
 
-  #define PhoneH (safezoneH * 1.2)
-  #define PhoneW (safezoneW * 0.8)
+	#define PhoneH (safezoneH * 1.2)
+	#define PhoneW (safezoneW * 0.8)
 
-  //-Default Layout
-  #define CustomPhoneH (PhoneW * 4/3)
-  #define CustomPhoneX (safezoneX + (safezoneW - 	PhoneW) / 2)
-  #define CustomPhoneY (safezoneY + (safezoneH - 	CustomPhoneH) / 2)
+	//-Default Layout
+	#define CustomPhoneH (PhoneW * 4/3)
+	#define CustomPhoneX (safezoneX + (safezoneW - 	PhoneW) / 2)
+	#define CustomPhoneY (safezoneY + (safezoneH - 	CustomPhoneH) / 2)
 
-  #define phoneSizeX ((((452))) / 2048 * PhoneW + CustomPhoneX)
-  #define phoneSizeY ((((713) + (60))) / 2048 * CustomPhoneH + CustomPhoneY)
-  #define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
-  #define phoneSizeH ((((626) - (60) - (0))) / 2048 * CustomPhoneH)
+	#define phoneSizeX ((((452))) / 2048 * PhoneW + CustomPhoneX)
+	#define phoneSizeY ((((713) + (60))) / 2048 * CustomPhoneH + CustomPhoneY)
+	#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
+	#define phoneSizeH ((((626) - (60) - (0))) / 2048 * CustomPhoneH)
 
-  #define TextSize (((38)) / 2048 * CustomPhoneH)
-  #define TextTimes 1
-  #define TextTimesH 1
-  #define TextMenu(MULTI) __EVAL(1.1*MULTI)
+	#define TextSize (((38)) / 2048 * CustomPhoneH)
+	#define TextTimes 1
+	#define TextTimesH 1
+	#define TextMenu(MULTI) __EVAL(1.1*MULTI)
 #else
 	//- Android Display
 	#define PHONE_CLASS class cTab_Android_dsp
@@ -89,7 +92,7 @@
 	#define TextSize (((38)) / 2048 * CustomPhoneH)
 	#define TextTimes 2.537
 	#define TextTimesH (((safezoneW * 0.8) * 4/3) / CustomPhoneH)
-  #define TextMenu(MULTI) __EVAL(1.1*MULTI)
+	#define TextMenu(MULTI) __EVAL(1.1*MULTI)
 	
 	#define phoneSizeX (((452)) / 2048 * PhoneW + CustomPhoneX)
 	#define phoneSizeY ((((713) + (60))) / 2048 * CustomPhoneH + CustomPhoneY)

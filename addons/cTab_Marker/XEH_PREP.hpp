@@ -1,0 +1,9 @@
+PREP(Add_to_MarkerList);
+PREP(DrawArea);
+PREP(DrawMarkerDir);
+PREP(DrawRangefinder_ACE);
+PREP(FinishEDIT_Marker);
+PREP(Marker_Edittor);
+PREP(NextMarkerID);
+PREP(PlaceMarker);
+PREP(Update_MarkerItems);

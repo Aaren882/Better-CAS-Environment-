@@ -24,6 +24,10 @@ class CfgPatches {
 #include "Configs\CfgFunctions.hpp"
 #include "Configs\CfgVehicles.hpp"
 #include "Configs\CfgEventHandlers.hpp"
+
+//- UI
+#define IS_DIALOG 1
+#include "UI_Components.hpp"
 #include "Configs\Interface.hpp" //- Apply UI "Dialogs & Titles" configurations
 
 //- Components

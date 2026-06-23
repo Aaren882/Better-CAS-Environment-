@@ -18,7 +18,7 @@ if (isnil {BCE_SYSTEM_Handler}) then {
 };
 
 //- Register CTAB  
-BCE_System_cTab_Loaded = isClass (configFile >> "CfgPatches" >> QGVARMAIN(cTab));
+BCE_System_cTab_Loaded = isClass (configFile >> "CfgPatches" >> QGVARMAIN(cTab_main));
 BCE_have_ACE_earPlugs = false;
 
 //-- Caches --//

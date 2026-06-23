@@ -1,3 +1,5 @@
+#ifndef SubMenuText
+
 #define SubMenuText 0.8
 
 //-17000 + SET
@@ -331,3 +333,5 @@
 #if __has_include("\DIS_enhanced_GPS\config.cpp")
 	#define MAP_MODE 3
 #endif */
+
+#endif

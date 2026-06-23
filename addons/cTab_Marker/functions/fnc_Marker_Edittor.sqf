@@ -1,7 +1,7 @@
 #include "script_component.hpp"
 
 /*
-	NAME : cTab_fnc_Marker_Edittor
+	NAME : BCE_cTab_Marker_fnc_Marker_Edittor
 
 	When a marker got duable-clicked then open up edittor menu
 
@@ -13,7 +13,7 @@
 */
 
 params ["_display","_marker"];
-TRACE_1("fn_Marker_Edittor",_this);
+TRACE_1("fnc_Marker_Edittor",_this);
 
 private _displayName = cTabIfOpen # 1;
 private _widgetMode = ([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) # 4;

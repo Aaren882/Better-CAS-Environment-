@@ -1,4 +1,27 @@
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: cTab_fnc_onMapDoubleClick
+Description:
+		Fire on EventHandler "onMouseButtonDblClick".
+
+Parameters:
+		_control  - UI control that fired this event <CONTROL>
+		_button  - Right/Left Click <NUMBER>
+		_xPos  - Parameter description <NUMBER>
+		_yPos  - Parameter description <NUMBER>
+		_shift  - Parameter description <BOOL>
+		_ctrl  - Parameter description <BOOL>
+		_alt  - Parameter description <BOOL>
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_control", "_button", "_xPos", "_yPos", "_shift", "_ctrl", "_alt"];
+TRACE_1("fn_onMapDoubleClick",_this);
 
 //- no additional inputs
   if (_shift || _ctrl || _alt) exitWith {};
@@ -107,5 +130,5 @@ if (
   _show && _widgetMode == 0
 ) exitWith {
   //- Needs "_display" and other components
-  [_click_POS, _toggle] call cTab_fnc_PlaceMarker;
+  [_click_POS, _toggle] call EFUNC(cTab_Marker,PlaceMarker);
 };

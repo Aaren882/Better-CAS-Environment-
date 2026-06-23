@@ -19,6 +19,7 @@ class CfgPatches {
 	};
 };
 
+#define IS_DIALOG 1
 #include "..\UI_Components.hpp"
 
 class PLP_SMT_Description;

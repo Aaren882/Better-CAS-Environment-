@@ -65,7 +65,9 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 #include "..\cTab_Custom_Controls.hpp"
 
 //- BCE Frameworks for ATAK
-#include "..\..\..\cTab_ATAK\UI\cTab_ATAK_APP.hpp"
+#ifdef IS_DIALOG
+	#include "..\..\..\cTab_ATAK\UI\cTab_ATAK_APP.hpp"
+#endif
 #include "..\..\..\cTab_ATAK\UI\cTab_ATAK_Tools.hpp"
 
 PHONE_CLASS
@@ -356,7 +358,7 @@ PHONE_CLASS
 							w = QUOTE(0.5 * MARKER_W);
 							h = QUOTE(1.5 * MARKER_H);
 
-							onButtonClick = "call cTab_fnc_FinishEDIT_Marker";
+							onButtonClick = QUOTE(call EFUNC(cTab_Marker,FinishEDIT_Marker));
 
 							colorBackground[] = {0.117647,0.968628,0.286275,0.3};
 							size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
@@ -393,9 +395,6 @@ PHONE_CLASS
 						};
 				};
 			};
-			#undef MARKER_HEIGHT
-			#undef MARKER_W
-			#undef MARKER_H
 			
 			//-Home Button
 			class btnHome: cTab_android_btnHome
@@ -464,8 +463,7 @@ PHONE_CLASS
 				text = "GRID :";
 				y = QUOTE(BOX_POS_Y(1));
 			};
-		#undef BOX_SIZE_H
-		#undef BOX_POS_Y
+
 		//- Pages for ATAK
 			//- Back Ground
 				class ATAK_MenuBG: cTab_RscControlsGroup
@@ -644,8 +642,7 @@ PHONE_CLASS
 				y = QUOTE(((713) + ((60) - (42)) / 2) / 2048 * CustomPhoneH + CustomPhoneY); \
 				w = QUOTE(2.5 * (((42)) / 2048 * PhoneW)); \
 				h = QUOTE(((42)) / 2048 * CustomPhoneH)
-			#define PhoneMarkerWidget_X \
-				((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX - (((60) - (20))) / 2048 * CustomPhoneH
+			#define PhoneMarkerWidget_X ((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (3.8))) / 2048 * PhoneW + CustomPhoneX - (((60) - (20))) / 2048 * CustomPhoneH
 			class Marker_Widget_Show: ctrlButton
 			{
 				idc = 1300;
@@ -673,13 +670,6 @@ PHONE_CLASS
 				#define MAKRER_WIDGET_MULT 3.5
 				#define MAKRER_WIDGET_CONTENT_W (40 / 2048 * PhoneW)
 				#define MARKER_WIDGET_BORDER (0.9 * (MAKRER_WIDGET_MULT - 1) * MAKRER_WIDGET_CONTENT_W)
-
-				// onLoad = "call BCE_fnc_Anim_getConfigSteps";
-				// Animation_Steps[] = {
-				// 	{"","","",0},
-				// 	{"","","",(MAKRER_WIDGET_MULT + 1.5) * MARKER_WIDGET_H},
-				// 	{phoneSizeX + (phoneSizeW * 3/5) - MARKER_WIDGET_W,"","",""}
-				// };
 
 				idc = idc_D(1300);
 				x = QUOTE(PhoneMarkerWidget_X);
@@ -915,7 +905,7 @@ PHONE_CLASS
 						w = QUOTE(MARKER_WIDGET_W);
 						h = QUOTE(1.5 * MARKER_WIDGET_H);
 						
-						onToolBoxSelChanged = "call cTab_fnc_Update_MarkerItems";
+						onToolBoxSelChanged = QUOTE(call EFUNC(cTab_Marker,Update_MarkerItems));
 						rows=1;
 						columns=4;
 						strings[]=
@@ -961,7 +951,6 @@ PHONE_CLASS
 				colorSelect[]={1,1,1,1};
 				colorSelectBackground[]={0.2,0.2,0.2,1};
 			};
-			#undef PhoneMarkerColor
 		// - Weather Condition (Widget)
 			class cTab_android_on_Weather_condition_Box: cTab_Tablet_OSD_Weather_condition_Box
 			{
@@ -1008,4 +997,20 @@ PHONE_CLASS
 		delete COMPOSE;
 	};
 };
+#undef ATAK_POS_H
+#undef ATAK_POS_W
+#undef PhoneBFTContainerW
+
+#undef ATAK_POS
+
+// #undef MARKER_HEIGHT
+// #undef MARKER_W
+// #undef MARKER_H
+
+#undef BOX_SIZE_H
+#undef BOX_POS_Y
+
+#undef PhoneMarkerColor
+#undef PhoneMarkerWidget_X
+
 #undef Android_BR_InfoY

@@ -1,6 +1,6 @@
 #include "script_component.hpp"
 /* ----------------------------------------------------------------------------
-Function: cTab_fnc_Update_MarkerItems
+Function: BCE_cTab_Marker_fnc_Update_MarkerItems
 Description:
 		Description.
 
@@ -23,7 +23,7 @@ private ["_display","_displayName","_toggle","_widgetMode","_dropBox","_MarkerCo
   _widgetMode = _toggle # 4;
 
 params ["_ctrl","_selectedIndex"];
-TRACE_1("fn_Update_MarkerItems",_this);
+TRACE_1("fnc_Update_MarkerItems",_this);
 
 _display = ctrlParent _ctrl;
 _group = _display displayCtrl (17000 + 1300);

@@ -30,6 +30,7 @@ class CfgPatches {
 #include "Components\Additional_Fuze.hpp" //- Fuze System (🔧WIP)
 
 //- UI
+#define IS_DIALOG 1
 #include "UI_Components.hpp"
 
 	//- Mission Property + Controls + Map Infos

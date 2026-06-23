@@ -8,7 +8,6 @@ class CfgFunctions
       class onMarkerSelChanged;
       class onMarkerTextEditted;
       class onMarkerOpacityChanged;
-      class Update_MarkerItems;
       class toggleWeather;
       class toggleMarkerWidget;
       class toggleTADMarkerDropper;

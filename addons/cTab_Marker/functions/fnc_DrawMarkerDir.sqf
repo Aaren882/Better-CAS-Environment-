@@ -1,6 +1,6 @@
 #include "..\script_component.hpp"
 /* ----------------------------------------------------------------------------
-Function: cTab_fnc_DrawMarkerDir
+Function: BCE_cTab_Marker_fnc_DrawMarkerDir
 Description:
 	Draws a directional arrow on the map for a marker.
 	Only applies to markers of type "ICON" and will not draw if the marker has the "Hide Direction" option enabled.

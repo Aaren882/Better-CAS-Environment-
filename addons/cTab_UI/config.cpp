@@ -18,7 +18,8 @@ class CfgPatches {
 };
 
 //- UI
-#include "UI/cTab_UI_Base.hpp" // <== IS_DIALOG
+#define IS_DIALOG 1 
+#include "UI/cTab_UI_Base.hpp"
 #include "UI_Components.hpp"
 
 class BCE_Mission_Default
