@@ -8,8 +8,8 @@
 
 //-desktop icons
 #define APP_BFT "\cTab\img\cTab_BFT_ico.paa"
-#define APP_UAV QPATHTOEF(Core,data\AV_Cam.paa)
-#define APP_MSG QPATHTOEF(Core,data\mail.paa)
+// #define APP_UAV QPATHTOEF(Core,data\AV_Cam.paa)
+// #define APP_MSG QPATHTOEF(Core,data\mail.paa)
 
 //-SubMenus
 #define MAINSUB 5
@@ -58,6 +58,10 @@
 
 //-Default
 #define PHONE_MOD 1167
+
+#ifndef ATAK_APP
+	#define ATAK_APP(TITLE) QUOTE(<t size='1'>TITLE</t>)
+#endif
 
 //-Check if the cTab is "NSWDG Edition"
 /* #if __has_include("\cTab\bis_addoninfo.hpp")

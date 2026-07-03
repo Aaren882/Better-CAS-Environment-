@@ -1,7 +1,3 @@
-#ifndef ATAK_APP
-	#define ATAK_APP(TITLE) QUOTE(<t size='1'>TITLE</t>)
-#endif
-
 //- Base ICON CONTROL
   class BCE_ATAK_Tool_ICON: BCE_RscButtonMenu
   {
