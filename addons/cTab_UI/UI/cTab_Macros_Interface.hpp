@@ -49,6 +49,11 @@
 	#define TAD_SizeX 2048  * (TAD_SizeH * 3/4) + (safezoneX + (safezoneW - TAD_SizeH * 3/4) / 2)
 	#define TAD_SizeY 2048  * TAD_SizeH + (safezoneY + safezoneH * 0.1)
 #else
+	#undef TAD_CLASS
+	#undef TAD_SizeH
+	#undef TAD_SizeW
+	#undef TAD_SizeX
+	#undef TAD_SizeY
 	#define TAD_CLASS class cTab_TAD_dsp
 	#define TAD_SizeH (0.86)
 	#define TAD_SizeW (TAD_SizeH * 3/4)
@@ -81,21 +86,35 @@
   #define EMPT_SPAC (0.15 * ((60)) / 2048 * CustomPhoneH)
 #else
 	//- Android Display
+	#undef PHONE_CLASS
 	#define PHONE_CLASS class cTab_Android_dsp
 	
+	#undef PhoneH
+	#undef PhoneW
 	#define PhoneH (safezoneH * 0.8)
 	#define PhoneW (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_W',(safezoneW * 0.443437)])
 	
 	//-Custom Layout
+	#undef CustomPhoneH
+	#undef CustomPhoneX
+	#undef CustomPhoneY
 	#define CustomPhoneH (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_H',(PhoneW * 4/3)])
 	#define CustomPhoneX (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_X',(safezoneX - PhoneW * 0.17)])
 	#define CustomPhoneY (profilenamespace getvariable ['IGUI_GRID_cTab_ATAK_DSP_Y',(safezoneY + safezoneH * 0.88 - CustomPhoneH * 0.72)])
 
+	#undef TextSize
+	#undef TextTimes
+	#undef TextTimesH
+	#undef TextMenu
 	#define TextSize (((38)) / 2048 * CustomPhoneH)
 	#define TextTimes 2.537
 	#define TextTimesH (((safezoneW * 0.8) * 4/3) / CustomPhoneH)
 	#define TextMenu(MULTI) __EVAL(1.1*MULTI)
 	
+	#undef phoneSizeX
+	#undef phoneSizeY
+	#undef phoneSizeW
+	#undef phoneSizeH
 	#define phoneSizeX (((452)) / 2048 * PhoneW + CustomPhoneX)
 	#define phoneSizeY ((((713) + (60))) / 2048 * CustomPhoneH + CustomPhoneY)
 	#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
