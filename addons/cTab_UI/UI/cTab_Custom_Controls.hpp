@@ -276,22 +276,6 @@
 	#undef BNT_W
 	#undef TAG_BNT_W
 
-//- ATAK APPs
-	class ATAK_AppMenu_Base: cTab_RscControlsGroup
-	{
-		x = 0;
-		y = 0;
-		w = QUOTE(phoneSizeW * 2/5);
-		h = QUOTE(phoneSizeH - 0.75 * ATAK_POS_H);
-		
-		class VScrollbar
-		{
-			scrollSpeed=0.08;
-		};
-		class HScrollbar{};
-		class Scrollbar{};
-	};
-
 //- CFF ADJUST Interface (ATAK APPs)
 	#define ADJUSTMENT_MENU 3
 //- POLAR (ADJUST)

@@ -1,3 +1,19 @@
+//- ATAK APPs
+	class ATAK_AppMenu_Base: cTab_RscControlsGroup
+	{
+		x = 0;
+		y = 0;
+		w = QUOTE(phoneSizeW * 2/5);
+		h = QUOTE(phoneSizeH - 0.75 * ATAK_POS_H);
+		
+		class VScrollbar
+		{
+			scrollSpeed=0.08;
+		};
+		class HScrollbar{};
+		class Scrollbar{};
+	};
+
 //- Base ICON CONTROL
   class BCE_ATAK_Tool_ICON: BCE_RscButtonMenu
   {
