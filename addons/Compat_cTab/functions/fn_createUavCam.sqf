@@ -26,7 +26,7 @@
 	Example:
 		[str _uavVehicle,[[0,"rendertarget8"],[1,"rendertarget9"]]] call cTab_fnc_createUavCam;
 */
-params ["_veh","_uavCams","_UAV_Interface"];
+params [["_veh", objNull],["_uavCams",[]],"_UAV_Interface"];
 private ["_veh","_displayName","_display","_squad_list","_seat_info","_Optic_LODs","_Selected_Optic","_turrets","_isEmpty","_renderTarget","_data","_seat","_veh","_uavCams","_seatName","_camPosMemPt","_cam","_turrets"];
 
 _displayName = cTabIfOpen # 1;
@@ -63,16 +63,17 @@ if (isNil {_Selected_Optic # 0}) exitWith {
 	false
 };
 
-_uavCams apply {
-	private ["_cam","_camPosMemPt","_is_Detached","_turret","_vision","_FOVs","_FOV"];
-	_x params ["_seat","_renderTarget"];
+(_Selected_Optic # 0) params ["_camPosMemPt","_turret","_is_Detached"];
 
-	(_Selected_Optic # 0) params ["_camPosMemPt","_turret","_is_Detached"];
+//- #NOTE : _A3TI get Current A3TI Mode 
+	private _A3TI = missionNameSpace getVariable ["A3TI_FLIR_VisionMode", -1];
+	
+_uavCams apply {
+	_x params ["_seat","_renderTarget"];
 	
 	//-Set Turret Name
 	if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
-		private ["_turret_txt"];
-		_turret_txt = getText ([_veh, _turret] call BIS_fnc_turretConfig >> "gunnerName");
+		private _turret_txt = getText ([_veh, _turret] call BIS_fnc_turretConfig >> "gunnerName");
 		_turret_txt = if (alive _veh) then {
 			[_turret_txt,localize "STR_DRIVER"] select (_turret_txt == "")
 		} else {
@@ -90,16 +91,12 @@ _uavCams apply {
 			((_turret # 0) < 0)
 		)
 	) then {
-		_cam = "camera" camCreate [0,0,0];
+		private _cam = "camera" camCreate [0,0,0];
 		_cam attachTo [_veh,[0,0,0],_camPosMemPt,!_is_Detached];
 
 		// set up cam on render target
 		_cam cameraEffect ["INTERNAL","BACK",_renderTarget];
-
-		_vision = cTab_player getVariable ["TGP_View_Optic_Mode", 2];
-		
-		//- #NOTE : _A3TI get Current A3TI Mode 
-			private _A3TI = missionNameSpace getVariable ["A3TI_FLIR_VisionMode", -1];
+		private _vision = cTab_player getVariable ["TGP_View_Optic_Mode", 2];
 
 		//-Set Vision Mode
 		_vision = switch (true) do {
@@ -113,12 +110,12 @@ _uavCams apply {
 		_renderTarget setPiPEffect [_vision];
 
 		//- Setup camera FOV
-		_config = if ((_turret # 0) < 0) then {
+		private _config = if ((_turret # 0) < 0) then {
 			configOf _veh >> "PilotCamera" >> "OpticsIn"
 		} else {
 			[_veh, _turret] call BIS_fnc_turretConfig >> "OpticsIn"
 		};
-		_FOVs = ("true" configClasses _config) apply {
+		private _FOVs = ("true" configClasses _config) apply {
 			if (isText (_x >> "initFov")) then {
 				call compile getText (_x >> "initFov")
 			} else {
