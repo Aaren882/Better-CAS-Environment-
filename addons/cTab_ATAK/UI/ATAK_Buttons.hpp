@@ -40,11 +40,4 @@ class ATAK_Buttons
       ""
     };
   };
-  class VideoFeeds_Menu
-  {
-    onLoad = "BCE_fnc_ATAK_bnt_VideoFeeds"; //- [ALL the Buttons]
-    clickEvents[] = {
-      "BCE_fnc_ATAK_bnt_VideoFeeds_Click"
-    };
-  };
 };

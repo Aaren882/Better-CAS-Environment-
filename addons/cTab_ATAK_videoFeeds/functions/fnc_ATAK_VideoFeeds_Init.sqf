@@ -1,6 +1,30 @@
 #include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_videoFeeds_fnc_ATAK_VideoFeeds_Init
+Description:
+		Initializes and sets up the UI controls and logic for the ATAK Video Feeds panel.
+
+Parameters:
+		_group - The control group container for the interface.
+		_interfaceInit - Boolean indicating if the interface is initialized.
+		_isDialog - Boolean indicating if the interface is in dialog mode.
+		_settings - Settings parameters for the panel.
+
+Returns:
+		<NONE>
+
+Examples
+		(begin example)
+				[params] call BCE_cTab_ATAK_videoFeeds_fnc_ATAK_VideoFeeds_Init
+		(end)
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
 
 params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
+TRACE_1("fnc_ATAK_VideoFeeds_Init",_this);
+
 _settings params ["_page","","",["_PgComponents",createHashMap]];
 
 private _switch_btn = _group controlsGroupCtrl 5;

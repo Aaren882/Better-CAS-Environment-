@@ -77,6 +77,8 @@
 	#define TextTimes 1
 	#define TextTimesH 1
 	#define TextMenu(MULTI) __EVAL(1.1*MULTI)
+
+  #define EMPT_SPAC (0.15 * ((60)) / 2048 * CustomPhoneH)
 #else
 	//- Android Display
 	#define PHONE_CLASS class cTab_Android_dsp
@@ -98,6 +100,9 @@
 	#define phoneSizeY ((((713) + (60))) / 2048 * CustomPhoneH + CustomPhoneY)
 	#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
 	#define phoneSizeH ((((626) - (60) - (0))) / 2048 * CustomPhoneH)
+	
+	#undef EMPT_SPAC
+  #define EMPT_SPAC (0.15 * ((60)) / 2048 * CustomPhoneH)
 #endif
 
 #ifndef ATAK_POS

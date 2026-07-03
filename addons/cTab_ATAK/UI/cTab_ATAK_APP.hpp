@@ -52,19 +52,7 @@ class ATAK_APPs
       text = ATAK_APP(Missions);
 			textureNoShortcut = QPATHTOEF(Core,data\missions.paa);
     };
-    class VideoFeeds: BCE_ATAK_Tool_ICON
-    {
-      class Menu_Property
-      {
-        ORDER = 2;
-        PAGE_CTRL = "ATAK_Video";
-        Opened = "BCE_fnc_ATAK_VideoFeeds_Init";
-        ATAK_Buttons = "VideoFeeds_Menu";
-      };
-
-      text = ATAK_APP(Video Feeds);
-			textureNoShortcut = QPATHTOEF(Core,data\Hcam.paa);
-    };
+    
   //-Second Line
     class Group: BCE_ATAK_Tool_ICON
     {

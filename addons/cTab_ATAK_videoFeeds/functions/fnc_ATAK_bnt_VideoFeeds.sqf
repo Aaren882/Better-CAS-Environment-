@@ -1,4 +1,30 @@
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_videoFeeds_fnc_ATAK_bnt_VideoFeeds
+Description:
+		Controls the layout and properties of the video feed buttons (bnt_back, bnt_Ent, etc.).
+
+Parameters:
+		_ctrlBnts    - An array of control groups/elements to be configured.
+		_ctrlPOS     - The position parameters for the controls.
+		_subMenu     - The associated sub-menu element.
+		_interfaceInit - Initialization parameters for the interface (e.g., fade time).
+
+Returns:
+		<NONE>
+
+Examples
+		(begin example)
+				[params] call BCE_cTab_ATAK_videoFeeds_fnc_ATAK_bnt_VideoFeeds
+		(end)
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_ctrlBnts","_ctrlPOS","_subMenu","_interfaceInit"];
+TRACE_1("fnc_ATAK_bnt_VideoFeeds",_this);
+
 _ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
 
 //- Arrange Bottons layout
