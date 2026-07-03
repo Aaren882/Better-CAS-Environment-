@@ -65,9 +65,7 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 #include "..\cTab_Custom_Controls.hpp"
 
 //- BCE Frameworks for ATAK
-#ifdef IS_DIALOG
-	#include "..\..\..\cTab_ATAK\UI\cTab_ATAK_APP.hpp"
-#endif
+#include "..\..\..\cTab_ATAK\UI\cTab_ATAK_APP.hpp"
 #include "..\..\..\cTab_ATAK\UI\cTab_ATAK_Tools.hpp"
 
 PHONE_CLASS
@@ -105,7 +103,7 @@ PHONE_CLASS
 			};
 		class screen: cTab_android_RscMapControl
 		{
-			// mapOrientation = 1; //- #TODO - Map Follew player's Orientation 
+			// mapOrientation = 1; //- #TODO - Map Follows player's Orientation 
 			#ifdef IS_DIALOG
 				style = 48 + 512;
 				onMouseButtonClick = MOUSE_CLICK_EH;
