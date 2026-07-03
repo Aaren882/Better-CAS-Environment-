@@ -218,7 +218,5 @@ _title ctrlSetStructuredText parseText _recipient;
     cTab_player setVariable ["cTab_messages_" + _playerEncryptionKey, _msgArray];
     ["ctab_messagesUpdated"] call CBA_fnc_localEvent;
   };
-_list spawn {
-  uiSleep 0.1;
-  _this ctrlSetScrollValues [1, -1];
-};
+
+	[{ _this ctrlSetScrollValues [1, -1]; }, _list] call CBA_fnc_execNextFrame;
