@@ -37,7 +37,7 @@
 	["showMenu",["main",false,["",0],createHashMap]],
 	["MarkerWidget",[false,0,[0,0],[],0,0,100]],
 	["MarkerEDIT",""],
-	["Contactor",""],
+	["recipient",""],
 	["uavInfo",false],
 	["mapTools",true],
 	["PLP_mapTools",false],
