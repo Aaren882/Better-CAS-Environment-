@@ -10,6 +10,8 @@ class ATAK_Buttons
     };
   };
 };
+
+#include "page.hpp"
 class ATAK_APPs
 {
 	class message: BCE_ATAK_Tool_ICON
@@ -19,7 +21,7 @@ class ATAK_APPs
 			ORDER = 0; //- Default Order (Customizable)
 			PAGE_CTRL = "ATAK_Message"; //- which "Control Class" switch to
 			Opened = QFUNC(ATAK_message_Init);
-			ATAK_Buttons = "Message_Menu"; //- #LINK - cTab/ATAK_Tools/ATAK_Buttons.hpp
+			ATAK_Buttons = "Message_Menu";
 		};
 		
 		text = ATAK_APP(Message);
