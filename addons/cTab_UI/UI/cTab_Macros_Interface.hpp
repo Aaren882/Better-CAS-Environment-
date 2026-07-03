@@ -99,3 +99,15 @@
 	#define phoneSizeW ((((PHONE_MOD))) / 2048 * PhoneW)
 	#define phoneSizeH ((((626) - (60) - (0))) / 2048 * CustomPhoneH)
 #endif
+
+#ifndef ATAK_POS
+	#define ATAK_POS_H (((60)) / 2048 * CustomPhoneH)
+	#define ATAK_POS_W ((phoneSizeW * 2/5)/3)
+	#define PhoneBFTContainerW(AxisX) AxisX * ATAK_POS_W
+
+	#define ATAK_POS(XPOS,YPOS,WPOS,HPOS) \
+		x = QUOTE(PhoneBFTContainerW(XPOS)); \
+		y = QUOTE(YPOS * ATAK_POS_H); \
+		w = QUOTE(PhoneBFTContainerW(WPOS)); \
+		h = QUOTE(HPOS * ATAK_POS_H)
+#endif
