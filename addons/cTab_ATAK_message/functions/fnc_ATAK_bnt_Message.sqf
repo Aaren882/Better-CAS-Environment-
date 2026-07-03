@@ -1,4 +1,30 @@
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_message_fnc_ATAK_bnt_Message
+Description:
+		Initializes and configures the message button layout and appearance in the cTab interface.
+
+Parameters:
+		_ctrlBnts - Array of button controls (e.g., [back, ent, third, result]).
+		_ctrlPOS - Control position structure for the buttons.
+		_subMenu - Sub-menu handle (if applicable).
+		_interfaceInit - Initialization parameters for the interface.
+
+Returns:
+		<NONE>
+
+Examples
+		(begin example)
+				[params] call BCE_cTab_ATAK_message_fnc_ATAK_bnt_Message
+		(end)
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_ctrlBnts","_ctrlPOS","_subMenu","_interfaceInit"];
+TRACE_1("fnc_ATAK_bnt_Message",_this);
+
 _ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
 
 //- Arrange Bottons layout

@@ -81,7 +81,6 @@ class CfgFunctions
       {
         file=QPATHTOF(functions\Menu\Button_Events);
         class ATAK_DataReceiveButton;
-        class ATAK_bnt_MessageSend_Click;
         class ATAK_bnt_VideoFeeds_Click;
         class ATAK_bnt_CFF_Action_Click;
       };
@@ -91,7 +90,6 @@ class CfgFunctions
         class ATAK_bnt_SendMission;
         class ATAK_bnt_CFF_List;
         class ATAK_bnt_Group;
-        class ATAK_bnt_Message;
         class ATAK_bnt_TaskBuilding;
         class ATAK_bnt_VideoFeeds;
       };
@@ -103,7 +101,6 @@ class CfgFunctions
       class ATAK_Menu_onOpened
       {
         file=QPATHTOF(functions\APP_Menu_onOpened);
-        class ATAK_message_Init;
         class ATAK_mission_Init;
         class ATAK_Group_Init;
         class ATAK_VideoFeeds_Init;
@@ -118,11 +115,6 @@ class CfgFunctions
         class ATAK_CamInit;
         class ATAK_TakePicture;
         class ATAK_FullScreenCamera;
-      };
-      class ATAK_MSG
-      {
-        file=QPATHTOF(functions\Message);
-        class ATAK_msg_Line_Create;
       };
       class ATAK_Group_Menu
       {

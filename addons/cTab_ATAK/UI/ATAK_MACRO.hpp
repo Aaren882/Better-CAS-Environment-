@@ -4,6 +4,7 @@
     style = "0x02 + 0x0C + 0x0100";
     shadow = 1;
     text = "";
+		onButtonClick = "[_this # 0] call BCE_fnc_ATAK_ChangeTool";
 
     x = 0;
     y = 0;

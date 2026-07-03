@@ -4,22 +4,7 @@
 class ATAK_APPs
 {
   //-First Line
-    class message: BCE_ATAK_Tool_ICON
-    {
-      class Menu_Property
-      {
-        ORDER = 0; //- Default Order (Customizable)
-        PAGE_CTRL = "ATAK_Message"; //- which "Control Class" switch to
-        Opened = "BCE_fnc_ATAK_message_Init";
-        ATAK_Buttons = "Message_Menu"; //- #LINK - cTab/ATAK_Tools/ATAK_Buttons.hpp
-      };
-      
-      onButtonClick = "[_this # 0] call BCE_fnc_ATAK_ChangeTool;";
-      
-      text = ATAK_APP(Message);
-      textureNoShortcut=APP_MSG;
-    };
-    class mission: message
+    class mission: BCE_ATAK_Tool_ICON
     {
       class Menu_Property
       {
@@ -67,7 +52,7 @@ class ATAK_APPs
       text = ATAK_APP(Missions);
 			textureNoShortcut = QPATHTOEF(Core,data\missions.paa);
     };
-    class VideoFeeds: message
+    class VideoFeeds: BCE_ATAK_Tool_ICON
     {
       class Menu_Property
       {
@@ -81,7 +66,7 @@ class ATAK_APPs
 			textureNoShortcut = QPATHTOEF(Core,data\Hcam.paa);
     };
   //-Second Line
-    class Photo: message
+    class Photo: BCE_ATAK_Tool_ICON
     {
       class Menu_Property
       {
@@ -94,7 +79,7 @@ class ATAK_APPs
       text = ATAK_APP(Quick Pictures);
 			textureNoShortcut = QPATHTOEF(Core,data\photo.paa);
     };
-    class Group: message
+    class Group: BCE_ATAK_Tool_ICON
     {
       class Menu_Property
       {
@@ -108,7 +93,7 @@ class ATAK_APPs
       text = ATAK_APP(Groups);
       textureNoShortcut="a3\3den\data\displays\display3den\panelright\modegroups_ca.paa";
     };
-    class Route: message
+    class Route: BCE_ATAK_Tool_ICON
     {
       class Menu_Property
       {
@@ -121,7 +106,7 @@ class ATAK_APPs
     };
   
   //-Thired Line
-    class Weather: message
+    class Weather: BCE_ATAK_Tool_ICON
     {
       class Menu_Property
       {
@@ -132,7 +117,7 @@ class ATAK_APPs
       text = ATAK_APP(Weather);
       textureNoShortcut="a3\3den\data\displays\display3den\toolbar\intel_ca.paa";
     };
-    class BDA_Report: message
+    class BDA_Report: BCE_ATAK_Tool_ICON
     {
       class Menu_Property
       {
@@ -144,7 +129,7 @@ class ATAK_APPs
       textureNoShortcut="a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa";
     };
     
-    class settings: message
+    class settings: BCE_ATAK_Tool_ICON
     {
       class Menu_Property
       {

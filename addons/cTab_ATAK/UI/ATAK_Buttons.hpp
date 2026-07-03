@@ -40,13 +40,6 @@ class ATAK_Buttons
       ""
     };
   };
-  class Message_Menu
-  {
-    onLoad = "BCE_fnc_ATAK_bnt_Message"; //- [ALL the Buttons]
-    clickEvents[] = {
-      "BCE_fnc_ATAK_bnt_MessageSend_Click"
-    };
-  };
   class VideoFeeds_Menu
   {
     onLoad = "BCE_fnc_ATAK_bnt_VideoFeeds"; //- [ALL the Buttons]

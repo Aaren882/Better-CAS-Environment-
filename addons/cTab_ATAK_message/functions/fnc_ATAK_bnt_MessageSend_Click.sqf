@@ -1,7 +1,32 @@
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_message_fnc_ATAK_bnt_MessageSend_Click
+Description:
+		Sends a message notification through the ATAK interface.
+		It validates recipients, constructs the message title (including time, group, and player name), and sends the message body to all specified recipients.
+
+Parameters:
+		_control  - The control group object (unused in current implementation).
+		_MenuGroup - The menu group container object.
+		_settings - The settings object retrieved from the dialog.
+
+Returns:
+		None.
+		
+Examples:
+		(begin example)
+				[params] call BCE_cTab_ATAK_message_fnc_ATAK_bnt_MessageSend_Click
+		(end)
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_control","_MenuGroup","_settings"];
+TRACE_1("fnc_ATAK_bnt_MessageSend_Click",_this);
 
 //- Sending message ATAK interface only
-	private _recip = ["cTab_Android_dlg", "Contactor"] call cTab_fnc_getSettings;
+	private _recip = ["cTab_Android_dlg", "recipient"] call cTab_fnc_getSettings;
 	if (_recip == "") exitWith {
 		["MSG","Invalid Recipient...",3] call cTab_fnc_addNotification;
 	};

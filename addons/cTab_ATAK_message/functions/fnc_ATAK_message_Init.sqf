@@ -1,7 +1,31 @@
 #include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_message_fnc_ATAK_message_Init
+Description:
+		Initializes the ATAK message interface. This function sets up controls, loads message history, and establishes event listeners for the messaging panel.
+
+Parameters:
+		_group  - The parent group control where the message interface elements are placed.
+		_interfaceInit - Boolean. If true, prevents re-initialization logic.
+		_isDialog - Boolean. Indicates if the message interface is displayed in a dialog.
+		_settings - An object containing panel settings, including the target page and component map.
+
+Returns:
+		NONE
+
+Examples
+		(begin example)
+				[params] call BCE_cTab_ATAK_message_fnc_ATAK_message_Init
+		(end)
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
 
 params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 _settings params ["_page","","",["_PgComponents",createHashMap]];
+
+TRACE_1("fnc_ATAK_message_Init",_this);
 
 //- Get Page data
   private _displayName = cTabIfOpen # 1;
@@ -37,11 +61,11 @@ private _msgArray = cTab_player getVariable ["cTab_messages_" + _playerEncryptio
 
 // if (_interfaceInit) exitWith {};
 
-//- Get Contactor
-private _previus = [_displayName, "Contactor"] call cTab_fnc_getSettings;
-private _contactor = if (lbSize _contacts > 0) then {
+//- Get Recipient
+private _previus = [_displayName, "recipient"] call cTab_fnc_getSettings;
+private _recipient = if (lbSize _contacts > 0) then {
   private _c = _contacts lbData (lbCurSel _contacts);
-  [_displayName, [["Contactor",_c]],false] call cTab_fnc_setSettings;
+  [_displayName, [["recipient",_c]],false] call cTab_fnc_setSettings;
   _c
 } else {
   _previus
@@ -93,18 +117,18 @@ private _contactor = if (lbSize _contacts > 0) then {
   };
   
 
-//- sort out the correct "_contactor" name (STRING)
+//- sort out the correct "_recipient" name (STRING)
   {
-    if (str _x == _contactor) exitWith {
-      _contactor = name _x;
+    if (str _x == _recipient) exitWith {
+      _recipient = name _x;
     };
   } count ([cTab_player] + playableUnits);
 
-//- none "_contactor" Selected (exitWith)
-  if (_contactor == "") exitWith {
+//- none "_recipient" Selected (exitWith)
+  if (_recipient == "") exitWith {
     _title ctrlSetStructuredText parseText str (localize "STR_BCE_None");
   };
-_title ctrlSetStructuredText parseText _contactor;
+_title ctrlSetStructuredText parseText _recipient;
 
 //- Msg Sort
   private _index = 0;
@@ -120,8 +144,8 @@ _title ctrlSetStructuredText parseText _contactor;
     
     private _name = (_title select [_title find "("]) trim ["() ", 0];
 
-    //- Skip on Diff Contactor
-      if (_contactor != _name) then {continue};
+    //- Skip on Diff recipient
+      if (_recipient != _name) then {continue};
     
     private _time = _title select [0,_sep];
     private _time_s = (_time splitString ":") apply {parseNumber _x};
@@ -136,7 +160,7 @@ _title ctrlSetStructuredText parseText _contactor;
 
       if ((_time_s - _time_AC) >= 30) then {
         private _size = 0.8;
-        private _ctrlMsg = [_list,4, "-- " + _time + " --"] call BCE_fnc_ATAK_msg_Line_Create;
+        private _ctrlMsg = [_list,4, "-- " + _time + " --"] call FUNC(ATAK_msg_Line_Create);
         private _ctrl_H = (ctrlPosition _ctrlMsg) # 3;
 
         _ctrlMsg ctrlSetPositionY _size_H;
@@ -177,7 +201,7 @@ _title ctrlSetStructuredText parseText _contactor;
         _msgArray set [_forEachIndex, [_title,_msgBody,1]];
       };
 
-    private _ctrlMsg = [_list,_msgState,_txt] call BCE_fnc_ATAK_msg_Line_Create;
+    private _ctrlMsg = [_list,_msgState,_txt] call FUNC(ATAK_msg_Line_Create);
     private _ctrl_H = (ctrlPosition _ctrlMsg) # 3;
 
     _ctrlMsg ctrlSetPositionY _size_H;
