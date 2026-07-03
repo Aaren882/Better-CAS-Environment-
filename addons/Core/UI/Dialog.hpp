@@ -9,7 +9,7 @@ class RscTitles
 		#undef IS_DIALOG
 	#endif
 
-	titles[] += {"BCE_Task_Receiver","BCE_TGP_View_GUI","BCE_HCAM_View","BCE_PhoneCAM_View","default"};
+	titles[] += {"BCE_Task_Receiver","BCE_TGP_View_GUI","BCE_HCAM_View","default"};
 	class default
 	{
 		idd = -1;

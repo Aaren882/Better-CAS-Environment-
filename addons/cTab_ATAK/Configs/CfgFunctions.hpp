@@ -113,7 +113,6 @@ class CfgFunctions
       {
         file=QPATHTOF(functions\Camera);
         class ATAK_CamInit;
-        class ATAK_TakePicture;
         class ATAK_FullScreenCamera;
       };
       class ATAK_Group_Menu

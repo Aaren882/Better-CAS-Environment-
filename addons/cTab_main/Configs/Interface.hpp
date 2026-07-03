@@ -20,7 +20,6 @@
 class RscTitles
 {
 	//- Additional UI
-	#include "..\UI\Display\ScreenShot_UI.hpp"
 	#include "..\UI\Display\cTab_HCam.hpp"
 
 	#undef IS_DIALOG

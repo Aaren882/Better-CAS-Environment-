@@ -1,13 +1,34 @@
 #include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_photo_fnc_ATAK_TakePicture
+Description:
+		Captures a screenshot from the phone camera view within the ATAK interface.
+		Processes the image and sends the captured data via a local event.
+
+Parameters:
+		<NONE>
+
+Returns:
+		<NONE>
+
+Examples
+		(begin example)
+				[params] call BCE_cTab_ATAK_photo_fnc_ATAK_TakePicture
+		(end)
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
 
 private _display = uiNamespace getVariable ["BCE_PhoneCAM_View",displayNull];
+TRACE_1("fnc_ATAK_TakePicture",_display);
 
 //- Print Grid
-_grid = _display displayCtrl 55;
+private _grid = _display displayCtrl 55;
 _grid ctrlSetBackgroundColor [0,0,0,0.3];
 _grid ctrlSetText format["GRID :%1", [getPosVisual player,10] call BCE_fnc_POS2Grid];
 
-_grid = _display displayCtrl 55;
+private _grid = _display displayCtrl 55;
 
 private _ctrls = (allControls _display) apply {
   if (50 > ctrlIDC _x) then {
@@ -23,6 +44,7 @@ private _ctrls = (allControls _display) apply {
   params ["_ctrls", "_grid"];
 	
 	private _screenshot = [] call BCE_fnc_screenShot; //- Take picture
+	TRACE_1("fnc_ATAK_TakePicture",_screenshot);
   
   {
     if (isNull _x) then {continue};

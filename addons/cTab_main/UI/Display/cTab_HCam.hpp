@@ -1,3 +1,31 @@
+class BCE_PhoneCAM_View
+{
+	class controlsBackground
+	{
+		class frame_left_up_h;
+		class frame_left_up_v;
+		class frame_right_down_h;
+		class frame_right_down_v;
+		class frame_left_down_h;
+		class frame_left_down_v;
+		class frame_right_up_h;
+		class frame_right_up_v;
+		class middle_left_v;
+		class middle_left_up_h;
+		class middle_left_down_h;
+		class middle_right_v;
+		class middle_right_up_h;
+		class middle_right_down_h;
+	};
+	class controls
+	{
+		class User_Info;
+		class Group_Info;
+		class Time;
+		class Date;
+		class GRID;
+	};
+};
 class BCE_HCAM_View: BCE_PhoneCAM_View
 {
   name = "BCE_HCAM_View";
