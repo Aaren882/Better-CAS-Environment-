@@ -4,11 +4,11 @@ class ATAK_Buttons
 {
 	class MissionSend_Menu
   {
-    onLoad = "BCE_fnc_ATAK_bnt_SendMission"; //- [ALL the Buttons]
+    onLoad = QFUNC(ATAK_bnt_SendMission); //- [ALL the Buttons]
     clickEvents[] = {
-      "BCE_fnc_ATAK_DataReceiveButton",
+      QFUNC(ATAK_DataReceiveButton),
       "cTab_Tablet_btnACT",
-      "BCE_fnc_ATAK_ShowTaskResult"
+      QFUNC(ATAK_ShowTaskResult)
     };
   };
   class Task_CFF_Action_Menu: MissionSend_Menu
@@ -16,23 +16,23 @@ class ATAK_Buttons
     clickEvents[] = {
       "BCE_fnc_ATAK_bnt_CFF_Action_Click",
       "cTab_Tablet_btnACT",
-      "BCE_fnc_ATAK_ShowTaskResult"
+      QFUNC(ATAK_ShowTaskResult)
     };
   };
   class Task_CFF_List_Menu: MissionSend_Menu
   {
     onLoad = "BCE_fnc_ATAK_bnt_CFF_List"; //- [ALL the Buttons]
     clickEvents[] = {
-      "BCE_fnc_ATAK_ShowTaskResult" //- Refresh CFF List
+      QFUNC(ATAK_ShowTaskResult) //- Refresh CFF List
     };
   };
   class TaskBuilding_Menu
   {
-    onLoad = "BCE_fnc_ATAK_bnt_TaskBuilding"; //- [ALL the Buttons]
+    onLoad = QFUNC(ATAK_bnt_TaskBuilding); //- [ALL the Buttons]
     clickEvents[] = {
-      "BCE_fnc_ATAK_DataReceiveButton",
+      QFUNC(ATAK_DataReceiveButton),
       "cTab_Tablet_btnACT",
-      "BCE_fnc_ATAK_ShowTaskResult"
+      QFUNC(ATAK_ShowTaskResult)
     };
   };
 };
@@ -47,14 +47,14 @@ class ATAK_APPs
 		{
 			ORDER = 1;
 			PAGE_CTRL = "Task_Builder";
-			Opened = "BCE_fnc_ATAK_mission_Init";
+			Opened = QFUNC(ATAK_mission_Init);
 			ATAK_Buttons = "MissionSend_Menu";
 			class Pages
 			{
 				class Task_Building
 				{
 					PAGE_CTRL = "Task_Building";
-					Opened = "BCE_fnc_ATAK_mission_SUB_TaskBuilding";
+					Opened = QFUNC(ATAK_mission_SUB_TaskBuilding);
 					ATAK_Buttons = "TaskBuilding_Menu";
 				};
 				class Task_CFF_List
@@ -73,7 +73,7 @@ class ATAK_APPs
 				class Task_Result
 				{
 					PAGE_CTRL = "Task_Result";
-					Opened = "BCE_fnc_ATAK_mission_SUB_TaskResult";
+					Opened = QFUNC(ATAK_mission_SUB_TaskResult);
 					// ATAK_Buttons = "TaskBuilding_Menu";
 				};
 			};

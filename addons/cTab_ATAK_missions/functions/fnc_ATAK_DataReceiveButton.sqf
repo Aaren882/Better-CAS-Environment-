@@ -1,5 +1,25 @@
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_missions_fnc_ATAK_DataReceiveButton
+Description:
+		Manages mission control actions related to data reception,
+		including mission abortion and submission of collected task data.
+
+Parameters:
+		_control  - The GUI button control element. <CONTROL>
+		_MenuGroup - The parent menu group control element. <CONTROL>
+		_settings - Task settings configuration array. <ARRAY>
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_control","_MenuGroup","_settings"];
 // _ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
+TRACE_1("fnc_ATAK_DataReceiveButton",_this);
 
 //- Mission Builders
 _settings params ["","","_subInfos"];

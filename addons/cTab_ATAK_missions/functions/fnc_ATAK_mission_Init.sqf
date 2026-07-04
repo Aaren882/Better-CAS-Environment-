@@ -1,9 +1,32 @@
+
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_missions_fnc_ATAK_mission_Init
+Description:
+		Initializes the mission tab control,
+		sets up category selections,
+		and defines event handlers for mission tasks.
+
+Parameters:
+		_group         - The controls group object housing the mission interface.
+		_interfaceInit - Array containing interface initialization parameters.
+		_isDialog      - Boolean flag indicating if the mission is running in a dialog.
+		_settings      - An object containing panel settings, including the target page and component map.
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 //- #NOTE - Colors for Background
 	#define AIR_COLOR [0,0,0.5,0.1]
 	#define GND_COLOR [0.13,0.35,0.18,0.05]
 	#define DEF_COLOR [0,0,0.5,0.1]
 
 params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
+TRACE_1("fnc_ATAK_mission_Init",_this);
 
 //- Create the Correct Mission Builder
 	private _cateSel = ["Cate",0] call BCE_fnc_get_TaskCurSetup;

@@ -99,7 +99,7 @@ class ATAK_Group_Manage_Custom
 
 					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\gabage.paa, Delete);
 					tooltip = "$STR_BCE_DEL_RAT_Fire_MSN_Tip";
-					onButtonClick = "[_this # 0, true] call BCE_fnc_ATAK_CFF_Mission_RAT; call BCE_fnc_ATAK_ShowTaskResult;";
+					onButtonClick = "[_this # 0, true] call BCE_fnc_ATAK_CFF_Mission_RAT; call BCE_cTab_ATAK_missions_fnc_ATAK_ShowTaskResult;";
 				};
 			};
 		};

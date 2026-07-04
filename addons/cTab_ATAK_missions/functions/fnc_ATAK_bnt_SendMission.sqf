@@ -1,6 +1,24 @@
 #include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_missions_fnc_ATAK_bnt_SendMission
+Description:
+		Handles the logic for sending a mission request based on the unit's task category (Air, Ground, Other).
+
+Parameters:
+		_ctrlBnts - ARRAY of controls (e.g., back, enter, result buttons). <ARRAY>
+		_ctrlPOS  - Position object for controls. <ARRAY>
+		_subMenu  - Menu name context (e.g., "Task_CFF_Action"). <STRING>
+		_interfaceInit - Interface initialization flag. <BOOLEAN>
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
 
 params ["_ctrlBnts","_ctrlPOS","_subMenu","_interfaceInit"];
+TRACE_1("fnc_ATAK_bnt_SendMission",_this);
 _ctrlBnts params ["_bnt_back","_bnt_Ent","_bnt_third","_bnt_result"];
 
 private _vehicle = [] call BCE_fnc_get_TaskCurUnit;

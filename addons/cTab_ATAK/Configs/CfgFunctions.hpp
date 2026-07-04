@@ -23,7 +23,6 @@ class CfgFunctions
         class ATAK_Refresh_TaskInfos;
         class ATAK_Refresh_Weapons;
         class ATAK_PullData;
-        class ATAK_ShowTaskResult;
         class ATAK_onVehicleChanged;
         class ATAK_updateTaskControl;
         class ATAK_getTaskCategoryInfo;
@@ -80,16 +79,13 @@ class CfgFunctions
       class ATAK_Menu_Buttons
       {
         file=QPATHTOF(functions\Menu\Button_Events);
-        class ATAK_DataReceiveButton;
         class ATAK_bnt_CFF_Action_Click;
       };
       class ATAK_Menu_Buttons_Init
       {
         file=QPATHTOF(functions\Menu\Init_Buttons);
-        class ATAK_bnt_SendMission;
         class ATAK_bnt_CFF_List;
         class ATAK_bnt_Group;
-        class ATAK_bnt_TaskBuilding;
       };
       class ATAK_Menu_Invokes
       {
@@ -99,10 +95,7 @@ class CfgFunctions
       class ATAK_Menu_onOpened
       {
         file=QPATHTOF(functions\APP_Menu_onOpened);
-        class ATAK_mission_Init;
         class ATAK_Group_Init;
-        class ATAK_mission_SUB_TaskBuilding;
-        class ATAK_mission_SUB_TaskResult;
         class ATAK_mission_SUB_TaskCFFList;
         class ATAK_mission_SUB_TaskCFF_Action;
       };
