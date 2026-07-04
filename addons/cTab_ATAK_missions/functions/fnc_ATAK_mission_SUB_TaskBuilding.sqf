@@ -1,6 +1,6 @@
 #include "script_component.hpp"
 /* ----------------------------------------------------------------------------
-Function: BCE_cTab_ATAK_missions_fn_ATAK_mission_SUB_TaskBuilding
+Function: BCE_cTab_ATAK_missions_fnc_ATAK_mission_SUB_TaskBuilding
 Description:
 		Handles the building and display logic for mission sub-tasks within the cTab interface.
 
