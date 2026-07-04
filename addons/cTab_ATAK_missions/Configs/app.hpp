@@ -11,21 +11,6 @@ class ATAK_Buttons
       QFUNC(ATAK_ShowTaskResult)
     };
   };
-  class Task_CFF_Action_Menu: MissionSend_Menu
-  {
-    clickEvents[] = {
-      "BCE_fnc_ATAK_bnt_CFF_Action_Click",
-      "cTab_Tablet_btnACT",
-      QFUNC(ATAK_ShowTaskResult)
-    };
-  };
-  class Task_CFF_List_Menu: MissionSend_Menu
-  {
-    onLoad = "BCE_fnc_ATAK_bnt_CFF_List"; //- [ALL the Buttons]
-    clickEvents[] = {
-      QFUNC(ATAK_ShowTaskResult) //- Refresh CFF List
-    };
-  };
   class TaskBuilding_Menu
   {
     onLoad = QFUNC(ATAK_bnt_TaskBuilding); //- [ALL the Buttons]
@@ -38,7 +23,6 @@ class ATAK_Buttons
 };
 
 #include "page.hpp"
-#include "elements.hpp"
 class ATAK_APPs
 {
 	class mission: BCE_ATAK_Tool_ICON
@@ -56,19 +40,6 @@ class ATAK_APPs
 					PAGE_CTRL = "Task_Building";
 					Opened = QFUNC(ATAK_mission_SUB_TaskBuilding);
 					ATAK_Buttons = "TaskBuilding_Menu";
-				};
-				class Task_CFF_List
-				{
-					PAGE_CTRL = "Task_CFF_List";
-					Opened = "BCE_fnc_ATAK_mission_SUB_TaskCFFList";
-					ATAK_Buttons = "Task_CFF_List_Menu";
-				};
-				class Task_CFF_Action
-				{
-					PAGE_CTRL = "Task_CFF_Action";
-					Opened = "BCE_fnc_ATAK_mission_SUB_TaskCFF_Action";
-					LastPage = "Task_CFF_List"; //- ClassName of the page
-					ATAK_Buttons = "Task_CFF_Action_Menu";
 				};
 				class Task_Result
 				{

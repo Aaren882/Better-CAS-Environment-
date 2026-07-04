@@ -1,3 +1,28 @@
+class AIR_9_LINE: ATAK_AppMenu_Base
+{
+	class controls: BCE_Mission_Build_Controls {};
+};
+class AIR_5_LINE: AIR_9_LINE
+{
+	class controls: controls
+	{
+		class Background;
+		class Game_Plan_T;
+		class Weapon_T;
+		class Line1_T5;
+		class L52_EditBnt;
+		class L51_EditBnt;
+		class Line2_T5;
+		class Line3_T5;
+		class L54_EditBnt;
+		class L54_PullBnt;
+		class New_Task_TG_DESC;
+		class New_Task_GRID_DESC;
+		class Line4_T5;
+		class Remark_EditBnt;
+		class Separator;
+	};
+};
 //- CFF Adjust Fire
 	class CFF_ADJ_FIRE: AIR_5_LINE
 	{

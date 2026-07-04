@@ -8,7 +8,6 @@ class ATAK_Group_Manage_Custom
 		class Tag_Bnt;
 		class Msg_bnt;
 		class Edit_bnt;
-		class RAT_bnt;
 	};
 };
 //- Custom Drop Menu
