@@ -1,10 +1,11 @@
+#include "script_component.hpp"
 params ["_displayName",["_IDC",-1]];
 
 private _display = uiNamespace getVariable _displayName;
 private _ctrl = _display displayCtrl _IDC;
 
 if (isNull _ctrl) exitWith {
-  ["Invalid Control ""_ctrl = %1""",_ctrl] call BIS_fnc_error;
+	ERROR_MSG_1("Invalid Control ""_ctrl = %1""",_ctrl);
 };
 //- setVariable (Make this VAR "true" ,so it can update the interface)
   _ctrl setVariable ["Anim_Activation",true];

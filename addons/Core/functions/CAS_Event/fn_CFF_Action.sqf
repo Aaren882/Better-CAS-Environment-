@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_CFF_Action
 
@@ -32,7 +33,7 @@ private _taskUnit = switch (typeName _unit) do {
 // #SECTION Validing mission can be executed
 	//- Check _taskUnit
 		if !(alive _taskUnit) exitWith {
-			["""_taskUnit"" doesn't exist."] call BIS_fnc_error;
+			ERROR_MSG("""_taskUnit"" doesn't exist.");
 		};
 
 	//- #ANCHOR - Check Mission exist

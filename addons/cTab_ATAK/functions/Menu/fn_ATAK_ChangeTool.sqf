@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_ATAK_ChangeTool
   
@@ -32,7 +33,7 @@ switch (true) do {
 
     //- catch empty "Opened function" (only to APPs)
       if (_function == "") exitWith {
-        ["“Opened function” of this page is not exist"] call BIS_fnc_error;
+				ERROR_MSG("“Opened function” of this page is not exist");
       };
 
     _setting set [0, _page];

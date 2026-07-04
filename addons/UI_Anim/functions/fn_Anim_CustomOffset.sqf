@@ -1,9 +1,10 @@
+#include "script_component.hpp"
 params ["_ctrl",["_POS",[]],["_update_Components",[]]];
 
 if (
   2 != count _POS
 ) exitwith {
-  ["Invalid Input of ""_POS = %1"" for fnc_Anim_CustomOffset",_POS] call BIS_fnc_error;
+	ERROR_MSG_1("Invalid Input of ""_POS = %1"" for fnc_Anim_CustomOffset",_POS);
 };
 
 _POS params [["_POS_Start",[]],["_POS_End",[]]];

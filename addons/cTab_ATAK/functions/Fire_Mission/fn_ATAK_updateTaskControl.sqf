@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /* 
   NAME : BCE_fnc_ATAK_updateTaskControl
 
@@ -25,7 +26,7 @@ _settings params ["_page","_show","_subInfos",["_PgComponents",createHashMap]];
 ([_group, _settings] call BCE_fnc_ATAK_getTaskCategoryInfo) params ["_taskMenu","_cateSel","_subSel"];
   
   if (_taskMenu == "") exitWith {
-    ["Cannot found Mission UI control !!"] call BIS_fnc_error;
+		ERROR_MSG("Cannot found Mission UI control !!");
     controlNull; //- Return controlNull
   };
 

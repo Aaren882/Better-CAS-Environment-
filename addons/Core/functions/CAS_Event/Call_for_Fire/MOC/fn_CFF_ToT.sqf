@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_CFF_ToT
 
@@ -13,7 +14,7 @@ private _executed = _chargeInfo findIf {true} < 0;
 
 //- Exit if no _chargeInfo
   if (_executed) exitWith {
-    ["_chargeInfo = []"] call BIS_fnc_error;
+		ERROR_MSG("_chargeInfo = []");
   };
   
 //- Get Delay

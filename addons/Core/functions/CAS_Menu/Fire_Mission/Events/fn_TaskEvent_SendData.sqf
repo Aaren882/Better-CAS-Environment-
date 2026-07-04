@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_TaskEvent_SendData
 
@@ -38,10 +39,7 @@ if (
   };
 
   //- Error Message
-  [
-    _error + 
-    " --- Check ""BCE_TaskBuilding_SendData"" Event has correct input."
-  ] call BIS_fnc_error;
+	ERROR_MSG_1("%1 --- Check ""BCE_TaskBuilding_SendData"" Event has correct input.",_error);
   
   false
 };

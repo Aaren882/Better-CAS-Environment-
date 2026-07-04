@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_get_BCE_TaskCateClass
 
@@ -19,7 +20,7 @@ private _categories = call BCE_fnc_get_BCE_TaskCateClasses;
 private _count = count _categories - 1;
 
 if (_count < _cateSel) then {
-  ["Out of the Task Category range. ""Selected : %1"" / ""Total (Index) : %2""", _cateSel, _count] call BIS_fnc_error;
+  ERROR_MSG_2("Out of the Task Category range. ""Selected : %1"" / ""Total (Index) : %2""", _cateSel, _count);
   _cateSel = _count; //- return with the last one value
 };
 

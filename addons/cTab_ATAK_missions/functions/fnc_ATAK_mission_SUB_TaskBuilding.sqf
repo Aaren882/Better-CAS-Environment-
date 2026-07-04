@@ -28,7 +28,7 @@ if !(_shown) exitwith {};
 private _taskVar = ([] call BCE_fnc_getTaskVar) # 0;
 
 if (isnil {_taskVar}) exitWith {
-	["Error ""_taskVar"" Variable is empty"] call BIS_fnc_error;
+	ERROR_MSG("Error ""_taskVar"" Variable is empty");
 };
 
 private _curLine = [_curLine, (count _taskVar)-1] select (_curLine > count _taskVar);

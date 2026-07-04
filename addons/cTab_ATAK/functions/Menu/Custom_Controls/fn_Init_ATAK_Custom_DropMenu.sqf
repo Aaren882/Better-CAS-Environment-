@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_Init_ATAK_Custom_DropMenu
 
@@ -11,7 +12,7 @@ private _config = _tag_class >> "DropMenu_Props";
 //- Variable for cTab_fnc_getSettings
   private _Variable_Name = [_config,"Variable_Name",""] call BIS_fnc_returnConfigEntry;
   if (_Variable_Name == "") exitWith {
-    ["No Entry ""Variable_Name"" in ""%1""", ctrlClassName _controlGroup] call BIS_fnc_error;
+		ERROR_MSG_1("No Entry ""Variable_Name"" in ""%1""", ctrlClassName _controlGroup);
     //- Return
       false
   };

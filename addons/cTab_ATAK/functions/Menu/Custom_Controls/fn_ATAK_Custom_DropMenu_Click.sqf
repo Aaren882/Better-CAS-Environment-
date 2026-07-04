@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_ATAK_Custom_DropMenu_Click
 
@@ -7,14 +8,14 @@ params ["_ctrl"];
 
 private _displayName = cTabIfOpen param [1,""];
 if (_displayName == "") exitWith {
-  ["""_displayName"" isn't exist (cTab/BCE Custom UI Control)"] call BIS_fnc_error;
+	ERROR_MSG("""_displayName"" isn't exist (cTab/BCE Custom UI Control)");
 };
 
 private _groupSel = ctrlParentControlsGroup _ctrl;
 private _ctrlIndex = _groupSel getVariable ["Index",""];
 
 if (_ctrlIndex isEqualTo "") exitWith {
-  ["""_ctrlIndex"" isn't exist (cTab/BCE Custom UI Control)"] call BIS_fnc_error;
+	ERROR_MSG("""_ctrlIndex"" isn't exist (cTab/BCE Custom UI Control)");
 };
 
 //- Get Settings

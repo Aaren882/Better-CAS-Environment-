@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_setTaskVar
   
@@ -30,11 +31,8 @@ _TaskSel params [
 
 //- !! Error Return !! -//
   if (isNil{_curLine} || isNil{_value}) exitWith {
-    [
-      "Incurrect Input !! - Unable to edit ""%1"" Variable : Cause By ""%2""",
-      _varName,
-      ["_curLine", "_value"] select isNil{_value}
-    ] call BIS_fnc_error;
+		private _error_VarName= ["_curLine", "_value"] select isNil{_value};
+		ERROR_MSG_2("Incurrect Input !! - Unable to edit ""%1"" Variable : Cause By ""%2""",_varName,_error_VarName);
     
     //- Still Return 
       _taskVar
