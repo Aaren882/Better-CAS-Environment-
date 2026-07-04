@@ -36,13 +36,11 @@ class ATAK_Group_Manage_Custom
 				class Tag_Bnt: Tag_Bnt{};
 				class Exec_bnt: Msg_bnt
 				{
-					// text = "<img image='MG8\AVFEVFX\data\start.paa'/>";
 					text = QSTRUCTURE_IMAGE(Core,data\start.paa);
 					onButtonClick = "[_this # 0, 'EXEC'] call BCE_fnc_CFF_Mission_XMIT";
 				};
 				class adjust_bnt: Edit_bnt
 				{
-					// text = "<img image='MG8\AVFEVFX\data\ruler.paa'/>";
 					text = QSTRUCTURE_IMAGE(Core,data\ruler.paa);
 					onButtonClick = "[_this # 0, 'ADJUST_MENU'] call BCE_fnc_CFF_Mission_XMIT";
 				};
@@ -52,7 +50,6 @@ class ATAK_Group_Manage_Custom
 					x = 0;
 					y = QUOTE(4 * (0.7 * (((60)) / 2048 * CustomPhoneH)));
 					W = QUOTE(PhoneBFTContainerW(1.5));
-					// text = "<img image='MG8\AVFEVFX\data\archive.paa'/> RAT";
 					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\archive.paa, RAT);
 					tooltip = "$STR_BCE_RAT_Fire_MSN_Tip";
 					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_RAT";
@@ -61,7 +58,6 @@ class ATAK_Group_Manage_Custom
 				{
 					idc = 20;
 					x = QUOTE(PhoneBFTContainerW(1.5));
-					// text = "<img image='\MG8\AVFEVFX\data\gabage.paa'/> EOM";
 					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\gabage.paa, EOM);
 					tooltip = "$STR_BCE_EOM_Fire_MSN_Tip";
 					
@@ -101,7 +97,6 @@ class ATAK_Group_Manage_Custom
 					x = 0;
 					w = QUOTE(PhoneBFTContainerW(3));
 
-					// text = "<img image='\MG8\AVFEVFX\data\gabage.paa'/> Delete";
 					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\gabage.paa, Delete);
 					tooltip = "$STR_BCE_DEL_RAT_Fire_MSN_Tip";
 					onButtonClick = "[_this # 0, true] call BCE_fnc_ATAK_CFF_Mission_RAT; call BCE_fnc_ATAK_ShowTaskResult;";
@@ -144,7 +139,6 @@ class ATAK_Group_Manage_Custom
 					size = QUOTE(0.75 * TextSize);
 					style = "0x02 + 0x30 + 0x800";
 					shadow = 1;
-					// text = "<img image='\MG8\AVFEVFX\data\gabage.paa' />";
 					textureNoShortcut=QPATHTOEF(Core,data\gabage.paa);
 					onButtonClick = "call BCE_fnc_CleanFireAdjustValues";
 
@@ -208,7 +202,6 @@ class ATAK_Group_Manage_Custom
 					colorBackground[] = {0,0,0,0.2};
 					size = QUOTE(0.5 * TextSize);
 
-					// text = "<img image='\MG8\AVFEVFX\data\Arrows\Point_Arrow.paa' /> 10 m | <img image='\MG8\AVFEVFX\data\Arrows\Point_Arrow_R.paa' /> 20 m";
 					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\Arrows\Point_Arrow.paa, 10 m | STRUCTURE_IMAGE_FORMAT(Core,data\Arrows\Point_Arrow_R.paa, 20 m));
 					class Attributes
 					{
@@ -356,7 +349,6 @@ class ATAK_Group_Manage_Custom
 					y = QUOTE(2 * 0.7 * ATAK_POS_H);
 					w = QUOTE(ADJUST_CTRL_W(0.525));
 					h = QUOTE(0.7 * ATAK_POS_H);
-					// text = "<img image='\MG8\AVFEVFX\data\binoculars.paa' /> OT : 0.8";
 					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\binoculars.paa, OT : 0.8);
 					size = QUOTE(TextSize);
 					tooltip = "$STR_BCE_OT_Factor_Tip";
