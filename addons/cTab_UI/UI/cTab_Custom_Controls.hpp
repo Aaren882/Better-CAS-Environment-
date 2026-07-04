@@ -51,7 +51,6 @@
 					idc = 16;
 					style = "0x02 + 0x0C + 0x0100";
 					shadow = 1;
-					// text = "<img image='MG8\AVFEVFX\data\chat.paa'/>";
 					text = QSTRUCTURE_IMAGE(Core,data\chat.paa);
 					
 					x = QUOTE(PhoneBFTContainerW(TAG_BNT_W(1)));
@@ -154,7 +153,6 @@
 			{
 				idc = 17;
 				x = QUOTE(PhoneBFTContainerW(TAG_BNT_W(2)));
-				// text = "<img image='MG8\AVFEVFX\data\edit.paa'/>";
 				text = QSTRUCTURE_IMAGE(Core,data\edit.paa);
 
 				colorBackground[] = {0.23,0.23,0.23,0.86};

@@ -23,7 +23,6 @@
         idc = 6;
         style = "0x02 + 0x0C + 0x0100";
         shadow = 1;
-        // text = "<img image='MG8\AVFEVFX\data\add.paa' />";
         text = QSTRUCTURE_IMAGE(Core,data\add.paa);
 
         x = QUOTE(PhoneBFTContainerW(2.4));
