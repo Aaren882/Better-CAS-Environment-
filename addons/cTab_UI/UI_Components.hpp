@@ -6,6 +6,9 @@
 #include "..\Core\UI_Components.hpp" //- #LINK - addons/Core/Configs/UI_Components_Base.hpp
 #include "UI\cTab_UI_Base.hpp" //- #LINK - addons/cTab_UI/UI/cTab_UI_Base.hpp
 
+//- Mission Components
+#include "..\Core\Mission_Components.hpp"
+
 //- cTab UI Macros
 #include "UI\cTab_Macros_Interface.hpp"
 #include "..\cTab_main\cTab_Macros.hpp"

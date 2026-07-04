@@ -21,6 +21,5 @@ class CfgPatches {
 
 //- UI
 #define IS_DIALOG 1
-class BCE_Mission_Build_Controls;
 #include "..\cTab_UI_Components.hpp"
 #include "UI\Control_UI.hpp"
