@@ -8,15 +8,10 @@ Parameters:
 		_group - The control group container for the interface.
 		_interfaceInit - Boolean indicating if the interface is initialized.
 		_isDialog - Boolean indicating if the interface is in dialog mode.
-		_settings - Settings parameters for the panel.
+		_settings - An object containing panel settings, including the target page and component map.
 
 Returns:
 		<NONE>
-
-Examples
-		(begin example)
-				[params] call BCE_cTab_ATAK_videoFeeds_fnc_ATAK_VideoFeeds_Init
-		(end)
 
 Author:
 		Aaren

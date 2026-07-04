@@ -5,18 +5,13 @@ Description:
 		Initializes the ATAK message interface. This function sets up controls, loads message history, and establishes event listeners for the messaging panel.
 
 Parameters:
-		_group  - The parent group control where the message interface elements are placed.
+		_group         - The parent group control where the message interface elements are placed.
 		_interfaceInit - Boolean. If true, prevents re-initialization logic.
-		_isDialog - Boolean. Indicates if the message interface is displayed in a dialog.
-		_settings - An object containing panel settings, including the target page and component map.
+		_isDialog      - Boolean. Indicates if the message interface is displayed in a dialog.
+		_settings      - An object containing panel settings, including the target page and component map.
 
 Returns:
 		NONE
-
-Examples
-		(begin example)
-				[params] call BCE_cTab_ATAK_message_fnc_ATAK_message_Init
-		(end)
 
 Author:
 		Aaren
