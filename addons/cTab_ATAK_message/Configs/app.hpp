@@ -12,6 +12,7 @@ class ATAK_Buttons
 };
 
 #include "page.hpp"
+#include "elements.hpp"
 class ATAK_APPs
 {
 	class message: BCE_ATAK_Tool_ICON
