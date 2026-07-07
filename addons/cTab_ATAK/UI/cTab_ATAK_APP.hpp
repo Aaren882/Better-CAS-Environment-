@@ -4,17 +4,6 @@
 class ATAK_APPs
 {
   //-Thired Line
-    class BDA_Report: BCE_ATAK_Tool_ICON
-    {
-      class Menu_Property
-      {
-        ORDER = 7;
-        PAGE_CTRL = "";
-      };
-
-      text = ATAK_APP(BDA Report);
-      textureNoShortcut="a3\ui_f\data\igui\cfg\holdactions\holdaction_search_ca.paa";
-    };
     
     class settings: BCE_ATAK_Tool_ICON
     {
