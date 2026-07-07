@@ -1,4 +1,5 @@
-class ATAK_Group_Manage_Custom
+class ATAK_Group_Manage_System;
+class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 {
 	class DropMenu_Props;
 	class controls
