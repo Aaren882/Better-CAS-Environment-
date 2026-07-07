@@ -1,23 +1,9 @@
 #include "ATAK_UI_Base.hpp"
-#include "ATAK_Buttons.hpp"
+// #include "ATAK_Buttons.hpp"
 
 class ATAK_APPs
 {
   //-Second Line
-    class Group: BCE_ATAK_Tool_ICON
-    {
-      class Menu_Property
-      {
-        ORDER = 4;
-        PAGE_CTRL = "";
-        // PAGE_CTRL = "ATAK_Group";
-        // Opened = "BCE_fnc_ATAK_Group_Init";
-        // ATAK_Buttons = "Group_Menu";
-      };
-
-      text = ATAK_APP(Groups);
-      textureNoShortcut="a3\3den\data\displays\display3den\panelright\modegroups_ca.paa";
-    };
     class Route: BCE_ATAK_Tool_ICON
     {
       class Menu_Property

@@ -76,32 +76,16 @@ class CfgFunctions
         class ATAK_getLastAPP;
         class ATAK_ignoreFade_Transform;
       };
-      class ATAK_Menu_Buttons_Init
-      {
-        file=QPATHTOF(functions\Menu\Init_Buttons);
-        class ATAK_bnt_Group;
-      };
       class ATAK_Menu_Invokes
       {
         file=QPATHTOF(functions\Menu\Invoke);
         class ATAK_Invoke_ButtonLayoutArrange;
-      };
-      class ATAK_Menu_onOpened
-      {
-        file=QPATHTOF(functions\APP_Menu_onOpened);
-        class ATAK_Group_Init;
       };
       class ATAK_CAM
       {
         file=QPATHTOF(functions\Camera);
         class ATAK_CamInit;
         class ATAK_FullScreenCamera;
-      };
-      class ATAK_Group_Menu
-      {
-        file=QPATHTOF(functions\Group);
-        class ATAK_GroupList_Init;
-        class ATAK_GroupList_SYSTEM_Init;
       };
 	};
 };
