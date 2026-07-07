@@ -4,17 +4,6 @@
 class ATAK_APPs
 {
   //-Thired Line
-    class Weather: BCE_ATAK_Tool_ICON
-    {
-      class Menu_Property
-      {
-        ORDER = 6;
-        PAGE_CTRL = "";
-      };
-
-      text = ATAK_APP(Weather);
-      textureNoShortcut="a3\3den\data\displays\display3den\toolbar\intel_ca.paa";
-    };
     class BDA_Report: BCE_ATAK_Tool_ICON
     {
       class Menu_Property
