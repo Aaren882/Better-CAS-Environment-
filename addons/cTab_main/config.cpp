@@ -22,7 +22,6 @@ class CfgPatches {
 
 //- Arma Configs
 #include "Configs\CfgFunctions.hpp"
-#include "Configs\CfgVehicles.hpp"
 #include "Configs\CfgEventHandlers.hpp"
 
 //- UI

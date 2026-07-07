@@ -14,6 +14,7 @@ class CfgPatches {
 };
 
 //- Configs
+#include "Configs\CfgVehicles.hpp"
 #include "Configs\CfgEventHandlers.hpp"
 
 //- UI
