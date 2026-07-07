@@ -12,7 +12,7 @@ private _config = _tag_class >> "DropMenu_Props";
 //- Variable for cTab_fnc_getSettings
   private _Variable_Name = [_config,"Variable_Name",""] call BIS_fnc_returnConfigEntry;
   if (_Variable_Name == "") exitWith {
-		ERROR_MSG_1("No Entry ""Variable_Name"" in ""%1""", ctrlClassName _controlGroup);
+		ERROR_MSG_1("No Entry ""Variable_Name"" in ""%1""",configName _tag_class);
     //- Return
       false
   };
