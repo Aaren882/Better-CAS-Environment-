@@ -3,19 +3,6 @@
 
 class ATAK_APPs
 {
-  //-Second Line
-    class Route: BCE_ATAK_Tool_ICON
-    {
-      class Menu_Property
-      {
-        ORDER = 5;
-        PAGE_CTRL = "";
-      };
-
-      text = ATAK_APP(Route);
-			textureNoShortcut = QPATHTOEF(Core,data\route.paa);
-    };
-  
   //-Thired Line
     class Weather: BCE_ATAK_Tool_ICON
     {
