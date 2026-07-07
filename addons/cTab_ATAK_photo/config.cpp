@@ -13,18 +13,13 @@ class CfgPatches {
 	};
 };
 
-class Extended_PreInit_EventHandlers
-{
-	class ADDON
-	{
-		init = QUOTE(call COMPILE_FILE(XEH_PreInit));
-	};
-};
+//- Configs
+#include "Configs\CfgEventHandlers.hpp"
 
 //- UI
 #define IS_DIALOG 1
 #include "UI_Components.hpp"
-#include "Configs/app.hpp"
+#include "Configs\app.hpp"
 
 class RscTitles
 {
@@ -32,6 +27,6 @@ class RscTitles
 	
 	#undef IS_DIALOG
 	#include "UI_Components.hpp"
-	#include "Configs/app.hpp"
+	#include "Configs\app.hpp"
 	#include "UI\ScreenShot_UI.hpp"
 };

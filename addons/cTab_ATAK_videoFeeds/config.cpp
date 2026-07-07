@@ -13,13 +13,8 @@ class CfgPatches {
 	};
 };
 
-class Extended_PreInit_EventHandlers
-{
-	class ADDON
-	{
-		init = QUOTE(call COMPILE_FILE(XEH_PreInit));
-	};
-};
+//- Configs
+#include "Configs\CfgEventHandlers.hpp"
 
 //- UI
 #define IS_DIALOG 1
