@@ -51,8 +51,7 @@ class cTab_android_on_screen_dirOctant: cTab_Tablet_OSD_dirOctant
 };
 
 //- BCE Frameworks for ATAK
-#include "..\..\..\cTab_ATAK\UI\cTab_ATAK_APP.hpp"
-#include "..\..\..\cTab_ATAK\UI\cTab_ATAK_Tools.hpp"
+#include "..\..\..\cTab_ATAK\UI\ATAK_UI_Base.hpp"
 
 //- Custom Controls
 #include "..\cTab_Custom_Controls.hpp"
