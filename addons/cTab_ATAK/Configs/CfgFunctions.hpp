@@ -11,41 +11,7 @@ class CfgFunctions
       class ATAK_Check_Layout;
       class ATAK_Camera_Controls;
     };
-    //- ATAK Menus
-      class ATAK_Fire_Mission
-      {
-        file=QPATHTOF(functions\Fire_Mission);
-        class ATAK_DescType_Changed;
-        class ATAK_set_TaskType;
-        class ATAK_TaskTypeChanged;
-        class ATAK_LBTaskUnitChanged;
-        class ATAK_AutoSaveTask;
-        class ATAK_Refresh_TaskInfos;
-        class ATAK_Refresh_Weapons;
-        class ATAK_PullData;
-        class ATAK_onVehicleChanged;
-        class ATAK_updateTaskControl;
-        class ATAK_getTaskCategoryInfo;
-        class ATAK_TaskUnitChanged_AIR;
-      };
-      class ATAK_Call_for_Fire_Menu
-      {
-        file=QPATHTOF(functions\Fire_Mission\Call_for_Fire);
-        class ATAK_CFF_TaskList_Init;
-        class ATAK_CFF_Mission_RAT;				//- Record as Target
-        class ATAK_CFF_Mission_RAT_2_ADD;	//- Add the Mission
-        class ATAK_CFF_Mission_EOM;				//- End of Mission
-      };
-      class ATAK_CFF_Adjust_Menu
-      {
-        file=QPATHTOF(functions\Fire_Mission\Call_for_Fire\Fire_Adjustments);
-        class ATAK_FireAdjust_Init_Polar;
-        class ATAK_FireAdjust_Init_Impact;
-        class ATAK_FireAdjust_Sel_Changed;
-
-        class ATAK_onFireAdjusted;
-        class ATAK_FireAdjustMeter;
-      };
+    //- ATAK Menuson
       class ATAK_Menu_Init
       {
         file=QPATHTOF(functions\Menu\Init);

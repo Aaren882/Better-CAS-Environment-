@@ -1,11 +1,22 @@
-/* 
-  NAME : BCE_fnc_ATAK_FireAdjustMeter
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_fnc_ATAK_FireAdjustMeter
+Description:
+		Toggles the fire adjustment meter value (1 or 5) => (10 meters or 50 meters) for the fire control system,
+		updating the corresponding UI control text.
 
-  ["_control","_value"]
+Parameters:
+		_control  - The UI control object to be updated and interacted.
 
-  Toggle Adjust "Meter" Value 1,5
-*/
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_control"];
+TRACE_1("fn_ATAK_FireAdjustMeter",_this);
 
 private _current = ["CURRENT", ""] call BCE_fnc_get_FireAdjustValues;
 

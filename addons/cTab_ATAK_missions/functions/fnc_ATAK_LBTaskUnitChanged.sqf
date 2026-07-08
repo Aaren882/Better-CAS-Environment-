@@ -1,7 +1,22 @@
-/*
-	NAME : BCE_fnc_ATAK_LBTaskUnitChanged
-*/
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_missions_fnc_ATAK_LBTaskUnitChanged
+Description:
+		Handles the change of a Task Unit selection, updating UI elements with unit information.
+
+Parameters:
+		_control - The control object to update.
+		_lbCurSel - The current selection from the list box.
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_control","_lbCurSel"];
+TRACE_1("fnc_ATAK_LBTaskUnitChanged",_this);
 
 _this call BCE_fnc_LBTaskUnitChanged;
 

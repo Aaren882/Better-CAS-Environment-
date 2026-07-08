@@ -15,6 +15,7 @@ class CfgPatches {
 
 //- Configs
 #include "Configs\CfgEventHandlers.hpp"
+#include "Configs\BCE_Mission_Property.hpp"
 
 //- UI
 #define IS_DIALOG 1

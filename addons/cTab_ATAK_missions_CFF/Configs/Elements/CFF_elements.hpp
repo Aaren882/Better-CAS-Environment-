@@ -20,7 +20,7 @@ class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 				Variable_Name = "CFF_TaskList"; //- Variable in cTab_fnc_getSettings
 				Expand_Height = 4;							//- height after expanded
 				MaxOpened = 1;									//- Maximum number of opened tags
-				onTagLoad = "BCE_fnc_ATAK_CFF_TaskList_Init";
+				onTagLoad = QFUNC(ATAK_CFF_TaskList_Init);
 				onTagClick = "";
 			};
 			class controls: controls
@@ -52,7 +52,7 @@ class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 					W = QUOTE(PhoneBFTContainerW(1.5));
 					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\archive.paa, RAT);
 					tooltip = "$STR_BCE_RAT_Fire_MSN_Tip";
-					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_RAT";
+					onButtonClick = QUOTE(call FUNC(ATAK_CFF_Mission_RAT));
 				};
 				class EOM_bnt: RAT_bnt
 				{
@@ -61,7 +61,7 @@ class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\gabage.paa, EOM);
 					tooltip = "$STR_BCE_EOM_Fire_MSN_Tip";
 					
-					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_EOM";
+					onButtonClick = QUOTE(call FUNC(ATAK_CFF_Mission_EOM));
 					colorBackground[] = {0.45,0,0,0.8};
 					colorBackground2[] = {0.45,0,0,0.8};
 					colorBackgroundFocused[] = {0.45,0,0,0.5};
@@ -86,7 +86,7 @@ class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 				class Exec_bnt: Exec_bnt
 				{
 					tooltip = "$STR_BCE_Add_Fire_MSN_Tip";
-					onButtonClick = "call BCE_fnc_ATAK_CFF_Mission_RAT_2_ADD";
+					onButtonClick = QUOTE(call FUNC(ATAK_CFF_Mission_RAT_2_ADD));
 				};
 				// class adjust_bnt: adjust_bnt{};
 				delete adjust_bnt;
@@ -99,7 +99,7 @@ class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 
 					text = QSTRUCTURE_IMAGE_FORMAT(Core,data\gabage.paa, Delete);
 					tooltip = "$STR_BCE_DEL_RAT_Fire_MSN_Tip";
-					onButtonClick = "[_this # 0, true] call BCE_fnc_ATAK_CFF_Mission_RAT; call BCE_cTab_ATAK_missions_fnc_ATAK_ShowTaskResult;";
+					onButtonClick = "[_this # 0, true] call BCE_cTab_ATAK_missions_CFF_fnc_ATAK_CFF_Mission_RAT; call BCE_cTab_ATAK_missions_fnc_ATAK_ShowTaskResult;";
 				};
 			};
 		};
@@ -111,7 +111,7 @@ class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 //- POLAR (ADJUST)
 	class CFF_ADJUST_POLAR_Group: ATAK_AppMenu_Base
 	{
-		onLoad = "call BCE_fnc_ATAK_FireAdjust_Init_Polar";
+		onLoad = QUOTE(call FUNC(ATAK_FireAdjust_Init_Polar));
 		ATAK_POS(0,0,2.8,(ADJUSTMENT_MENU * 0.7));
 		class controls
 		{
@@ -287,7 +287,7 @@ class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 					font = "RobotoCondensed_BCE";
 					sizeEx = QUOTE(0.8 * TextSize);
 					text = "<-- 10 m -->";
-					onButtonClick = "call BCE_fnc_ATAK_FireAdjustMeter";
+					onButtonClick = QUOTE(call FUNC(ATAK_FireAdjustMeter));
 				};
 				
 				class Adjust_Up: ctrlButtonPictureKeepAspect
@@ -328,7 +328,7 @@ class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 //- IMPACT (ADJUST)
 	class CFF_ADJUST_IMPACT_Group: CFF_ADJUST_POLAR_Group
 	{
-		onLoad = "call BCE_fnc_ATAK_FireAdjust_Init_Impact";
+		onLoad = QUOTE(call FUNC(ATAK_FireAdjust_Init_Impact));
 		class controls: controls
 		{
 			class AdjustFrameBg: AdjustFrameBg {};

@@ -79,7 +79,7 @@ class AIR_5_LINE: AIR_9_LINE
 				class CFF_IE_WeaponCombo: CFF_IE_WeaponCombo
 				{
 					ATAK_POS(0.7,(1 + (0.35/2) + MOVE_Y_OFFSET),1.5,0.65);
-					onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask; call BCE_fnc_SelWPN_CFF";
+					onLBSelChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask; call BCE_fnc_SelWPN_CFF";
 					//- Style
 						colorBackground[] = {0.3,0.3,0.3,1};
 						colorSelect[]={1,1,1,1};
@@ -89,7 +89,7 @@ class AIR_5_LINE: AIR_9_LINE
 				class CFF_IE_FuzeCombo: CFF_IE_FuzeCombo
 				{
 					ATAK_POS(2.2,(1 + (0.35/2) + MOVE_Y_OFFSET),0.7,0.63);
-					onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask; (_this+[0]) call BCE_fnc_onTaskElementChange;";
+					onLBSelChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask; (_this+[0]) call BCE_fnc_onTaskElementChange;";
 					//- Style
 						colorBackground[] = {0.3,0.3,0.3,1};
 						colorSelect[]={1,1,1,1};
@@ -99,7 +99,7 @@ class AIR_5_LINE: AIR_9_LINE
 				class CFF_IE_FireUnit_Combo: CFF_IE_FireUnit_Combo
 				{
 					ATAK_POS(0.7,(1.65 + (0.35/2) + MOVE_Y_OFFSET),(1.1/2),0.63);
-					onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask;";
+					onLBSelChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask;";
 					//- Style
 						colorBackground[] = {0.3,0.3,0.3,1};
 						colorSelect[]={1,1,1,1};
@@ -110,19 +110,19 @@ class AIR_5_LINE: AIR_9_LINE
 				{
 					ATAK_POS((0.7 + (1.1/2)),(1.65 + (0.35/2) + MOVE_Y_OFFSET),(1.1/3),0.63);
 					sizeEx = QUOTE(0.9 * TextSize);
-					onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+					onEditChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 				};
 				class CFF_IE_FuzeValue_Box: CFF_IE_FuzeValue_Box
 				{
 					ATAK_POS(2.2,(1.65 + (0.35/2) + MOVE_Y_OFFSET),0.7,0.63);
 					sizeEx = QUOTE(0.9 * TextSize);
-					onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+					onEditChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 				};
 				class CFF_IE_FireAngle_Bnt: CFF_IE_FireAngle_Bnt
 				{
 					ATAK_POS(0,(1.65 + (0.35/2) + MOVE_Y_OFFSET),0.7,0.63);
 					size = QUOTE(0.9 * TextSize);
-					onButtonClick = "call BCE_fnc_ATAK_AutoSaveTask; private _m = (_this # 0) getVariable ['Mode',false]; (_this # 0) setVariable ['Mode', !_m];";
+					onButtonClick = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask; private _m = (_this # 0) getVariable ['Mode',false]; (_this # 0) setVariable ['Mode', !_m];";
 				};
 			//- In Adjust (IA) (OPTIONAL)
 				class Weapon_IA_T: Weapon_T
@@ -134,7 +134,7 @@ class AIR_5_LINE: AIR_9_LINE
 				class CFF_IA_WeaponCombo: CFF_IA_WeaponCombo
 				{
 					ATAK_POS(0.7,(2.6 + (0.35/2) + MOVE_Y_OFFSET),1.5,0.65);
-					onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+					onLBSelChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 					//- Style
 						colorBackground[] = {0.3,0.3,0.3,1};
 						colorSelect[]={1,1,1,1};
@@ -144,7 +144,7 @@ class AIR_5_LINE: AIR_9_LINE
 				class CFF_IA_FuzeCombo: CFF_IA_FuzeCombo
 				{
 					ATAK_POS(2.2,(2.6 + (0.35/2) + MOVE_Y_OFFSET),0.7,0.63);
-					onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask; (_this+[0]) call BCE_fnc_onTaskElementChange;";
+					onLBSelChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask; (_this+[0]) call BCE_fnc_onTaskElementChange;";
 					//- Style
 						colorBackground[] = {0.3,0.3,0.3,1};
 						colorSelect[]={1,1,1,1};
@@ -154,7 +154,7 @@ class AIR_5_LINE: AIR_9_LINE
 				class CFF_IA_FireUnit_Combo: CFF_IA_FireUnit_Combo
 				{
 					ATAK_POS(0.7,(3.25 + (0.35/2) + MOVE_Y_OFFSET),(1.1/2),0.63);
-					onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask;";
+					onLBSelChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask;";
 					//- Style
 						colorBackground[] = {0.3,0.3,0.3,1};
 						colorSelect[]={1,1,1,1};
@@ -165,13 +165,13 @@ class AIR_5_LINE: AIR_9_LINE
 				{
 					ATAK_POS((0.7 + (1.1/2)),(3.25 + (0.35/2) + MOVE_Y_OFFSET),(1.1/3),0.63);
 					sizeEx = QUOTE(0.9 * TextSize);
-					onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+					onEditChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 				};
 				class CFF_IA_FuzeValue_Box: CFF_IA_FuzeValue_Box
 				{
 					ATAK_POS(2.2,(3.25 + (0.35/2) + MOVE_Y_OFFSET),0.7,0.63);
 					sizeEx = QUOTE(0.9 * TextSize);
-					onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+					onEditChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 				};
 
 			//- Sheaf (OPTIONAL)
@@ -256,7 +256,7 @@ class AIR_5_LINE: AIR_9_LINE
 				class L53_PullBnt: L54_PullBnt
 				{
 					ATAK_POS(2.55,(7.25 + (0.35/2) + MOVE_Y_OFFSET),0.35,0.7);
-					action = "2 call BCE_fnc_ATAK_PullData";
+					action = "2 call BCE_cTab_ATAK_missions_fnc_ATAK_PullData";
 				};
 
 				//-Text EditBox

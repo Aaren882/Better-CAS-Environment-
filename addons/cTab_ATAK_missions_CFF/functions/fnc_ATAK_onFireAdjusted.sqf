@@ -1,10 +1,24 @@
 #include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_missions_CFF_fnc_ATAK_onFireAdjusted
+Description:
+		Adjusts fire control display elements (indicators and buttons) based on fire adjustment type.
 
-/*
-	NAME : BCE_fnc_ATAK_onFireAdjusted
-*/
+Parameters:
+		_group      - The control group containing the UI elements. <CONTROL>
+		_adjustType - The adjustment type ("POLAR" or "IMPACT"). <STRING>
+		_adjustVec  - The vector representing the adjustment values (e.g. [X,Y] => [1,-1]). <ARRAY>
+		_isOnLoad   - Flag indicating if the function is executing during load time. <BOOL>
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
 
 params ["_group","_adjustType","_adjustVec","_isOnLoad"];
+TRACE_1("fnc_ATAK_onFireAdjusted",_this);
 
 switch (true) do {
 	case (_adjustType == "POLAR" || _adjustType == "GUNLINE"): {

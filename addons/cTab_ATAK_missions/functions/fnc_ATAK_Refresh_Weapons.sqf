@@ -1,4 +1,23 @@
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_missions_fnc_ATAK_Refresh_Weapons
+Description:
+		Refreshes weapon data and updates the UI state for cTab_ATAK_missions.
+		(e.g. Pylon armories, ARTY shells)
+
+Parameters:
+		_TaskList  - Current TaskList displayed on the menu (AIR, GND) <CONTROL>.
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_TaskList"];
+TRACE_1("fnc_ATAK_Refresh_Weapons",_this);
+
 private ["_curType","_curLine","_shownCtrls"];
 
 (["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings) params ["","_shown",""];

@@ -1,6 +1,20 @@
-/*
-	NAME : BCE_fnc_ATAK_Refresh_TaskInfos
-*/
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_missions_fnc_ATAK_Refresh_TaskInfos
+Description:
+		Refreshes task information displayed in the cTab_ATAK_missions interface. It updates titles, backgrounds, and selection states for various task lines based on current mission data and settings.
+
+Parameters:
+		[] - No input parameters. Operates on mission control and current task variables.
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
+TRACE_1("fnc_ATAK_Refresh_TaskInfos",_this);
 
 private _group = (call BCE_fnc_ATAK_getCurrentAPP) # 1;
 private _MissionCtrl = _group getVariable "Mission_Control";

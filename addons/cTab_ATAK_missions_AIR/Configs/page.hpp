@@ -63,7 +63,7 @@ class ATAK_AppMenu_Base;
 					"T2",
 					"T3"
 				};
-				onToolBoxSelChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+				onToolBoxSelChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 				font = "RobotoCondensed_BCE";
 				colorBackground[] = {0,0,0,0.3};
 				sizeEx = QUOTE(0.9 * TextSize);
@@ -85,7 +85,7 @@ class ATAK_AppMenu_Base;
 				colorSelect[]={1,1,1,1};
 				colorSelectBackground[]={0.4,0.4,0.4,1};
 				
-				onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+				onLBSelChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 			};
 
 			//-Weapons Selections
@@ -104,7 +104,7 @@ class ATAK_AppMenu_Base;
 				colorSelectBackground[]={0.4,0.4,0.4,1};
 
 				sizeEx = QUOTE(0.9 * TextSize);
-				onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask; call BCE_fnc_SelWPN_AIR;";
+				onLBSelChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask; call BCE_fnc_SelWPN_AIR;";
 			};
 			class AI_Remark_ModeCombo: AI_Remark_ModeCombo
 			{
@@ -115,7 +115,7 @@ class ATAK_AppMenu_Base;
 				colorSelectBackground[]={0.4,0.4,0.4,1};
 
 				sizeEx = QUOTE(0.9 * TextSize);
-				onLBSelChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+				onLBSelChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 			};
 			class Attack_Range_Combo: Attack_Range_Combo
 			{
@@ -127,21 +127,21 @@ class ATAK_AppMenu_Base;
 				colorSelectBackground[]={0.4,0.4,0.4,1};
 
 				sizeEx = QUOTE(0.9 * TextSize);
-				onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+				onEditChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 			};
 			class Round_Count_Box: Round_Count_Box
 			{
 				ATAK_POS(1.8,(2.65 + (0.35/2)),(1.1/3),0.63);
 				text = "1";
 				sizeEx = QUOTE(0.9 * TextSize);
-				onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+				onEditChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 			};
 			class Attack_Height_Box: Attack_Height_Box
 			{
 				ATAK_POS((1.8 + (1.1/3)),(2.65 + (0.35/2)),(2.2/3),0.63);
 				sizeEx = QUOTE(0.9 * TextSize);
 				text = "2000";
-				onEditChanged = "call BCE_fnc_ATAK_AutoSaveTask";
+				onEditChanged = "call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 			};
 
 			//-1~3 lines
@@ -217,7 +217,7 @@ class ATAK_AppMenu_Base;
 				
 				tooltip = "Show Info";
 				text = "\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa";
-				action = "4 call BCE_fnc_ATAK_PullData";
+				action = "4 call BCE_cTab_ATAK_missions_fnc_ATAK_PullData";
 			};*/
 
 			//-Line 5
@@ -237,7 +237,7 @@ class ATAK_AppMenu_Base;
 				wholeHeight = 0.8;
 				sizeEx = QUOTE(0.9 * TextSize);
 				
-				onLBSelChanged = "(_this + [5]) call BCE_fnc_ATAK_DescType_Changed";
+				onLBSelChanged = "(_this + [5]) call BCE_cTab_ATAK_missions_fnc_ATAK_DescType_Changed";
 			};
 			class L95_DESC: New_Task_TG_DESC
 			{
@@ -248,7 +248,7 @@ class ATAK_AppMenu_Base;
 				colorText[] = {0.75,0.75,0.75,1};
 				colorBackground[]={0,0,0,0.5};
 				tooltip="$STR_BCE_TIP_AddDESC";
-				onEditChanged = "(_this + [0]) call BCE_fnc_ATAK_AutoSaveTask";
+				onEditChanged = "(_this + [0]) call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 			};
 			class L95_PullBnt: ctrlButton
 			{
@@ -261,7 +261,7 @@ class ATAK_AppMenu_Base;
 				
 				tooltip = "$STR_BCE_ATAK_Show_Info";
 				text = "\a3\ui_f\data\GUI\RscCommon\RscButtonSearch\search_start_ca.paa";
-				action = "6 call BCE_fnc_ATAK_PullData";
+				action = "6 call BCE_cTab_ATAK_missions_fnc_ATAK_PullData";
 			};
 
 			//-Line 6
@@ -465,13 +465,13 @@ class ATAK_AppMenu_Base;
 				sizeEx = QUOTE(0.9 * TextSize);
 
 				tooltip="$STR_BCE_TIP_DESC";
-				onLBSelChanged = "(_this + [3]) call BCE_fnc_ATAK_DescType_Changed";
+				onLBSelChanged = "(_this + [3]) call BCE_cTab_ATAK_missions_fnc_ATAK_DescType_Changed";
 			};
 			class L54_PullBnt: L95_PullBnt
 			{
 				idc = idc_D(20430);
 				ATAK_POS(2.55,(6.6 + (0.35/2)),0.35,0.7);
-				action = "2 call BCE_fnc_ATAK_PullData";
+				action = "2 call BCE_cTab_ATAK_missions_fnc_ATAK_PullData";
 			};
 
 			//-Text EditBox
@@ -486,7 +486,7 @@ class ATAK_AppMenu_Base;
 				sizeEx = QUOTE(0.9 * TextSize);
 				
 				text = "$STR_BCE_MarkWith";
-				onEditChanged = "(_this + [1]) call BCE_fnc_ATAK_AutoSaveTask";
+				onEditChanged = "(_this + [1]) call BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask";
 				
 				colorText[] = {0.75,0.75,0.75,1};
 				colorBackground[]={0,0,0,0.5};

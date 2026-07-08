@@ -41,7 +41,7 @@ TRACE_1("fnc_ATAK_mission_Init",_this);
     //- Validate Category
     ["Cate", _curSel] call BCE_fnc_set_TaskCurSetup;
 		private _controlGroup = ctrlParentControlsGroup _toolBox;
-    private _ctrl = [_controlGroup] call BCE_fnc_ATAK_updateTaskControl;
+    private _ctrl = [_controlGroup] call FUNC(ATAK_updateTaskControl);
 
     //- if error return value
     if (isnull _ctrl) then {
@@ -68,7 +68,7 @@ TRACE_1("fnc_ATAK_mission_Init",_this);
 	_bgCtrl ctrlSetBackgroundColor _bgColor;
 
 //- Update Task controlGroup
-  private _ctrl = [_group,_settings] call BCE_fnc_ATAK_updateTaskControl;
+  private _ctrl = [_group,_settings] call FUNC(ATAK_updateTaskControl);
 
 //- Update Scroll value
 [

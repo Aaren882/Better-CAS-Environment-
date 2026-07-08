@@ -1,15 +1,28 @@
 #include "script_component.hpp"
-/* 
-  NAME : BCE_fnc_ATAK_updateTaskControl
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_missions_fnc_ATAK_updateTaskControl
+Description:
+		Updates and initializes the Mission Control UI within the specified ControlGroup.
+		It handles the creation and configuration of mission-related sub pages and controls.
 
-  ["_group","_settings"]
-  
-  Update Task ControlGroup for each Mission
+Parameters:
+		_group    - The <ControlGroup> object to which the Mission Control will be attached.
+		_settings - (OPTIONAL) The settings <ARRAY> of data from `["cTab_Android_dlg", "showMenu"] call cTab_fnc_getSettings`.
+								Containing configuration details for the UI.
+								#NOTE : although this parameter is optional better provide it as you can1
 
-  Return : ControlNull or "_MissionCtrl"
-*/
+		_reset    - (OPTIONAL) flag to determine if the control should be reset upon update <BOOL>.
+
+Returns:
+		- <_MissionCtrl / ControlNull>
+			Returns the Mission Control object (or controlNull if creation fails).
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
 
 params ["_group","_settings",["_reset",true]];
+TRACE_1("fnc_ATAK_updateTaskControl",_this);
 
 //- Get "controlGroup" automatically (this takes time)
   if (isNil "_group") then {
@@ -23,7 +36,7 @@ _settings params ["_page","_show","_subInfos",["_PgComponents",createHashMap]];
 
 
 //- get SubMenu Infos
-([_group, _settings] call BCE_fnc_ATAK_getTaskCategoryInfo) params ["_taskMenu","_cateSel","_subSel"];
+([_group, _settings] call FUNC(ATAK_getTaskCategoryInfo)) params ["_taskMenu","_cateSel","_subSel"];
   
   if (_taskMenu == "") exitWith {
 		ERROR_MSG("Cannot found Mission UI control !!");
@@ -47,13 +60,13 @@ if (!_show) exitWith {_group getVariable ["Mission_Control", controlNull]};
   _group setVariable ["Mission_Control", _MissionCtrl];
 
 //- Refresh Task Values #NOTE - Seems like the create Menu will delay one frame 😐
-	[BCE_fnc_ATAK_Refresh_TaskInfos,[]] call CBA_fnc_execNextFrame; //- on Next Frame
+	[FUNC(ATAK_Refresh_TaskInfos),[]] call CBA_fnc_execNextFrame; //- on Next Frame
 
 //- Init Mission Control for each category
   if !(_MissionCtrl getVariable ["Init",false]) then {
     
     //- Update task type in cTab Variable
-      _subSel call BCE_fnc_ATAK_set_TaskType;
+      _subSel call FUNC(ATAK_set_TaskType);
 
     //- Rearrange Buttons
       [_settings,true] call BCE_fnc_ATAK_Invoke_ButtonLayoutArrange;

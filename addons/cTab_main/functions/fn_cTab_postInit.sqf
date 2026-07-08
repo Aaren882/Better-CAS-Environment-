@@ -100,7 +100,7 @@ cTabTxtSize = 0.06;
 
 //- CBA Settings
 	BCE_cTab_Marker_Sync_time call BCE_fnc_cTab_Marker_update;
-	["BCE_onFireAdjusted", BCE_fnc_ATAK_onFireAdjusted] call CBA_fnc_addEventHandler;
+	["BCE_onFireAdjusted", EFUNC(cTab_ATAK_missions_CFF,ATAK_onFireAdjusted)] call CBA_fnc_addEventHandler;
 
 //////////////////////////////////////////////////////////////
 

@@ -129,7 +129,7 @@ class ATAK_AppMenu_Base;
         {
           ATAK_POS(0.1,(0.1 + 1 + TITLE_HEIGHT + (2 * 0.7) + (0.35/2)),2.8,0.7);
           sizeEx = QUOTE(0.8 * TextSize);
-					onToolBoxSelChanged = "call BCE_fnc_ATAK_FireAdjust_Sel_Changed";
+					onToolBoxSelChanged = QUOTE(call FUNC(ATAK_FireAdjust_Sel_Changed));
         };
 
 				//- #ANCHOR - ADJUSTMENT INTERFACE

@@ -1,13 +1,28 @@
-/*
-	NAME : BCE_fnc_ATAK_TaskTypeChanged
-*/
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_missions_fnc_ATAK_TaskTypeChanged
+Description:
+		Handles logic when the Task Type selection changes in the cTab UI. Updates task type settings and mission controls based on the selection.
+
+Parameters:
+		_control - The controls group containing the task list <CONTROL>.
+		_lbCurSel - The list box control representing the current selection/task type <NUMBER>.
+
+Returns:
+		Returns nothing.
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_control","_lbCurSel"];
+TRACE_1("fnc_ATAK_TaskTypeChanged",_this);
 
 private _TaskList = ctrlParentControlsGroup _control;
 private _group = ctrlParentControlsGroup _TaskList;
 
 //- Update TaskType Value
-	private _settings = _lbCurSel call BCE_fnc_ATAK_set_TaskType; //- Update task type in cTab Variable
+	private _settings = _lbCurSel call FUNC(ATAK_set_TaskType); //- Update task type in cTab Variable
 	private _curCate = ["Cate"] call BCE_fnc_get_TaskCurSetup;
 
 switch (_curCate) do {
@@ -17,7 +32,7 @@ switch (_curCate) do {
 			_lbCurSel call BCE_fnc_set_TaskCurType;
 
 		//- Update Task Control
-		private _MissionCtrl = [_group,_settings] call BCE_fnc_ATAK_updateTaskControl;
+		private _MissionCtrl = [_group,_settings] call FUNC(ATAK_updateTaskControl);
 
 		if (isNull _MissionCtrl) exitWith {};
 
@@ -33,6 +48,6 @@ switch (_curCate) do {
 			_lbCurSel call BCE_fnc_set_TaskCurType;
 
 		//- Update Task Control
-		private _MissionCtrl = [_group,_settings] call BCE_fnc_ATAK_updateTaskControl;
+		private _MissionCtrl = [_group,_settings] call FUNC(ATAK_updateTaskControl);
 	};
 };

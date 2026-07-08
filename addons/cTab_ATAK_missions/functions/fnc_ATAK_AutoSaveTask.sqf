@@ -1,4 +1,21 @@
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_missions_fnc_ATAK_AutoSaveTask
+Description:
+		Automatically saves the state of the Task Control Tab (cTab) when controls change. It handles saving both the description and the Game Plan state.
+
+Parameters:
+		_control  - The control element that triggers the auto-save functionality.
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_control"];
+TRACE_1("fnc_ATAK_AutoSaveTask",_this);
 
 if !((ctrlParentControlsGroup _control) getVariable ["Init",false]) exitWith {};
 

@@ -31,4 +31,7 @@ if (_displayName == "") exitWith {["",controlNull]};
 private _Apps_Group = _display displayCtrl (17000 + 4650);
 private _menuIDC = 15000 + (_order find _page);
 
-[_page, _Apps_Group controlsGroupCtrl _menuIDC];
+_result = [_page, _Apps_Group controlsGroupCtrl _menuIDC];
+TRACE_1("fn_ATAK_getCurrentAPP",_result);
+
+_result

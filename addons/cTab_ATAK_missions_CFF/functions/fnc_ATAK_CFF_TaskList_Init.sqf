@@ -1,12 +1,26 @@
 #include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_missions_CFF_fnc_ATAK_CFF_TaskList_Init
+Description:
+		Initializes and populates the Task List tags for CFF missions.
+		- Displaying mission data, task entries, and status indicators.
 
-/* 
-  NAME : BCE_fnc_ATAK_CFF_TaskList_Init
-  
-  Init Task List tags for CFF Missions
-  Fire up after created
-*/
+		#NOTE - This function fire up after the tag <CONTROL> is created (the tag <CONTROL> 👇)
+		#LINK - addons/cTab_ATAK_missions_CFF/Configs/Elements/CFF_elements.hpp
+
+Parameters:
+		_tagGroup - The controlsGroupCtrl object housing the UI elements.
+		_MenuData - An array containing mission details (_MSN_name, _values, etc.).
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_tagGroup","_MenuData"];
+TRACE_1("fnc_ATAK_CFF_TaskList_Init",_this);
 
 private _tag = _tagGroup controlsGroupCtrl 15;
 private _info_ls = _tagGroup controlsGroupCtrl 50;

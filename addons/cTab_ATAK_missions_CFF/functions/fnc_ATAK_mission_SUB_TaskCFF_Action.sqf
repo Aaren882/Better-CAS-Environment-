@@ -1,4 +1,24 @@
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_cTab_ATAK_missions_CFF_fnc_ATAK_mission_SUB_TaskCFF_Action
+Description:
+		Handles the action logic for a SUB_Task within an ATAK mission CFF interface.
+
+Parameters:
+		_group - UI control group object. <CONTROL>
+		_interfaceInit - Flag indicating initial interface setup. <BOOL>
+		_isDialog - Flag indicating if the interface is a dialog. <BOOL>
+		_settings - An object containing panel settings, including the target page and component map.
+
+Returns:
+		<NONE>
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
+
 params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
+TRACE_1("fnc_ATAK_mission_SUB_TaskCFF_Action",_this);
 
 private _taskUnit = [nil,"GND" call BCE_fnc_get_TaskCateIndex] call BCE_fnc_get_TaskCurUnit;
 private _taskUnit_Grp = group _taskUnit;
@@ -36,7 +56,7 @@ _Wpn_setup_IE params ["_lbAmmo_IE","_lbFuse_IE","_fireUnitSel_IE","_setCount_IE"
 		//- ToolBoxes
 			private _AdjustToolbox = "New_Task_Adjust_Method_CFF" call BCE_fnc_getTaskSingleComponent;
 			_AdjustToolbox lbSetCurSel (["CurSel", 0] call BCE_fnc_get_FireAdjustValues);
-			[_AdjustToolbox] call BCE_fnc_ATAK_FireAdjust_Sel_Changed;
+			[_AdjustToolbox] call FUNC(ATAK_FireAdjust_Sel_Changed);
 
 			private _MissionType_dsp = "New_Task_MissionType_ADJUST_CFF" call BCE_fnc_getTaskSingleComponent;
 			_MissionType_dsp lbSetCurSel _MSN_State;
