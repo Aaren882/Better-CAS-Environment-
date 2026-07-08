@@ -62,7 +62,7 @@ class BCE_Mission_Build_Controls
 	class CFF_IE_FireAngle_Bnt;
 	class New_Task_Adjust_Method_CFF;
 	class New_Task_MissionType_ADJUST_CFF;
-	class New_Task_MTO_Display
+	class New_Task_MTO_Display: RscStructuredText
 	{
 		class Attributes;
 	};
