@@ -11,7 +11,7 @@ class CfgFunctions
       class ATAK_Check_Layout;
       class ATAK_Camera_Controls;
     };
-    //- ATAK Menuson
+    //- ATAK Menus
       class ATAK_Menu_Init
       {
         file=QPATHTOF(functions\Menu\Init);
