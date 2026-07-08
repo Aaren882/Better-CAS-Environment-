@@ -1,4 +1,23 @@
-//- call BCE_fnc_ATAK_getCurrentAPP;
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: BCE_fnc_ATAK_getCurrentAPP
+Description:
+		Retrieves the currently active application's name (string) and its corresponding menu CONTROL within ATAK.
+
+Parameters:
+		[]    - NONE
+
+Returns:
+		ARRAY - [appName, menuControl]. appName is a string, and CONTROL is a number.
+
+Examples
+		(begin example)
+				call BCE_fnc_ATAK_getCurrentAPP
+		(end)
+
+Author:
+		Aaren
+---------------------------------------------------------------------------- */
 
 private _displayName = cTabIfOpen param [1,""];
 if (_displayName == "") exitWith {["",controlNull]};

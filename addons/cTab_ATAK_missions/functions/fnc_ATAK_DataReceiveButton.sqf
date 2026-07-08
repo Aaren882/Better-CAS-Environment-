@@ -6,9 +6,9 @@ Description:
 		including mission abortion and submission of collected task data.
 
 Parameters:
-		_control  - The GUI button control element. <CONTROL>
+		_control   - The GUI button control element. <CONTROL>
 		_MenuGroup - The parent menu group control element. <CONTROL>
-		_settings - Task settings configuration array. <ARRAY>
+		_settings  - An object containing panel settings, including the target page and component map. <ARRAY>
 
 Returns:
 		<NONE>

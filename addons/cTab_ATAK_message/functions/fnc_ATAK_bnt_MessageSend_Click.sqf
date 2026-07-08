@@ -6,9 +6,9 @@ Description:
 		It validates recipients, constructs the message title (including time, group, and player name), and sends the message body to all specified recipients.
 
 Parameters:
-		_control  - The control group object (unused in current implementation).
+		_control   - The control group object (unused in current implementation).
 		_MenuGroup - The menu group container object.
-		_settings - The settings object retrieved from the dialog.
+		_settings  - An object containing panel settings, including the target page and component map..
 
 Returns:
 		None.
