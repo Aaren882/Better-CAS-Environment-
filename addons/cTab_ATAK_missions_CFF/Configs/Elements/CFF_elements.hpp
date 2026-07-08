@@ -81,7 +81,7 @@ class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 				class List_Info: List_Info{};
 				class Tag_Bnt: Tag_Bnt
 				{
-					w = QUOTE(PhoneBFTContainerW(TAG_BNT_W(1)));
+					w = QUOTE(PhoneBFTContainerW(CUSTOM_TAG_BNT_W(1)));
 				};
 				class Exec_bnt: Exec_bnt
 				{
@@ -103,8 +103,6 @@ class ATAK_Group_Manage_Custom: ATAK_Group_Manage_System
 				};
 			};
 		};
-	#undef BNT_W
-	#undef TAG_BNT_W
 
 //- CFF ADJUST Interface (ATAK APPs)
 	#define ADJUSTMENT_MENU 3

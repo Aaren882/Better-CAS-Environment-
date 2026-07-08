@@ -19,12 +19,11 @@
 		};
 		class controls
 		{
-			#define BNT_W 0.4
-			#define TAG_BNT_W(SIZE) (3 - (SIZE * BNT_W))
+			
 			class Tag_Bnt: BCE_RscButtonMenu
 			{
 				idc = 15;
-				w = QUOTE(PhoneBFTContainerW(TAG_BNT_W(1)));
+				w = QUOTE(PhoneBFTContainerW(CUSTOM_TAG_BNT_W(1)));
 				h = QUOTE(0.7 * (((60)) / 2048 * CustomPhoneH));
 				size = QUOTE(TextSize);
 
@@ -53,8 +52,8 @@
 					shadow = 1;
 					text = QSTRUCTURE_IMAGE(Core,data\chat.paa);
 					
-					x = QUOTE(PhoneBFTContainerW(TAG_BNT_W(1)));
-					w = QUOTE(PhoneBFTContainerW(BNT_W));
+					x = QUOTE(PhoneBFTContainerW(CUSTOM_TAG_BNT_W(1)));
+					w = QUOTE(PhoneBFTContainerW(TAG_BNT_W));
 					// size = 0.65 * (((60)) / 2048 * CustomPhoneH);
 					size = QUOTE(TextSize);
 					
@@ -142,7 +141,7 @@
 			};
 			class Tag_Bnt: Tag_Bnt
 			{
-				w = QUOTE(PhoneBFTContainerW(TAG_BNT_W(2)));
+				w = QUOTE(PhoneBFTContainerW(CUSTOM_TAG_BNT_W(2)));
 				
 				colorBackground[] = {0.2,0.2,0.2,0.86};
 				colorBackground2[] = {0.2,0.2,0.2,0.86};
@@ -152,7 +151,7 @@
 			class Edit_bnt: Msg_bnt
 			{
 				idc = 17;
-				x = QUOTE(PhoneBFTContainerW(TAG_BNT_W(2)));
+				x = QUOTE(PhoneBFTContainerW(CUSTOM_TAG_BNT_W(2)));
 				text = QSTRUCTURE_IMAGE(Core,data\edit.paa);
 
 				colorBackground[] = {0.23,0.23,0.23,0.86};

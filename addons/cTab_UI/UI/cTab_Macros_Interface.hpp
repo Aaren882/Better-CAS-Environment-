@@ -135,3 +135,8 @@
 		w = QUOTE(PhoneBFTContainerW(WPOS)); \
 		h = QUOTE(HPOS * ATAK_POS_H)
 #endif
+
+#ifndef TAG_BNT_W
+	#define TAG_BNT_W 0.4
+	#define CUSTOM_TAG_BNT_W(SIZE) (3 - (SIZE * TAG_BNT_W))
+#endif
