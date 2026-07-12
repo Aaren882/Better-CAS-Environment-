@@ -1,7 +1,8 @@
 #include <string>
 #include <cstring>
-#include <sstream>
+// #include <sstream>
 #include "..\include\arma3headers.h"
+#include "..\include\calculate.h"
 
 void RVExtension(char *output, unsigned int outputSize, const char *function)
 {
@@ -10,12 +11,28 @@ void RVExtension(char *output, unsigned int outputSize, const char *function)
 
 int RVExtensionArgs(char *output, unsigned int outputSize, const char *function, const char **argv, unsigned int argc)
 {
-	std::stringstream sstream;
+	double params[8];
 	for (int i = 0; i < argc; i++)
 	{
-		sstream << argv[i];
+		char *endptr;
+		double value = std::strtod(argv[i], &endptr);
+		params[i] = value;
 	}
-	std::strncpy(output, sstream.str().c_str(), outputSize - 1);
+	
+	auto result = calculateSpringOscillation(
+		params[0],
+		params[1],
+		params[2],
+		params[3],
+		params[4],
+		params[5],
+		params[6],
+		params[7]
+	);
+
+	// std::string sfunction = function;
+	std::strncpy(output, (std::to_string(result)).c_str(), outputSize - 1);
+
 	return 0;
 }
 
