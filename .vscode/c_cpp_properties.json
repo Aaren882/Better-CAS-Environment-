@@ -14,7 +14,10 @@
             "cStandard": "c23",
             "cppStandard": "c++23",
             "compilerPath": "C:/msys64/ucrt64/bin/gcc.exe",
-            "intelliSenseMode": "windows-gcc-x64"
+            "intelliSenseMode": "windows-gcc-x64",
+            "compileCommands": [
+                "${workspaceFolder}/build/compile_commands.json"
+            ]
         }
     ],
     "version": 4
