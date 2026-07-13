@@ -1,7 +1,6 @@
 #include <string>
 #include <cstring>
 #include <sstream>
-#include <bit>
 #include "..\include\arma3headers.h"
 #include "..\include\calculate.h"
 #include "..\include\animHandler.h"
