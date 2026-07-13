@@ -20,15 +20,8 @@ SpringAnim::SpringAnim(
 		double frameRate,
 		double initialPosition,
 		double initialVelocity)
+		: name(name) ,mass(mass) ,frequencyResponse(frequencyResponse) ,dampingRatio(dampingRatio) ,duration(duration) ,frameRate(frameRate) ,initialPosition(initialPosition) ,initialVelocity(initialVelocity)
 {
-	this->name = name;
-	this->mass = mass;
-	this->frequencyResponse = frequencyResponse;
-	this->dampingRatio = dampingRatio;
-	this->duration = duration;
-	this->frameRate = frameRate;
-	this->initialPosition = initialPosition;
-	this->initialVelocity = initialVelocity;
 }
 
 std::string SpringAnim::getName() const { return name; }

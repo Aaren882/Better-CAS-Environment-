@@ -7,13 +7,16 @@ class SpringAnim
 {
 private:
 	std::string name;
-	double mass;
-	double frequencyResponse;
-	double dampingRatio;
-	double duration;
-	double frameRate;
-	double initialPosition;
-	double initialVelocity;
+	struct
+	{
+		double mass
+		,frequencyResponse
+		,dampingRatio
+		,duration
+		,frameRate
+		,initialPosition
+		,initialVelocity;
+	};
 
 public:
 	SpringAnim(
