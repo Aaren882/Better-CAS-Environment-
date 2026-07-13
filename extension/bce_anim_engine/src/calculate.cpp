@@ -45,7 +45,7 @@ std::string SpringAnim::getParams() const {
 }
 
 //- DOING LINEAR INTERPOLATION
-double SpringAnim::calculateSpringOscillation(int _t) const
+double SpringAnim::calculateSpringOscillation(double _t) const
 {
 	double arange = duration * frameRate;
 

@@ -1,6 +1,7 @@
 #include <string>
 #include <cstring>
 #include <sstream>
+#include <bit>
 #include "..\include\arma3headers.h"
 #include "..\include\calculate.h"
 #include "..\include\animHandler.h"
@@ -24,7 +25,7 @@ int RVExtensionArgs(char *output, unsigned int outputSize, const char *function,
 		double params[7];
 		for (int i = 1; i < argc; i++)
 		{
-			double value = std::strtod(argv[i], nullptr);
+			double value = std::stod(argv[i]);
 			params[i - 1] = value;
 		}
 		
@@ -38,7 +39,7 @@ int RVExtensionArgs(char *output, unsigned int outputSize, const char *function,
 	else if (s_function == "calculate") //- Calculation
 	{
 		std::string animName = argv[0];
-		int _t = std::strtod(argv[1], nullptr);
+		double _t = std::stod(argv[1]);
 
 		//- Do interpolation
 		try

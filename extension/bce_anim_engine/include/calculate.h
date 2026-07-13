@@ -28,5 +28,5 @@ public:
 			
 	std::string getName() const;
 	std::string getParams() const;
-	double calculateSpringOscillation(int _t) const;
+	double calculateSpringOscillation(double _t) const;
 };
