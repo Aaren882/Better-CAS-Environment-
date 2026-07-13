@@ -8,7 +8,7 @@ class ATAK_Buttons
 #include "page.hpp"
 class ATAK_APPs
 {
-	class Weather: BCE_ATAK_Tool_ICON
+	class TaskViewer: BCE_ATAK_Tool_ICON
 	{
 		class Menu_Property
 		{
@@ -16,7 +16,7 @@ class ATAK_APPs
 			PAGE_CTRL = "";
 		};
 
-		text = ATAK_APP(Weather);
-		textureNoShortcut="a3\3den\data\displays\display3den\toolbar\intel_ca.paa";
+		text = ATAK_APP(Tasks);
+		textureNoShortcut=QPATHTOEF(Core,data\check_box.paa);
 	};
 };
