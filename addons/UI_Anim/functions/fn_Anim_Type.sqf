@@ -90,7 +90,9 @@ if (_type == "") exitWith {};
       if (_Fade_Included) then {
         _actions pushBack [{_ctrl ctrlSetFade _this},4];
       };
+
     [
+			[_animType] +
       [_ctrl] + 
       _position_Param + 
       [_actions]
@@ -106,7 +108,12 @@ if (_type == "") exitWith {};
 //- Run Animation
 private _Spawn_handler = switch (_type) do {
   case "spring": {
-    private _data = [
+		private _data = [
+      "duration",
+      "frameRate",
+      ["initialPosition", -1]
+    ] call _get_data;
+    /* private _data = [
       "mass",
       "frequencyResponse",
       "damping",
@@ -114,22 +121,23 @@ private _Spawn_handler = switch (_type) do {
       "frameRate",
       ["initialPosition", -1],
       ["initialVelocity", 0]
-    ] call _get_data;
+    ] call _get_data; */
 
     private _handler = _data spawn {
-      params ["_InitPackage","_mass","_frequencyResponse","_dampingRatio","_duration","_frameRate","_initialPosition","_initialVelocity"];
+			// params ["_InitPackage","_mass","_frequencyResponse","_dampingRatio","_duration","_frameRate","_initialPosition","_initialVelocity"];
+      params ["_InitPackage","_duration","_frameRate","_initialPosition"];
 
-      _InitPackage params ["_ctrl","_Start_Point","_End_Point","",["_BG_IDC",0],"_actions"];
+      _InitPackage params ["_animType","_ctrl","_Start_Point","_End_Point","",["_BG_IDC",0],"_actions"];
       
       //- Setup values
         private _arange = _duration * _frameRate;
-        private _stiffness = (((2 * pi) / _frequencyResponse)^2) * _mass;
+        /* private _stiffness = (((2 * pi) / _frequencyResponse)^2) * _mass;
         private _undampedNaturalFrequency = sqrt(_stiffness / _mass);
         private _dampedNaturalFrequency = _undampedNaturalFrequency * sqrt(abs(1 - (_dampingRatio)^2));
 
         private _a = _undampedNaturalFrequency * _dampingRatio;
         private _b = _dampedNaturalFrequency;
-        private _c = (_initialVelocity + _a * _initialPosition) / _b;
+        private _c = (_initialVelocity + _a * _initialPosition) / _b; */
         private _d = _initialPosition;
         
 
@@ -156,7 +164,9 @@ private _Spawn_handler = switch (_type) do {
 
         //- Result will approach >> 0 (solution: Y offset +1)
         // private _result = exp(-_a * t) * (_c * sin(_b * _t) + (_d * cos(_b * _t))) + 1;
-        private _result = exp(-_a * _t) * (_c * sin deg(_b * _t) + (_d * cos deg(_b * _t))) - _initialPosition;
+        
+				// private _result = exp(-_a * _t) * (_c * sin deg(_b * _t) + (_d * cos deg(_b * _t))) - _initialPosition;
+				private _result = parseNumber (("bce_anim_engine" callExtension ["calculate", [_animType, _t]]) # 0);
         private _Breakout = (_arange < _t) && (_d + _result < 0.00001); // -1 + 0.5 "(_initialPosition + _t)"
 
         //- Check if the value is too small
