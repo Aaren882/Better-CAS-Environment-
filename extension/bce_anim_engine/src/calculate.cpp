@@ -14,24 +14,23 @@
 SpringAnim::SpringAnim(
 		std::string name,
 		double mass,
-		double frequencyResponse,
 		double dampingRatio,
+		double response,
 		double duration,
 		double frameRate,
 		double initialPosition,
 		double initialVelocity)
-		: name(name) ,mass(mass) ,frequencyResponse(frequencyResponse) ,dampingRatio(dampingRatio) ,duration(duration) ,frameRate(frameRate) ,initialPosition(initialPosition) ,initialVelocity(initialVelocity)
+		: name(name), mass(mass), dampingRatio(dampingRatio), initialPosition(initialPosition), initialVelocity(initialVelocity)
 {
+	this->frequencyResponse = response * (frameRate * duration);
 }
 
 std::string SpringAnim::getName() const { return name; }
 std::string SpringAnim::getParams() const {
 	std::stringstream ss;
 	ss << "mass :" << mass << " ";
-	ss << "frequencyResponse :" << frequencyResponse << " ";
 	ss << "dampingRatio :" << dampingRatio << " ";
-	ss << "duration :" << duration << " ";
-	ss << "frameRate :" << frameRate << " ";
+	ss << "frequencyResponse :" << frequencyResponse << " ";
 	ss << "initialPosition :" << initialPosition << " ";
 	ss << "initialVelocity :" << initialVelocity;
 	return ss.str();
@@ -40,8 +39,6 @@ std::string SpringAnim::getParams() const {
 //- DOING LINEAR INTERPOLATION
 double SpringAnim::calculateSpringOscillation(double _t) const
 {
-	double arange = duration * frameRate;
-
 	// Calculate physical properties
 	double stiffness = std::pow((2.0 * std::numbers::pi) / frequencyResponse, 2) * mass;
 	
@@ -61,8 +58,6 @@ double SpringAnim::calculateSpringOscillation(double _t) const
 	// This code assumes an strictly under-damped system (dampingRatio < 1.0).
 	double c = (initialVelocity + a * initialPosition) / b;
 	double d = initialPosition;
-
-	double maxT = 1.5 * arange;
 
 	// Calculate relative displacement
 	// C++ std::sin/cos use radians natively, so no degree conversion is needed
