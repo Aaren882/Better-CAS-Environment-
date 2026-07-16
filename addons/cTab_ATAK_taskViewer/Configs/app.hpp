@@ -6,6 +6,7 @@ class ATAK_Buttons
 };
 
 #include "page.hpp"
+#include "elements.hpp"
 class ATAK_APPs
 {
 	class TaskViewer: BCE_ATAK_Tool_ICON
@@ -13,7 +14,9 @@ class ATAK_APPs
 		class Menu_Property
 		{
 			ORDER = 6;
-			PAGE_CTRL = "";
+			PAGE_CTRL = "ATAK_TaskViewer";
+			Opened = QFUNC(ATAK_TaskViewer_Init);
+			ATAK_Buttons = "Group_Menu";
 		};
 
 		text = ATAK_APP(Tasks);
