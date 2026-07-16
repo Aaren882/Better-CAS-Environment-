@@ -1,4 +1,4 @@
-#define COMPONENT cTab_ATAK_weather
+#define COMPONENT cTab_ATAK_taskViewer
 
 #include "..\main\script_mod.hpp"
 
