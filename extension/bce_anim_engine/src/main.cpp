@@ -27,13 +27,13 @@ int RVExtensionArgs(char *output, unsigned int outputSize, const char *function,
 			double value = std::stod(argv[i]);
 			params[i - 1] = value;
 		}
-		
-		auto animObj = new SpringAnim(animName, params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
-		auto handlerSize = animHandler->Add(animObj);
+
+		SpringAnim animObj(animName, params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
+		auto handlerSize = animHandler->Add(&animObj);
 		
 		//- Return
 		// s_output = "New \"" + animObj->getName() + "\" has been added (Total " + std::to_string(handlerSize) + ")";
-		s_output = "New " + animObj->getName() + ": " + animObj->getParams();
+		s_output = "New " + animObj.getName() + ": " + animObj.getParams();
 	}
 	else if (s_function == "calculate") //- Calculation
 	{
