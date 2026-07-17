@@ -83,19 +83,21 @@
 				colorBackground2[] = {0.2,0.2,0.2,0.86};
 				colorBackgroundFocused[] = {0.2,0.2,0.2,0.5};
 			};
-			class Msg_bnt: Msg_bnt
+			class Destination_bnt: Msg_bnt
 			{
 				text = "<img image='a3\modules_f\data\icontasksetdestination_ca.paa' />";
 			};
-			class Edit_bnt: Msg_bnt
+			class Media_bnt: Msg_bnt
 			{
 				idc = 17;
 				x = QUOTE(PhoneBFTContainerW(CUSTOM_TAG_BNT_W(2)));
 				text = "<img image='\a3\modules_f\data\portraitstrategicmapimage_ca.paa' />";
 
+				onButtonClick = QUOTE(call FUNC(LoadMediaData); 'ATAK_Slideshow' call EFUNC(cTab_ATAK_Slideshow,PopUp));
 				colorBackground[] = {0.23,0.23,0.23,0.86};
 				colorBackground2[] = {0.23,0.23,0.23,0.86};
 				colorBackgroundFocused[] = {0.23,0.23,0.23,0.5};
 			};
+			delete Msg_bnt;
 		};
 	};
