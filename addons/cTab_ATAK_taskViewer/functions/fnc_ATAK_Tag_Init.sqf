@@ -19,13 +19,22 @@ params ["_tagGroup","_MenuData"];
 TRACE_1("fnc_ATAK_Tag_Init",_this);
 
 _MenuData params ["_title","_values"];
-_values params ["_description"];
+_values params [["_description",""], ["_mediaData",createHashMap]];
+
+private _mediaBnt = _tagGroup controlsGroupCtrl 17;
+
+//- Save Media into tag controlGroup
+if (count _mediaData isNotEqualTo 0) then {
+	_tagGroup setVariable ["Media", _mediaData];
+} else {
+	_mediaBnt ctrlEnable false; //- Disable button if non-media 
+};
 
 private _tag = _tagGroup controlsGroupCtrl 15;
 private _descGrp = _tagGroup controlsGroupCtrl 100;
 private _desc = _descGrp controlsGroupCtrl 1;
 
-TRACE_3("fnc_ATAK_Tag_Init [Controls]",_tag,_descGrp,_desc);
+TRACE_4("fnc_ATAK_Tag_Init [Controls]",_tag,_mediaBnt,_descGrp,_desc);
 
 //- Apply Infos
   _tag ctrlSetStructuredText parseText format [
