@@ -451,7 +451,7 @@ PHONE_CLASS
 			};
 
 		//- Pages for ATAK
-			//- Back Ground
+			//- Background
 				class ATAK_MenuBG: cTab_RscControlsGroup
 				{
 					idc = 4660;
@@ -496,6 +496,19 @@ PHONE_CLASS
 				class ATAK_Tool_Menu: ATAK_APPs_Menu
 				{
 					idc = idc_D(4650);
+				};
+			//- Pop-up page of ATAK
+				class ATAK_PopUp_Menu: ATAK_APPs_Menu
+				{
+					idc = idc_D(4670);
+
+					x = QUOTE(phoneSizeX);
+					y = QUOTE(phoneSizeY);
+					w = QUOTE(phoneSizeW);
+					h = QUOTE(phoneSizeH - 0.11 * (((60)) / 2048 * CustomPhoneH));
+					
+					//- Scrollbars
+						REMOVE_SCROLL;
 				};
 		////- Bottons for ATAK Tools
 			class InputButtons: ATAK_MenuBG

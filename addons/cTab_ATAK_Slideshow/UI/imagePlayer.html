@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			background-color: #00000000;
+			overflow: hidden;
+		}
+
+		/* Container acts as a window to look through */
+		.image-container {
+			position: relative;
+			width: 600px;
+			height: 400px;
+			overflow: hidden;
+			border-radius: 8px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+			background-color: #00000000;
+		}
+
+		.zoom-img {
+      width: 100%;
+      height: 100%; /* Ensures it respects the container's height */
+      object-fit: contain; /* Fits the entire image without cropping */
+
+      cursor: zoom-in;
+      transform: translate(0px, 0px) scale(1);
+      transform-origin: center center;
+      transition: transform 0.4s ease;
+    }
+	</style>
+</head>
+<body>
+
+	<div class="image-container" id="container">
+		<!-- <img src="https://picsum.photos/1200/800?random=3" alt="Zoomable Image" class="zoom-img" id="myImg"> -->
+		<img src="" alt="Zoomable Image" class="zoom-img" id="myImg">
+	</div>
+
+	<script>
+		const container = document.getElementById('container');
+		const img = document.getElementById('myImg');
+
+		// State variables
+		let isZoomed = false;
+		let isDragging = false;
+		let startX, startY;
+		let translateX = 0, translateY = 0;
+		let scale = 1;
+		const ZOOM_LEVEL = 2.5;
+
+		// 1. Mouse Down (Start drag or click)
+		img.addEventListener('mousedown', (e) => {
+			e.preventDefault();
+			isDragging = true;
+
+			startX = e.clientX - translateX;
+			startY = e.clientY - translateY;
+
+			img.style.transition = 'none';
+			img.dataset.dragged = 'false';
+
+			if (isZoomed) {
+				img.style.cursor = 'grabbing';
+			}
+		});
+
+		// 2. Mouse Move (Dragging)
+		window.addEventListener('mousemove', (e) => {
+			if (!isDragging) return;
+			
+			const threshold = 0.1;
+			if (Math.abs(e.clientX - startX - translateX) > threshold || Math.abs(e.clientY - startY - translateY) > threshold) {
+				img.dataset.dragged = 'true';
+			}
+
+			if (isZoomed) {
+				translateX = e.clientX - startX;
+				translateY = e.clientY - startY;
+				img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+			}
+		});
+
+		// 3. Mouse Up (End drag or execute click)
+		window.addEventListener('mouseup', (e) => {
+			if (!isDragging) return;
+			isDragging = false;
+
+			if (img.dataset.dragged === 'false') {
+				// We pass the event 'e' so we know where the mouse was clicked
+				toggleZoom(e);
+			} else if (isZoomed) {
+				img.style.cursor = 'grab';
+			}
+		});
+
+		// Toggle the zoom state based on cursor position
+		function toggleZoom(e) {
+			img.style.transition = 'transform 0.4s ease';
+
+			if (!isZoomed) {
+				// --- ZOOM IN MATH ---
+				isZoomed = true;
+				scale = ZOOM_LEVEL;
+
+				// 1. Get the container's position on the screen
+				const rect = container.getBoundingClientRect();
+
+				// 2. Calculate how far the click was from the exact center of the container
+				const clickX = e.clientX - rect.left - (rect.width / 2);
+				const clickY = e.clientY - rect.top - (rect.height / 2);
+
+				// 3. Shift the image in the opposite direction of the click, multiplied by the scale difference.
+				// This keeps the pixel you clicked perfectly under your mouse.
+				translateX = -clickX * (scale - 1);
+				translateY = -clickY * (scale - 1);
+
+				img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+				img.style.cursor = 'grab';
+			} else {
+				// --- ZOOM OUT ---
+				isZoomed = false;
+				scale = 1;
+				translateX = 0;
+				translateY = 0;
+
+				img.style.transform = `translate(0px, 0px) scale(${scale})`;
+				img.style.cursor = 'zoom-in';
+			}
+		}
+	</script>
+
+</body>
+
+</html>
