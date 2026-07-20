@@ -8,7 +8,7 @@ Parameters:
 		_slideshow_CtrlGroup  - controlGroup of slideshow <CONTROL>
 
 Returns:
-		Return description <NONE>
+		<NONE>
 
 Author:
 		Aaren
