@@ -81,7 +81,7 @@ _mediaPlayer ctrlShow true;
 		};
 
 		TRACE_2("fnc_onLoad [JSDialog]",_isConfirmDialog,_message);
-		hintSilent format ["_isConfirmDialog = %1\n ""%2""",_isConfirmDialog,_message];
+		// hintSilent format ["_isConfirmDialog = %1\n ""%2""",_isConfirmDialog,_message];
 		true; // We need to tell it that we handled the "dialog", by returning true or false.
 	}];
 } forEach _mediaPlayers;
