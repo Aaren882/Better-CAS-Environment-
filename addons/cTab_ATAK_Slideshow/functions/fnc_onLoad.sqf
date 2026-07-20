@@ -38,8 +38,9 @@ private _mediaSel = _mediaMap get "Index";
 private _mediaPlayer = _mediaPlayers getOrDefault [_mediaType, controlNull];
 _mediaPlayer ctrlShow true;
 
-//- Setup contents
-
+//- Per-Frame Handler Setup
+// This handler is called every 1 sec to ensure the content is updated (e.g., JS execution)
+// and handling media playback state.
 [{
 	params ["_args", "_handle"];
 	_args params ["_mediaMap","_mediaPlayers"];
