@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 params ["_group",["_interfaceInit",false],"_isDialog","_settings"];
 
 private _listGroup = _group controlsGroupCtrl 10;
@@ -18,27 +19,28 @@ private _media = createHashMapFromArray [
 ];
 
 //- Create DropMenu
-	private _tasks = ((createHashMapFromArray [
+	private _tasks = [
 		[
-			"Destroy Radio Tower",
+			"task1",
 			[
+				"Destroy Radio Tower",
 				"Our primary objective is to disable CSAT's local communications.<br/><br/>Intel reports a reinforced radio tower situated on the hill overlooking Zaros (Grid 042-081). Neutralizing this tower will cut off enemy reinforcements.<br/><br/>Expect light-to-moderate infantry patrol presence.",
 				_media,
 				[0, 0]
 			]
 		],
 		[
-			"Apprehend Officer",
+			"task2",
 			[
+				"Apprehend Officer",
 				"Intel has tracked Colonel ""Dimitrov"" to a temporary safehouse (East of Pyrgos). He is carrying vital decryption keys.<br/><br/>Try to <t color='#FFD700'>secure him alive</t>. If he is neutralized, you must search his body for the decryption drive."
 			]
 		]
-	]) toArray false);
-	reverse _tasks;
+	];
   
   [
     "ATAK_TaskView_Tag",
     _listGroup,
     _isDialog,
-    _tasks
+    GVAR(List) toArray false // _tasks
   ] call BCE_fnc_Create_ATAK_Custom_DropMenu;
