@@ -61,7 +61,7 @@ class ATAK_Slideshow: cTab_RscControlsGroup
 			h = QUOTE(phoneSizeH - ((2 * 0.25) * ATAK_POS_H) - (0.11 * (((60)) / 2048 * CustomPhoneH)) - (1.5 * 0.64 * ATAK_POS_H));
 			class controls
 			{
-				class IMAGE: RscPictureKeepAspect // RscText
+				class IMAGE: RscText //RscPictureKeepAspect // RscText
 				{
 					show = 0;
 					x = 0;
@@ -71,8 +71,8 @@ class ATAK_Slideshow: cTab_RscControlsGroup
 
 					//- This works, but the image cannot be loaded when "onLoad"
 					//  even "PageLoaded" is triggered
-					/* type = 106; // CT_WEBBROWSER
-					url = "file://z/BCE/addons/cTab_ATAK_Slideshow/UI/imagePlayer.html"; */ // Reference to a file inside our mission
+					type = 106; // CT_WEBBROWSER
+					url = "file://z/BCE/addons/cTab_ATAK_Slideshow/UI/imagePlayer.html"; // Reference to a file inside our mission
 				};
 				/* class VIDEO: RscVideoKeepAspect
 				{
