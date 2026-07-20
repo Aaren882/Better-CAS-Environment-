@@ -2,13 +2,13 @@
 /* ----------------------------------------------------------------------------
 Function: BCE_cTab_ATAK_taskViewer_fnc_LoadMediaData
 Description:
-		Description.
+		Loads the media data associated with the provided button control into GVAR(MediaData).
 
 Parameters:
-		_param  - Parameter description <OBJECT>
+		_bnt_Ctrl - The button control object from which to retrieve media data.
 
 Returns:
-		Return description <NONE>
+		<NONE>
 
 Author:
 		Aaren
@@ -23,8 +23,8 @@ if (isNull _bnt_Ctrl) exitWith {
 };
 
 //- Get Current controlGroup "Media" Data
-private _ctrlGroup = ctrlParentControlsGroup _bnt_Ctrl;
-private _media = _ctrlGroup getVariable ["Media", createHashMap];
+private _tagGroup = ctrlParentControlsGroup _bnt_Ctrl;
+private _media = _tagGroup getVariable ["Media", createHashMap];
 
 //- Media data are from 👇
 //- #LINK - addons/cTab_ATAK_taskViewer/functions/fnc_ATAK_Tag_Init.sqf
