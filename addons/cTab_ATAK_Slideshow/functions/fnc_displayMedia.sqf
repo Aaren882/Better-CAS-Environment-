@@ -2,7 +2,7 @@
 /* ----------------------------------------------------------------------------
 Function: BCE_cTab_ATAK_Slideshow_fnc_displayMedia
 Description:
-		Description.
+		Handles the display of various media types (IMAGE, VIDEO, WEB_LINK) within the slideshow.
 
 Parameters:
 		_slideshow_CtrlGroup  - controlGroup of slideshow <CONTROL>

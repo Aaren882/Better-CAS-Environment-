@@ -2,13 +2,13 @@
 /* ----------------------------------------------------------------------------
 Function: BCE_cTab_ATAK_Slideshow_fnc_onLoad
 Description:
-		Description.
+		Initializes the slideshow functionality, setting up media players and event handlers.
 
 Parameters:
-		_param  - Parameter description <OBJECT>
+		_slideshow_CtrlGroup  - The controlGroup containing UI elements for the slideshow.
 
 Returns:
-		Return description <NONE>
+		<NONE>
 
 Author:
 		Aaren
@@ -39,6 +39,7 @@ private _mediaPlayer = _mediaPlayers getOrDefault [_mediaType, controlNull];
 _mediaPlayer ctrlShow true;
 
 //- Setup contents
+
 [{
 	params ["_args", "_handle"];
 	_args params ["_mediaMap","_mediaPlayers"];
