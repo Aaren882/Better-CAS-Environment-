@@ -18,8 +18,8 @@ Author:
 params ["_tagGroup","_MenuData"];
 TRACE_1("fnc_ATAK_Tag_Init",_this);
 
-_MenuData params ["_title","_values"];
-_values params [["_description",""], ["_mediaData",createHashMap],["_position",[]]];
+_MenuData params ["_taskId","_values"];
+_values params [["_title",""], ["_description",""], ["_mediaData",createHashMap],["_position",[]]];
 
 private _mediaBnt = _tagGroup controlsGroupCtrl 17;
 
