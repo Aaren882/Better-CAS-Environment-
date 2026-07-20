@@ -23,7 +23,8 @@ private _media = createHashMapFromArray [
 			"Destroy Radio Tower",
 			[
 				"Our primary objective is to disable CSAT's local communications.<br/><br/>Intel reports a reinforced radio tower situated on the hill overlooking Zaros (Grid 042-081). Neutralizing this tower will cut off enemy reinforcements.<br/><br/>Expect light-to-moderate infantry patrol presence.",
-				_media
+				_media,
+				[0, 0]
 			]
 		],
 		[

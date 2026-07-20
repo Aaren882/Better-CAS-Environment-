@@ -86,6 +86,7 @@
 			class Destination_bnt: Msg_bnt
 			{
 				text = "<img image='a3\modules_f\data\icontasksetdestination_ca.paa' />";
+				onButtonClick = QUOTE(call FUNC(FocusOnDestination));
 			};
 			class Media_bnt: Msg_bnt
 			{

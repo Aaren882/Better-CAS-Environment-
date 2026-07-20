@@ -19,7 +19,7 @@ params ["_tagGroup","_MenuData"];
 TRACE_1("fnc_ATAK_Tag_Init",_this);
 
 _MenuData params ["_title","_values"];
-_values params [["_description",""], ["_mediaData",createHashMap]];
+_values params [["_description",""], ["_mediaData",createHashMap],["_position",[]]];
 
 private _mediaBnt = _tagGroup controlsGroupCtrl 17;
 
@@ -28,6 +28,14 @@ if (count _mediaData isNotEqualTo 0) then {
 	_tagGroup setVariable ["Media", _mediaData];
 } else {
 	_mediaBnt ctrlEnable false; //- Disable button if non-media 
+};
+
+//- Disable button if no "_position"
+private _destinationBnt = _tagGroup controlsGroupCtrl 16;
+if (count _position isNotEqualTo 0) then {
+	_tagGroup setVariable ["Position", _position];
+} else {
+	_destinationBnt ctrlEnable false; //- Disable button if no "_position" 
 };
 
 private _tag = _tagGroup controlsGroupCtrl 15;
