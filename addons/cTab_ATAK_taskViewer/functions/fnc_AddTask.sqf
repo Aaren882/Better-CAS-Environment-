@@ -16,6 +16,7 @@ Parameters:
 		_description - Detailed description of the task. <STRING>
 		_media       - Array of media items associated with the task. <ARRAY>
 		_position    - Position parameters for the task viewer. <ARRAY>
+		_skipOnOwner - If true, prevents the current owner from registering the task. <BOOLEAN>
 
 Returns:
 		<NONE>
