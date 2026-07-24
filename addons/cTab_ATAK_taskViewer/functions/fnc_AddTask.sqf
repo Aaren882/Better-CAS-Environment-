@@ -2,7 +2,13 @@
 /* ----------------------------------------------------------------------------
 Function: BCE_cTab_ATAK_taskViewer_fnc_AddTask
 Description:
-		Registers a new task viewer entry, including title, description, media, and position, into a global list.
+		Registers a new task viewer entry
+		including:
+			- title
+			- description
+			- media
+			- position
+		into public variables.
 
 Parameters:
 		_taskId      - Unique identifier for the task. <STRING>
@@ -12,11 +18,12 @@ Parameters:
 		_position    - Position parameters for the task viewer. <ARRAY>
 
 Returns:
-		<BOOL>
+		<NONE>
 
 Examples
 		(begin example)
 				[
+					player,
 					"task1",
 					"title",
 					"desc",
@@ -32,46 +39,38 @@ Author:
 ---------------------------------------------------------------------------- */
 
 params [
+	["_owner", nil, [true,sideUnknown,grpNull,objNull,[],""]],
 	["_taskId", "", [""]],
 	["_title", "", [""]],
 	["_description", "", [""]],
 	["_media", [], [ [] ]],
-	["_position", [], [ [] ]]
+	["_position", [], [ [] ]],
+	["_skipOnOwner", false, [true]]
 ];
 TRACE_1("fnc_AddTask",_this);
 
-private _metaData = [
-	_title,
-	_description,
-	createHashMap
-];
-
-//- Setup Media
-if (count _media isNotEqualTo 0) then {
-	private _m = _metaData # 2;
-	_m set ["Media", _media];
-	_m set ["Index", 0];
+//- Check "_owner"
+if (isNil "_owner" || _owner isEqualTo []) exitWith {
+	ERROR_MSG("""_owner"" parameter is missing or invalid.");
+	nil
 };
 
-//- Setup destination position
-if (count _position isNotEqualTo 0) then {
-	if (count _position < 2 || count _position > 3) then {
-		ERROR_MSG_1("Invalid task position parameters. Expected at least 2, got ""%1""",count _position);
-	} else {
-		_metaData set [3, _position];
-	};
+private _global = isMultiplayer;
+private _params = [_title, _description, _media, _position];
+
+//- Board cast variable (Supports JIP)
+private _taskVarName = _taskId call FUNC(getTaskVar);
+missionNamespace setVariable[_taskVarName, _params];
+publicVariable _taskVarName;
+
+//- Check if owner should skip registration
+if (_skipOnOwner) exitWith {};
+
+//- remoteExecCall if it's global environment
+if (_global) exitWith {
+	[_taskId] remoteExecCall [QFUNC(AddTaskLocal), 0, _owner];
+	nil
 };
 
-/* 
-	Example
-	[
-		"task1",
-		[
-			Title,		<TEXT>
-			Desc,			<TEXT>
-			Media, 		<HASHMAP>
-			position	<ARRAY>
-		]
-	]
-*/
-GVAR(List) set [_taskId, _metaData];
+_taskId call FUNC(AddTaskLocal);
+nil
