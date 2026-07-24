@@ -21,7 +21,7 @@ Author:
 ---------------------------------------------------------------------------- */
 
 params [["_taskId", "", [""]]];
-TRACE_1("fnc_AddTask",_this);
+TRACE_1("fnc_AddTaskLocal",_this);
 
 //- Get variable (Supports JIP)
 private _taskVarName = _taskId call FUNC(getTaskVar);
