@@ -17,7 +17,7 @@ class ATAK_AppMenu_Base;
       class Title: Title
       {
         idc = 5;
-        text = "Tasks";
+        text = CSTRING(Title);
       };
 
       class Group_Box: Group_Box
