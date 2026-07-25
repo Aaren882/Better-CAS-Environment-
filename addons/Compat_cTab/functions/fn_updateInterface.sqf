@@ -804,16 +804,23 @@ _settings apply {
 		// ---------- Marker Color -----------
 		if ((_x # 0) == "markerColor") exitWith {
 			private _markerColor = _display displayCtrl (17000 + 1090);
+			private _MarkerColorArr = uiNamespace getVariable ["BCE_Marker_Color_Array", []];
+			if (_MarkerColorArr isEqualTo []) then {
+				_MarkerColorArr = ("getNumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkerColors")) apply {
+					configName _x
+				};
+				
+				uiNamespace setVariable ["BCE_Marker_Color_Array", _MarkerColorArr];
+			};
 
 			if (lbSize _markerColor == 0) then {
 				if (_isDialog) then {
 					private _EDIT_color = _display displayCtrl (17000 + 1301) controlsGroupCtrl 51;
 					{
-						private _cfgName = configName _x;
+						private _cfgName = _x;
 						private _color = _cfgName call BCE_fnc_getMarkerColor;
-						if (count _color == 0) then {continue}; //- #NOTE - Skip if the color is "scope!=2"
 						
-						private _name = getText (_x >> "name");
+						private _name = getText (configFile >> "CfgMarkerColors" >> _x >> "name");
 						private _index = _markerColor lbAdd _name;
 
 						_EDIT_color lbAdd _name;
@@ -827,14 +834,13 @@ _settings apply {
 						_EDIT_color lbSetPictureColorSelected [_index, _color];
 						_EDIT_color lbSetPictureColor [_index, _color];
 						_EDIT_color lbSetData [_index, _cfgName]; //- Save color "configName"
-					} forEach ("true" configClasses (configFile >> "CfgMarkerColors"));
+					} forEach _MarkerColorArr;
 					_markerColor lbSetCurSel (_x # 1);
 					
 					//- Set EH only for Dialog
 						_markerColor ctrlAddEventHandler ["LBSelChanged", {[cTabIfOpen # 1,[['markerColor',_this # 1]]] call cTab_fnc_setSettings}];
 				} else {
 					//- is display ,so there's no need to create the entire Color List
-					private _MarkerColorArr = uiNamespace getVariable ["BCE_Marker_Color_Array",[]];
 					private _cfgName = (_MarkerColorArr # (_x # 1));
 					private _color = _cfgName call BCE_fnc_getMarkerColor;
 
