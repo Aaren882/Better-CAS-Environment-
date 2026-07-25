@@ -67,12 +67,13 @@ _mediaPlayer ctrlShow true;
 {
 	private _ctrl = _y;
 
-	_ctrl ctrlAddEventHandler ["PageLoaded", { 
+	_slideshow_CtrlGroup call FUNC(displayMedia);
+	/* _ctrl ctrlAddEventHandler ["PageLoaded", { 
 		params ["_control"];
 		TRACE_1("fnc_onLoad [PageLoaded]",_this);
 
 		(ctrlParentControlsGroup _control) call FUNC(displayMedia);
-	}];
+	}]; */
 
 	_ctrl ctrlAddEventHandler ["JSDialog", {
 		params ["_control", "_isConfirmDialog", "_message"];

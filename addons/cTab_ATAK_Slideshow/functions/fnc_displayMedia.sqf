@@ -31,9 +31,12 @@ if (count _mediaMap isEqualTo 0) exitWith {
 private _media = _mediaMap get "Media";
 private _mediaSel = _mediaMap get "Index";
 
-private _selectedMedia = _media # _mediaSel;
+//- Update text
+private _text = _slideshow_CtrlGroup controlsGroupCtrl 6;
+_text ctrlSetStructuredText parseText format["[ %1/%2 ]", _mediaSel + 1, count _media];
+
 //- Setup contents
-_selectedMedia params ["_mediaType", "_content"];
+(_media # _mediaSel) params ["_mediaType", "_content"];
 
 //- #LINK - addons/cTab_ATAK_Slideshow/functions/fnc_onLoad.sqf
 private _mediaPlayers = _slideshow_CtrlGroup getVariable ["MediaPlayers", createHashMap];
