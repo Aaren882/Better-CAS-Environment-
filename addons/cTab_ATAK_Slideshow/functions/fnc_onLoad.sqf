@@ -88,6 +88,3 @@ _mediaPlayer ctrlShow true;
 		true; // We need to tell it that we handled the "dialog", by returning true or false.
 	}];
 } forEach _mediaPlayers;
-
-//- Setup contents
-// [FUNC(displayMedia), _slideshow_CtrlGroup, 1] call CBA_fnc_waitAndExecute;
