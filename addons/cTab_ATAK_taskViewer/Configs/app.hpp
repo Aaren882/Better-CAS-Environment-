@@ -2,7 +2,13 @@ class BCE_ATAK_Tool_ICON;
 
 class ATAK_Buttons
 {
-	//- Buttons here
+	class TaskViewer_Menu
+  {
+    onLoad = QFUNC(ATAK_bnt_taskViewer); //- [ALL the Buttons]
+    clickEvents[] = {
+      ""
+    };
+  };
 };
 
 #include "page.hpp"
@@ -16,7 +22,7 @@ class ATAK_APPs
 			ORDER = 6;
 			PAGE_CTRL = "ATAK_TaskViewer";
 			Opened = QFUNC(ATAK_TaskViewer_Init);
-			ATAK_Buttons = "Group_Menu";
+			ATAK_Buttons = "TaskViewer_Menu";
 		};
 
 		text = ATAK_APP(Tasks);
