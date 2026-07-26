@@ -2,8 +2,8 @@
 <Project name="AVFEVFX">
 	<Package name="Better_CAS_Environment">
 		<Key ID="STR_BCE_cTab_ATAK_taskViewer_Title">
-			<Original>Task List</original>
-			<Chinese>任務列表</English>
+			<original>Task List</original>
+			<chinese>任務列表</chinese>
 		</Key>
 	</Package>
 </Project>
