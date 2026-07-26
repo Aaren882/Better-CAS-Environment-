@@ -35,6 +35,7 @@
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["showMenu",["main",false,["",0],createHashMap]],
+	["popUpMenu",""],
 	["MarkerWidget",[false,0,[0,0],[],0,0,100]],
 	["MarkerEDIT",""],
 	["recipient",""],

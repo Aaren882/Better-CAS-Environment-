@@ -421,7 +421,7 @@ _settings apply {
 				17000 + 2621,
 				17000 + 2622,
 				
-				17000 + 4660,
+				17000 + 4660, //- ATAK_APPs_Menu
 				17000 + 4661,
 				17000 + 4662,
 				17000 + 4663,
@@ -432,8 +432,9 @@ _settings apply {
 				17000 + 4631,
 				17000 + 46310,
 				17000 + 4632,
-				17000 + 4650,
-				17000 + 4640,
+				17000 + 4650, //- ATAK_Tool_Menu
+				17000 + 4670, //- ATAK_PopUp_Menu
+				// 17000 + 4640, //- H-CAM
 				17000 + 4641,
 
 				//-BTF Widgets
@@ -466,7 +467,7 @@ _settings apply {
 		};
 
 		//-Setup show Controls on INIT
-		if !(_displayItems isEqualTo []) then {
+		if (_displayItems isNotEqualTo []) then {
 		_btnActCtrl = _display displayCtrl IDC_CTAB_BTNACT;
 		_btnActCtrl ctrlRemoveAllEventHandlers "ButtonClick";
 		_btnActCtrl ctrlSetText "";
@@ -517,13 +518,14 @@ _settings apply {
 					//-Tool Menu
 					if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
 						private _showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
-						_displayItemsToShow append [17000 + 2615,17000 + 2616]; //- Show Compass on Phone
-						if (_showMenu param [1, false]) then {
-							// _displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
-							if !(_interfaceInit) then {
-								_settings pushBack ["showMenu",[_displayName,"showMenu"] call cTab_fnc_getSettings];
+						_showMenu params ["_page",["_show", false],"_subInfos",["_PgComponents",createHashMap]];
+
+						//- Update ATAK "showMenu" menus at below
+							if (_show && !_interfaceInit) then {
+								_settings pushBack ["showMenu", _showMenu];
 							};
-						};
+
+						_displayItemsToShow append [17000 + 2615,17000 + 2616]; //- Show Compass on Phone
 					};
 
 					_maptoolsInit = true;
@@ -648,6 +650,7 @@ _settings apply {
 		};
 
 		// hide every _displayItems not in _displayItemsToShow
+		TRACE_1("fnc_UpdateInterface [Show Controls]",_displayItemsToShow);
 		{(_display displayCtrl _x) ctrlShow (_x in _displayItemsToShow)} count _displayItems;
 
 
@@ -1122,7 +1125,34 @@ _settings apply {
 			//- Make sure Layout is correct
 			call BCE_fnc_ATAK_Check_Layout;
 		};
+		
+		if (_x # 0 == "popUpMenu") exitWith {
+			private _popUpClassName = _x # 1;
 
+			//- Show "ATAK_PopUp_Menu"
+			private _popUpGroup = _display displayCtrl (17000 + 4670); //- "ATAK_PopUp_Menu"
+			_popUpGroup ctrlShow (_popUpClassName != "");
+
+			if (_popUpClassName == "") exitWith {};
+
+			//- Clean Up existed Controls
+			{ctrlDelete _x} count (allControls _popUpGroup);
+
+			//- Setup pop-up UI
+			private _media_Ctrl = _display ctrlCreate [
+				[
+					configFile >> "RscTitles" >> _popUpClassName,
+					configFile >> _popUpClassName
+				] select _isDialog,
+				100,
+				_popUpGroup
+			];
+			ctrlSetFocus _popUpGroup;
+			
+			LOG_2("fnc_UpdateInterface ""popUpMenu"" [SHOWN Controls] = ""_popUpGroup = %1"" | ""_media_Ctrl = %2""",ctrlShown _popUpGroup,ctrlShown _media_Ctrl);
+			TRACE_3("fnc_UpdateInterface ""popUpMenu"" [Controls]",_popUpClassName,_popUpGroup,_media_Ctrl);
+		};
+		
 		if (_x # 0 == "uavInfo") exitWith {
 			private _status = _x # 1;
 			[[1775,_status],[1776,!_status]] apply {
