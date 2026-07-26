@@ -3,7 +3,11 @@
 */
 params [["_Reset_Value",false],["_onInit",false]];
 
-private _ATAK_APPs = profileNamespace getVariable ["BCE_ATAK_APPs", []];
+//- #TODO - Scan (configFile >> "ATAK_APPs") on "StartupInit" 
+//  : Currently "profileNamespace" cache disabled => Use localNamespace alternatively
+
+// private _ATAK_APPs = profileNamespace getVariable ["BCE_ATAK_APPs", []];
+private _ATAK_APPs = localNamespace getVariable ["BCE_ATAK_APPs", []];
 
 //- Check ATAK Menu items (on postInit)
   if (_onInit && _ATAK_APPs findIf {true} > -1) exitWith {
@@ -21,7 +25,8 @@ private _ATAK_APPs = profileNamespace getVariable ["BCE_ATAK_APPs", []];
           _ATAK_APPs set [_forEachIndex, _New_Order # _forEachIndex # 1];
         };
       } forEach _result;
-      profileNamespace setVariable ["BCE_ATAK_APPs", _ATAK_APPs];
+      // profileNamespace setVariable ["BCE_ATAK_APPs", _ATAK_APPs];
+      localNamespace setVariable ["BCE_ATAK_APPs", _ATAK_APPs];
       
       //- Rearrange APP HashMap (uiNamespace)
         [_ATAK_APPs] call BCE_fnc_ATAK_setAPPs_props; //- Update APP Props
@@ -39,7 +44,8 @@ if (_Reset_Value || _ATAK_APPs findIf {true} < 0) then {
   //- Set HashMap for finding "Menu className" (Force Reset)
     [_ATAK_APPs] call BCE_fnc_ATAK_setAPPs_props; //- Update APP Props
 
-  profileNamespace setVariable ["BCE_ATAK_APPs", _ATAK_APPs];
+  // profileNamespace setVariable ["BCE_ATAK_APPs", _ATAK_APPs];
+  localNamespace setVariable ["BCE_ATAK_APPs", _ATAK_APPs];
 };
 
 //- Set HashMap for finding "Menu className" (Debug - uiNamespace)
