@@ -13,16 +13,6 @@ class CfgPatches {
 	};
 };
 
-class CfgCommands
-{
-	// Note that in case of clients connected to dedicated server, restrictions defined in its config have priority.
-	allowedHTMLLoadURIs[] +=
-	{
-		"*.youtube-nocookie.com",
-		"*.youtube.com"
-	};
-};
-
 //- Configs
 #include "Configs\CfgEventHandlers.hpp"
 
