@@ -26,8 +26,6 @@ if (_menuClassName isEqualTo "") exitWith {
 private _displayName = cTabIfOpen # 1;
 private _setting = [_displayName, "popUpMenu"] call cTab_fnc_getSettings;
 
-// _setting set [0, _menuClassName]; //- Set UI ClassName
-
 //- Update Interface
 [_displayName,[["popUpMenu",_menuClassName]],true] call cTab_fnc_setSettings;
 

@@ -146,7 +146,28 @@ PHONE_CLASS
 			w = QUOTE(((((((PHONE_MOD) - (20) * 2) - (10) * 3) / 3) * 2)) / 2048 * PhoneW);
 			h = QUOTE(((((626) - (60) - (10) * 2) - (20) -(10))) / 2048 * CustomPhoneH);
 		};
-		
+		//- Add Compass
+			class Compass: cTab_android_on_screen_battery
+			{
+				idc = idc_D(2615);
+				style = "0x02 + 0x30 + 0x800";
+				text = QPATHTOEF(Core,data\Compass.paa);
+				y = QUOTE(((713)) / 2048 * CustomPhoneH + CustomPhoneY + (((60)) / 2048 * CustomPhoneH));
+				w = QUOTE(1.3 * sizeW * (PhoneW * 3/4));
+				h = QUOTE(1.3 * sizeW * PhoneW);
+			};
+			class compass_Dir: cTab_RscText_Android
+			{
+				idc = idc_D(2616);
+				style = 2;
+				shadow = 1;
+				text = "N";
+				sizeEx = QUOTE(0.6 * sizeW * PhoneW);
+				x = QUOTE(((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (1 - 1))) / 2048  * 	PhoneW + 	CustomPhoneX);
+				y = QUOTE(((713)) / 2048 * CustomPhoneH + CustomPhoneY + (((60)) / 2048 * CustomPhoneH));
+				w = QUOTE(1.3 * sizeW * (PhoneW * 3/4));
+				h = QUOTE(1.3 * sizeW * PhoneW);
+			};
 	};
 	class controls
 	{
@@ -393,28 +414,7 @@ PHONE_CLASS
 			delete grid;
 			delete dirDegree;
 			// delete dirOctant;
-		//- Add Compass
-			class Compass: cTab_android_on_screen_battery
-			{
-				idc = idc_D(2615);
-				style = "0x02 + 0x30 + 0x800";
-				text = QPATHTOEF(Core,data\Compass.paa);
-				y = QUOTE(((713)) / 2048 * CustomPhoneH + CustomPhoneY + (((60)) / 2048 * CustomPhoneH));
-				w = QUOTE(1.3 * sizeW * (PhoneW * 3/4));
-				h = QUOTE(1.3 * sizeW * PhoneW);
-			};
-			class compass_Dir: cTab_RscText_Android
-			{
-				idc = idc_D(2616);
-				style = 2;
-				shadow = 1;
-				text = "N";
-				sizeEx = QUOTE(0.6 * sizeW * PhoneW);
-				x = QUOTE(((((20) + (452)) + ((20) + (((PHONE_MOD) - (20) * 6) / 5)) * (1 - 1))) / 2048  * 	PhoneW + 	CustomPhoneX);
-				y = QUOTE(((713)) / 2048 * CustomPhoneH + CustomPhoneY + (((60)) / 2048 * CustomPhoneH));
-				w = QUOTE(1.3 * sizeW * (PhoneW * 3/4));
-				h = QUOTE(1.3 * sizeW * PhoneW);
-			};
+
 		//- Self Info Box (Bottom Right)
 			#ifdef IS_DIALOG
 				#define BOX_SIZE_H (0.65 * TextSize)

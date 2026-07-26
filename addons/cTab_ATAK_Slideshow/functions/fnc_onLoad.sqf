@@ -2,13 +2,13 @@
 /* ----------------------------------------------------------------------------
 Function: BCE_cTab_ATAK_Slideshow_fnc_onLoad
 Description:
-		Description.
+		Initializes the slideshow functionality, setting up media players and event handlers.
 
 Parameters:
-		_param  - Parameter description <OBJECT>
+		_slideshow_CtrlGroup  - The controlGroup containing UI elements for the slideshow.
 
 Returns:
-		Return description <NONE>
+		<NONE>
 
 Author:
 		Aaren
@@ -38,21 +38,53 @@ private _mediaSel = _mediaMap get "Index";
 private _mediaPlayer = _mediaPlayers getOrDefault [_mediaType, controlNull];
 _mediaPlayer ctrlShow true;
 
-//- Setup contents
-_slideshow_CtrlGroup call FUNC(displayMedia);
+//- Per-Frame Handler Setup
+// This handler is called every 1 sec to ensure the content is updated (e.g., JS execution)
+// and handling media playback state.
+[{
+	params ["_args", "_handle"];
+	_args params ["_mediaMap","_mediaPlayers"];
+
+	private _media = _mediaMap get "Media";
+	private _mediaSel = _mediaMap get "Index";
+
+	(_media # _mediaSel) params ["_mediaType", "_content"];
+
+	private _mediaPlayer = _mediaPlayers getOrDefault [_mediaType, controlNull];
+	if (isNull _mediaPlayer) exitWith {
+		localNamespace setVariable [QGVAR(JS),nil];
+		[_handle] call CBA_fnc_removePerFrameHandler;
+	};
+
+	private _js = localNamespace getVariable [QGVAR(JS),""];
+	if (_js isNotEqualTo "") then {
+		TRACE_1("fnc_onLoad [LOOP]",_js);
+		_mediaPlayer ctrlWebBrowserAction ["ExecJS", _js];
+	};
+}, 1, [_mediaMap, _mediaPlayers]] call CBA_fnc_addPerFrameHandler;
 
 //- CT_WEBBROWSER "IMAGE" -> #LINK - addons/cTab_ATAK_Slideshow/UI/elements.hpp
-/* {
-	_y ctrlAddEventHandler ["PageLoaded", { 
+{
+	private _ctrl = _y;
+
+	_slideshow_CtrlGroup call FUNC(displayMedia);
+	/* _ctrl ctrlAddEventHandler ["PageLoaded", { 
 		params ["_control"];
 		TRACE_1("fnc_onLoad [PageLoaded]",_this);
 
-		// [FUNC(displayMedia), ctrlParentControlsGroup _control, 5] call CBA_fnc_waitAndExecute;
-
 		(ctrlParentControlsGroup _control) call FUNC(displayMedia);
-		// (ctrlParentControlsGroup _control) call FUNC(displayMedia);
-	}];
-} forEach _mediaPlayers; */
+	}]; */
 
-//- Setup contents
-// [FUNC(displayMedia), _slideshow_CtrlGroup, 1] call CBA_fnc_waitAndExecute;
+	_ctrl ctrlAddEventHandler ["JSDialog", {
+		params ["_control", "_isConfirmDialog", "_message"];
+		
+		//- Clean up
+		if (_isConfirmDialog) then {
+			localNamespace setVariable [QGVAR(JS),nil];
+		};
+
+		TRACE_2("fnc_onLoad [JSDialog]",_isConfirmDialog,_message);
+		// hintSilent format ["_isConfirmDialog = %1\n ""%2""",_isConfirmDialog,_message];
+		true; // We need to tell it that we handled the "dialog", by returning true or false.
+	}];
+} forEach _mediaPlayers;

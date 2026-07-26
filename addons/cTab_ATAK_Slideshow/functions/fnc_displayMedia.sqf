@@ -2,13 +2,13 @@
 /* ----------------------------------------------------------------------------
 Function: BCE_cTab_ATAK_Slideshow_fnc_displayMedia
 Description:
-		Description.
+		Handles the display of various media types (IMAGE, VIDEO, WEB_LINK) within the slideshow.
 
 Parameters:
 		_slideshow_CtrlGroup  - controlGroup of slideshow <CONTROL>
 
 Returns:
-		Return description <NONE>
+		<NONE>
 
 Author:
 		Aaren
@@ -31,9 +31,12 @@ if (count _mediaMap isEqualTo 0) exitWith {
 private _media = _mediaMap get "Media";
 private _mediaSel = _mediaMap get "Index";
 
-private _selectedMedia = _media # _mediaSel;
+//- Update text
+private _text = _slideshow_CtrlGroup controlsGroupCtrl 6;
+_text ctrlSetStructuredText parseText format["[ %1/%2 ]", _mediaSel + 1, count _media];
+
 //- Setup contents
-_selectedMedia params ["_mediaType", "_content"];
+(_media # _mediaSel) params ["_mediaType", "_content"];
 
 //- #LINK - addons/cTab_ATAK_Slideshow/functions/fnc_onLoad.sqf
 private _mediaPlayers = _slideshow_CtrlGroup getVariable ["MediaPlayers", createHashMap];
@@ -44,25 +47,19 @@ private _mediaPlayer = _mediaPlayers getOrDefault [_mediaType, controlNull];
 
 switch (_mediaType) do {
 	case "IMAGE": {
-		_mediaPlayer ctrlSetText _content;
+		// _mediaPlayer ctrlSetText _content;
 
 		//- CT_WEBBROWSER "IMAGE" -> #LINK - addons/cTab_ATAK_Slideshow/UI/elements.hpp
-		/* (getTextureInfo _content) params ["_width", "_height"];
+		(getTextureInfo _content) params ["_width", "_height"];
 
 		private _content = _content; //- COPY _content
 		_content = (_content splitString '\') joinString '\\';
 		TRACE_3("fnc_displayMedia [IMAGE]",_content,_width,_height);
 
-		_mediaPlayer ctrlWebBrowserAction [
-			"ExecJS",
-			format [
-				"A3API.RequestTexture('%1', %2).then(imageContent => {const container = document.getElementById('container'); container.style.width = '%2px'; container.style.height = '%3px'; document.getElementById('myImg').src = imageContent;});",
-				_content,
-				_width,
-				_height
-			]
-		];
-		systemChat str ["fnc_displayMedia [IMAGE]",_content,_width,_height,time]; */
+		localNamespace setVariable [QGVAR(JS), format ["setA3Texture('%1',%2,%3);",_content,_width,_height]];
+		// _slideshow_CtrlGroup setVariable ["JS", format ["setA3Texture('%1',%2,%3);",_content,_width,_height]];
+		
+		// systemChat str ["fnc_displayMedia [IMAGE]",_content,_width,_height,time];
 	};
 	case "VIDEO": {
 		_mediaPlayer ctrlSetText _content;
