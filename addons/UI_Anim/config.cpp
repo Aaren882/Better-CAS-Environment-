@@ -17,3 +17,4 @@ class CfgPatches {
 
 //- Arma Configs
 #include "configs\CfgFunctions.hpp"
+#include "configs\CfgEventHandlers.hpp"

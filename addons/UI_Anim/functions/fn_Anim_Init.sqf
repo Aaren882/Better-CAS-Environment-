@@ -59,22 +59,24 @@ if (isclass _config) then {
           ERROR_MSG_1("Invalid Animation frameRate ""frameRate = %1""",_frameRate);
         };
 
-      // _data set ["frequencyResponse", _response * (_frameRate * _duration)];
-
 			//- Register animation into the extension
-			private _register = "bce_anim_engine" callExtension ["register", [
-					_animType,
-					_mass,
-					_damping,
-					_response,
-					_duration,
-					_frameRate,
-					_initialPosition,
-					_initialVelocity
-				]
-			];
-			_register params ["_registerReturn"];
-			INFO_1("Animation Registered ""%1"":",_registerReturn);
+			if (GVAR(UseExtension)) then {
+				private _register = "bce_anim_engine" callExtension ["register", [
+						_animType,
+						_mass,
+						_damping,
+						_response,
+						_duration,
+						_frameRate,
+						_initialPosition,
+						_initialVelocity
+					]
+				];
+				_register params ["_registerReturn"];
+				INFO_1("Animation Registered ""%1"":",_registerReturn);
+			} else {
+				_data set ["frequencyResponse", _response * (_frameRate * _duration)];
+			};
 
       0
     };
