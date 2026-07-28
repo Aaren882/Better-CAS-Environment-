@@ -1,1 +1,1 @@
-#include "..\Core\Configs\UI_Components.hpp"
+#include "..\Core\UI_Components.hpp"

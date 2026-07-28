@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_get_TaskIndex
 
@@ -11,7 +12,7 @@
 params [["_key",""]];
 
 if (_key == "") exitWith {
-  ["Empty ""_key"" input !!"] call BIS_fnc_error;
+	ERROR_MSG("Empty ""_key"" input !!");
 };
 
 private _index = localNamespace getVariable ["BCE_Mission_Index", createHashMap];

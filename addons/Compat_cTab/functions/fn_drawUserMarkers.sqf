@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
 	Name: cTab_fnc_drawUserMarkers
 
@@ -141,7 +142,7 @@ private _isnt_Drawing = isNil{localNamespace getVariable "BCE_DrawHold_lastClick
 	//- draw Marker Icon
 		if (_markerShape == 0) then {
 			//- Only for "ICON"
-				[_ctrlScreen, _marker, _pos, _color, [_dir,selectMax _size,_mapScale]] call cTab_fnc_DrawMarkerDir;
+				[_ctrlScreen, _marker, _pos, _color, [_dir,selectMax _size,_mapScale]] call EFUNC(cTab_Marker,DrawMarkerDir);
 			continue
 		};
 } forEach cTabMarkerList;
@@ -164,11 +165,11 @@ if (!(_reDirecting || _reSizing || _LMB) && _curSelMarker > -1) then {
 
 //- Drawing Tools
 	if (_widgetMode == 1) then {
-		call cTab_fnc_DrawArea;
+		call EFUNC(cTab_Marker,DrawArea);
 	};
 
 //- #NOTE - Draw ACE map pointer
 	call cTab_fnc_onDrawMapPointer;
 
 //- Check Rangefinder (Requir ACE + cTab 1erGTD)
-	call cTab_fnc_DrawRangefinder_ACE;
+	call EFUNC(cTab_Marker,DrawRangefinder_ACE);

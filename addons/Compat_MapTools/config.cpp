@@ -23,6 +23,7 @@ class CfgPatches {
 #include "Components/PLP_SMT_Data.hpp"
 
 //- UI
+#define IS_DIALOG 1
 #include "UI_components.hpp"
 #include "UI/Map_UI.hpp"
 

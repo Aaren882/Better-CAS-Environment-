@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_FuzeTrigger
 */
@@ -22,7 +23,7 @@ _projectileParent setVariable ["#BCE_FUZE",nil]; //- Clean UP
 //- Catch Error
   if (isNil {_condition}) exitWith {
     if (_conditionName != "#EMPTY") then {
-      ["Function ""%1"" Doesn't Exist !!",_conditionName] call BIS_fnc_error;
+			ERROR_MSG_1("Function ""%1"" Doesn't Exist !!",_conditionName);
     };
   };
 

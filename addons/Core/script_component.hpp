@@ -12,4 +12,5 @@
     #define DEBUG_SETTINGS DEBUG_SETTINGS_MAIN
 #endif
 
+#include "script_macros.hpp"
 #include "..\main\script_macros.hpp"

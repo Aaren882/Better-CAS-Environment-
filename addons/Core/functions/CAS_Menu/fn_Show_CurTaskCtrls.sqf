@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
 	NAME : BCE_fnc_Show_CurTaskCtrls
 	
@@ -15,7 +16,7 @@ _Info_list = switch _curInterface do {
 	case 1: {missionNamespace getVariable "cTab_Task_TaskItems"};
 };
 
-if (isNil {_Info_list}) exitWith {["Error variable not Exist"] call BIS_fnc_error};
+if (isNil {_Info_list}) exitWith {ERROR_MSG("Error variable not Exist")};
 
 _curType = [] call BCE_fnc_get_TaskCurType;
 

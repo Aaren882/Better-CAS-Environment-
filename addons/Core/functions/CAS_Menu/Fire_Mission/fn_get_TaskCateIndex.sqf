@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_get_TaskCateIndex
 
@@ -13,7 +14,7 @@
 params [["_key",""]];
 
 if (_key == "") exitWith {
-  ["Empty ""_key"" input !!"] call BIS_fnc_error;
+  ERROR_MSG("Empty ""_key"" input !!");
 };
 
 //-- #NOTE - categories => ["_key","_types"]

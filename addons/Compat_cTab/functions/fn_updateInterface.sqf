@@ -199,7 +199,7 @@ _settings apply {
 			private _show = (_x # 1) != "";
 			_group ctrlShow _show;
 			if (_show) then {
-				[_display, (_x # 1)] call cTab_fnc_Marker_Edittor;
+				[_display, (_x # 1)] call EFUNC(cTab_Marker,Marker_Edittor);
 			};
 		};
 
@@ -249,7 +249,7 @@ _settings apply {
 				};
 
 				//- Update Items in ComboBox
-					[_cate,_curSel] call cTab_fnc_Update_MarkerItems;
+					[_cate,_curSel] call EFUNC(cTab_Marker,Update_MarkerItems);
 
 				//- Add Drop Eventhandler
 					_dropBox ctrlAddEventHandler ["LBSelChanged",cTab_fnc_onMarkerSelChanged];
@@ -421,7 +421,7 @@ _settings apply {
 				17000 + 2621,
 				17000 + 2622,
 				
-				17000 + 4660,
+				17000 + 4660, //- ATAK_APPs_Menu
 				17000 + 4661,
 				17000 + 4662,
 				17000 + 4663,
@@ -432,8 +432,9 @@ _settings apply {
 				17000 + 4631,
 				17000 + 46310,
 				17000 + 4632,
-				17000 + 4650,
-				17000 + 4640,
+				17000 + 4650, //- ATAK_Tool_Menu
+				17000 + 4670, //- ATAK_PopUp_Menu
+				// 17000 + 4640, //- H-CAM
 				17000 + 4641,
 
 				//-BTF Widgets
@@ -466,7 +467,7 @@ _settings apply {
 		};
 
 		//-Setup show Controls on INIT
-		if !(_displayItems isEqualTo []) then {
+		if (_displayItems isNotEqualTo []) then {
 		_btnActCtrl = _display displayCtrl IDC_CTAB_BTNACT;
 		_btnActCtrl ctrlRemoveAllEventHandlers "ButtonClick";
 		_btnActCtrl ctrlSetText "";
@@ -517,13 +518,14 @@ _settings apply {
 					//-Tool Menu
 					if (_displayName in ["cTab_Android_dlg","cTab_Android_dsp"]) then {
 						private _showMenu = [_displayName, "showMenu"] call cTab_fnc_getSettings;
-						_displayItemsToShow append [17000 + 2615,17000 + 2616]; //- Show Compass on Phone
-						if (_showMenu param [1, false]) then {
-							// _displayItemsToShow pushback IDC_CTAB_GROUP_MENU;
-							if !(_interfaceInit) then {
-								_settings pushBack ["showMenu",[_displayName,"showMenu"] call cTab_fnc_getSettings];
+						_showMenu params ["_page",["_show", false],"_subInfos",["_PgComponents",createHashMap]];
+
+						//- Update ATAK "showMenu" menus at below
+							if (_show && !_interfaceInit) then {
+								_settings pushBack ["showMenu", _showMenu];
 							};
-						};
+
+						_displayItemsToShow append [17000 + 2615,17000 + 2616]; //- Show Compass on Phone
 					};
 
 					_maptoolsInit = true;
@@ -648,6 +650,7 @@ _settings apply {
 		};
 
 		// hide every _displayItems not in _displayItemsToShow
+		TRACE_1("fnc_UpdateInterface [Show Controls]",_displayItemsToShow);
 		{(_display displayCtrl _x) ctrlShow (_x in _displayItemsToShow)} count _displayItems;
 
 
@@ -804,16 +807,23 @@ _settings apply {
 		// ---------- Marker Color -----------
 		if ((_x # 0) == "markerColor") exitWith {
 			private _markerColor = _display displayCtrl (17000 + 1090);
+			private _MarkerColorArr = uiNamespace getVariable ["BCE_Marker_Color_Array", []];
+			if (_MarkerColorArr isEqualTo []) then {
+				_MarkerColorArr = ("getNumber (_x >> 'scope') == 2" configClasses (configFile >> "CfgMarkerColors")) apply {
+					configName _x
+				};
+				
+				uiNamespace setVariable ["BCE_Marker_Color_Array", _MarkerColorArr];
+			};
 
 			if (lbSize _markerColor == 0) then {
 				if (_isDialog) then {
 					private _EDIT_color = _display displayCtrl (17000 + 1301) controlsGroupCtrl 51;
 					{
-						private _cfgName = configName _x;
+						private _cfgName = _x;
 						private _color = _cfgName call BCE_fnc_getMarkerColor;
-						if (count _color == 0) then {continue}; //- #NOTE - Skip if the color is "scope!=2"
 						
-						private _name = getText (_x >> "name");
+						private _name = getText (configFile >> "CfgMarkerColors" >> _x >> "name");
 						private _index = _markerColor lbAdd _name;
 
 						_EDIT_color lbAdd _name;
@@ -827,14 +837,13 @@ _settings apply {
 						_EDIT_color lbSetPictureColorSelected [_index, _color];
 						_EDIT_color lbSetPictureColor [_index, _color];
 						_EDIT_color lbSetData [_index, _cfgName]; //- Save color "configName"
-					} forEach ("true" configClasses (configFile >> "CfgMarkerColors"));
+					} forEach _MarkerColorArr;
 					_markerColor lbSetCurSel (_x # 1);
 					
 					//- Set EH only for Dialog
 						_markerColor ctrlAddEventHandler ["LBSelChanged", {[cTabIfOpen # 1,[['markerColor',_this # 1]]] call cTab_fnc_setSettings}];
 				} else {
 					//- is display ,so there's no need to create the entire Color List
-					private _MarkerColorArr = uiNamespace getVariable ["BCE_Marker_Color_Array",[]];
 					private _cfgName = (_MarkerColorArr # (_x # 1));
 					private _color = _cfgName call BCE_fnc_getMarkerColor;
 
@@ -850,7 +859,7 @@ _settings apply {
 			([_displayName,"MarkerWidget"] call cTab_fnc_getSettings) params [["_show",false],"_index","","","_widgetMode"];
 			if (_show && (_index == 3 || _widgetMode == 1)) then {
 				private _ctrl = (_display displayCtrl (17000 + 1300)) controlsGroupCtrl 11;
-				[_ctrl,_index] call cTab_fnc_Update_MarkerItems;
+				[_ctrl,_index] call EFUNC(cTab_Marker,Update_MarkerItems);
 			};
 		};
 
@@ -1122,7 +1131,34 @@ _settings apply {
 			//- Make sure Layout is correct
 			call BCE_fnc_ATAK_Check_Layout;
 		};
+		
+		if (_x # 0 == "popUpMenu") exitWith {
+			private _popUpClassName = _x # 1;
 
+			//- Show "ATAK_PopUp_Menu"
+			private _popUpGroup = _display displayCtrl (17000 + 4670); //- "ATAK_PopUp_Menu"
+			_popUpGroup ctrlShow (_popUpClassName != "");
+
+			if (_popUpClassName == "") exitWith {};
+
+			//- Clean Up existed Controls
+			{ctrlDelete _x} count (allControls _popUpGroup);
+
+			//- Setup pop-up UI
+			private _media_Ctrl = _display ctrlCreate [
+				[
+					configFile >> "RscTitles" >> _popUpClassName,
+					configFile >> _popUpClassName
+				] select _isDialog,
+				100,
+				_popUpGroup
+			];
+			ctrlSetFocus _popUpGroup;
+			
+			LOG_2("fnc_UpdateInterface ""popUpMenu"" [SHOWN Controls] = ""_popUpGroup = %1"" | ""_media_Ctrl = %2""",ctrlShown _popUpGroup,ctrlShown _media_Ctrl);
+			TRACE_3("fnc_UpdateInterface ""popUpMenu"" [Controls]",_popUpClassName,_popUpGroup,_media_Ctrl);
+		};
+		
 		if (_x # 0 == "uavInfo") exitWith {
 			private _status = _x # 1;
 			[[1775,_status],[1776,!_status]] apply {

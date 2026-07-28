@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_TaskEvent_Element_SelChanged
 
@@ -14,16 +15,12 @@ params ["_curLine","_selectedIndex"];
 //- On Empty Returns
   if (
     (_shownCtrls findIf {true} < 0)
-  ) exitWith {
-    ["No Task Infos are found - Make sure ""Valid _curLine"" and ""Controls are created correctly"""] call BIS_fnc_error;
-  };
+  ) exitWith {ERROR_MSG("No Task Infos are found - Make sure ""Valid _curLine"" and ""Controls are created correctly""")};
 
 private _function = uiNamespace getVariable (_events get "Element_SelChanged");
 
 //- No function exist
-  if (isNil{_function}) exitWith {
-    ["No function exist"] call BIS_fnc_error;
-  };
+  if (isNil{_function}) exitWith {ERROR_MSG("No function exist")};
 
 privateAll;
 Import [

@@ -137,34 +137,6 @@ class BCE_Mission_Property
 				Opened = "BCE_fnc_DblClick9line_OLD";
 			};
 		};
-		class AIR_9_LINE_ATAK: AIR_9_LINE
-		{
-			Controls[] = 
-			{
-				{
-					"","New_Task_CtrlType",
-					"","New_Task_AttackType_Combo",
-					"",
-					"AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
-				},
-				{
-					"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression"
-				},
-				{},
-				{},
-				{},
-				{"New_Task_TG_DESC"},
-				{"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
-				{"New_Task_GRID_DESC"},
-				{"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_FRND_DESC"},
-				{"New_Task_EGRS","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_MarkerCombo"},
-				{"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
-			};
-			class Events: Events
-			{
-				LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
-			};
-		};
 		class AIR_5_LINE
 		{
 			displayName = "5 Line"; //- Localiziable displayName
@@ -234,27 +206,6 @@ class BCE_Mission_Property
 				Opened = "BCE_fnc_DblClick5line_OLD";
 			};
 		};
-		class AIR_5_LINE_ATAK: AIR_5_LINE
-		{
-			Controls[] = {
-				{
-					"","New_Task_CtrlType",
-					"","New_Task_AttackType_Combo",
-					"",
-					"AI_Remark_WeaponCombo","AI_Remark_ModeCombo","Attack_Range_Combo","Round_Count_Box","Attack_Height_Box"
-				},
-				{"New_Task_IPtype","New_Task_MarkerCombo","New_Task_IPExpression","New_Task_GRID_DESC_Air_5line"},
-				{"New_Task_TGT","New_Task_MarkerCombo","New_Task_IPExpression"},
-				{"New_Task_TG_DESC","New_Task_GRID_DESC"},
-				{"New_Task_FADH","New_Task_EGRS_Bearing","New_Task_IPExpression","New_Task_EGRS_Azimuth","New_Task_DangerClose_Text","New_Task_DangerClose_Box"}
-			};
-
-			class Events: Events
-			{
-				TaskUnitChanged = "BCE_fnc_ATAK_TaskUnitChanged_AIR"; //- For the TaskUnit Selection
-				LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
-			};
-		};
 	};
 	class GND //- Ground Fire Support
 	{
@@ -317,14 +268,6 @@ class BCE_Mission_Property
 				Clear = "BCE_fnc_clearTaskCFF"; //- Clear the data
 			};
 		};
-		class ADJ_ATAK: ADJ
-		{
-			class Events: Events
-			{
-				LBTaskUnitChanged = "BCE_fnc_ATAK_LBTaskUnitChanged"; //- For the TaskUnit Selection
-				LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
-			};
-		};
 		class SUP: ADJ
 		{
 			displayName = "Suppression"; //- Localiziable displayName
@@ -381,14 +324,6 @@ class BCE_Mission_Property
 				Element_SelChanged = "BCE_fnc_SelChanged_SUP";
 			};
 		};
-		class SUP_ATAK: SUP
-		{
-			class Events: Events
-			{
-				LBTaskUnitChanged = "BCE_fnc_ATAK_LBTaskUnitChanged"; //- For the TaskUnit Selection
-				LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
-			};
-		};
 		class IMM_SUP: SUP
 		{
 			displayName = "Immediate Suppression"; //- Localiziable displayName
@@ -436,14 +371,6 @@ class BCE_Mission_Property
 				Opened = "BCE_fnc_DblClickSUP";
 				Enter = "BCE_fnc_DataReceive_IMM_SUP";
 				Element_SelChanged = "BCE_fnc_SelChanged_SUP";
-			};
-		};
-		class IMM_SUP_ATAK: IMM_SUP
-		{
-			class Events: Events
-			{
-				LBTaskUnitChanged = "BCE_fnc_ATAK_LBTaskUnitChanged"; //- For the TaskUnit Selection
-				LBTaskTypeChanged = "BCE_fnc_ATAK_TaskTypeChanged"; //- For the TaskType Selection
 			};
 		};
 	};

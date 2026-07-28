@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_get_BCE_curDisplay
 
@@ -11,8 +12,7 @@ private _BCE_Holder = ["BCE_Holder"] call BCE_fnc_getTaskSingleComponent;
 
 //- Check Control existance
   if (isNull _BCE_Holder) exitWith {
-    ["""BCE_Holder"" does not exist!! Please check whether ""BCE_Holder"" is implemented correctly."] call BIS_fnc_error;
-
+		ERROR_MSG("""BCE_Holder"" does not exist!! Please check whether ""BCE_Holder"" is implemented correctly.");
     displayNull
   };
 

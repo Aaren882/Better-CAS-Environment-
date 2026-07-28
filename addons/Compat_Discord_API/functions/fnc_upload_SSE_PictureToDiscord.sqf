@@ -12,7 +12,7 @@ Returns:
 		<BOOL>
 
 Examples
-		#LINK - addons/cTab/functions/ATAK/Camera/fn_ATAK_TakePicture.sqf
+		#LINK - addons/cTab_ATAK_photo/functions/fnc_ATAK_TakePicture.sqf
 
 Author:
 		Aaren

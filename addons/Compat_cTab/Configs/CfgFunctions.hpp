@@ -169,33 +169,5 @@ class CfgFunctions
         file= QPATHTOF(functions\fn_msg_gui_Load.sqf);
       };
     };
-
-    //- #TODO : MOVE THESE TO "cTab" folder
-    class BCE_Marker
-    {
-      // file="MG8\AVFEVFX\functions\cTab\functions\Marker";
-      file= QPATHTOF(functions\Marker);
-      class Marker_Edittor;
-      class NextMarkerID;
-      class DrawMarkerDir;
-			class DrawRangefinder_ACE;
-      class FinishEDIT_Marker;
-      class PlaceMarker;
-      class Add_to_MarkerList;
-      class DrawArea;
-    };
-    class BCE_Widget
-    {
-      // file="MG8\AVFEVFX\functions\cTab\functions\Menu_Widget";
-      file= QPATHTOEF(cTab,functions\Menu_Widget);
-      class onMarkerSelChanged;
-      class onMarkerTextEditted;
-      class onMarkerOpacityChanged;
-      class Update_MarkerItems;
-      class toggleWeather;
-      class toggleMarkerWidget;
-      class toggleTADMarkerDropper;
-      class SwitchMarkerWidget;
-    };
-  };
+	};
 };
