@@ -4,10 +4,10 @@
 [
 	QGVAR(UseExtension), "CHECKBOX",
 	[
-		"Extension Offload (*EXPERIMENTAL)",
-		"Offload animation calculation to extension(x64).\n - This should reduce execution time between each frame."
+		LLSTRING(Extension_Offload_Title),
+		LLSTRING(Extension_Offload_Tip)
 	],
-	["Better CAS Environment", "Animation Engine"],
+	["Better CAS Environment", LLSTRING(Setting_Category)],
 	false,
 	0, //- Local only
 	{
