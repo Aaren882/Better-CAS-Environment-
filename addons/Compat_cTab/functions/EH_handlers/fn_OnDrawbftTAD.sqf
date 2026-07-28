@@ -1,3 +1,12 @@
+#include "script_component.hpp"
+/* ----------------------------------------------------------------------------
+Function: cTab_fnc_OnDrawbftTAD
+Description:
+		onDraw Event for TAD.
+
+Parameters:
+		_cntrlScreen  - UI control that fired this event <CONTROL>
+---------------------------------------------------------------------------- */
 disableSerialization;
 
 params ["_cntrlScreen"];
@@ -30,7 +39,7 @@ ctrlMapAnimCommit _cntrlScreen;
 		_color set [3, [0.4, markerAlpha _marker] select _onSameChannel];
 		
 		[getMarkerPos _marker, markerDir _marker, selectMax (markerSize _marker)] params ["_pos","_dir","_size"];
-		[_cntrlScreen, _marker, _pos, _color, [_dir, _size,_mapScale]] call cTab_fnc_DrawMarkerDir;
+		[_cntrlScreen, _marker, _pos, _color, [_dir, _size,_mapScale]] call EFUNC(cTab_Marker,DrawMarkerDir);
 	} forEach cTabMarkerList;
 
 //- #NOTE - Draw ACE map pointer

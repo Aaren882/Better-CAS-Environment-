@@ -1,0 +1,13 @@
+PREP(ATAK_CFF_Mission_EOM);
+PREP(ATAK_CFF_Mission_RAT);
+PREP(ATAK_CFF_Mission_RAT_2_ADD);
+PREP(ATAK_CFF_TaskList_Init);
+PREP(ATAK_FireAdjustMeter);
+PREP(ATAK_FireAdjust_Init_Impact);
+PREP(ATAK_FireAdjust_Init_Polar);
+PREP(ATAK_FireAdjust_Sel_Changed);
+PREP(ATAK_bnt_CFF_Action_Click);
+PREP(ATAK_bnt_CFF_List);
+PREP(ATAK_mission_SUB_TaskCFFList);
+PREP(ATAK_mission_SUB_TaskCFF_Action);
+PREP(ATAK_onFireAdjusted);

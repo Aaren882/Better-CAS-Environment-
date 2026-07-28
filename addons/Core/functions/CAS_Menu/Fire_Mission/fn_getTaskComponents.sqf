@@ -22,7 +22,7 @@ params [
 ];
 
 if (isnil{_curLine}) exitWith {
-  ["Exception : Invalid Input Parameter !! - No ""_curLine"" input."] call BIS_fnc_error;
+	ERROR_MSG("Exception : Invalid Input Parameter !! - No ""_curLine"" input.");
 	ERROR("""fnc_getTaskComponents"" Exception : Invalid Input Parameter !! - No ""_curLine"" input.");
   
   //- Return Empty
@@ -54,7 +54,7 @@ if (_varName == "") then {
 
 //- #SECTION - Error Index out of the range
   if ((count _Components) - 1 < _curLine) exitWith {
-		["Exception : ""_varName"" = ""%1"" index out of the range ""_curLine"" = %2",_varName,_curLine] call BIS_fnc_error;
+		ERROR_MSG_2("Exception : ""_varName"" = ""%1"" index out of the range ""_curLine"" = %2",_varName,_curLine);
 		ERROR_2("""fnc_getTaskComponents"" Exception : ""_varName"" = ""%1"" index out of the range ""_curLine"" = %2",_varName,_curLine);
 
     [[],""]

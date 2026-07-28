@@ -74,7 +74,7 @@ call {
 						
 						//-ATAK
 						if ("Android" in _displayName) then {
-							[true,_display] call BCE_fnc_ATAK_onVehicleChanged;
+							[true,_display] call EFUNC(cTab_ATAK_missions,ATAK_onVehicleChanged);
 						};
 					};
 				};
@@ -101,7 +101,7 @@ call {
 
 		//-ATAK
 		if ("Android" in _displayName) then {
-			[false,_display] call BCE_fnc_ATAK_onVehicleChanged;
+			[false,_display] call EFUNC(cTab_ATAK_missions,ATAK_onVehicleChanged);;
 		};
 	};
 

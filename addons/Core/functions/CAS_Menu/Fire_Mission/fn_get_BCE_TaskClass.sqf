@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_get_BCE_TaskClass
 
@@ -49,13 +50,7 @@ if (
 //- Check out of range
   private _count = count _types - 1;
   if (_count < _curType) then {
-    [
-			"Out of the ""_types"" range, ""_curType : %1"" / ""Total : %2"" | Key = ""%3""  types = ""%4""",
-			_curType,
-			_count,
-			_key,
-			_types
-		] call BIS_fnc_error;
+		ERROR_MSG_4("Out of the ""_types"" range, ""_curType : %1"" / ""Total : %2"" | Key = ""%3""  types = ""%4""",_curType,_count,_key,_types);
     _curType = _count;
   };
 

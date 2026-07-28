@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_CFF_Mission_AutoSaveTask
 */
@@ -7,7 +8,7 @@ params ["_Key","_controlAndInfos"];
 if !((ctrlParentControlsGroup _control) getVariable ["Init",false]) exitWith {};
 
 if !(_Key isEqualType "") exitWith {
-  ["Unable to Update CFF Value ""invalid _Key = %1""",_Key] call BIS_fnc_error;
+	ERROR_MSG_1("Unable to Update CFF Value ""invalid _Key = %1""",_Key);
 };
 
 [{

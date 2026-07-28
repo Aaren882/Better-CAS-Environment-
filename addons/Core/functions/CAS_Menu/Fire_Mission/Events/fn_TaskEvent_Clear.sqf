@@ -17,8 +17,8 @@ params ["_curLine"];
     (_shownCtrls findIf {true} < 0) && 
     _desc_str == ""
   ) exitWith {
+		ERROR_MSG_2("Exception : No ""%2"" task info at line ""%1"" is found, neither ""UI Controls"" nor ""Description"".",_curLine,_varName);
 		ERROR_2("""fnc_TaskEvent_Clear"" Exception : No ""%2"" task info at line ""%1"" is found, neither ""UI Controls"" nor ""Description"".",_curLine,_varName);
-    ["Exception : No ""%2"" task info at line ""%1"" is found, neither ""UI Controls"" nor ""Description"".",_curLine,_varName] call BIS_fnc_error;
   };
 
 ([] call BCE_fnc_getDisplayTaskProps) params ["","","_events"];

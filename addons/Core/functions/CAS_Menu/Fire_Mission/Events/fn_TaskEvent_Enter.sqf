@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
   NAME : BCE_fnc_TaskEvent_Enter
 
@@ -14,9 +15,7 @@ params ["_curLine",["_isOverwrite",false,[true]]];
 //- On Empty Returns
   if (
     (_shownCtrls findIf {true} < 0)
-  ) exitWith {
-    ["No Task Infos are found - Make sure ""Valid _curLine"" and ""Controls are created correctly"""] call BIS_fnc_error;
-  };
+  ) exitWith {ERROR_MSG("No Task Infos are found - Make sure ""Valid _curLine"" and ""Controls are created correctly""")};
 
 //- Fire Function
   privateAll;

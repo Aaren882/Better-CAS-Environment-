@@ -19,6 +19,7 @@ class CfgPatches {
 };
 
 //- UI
+#define IS_DIALOG 1
 #include "UI_Components.hpp"
 #include "UI\Map_UI.hpp"
 

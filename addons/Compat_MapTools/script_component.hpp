@@ -13,6 +13,4 @@
 #endif
 
 #include "..\main\script_macros.hpp"
-
-// #define ADDON_PATH(FUNC_NAME) \
-//   QUOTE(MAINPREFIX\ADDON_PATH)
+#include "..\Core\script_macros.hpp"

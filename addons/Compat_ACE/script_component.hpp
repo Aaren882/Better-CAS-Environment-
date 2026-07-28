@@ -13,3 +13,4 @@
 #endif
 
 #include "..\main\script_macros.hpp"
+#include "..\Core\script_macros.hpp"

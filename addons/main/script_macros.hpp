@@ -9,6 +9,12 @@
 #define QSTRUCTURE_IMAGE(var1,var2) QUOTE(STRUCTURE_IMAGE(var1,var2))
 #define QSTRUCTURE_IMAGE_MODIFY(var1,var2,var3) QUOTE(STRUCTURE_IMAGE_MODIFY(var1,var2,var3))
 
+//- Replace CBA ERROR message
+#ifdef ERROR_MSG
+	#undef ERROR_MSG
+#endif
+#define ERROR_MSG(MESSAGE) [MESSAGE] call BIS_fnc_error
+
 /*
 	# EXAMPLE
 	"<img image='z\BCE\{var1}\{var2}'/>{var3}"
