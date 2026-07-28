@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="AVFEVFX">
+	<Package name="Better_CAS_Environment">
+		
+		<Key ID="STR_BCE_UI_Anim_Setting_Category">
+        <Original>Animation Engine</Original>
+        <Chinese>動畫引擎</Chinese>
+        <Chinesesimp>动画引擎</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_UI_Anim_Extension_Offload_Title">
+        <Original>Extension Offload (*EXPERIMENTAL)</Original>
+        <Chinese>移轉動畫引擎至 .dll (*實驗性)</Chinese>
+        <Chinesesimp>迁移动画引擎至 .dll (*实验性)</Chinesesimp>
+		</Key>
+		<Key ID="STR_BCE_UI_Anim_Extension_Offload_Tip">
+        <Original>Offload animation calculation to extension(x64).\n - This should reduce execution time between each frame.</Original>
+        <Chinese>移轉動畫計算到 .dll (x64)。\n - 這應該可以減少每幀之間的執行時間。</Chinese>
+        <Chinesesimp>迁移动画计算到 .dll (x64)。\n - 这应该可以减少每帧之间的执行时间。</Chinesesimp>
+		</Key>
+
+	</Package>
+</Project>

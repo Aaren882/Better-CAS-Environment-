@@ -2,22 +2,26 @@
 /* ----------------------------------------------------------------------------
 Function: BCE_UI_Anim_fnc_Anim_Init
 Description:
-		Initializes and configures an animation based on the provided animation type.
-		Processes specific animation types (e.g., "spring") to derive final parameters.
+    Initializes animation configuration from Extended_Anim_transformation config.
+    Processes animation type and parameters, validating spring animation properties.
 
 Parameters:
-		_animType  - string - The key used to look up the animation configuration in the file.
+    _animType  - Animation type identifier <STRING>
 
 Returns:
-		<ARRAY> - An array containing the resulting configuration map (['type', type], ['params', data])
-		<NONE>  - If an error occurs during initialization or the type is invalid.
+    Animation data hashmap with "type" and "params" keys, or empty hashmap on error <HASHMAP>
+
+Examples
+    (begin example)
+        ["spring"] call BCE_UI_Anim_fnc_Anim_Init
+    (end)
 
 Author:
-		Aaren
+    Aaren
 ---------------------------------------------------------------------------- */
 
 params [["_animType",""]];
-TRACE_1("fn_Anim_Init",_this);
+TRACE_1("fnc_Anim_Init",_this);
 
 private _return = createHashMap;
 private _config = configFile >> "Extended_Anim_transformation" >> _animType;
@@ -40,17 +44,40 @@ if (isclass _config) then {
   private _case = switch (_type) do {
     case "spring": {
       //- Components
-        private _d = _data get "duration";
-        private _f = _data get "frameRate";
-        private _r = _data get "response";
+        private _mass = _data get "mass";
+        private _damping = _data get "damping";
+        private _initialPosition = _data get "initialPosition";
+        private _initialVelocity = _data get "initialVelocity";
+
+				private _response = _data get "response";
+				private _duration = _data get "duration";
+        private _frameRate = _data get "frameRate";
 
       //- Error on "FrameRate <= 0"
-        if (_f <= 0) exitwith {
+        if (_frameRate <= 0) exitwith {
           _errorPop = true;
-					ERROR_MSG_1("Invalid Animation frameRate ""frameRate = %1""",_f);
+          ERROR_MSG_1("Invalid Animation frameRate ""frameRate = %1""",_frameRate);
         };
 
-      _data set ["frequencyResponse", _r * (_f * _d)];
+			//- Register animation into the extension
+			if (GVAR(UseExtension)) then {
+				private _register = "bce_anim_engine" callExtension ["register", [
+						_animType,
+						_mass,
+						_damping,
+						_response,
+						_duration,
+						_frameRate,
+						_initialPosition,
+						_initialVelocity
+					]
+				];
+				_register params ["_registerReturn"];
+				INFO_1("Animation Registered ""%1"":",_registerReturn);
+			} else {
+				_data set ["frequencyResponse", _response * (_frameRate * _duration)];
+			};
+
       0
     };
     default {
@@ -61,7 +88,7 @@ if (isclass _config) then {
   //- If invalid type
   if (_case < 0) then {
     _errorPop = true;
-		ERROR_MSG_1("Invalid Animation Type ""type = %1""",_type);
+    ERROR_MSG_1("Invalid Animation Type ""type = %1""",_type);
   } else {
     //- Valid Animation Type
     _return = createHashMapFromArray ([
