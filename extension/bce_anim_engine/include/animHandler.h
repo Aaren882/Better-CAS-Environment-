@@ -7,11 +7,19 @@
 class AnimHandler
 {
 private:
-	std::map<const std::string, const SpringAnim *> AnimMap;
+	std::map<std::string, const SpringAnim *> AnimMap;
 
 public:
 	AnimHandler();
 
-	int Add(const SpringAnim *animObj);
+	const SpringAnim *Add(std::string name,
+											 double mass,
+											 double dampingRatio,
+											 double response,
+											 double duration,
+											 double frameRate,
+											 double initialPosition,
+											 double initialVelocity);
+	const int Add(const SpringAnim &animObj);
 	const SpringAnim *const Get(std::string name);
 };
