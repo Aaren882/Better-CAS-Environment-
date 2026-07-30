@@ -6,11 +6,10 @@ class CfgPatches {
 		url = ECSTRING(main,url);
 		addonRootClass = QUOTE(ADDON);
 		requiredVersion = REQUIRED_VERSION;
-		//- #NOTE : BCE_cTab
 		requiredAddons[]=
 		{
 			QADDON,
-			QGVARMAIN(cTab)
+			QGVARMAIN(cTab_UI) //- #NOTE : BCE_cTab_UI
 		};
 		skipWhenMissingDependencies = 1;
 		units[] = {};
