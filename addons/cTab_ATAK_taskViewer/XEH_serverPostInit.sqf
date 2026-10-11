@@ -39,5 +39,3 @@ private _cfgTaskViewer = "true" configClasses _cfgTaskViewer;
 		_skipOnOwner
 	] call FUNC(AddTask);
 } forEach _cfgTaskViewer;
-
-[QGVAR(PostLoad_TaskViewerFromMission)] call CBA_fnc_globalEvent;

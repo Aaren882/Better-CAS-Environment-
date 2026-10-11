@@ -47,8 +47,15 @@ private _mediaPlayer = _mediaPlayers getOrDefault [_mediaType, controlNull];
 
 switch (_mediaType) do {
 	case "IMAGE": {
-		// _mediaPlayer ctrlSetText _content;
-
+		_mediaPlayer ctrlSetText _content;
+	};
+	/* case "VIDEO": {
+		_mediaPlayer ctrlSetText _content;
+	}; */
+	case "WEB_LINK": { //- Set WebBrowser external URL
+		_mediaPlayer ctrlSetURL _content;
+	};
+	case "IMAGE_JS": { //- Load image with "CT_WEBBROWSER" provides better UX (e.g. Zoom in, Loading screen...)
 		//- CT_WEBBROWSER "IMAGE" -> #LINK - addons/cTab_ATAK_Slideshow/UI/elements.hpp
 		(getTextureInfo _content) params ["_width", "_height"];
 
@@ -57,28 +64,6 @@ switch (_mediaType) do {
 		TRACE_3("fnc_displayMedia [IMAGE]",_content,_width,_height);
 
 		localNamespace setVariable [QGVAR(JS), format ["setA3Texture('%1',%2,%3);",_content,_width,_height]];
-		// _slideshow_CtrlGroup setVariable ["JS", format ["setA3Texture('%1',%2,%3);",_content,_width,_height]];
-		
-		// systemChat str ["fnc_displayMedia [IMAGE]",_content,_width,_height,time];
-	};
-	case "VIDEO": {
-		_mediaPlayer ctrlSetText _content;
-	};
-	case "WEB_LINK": {
-		//- Update Web UI
-		/* _mediaPlayer setVariable ["GData", 
-			addMissionEventHandler ['EachFrame', {
-				_thisArgs params ["_disp", "_mediaPlayer"];
-
-				if (!ctrlShown _mediaPlayer) exitWith {
-					LOG("Web Link Frame Pop-ped !!");
-					removeMissionEventHandler [_thisEvent, _thisEventHandler];
-				};
-				displayUpdate _disp;
-				}, [ctrlParent _mediaPlayer, _mediaPlayer]
-			]
-		]; */
-		_mediaPlayer ctrlSetURL _content;
 	};
 	default {
 		ERROR_MSG_1("ERROR: Unknown media type '%1' found in slideshow ""fnc_onLoad"".",_mediaType);
